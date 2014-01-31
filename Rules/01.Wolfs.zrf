@@ -1,0 +1,65 @@
+; *****************************************************************
+; *** Волки и Козленок
+; *****************************************************************
+
+(version "2.0")
+
+(define board-defs
+  (image "images\gluk\Board.bmp")
+  (grid
+     (start-rectangle 2 2 48 48)
+     (dimensions
+         ("a/b/c/d/e/f/g/h/i" (48 0)) ; files
+         ("9/8/7/6/5/4/3/2/1" (0 48)) ; ranks
+     )
+     (directions (nw -1 -1) (ne 1 -1) (se 1 1) (sw -1 1))
+  )
+  (symmetry Black (ne sw) (sw ne) (nw se) (se nw))
+  (zone (name goals) (players White) (positions b9 d9 f9 h9) )
+)
+
+; ********************** 
+
+(define checker-shift ($1 (verify empty?) add))
+
+(define game-defs
+   (board
+      (board-defs)
+   )
+   (board-setup
+      (White (WC e2) )
+      (Black (BC b9 d9 f9 h9) )
+   )
+   (win-condition (White) (absolute-config WC (goals)))
+   (loss-condition (White Black) stalemated)
+)
+
+(game
+   (title "Волки и Козленок")
+   (description "Провести белую фишку на последнюю горизонталь")
+   (players White Black)
+   (turn-order White Black)
+   (game-defs)
+   (piece
+      (name WC)
+      (image White "images\gluk\W.bmp")
+      (description "Козленок")
+      (help "Ходит на 1 клетку по диагонали вперед и назад")
+      (moves
+         (checker-shift ne)
+         (checker-shift nw)
+         (checker-shift se)
+         (checker-shift sw)
+      )
+   )
+   (piece
+      (name BC)
+      (image Black "images\gluk\B.bmp")
+      (description "Волк")
+      (help "Ходит на 1 клетку по диагонали только вперед")
+      (moves
+         (checker-shift ne)
+         (checker-shift nw)
+      )
+   )
+)
