@@ -1,0 +1,430 @@
+; *****************************************************************
+; *** Thud
+; *****************************************************************
+
+(version "2.0")
+
+(define board-defs
+  (image "images\gluk\Thud.bmp")
+  (grid
+     (start-rectangle 45 35 60 58)
+     (dimensions
+         ("a/b/c/d/e/f/g/h/i/j/k/l/m/n/o" (35 0)) ; files
+         ("15/14/13/12/11/10/9/8/7/6/5/4/3/2/1" (0 35)) ; ranks
+     )
+     (directions (n 0 -1) (e 1 0) (s 0 1) (w -1 0)
+                 (nw -1 -1) (ne 1 -1) (se 1 1) (sw -1 1))
+  )
+  (kill-positions a1  b1  c1  d1  e1  a2  b2  c2  d2  
+                  a3  b3  c3  a4  b4  a5  a15 b15 c15
+                  d15 e15 a14 b14 c14 d14 a13 b13 c13
+                  a12 b12 a11 k1  l1  m1  n1  o1  l2
+                  m2  n2  o2  m3  n3  o3  n4  o4  o5
+                  k15 l15 m15 n15 o15 l14 m14 n14 o14
+                  m13 n13 o13 n12 o12 o11 h8)
+  (symmetry Black (n s)(s n) (ne sw) (sw ne) (nw se) (se nw))
+)
+
+; ********************** 
+
+(define game-defs
+   (board
+      (board-defs)
+   )
+   (board-setup
+      (White (Dwarf f1  g1  i1  j1  e2  k2  d3  l3  c4  m4  b5 
+                    n5  a6  o6  a7  o7  a9  o9  a10 o10 b11 n11
+                    c12 m12 d13 l13 e14 k14 f15 g15 i15 j15) )
+      (Black (Troll g7  h7  i7  g8  i8  g9  h9  i9) )
+   )
+   (loss-condition (White Black) stalemated)
+)
+
+( define troll-1 
+  ( $1 
+    (verify empty?) 
+    (if (enemy? n) (capture n)) (if (enemy? nw) (capture nw))
+    (if (enemy? s) (capture s)) (if (enemy? ne) (capture ne))
+    (if (enemy? w) (capture w)) (if (enemy? sw) (capture sw))
+    (if (enemy? e) (capture e)) (if (enemy? se) (capture se))
+    add
+  )
+)
+
+( define troll-2 
+  ( mark
+    (opposite $1) (verify friend?) 
+    back 
+    $1 (verify empty?)
+    $1 (verify empty?)
+    (verify (or (enemy? n) (enemy? nw) (enemy? s) (enemy? ne)
+                (enemy? w) (enemy? sw) (enemy? e) (enemy? se))) 
+    (if (enemy? n) (capture n)) (if (enemy? nw) (capture nw))
+    (if (enemy? s) (capture s)) (if (enemy? ne) (capture ne))
+    (if (enemy? w) (capture w)) (if (enemy? sw) (capture sw))
+    (if (enemy? e) (capture e)) (if (enemy? se) (capture se))
+    add
+  )
+)
+
+( define troll-3 
+  ( mark
+    (opposite $1) (verify friend?) 
+    (opposite $1) (verify friend?) 
+    back 
+    $1 (verify empty?)
+    $1 (verify empty?)
+    $1 (verify empty?)
+    (verify (or (enemy? n) (enemy? nw) (enemy? s) (enemy? ne)
+                (enemy? w) (enemy? sw) (enemy? e) (enemy? se))) 
+    (if (enemy? n) (capture n)) (if (enemy? nw) (capture nw))
+    (if (enemy? s) (capture s)) (if (enemy? ne) (capture ne))
+    (if (enemy? w) (capture w)) (if (enemy? sw) (capture sw))
+    (if (enemy? e) (capture e)) (if (enemy? se) (capture se))
+    add
+  )
+)
+
+( define troll-4 
+  ( mark
+    (opposite $1) (verify friend?) 
+    (opposite $1) (verify friend?) 
+    (opposite $1) (verify friend?) 
+    back 
+    $1 (verify empty?)
+    $1 (verify empty?)
+    $1 (verify empty?)
+    $1 (verify empty?)
+    (verify (or (enemy? n) (enemy? nw) (enemy? s) (enemy? ne)
+                (enemy? w) (enemy? sw) (enemy? e) (enemy? se))) 
+    (if (enemy? n) (capture n)) (if (enemy? nw) (capture nw))
+    (if (enemy? s) (capture s)) (if (enemy? ne) (capture ne))
+    (if (enemy? w) (capture w)) (if (enemy? sw) (capture sw))
+    (if (enemy? e) (capture e)) (if (enemy? se) (capture se))
+    add
+  )
+)
+
+( define troll-5 
+  ( mark
+    (opposite $1) (verify friend?) 
+    (opposite $1) (verify friend?) 
+    (opposite $1) (verify friend?) 
+    (opposite $1) (verify friend?) 
+    back 
+    $1 (verify empty?)
+    $1 (verify empty?)
+    $1 (verify empty?)
+    $1 (verify empty?)
+    $1 (verify empty?)
+    (verify (or (enemy? n) (enemy? nw) (enemy? s) (enemy? ne)
+                (enemy? w) (enemy? sw) (enemy? e) (enemy? se))) 
+    (if (enemy? n) (capture n)) (if (enemy? nw) (capture nw))
+    (if (enemy? s) (capture s)) (if (enemy? ne) (capture ne))
+    (if (enemy? w) (capture w)) (if (enemy? sw) (capture sw))
+    (if (enemy? e) (capture e)) (if (enemy? se) (capture se))
+    add
+  )
+)
+
+( define troll-6
+  ( mark
+    (opposite $1) (verify friend?) 
+    (opposite $1) (verify friend?) 
+    (opposite $1) (verify friend?) 
+    (opposite $1) (verify friend?) 
+    (opposite $1) (verify friend?) 
+    back 
+    $1 (verify empty?)
+    $1 (verify empty?)
+    $1 (verify empty?)
+    $1 (verify empty?)
+    $1 (verify empty?)
+    $1 (verify empty?)
+    (verify (or (enemy? n) (enemy? nw) (enemy? s) (enemy? ne)
+                (enemy? w) (enemy? sw) (enemy? e) (enemy? se))) 
+    (if (enemy? n) (capture n)) (if (enemy? nw) (capture nw))
+    (if (enemy? s) (capture s)) (if (enemy? ne) (capture ne))
+    (if (enemy? w) (capture w)) (if (enemy? sw) (capture sw))
+    (if (enemy? e) (capture e)) (if (enemy? se) (capture se))
+    add
+  )
+)
+
+( define troll-7
+  ( mark
+    (opposite $1) (verify friend?) 
+    (opposite $1) (verify friend?) 
+    (opposite $1) (verify friend?) 
+    (opposite $1) (verify friend?) 
+    (opposite $1) (verify friend?) 
+    (opposite $1) (verify friend?) 
+    back 
+    $1 (verify empty?)
+    $1 (verify empty?)
+    $1 (verify empty?)
+    $1 (verify empty?)
+    $1 (verify empty?)
+    $1 (verify empty?)
+    $1 (verify empty?)
+    (verify (or (enemy? n) (enemy? nw) (enemy? s) (enemy? ne)
+                (enemy? w) (enemy? sw) (enemy? e) (enemy? se))) 
+    (if (enemy? n) (capture n)) (if (enemy? nw) (capture nw))
+    (if (enemy? s) (capture s)) (if (enemy? ne) (capture ne))
+    (if (enemy? w) (capture w)) (if (enemy? sw) (capture sw))
+    (if (enemy? e) (capture e)) (if (enemy? se) (capture se))
+    add
+  )
+)
+
+( define shift 
+  ( $1 
+    (while empty? add $1)
+    (verify empty?)
+    add
+  )
+)
+
+( define dwarf-1 
+  ( $1 
+    (verify (or empty? enemy?))
+    add
+  )
+)
+
+( define dwarf-2
+  ( mark
+    (opposite $1) (verify friend?) 
+    back 
+    $1 (verify empty?)
+    $1 (verify enemy?) 
+    add
+  )
+)
+
+( define dwarf-3
+  ( mark
+    (opposite $1) (verify friend?)
+    (opposite $1) (verify friend?) 
+    back 
+    $1 (verify empty?)
+    $1 (verify empty?)
+    $1 (verify enemy?) 
+    add
+  )
+)
+
+( define dwarf-4
+  ( mark
+    (opposite $1) (verify friend?)
+    (opposite $1) (verify friend?)
+    (opposite $1) (verify friend?) 
+    back
+    $1 (verify empty?)
+    $1 (verify empty?)
+    $1 (verify empty?)
+    $1 (verify enemy?) 
+    add
+  )
+)
+
+( define dwarf-5
+  ( mark
+    (opposite $1) (verify friend?)
+    (opposite $1) (verify friend?)
+    (opposite $1) (verify friend?)
+    (opposite $1) (verify friend?)
+    back
+    $1 (verify empty?)
+    $1 (verify empty?)
+    $1 (verify empty?)
+    $1 (verify empty?)
+    $1 (verify enemy?) 
+    add
+  )
+)
+
+( define dwarf-6
+  ( mark
+    (opposite $1) (verify friend?)
+    (opposite $1) (verify friend?)
+    (opposite $1) (verify friend?)
+    (opposite $1) (verify friend?)
+    (opposite $1) (verify friend?)
+    back
+    $1 (verify empty?)
+    $1 (verify empty?)
+    $1 (verify empty?)
+    $1 (verify empty?)
+    $1 (verify empty?)
+    $1 (verify enemy?) 
+    add
+  )
+)
+
+( define dwarf-7
+  ( mark
+    (opposite $1) (verify friend?)
+    (opposite $1) (verify friend?)
+    (opposite $1) (verify friend?)
+    (opposite $1) (verify friend?)
+    (opposite $1) (verify friend?)
+    (opposite $1) (verify friend?)
+    back
+    $1 (verify empty?)
+    $1 (verify empty?)
+    $1 (verify empty?)
+    $1 (verify empty?)
+    $1 (verify empty?)
+    $1 (verify empty?)
+    $1 (verify enemy?) 
+    add
+  )
+)
+
+(game
+   (title "Thud")
+   (description "On the dwarfs' turn, they may either move or hurl one dwarf:
+\\
+Move: any one dwarf is moved like a chess queen, any number of squares in any 
+
+orthogonal or diagonal direction, but not onto or through any other piece, 
+
+whether Thudstone, dwarf, or troll
+\\
+Hurl: anywhere there is a straight (orthogonal or diagonal) line of adjacent 
+
+dwarfs on the board, they may hurl the front dwarf in the direction continuing 
+
+the line, as long as the space between the lead dwarf and the troll is less 
+
+than the number of dwarfs in the line. This is different from a normal move 
+
+in that the dwarf is permitted to land on a square containing a troll, 
+
+in which case the troll is removed from the board and the dwarf takes his 
+
+place. This may only be done if the endmost dwarf can land on a troll 
+
+by moving in the direction of the line at most as many spaces as there 
+
+are dwarfs in the line. Since a single dwarf is a line of one in 
+
+any direction, a dwarf may always move one space to capture a troll 
+
+on an immediately adjacent square.
+\\
+On the trolls' turn, they may either move or shove one troll:
+\\
+Move: one troll is moved like a chess king, one square in any orthogonal 
+
+or diagonal direction onto an empty square. After the troll has been moved, 
+
+any dwarfs on the eight squares adjacent to the moved troll may optionally 
+
+be immediately captured and removed from the board, at the troll player's 
+
+discretion
+\\
+Shove: anywhere there is a straight (orthogonal or diagonal) line of adjacent 
+
+trolls on the board, they may shove the endmost troll in the direction 
+
+continuing the line, up to as many spaces as there are trolls in the line. 
+
+As in a normal move, the troll may not land on an occupied square, and 
+
+any dwarfs in the eight squares adjacent to its final position may immediately 
+
+be captured. Trolls may only make a shove if by doing so they capture at least 
+
+one dwarf.")
+
+   (history "Thud is a board game devised by Trevor Truran and first 
+
+published in 2002, inspired by the Discworld novels rather 
+
+than originating in them. 
+\\
+It bears a strong resemblance to the ancient Norse games 
+
+of Hnefatafl and Tablut but has been changed to be less 
+
+one-sided. The two sides are dwarfs and trolls.")
+
+   (strategy "The basic overall strategy for the dwarfs to form a large 
+
+group and for the trolls to try and stop them. 
+\\
+It is normally better for the trolls to be widely spaced.
+\\
+A dwarf's strategy does widely depend on how the trolls 
+
+are advancing on the dwarf block. A good tactic therefore 
+
+is to be prepared to sacrifice a few dwarfs to get in the way 
+
+and slow down any trolls that are advancing into dangerous 
+
+positions.
+\\
+A troll's strategy can also vary but at the start of a match 
+
+getting into shoving lines is regarded as the best tactic")
+
+   (players White Black)
+   (turn-order White Black)
+   (game-defs)
+   (piece
+      (name Dwarf)
+      (image White "images\gluk\d.bmp")
+      (description "d")
+      (moves
+         (dwarf-1 n) (dwarf-1 ne) (dwarf-2 n) (dwarf-2 ne)
+         (dwarf-1 e) (dwarf-1 nw) (dwarf-2 e) (dwarf-2 nw)
+         (dwarf-1 s) (dwarf-1 se) (dwarf-2 s) (dwarf-2 se)
+         (dwarf-1 w) (dwarf-1 sw) (dwarf-2 w) (dwarf-2 sw)
+
+         (dwarf-3 n) (dwarf-3 ne) (dwarf-4 n) (dwarf-4 ne)
+         (dwarf-3 e) (dwarf-3 nw) (dwarf-4 e) (dwarf-4 nw)
+         (dwarf-3 s) (dwarf-3 se) (dwarf-4 s) (dwarf-4 se)
+         (dwarf-3 w) (dwarf-3 sw) (dwarf-4 w) (dwarf-4 sw)
+
+         (dwarf-5 n) (dwarf-5 ne) (dwarf-6 n) (dwarf-6 ne)
+         (dwarf-5 e) (dwarf-5 nw) (dwarf-6 e) (dwarf-6 nw)
+         (dwarf-5 s) (dwarf-5 se) (dwarf-6 s) (dwarf-6 se)
+         (dwarf-5 w) (dwarf-5 sw) (dwarf-6 w) (dwarf-6 sw)
+
+         (dwarf-7 n) (dwarf-7 ne) (shift n) (shift ne)
+         (dwarf-7 e) (dwarf-7 nw) (shift e) (shift nw)
+         (dwarf-7 s) (dwarf-7 se) (shift s) (shift se)
+         (dwarf-7 w) (dwarf-7 sw) (shift w) (shift sw)
+      )
+   )
+   (piece
+      (name Troll)
+      (image Black "images\gluk\T.bmp")
+      (description "T")
+      (moves
+         (troll-1 n) (troll-1 ne) (troll-2 n) (troll-2 ne)
+         (troll-1 e) (troll-1 nw) (troll-2 e) (troll-2 nw)
+         (troll-1 s) (troll-1 se) (troll-2 s) (troll-2 se)
+         (troll-1 w) (troll-1 sw) (troll-2 w) (troll-2 sw)
+
+         (troll-3 n) (troll-3 ne) (troll-4 n) (troll-4 ne)
+         (troll-3 e) (troll-3 nw) (troll-4 e) (troll-4 nw)
+         (troll-3 s) (troll-3 se) (troll-4 s) (troll-4 se)
+         (troll-3 w) (troll-3 sw) (troll-4 w) (troll-4 sw)
+
+         (troll-5 n) (troll-5 ne) (troll-6 n) (troll-6 ne)
+         (troll-5 e) (troll-5 nw) (troll-6 e) (troll-6 nw)
+         (troll-5 s) (troll-5 se) (troll-6 s) (troll-6 se)
+         (troll-5 w) (troll-5 sw) (troll-6 w) (troll-6 sw)
+
+         (troll-7 n) (troll-7 ne)
+         (troll-7 e) (troll-7 nw)
+         (troll-7 s) (troll-7 se)
+         (troll-7 w) (troll-7 sw)
+      )
+   )
+)
