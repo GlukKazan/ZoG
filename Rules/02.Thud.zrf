@@ -25,6 +25,28 @@
   (symmetry Black (n s)(s n) (ne sw) (sw ne) (nw se) (se nw))
 )
 
+(define kv-board-defs
+  (image "images\gluk\KVThud.bmp")
+  (grid
+     (start-rectangle 45 35 60 58)
+     (dimensions
+         ("a/b/c/d/e/f/g/h/i/j/k/l/m/n/o" (35 0)) ; files
+         ("15/14/13/12/11/10/9/8/7/6/5/4/3/2/1" (0 35)) ; ranks
+     )
+     (directions (n 0 -1) (e 1 0) (s 0 1) (w -1 0)
+                 (nw -1 -1) (ne 1 -1) (se 1 1) (sw -1 1))
+  )
+  (zone (name goals) (players White) (positions f15 g15 h15 i15 j15) )
+  (kill-positions a1  b1  c1  d1  e1  a2  b2  c2  d2  
+                  a3  b3  c3  a4  b4  a5  a15 b15 c15
+                  d15 e15 a14 b14 c14 d14 a13 b13 c13
+                  a12 b12 a11 k1  l1  m1  n1  o1  l2
+                  m2  n2  o2  m3  n3  o3  n4  o4  o5
+                  k15 l15 m15 n15 o15 l14 m14 n14 o14
+                  m13 n13 o13 n12 o12 o11)
+  (symmetry Black (n s)(s n) (ne sw) (sw ne) (nw se) (se nw))
+)
+
 ; ********************** 
 
 (define game-defs
@@ -38,6 +60,19 @@
       (Black (Troll g7  h7  i7  g8  i8  g9  h9  i9) )
    )
    (loss-condition (White Black) stalemated)
+)
+
+(define kv-game-defs
+   (board
+      (kv-board-defs)
+   )
+   (board-setup
+      (White (Dwarf a6 b5 c4 d3 e2 f1 g1 h1 i1 j1 k2 l3 m4 n5 o6 h7) 
+             (Rock h8) )
+      (Black (Troll e13 f13 f14 h14 h13 j14 j13 k13) )
+   )
+   (win-condition (White) (absolute-config Rock (goals)))
+   (draw-condition (White Black) stalemated)
 )
 
 ( define troll-1 
@@ -282,6 +317,66 @@
   )
 )
 
+( define rock
+  ( $1
+    (verify empty?)
+    (verify (or (piece? Dwarf n) (piece? Dwarf nw) 
+                (piece? Dwarf s) (piece? Dwarf sw) 
+                (piece? Dwarf w) (piece? Dwarf ne) 
+                (piece? Dwarf e) (piece? Dwarf se) ) )
+    add
+  )
+)
+
+( define check-troll
+  ( if (enemy? $1)
+    mark
+    $1
+    ( if ( piece? Dwarf $1) 
+      capture
+    )
+    back
+  )
+)
+
+( define kv-dwarf
+  ( $1 
+    ( while empty? 
+      ( if on-board?
+        (check-troll n) (check-troll nw)
+        (check-troll s) (check-troll sw)
+        (check-troll w) (check-troll ne)
+        (check-troll e) (check-troll se)
+        add
+      )
+      $1 
+    )
+  )
+)
+
+( define kv-troll 
+  ( $1 
+    (verify empty?) 
+    add
+    $1
+    (verify empty?) 
+    add
+    $1
+    (verify empty?) 
+    add
+  )
+)
+
+( define kv-troll-capturing
+  ( $1
+    (verify (piece? Dwarf) )
+    capture
+    $1
+    (verify empty?)
+    (add-partial capturing-type)
+  )
+)
+
 (game
    (title "Thud")
    (description "On the dwarfs' turn, they may either move or hurl one dwarf:
@@ -425,6 +520,108 @@ getting into shoving lines is regarded as the best tactic")
          (troll-7 e) (troll-7 nw)
          (troll-7 s) (troll-7 se)
          (troll-7 w) (troll-7 sw)
+      )
+   )
+)
+
+(variant
+   (title "Koom Valley Thud")
+   (description "Movement is the same as Classic Thud except that Trolls may 
+
+now move up to 3 spaces in any direction (horizontal, vertical 
+
+or diagonal).
+\\
+Dwarfs may move the Rock instead of moving a dwarf piece. 
+
+It may move only one square in any direction. To be moved 
+
+it must be next to a dwarf and it must also be next to a 
+
+dwarf at the end of its move.
+\\
+A troll captures a dwarf by trampling over it. It moves 
+
+in a straight line from a square next to the dwarf, through 
+
+the square the dwarf is on and lands on the empty square 
+
+immediately beyond. The trampled dwarf is removed from the board.
+\\
+Several captures may be made in one move and a change of direction 
+
+is allowed between captures.
+\\
+Dwarfs capture a troll by moving a dwarf so that the troll is trapped 
+
+between two dwarfs in any straight line (including diagonally). 
+
+The three pieces, two dwarfs and a troll, must all be in line.
+\\
+If the dwarf that has been moved also traps another troll between 
+
+itself and another dwarf, that troll is also captured
+\\
+Captures are only made when the capturing side moves a piece. 
+
+The rock may be moved and come to rest next to three trolls. 
+
+It can only be captured when a troll is moved.")
+   (history "For the 2005 rerelease of Thud, Truran devised a substantially 
+
+different game that could be played with the same board and pieces, 
+
+known as Koom Valley Thud. 
+\\
+Unlike the original release, in which the publishers attempted 
+
+to keep the game rules secret so that anyone wishing to play 
+
+would have to buy the official set, the rules for Koom Valley Thud 
+
+were posted on the official website so that owners of the original 
+
+edition would have access to the new rules.")
+   (players White Black)
+   (turn-order White Black)
+   (kv-game-defs)
+   (piece
+      (name Rock)
+      (image White "images\gluk\R.bmp")
+      (description "X")
+      (moves
+          (rock w) (rock sw)
+          (rock e) (rock se)
+          (rock n) (rock nw)
+          (rock s) (rock ne)
+      )
+   )
+   (piece
+      (name Dwarf)
+      (image White "images\gluk\d.bmp")
+      (description "d")
+      (moves
+         (kv-dwarf ne) (kv-dwarf n)
+         (kv-dwarf nw) (kv-dwarf s)
+         (kv-dwarf se) (kv-dwarf e)
+         (kv-dwarf sw) (kv-dwarf w)
+      )
+   )
+   (piece
+      (name Troll)
+      (image Black "images\gluk\T.bmp")
+      (description "T")
+      (moves
+         (move-type capturing-type)
+         (kv-troll-capturing n) (kv-troll-capturing ne)
+         (kv-troll-capturing e) (kv-troll-capturing nw)
+         (kv-troll-capturing s) (kv-troll-capturing se)
+         (kv-troll-capturing w) (kv-troll-capturing sw)
+         (move-type non-capturing-type)
+         (kv-troll n) (kv-troll ne)
+         (kv-troll e) (kv-troll nw)
+         (kv-troll s) (kv-troll se)
+         (kv-troll w) (kv-troll sw)
       )
    )
 )
