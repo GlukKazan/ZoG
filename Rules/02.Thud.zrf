@@ -715,11 +715,9 @@ or diagonal).
 \\
 Dwarfs may move the Rock instead of moving a dwarf piece. 
 
-It may move only one square in any direction. To be moved 
+To be moved it must be next to a dwarf and it must also 
 
-it must be next to a dwarf and it must also be next to a 
-
-dwarf at the end of its move.")
+be next to a dwarf at the end of its move.")
    (history "It's my variant of Koom Valey Thud")
    (strategy "") 
    (players White Black)
