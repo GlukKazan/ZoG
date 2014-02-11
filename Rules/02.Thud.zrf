@@ -15,13 +15,17 @@
      (directions (n 0 -1) (e 1 0) (s 0 1) (w -1 0)
                  (nw -1 -1) (ne 1 -1) (se 1 1) (sw -1 1))
   )
-  (kill-positions a1  b1  c1  d1  e1  a2  b2  c2  d2  
-                  a3  b3  c3  a4  b4  a5  a15 b15 c15
-                  d15 e15 a14 b14 c14 d14 a13 b13 c13
-                  a12 b12 a11 k1  l1  m1  n1  o1  l2
-                  m2  n2  o2  m3  n3  o3  n4  o4  o5
-                  k15 l15 m15 n15 o15 l14 m14 n14 o14
-                  m13 n13 o13 n12 o12 o11 h8)
+  (kill-positions a15 b15 c15 d15 e15    k15 l15 m15 n15 o15
+                  a14 b14 c14 d14            l14 m14 n14 o14
+                  a13 b13 c13                    m13 n13 o13 
+                  a12 b12                            n12 o12
+                  a11                                    o11
+                                      h8
+                  a5                                     o5
+                  a4  b4                             n4  o4
+                  a3  b3  c3                     m3  n3  o3
+                  a2  b2  c2  d2             l2  m2  n2  o2
+                  a1  b1  c1  d1  e1     k1  l1  m1  n1  o1 )
   (symmetry Black (n s)(s n) (ne sw) (sw ne) (nw se) (se nw))
 )
 
@@ -37,42 +41,48 @@
                  (nw -1 -1) (ne 1 -1) (se 1 1) (sw -1 1))
   )
   (zone (name goals) (players White) (positions f15 g15 h15 i15 j15) )
-  (kill-positions a1  b1  c1  d1  e1  a2  b2  c2  d2  
-                  a3  b3  c3  a4  b4  a5  a15 b15 c15
-                  d15 e15 a14 b14 c14 d14 a13 b13 c13
-                  a12 b12 a11 k1  l1  m1  n1  o1  l2
-                  m2  n2  o2  m3  n3  o3  n4  o4  o5
-                  k15 l15 m15 n15 o15 l14 m14 n14 o14
-                  m13 n13 o13 n12 o12 o11)
+  (kill-positions a15 b15 c15 d15 e15    k15 l15 m15 n15 o15
+                  a14 b14 c14 d14            l14 m14 n14 o14
+                  a13 b13 c13                    m13 n13 o13 
+                  a12 b12                            n12 o12
+                  a11                                    o11
+                  a5                                     o5
+                  a4  b4                             n4  o4
+                  a3  b3  c3                     m3  n3  o3
+                  a2  b2  c2  d2             l2  m2  n2  o2
+                  a1  b1  c1  d1  e1     k1  l1  m1  n1  o1 )
   (symmetry Black (n s)(s n) (ne sw) (sw ne) (nw se) (se nw))
 )
 
 ; ********************** 
 
-(define game-defs
-   (board
+( define game-defs
+   ( board
       (board-defs)
    )
-   (board-setup
+   ( board-setup
       (White (Dwarf f1  g1  i1  j1  e2  k2  d3  l3  c4  m4  b5 
                     n5  a6  o6  a7  o7  a9  o9  a10 o10 b11 n11
                     c12 m12 d13 l13 e14 k14 f15 g15 i15 j15) )
       (Black (Troll g7  h7  i7  g8  i8  g9  h9  i9) )
    )
    (loss-condition (White Black) stalemated)
+   (draw-condition (White Black) repetition)
 )
 
-(define kv-game-defs
-   (board
+( define kv-game-defs
+   ( board
       (kv-board-defs)
    )
-   (board-setup
+   ( board-setup
       (White (Dwarf a6 b5 c4 d3 e2 f1 g1 h1 i1 j1 k2 l3 m4 n5 o6 h7) 
              (Rock h8) )
       (Black (Troll e13 f13 f14 h14 h13 j14 j13 k13) )
    )
-   (win-condition (White) (absolute-config Rock (goals)))
+   (win-condition  (White) (absolute-config Rock (goals)))
+   (loss-condition (White) (pieces-remaining 0 Rock))
    (draw-condition (White Black) stalemated)
+   (draw-condition (White Black) repetition)
 )
 
 ( define troll-1 
@@ -214,9 +224,10 @@
 
 ( define shift 
   ( $1 
-    (while empty? add $1)
-    (verify empty?)
-    add
+    ( while empty? 
+      add 
+      $1
+    )
   )
 )
 
@@ -318,13 +329,36 @@
 )
 
 ( define rock
-  ( $1
+  ( (verify (or (piece? Dwarf n) (piece? Dwarf nw) 
+                (piece? Dwarf s) (piece? Dwarf sw) 
+                (piece? Dwarf w) (piece? Dwarf ne) 
+                (piece? Dwarf e) (piece? Dwarf se) ) )
+    $1
     (verify empty?)
     (verify (or (piece? Dwarf n) (piece? Dwarf nw) 
                 (piece? Dwarf s) (piece? Dwarf sw) 
                 (piece? Dwarf w) (piece? Dwarf ne) 
                 (piece? Dwarf e) (piece? Dwarf se) ) )
     add
+  )
+)
+
+( define ball
+  ( ( verify (or (piece? Dwarf n) (piece? Dwarf nw) 
+                 (piece? Dwarf s) (piece? Dwarf sw) 
+                 (piece? Dwarf w) (piece? Dwarf ne) 
+                 (piece? Dwarf e) (piece? Dwarf se) ) 
+    )
+    $1
+    ( while empty?
+      ( if (or (piece? Dwarf n) (piece? Dwarf nw) 
+               (piece? Dwarf s) (piece? Dwarf sw) 
+               (piece? Dwarf w) (piece? Dwarf ne) 
+               (piece? Dwarf e) (piece? Dwarf se) )
+        add
+      )
+      $1
+    )
   )
 )
 
@@ -354,15 +388,54 @@
   )
 )
 
+( define check-proximity
+  ( if (friend? $1)
+      ( if (flag? is-second)
+          change-owner
+        else
+          ( set-flag is-second true )
+      )
+  )
+)
+
+( define check-rock-direction
+  ( set-flag is-second false )
+  $1
+  ( if (and enemy? (piece? Rock) ) 
+    ( check-proximity $2 )
+    ( check-proximity $3 )
+    ( check-proximity $4 )
+    ( check-proximity $5 )
+    ( check-proximity $6 )
+    ( check-proximity $7 )
+    ( check-proximity $8 )
+  )
+  $5
+)
+
+( define check-rock
+  ( check-rock-direction n  ne e  se s  sw w  nw)
+  ( check-rock-direction ne e  se s  sw w  nw n)
+  ( check-rock-direction e  se s  sw w  nw n  ne)
+  ( check-rock-direction se s  sw w  nw n  ne e)
+  ( check-rock-direction s  sw w  nw n  ne e  se)
+  ( check-rock-direction sw w  nw n  ne e  se s)
+  ( check-rock-direction w  nw n  ne e  se s  sw)
+  ( check-rock-direction nw n  ne e  se s  sw w)
+)
+
 ( define kv-troll 
   ( $1 
     (verify empty?) 
+    (check-rock)
     add
     $1
     (verify empty?) 
+    (check-rock)
     add
     $1
     (verify empty?) 
+    (check-rock)
     add
   )
 )
@@ -525,6 +598,10 @@ getting into shoving lines is regarded as the best tactic")
 )
 
 (variant
+   (title "-") ; ********* Variants *********
+)
+
+(variant
    (title "Koom Valley Thud")
    (description "Movement is the same as Classic Thud except that Trolls may 
 
@@ -582,12 +659,14 @@ would have to buy the official set, the rules for Koom Valley Thud
 were posted on the official website so that owners of the original 
 
 edition would have access to the new rules.")
+   (strategy "") 
    (players White Black)
    (turn-order White Black)
    (kv-game-defs)
    (piece
       (name Rock)
-      (image White "images\gluk\R.bmp")
+      (image White "images\gluk\R.bmp"
+             Black "images\gluk\R.bmp" )
       (description "X")
       (moves
           (rock w) (rock sw)
@@ -618,6 +697,62 @@ edition would have access to the new rules.")
          (kv-troll-capturing s) (kv-troll-capturing se)
          (kv-troll-capturing w) (kv-troll-capturing sw)
          (move-type non-capturing-type)
+         (kv-troll n) (kv-troll ne)
+         (kv-troll e) (kv-troll nw)
+         (kv-troll s) (kv-troll se)
+         (kv-troll w) (kv-troll sw)
+      )
+   )
+)
+
+(variant
+   (title "Koom Valley Football")
+   (description "Movement is the same as Classic Thud except that Trolls may 
+
+now move up to 3 spaces in any direction (horizontal, vertical 
+
+or diagonal).
+\\
+Dwarfs may move the Rock instead of moving a dwarf piece. 
+
+It may move only one square in any direction. To be moved 
+
+it must be next to a dwarf and it must also be next to a 
+
+dwarf at the end of its move.")
+   (history "It's my variant of Koom Valey Thud")
+   (strategy "") 
+   (players White Black)
+   (turn-order White Black)
+   (kv-game-defs)
+   (piece
+      (name Rock)
+      (image White "images\gluk\R.bmp"
+             Black "images\gluk\R.bmp" )
+      (description "X")
+      (moves
+          (ball w) (ball sw)
+          (ball e) (ball se)
+          (ball n) (ball nw)
+          (ball s) (ball ne)
+      )
+   )
+   (piece
+      (name Dwarf)
+      (image White "images\gluk\d.bmp")
+      (description "d")
+      (moves
+         (shift ne) (shift n)
+         (shift nw) (shift s)
+         (shift se) (shift e)
+         (shift sw) (shift w)
+      )
+   )
+   (piece
+      (name Troll)
+      (image Black "images\gluk\T.bmp")
+      (description "T")
+      (moves
          (kv-troll n) (kv-troll ne)
          (kv-troll e) (kv-troll nw)
          (kv-troll s) (kv-troll se)
