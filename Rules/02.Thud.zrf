@@ -26,7 +26,7 @@
                   a3  b3  c3                     m3  n3  o3
                   a2  b2  c2  d2             l2  m2  n2  o2
                   a1  b1  c1  d1  e1     k1  l1  m1  n1  o1 )
-  (symmetry Black (n s)(s n) (ne sw) (sw ne) (nw se) (se nw))
+  (symmetry Trolls (n s)(s n) (ne sw) (sw ne) (nw se) (se nw))
 )
 
 (define kv-board-defs
@@ -40,7 +40,7 @@
      (directions (n 0 -1) (e 1 0) (s 0 1) (w -1 0)
                  (nw -1 -1) (ne 1 -1) (se 1 1) (sw -1 1))
   )
-  (zone (name goals) (players White) (positions f15 g15 h15 i15 j15) )
+  (zone (name goals) (players Dwarfs) (positions f15 g15 h15 i15 j15) )
   (kill-positions a15 b15 c15 d15 e15    k15 l15 m15 n15 o15
                   a14 b14 c14 d14            l14 m14 n14 o14
                   a13 b13 c13                    m13 n13 o13 
@@ -51,7 +51,7 @@
                   a3  b3  c3                     m3  n3  o3
                   a2  b2  c2  d2             l2  m2  n2  o2
                   a1  b1  c1  d1  e1     k1  l1  m1  n1  o1 )
-  (symmetry Black (n s)(s n) (ne sw) (sw ne) (nw se) (se nw))
+  (symmetry Trolls (n s)(s n) (ne sw) (sw ne) (nw se) (se nw))
 )
 
 ; ********************** 
@@ -61,13 +61,13 @@
       (board-defs)
    )
    ( board-setup
-      (White (Dwarf f1  g1  i1  j1  e2  k2  d3  l3  c4  m4  b5 
+      (Dwarfs (Dwarf f1  g1  i1  j1  e2  k2  d3  l3  c4  m4  b5 
                     n5  a6  o6  a7  o7  a9  o9  a10 o10 b11 n11
                     c12 m12 d13 l13 e14 k14 f15 g15 i15 j15) )
-      (Black (Troll g7  h7  i7  g8  i8  g9  h9  i9) )
+      (Trolls (Troll g7  h7  i7  g8  i8  g9  h9  i9) )
    )
-   (loss-condition (White Black) stalemated)
-   (draw-condition (White Black) repetition)
+   (loss-condition (Dwarfs Trolls) stalemated)
+   (draw-condition (Dwarfs Trolls) repetition)
 )
 
 ( define kv-game-defs
@@ -75,14 +75,14 @@
       (kv-board-defs)
    )
    ( board-setup
-      (White (Dwarf a6 b5 c4 d3 e2 f1 g1 h1 i1 j1 k2 l3 m4 n5 o6 h7) 
+      (Dwarfs (Dwarf a6 b5 c4 d3 e2 f1 g1 h1 i1 j1 k2 l3 m4 n5 o6 h7) 
              (Rock h8) )
-      (Black (Troll e13 f13 f14 h14 h13 j14 j13 k13) )
+      (Trolls (Troll e13 f13 f14 h14 h13 j14 j13 k13) )
    )
-   (win-condition  (White) (absolute-config Rock (goals)))
-   (loss-condition (White) (pieces-remaining 0 Rock))
-   (draw-condition (White Black) stalemated)
-   (draw-condition (White Black) repetition)
+   (win-condition  (Dwarfs) (absolute-config Rock (goals)))
+   (loss-condition (Dwarfs) (pieces-remaining 0 Rock))
+   (draw-condition (Dwarfs Trolls) stalemated)
+   (draw-condition (Dwarfs Trolls) repetition)
 )
 
 ( define troll-1 
@@ -389,28 +389,32 @@
 )
 
 ( define check-proximity
-  ( if (friend? $1)
-      ( if (flag? is-second)
-          change-owner
-        else
-          ( set-flag is-second true )
-      )
+  ( if (on-board? $1)
+    ( if (friend? $1)
+        ( if (flag? is-second)
+            change-owner
+          else
+            ( set-flag is-second true )
+        )
+    )
   )
 )
 
 ( define check-rock-direction
   ( set-flag is-second false )
-  $1
-  ( if (and enemy? (piece? Rock) ) 
-    ( check-proximity $2 )
-    ( check-proximity $3 )
-    ( check-proximity $4 )
-    ( check-proximity $5 )
-    ( check-proximity $6 )
-    ( check-proximity $7 )
-    ( check-proximity $8 )
+  ( if (on-board? $1)
+    $1
+    ( if (and enemy? (piece? Rock) ) 
+      ( check-proximity $2 )
+      ( check-proximity $3 )
+      ( check-proximity $4 )
+      ( check-proximity $5 )
+      ( check-proximity $6 )
+      ( check-proximity $7 )
+      ( check-proximity $8 )
+    )
+    $5
   )
-  $5
 )
 
 ( define check-rock
@@ -435,6 +439,25 @@
     add
     $1
     (verify empty?) 
+    (check-rock)
+    add
+  )
+)
+
+( define kvb-troll 
+  ( $1 
+    (verify empty?) 
+    (verify (on-board? $1) ) 
+    (check-rock)
+    add
+    $1
+    (verify empty?) 
+    (verify (on-board? $1) ) 
+    (check-rock)
+    add
+    $1
+    (verify empty?) 
+    (verify (on-board? $1) ) 
     (check-rock)
     add
   )
@@ -540,13 +563,13 @@ A troll's strategy can also vary but at the start of a match
 
 getting into shoving lines is regarded as the best tactic")
 
-   (players White Black)
-   (turn-order White Black)
+   (players Dwarfs Trolls)
+   (turn-order Dwarfs Trolls)
    (game-defs)
    (piece
       (name Dwarf)
-      (image White "images\gluk\d.bmp")
-      (description "d")
+      (image Dwarfs "images\gluk\d.bmp")
+      (description "Dwarf")
       (moves
          (dwarf-1 n) (dwarf-1 ne) (dwarf-2 n) (dwarf-2 ne)
          (dwarf-1 e) (dwarf-1 nw) (dwarf-2 e) (dwarf-2 nw)
@@ -571,8 +594,8 @@ getting into shoving lines is regarded as the best tactic")
    )
    (piece
       (name Troll)
-      (image Black "images\gluk\T.bmp")
-      (description "T")
+      (image Trolls "images\gluk\T.bmp")
+      (description "Troll")
       (moves
          (troll-1 n) (troll-1 ne) (troll-2 n) (troll-2 ne)
          (troll-1 e) (troll-1 nw) (troll-2 e) (troll-2 nw)
@@ -660,14 +683,14 @@ were posted on the official website so that owners of the original
 
 edition would have access to the new rules.")
    (strategy "") 
-   (players White Black)
-   (turn-order White Black)
+   (players Dwarfs Trolls)
+   (turn-order Dwarfs Trolls)
    (kv-game-defs)
    (piece
       (name Rock)
-      (image White "images\gluk\R.bmp"
-             Black "images\gluk\R.bmp" )
-      (description "X")
+      (image Dwarfs "images\gluk\R.bmp"
+             Trolls "images\gluk\R.bmp" )
+      (description "Rock")
       (moves
           (rock w) (rock sw)
           (rock e) (rock se)
@@ -677,8 +700,8 @@ edition would have access to the new rules.")
    )
    (piece
       (name Dwarf)
-      (image White "images\gluk\d.bmp")
-      (description "d")
+      (image Dwarfs "images\gluk\d.bmp")
+      (description "Dwarf")
       (moves
          (kv-dwarf ne) (kv-dwarf n)
          (kv-dwarf nw) (kv-dwarf s)
@@ -688,8 +711,8 @@ edition would have access to the new rules.")
    )
    (piece
       (name Troll)
-      (image Black "images\gluk\T.bmp")
-      (description "T")
+      (image Trolls "images\gluk\T.bmp")
+      (description "Troll")
       (moves
          (move-type capturing-type)
          (kv-troll-capturing n) (kv-troll-capturing ne)
@@ -720,14 +743,14 @@ To be moved it must be next to a dwarf and it must also
 be next to a dwarf at the end of its move.")
    (history "It's my variant of Koom Valey Thud")
    (strategy "") 
-   (players White Black)
-   (turn-order White Black)
+   (players Dwarfs Trolls)
+   (turn-order Dwarfs Trolls)
    (kv-game-defs)
    (piece
       (name Rock)
-      (image White "images\gluk\R.bmp"
-             Black "images\gluk\R.bmp" )
-      (description "X")
+      (image Dwarfs "images\gluk\R.bmp"
+             Trolls "images\gluk\R.bmp" )
+      (description "Ball")
       (moves
           (ball w) (ball sw)
           (ball e) (ball se)
@@ -737,8 +760,8 @@ be next to a dwarf at the end of its move.")
    )
    (piece
       (name Dwarf)
-      (image White "images\gluk\d.bmp")
-      (description "d")
+      (image Dwarfs "images\gluk\d.bmp")
+      (description "Dwarf")
       (moves
          (shift ne) (shift n)
          (shift nw) (shift s)
@@ -748,13 +771,13 @@ be next to a dwarf at the end of its move.")
    )
    (piece
       (name Troll)
-      (image Black "images\gluk\T.bmp")
-      (description "T")
+      (image Trolls "images\gluk\T.bmp")
+      (description "Troll")
       (moves
-         (kv-troll n) (kv-troll ne)
-         (kv-troll e) (kv-troll nw)
-         (kv-troll s) (kv-troll se)
-         (kv-troll w) (kv-troll sw)
+         (kvb-troll n) (kvb-troll ne)
+         (kvb-troll e) (kvb-troll nw)
+         (kvb-troll s) (kvb-troll se)
+         (kvb-troll w) (kvb-troll sw)
       )
    )
 )
