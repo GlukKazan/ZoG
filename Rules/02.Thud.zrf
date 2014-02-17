@@ -469,6 +469,7 @@
     capture
     $1
     (verify empty?)
+    (check-rock)
     (add-partial capturing-type)
   )
 )
