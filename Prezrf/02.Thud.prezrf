@@ -1,0 +1,576 @@
+; *****************************************************************
+; *** Thud
+; *****************************************************************
+
+(version "2.0")
+
+(define! -all-directions (n s w e nw ne sw se))
+
+(define board-defs
+  (image "images\gluk\Thud.bmp")
+  (grid
+     (start-rectangle 39 39 66 60)
+     (dimensions
+         ("a/b/c/d/e/f/g/h/i/j/k/l/m/n/o" (35 0)) ; files
+         ("15/14/13/12/11/10/9/8/7/6/5/4/3/2/1" (0 35)) ; ranks
+     )
+     (directions (n 0 -1) (e 1 0) (s 0 1) (w -1 0)
+                 (nw -1 -1) (ne 1 -1) (se 1 1) (sw -1 1))
+  )
+  (kill-positions a15 b15 c15 d15 e15    k15 l15 m15 n15 o15
+                  a14 b14 c14 d14            l14 m14 n14 o14
+                  a13 b13 c13                    m13 n13 o13 
+                  a12 b12                            n12 o12
+                  a11                                    o11
+                                      h8
+                  a5                                     o5
+                  a4  b4                             n4  o4
+                  a3  b3  c3                     m3  n3  o3
+                  a2  b2  c2  d2             l2  m2  n2  o2
+                  a1  b1  c1  d1  e1     k1  l1  m1  n1  o1 )
+  (symmetry Trolls (n s)(s n) (ne sw) (sw ne) (nw se) (se nw))
+)
+
+(define kv-board-defs
+  (image "images\gluk\KVThud.bmp")
+  (grid
+     (start-rectangle 39 39 66 60)
+     (dimensions
+         ("a/b/c/d/e/f/g/h/i/j/k/l/m/n/o" (35 0)) ; files
+         ("15/14/13/12/11/10/9/8/7/6/5/4/3/2/1" (0 35)) ; ranks
+     )
+     (directions (n 0 -1) (e 1 0) (s 0 1) (w -1 0)
+                 (nw -1 -1) (ne 1 -1) (se 1 1) (sw -1 1))
+  )
+  (zone (name goals) (players Dwarfs) (positions f15 g15 h15 i15 j15) )
+  (kill-positions a15 b15 c15 d15 e15    k15 l15 m15 n15 o15
+                  a14 b14 c14 d14            l14 m14 n14 o14
+                  a13 b13 c13                    m13 n13 o13 
+                  a12 b12                            n12 o12
+                  a11                                    o11
+                  a5                                     o5
+                  a4  b4                             n4  o4
+                  a3  b3  c3                     m3  n3  o3
+                  a2  b2  c2  d2             l2  m2  n2  o2
+                  a1  b1  c1  d1  e1     k1  l1  m1  n1  o1 )
+  (symmetry Trolls (n s)(s n) (ne sw) (sw ne) (nw se) (se nw))
+)
+
+; ********************** 
+
+(define game-defs
+   (board
+      (board-defs)
+   )
+   (board-setup
+      (Dwarfs (Dwarf f1  g1  i1  j1  e2  k2  d3  l3  c4  m4  b5 
+                    n5  a6  o6  a7  o7  a9  o9  a10 o10 b11 n11
+                    c12 m12 d13 l13 e14 k14 f15 g15 i15 j15) )
+      (Trolls (Troll g7  h7  i7  g8  i8  g9  h9  i9) )
+   )
+   (loss-condition (Dwarfs Trolls) stalemated)
+   (draw-condition (Dwarfs Trolls) repetition)
+)
+
+(define kv-game-defs
+   (board
+      (kv-board-defs)
+   )
+   (board-setup
+      (Dwarfs (Dwarf a6 b5 c4 d3 e2 f1 g1 h1 i1 j1 k2 l3 m4 n5 o6 h7) 
+             (Rock h8) )
+      (Trolls (Troll e13 f13 f14 h14 h13 j14 j13 k13) )
+   )
+   (win-condition  (Dwarfs) (absolute-config Rock (goals)))
+   (loss-condition (Dwarfs) (pieces-remaining 0 Rock))
+   (draw-condition (Dwarfs Trolls) stalemated)
+   (draw-condition (Dwarfs Trolls) repetition)
+)
+
+(define! troll-n
+  (for! $d ($ -all-directions)
+     ( ($?2
+          mark
+          (for! $- ($2*)
+              (opposite $d) 
+              (verify friend?) 
+          )
+          back 
+       )
+       (for! $- ($1*)
+          $d
+          (verify empty?) 
+       )
+       ($?2
+          (verify (or
+              (for! $dd ($ -all-directions)
+                  (enemy? $dd)
+              )
+          ) )
+       )
+       (for! $dd ($ -all-directions)
+          (if (enemy?  $dd)
+              (capture $dd)
+          )
+       )
+       add
+     )
+  )
+  ($?2
+     (! troll-n $2*)
+  )
+)
+
+(define! shift 
+  (for! $d ($ -all-directions)
+      ( $d
+        ( while empty? 
+          add 
+          $d
+        )
+      )
+  )
+)
+
+(define! dwarf-n
+  (for! $d ($ -all-directions)
+     ( ($?2
+          mark
+          (for! $- ($2*)
+              (opposite $d) 
+              (verify friend?) 
+          )
+          back
+          (for! $- ($2*)
+             $d 
+             (verify empty?)
+          )
+       )
+       $d 
+       (verify enemy?) 
+       add
+     )
+  )
+  ($?2
+     (! dwarf-n $2*)
+  )
+)
+
+(define! rock
+  (for! $d ($ -all-directions)
+     ( (verify (or 
+           (for! $dd ($ -all-directions)
+               (piece? Dwarf $dd)
+           )
+       ) )
+       $d
+       (verify empty?)
+       (verify (or 
+          (for! $dd ($ -all-directions)
+              (piece? Dwarf $dd)
+          )
+       ) )
+       add
+     )
+  )
+)
+
+(define! ball
+  (for! $d ($ -all-directions)
+     ( (verify (or
+           (for! $dd ($ -all-directions)
+               (piece? Dwarf $dd)
+           )
+       ) )
+       $d
+       ( while empty?
+         (if (or
+                 (for! $dd ($ -all-directions)
+                     (piece? Dwarf $dd)
+                 )
+             )
+           add
+         ) 
+         $d
+       )
+     )
+  )
+)
+
+(define! check-troll
+  (for! $d ($ -all-directions)
+     (if (enemy? $d)
+       mark
+       $d
+       (if (piece? Dwarf $d) 
+         capture
+       )
+       back
+     )
+  )
+)
+
+(define! kv-dwarf
+  (for! $d ($ -all-directions)
+     ($d 
+        (while empty? 
+          (if on-board?
+            (! check-troll)
+            add
+          )
+          $d
+        )
+     )
+  )
+)
+
+( define check-proximity
+  ( if (on-board? $1)
+    ( if (friend? $1)
+        ( if (flag? is-second)
+            change-owner
+          else
+            ( set-flag is-second true )
+        )
+    )
+  )
+)
+
+( define check-rock-direction
+  ( set-flag is-second false )
+  ( if (on-board? $1)
+    $1
+    ( if (and enemy? (piece? Rock) ) 
+      ( check-proximity $2 )
+      ( check-proximity $3 )
+      ( check-proximity $4 )
+      ( check-proximity $5 )
+      ( check-proximity $6 )
+      ( check-proximity $7 )
+      ( check-proximity $8 )
+    )
+    $5
+  )
+)
+
+( define check-rock
+  ( check-rock-direction n  ne e  se s  sw w  nw)
+  ( check-rock-direction ne e  se s  sw w  nw n)
+  ( check-rock-direction e  se s  sw w  nw n  ne)
+  ( check-rock-direction se s  sw w  nw n  ne e)
+  ( check-rock-direction s  sw w  nw n  ne e  se)
+  ( check-rock-direction sw w  nw n  ne e  se s)
+  ( check-rock-direction w  nw n  ne e  se s  sw)
+  ( check-rock-direction nw n  ne e  se s  sw w)
+)
+
+( define kv-troll 
+  ( $1 
+    (verify empty?) 
+    (check-rock)
+    add
+    $1
+    (verify empty?) 
+    (check-rock)
+    add
+    $1
+    (verify empty?) 
+    (check-rock)
+    add
+  )
+)
+
+( define kvb-troll 
+  ( $1 
+    (verify empty?) 
+    (verify (on-board? $1) ) 
+    (check-rock)
+    add
+    $1
+    (verify empty?) 
+    (verify (on-board? $1) ) 
+    (check-rock)
+    add
+    $1
+    (verify empty?) 
+    (verify (on-board? $1) ) 
+    (check-rock)
+    add
+  )
+)
+
+( define kv-troll-capturing
+  ( $1
+    (verify (piece? Dwarf) )
+    capture
+    $1
+    (verify empty?)
+    (check-rock)
+    (add-partial capturing-type)
+  )
+)
+
+(game
+   (title "Thud")
+   (description "On the dwarfs' turn, they may either move or hurl one dwarf:
+\\
+Move: any one dwarf is moved like a chess queen, any number of squares in any 
+
+orthogonal or diagonal direction, but not onto or through any other piece, 
+
+whether Thudstone, dwarf, or troll
+\\
+Hurl: anywhere there is a straight (orthogonal or diagonal) line of adjacent 
+
+dwarfs on the board, they may hurl the front dwarf in the direction continuing 
+
+the line, as long as the space between the lead dwarf and the troll is less 
+
+than the number of dwarfs in the line. This is different from a normal move 
+
+in that the dwarf is permitted to land on a square containing a troll, 
+
+in which case the troll is removed from the board and the dwarf takes his 
+
+place. This may only be done if the endmost dwarf can land on a troll 
+
+by moving in the direction of the line at most as many spaces as there 
+
+are dwarfs in the line. Since a single dwarf is a line of one in 
+
+any direction, a dwarf may always move one space to capture a troll 
+
+on an immediately adjacent square.
+\\
+On the trolls' turn, they may either move or shove one troll:
+\\
+Move: one troll is moved like a chess king, one square in any orthogonal 
+
+or diagonal direction onto an empty square. After the troll has been moved, 
+
+any dwarfs on the eight squares adjacent to the moved troll may optionally 
+
+be immediately captured and removed from the board, at the troll player's 
+
+discretion
+\\
+Shove: anywhere there is a straight (orthogonal or diagonal) line of adjacent 
+
+trolls on the board, they may shove the endmost troll in the direction 
+
+continuing the line, up to as many spaces as there are trolls in the line. 
+
+As in a normal move, the troll may not land on an occupied square, and 
+
+any dwarfs in the eight squares adjacent to its final position may immediately 
+
+be captured. Trolls may only make a shove if by doing so they capture at least 
+
+one dwarf.")
+
+   (history "Thud is a board game devised by Trevor Truran and first 
+
+published in 2002, inspired by the Discworld novels rather 
+
+than originating in them. 
+\\
+It bears a strong resemblance to the ancient Norse games 
+
+of Hnefatafl and Tablut but has been changed to be less 
+
+one-sided. The two sides are dwarfs and trolls.")
+
+   (strategy "The basic overall strategy for the dwarfs to form a large 
+
+group and for the trolls to try and stop them. 
+\\
+It is normally better for the trolls to be widely spaced.
+\\
+A dwarf's strategy does widely depend on how the trolls 
+
+are advancing on the dwarf block. A good tactic therefore 
+
+is to be prepared to sacrifice a few dwarfs to get in the way 
+
+and slow down any trolls that are advancing into dangerous 
+
+positions.
+\\
+A troll's strategy can also vary but at the start of a match 
+
+getting into shoving lines is regarded as the best tactic")
+
+   (players Dwarfs Trolls)
+   (turn-order Dwarfs Trolls)
+   (game-defs)
+   (piece
+      (name Dwarf)
+      (image Dwarfs "images\gluk\d.bmp")
+      (description "Dwarf")
+      (moves
+         (! dwarf-n 1 2 3 4 5 6 7)
+         (! shift)
+      )
+   )
+   (piece
+      (name Troll)
+      (image Trolls "images\gluk\T.bmp")
+      (description "Troll")
+      (moves
+         (! troll-n 1 2 3 4 5 6 7)
+      )
+   )
+)
+
+(variant
+   (title "-") ; ********* Variants *********
+)
+
+(variant
+   (title "Koom Valley Thud")
+   (description "Movement is the same as Classic Thud except that Trolls may 
+
+now move up to 3 spaces in any direction (horizontal, vertical 
+
+or diagonal).
+\\
+Dwarfs may move the Rock instead of moving a dwarf piece. 
+
+It may move only one square in any direction. To be moved 
+
+it must be next to a dwarf and it must also be next to a 
+
+dwarf at the end of its move.
+\\
+A troll captures a dwarf by trampling over it. It moves 
+
+in a straight line from a square next to the dwarf, through 
+
+the square the dwarf is on and lands on the empty square 
+
+immediately beyond. The trampled dwarf is removed from the board.
+\\
+Several captures may be made in one move and a change of direction 
+
+is allowed between captures.
+\\
+Dwarfs capture a troll by moving a dwarf so that the troll is trapped 
+
+between two dwarfs in any straight line (including diagonally). 
+
+The three pieces, two dwarfs and a troll, must all be in line.
+\\
+If the dwarf that has been moved also traps another troll between 
+
+itself and another dwarf, that troll is also captured
+\\
+Captures are only made when the capturing side moves a piece. 
+
+The rock may be moved and come to rest next to three trolls. 
+
+It can only be captured when a troll is moved.")
+   (history "For the 2005 rerelease of Thud, Truran devised a substantially 
+
+different game that could be played with the same board and pieces, 
+
+known as Koom Valley Thud. 
+\\
+Unlike the original release, in which the publishers attempted 
+
+to keep the game rules secret so that anyone wishing to play 
+
+would have to buy the official set, the rules for Koom Valley Thud 
+
+were posted on the official website so that owners of the original 
+
+edition would have access to the new rules.")
+   (strategy "") 
+   (players Dwarfs Trolls)
+   (turn-order Dwarfs Trolls)
+   (kv-game-defs)
+   (piece
+      (name Rock)
+      (image Dwarfs "images\gluk\R.bmp"
+             Trolls "images\gluk\R.bmp" )
+      (description "Rock")
+      (moves
+         (! rock)
+      )
+   )
+   (piece
+      (name Dwarf)
+      (image Dwarfs "images\gluk\d.bmp")
+      (description "Dwarf")
+      (moves
+         (! kv-dwarf)
+      )
+   )
+   (piece
+      (name Troll)
+      (image Trolls "images\gluk\T.bmp")
+      (description "Troll")
+      (moves
+         (move-type capturing-type)
+         (kv-troll-capturing n) (kv-troll-capturing ne)
+         (kv-troll-capturing e) (kv-troll-capturing nw)
+         (kv-troll-capturing s) (kv-troll-capturing se)
+         (kv-troll-capturing w) (kv-troll-capturing sw)
+         (move-type non-capturing-type)
+         (kv-troll n) (kv-troll ne)
+         (kv-troll e) (kv-troll nw)
+         (kv-troll s) (kv-troll se)
+         (kv-troll w) (kv-troll sw)
+      )
+   )
+)
+
+(variant
+   (title "Koom Valley Football")
+   (description "Movement is the same as Classic Thud except that Trolls may 
+
+now move up to 3 spaces in any direction (horizontal, vertical 
+
+or diagonal).
+\\
+Dwarfs may move the Rock instead of moving a dwarf piece. 
+
+To be moved it must be next to a dwarf and it must also 
+
+be next to a dwarf at the end of its move.")
+   (history "It's my variant of Koom Valey Thud")
+   (strategy "") 
+   (players Dwarfs Trolls)
+   (turn-order Dwarfs Trolls)
+   (kv-game-defs)
+   (piece
+      (name Rock)
+      (image Dwarfs "images\gluk\R.bmp"
+             Trolls "images\gluk\R.bmp" )
+      (description "Ball")
+      (moves
+         (! ball)
+      )
+   )
+   (piece
+      (name Dwarf)
+      (image Dwarfs "images\gluk\d.bmp")
+      (description "Dwarf")
+      (moves
+         (shift ne) (shift n)
+         (shift nw) (shift s)
+         (shift se) (shift e)
+         (shift sw) (shift w)
+      )
+   )
+   (piece
+      (name Troll)
+      (image Trolls "images\gluk\T.bmp")
+      (description "Troll")
+      (moves
+         (kvb-troll n) (kvb-troll ne)
+         (kvb-troll e) (kvb-troll nw)
+         (kvb-troll s) (kvb-troll se)
+         (kvb-troll w) (kvb-troll sw)
+      )
+   )
+)
