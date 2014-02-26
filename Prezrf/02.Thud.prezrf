@@ -4,7 +4,7 @@
 
 (version "2.0")
 
-(define! -all-directions (n s w e nw ne sw se))
+(define! -all-directions (n ne e se s sw w nw))
 
 (define board-defs
   (image "images\gluk\Thud.bmp")
@@ -87,37 +87,44 @@
    (draw-condition (Dwarfs Trolls) repetition)
 )
 
+(define! repeat
+    (if-less! 0 $1
+        $2*
+        (! repeat (!! (sum! $1 -1)) $2*)
+    )
+)
+
 (define! troll-n
-  (for! $d ($ -all-directions)
-     ( ($?2
-          mark
-          (for! $- ($2*)
-              (opposite $d) 
-              (verify friend?) 
+  (if-less! 0 $1
+     (for! $d ($ -all-directions)
+        ( (if-less! 1 $1
+             mark
+             (repeat $1
+                 (opposite $d) 
+                 (verify friend?) 
+             )
+             back 
           )
-          back 
-       )
-       (for! $- ($1*)
-          $d
-          (verify empty?) 
-       )
-       ($?2
-          (verify (or
-              (for! $dd ($ -all-directions)
-                  (enemy? $dd)
-              )
-          ) )
-       )
-       (for! $dd ($ -all-directions)
-          (if (enemy?  $dd)
-              (capture $dd)
+          (repeat $1
+             $d
+             (verify empty?) 
           )
-       )
-       add
+          (if-less! 1 $1
+             (verify (or
+                 (for! $dd ($ -all-directions)
+                     (enemy? $dd)
+                 )
+             ) )
+          )
+          (for! $dd ($ -all-directions)
+             (if (enemy?  $dd)
+                 (capture $dd)
+             )
+          )
+          add
+        )
      )
-  )
-  ($?2
-     (! troll-n $2*)
+     (! troll-n (!! (sum! $1 -1)))
   )
 )
 
@@ -133,26 +140,26 @@
 )
 
 (define! dwarf-n
-  (for! $d ($ -all-directions)
-     ( ($?2
-          mark
-          (for! $- ($2*)
-              (opposite $d) 
-              (verify friend?) 
+  (if-less! 0 $1
+      (for! $d ($ -all-directions)
+          ( (if-less! 1 $1
+               mark
+               (repeat (!! (sum! $1 -1))
+                   (opposite $d) 
+                   (verify friend?) 
+               )
+               back
+               (repeat (!! (sum! $1 -1))
+                  $d 
+                  (verify empty?)
+               )
+            ) 
+            $d 
+            (verify enemy?) 
+            add
           )
-          back
-          (for! $- ($2*)
-             $d 
-             (verify empty?)
-          )
-       )
-       $d 
-       (verify enemy?) 
-       add
-     )
-  )
-  ($?2
-     (! dwarf-n $2*)
+      )
+      (! dwarf-n (!! (sum! $1 -1)))
   )
 )
 
@@ -224,89 +231,85 @@
   )
 )
 
-( define check-proximity
+(define! check-proximity
   ( if (on-board? $1)
     ( if (friend? $1)
         ( if (flag? is-second)
             change-owner
           else
-            ( set-flag is-second true )
+            (set-flag is-second true)
         )
     )
   )
 )
 
-( define check-rock-direction
-  ( set-flag is-second false )
-  ( if (on-board? $1)
-    $1
-    ( if (and enemy? (piece? Rock) ) 
-      ( check-proximity $2 )
-      ( check-proximity $3 )
-      ( check-proximity $4 )
-      ( check-proximity $5 )
-      ( check-proximity $6 )
-      ( check-proximity $7 )
-      ( check-proximity $8 )
+(define! check-rock-direction
+  (set-flag is-second false)
+  (if (on-board? (nth! 1 $1))
+    (nth! 1 $1)
+    (if (and enemy? (piece? Rock))
+;       (for! $n (! iterate 7 1)
+;            (if-less! 1 $n
+;                (! check-proximity (nth! (!! $n) $1))
+;                (! check-proximity (nth! 2 $1) )
+;            )
+;       )
+        (! check-proximity (nth! 2 $1) )
+        (! check-proximity (nth! 3 $1) )
+        (! check-proximity (nth! 4 $1) )
+        (! check-proximity (nth! 5 $1) )
+        (! check-proximity (nth! 6 $1) )
+        (! check-proximity (nth! 7 $1) )
+        (! check-proximity (nth! 8 $1) )
     )
-    $5
+    (nth! 5 $1)
   )
 )
 
-( define check-rock
-  ( check-rock-direction n  ne e  se s  sw w  nw)
-  ( check-rock-direction ne e  se s  sw w  nw n)
-  ( check-rock-direction e  se s  sw w  nw n  ne)
-  ( check-rock-direction se s  sw w  nw n  ne e)
-  ( check-rock-direction s  sw w  nw n  ne e  se)
-  ( check-rock-direction sw w  nw n  ne e  se s)
-  ( check-rock-direction w  nw n  ne e  se s  sw)
-  ( check-rock-direction nw n  ne e  se s  sw w)
+(define! check-rock
+  (! check-rock-direction (n  ne e  se s  sw w  nw))
+  (! check-rock-direction (ne e  se s  sw w  nw n))
+  (! check-rock-direction (e  se s  sw w  nw n  ne))
+  (! check-rock-direction (se s  sw w  nw n  ne e))
+  (! check-rock-direction (s  sw w  nw n  ne e  se))
+  (! check-rock-direction (sw w  nw n  ne e  se s))
+  (! check-rock-direction (w  nw n  ne e  se s  sw))
+  (! check-rock-direction (nw n  ne e  se s  sw w))
 )
 
-( define kv-troll 
-  ( $1 
-    (verify empty?) 
-    (check-rock)
-    add
-    $1
-    (verify empty?) 
-    (check-rock)
-    add
-    $1
-    (verify empty?) 
-    (check-rock)
-    add
+(define! kv-troll 
+  (for! $d ($ -all-directions)
+     ( (! repeat 3
+          $d 
+          (verify empty?) 
+          (! check-rock)
+          add
+     ) )
   )
 )
 
-( define kvb-troll 
-  ( $1 
-    (verify empty?) 
-    (verify (on-board? $1) ) 
-    (check-rock)
-    add
-    $1
-    (verify empty?) 
-    (verify (on-board? $1) ) 
-    (check-rock)
-    add
-    $1
-    (verify empty?) 
-    (verify (on-board? $1) ) 
-    (check-rock)
-    add
+(define! kvb-troll 
+  (for! $d ($ -all-directions)
+     ( (! repeat 3
+        $d
+        (verify empty?) 
+        (verify (on-board? $d)) 
+        (! check-rock)
+        add
+     ) )
   )
 )
 
-( define kv-troll-capturing
-  ( $1
-    (verify (piece? Dwarf) )
-    capture
-    $1
-    (verify empty?)
-    (check-rock)
-    (add-partial capturing-type)
+(define! kv-troll-capturing
+  (for! $d ($ -all-directions)
+      ( $d
+        (verify (piece? Dwarf))
+        capture
+        $d
+        (verify empty?)
+        (! check-rock)
+        (add-partial capturing-type)
+      )
   )
 )
 
@@ -408,7 +411,7 @@ getting into shoving lines is regarded as the best tactic")
       (image Dwarfs "images\gluk\d.bmp")
       (description "Dwarf")
       (moves
-         (! dwarf-n 1 2 3 4 5 6 7)
+         (! dwarf-n 7)
          (! shift)
       )
    )
@@ -417,7 +420,7 @@ getting into shoving lines is regarded as the best tactic")
       (image Trolls "images\gluk\T.bmp")
       (description "Troll")
       (moves
-         (! troll-n 1 2 3 4 5 6 7)
+         (! troll-n 7)
       )
    )
 )
@@ -511,15 +514,9 @@ edition would have access to the new rules.")
       (description "Troll")
       (moves
          (move-type capturing-type)
-         (kv-troll-capturing n) (kv-troll-capturing ne)
-         (kv-troll-capturing e) (kv-troll-capturing nw)
-         (kv-troll-capturing s) (kv-troll-capturing se)
-         (kv-troll-capturing w) (kv-troll-capturing sw)
+         (! kv-troll-capturing)
          (move-type non-capturing-type)
-         (kv-troll n) (kv-troll ne)
-         (kv-troll e) (kv-troll nw)
-         (kv-troll s) (kv-troll se)
-         (kv-troll w) (kv-troll sw)
+         (! kv-troll)
       )
    )
 )
@@ -556,10 +553,7 @@ be next to a dwarf at the end of its move.")
       (image Dwarfs "images\gluk\d.bmp")
       (description "Dwarf")
       (moves
-         (shift ne) (shift n)
-         (shift nw) (shift s)
-         (shift se) (shift e)
-         (shift sw) (shift w)
+         (! shift)
       )
    )
    (piece
@@ -567,10 +561,7 @@ be next to a dwarf at the end of its move.")
       (image Trolls "images\gluk\T.bmp")
       (description "Troll")
       (moves
-         (kvb-troll n) (kvb-troll ne)
-         (kvb-troll e) (kvb-troll nw)
-         (kvb-troll s) (kvb-troll se)
-         (kvb-troll w) (kvb-troll sw)
+         (! kvb-troll)
       )
    )
 )
