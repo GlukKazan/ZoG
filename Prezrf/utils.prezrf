@@ -1,0 +1,46 @@
+(define! -included-utils true)
+
+(define! -all-directions (n ne e se s sw w nw))
+
+(define! repeat
+  (if-less! 0 $1
+     ($?2
+        $2*
+     )
+     ($!2
+        $1
+     )
+     (! repeat (!! (sum! $1 -1)) ($?2 $2*))
+  )
+)
+
+(define! range
+  (if-less-or-equal! $1 $2
+    (nth! $1 $3)
+    (! range (!! (sum! $1 1)) $2*)
+  )
+)
+
+(define! rotate
+  (if-less! 0 $1
+     ((splice! ((! range (!! (sum! $1 1)) (!! (length! $2)) $2))
+               ((! range 1 $1 $2))
+     ))
+     (! rotate (!! (sum! $1 -1)) $2)
+  )
+  (if-equal! 0 $1
+     $2
+  )
+)
+
+(define! map
+  ($!3
+    (! map $1 $2 (!! (length! $2)))
+  )
+  ($?3
+     (if-less! 0 $3
+        ($1 (!! (nth! $3 $2)))
+        (! map $1 $2 (!! (sum! $3 -1)))
+     )
+  )
+)

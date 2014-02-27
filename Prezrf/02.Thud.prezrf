@@ -4,7 +4,7 @@
 
 (version "2.0")
 
-(define! -all-directions (n ne e se s sw w nw))
+(if-not-defined! -included-utils (include! "utils.prezrf"))
 
 (define board-defs
   (image "images\gluk\Thud.bmp")
@@ -87,19 +87,12 @@
    (draw-condition (Dwarfs Trolls) repetition)
 )
 
-(define! repeat
-    (if-less! 0 $1
-        $2*
-        (! repeat (!! (sum! $1 -1)) $2*)
-    )
-)
-
 (define! troll-n
   (if-less! 0 $1
      (for! $d ($ -all-directions)
         ( (if-less! 1 $1
              mark
-             (repeat $1
+             (repeat (!! (sum! $1 -1))
                  (opposite $d) 
                  (verify friend?) 
              )
@@ -243,38 +236,36 @@
   )
 )
 
+(define! iterate-direction
+  (if-less! $1 5
+    (! check-proximity (!! (nth! $1 $2)))
+  )
+  (if-less! 5 $1
+    (! check-proximity (!! (nth! $1 $2)))
+  )
+  (if-less! 1 $1
+    (! iterate-direction (!! (sum! $1 -1)) $2)
+  )
+)
+
 (define! check-rock-direction
   (set-flag is-second false)
   (if (on-board? (nth! 1 $1))
     (nth! 1 $1)
     (if (and enemy? (piece? Rock))
-;       (for! $n (! iterate 7 1)
-;            (if-less! 1 $n
-;                (! check-proximity (nth! (!! $n) $1))
-;                (! check-proximity (nth! 2 $1) )
-;            )
-;       )
-        (! check-proximity (nth! 2 $1) )
-        (! check-proximity (nth! 3 $1) )
-        (! check-proximity (nth! 4 $1) )
-        (! check-proximity (nth! 5 $1) )
-        (! check-proximity (nth! 6 $1) )
-        (! check-proximity (nth! 7 $1) )
-        (! check-proximity (nth! 8 $1) )
+        (! iterate-direction 8 $1)
     )
     (nth! 5 $1)
   )
 )
 
 (define! check-rock
-  (! check-rock-direction (n  ne e  se s  sw w  nw))
-  (! check-rock-direction (ne e  se s  sw w  nw n))
-  (! check-rock-direction (e  se s  sw w  nw n  ne))
-  (! check-rock-direction (se s  sw w  nw n  ne e))
-  (! check-rock-direction (s  sw w  nw n  ne e  se))
-  (! check-rock-direction (sw w  nw n  ne e  se s))
-  (! check-rock-direction (w  nw n  ne e  se s  sw))
-  (! check-rock-direction (nw n  ne e  se s  sw w))
+  (! map check-rock-direction
+      (!! ((! rotate
+              (!! (sum! (!! (length! ($ -all-directions)))))
+              ($ -all-directions)
+      )))       
+  )
 )
 
 (define! kv-troll 
