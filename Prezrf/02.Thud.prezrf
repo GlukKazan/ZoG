@@ -89,17 +89,17 @@
 
 (define! troll-n
   (if-less! 0 $1
-     (for! $d ($ -all-directions)
+     (define (concat! troll - $1)
         ( (if-less! 1 $1
              mark
              (repeat (!! (sum! $1 -1))
-                 (opposite $d) 
+                 (opposite (concat! $ 1)) 
                  (verify friend?) 
              )
              back 
           )
           (repeat $1
-             $d
+             (concat! $ 1)
              (verify empty?) 
           )
           (if-less! 1 $1
@@ -121,33 +121,50 @@
   )
 )
 
-(define! shift 
-  (for! $d ($ -all-directions)
-      ( $d
-        ( while empty? 
-          add 
-          $d
+(! troll-n 7)
+
+(define! troll-all
+  (if-less! 0 $1
+     (for! $d ($ -all-directions)
+        ( (concat! troll - $1) $d
         )
-      )
+     )
+     (! troll-all (!! (sum! $1 -1)))
+  )
+)
+
+(define shift 
+  ( $1
+    ( while empty? 
+      add 
+      $1
+    )
+  )
+)
+
+(define! shift-all
+  (for! $d ($ -all-directions)
+     ( shift $d
+     )
   )
 )
 
 (define! dwarf-n
   (if-less! 0 $1
-      (for! $d ($ -all-directions)
+      (define (concat! dwarf - $1)
           ( (if-less! 1 $1
                mark
                (repeat (!! (sum! $1 -1))
-                   (opposite $d) 
+                   (opposite (concat! $ 1)) 
                    (verify friend?) 
                )
                back
                (repeat (!! (sum! $1 -1))
-                  $d 
+                  (concat! $ 1) 
                   (verify empty?)
                )
             ) 
-            $d 
+            (concat! $ 1) 
             (verify enemy?) 
             add
           )
@@ -156,43 +173,65 @@
   )
 )
 
-(define! rock
+(! dwarf-n 7)
+
+(define! dwarf-all
+  (if-less! 0 $1
+     (for! $d ($ -all-directions)
+        ( (concat! dwarf - $1) $d
+        )
+     )
+     (! dwarf-all (!! (sum! $1 -1)))
+  )
+)
+
+(define rock
+  ( (verify (or 
+        (for! $dd ($ -all-directions)
+            (piece? Dwarf $dd)
+        )
+    ) )
+    $1
+    (verify empty?)
+    (verify (or 
+       (for! $dd ($ -all-directions)
+           (piece? Dwarf $dd)
+       )
+    ) )
+    add
+  )
+)
+
+(define! rock-all
   (for! $d ($ -all-directions)
-     ( (verify (or 
-           (for! $dd ($ -all-directions)
-               (piece? Dwarf $dd)
-           )
-       ) )
-       $d
-       (verify empty?)
-       (verify (or 
-          (for! $dd ($ -all-directions)
-              (piece? Dwarf $dd)
-          )
-       ) )
-       add
+     ( rock $d
      )
   )
 )
 
 (define! ball
+  ( (verify (or
+        (for! $dd ($ -all-directions)
+            (piece? Dwarf $dd)
+        )
+    ) )
+    $1
+    ( while empty?
+      (if (or
+              (for! $dd ($ -all-directions)
+                  (piece? Dwarf $dd)
+              )
+          )
+        add
+      ) 
+      $1
+    )
+  )
+)
+
+(define! ball-all
   (for! $d ($ -all-directions)
-     ( (verify (or
-           (for! $dd ($ -all-directions)
-               (piece? Dwarf $dd)
-           )
-       ) )
-       $d
-       ( while empty?
-         (if (or
-                 (for! $dd ($ -all-directions)
-                     (piece? Dwarf $dd)
-                 )
-             )
-           add
-         ) 
-         $d
-       )
+     ( ball $d
      )
   )
 )
@@ -402,8 +441,8 @@ getting into shoving lines is regarded as the best tactic")
       (image Dwarfs "images\gluk\d.bmp")
       (description "Dwarf")
       (moves
-         (! dwarf-n 7)
-         (! shift)
+         (! dwarf-all 7)
+         (! shift-all)
       )
    )
    (piece
@@ -411,7 +450,7 @@ getting into shoving lines is regarded as the best tactic")
       (image Trolls "images\gluk\T.bmp")
       (description "Troll")
       (moves
-         (! troll-n 7)
+         (! troll-all 7)
       )
    )
 )
@@ -488,7 +527,7 @@ edition would have access to the new rules.")
              Trolls "images\gluk\R.bmp" )
       (description "Rock")
       (moves
-         (! rock)
+         (! rock-all)
       )
    )
    (piece
@@ -536,7 +575,7 @@ be next to a dwarf at the end of its move.")
              Trolls "images\gluk\R.bmp" )
       (description "Ball")
       (moves
-         (! ball)
+         (! ball-all)
       )
    )
    (piece
@@ -544,7 +583,7 @@ be next to a dwarf at the end of its move.")
       (image Dwarfs "images\gluk\d.bmp")
       (description "Dwarf")
       (moves
-         (! shift)
+         (! shift-all)
       )
    )
    (piece
