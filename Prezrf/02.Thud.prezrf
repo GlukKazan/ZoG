@@ -209,7 +209,7 @@
   )
 )
 
-(define! ball
+(define ball
   ( (verify (or
         (for! $dd ($ -all-directions)
             (piece? Dwarf $dd)
@@ -236,29 +236,34 @@
   )
 )
 
-(define! check-troll
-  (for! $d ($ -all-directions)
-     (if (enemy? $d)
-       mark
-       $d
-       (if (piece? Dwarf $d) 
-         capture
-       )
-       back
-     )
+(define check-troll
+  (if (enemy? $1)
+    mark
+    $1
+    (if (piece? Dwarf $1) 
+      capture
+    )
+    back
   )
 )
 
-(define! kv-dwarf
-  (for! $d ($ -all-directions)
-     ($d 
-        (while empty? 
-          (if on-board?
-            (! check-troll)
-            add
+(define kv-dwarf
+   ($1
+      (while empty? 
+        (if on-board?
+          (for! $d ($ -all-directions)
+              (check-troll $d)
           )
-          $d
+          add
         )
+        $1
+      )
+   )
+)
+
+(define! kv-dwarf-all
+  (for! $d ($ -all-directions)
+     ( kv-dwarf $d
      )
   )
 )
@@ -298,7 +303,7 @@
   )
 )
 
-(define! check-rock
+(define check-rock
   (! map check-rock-direction
       (!! ((! rotate
               (!! (sum! (!! (length! ($ -all-directions)))))
@@ -307,39 +312,54 @@
   )
 )
 
-(define! kv-troll 
-  (for! $d ($ -all-directions)
-     ( (! repeat 3
-          $d 
-          (verify empty?) 
-          (! check-rock)
-          add
-     ) )
-  )
-)
-
-(define! kvb-troll 
-  (for! $d ($ -all-directions)
-     ( (! repeat 3
-        $d
+(define kv-troll
+   ( (! repeat 3
+        $1 
         (verify empty?) 
-        (verify (on-board? $d)) 
-        (! check-rock)
+        (check-rock)
         add
-     ) )
+   ) )
+)
+
+(define! kv-troll-all
+  (for! $d ($ -all-directions)
+     ( kv-troll $d
+     )
   )
 )
 
-(define! kv-troll-capturing
+(define kvb-troll 
+  ( (! repeat 3
+     $1
+     (verify empty?) 
+     (verify (on-board? $1)) 
+     (check-rock)
+     add
+  ) )
+)
+
+(define! kvb-troll-all
   (for! $d ($ -all-directions)
-      ( $d
-        (verify (piece? Dwarf))
-        capture
-        $d
-        (verify empty?)
-        (! check-rock)
-        (add-partial capturing-type)
-      )
+     ( kvb-troll $d
+     )
+  )
+)
+
+(define kv-troll-capturing
+  ( $1
+    (verify (piece? Dwarf))
+    capture
+    $1
+    (verify empty?)
+    (check-rock)
+    (add-partial capturing-type)
+  )
+)
+
+(define! kv-troll-capturing-all
+  (for! $d ($ -all-directions)
+     ( kv-troll-capturing $d
+     )
   )
 )
 
@@ -535,7 +555,7 @@ edition would have access to the new rules.")
       (image Dwarfs "images\gluk\d.bmp")
       (description "Dwarf")
       (moves
-         (! kv-dwarf)
+         (! kv-dwarf-all)
       )
    )
    (piece
@@ -544,9 +564,9 @@ edition would have access to the new rules.")
       (description "Troll")
       (moves
          (move-type capturing-type)
-         (! kv-troll-capturing)
+         (! kv-troll-capturing-all)
          (move-type non-capturing-type)
-         (! kv-troll)
+         (! kv-troll-all)
       )
    )
 )
@@ -591,7 +611,7 @@ be next to a dwarf at the end of its move.")
       (image Trolls "images\gluk\T.bmp")
       (description "Troll")
       (moves
-         (! kvb-troll)
+         (! kvb-troll-all)
       )
    )
 )
