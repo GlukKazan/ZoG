@@ -1,11 +1,29 @@
-(define add-to-empty ((verify empty?) add))
+(define add-to-empty 
+  ( (verify empty?) 
+    (set-position-flag is-cleaner true)
+    a1
+    (while (not-position? offboard) 
+       (if (piece? Cleaner)
+            capture
+       )
+       next
+    )
+    a1
+    (while (not-position? offboard) 
+       (if (position-flag? is-cleaner)
+            add
+       )
+       next
+    )
+  )
+)
 
 (define common-check
    mark
    (if (on-board? $1)
         $1
-        (while (and (or (position-flag? is-start) empty?) (on-board? $1)) $1)
-        (if enemy?
+        (while (and (or (position-flag? is-start) (or (piece? Cleaner) empty?)) (on-board? $1)) $1)
+        (if (piece? Stone)
              (if (flag? is-first)
                  (set-flag is-second true)
               else
@@ -20,8 +38,8 @@
    mark
    (if (on-board? $1)
         $1
-        (while (and (or (position-flag? is-start) empty?) (on-board? $1)) $1)
-        (if enemy? capture)
+        (while (and (or (position-flag? is-start) (or (piece? Cleaner) empty?)) (on-board? $1)) $1)
+        (if (piece? Stone) capture)
    )
    back
 )
@@ -30,7 +48,7 @@
    mark
    (if (on-board? $1)
         $1
-        (if enemy?
+        (if (piece? Stone)
              (if (flag? is-first)
                  (set-flag is-second true)
               else
@@ -45,67 +63,94 @@
    mark
    (if (on-board? $1)
         $1
-        (if enemy? capture)
+        (if (piece? Stone) capture)
    )
    back
 )
 
-(define queen-slide
+(define slide
    (   (set-position-flag is-start true)
        $1 
        (while empty? 
+           add 
+           $1
+       ) 
+   )
+)
+
+(define clean-queen
+  ( (verify empty?)
+    (set-flag is-succeed false)
+    (set-position-flag is-cleaner true)
+    a1
+    (while (not-position? offboard) 
+       (if (piece? Queen)
+           (set-flag is-first false)
+           (set-flag is-second false)
+           (common-check n)(common-check nw)
+           (common-check s)(common-check ne)
+           (common-check w)(common-check sw)
+           (common-check e)(common-check se)
+           (if (flag? is-second)
+               (set-flag is-succeed true)
+               (common-capture n)(common-capture nw)
+               (common-capture s)(common-capture ne)
+               (common-capture w)(common-capture sw)
+               (common-capture e)(common-capture se)
+           )
+       )
+       next
+    )
+    a1
+    (while (not-position? offboard) 
+       (if (and (flag? is-succeed) (position-flag? is-cleaner))
+            add
+       )
+       next
+    )
+  )
+)
+
+(define clean-rook 
+  ( (verify empty?)
+    (set-flag is-succeed false)
+    (set-position-flag is-cleaner true)
+    a1
+    (while (not-position? offboard) 
+       (if (piece? Rook)
            (set-flag is-first false)
            (set-flag is-second false)
            (common-check n)
            (common-check s)
            (common-check w)
            (common-check e)
-           (common-check nw)
-           (common-check ne)
-           (common-check sw)
-           (common-check se)
            (if (flag? is-second)
+               (set-flag is-succeed true)
                (common-capture n)
                (common-capture s)
                (common-capture w)
                (common-capture e)
-               (common-capture nw)
-               (common-capture ne)
-               (common-capture sw)
-               (common-capture se)
-          )
-          add 
-          $1
-       ) 
-   )
+           )
+       )
+       next
+    )
+    a1
+    (while (not-position? offboard) 
+       (if (and (flag? is-succeed) (position-flag? is-cleaner))
+            add
+       )
+       next
+    )
+  )
 )
 
-(define rook-slide
-   (   (set-position-flag is-start true)
-       $1 
-       (while empty? 
-           (set-flag is-first false)
-           (set-flag is-second false)
-           (common-check n)
-           (common-check s)
-           (common-check w)
-           (common-check e)
-           (if (flag? is-second)
-               (common-capture n)
-               (common-capture s)
-               (common-capture w)
-               (common-capture e)
-          )
-          add 
-          $1
-       ) 
-   )
-)
-
-(define bishop-slide
-   (   (set-position-flag is-start true)
-       $1 
-       (while empty? 
+(define clean-bishop
+  ( (verify empty?)
+    (set-flag is-succeed false)
+    (set-position-flag is-cleaner true)
+    a1
+    (while (not-position? offboard) 
+       (if (piece? Bishop)
            (set-flag is-first false)
            (set-flag is-second false)
            (common-check nw)
@@ -113,50 +158,32 @@
            (common-check sw)
            (common-check se)
            (if (flag? is-second)
+               (set-flag is-succeed true)
                (common-capture nw)
                (common-capture ne)
                (common-capture sw)
                (common-capture se)
-          )
-          add 
-          $1
-       ) 
-   )
+           )
+       )
+       next
+    )
+    a1
+    (while (not-position? offboard) 
+       (if (and (flag? is-succeed) (position-flag? is-cleaner))
+            add
+       )
+       next
+    )
+  )
 )
 
-(define knight-slide
-   (   (set-position-flag is-start true)
-       $1 
-       (while empty? 
-           (set-flag is-first false)
-           (set-flag is-second false)
-           (common-check nnw)
-           (common-check nne)
-           (common-check een)
-           (common-check ees)
-           (common-check ssw)
-           (common-check sse)
-           (common-check wwn)
-           (common-check wws)
-           (if (flag? is-second)
-               (common-capture nnw)
-               (common-capture nne)
-               (common-capture een)
-               (common-capture ees)
-               (common-capture ssw)
-               (common-capture sse)
-               (common-capture wwn)
-               (common-capture wws)
-          )
-          add 
-          $1
-       ) 
-   )
-)
-
-(define knight-move
-   ($1 
-       (if empty? 
+(define clean-knight
+  ( (verify empty?)
+    (set-flag is-succeed false)
+    (set-position-flag is-cleaner true)
+    a1
+    (while (not-position? offboard) 
+       (if (piece? Knight)
            (set-flag is-first false)
            (set-flag is-second false)
            (knight-check nnw)
@@ -168,6 +195,7 @@
            (knight-check wwn)
            (knight-check wws)
            (if (flag? is-second)
+               (set-flag is-succeed true)
                (knight-capture nnw)
                (knight-capture nne)
                (knight-capture een)
@@ -176,9 +204,65 @@
                (knight-capture sse)
                (knight-capture wwn)
                (knight-capture wws)
-          )
+           )
+       )
+       next
+    )
+    a1
+    (while (not-position? offboard) 
+       (if (and (flag? is-succeed) (position-flag? is-cleaner))
+            add
+       )
+       next
+    )
+  )
+)
+
+(define clean-nightrider
+  ( (verify empty?)
+    (set-flag is-succeed false)
+    (set-position-flag is-cleaner true)
+    a1
+    (while (not-position? offboard) 
+       (if (piece? Nightrider)
+           (set-flag is-first false)
+           (set-flag is-second false)
+           (common-check nnw)
+           (common-check nne)
+           (common-check een)
+           (common-check ees)
+           (common-check ssw)
+           (common-check sse)
+           (common-check wwn)
+           (common-check wws)
+           (if (flag? is-second)
+               (set-flag is-succeed true)
+               (common-capture nnw)
+               (common-capture nne)
+               (common-capture een)
+               (common-capture ees)
+               (common-capture ssw)
+               (common-capture sse)
+               (common-capture wwn)
+               (common-capture wws)
+           )
+       )
+       next
+    )
+    a1
+    (while (not-position? offboard) 
+       (if (and (flag? is-succeed) (position-flag? is-cleaner))
+            add
+       )
+       next
+    )
+  )
+)
+
+(define knight-move
+   ($1 
+       (if empty? 
           add 
-          $1
        ) 
    )
 )
@@ -199,6 +283,19 @@
   )
 )
 
+(define Next-Definitions
+      (dummy offboard)
+      (links next (a1 b1) (b1 c1) (c1 d1) (d1 e1) (e1 f1) (f1 g1) (g1 h1) (h1 a2) 
+                  (a2 b2) (b2 c2) (c2 d2) (d2 e2) (e2 f2) (f2 g2) (g2 h2) (h2 a3) 
+                  (a3 b3) (b3 c3) (c3 d3) (d3 e3) (e3 f3) (f3 g3) (g3 h3) (h3 a4) 
+                  (a4 b4) (b4 c4) (c4 d4) (d4 e4) (e4 f4) (f4 g4) (g4 h4) (h4 a5) 
+                  (a5 b5) (b5 c5) (c5 d5) (d5 e5) (e5 f5) (f5 g5) (g5 h5) (h5 a6) 
+                  (a6 b6) (b6 c6) (c6 d6) (d6 e6) (e6 f6) (f6 g6) (g6 h6) (h6 a7) 
+                  (a7 b7) (b7 c7) (c7 d7) (d7 e7) (e7 f7) (f7 g7) (g7 h7) (h7 a8) 
+                  (a8 b8) (b8 c8) (c8 d8) (d8 e8) (e8 f8) (f8 g8) (g8 h8) (h8 offboard)
+      )
+)
+
 (game
     (title  "Queen")
 
@@ -213,11 +310,14 @@
     (click-sound "Audio\Pickup.wav")
     (release-sound "Audio\WoodThunk.wav")
 
-    (players Black ?White)
-    (turn-order ?White ?White ?White ?White ?White ?White ?White ?White Black)
-    (board (Board-Definitions))
+    (players Black ?White ?Clean)
+    (turn-order ?White ?White ?White ?White ?White ?White ?White ?White Black ?Clean ?Clean ?Clean)
+    (board (Board-Definitions) (Next-Definitions))
 
     (board-setup
+       (?Clean
+          (Cleaner off 3)
+       )
        (?White
           (Stone off 8)
        )
@@ -226,34 +326,39 @@
        )
     )
 
-   (piece
+    (piece
       (name Stone)
       (image ?White "images\Chess\SHaag\wpawn.bmp")
       (drops 
-         (move-type drop-type)
          (add-to-empty)
       )
-   )
-   (piece
+    )
+    (piece
+      (name Cleaner)
+      (image ?Clean "images\DarkChess\Invisible.bmp")
+      (drops 
+         (clean-queen)
+      )
+    )
+    (piece
       (name Queen)
       (image Black "images\Chess\SHaag\bqueen.bmp")
       (moves
-         (queen-slide n)
-         (queen-slide e)
-         (queen-slide s)
-         (queen-slide w)
-         (queen-slide ne)
-         (queen-slide nw)
-         (queen-slide se)
-         (queen-slide sw)
+         (slide n)(slide ne)
+         (slide e)(slide nw)
+         (slide s)(slide se)
+         (slide w)(slide sw)
       )
-   )
+    )
 )
 
 (variant
     (title  "Rooks")
 
     (board-setup
+       (?Clean
+          (Cleaner off 3)
+       )
        (?White
           (Stone off 8)
        )
@@ -262,22 +367,32 @@
        )
     )
 
-   (piece
+    (piece
+       (name Cleaner)
+       (image ?Clean "images\DarkChess\Invisible.bmp")
+       (drops 
+          (clean-rook)
+       )
+    )
+    (piece
       (name Rook)
       (image Black "images\Chess\SHaag\brook.bmp")
       (moves
-         (rook-slide n)
-         (rook-slide e)
-         (rook-slide s)
-         (rook-slide w)
+         (slide n)
+         (slide e)
+         (slide s)
+         (slide w)
       )
-   )
+    )
 )
 
 (variant
     (title  "Bishops")
 
     (board-setup
+       (?Clean
+          (Cleaner off 3)
+       )
        (?White
           (Stone off 8)
        )
@@ -286,22 +401,32 @@
        )
     )
 
-   (piece
+    (piece
+       (name Cleaner)
+       (image ?Clean "images\DarkChess\Invisible.bmp")
+       (drops 
+          (clean-bishop)
+       )
+    )
+    (piece
       (name Bishop)
       (image Black "images\Chess\SHaag\bbishop.bmp")
       (moves
-         (bishop-slide nw)
-         (bishop-slide ne)
-         (bishop-slide sw)
-         (bishop-slide se)
+         (slide nw)
+         (slide ne)
+         (slide sw)
+         (slide se)
       )
-   )
+    )
 )
 
 (variant
     (title  "Knights")
 
     (board-setup
+       (?Clean
+          (Cleaner off 1)
+       )
        (?White
           (Stone off 15)
        )
@@ -310,8 +435,15 @@
        )
     )
 
-    (turn-order ?White ?White ?White ?White ?White ?White ?White ?White ?White ?White ?White ?White ?White ?White ?White Black)
+    (turn-order ?White ?White ?White ?White ?White ?White ?White ?White ?White ?White ?White ?White ?White ?White ?White Black ?Clean)
 
+    (piece
+       (name Cleaner)
+       (image ?Clean "images\DarkChess\Invisible.bmp")
+       (drops 
+          (clean-knight)
+       )
+    )
     (piece
       (name Knight)
       (image Black "images\Chess\SHaag\bknight.bmp")
@@ -332,6 +464,9 @@
     (title  "Nightriders")
 
     (board-setup
+       (?Clean
+          (Cleaner off 1)
+       )
        (?White
           (Stone off 8)
        )
@@ -340,18 +475,25 @@
        )
     )
 
-   (piece
+    (piece
+       (name Cleaner)
+       (image ?Clean "images\DarkChess\Invisible.bmp")
+       (drops 
+          (clean-nightrider)
+       )
+    )
+    (piece
       (name Nightrider)
       (image Black "images\Chess\SHaag\bknight.bmp")
       (moves
-         (knight-slide nnw)
-         (knight-slide nne)
-         (knight-slide een)
-         (knight-slide ees)
-         (knight-slide ssw)
-         (knight-slide sse)
-         (knight-slide wwn)
-         (knight-slide wws)
+         (slide nnw)
+         (slide nne)
+         (slide een)
+         (slide ees)
+         (slide ssw)
+         (slide sse)
+         (slide wwn)
+         (slide wws)
       )
-   )
+    )
 )
