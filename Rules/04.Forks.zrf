@@ -1,0 +1,353 @@
+(define add-to-empty ((verify empty?) add))
+
+(define common-check
+   mark
+   (if (on-board? $1)
+        $1
+        (while (and empty? (on-board? $1)) $1)
+        (if enemy?
+             (if (flag? is-first)
+                 (set-flag is-second true)
+              else
+                 (set-flag is-first true)
+             )
+        )
+   )
+   back
+)
+
+(define common-capture
+   mark
+   (if (on-board? $1)
+        $1
+        (while (and empty? (on-board? $1)) $1)
+        (if enemy? capture)
+   )
+   back
+)
+
+(define knight-check
+   mark
+   (if (on-board? $1)
+        $1
+        (if enemy?
+             (if (flag? is-first)
+                 (set-flag is-second true)
+              else
+                 (set-flag is-first true)
+             )
+        )
+   )
+   back
+)
+
+(define knight-capture
+   mark
+   (if (on-board? $1)
+        $1
+        (if enemy? capture)
+   )
+   back
+)
+
+(define queen-slide
+   ($1 
+       (while empty? 
+           (set-flag is-first false)
+           (set-flag is-second false)
+           (common-check n)
+           (common-check s)
+           (common-check w)
+           (common-check e)
+           (common-check nw)
+           (common-check ne)
+           (common-check sw)
+           (common-check se)
+           (if (flag? is-second)
+               (common-capture n)
+               (common-capture s)
+               (common-capture w)
+               (common-capture e)
+               (common-capture nw)
+               (common-capture ne)
+               (common-capture sw)
+               (common-capture se)
+          )
+          add 
+          $1
+       ) 
+   )
+)
+
+(define rook-slide
+   ($1 
+       (while empty? 
+           (set-flag is-first false)
+           (set-flag is-second false)
+           (common-check n)
+           (common-check s)
+           (common-check w)
+           (common-check e)
+           (if (flag? is-second)
+               (common-capture n)
+               (common-capture s)
+               (common-capture w)
+               (common-capture e)
+          )
+          add 
+          $1
+       ) 
+   )
+)
+
+(define bishop-slide
+   ($1 
+       (while empty? 
+           (set-flag is-first false)
+           (set-flag is-second false)
+           (common-check nw)
+           (common-check ne)
+           (common-check sw)
+           (common-check se)
+           (if (flag? is-second)
+               (common-capture nw)
+               (common-capture ne)
+               (common-capture sw)
+               (common-capture se)
+          )
+          add 
+          $1
+       ) 
+   )
+)
+
+(define knight-slide
+   ($1 
+       (while empty? 
+           (set-flag is-first false)
+           (set-flag is-second false)
+           (common-check nnw)
+           (common-check nne)
+           (common-check een)
+           (common-check ees)
+           (common-check ssw)
+           (common-check sse)
+           (common-check wwn)
+           (common-check wws)
+           (if (flag? is-second)
+               (common-capture nnw)
+               (common-capture nne)
+               (common-capture een)
+               (common-capture ees)
+               (common-capture ssw)
+               (common-capture sse)
+               (common-capture wwn)
+               (common-capture wws)
+          )
+          add 
+          $1
+       ) 
+   )
+)
+
+(define knight-move
+   ($1 
+       (if empty? 
+           (set-flag is-first false)
+           (set-flag is-second false)
+           (knight-check nnw)
+           (knight-check nne)
+           (knight-check een)
+           (knight-check ees)
+           (knight-check ssw)
+           (knight-check sse)
+           (knight-check wwn)
+           (knight-check wws)
+           (if (flag? is-second)
+               (knight-capture nnw)
+               (knight-capture nne)
+               (knight-capture een)
+               (knight-capture ees)
+               (knight-capture ssw)
+               (knight-capture sse)
+               (knight-capture wwn)
+               (knight-capture wws)
+          )
+          add 
+          $1
+       ) 
+   )
+)
+
+(define Board-Definitions
+  (image "images\Chess\SHaag\Chess8x8.bmp")
+  (grid
+     (start-rectangle 5 5 53 53)
+     (dimensions
+         ("a/b/c/d/e/f/g/h" (49 0)) ; files
+         ("8/7/6/5/4/3/2/1" (0 49)) ; ranks
+     )
+     (directions (n 0 -1) (e 1 0) (s 0 1) (w -1 0)
+                 (ne 1 -1) (nw -1 -1) (se 1 1) (sw -1 1)
+                 (nnw -1 -2) (nne 1 -2) (een 2 -1) (ees 2 1)
+                 (ssw -1 2) (sse 1 2) (wwn -2 -1) (wws -2 1)
+     )
+  )
+)
+
+(game
+    (title  "Queen")
+
+    (option "prevent flipping" 2)
+    (option "animate captures" false)
+    (option "recycle captures" true)
+    (option "pass turn" 2)
+    (option "show moves list" false)
+
+    (win-sound "Audio\Orchestra_CF.wav")
+    (loss-sound "Audio\Orchestra_FC.wav")
+    (click-sound "Audio\Pickup.wav")
+    (release-sound "Audio\WoodThunk.wav")
+
+    (players Black ?White)
+    (turn-order ?White ?White ?White ?White ?White ?White ?White ?White Black)
+    (board (Board-Definitions))
+
+    (board-setup
+       (?White
+          (Stone off 8)
+       )
+       (Black
+          (Queen e4)
+       )
+    )
+
+   (piece
+      (name Stone)
+      (image ?White "images\Chess\SHaag\wpawn.bmp")
+      (drops 
+         (move-type drop-type)
+         (add-to-empty)
+      )
+   )
+   (piece
+      (name Queen)
+      (image Black "images\Chess\SHaag\bqueen.bmp")
+      (moves
+         (queen-slide n)
+         (queen-slide e)
+         (queen-slide s)
+         (queen-slide w)
+         (queen-slide ne)
+         (queen-slide nw)
+         (queen-slide se)
+         (queen-slide sw)
+      )
+   )
+)
+
+(variant
+    (title  "Rooks")
+
+    (board-setup
+       (?White
+          (Stone off 8)
+       )
+       (Black
+          (Rook c3 f6)
+       )
+    )
+
+   (piece
+      (name Rook)
+      (image Black "images\Chess\SHaag\brook.bmp")
+      (moves
+         (rook-slide n)
+         (rook-slide e)
+         (rook-slide s)
+         (rook-slide w)
+      )
+   )
+)
+
+(variant
+    (title  "Bishops")
+
+    (board-setup
+       (?White
+          (Stone off 8)
+       )
+       (Black
+          (Bishop c3 c6 f3 f6)
+       )
+    )
+
+   (piece
+      (name Bishop)
+      (image Black "images\Chess\SHaag\bbishop.bmp")
+      (moves
+         (bishop-slide nw)
+         (bishop-slide ne)
+         (bishop-slide sw)
+         (bishop-slide se)
+      )
+   )
+)
+
+(variant
+    (title  "Knights")
+
+    (board-setup
+       (?White
+          (Stone off 15)
+       )
+       (Black
+          (Knight b2 b7 g2 g7)
+       )
+    )
+
+    (turn-order ?White ?White ?White ?White ?White ?White ?White ?White ?White ?White ?White ?White ?White ?White ?White Black)
+
+    (piece
+      (name Knight)
+      (image Black "images\Chess\SHaag\bknight.bmp")
+      (moves
+         (knight-move nnw)
+         (knight-move nne)
+         (knight-move een)
+         (knight-move ees)
+         (knight-move ssw)
+         (knight-move sse)
+         (knight-move wwn)
+         (knight-move wws)
+      )
+    )
+)
+
+(variant
+    (title  "Nightriders")
+
+    (board-setup
+       (?White
+          (Stone off 8)
+       )
+       (Black
+          (Nightrider b2 g7)
+       )
+    )
+
+   (piece
+      (name Nightrider)
+      (image Black "images\Chess\SHaag\bknight.bmp")
+      (moves
+         (knight-slide nnw)
+         (knight-slide nne)
+         (knight-slide een)
+         (knight-slide ees)
+         (knight-slide ssw)
+         (knight-slide sse)
+         (knight-slide wwn)
+         (knight-slide wws)
+      )
+   )
+)
