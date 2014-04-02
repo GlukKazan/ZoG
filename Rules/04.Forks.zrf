@@ -4,7 +4,7 @@
    mark
    (if (on-board? $1)
         $1
-        (while (and empty? (on-board? $1)) $1)
+        (while (and (or (position-flag? is-start) empty?) (on-board? $1)) $1)
         (if enemy?
              (if (flag? is-first)
                  (set-flag is-second true)
@@ -20,7 +20,7 @@
    mark
    (if (on-board? $1)
         $1
-        (while (and empty? (on-board? $1)) $1)
+        (while (and (or (position-flag? is-start) empty?) (on-board? $1)) $1)
         (if enemy? capture)
    )
    back
@@ -51,7 +51,8 @@
 )
 
 (define queen-slide
-   ($1 
+   (   (set-position-flag is-start true)
+       $1 
        (while empty? 
            (set-flag is-first false)
            (set-flag is-second false)
@@ -80,7 +81,8 @@
 )
 
 (define rook-slide
-   ($1 
+   (   (set-position-flag is-start true)
+       $1 
        (while empty? 
            (set-flag is-first false)
            (set-flag is-second false)
@@ -101,7 +103,8 @@
 )
 
 (define bishop-slide
-   ($1 
+   (   (set-position-flag is-start true)
+       $1 
        (while empty? 
            (set-flag is-first false)
            (set-flag is-second false)
@@ -122,7 +125,8 @@
 )
 
 (define knight-slide
-   ($1 
+   (   (set-position-flag is-start true)
+       $1 
        (while empty? 
            (set-flag is-first false)
            (set-flag is-second false)
