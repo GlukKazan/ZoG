@@ -101,6 +101,13 @@
   ) 
 )
 
+(define leap-pawn
+  ($1    
+      (verify enemy?)
+      add
+  ) 
+)
+
 (define leap-king   
   ($1    
       (verify (or (and is-protected? enemy?) empty?))
@@ -264,11 +271,11 @@
      )
 )
 
-(define Pawn-add
+(define add-pawn
    (if (in-zone? promotion-zone) (add Knight Bishop Rook Queen) else add)
 )
 
-(define Pawn-move
+(define move-pawn
    (
       n
       (verify empty?)
@@ -280,7 +287,7 @@
           (pawn-capture nw)
           (pawn-capture ne)
       )
-      (Pawn-add)
+      (add-pawn)
       (verify (in-zone? third-rank))
       n
       (verify empty?)
@@ -378,7 +385,7 @@
              Black "images\Chess\SHaag\bpawn.bmp")
       (attribute is-protected? true)
       (moves
-         (Pawn-move)
+         (move-pawn)
       )
    )
 
@@ -467,6 +474,25 @@
 )
 
 (variant
+   (title "Fork Chess Advanced")
+   (description " ")
+   (history " ")
+
+   (piece
+      (name Pawn)
+      (help "Pawn: moves forward, captures diagonally, can promote on 8th row")
+      (image White "images\Chess\SHaag\wpawn.bmp"
+             Black "images\Chess\SHaag\bpawn.bmp")
+      (attribute is-protected? true)
+      (moves
+         (move-pawn)
+         (leap-pawn nw)
+         (leap-pawn ne)
+      )
+   )
+)
+
+(variant
    (title "Crazy Chess")
    (description " ")
    (history " ")
@@ -478,7 +504,7 @@
              Black "images\Chess\SHaag\bpawn.bmp")
       (attribute is-protected? false)
       (moves
-         (Pawn-move)
+         (move-pawn)
       )
    )
 )

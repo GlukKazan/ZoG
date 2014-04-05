@@ -1,3 +1,5 @@
+(version "2.0")
+
 (define add-to-empty 
   ( (verify empty?) 
     (set-position-flag is-cleaner true)
