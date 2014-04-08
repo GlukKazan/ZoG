@@ -311,6 +311,7 @@
     (loss-sound "Audio\Orchestra_FC.wav")
     (click-sound "Audio\Pickup.wav")
     (release-sound "Audio\WoodThunk.wav")
+    (drop-sound "") 
 
     (players Black ?White ?Clean)
     (turn-order ?White ?White ?White ?White ?White ?White ?White ?White Black ?Clean ?Clean ?Clean)
