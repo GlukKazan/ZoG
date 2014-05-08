@@ -1,3 +1,6 @@
+; Русские шахматы
+;;;;;;;;;;;;;;;;;
+
 (def rook-dirs (list n s w e))
 (def bishop-dirs (list nw sw ne se))
 (def knight-dirs (list nnw nne een ees sse ssw wwn wws))

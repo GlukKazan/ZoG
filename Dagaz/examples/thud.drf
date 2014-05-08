@@ -1,3 +1,6 @@
+; Ѕац
+;;;;;;;;;;;;;;
+
 (def all-dirs (list n s w e nw sw ne se))
 
 (def (dwarf-capture X)                   ; define зарезервировано в Scheme (seq формируетс€ автоматически)
