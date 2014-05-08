@@ -1,0 +1,280 @@
+(def rook-dirs (list n s w e))
+(def bishop-dirs (list nw sw ne se))
+(def knight-dirs (list nnw nne een ees sse ssw wwn wws))
+(def pawn-captures (list nw ne))
+(def pawn-sides (list w e))
+(def pawn-types (list Pawn-Rook Pawn-Knight Pawn-Bishop Pawn-Queen Pawn-Helg))
+(def rook-types (list Rook Pawn-Rook Pawn-Helg))
+(def khight-types (list Knight Pawn-Knight Pawn-Queen Pawn-Helg))
+(def bishop-types (list Bishop Pawn-Bishop Pawn-Queen Pawn-Helg))
+
+(def (leap X)
+     X
+;    (check (not (piece? King)))         ; Не можем ставить фигуру на короля (но можем угрожать ему)
+     add                                 ; Добавляем снятую стопку поверх фигуры
+     (set-attribute! never-moved? f Piece)
+     end-move
+)
+
+(def (slide X)
+     (while _ t
+           X
+;          (check (not (piece? King)))
+           save-state
+           add
+           (set-attribute! never-moved? f Piece)
+           end-move
+     )
+)
+
+(def check-promoution
+     (if (in-zone? promotion)
+         (set-attribute! promouted? t Piece)
+     )
+     (set-attribute! never-moved? f Piece)
+     add
+)
+
+(def pawn-move
+     n
+     (check empty?)
+     save-state
+     (set-attribute! jumped? 0 Piece)
+     (check-promoution)
+     end-move
+     restore-state
+     (if (never-moved? Piece)
+         n
+         (check empty?)
+         (set-attribute! jumped? 2 Piece)
+         (set-attribute! never-moved? f Piece)
+         add
+         end-move
+     )
+)
+
+(def (pawn-capture X)
+     X
+     (check (not empty?))
+     (check (not (piece? King)))
+     (set-attribute! never-moved? f Piece)
+     (set-attribute! promouted? f)        ; Снимаем атрибут у пешек нижней части стопки
+     (check-promoution)
+     (set-attribute! never-moved? f)      ; Снимаем атрибут у всех фигур стопки
+     (set-attribute! jumped? 0 Piece)
+     end-move
+)
+
+(def (en-passant X)
+     X
+     (let Target (copy _ 1))
+     (check (jumped? Target))
+     add
+     (set-attribute! jumped? 0)
+     (set-attribute! never-moved? f Piece)
+     capture                             ; Снимаем всю стопку со взятыми фигурами
+     n
+     (check empty?)
+     add
+     end-move
+)
+
+(def (move-common N)
+     (capture _ N)                       ; Снимаем верхнюю часть фигур
+     (if (and (in Piece pawn-types) (not (promouted? Piece)))
+         save-all
+         (pawn-move)
+         restore-all 
+         (for X pawn-captures
+              save-all
+              (pawn-capture X)
+         )
+         (for X pawn-sides
+              save-all
+              (en-passant X)
+         )
+     )
+     (if (and (in Piece rook-types) (promouted? Piece))
+         (for X rook-dirs
+              save-all
+              (slide X)
+         )
+     )
+     (if (and (in Piece khight-types) (promouted? Piece))
+         (for X knight-dirs
+              save-all
+              (leap X)
+         )
+     )
+     (if (and (in Piece bishop-types) (promouted? Piece))
+         (for X bishop-dirs
+              save-all
+              (slide X)
+         )
+     )
+
+
+(def move-all
+     (check (not empty?))
+     (let Piece (copy _ 1))              ; Смотрим на верхнюю фигуру в стопке
+     (check (friend? Piece))             ; Наверху дружественная фигура?
+     (while N (<= size)                  ; size - количество фигур в текущей клетке
+           save-all
+           (move-common N)               ; Если check не выполняется во вложенной процедуре - цикл не прерывается
+     )
+)
+
+(def O-O
+     save-all
+     (check (piece? King))
+     (check never-moved?)
+     (check (not attacked?))
+     capture
+     e
+     (check empty?)
+     (check (not attacked?))
+     e
+     (check empty?)
+     (check (not attacked?))
+     add
+     (set-attribute! never-moved? f)
+     e
+     cascade
+     (check never-moved?)
+     (check (not attacked?))
+     capture
+     w
+     w
+     add
+     (set-attribute! never-moved? f)
+     end-move
+)
+
+(def O-O-O
+     save-all
+     (check (piece? King))
+     (check never-moved?)
+     (check (not attacked?))
+     capture
+     w
+     (check empty?)
+     (check (not attacked?))
+     w
+     (check empty?)
+     (check (not attacked?))
+     w
+     (check empty?)
+     (check (not attacked?))
+     add
+     (set-attribute! never-moved? f)
+     w
+     cascade
+     (check never-moved?)
+     (check (not attacked?))
+     capture
+     e
+     e
+     add
+     (set-attribute! never-moved? f)
+     end-move
+)
+
+(variant tavreli
+   (title "Tavreli")
+
+   (players White Black)
+   (turn-order White Black)
+
+   (board
+        (grid board 
+              (dims "a/b/c/d/e/f/g/h"
+                    "8/7/6/5/4/3/2/1")
+              (dir n    0 -1)
+              (dir s    0  1)
+              (dir e    1  0)
+              (dir w   -1  0)
+              (dir nw  -1 -1)
+              (dir ne   1 -1)
+              (dir sw  -1  1)
+              (dir se   1  1)
+              (dir nnw -1 -2)
+              (dir nne  1 -2)
+              (dir een  2 -1)
+              (dir ees  2  1)
+              (dir sse  1  2)
+              (dir ssw -1  2)
+              (dir wwn -2 -1)
+              (dir wws -2  1)
+        )
+        (dir Black (n s)(s n)(nw sw)(sw nw)(ne se)(se ne))
+        (zone promotion
+              (players White)
+              (positions a8 b8 c8 d8 e8 f8 g8 h8)
+        )
+        (zone promotion
+              (players Black)
+              (positions a1 b1 c1 d1 e1 f1 g1 h1)
+        )
+   )
+
+   (piece Pawn-Rook
+        (attribute never-moved? t)
+        (attribute promouted? f)
+        (attribute jumped? 0)
+        (moves move-all)
+   )
+   (piece Pawn-Knight
+        (attribute never-moved? t)
+        (attribute promouted? f)
+        (attribute jumped? 0)
+        (moves move-all)
+   )
+   (piece Pawn-Bishop
+        (attribute never-moved? t)
+        (attribute promouted? f)
+        (attribute jumped? 0)
+        (moves move-all)
+   )
+   (piece Pawn-Queen
+        (attribute never-moved? t)
+        (attribute promouted? f)
+        (attribute jumped? 0)
+        (moves move-all)
+   )
+   (piece Pawn-Helg
+        (attribute never-moved? t)
+        (attribute promouted? f)
+        (attribute jumped? 0)
+        (moves move-all)
+   )
+   (piece Rook
+        (attribute never-moved? t)
+        (constant promouted? t)
+        (moves move-all)
+   )
+   (piece Knight
+        (constant promouted? t)
+        (moves move-all)
+   )
+   (piece Bishop
+        (constant promouted? t)
+        (moves move-all)
+   )
+   (piece Queen
+        (constant promouted? t)
+        (moves move-all)
+   )
+   (piece King
+        (attribute never-moved? t)
+        (moves move-all O-O O-O-O)
+   )
+   (goals
+        (loss-condition (White Black) (checkmated King))
+        (condition (King) (not attacked?))
+        (condition pawn-types 
+            (if (> jumped? 0)
+                (set-attribute! jumped? (- jumped? 1))
+            )
+        )
+   )
+)

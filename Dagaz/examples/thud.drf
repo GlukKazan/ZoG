@@ -1,0 +1,397 @@
+(def all-dirs (list n s w e nw sw ne se))
+
+(def (dwarf-capture X)                   ; define зарезервировано в Scheme (seq формируется автоматически)
+     (check                              ; короче чем verify
+          (rc .                          ; relative-config (начинаем от текущей клетки)
+               (while C (< 8)            ; повторяем 7 раз (от 1 до 7), испольуя каррированные терминальные проверки (в X захватывается значение максимального индекса)
+                     X                   ; (dir X) двигаемся в направлении X
+                   ; (check on-board?)   ; проверка выхода за пределы доски формируется автоматически
+                     (check friend?)     ; проверяем наличие линейки
+               )
+          )
+     )
+     (while _ (<= C)                     ; повторяем C раз (в том числе 0 раз если цикл не был выполнен ни разу)
+          (opposite X)                   ; двигаемся в противоположном X направлении (должна быть возможность доопределять отношения между направлениями, например на 90 градусов влево)
+        ; (check on-board?)              ; проверка выхода за пределы доски формируется автоматически
+          (if enemy?                     ; если обнаружили вражескую фигуру до того как завершилась линейка
+              capture                    ; удаляем её
+              add                        ; устанавливаем свою фигуру
+              end-move                   ; формируем ход
+              exit                       ; и выполняем досрочное завершение
+          )
+          (check empty?)
+     )
+     (opposite X)
+     (check enemy?)
+     capture                             ; фигуры удаляем явно
+     add                                 ; возвращаем фигуру на доску (в начале хода она снимается с доски)
+     end-move                            ; завершение хода отделено от команды add
+)
+
+(def dwarf-capture-all
+     (check friend?)                     ; ход начинается с клетки на которой расположена своя фигура
+     capture                             ; временно убираем фигуру с поля (результат первого вызова сохраняется для использования в add)
+     (for X all-dirs                     ; перебираем все направления
+          save-all
+          (dwarf-capture X)
+;         restore-all                    ; формируется автоматически при завершении итерации цикла или выходе из процедуры
+     )
+)
+
+(def (dwarf-move X)                      ; обычный ход (установить пониженный вес)
+     (while _ t                          ; бесконечный цикл
+           X                             ; двигаемся в выбранном направлении
+         ; (check on-board?)             ; проверка выхода за пределы доски формируется автоматически
+           (check empty?)                ; ходить можно только на пустое поле
+           save-state                    ; сохраняем состояние (в том числе текущую клетку и расположение фигур на доске)
+           add                           ; возвращаем фигуру на доску (в начале хода она снимается с доски)
+           end-move                      ; завершение (варианта) хода отделено от команды add
+     )
+)
+
+(def dwarf-move-all
+     (check friend?)
+     capture
+     (for X all-dirs
+          save-all
+          (dwarf-move X)
+     )
+)
+
+(def (troll-move X)
+     (check
+          (rc .
+               (while C (< 8)
+                     X
+                     (check friend?)
+               )
+          )
+     )
+     (while _ (<= (+ C 1))               ; повторяем C + 1 раз (при нарушении внутренней проверки, выполнение цикла прерывается)
+          (opposite X)                   ; двигаемся в противоположном Y направлении (должна быть возможность доопределять отношения между направлениями, например на 90 градусов влево)
+          (check empty?)                 ; поле должно быть пустым
+          (check                         ; проверяем наличие вражеских фигур на соседних клетках
+               (for Y all-dirs           ; возвращает количество выполненных итераций (ненулевое значение приравнивается к истине)
+                    Y                    ; двигаемся в выбранном направлении
+                    (check enemy?)       ; прерванная итерация цикла не учитывается (при нарушении проверки, происходит переход к следующей итерации)
+               )             
+          )
+          save-state
+          (for Y all-dirs                ; удаляем все вражеские фигуры на соседних клетках
+               save-position
+               Y
+               (if enemy?
+                   capture
+               )
+          )
+          add                            ; возвращаем фигуру на доску (в начале хода она снимается с доски)
+          end-move                       ; завершение (варианта) хода отделено от команды add
+     )
+)
+
+(def troll-move-all
+     (check friend?)
+     capture
+     (for X all-dirs
+          save-all
+          (troll-move X)
+     )
+)
+
+(def (check-rock X)
+     (check
+          (rc .
+              (for Y (- all-dirs X)
+                   save-position
+                   Y
+                   (check (piece? Dwarf))
+              )
+          )
+     )
+)
+
+(variant thud
+   (title "Thud")
+   (default)
+   (group 1)
+   (players Dwarfs Trolls)
+   (turn-order Dwarfs Trolls)
+   (board
+        (grid board 
+              (dims "a/b/c/d/e/f/g/h/i/j/k/l/m/n/o"
+                    "15/14/13/12/11/10/9/8/7/6/5/4/3/2/1")
+              (dir n   0 -1)
+              (dir s   0  1)
+              (dir e   1  0)
+              (dir w  -1  0)
+              (dir nw -1 -1)
+              (dir ne  1 -1)
+              (dir sw -1  1)
+              (dir se  1  1)
+        )
+        (kills a15 b15 c15 d15 e15    k15 l15 m15 n15 o15
+               a14 b14 c14 d14            l14 m14 n14 o14
+               a13 b13 c13                    m13 n13 o13 
+               a12 b12                            n12 o12
+               a11                                    o11
+                                   h8
+               a5                                     o5
+               a4  b4                             n4  o4
+               a3  b3  c3                     m3  n3  o3
+               a2  b2  c2  d2             l2  m2  n2  o2
+               a1  b1  c1  d1  e1     k1  l1  m1  n1  o1 )
+        (dir opposite (n s) (s n) (w e) (e w) (nw se) (sw ne) (ne sw) (se nw))
+   )
+   (setup
+        (Dwarfs (Dwarf f1  g1  i1  j1  e2  k2  d3  l3  c4  m4  b5 
+                       n5  a6  o6  a7  o7  a9  o9  a10 o10 b11 n11
+                       c12 m12 d13 l13 e14 k14 f15 g15 i15 j15) )
+        (Trolls (Troll g7  h7  i7  g8  i8  g9  h9  i9) )
+   )
+   (piece Dwarf
+        (moves dwarf-capture-all dwarf-move-all)
+   )
+   (piece Troll
+        (moves troll-move-all)
+   )
+   (goals
+        (loss-condition (Dwarfs Trolls) stalemated)
+        (draw-condition (Dwarfs Trolls) repetition)
+   )
+)
+
+(def (kv-rock X)
+     (check-rock X)
+     X
+     (check-rock (opposite X))
+     add
+     end-move
+)
+
+(def kv-rock-all
+     (check (piece? Rock))
+     capture
+     (for X all-dirs
+          save-all
+          (kv-rock X)
+     )
+)
+
+(def (kv-dwarf-capture X)
+     (while _ t
+           X
+           (check empty?)
+           save-state
+           add
+           (for Y (- all-dirs (opposite X))
+                save-position
+                Y
+                (check enemy?)
+                capture
+                Y
+                (check friend?)
+           )
+           end-move
+     )
+)
+
+(def kv-dwarf-capture-all
+     (check friend?)
+     capture
+     (for X all-dirs
+           save-all
+           (kv-dwarf-capture X)
+     )
+)
+
+(def check-troll-win
+     (check (piece? Rock))
+     (if (<= 3
+            (for X all-dirs
+                 save-position
+                 X
+                 (check friend?)
+            )
+         )
+         (change-owner Trolls)
+     )
+)
+
+(def (kv-troll-move X)
+     (while _ (<= 3)
+           X
+           (check empty?)
+           save-state
+           add
+           (for Y (- all-dirs (opposite X))
+                save-position
+                Y
+                (check-troll-win)
+           )
+           end-move
+     )
+)
+
+(def kv-troll-move-all
+     (check friend?)
+     capture
+     (for X all-dirs
+          save-all
+          (kv-troll-move X)
+     )
+)
+
+(def (kv-troll-capture X)
+     X
+     (check enemy?)
+     capture
+     X
+     (check empty?)
+     add
+     (for Y (- all-dirs (opposite X))
+          save-position
+          Y
+          (check-troll-win)
+     )
+     (end-move-part -with-capture)
+)
+
+(def kv-troll-capture-all
+     (check friend?)
+     capture
+     (for X all-dirs
+          save-all
+          (kv-troll-capture X)
+     )
+)
+
+(variant kv
+   (title "Koom Valley Thud")
+   (group 1)
+   (inherits thud)
+   (board
+        (kills a15 b15 c15 d15 e15    k15 l15 m15 n15 o15
+               a14 b14 c14 d14            l14 m14 n14 o14
+               a13 b13 c13                    m13 n13 o13 
+               a12 b12                            n12 o12
+               a11                                    o11
+               a5                                     o5
+               a4  b4                             n4  o4
+               a3  b3  c3                     m3  n3  o3
+               a2  b2  c2  d2             l2  m2  n2  o2
+               a1  b1  c1  d1  e1     k1  l1  m1  n1  o1 )
+        (zone goals 
+              (players Dwarfs) 
+              (positions f15 g15 h15 i15 j15)
+        )
+   )
+   (setup
+      (Dwarfs (Dwarf a6 b5 c4 d3 e2 f1 g1 h1 i1 j1 k2 l3 m4 n5 o6 h7) 
+              (Rock h8))
+      (Trolls (Troll e13 f13 f14 h14 h13 j14 j13 k13) )
+   )
+   (piece Rock
+        (moves kv-rock-all)
+   )
+   (piece Dwarf
+        (moves kv-dwarf-capture-all)
+   )
+   (piece Troll
+        (moves
+             -with-capture
+             kv-troll-capture-all
+             -without-capture
+             kv-troll-move-all
+        )
+   )
+   (goals
+        (win-condition  (Dwarfs) (ac Rock (goals)))
+        (loss-condition (Dwarfs) (pieces-remaining 0 Rock))
+        (loss-condition (Dwarfs Trolls) stalemated)
+        (draw-condition (Dwarfs Trolls) repetition)
+   )
+)
+
+(def (kvb-rock X)
+     (check-rock X)
+     (while _ t
+           X
+           (check empty?)
+           save-state
+           (if (check-rock (opposite X)) ; при нормальном выходе возвращается t иначе f
+               add
+               end-move
+           )
+     )
+)
+
+(def kvb-rock-all
+     (check (piece? Rock))
+     capture
+     (for X all-dirs
+          save-all
+          (kvb-rock X)
+     )
+)
+
+(def (kvb-dwarf-move X)
+     (while _ t
+           X
+           (check empty?)
+           save-state
+           add
+           end-move
+     )
+)
+
+(def kvb-dwarf-move-all
+     (check friend?)
+     capture
+     (for X all-dirs
+          save-all
+          (kvb-dwarf-move X)
+     )
+)
+
+(def (kvb-troll-move X)
+     (while _ (<= 3)
+           X
+           (check empty?)
+           save-position
+           X
+           (check on-board?)
+           restore-position
+           save-state
+           add
+           (for Y (- all-dirs (opposite X))
+                save-position
+                Y
+                (check-troll-win)
+           )
+           end-move
+     )
+)
+
+(def kvb-troll-move-all
+     (check friend?)
+     capture
+     (for X all-dirs
+          save-all
+          (kvb-troll-move X)
+     )
+)
+
+(variant kvb
+   (title "Koom Valley Football")
+   (group 2)
+   (inherits kv)
+   (piece Rock
+        (moves kvb-rock-all)
+   )
+   (piece Dwarf
+        (moves kvb-dwarf-move-all)
+   )
+   (piece Troll
+        (moves kvb-troll-move-all)
+   )
+)
