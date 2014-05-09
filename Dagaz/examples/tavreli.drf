@@ -70,7 +70,7 @@
 
 (def (en-passant X)
      X
-     (let Target (copy _ 1))
+     (let Target (copy 1))
      (check (jumped? Target))
      add
      (set-attribute! jumped? 0)
@@ -83,7 +83,7 @@
 )
 
 (def (move-common N)
-     (capture _ N)                       ; Снимаем верхнюю часть фигур
+     (capture N)                         ; Снимаем верхнюю часть фигур
      (if (and (in Piece pawn-types) (not (promouted? Piece)))
          save-all
          (pawn-move)
@@ -119,9 +119,9 @@
 
 (def move-all
      (check (not empty?))
-     (let Piece (copy _ 1))              ; Смотрим на верхнюю фигуру в стопке
+     (let Piece (copy 1))                ; Смотрим на верхнюю фигуру в стопке
      (check (friend? Piece))             ; Наверху дружественная фигура?
-     (while N (<= size)                  ; size - количество фигур в текущей клетке
+     (while N (<= -size)                 ; size - количество фигур в текущей клетке
            save-all
            (move-common N)               ; Если check не выполняется во вложенной процедуре - цикл не прерывается
      )
@@ -182,7 +182,7 @@
      end-move
 )
 
-(variant tavreli
+(variant
    (title "Tavreli")
 
    (players White Black)
@@ -271,10 +271,36 @@
         (attribute never-moved? t)
         (moves move-all O-O O-O-O)
    )
+   (setup
+      (White
+         (Pawn-Rook a2 h2)
+         (Pawn-Knight b2 g2)
+         (Pawn-Bishop c2 f2)
+         (Pawn-Queen d2)
+         (Pawn-Helg e2)
+         (Knight b1 g1)
+         (Bishop c1 f1)
+         (Rook a1 h1)
+         (Queen d1)
+         (King e1)
+      )
+      (Black
+         (Pawn-Rook a7 h7)
+         (Pawn-Knight b7 g7)
+         (Pawn-Bishop c7 f7)
+         (Pawn-Queen d7)
+         (Pawn-Helg e7)
+         (Knight b8 g8)
+         (Bishop c8 f8)
+         (Rook a8 h8)
+         (Queen d8)
+         (King e8)
+      )
+   )
    (goals
-        (loss-condition (White Black) (checkmated King))
-        (condition (King) (not attacked?))
-        (condition pawn-types 
+        (loss-condition (White Black) (King) -checkmated)
+        (turn-condition (King) (= (-sum attacked?) 0))
+        (turn-condition pawn-types 
             (if (> jumped? 0)
                 (set-attribute! jumped? (- jumped? 1))
             )

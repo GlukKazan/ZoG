@@ -113,7 +113,7 @@
      )
 )
 
-(variant thud
+(variant
    (title "Thud")
    (default)
    (group 1)
@@ -145,21 +145,21 @@
                a1  b1  c1  d1  e1     k1  l1  m1  n1  o1 )
         (dir opposite (n s) (s n) (w e) (e w) (nw se) (sw ne) (ne sw) (se nw))
    )
-   (setup
-        (Dwarfs (Dwarf f1  g1  i1  j1  e2  k2  d3  l3  c4  m4  b5 
-                       n5  a6  o6  a7  o7  a9  o9  a10 o10 b11 n11
-                       c12 m12 d13 l13 e14 k14 f15 g15 i15 j15) )
-        (Trolls (Troll g7  h7  i7  g8  i8  g9  h9  i9) )
-   )
    (piece Dwarf
         (moves dwarf-capture-all dwarf-move-all)
    )
    (piece Troll
         (moves troll-move-all)
    )
+   (setup
+        (Dwarfs (Dwarf f1  g1  i1  j1  e2  k2  d3  l3  c4  m4  b5 
+                       n5  a6  o6  a7  o7  a9  o9  a10 o10 b11 n11
+                       c12 m12 d13 l13 e14 k14 f15 g15 i15 j15) )
+        (Trolls (Troll g7  h7  i7  g8  i8  g9  h9  i9) )
+   )
    (goals
-        (loss-condition (Dwarfs Trolls) stalemated)
-        (draw-condition (Dwarfs Trolls) repetition)
+        (loss-condition (Dwarfs Trolls) -stalemated)
+        (draw-condition (Dwarfs Trolls) -repetition)
    )
 )
 
@@ -268,7 +268,7 @@
      )
 )
 
-(variant kv
+(variant
    (title "Koom Valley Thud")
    (group 1)
    (inherits thud)
@@ -288,11 +288,6 @@
               (positions f15 g15 h15 i15 j15)
         )
    )
-   (setup
-      (Dwarfs (Dwarf a6 b5 c4 d3 e2 f1 g1 h1 i1 j1 k2 l3 m4 n5 o6 h7) 
-              (Rock h8))
-      (Trolls (Troll e13 f13 f14 h14 h13 j14 j13 k13) )
-   )
    (piece Rock
         (moves kv-rock-all)
    )
@@ -307,11 +302,16 @@
              kv-troll-move-all
         )
    )
+   (setup
+      (Dwarfs (Dwarf a6 b5 c4 d3 e2 f1 g1 h1 i1 j1 k2 l3 m4 n5 o6 h7) 
+              (Rock h8))
+      (Trolls (Troll e13 f13 f14 h14 h13 j14 j13 k13) )
+   )
    (goals
-        (win-condition  (Dwarfs) (ac Rock (goals)))
-        (loss-condition (Dwarfs) (pieces-remaining 0 Rock))
-        (loss-condition (Dwarfs Trolls) stalemated)
-        (draw-condition (Dwarfs Trolls) repetition)
+        (win-condition  (Dwarfs) (Rock) (-in-zone goals))
+        (loss-condition (Dwarfs) (Rock) (= -sum 0))
+        (loss-condition (Dwarfs Trolls) -stalemated)
+        (draw-condition (Dwarfs Trolls) -repetition)
    )
 )
 
@@ -384,7 +384,7 @@
      )
 )
 
-(variant kvb
+(variant
    (title "Koom Valley Football")
    (group 2)
    (inherits kv)
@@ -396,5 +396,10 @@
    )
    (piece Troll
         (moves kvb-troll-move-all)
+   )
+   (goals
+        (win-condition  (Dwarfs) (Rock) (-in-zone goals))
+        (loss-condition (Dwarfs Trolls) -stalemated)
+        (draw-condition (Dwarfs Trolls) -repetition)
    )
 )

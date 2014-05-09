@@ -1,0 +1,76 @@
+; Ритмомахия
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; http://www-cs.canisius.edu/~salley/SCA/Games/rithmomachy.html
+; http://www.boardspace.net/rithmomachy/english/rules.html
+
+(def move-all                            ; Дублирующие сгенерированные ходы отсекать на уровне ядра
+     (while N (<= -size)
+           save-state
+           (capture (- N 1))             ; Попытка снять 0 фигур игнорируется 
+           (let Piece (copy 1))          ; Получаем фигуру, определяющую тип хода
+           restore-state
+           save-all
+           capture                       ; Снимаем всю стопку
+           (if (eq? Piece Circle)
+               (move-circle-all)
+           )
+           (if (eq? Piece Triangle)
+               (move-triangle-all)
+           )
+           (if (eq? Piece Square)
+               (move-square-all)
+           )
+     )
+)
+
+(variant
+   (title "Rithmomachy")
+
+   (players Black White)
+   (turn-order Black White)
+
+   (board
+        (grid board 
+              (dims "a/b/c/d/e/f/g/h"
+                    "16/15/14/13/12/11/10/9/8/7/6/5/4/3/2/1")
+              (dir n    0 -1)
+              (dir s    0  1)
+              (dir e    1  0)
+              (dir w   -1  0)
+              (dir nw  -1 -1)
+              (dir ne   1 -1)
+              (dir sw  -1  1)
+              (dir se   1  1)
+        )
+   )
+   (piece Circle
+        (attribute v)
+        (moves move-all)
+   )
+   (piece Triagle
+        (attribute v)
+        (moves move-all)
+   )
+   (piece Square
+        (attribute v)
+        (moves move-all)
+   )
+   (setup
+      (White
+         (Square (v 15) a4 (v 25) a3 g4 (v 36) g4 (v 45) b4 (v 81) b3 (v 153) h4 (v 169) g3 (v 289) h3)
+         (Triagle (v 6) b5 (v 9) a5 g4 (v 16) g4 (v 20) d4 (v 25) c4 (v 42) e4 (v 49) f4 (v 72) g5 (v 81) h5)
+         (Circle (v 1) g4 (v 2) c6 (v 4) d6 c5 g4 (v 6) e6 (v 8) f6 (v 16) d5 (v 36) e5 (v 64) f5)
+      )
+      (Black
+         (Square (v 28) h13 (v 49) h14 a13 (v 64) a13 (v 66) g13 (v 120) b13 (v 121) g14 (v 225) b14 (v 361) a14)
+         (Triagle (v12) g12 (v 16) h12 (v25) a13 (v 30) e13 (v 36) f13 a13 (v 56) d13 (v 64) c13 (v 90) b12 (v 100) a12)
+         (Circle (v 1) a13 (v 3) f11 (v 5) e11 (v 7) d11 (v 9) f12 c11 (v 25) e12 (v 49) d12 (v 81) c12)
+      )
+   )
+   (goals
+        (loss-condition (White Black) (< -sum 14))
+        (loss-condition (White) (< (-sum (-get v)) 328))
+        (loss-condition (Black) (< (-sum (-get v)) 429))
+        (turn-condition _ (check-captures)) ; use -all-pices (system list)
+   )
+)
