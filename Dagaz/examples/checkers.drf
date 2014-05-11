@@ -1,0 +1,12 @@
+(variant
+   (title "—тавропольские шашки")
+
+   (goals
+       (attribute max-captures 0)        ; ќбнул€етс€ перед вычислением списка возможных ходов
+       (turn-condition                   ; »спользуетс€ нарушаемый инвариант (повторна€ проверка ранее отобранного хода производитс€ при измененеии значени€ атрибута)
+             (let cnt-captures (sum -all-captured))
+             (check (>= cnt-captures max-captures))
+             (set-attribute! max-captures cnt-captures)
+       )
+   )
+)

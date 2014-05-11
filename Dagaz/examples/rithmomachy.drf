@@ -44,16 +44,13 @@
         )
    )
    (piece Circle
-        (attribute v)
-        (moves move-all)
+        (constant v)                     ; Ќе проинициализированна€ константа
    )
    (piece Triagle
-        (attribute v)
-        (moves move-all)
+        (constant v)
    )
    (piece Square
-        (attribute v)
-        (moves move-all)
+        (constant v)
    )
    (setup
       (White
@@ -67,10 +64,11 @@
          (Circle (v 1) a13 (v 3) f11 (v 5) e11 (v 7) d11 (v 9) f12 c11 (v 25) e12 (v 49) d12 (v 81) c12)
       )
    )
+   (moves move-all)
    (goals
-        (loss-condition (White Black) (< -sum 14))
-        (loss-condition (White) (< (-sum (-get v)) 328))
-        (loss-condition (Black) (< (-sum (-get v)) 429))
-        (turn-condition _ (check-captures)) ; use -all-pices (system list)
+        (loss-condition (White Black) (< (sum -all-pices) 14))
+        (loss-condition (White) (< (sum -all-pices (get v)) 328))
+        (loss-condition (Black) (< (sum -all-pices (get v)) 429))
+        (turn-condition _ check-captures)
    )
 )

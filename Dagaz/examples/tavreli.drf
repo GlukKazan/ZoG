@@ -224,52 +224,42 @@
         (attribute never-moved? t)
         (attribute promouted? f)
         (attribute jumped? 0)
-        (moves move-all)
    )
    (piece Pawn-Knight
         (attribute never-moved? t)
         (attribute promouted? f)
         (attribute jumped? 0)
-        (moves move-all)
    )
    (piece Pawn-Bishop
         (attribute never-moved? t)
         (attribute promouted? f)
         (attribute jumped? 0)
-        (moves move-all)
    )
    (piece Pawn-Queen
         (attribute never-moved? t)
         (attribute promouted? f)
         (attribute jumped? 0)
-        (moves move-all)
    )
    (piece Pawn-Helg
         (attribute never-moved? t)
         (attribute promouted? f)
         (attribute jumped? 0)
-        (moves move-all)
    )
    (piece Rook
         (attribute never-moved? t)
         (constant promouted? t)
-        (moves move-all)
    )
    (piece Knight
         (constant promouted? t)
-        (moves move-all)
    )
    (piece Bishop
         (constant promouted? t)
-        (moves move-all)
    )
    (piece Queen
         (constant promouted? t)
-        (moves move-all)
    )
    (piece King
         (attribute never-moved? t)
-        (moves move-all O-O O-O-O)
    )
    (setup
       (White
@@ -297,9 +287,10 @@
          (King e8)
       )
    )
+   (moves move-all O-O O-O-O)
    (goals
-        (loss-condition (White Black) (King) -checkmated)
-        (turn-condition (King) (= (-sum attacked?) 0))
+        (loss-condition (White Black) (King) checkmated)
+        (turn-condition (King) (= (sum -pices attacked?) 0))
         (turn-condition pawn-types 
             (if (> jumped? 0)
                 (set-attribute! jumped? (- jumped? 1))

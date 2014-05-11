@@ -33,6 +33,7 @@
 
 (def dwarf-capture-all
      (check friend?)                     ; ход начинается с клетки на которой расположена своя фигура
+     (check (piece? Dwarf))
      capture                             ; временно убираем фигуру с поля (результат первого вызова сохраняется для использования в add)
      (for X all-dirs                     ; перебираем все направления
           save-all
@@ -54,6 +55,7 @@
 
 (def dwarf-move-all
      (check friend?)
+     (check (piece? Dwarf))
      capture
      (for X all-dirs
           save-all
@@ -94,6 +96,7 @@
 
 (def troll-move-all
      (check friend?)
+     (check (piece? Troll))
      capture
      (for X all-dirs
           save-all
@@ -145,21 +148,18 @@
                a1  b1  c1  d1  e1     k1  l1  m1  n1  o1 )
         (dir opposite (n s) (s n) (w e) (e w) (nw se) (sw ne) (ne sw) (se nw))
    )
-   (piece Dwarf
-        (moves dwarf-capture-all dwarf-move-all)
-   )
-   (piece Troll
-        (moves troll-move-all)
-   )
+   (piece Dwarf)
+   (piece Troll)
    (setup
         (Dwarfs (Dwarf f1  g1  i1  j1  e2  k2  d3  l3  c4  m4  b5 
                        n5  a6  o6  a7  o7  a9  o9  a10 o10 b11 n11
                        c12 m12 d13 l13 e14 k14 f15 g15 i15 j15) )
         (Trolls (Troll g7  h7  i7  g8  i8  g9  h9  i9) )
    )
+   (moves dwarf-capture-all dwarf-move-all troll-move-all)
    (goals
-        (loss-condition (Dwarfs Trolls) -stalemated)
-        (draw-condition (Dwarfs Trolls) -repetition)
+        (loss-condition (Dwarfs Trolls) stalemated)
+        (draw-condition (Dwarfs Trolls) repetition)
    )
 )
 
@@ -200,6 +200,7 @@
 
 (def kv-dwarf-capture-all
      (check friend?)
+     (check (piece? Dwarf))
      capture
      (for X all-dirs
            save-all
@@ -237,6 +238,7 @@
 
 (def kv-troll-move-all
      (check friend?)
+     (check (piece? Troll))
      capture
      (for X all-dirs
           save-all
@@ -256,11 +258,12 @@
           Y
           (check-troll-win)
      )
-     (end-move-part -with-capture)
+     (end-move-part -with-capture)       ; (save-all end-move restore-all (end-move-part-strict -with-capture))
 )
 
 (def kv-troll-capture-all
      (check friend?)
+     (check (piece? Troll))
      capture
      (for X all-dirs
           save-all
@@ -288,30 +291,26 @@
               (positions f15 g15 h15 i15 j15)
         )
    )
-   (piece Rock
-        (moves kv-rock-all)
-   )
-   (piece Dwarf
-        (moves kv-dwarf-capture-all)
-   )
-   (piece Troll
-        (moves
-             -with-capture
-             kv-troll-capture-all
-             -without-capture
-             kv-troll-move-all
-        )
-   )
+   (piece Rock)
+   (piece Dwarf)
+   (piece Troll)
    (setup
       (Dwarfs (Dwarf a6 b5 c4 d3 e2 f1 g1 h1 i1 j1 k2 l3 m4 n5 o6 h7) 
               (Rock h8))
       (Trolls (Troll e13 f13 f14 h14 h13 j14 j13 k13) )
    )
+   (moves 
+        kv-rock-all 
+        kv-dwarf-capture-all
+        kv-troll-move-all
+        -with-capture
+        kv-troll-capture-all
+   )
    (goals
-        (win-condition  (Dwarfs) (Rock) (-in-zone goals))
-        (loss-condition (Dwarfs) (Rock) (= -sum 0))
-        (loss-condition (Dwarfs Trolls) -stalemated)
-        (draw-condition (Dwarfs Trolls) -repetition)
+        (win-condition  (Dwarfs) (Rock) (= (sum -pices (in-zone goals)) 1))
+        (loss-condition (Dwarfs) (Rock) (= (sum -pices) 0))
+        (loss-condition (Dwarfs Trolls) stalemated)
+        (draw-condition (Dwarfs Trolls) repetition)
    )
 )
 
@@ -349,6 +348,7 @@
 
 (def kvb-dwarf-move-all
      (check friend?)
+     (check (piece? Dwarf))
      capture
      (for X all-dirs
           save-all
@@ -377,6 +377,7 @@
 
 (def kvb-troll-move-all
      (check friend?)
+     (check (piece? Troll))
      capture
      (for X all-dirs
           save-all
@@ -388,18 +389,13 @@
    (title "Koom Valley Football")
    (group 2)
    (inherits kv)
-   (piece Rock
-        (moves kvb-rock-all)
-   )
-   (piece Dwarf
-        (moves kvb-dwarf-move-all)
-   )
-   (piece Troll
-        (moves kvb-troll-move-all)
-   )
+   (piece Rock)
+   (piece Dwarf)
+   (piece Troll)
+   (moves kvb-rock-all kvb-dwarf-move-all kvb-troll-move-all)
    (goals
-        (win-condition  (Dwarfs) (Rock) (-in-zone goals))
-        (loss-condition (Dwarfs Trolls) -stalemated)
-        (draw-condition (Dwarfs Trolls) -repetition)
+        (win-condition  (Dwarfs) (Rock) (= (sum -pices (in-zone goals)) 1))
+        (loss-condition (Dwarfs Trolls) stalemated)
+        (draw-condition (Dwarfs Trolls) repetition)
    )
 )
