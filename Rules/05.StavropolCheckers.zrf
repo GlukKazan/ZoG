@@ -78,19 +78,6 @@
     )
 )
 
-(define next-links-8x8
-      (dummy offboard)
-      (links next  (a1 c1) (c1 e1) (e1 g1) (g1 b2)
-                   (b2 d2) (d2 f2) (f2 h2) (h2 a3)
-                   (a3 c3) (c3 e3) (e3 g3) (g3 b4)
-                   (b4 d4) (d4 f4) (f4 h4) (h4 a5)
-                   (a5 c5) (c5 e5) (e5 g5) (g5 b6)
-                   (b6 d6) (d6 f6) (f6 h6) (h6 a7)
-                   (a7 c7) (c7 e7) (e7 g7) (g7 b8)
-                   (b8 d8) (d8 f8) (f8 h8) (h8 offboard)
-      )
-)
-
 (game
    (title "Stavropol Checkers")
 
@@ -127,7 +114,6 @@
          )
          (directions (ne 1 -1) (nw -1 -1) (se 1 1) (sw -1 1))
       )
-      (next-links-8x8)
       (zone (name red-promotion-zone) (players Neurtal) (positions b8 d8 f8 h8) )
       (zone (name black-promotion-zone) (players Neurtal) (positions a1 c1 e1 g1) )
    )
