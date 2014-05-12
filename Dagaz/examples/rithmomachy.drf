@@ -3,6 +3,60 @@
 ; http://www-cs.canisius.edu/~salley/SCA/Games/rithmomachy.html
 ; http://www.boardspace.net/rithmomachy/english/rules.html
 
+(def orthogonal-dirs (list n s w e))
+(def diagonal-dirs (list nw sw ne se))
+
+(def (move-orthogonal X)
+     X
+     (check empty?)
+     save-all
+     X
+     (check empty?)
+     add
+     end-move
+     restore-all
+     save-all
+     (to-left X)
+     (check empty?)
+     add
+     end-move
+     restore-all
+     (to-right X)
+     (check empty?)
+     add
+     end-move
+)
+
+(def move-triangle-all
+     (for X orthogonal-dirs
+          save-all
+          (move-orthogonal X)
+     )
+)
+
+(def move-square-all
+     (for X orthogonal-dirs
+          save-all
+          X
+          (check empty?)
+          (move-orthogonal X)
+     )
+)
+
+(def (move-circle X)
+     X
+     (check empty?)
+     add
+     end-move
+)
+
+(def move-circle-all
+     (for X diagonal-dirs
+          save-all
+          (move-circle X)
+     )
+)
+
 (def move-all                            ; Дублирующие сгенерированные ходы отсекать на уровне ядра
      (while N (<= -size)
            save-state
@@ -41,6 +95,8 @@
               (dir ne   1 -1)
               (dir sw  -1  1)
               (dir se   1  1)
+              (dir to-left  (n nw) (s se) (w sw) (e ne))
+              (dir to-right (n ne) (s sw) (w nw) (e se))
         )
    )
    (piece Circle

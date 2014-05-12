@@ -303,7 +303,7 @@
         kv-rock-all 
         kv-dwarf-capture-all
         kv-troll-move-all
-        -with-capture
+        (move-type with-capture)
         kv-troll-capture-all
    )
    (goals

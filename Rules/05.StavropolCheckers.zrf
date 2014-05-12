@@ -1,0 +1,218 @@
+(version "2.0")
+
+(define red-checker-shift  
+    ($1 (verify empty?) 
+        (if (not-in-zone? red-promotion-zone)
+           add
+         else
+           (add RedKing)
+        )
+    ) 
+)
+
+(define black-checker-shift  
+    ($1 (verify empty?)
+        (if (not-in-zone? black-promotion-zone)
+           add
+         else
+           (add BlackKing)
+        )
+    ) 
+)
+
+(define red-checker-jump
+    ($1 (verify (or (piece? BlackChecker) (piece? BlackKing)))
+        capture
+        $1
+        (verify empty?)
+        (if (not-in-zone? red-promotion-zone)
+            (add-partial jumptype)
+         else
+            (add-partial RedKing jumptype)
+        )
+    )
+)
+
+(define black-checker-jump
+    ($1 (verify (or (piece? RedChecker) (piece? RedKing)))
+        capture
+        $1
+        (verify empty?)
+        (if (not-in-zone? black-promotion-zone)
+            (add-partial jumptype)
+         else
+            (add-partial BlackKing jumptype)
+        )
+    )
+)
+
+(define king-shift
+    ($1 (while empty?
+            add
+            $1
+        )
+    )
+)
+
+(define red-king-jump
+    ($1 (while empty?
+            $1
+        )
+        (verify (or (piece? BlackChecker) (piece? BlackKing)))
+        capture
+        $1
+        (verify empty?)
+        (add-partial jumptype)
+    )
+)
+
+(define black-king-jump
+    ($1 (while empty?
+            $1
+        )
+        (verify (or (piece? RedChecker) (piece? RedKing)))
+        capture
+        $1
+        (verify empty?)
+        (add-partial jumptype)
+    )
+)
+
+(define next-links-8x8
+      (dummy offboard)
+      (links next  (a1 c1) (c1 e1) (e1 g1) (g1 b2)
+                   (b2 d2) (d2 f2) (f2 h2) (h2 a3)
+                   (a3 c3) (c3 e3) (e3 g3) (g3 b4)
+                   (b4 d4) (d4 f4) (f4 h4) (h4 a5)
+                   (a5 c5) (c5 e5) (e5 g5) (g5 b6)
+                   (b6 d6) (d6 f6) (f6 h6) (h6 a7)
+                   (a7 c7) (c7 e7) (e7 g7) (g7 b8)
+                   (b8 d8) (d8 f8) (f8 h8) (h8 offboard)
+      )
+)
+
+(game
+   (title "Stavropol Checkers")
+
+   (description "Object: Capture all your opponent's pieces (`Checkers` or `Kings`) by jumping over them.
+
+    You can move friendly and enemy pices.\\
+    All pieces move on diagonals, either by sliding to an adjacent empty square or by jumping over
+
+    an enemy piece to a vacant square on the other side.
+
+    Jumping over a piece captures it.  Capturing is mandatory and you must keep jumping and
+
+    capturing as long as it is possible.  Checkers move only a single square forward until the back row,
+
+    where they promote to Kings. Kings may move to any squares forwards or backwards.")
+
+   (option "maximal captures" true)
+   (option "prevent flipping" 2)
+   (click-sound "Audio\\WoodClick.wav")
+   (release-sound "Audio\\WoodClick.wav")
+   (move-sound "Audio\\WoodClick.wav")
+
+   (players Black Red Neurtal)
+   (turn-order (Red Neurtal) (Black Neurtal))
+   (move-priorities jumptype nonjumptype)
+
+   (board
+      (image "images\Checkers\Shaag\checkbd2.bmp" "images\Checkers\checkbd2.bmp")
+      (grid
+         (start-rectangle 6 6 55 55)
+         (dimensions
+             ("a/b/c/d/e/f/g/h" (50 0)) ; files
+             ("8/7/6/5/4/3/2/1" (0 50)) ; ranks
+         )
+         (directions (ne 1 -1) (nw -1 -1) (se 1 1) (sw -1 1))
+      )
+      (next-links-8x8)
+      (zone (name red-promotion-zone) (players Neurtal) (positions b8 d8 f8 h8) )
+      (zone (name black-promotion-zone) (players Neurtal) (positions a1 c1 e1 g1) )
+   )
+   (board-setup
+      (Neurtal (RedChecker a1 c1 e1 g1 b2 d2 f2 h2 a3 c3 e3 g3) )
+      (Neurtal (BlackChecker b8 d8 f8 h8 a7 c7 e7 g7 b6 d6 f6 h6) )
+   )
+
+   (piece
+      (name RedChecker)
+      (image Neurtal "images\Checkers\Shaag\chkrRM.bmp" "images\Checkers\chkrRM.bmp")
+      (description "Checkers move diagonally forward to empty squares and capture
+              by jumping diagonally in any direction.  They may
+	      also capture an enemy piece (or a series of them) by jumping over it.
+	      A Checker landing on the far side may promote to a King.")
+      (help "Checker: moves diagonally forward, jumps to capture")
+      (moves
+         (move-type jumptype)
+         (red-checker-jump nw)
+         (red-checker-jump ne)
+         (red-checker-jump se)
+         (red-checker-jump sw)
+         (move-type nonjumptype)
+         (red-checker-shift nw)
+         (red-checker-shift ne)
+      )
+   )
+   (piece
+      (name BlackChecker)
+      (image Neurtal "images\Checkers\Shaag\chkrBM.bmp" "images\Checkers\chkrBM.bmp")
+      (description "Checkers move diagonally forward to empty squares and capture
+              by jumping diagonally in any direction.  They may
+	      also capture an enemy piece (or a series of them) by jumping over it.
+	      A Checker landing on the far side may promote to a King.")
+      (help "Checker: moves diagonally forward, jumps to capture")
+      (moves
+         (move-type jumptype)
+         (black-checker-jump sw)
+         (black-checker-jump se)
+         (black-checker-jump ne)
+         (black-checker-jump nw)
+         (move-type nonjumptype)
+         (black-checker-shift sw)
+         (black-checker-shift se)
+      )
+   )
+   (piece
+      (name RedKing)
+      (image Neurtal "images\Checkers\Shaag\chkrRK.bmp" "images\Checkers\chkrRK.bmp")
+      (description "Kings can slide diagonally in any direction, or capture pieces
+	    by jumping diagonally over them.")
+      (help "King: moves diagonally any way, jumps to capture")
+      (moves
+         (move-type jumptype)
+         (red-king-jump nw)
+         (red-king-jump ne)
+         (red-king-jump sw)
+         (red-king-jump se)
+         (move-type nonjumptype)
+         (king-shift nw)
+         (king-shift ne)
+         (king-shift sw)
+         (king-shift se)
+      )
+   )
+   (piece
+      (name BlackKing)
+      (image Neurtal "images\Checkers\Shaag\chkrBK.bmp" "images\Checkers\chkrBK.bmp")
+      (description "Kings can slide diagonally in any direction, or capture pieces
+	    by jumping diagonally over them.")
+      (help "King: moves diagonally any way, jumps to capture")
+      (moves
+         (move-type jumptype)
+         (black-king-jump sw)
+         (black-king-jump se)
+         (black-king-jump nw)
+         (black-king-jump ne)
+         (move-type nonjumptype)
+         (king-shift sw)
+         (king-shift se)
+         (king-shift nw)
+         (king-shift ne)
+      )
+   )
+
+   (loss-condition (Red) (and (total-piece-count 0 RedChecker) (total-piece-count 0 RedKing)))
+   (loss-condition (Black) (and (total-piece-count 0 BlackChecker) (total-piece-count 0 BlackKing)))
+)
