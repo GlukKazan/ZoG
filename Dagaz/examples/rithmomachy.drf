@@ -2,9 +2,81 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; http://www-cs.canisius.edu/~salley/SCA/Games/rithmomachy.html
 ; http://www.boardspace.net/rithmomachy/english/rules.html
+; http://jducoeur.org/game-hist/mebben.ryth.html
 
 (def orthogonal-dirs (list n s w e))
 (def diagonal-dirs (list nw sw ne se))
+
+(def check-siege
+     (if stalemated?                     ; Если фигура блокирована со всех сторон (не может совершить ход)
+         capture                         ; Удаляем её
+     )
+)
+
+(def check-equality
+     (check enemy?)                      ; На случай, если фигура была взята ранее
+     (while N (<= -size)                 ; Итераторы автоматически корректируются при возможном удалении в теле цикла
+          (let X (get v (copy N 1)))     ; Получаем числовое значение атакуемой фигуры (возможно элемента пирамиды)
+          (for P no-check-attacked-by    ; Проверяем все атакующие фигуры (полученная клетка, виртуально, содержит только одну (атакующую) фигуру)
+               save-position             ; Сохраняем текущую позицию
+               P                         ; Позиционируемся на клетку
+               (while M (<= -size)
+                   (let Y (get v (copy M 1)))
+                   (if (eq? X Y))        ; Если нашлась атакующая фигура с равным значением
+                       restore-position  ; Отменяет неявный restore в конце итерации цикла
+                       (capture N 1)     ; Удаляем атакуемую фигуру (возможно из пирамиды)
+                   ) 
+               )
+          )
+     )
+)
+
+(def check-eruption
+     (check enemy?)
+     (while N (<= -size)
+          (let X (get v (copy N 1)))
+          (for P (attacked-by long)      ; Проверка по направлению хода атакующей фигуры
+               save-position             ; Сохраняем текущую позицию
+               P                         ; Позиционируемся на клетку
+               (while M (<= -size)
+                    (let Y (get v (copy M 1)))
+                    (if (or
+                           (eq? X (* Y (+ distance 1)))
+                           (eq? X (/ Y (+ distance 1)))
+                        )
+                        capture
+                    )
+               )
+          )
+     )
+)
+
+(def check-ambush
+     (check enemy?)
+     (while N (<= -size)
+          (let X (get v (copy N 1)))
+          (if  (eq? T
+                    (sum no-check-attacked-by
+                         (*   (variant -1 1)
+                              (get v (copy (variant 1 .. size) 1)))
+                         )
+                    )
+               )
+               capture
+          )
+     )
+)
+
+(def check-captures
+     (for P all-pieces
+          P                              ; Устанвливаем позицию
+          (check enemy?)                 ; Проверка враждебности по отношению к игроку, делавшему ход последним
+          (check-siege)                  ; Блокирована с четырёх сторон
+          (check-equality)               ; Может быть взята фигурой с равным номиналом
+          (check-eruption)               ; Проверка произведения
+          (check-ambush)                 ; Проверка суммы или разности
+     )
+)
 
 (def (move-orthogonal X)
      X
@@ -59,12 +131,9 @@
 
 (def move-all                            ; Дублирующие сгенерированные ходы отсекать на уровне ядра
      (while N (<= -size)
-           save-state
-           (capture (- N 1))             ; Попытка снять 0 фигур игнорируется 
-           (let Piece (copy 1))          ; Получаем фигуру, определяющую тип хода
-           restore-state
+           (let Piece (copy N 1))        ; Получаем одну фигуру снизу верхней стопки из N фигур
            save-all
-           capture                       ; Снимаем всю стопку
+           lock                          ; Снимаем всю стопку
            (if (eq? Piece Circle)
                (move-circle-all)
            )
@@ -73,6 +142,35 @@
            )
            (if (eq? Piece Square)
                (move-square-all)
+           )
+     )
+)
+
+(def (slide X)
+     (loop
+           X
+           (if enemy?
+               save-state
+               add                       ; Постановка фигуры считается атакой даже без взятия
+               end-move
+           )
+     )
+)
+
+(def slide-all
+     (while N (<= -size)
+           (let Piece (copy N 1))
+           save-all
+           lock
+           (if (eq? Piece Circle)
+               (for X diagonal-dirs
+               save-all
+               (slide X)
+           )
+           (if (or (eq? Piece Triangle) (eq? Piece Square))
+               (for X orthogonal-dirs
+               save-all
+               (slide X)
            )
      )
 )
@@ -120,11 +218,17 @@
          (Circle (v 1) a13 (v 3) f11 (v 5) e11 (v 7) d11 (v 9) f12 c11 (v 25) e12 (v 49) d12 (v 81) c12)
       )
    )
-   (moves move-all)
+   (move-priorities (normal))            ; Для всех игроков разрешён только обычных ход (режимы long и short используется для рассчета взятий)
+   (moves 
+        (move-type normal)
+        move-all
+        (move-type long)
+        slide-all
+   )
    (goals
-        (loss-condition (White Black) (< (sum -all-pices) 14))
-        (loss-condition (White) (< (sum -all-pices (get v)) 328))
-        (loss-condition (Black) (< (sum -all-pices (get v)) 429))
-        (turn-condition _ check-captures)
+        ((loss-condition (White Black)) (< (sum all-pices) 14))
+        ((loss-condition (White)) (< (sum all-pices (get v)) 328))
+        ((loss-condition (Black)) (< (sum all-pices (get v)) 429))
+        (turn-condition check-captures)
    )
 )

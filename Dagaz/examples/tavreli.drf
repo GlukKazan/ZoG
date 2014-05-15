@@ -20,7 +20,7 @@
 )
 
 (def (slide X)
-     (while _ t
+     (loop
            X
 ;          (check (not (piece? King)))
            save-state
@@ -75,7 +75,7 @@
      add
      (set-attribute! jumped? 0)
      (set-attribute! never-moved? f Piece)
-     capture                             ; Снимаем всю стопку со взятыми фигурами
+     lock                                ; Снимаем всю стопку со взятыми фигурами
      n
      (check empty?)
      add
@@ -83,7 +83,7 @@
 )
 
 (def (move-common N)
-     (capture N)                         ; Снимаем верхнюю часть фигур
+     (lock N)                            ; Снимаем верхнюю часть фигур
      (if (and (in Piece pawn-types) (not (promouted? Piece)))
          save-all
          (pawn-move)
@@ -132,7 +132,7 @@
      (check (piece? King))
      (check never-moved?)
      (check (not attacked?))
-     capture
+     lock
      e
      (check empty?)
      (check (not attacked?))
@@ -145,7 +145,7 @@
      cascade
      (check never-moved?)
      (check (not attacked?))
-     capture
+     lock
      w
      w
      add
@@ -158,7 +158,7 @@
      (check (piece? King))
      (check never-moved?)
      (check (not attacked?))
-     capture
+     lock
      w
      (check empty?)
      (check (not attacked?))
@@ -174,7 +174,7 @@
      cascade
      (check never-moved?)
      (check (not attacked?))
-     capture
+     lock
      e
      e
      add
@@ -289,9 +289,9 @@
    )
    (moves move-all O-O O-O-O)
    (goals
-        (loss-condition (White Black) (King) checkmated)
-        (turn-condition (King) (= (sum -pices attacked?) 0))
-        (turn-condition pawn-types 
+        ((loss-condition (White Black) (King)) checkmated)
+        ((turn-condition (King)) (= (sum pices attacked?) 0))
+        ((turn-condition pawn-types)
             (if (> jumped? 0)
                 (set-attribute! jumped? (- jumped? 1))
             )
