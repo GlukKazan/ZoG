@@ -1,4 +1,4 @@
-; Русские шахматы
+п»ї; Р СѓСЃСЃРєРёРµ С€Р°С…РјР°С‚С‹
 ;;;;;;;;;;;;;;;;;
 
 (def rook-dirs (list n s w e))
@@ -13,8 +13,8 @@
 
 (def (leap X)
      X
-;    (check (not (piece? King)))         ; Не можем ставить фигуру на короля (но можем угрожать ему)
-     add                                 ; Добавляем снятую стопку поверх фигуры
+;    (check (not (piece? King)))         ; РќРµ РјРѕР¶РµРј СЃС‚Р°РІРёС‚СЊ С„РёРіСѓСЂСѓ РЅР° РєРѕСЂРѕР»СЏ (РЅРѕ РјРѕР¶РµРј СѓРіСЂРѕР¶Р°С‚СЊ РµРјСѓ)
+     add                                 ; Р”РѕР±Р°РІР»СЏРµРј СЃРЅСЏС‚СѓСЋ СЃС‚РѕРїРєСѓ РїРѕРІРµСЂС… С„РёРіСѓСЂС‹
      (set-attribute! never-moved? f Piece)
      end-move
 )
@@ -61,9 +61,9 @@
      (check (not empty?))
      (check (not (piece? King)))
      (set-attribute! never-moved? f Piece)
-     (set-attribute! promouted? f)        ; Снимаем атрибут у пешек нижней части стопки
+     (set-attribute! promouted? f)        ; РЎРЅРёРјР°РµРј Р°С‚СЂРёР±СѓС‚ Сѓ РїРµС€РµРє РЅРёР¶РЅРµР№ С‡Р°СЃС‚Рё СЃС‚РѕРїРєРё
      (check-promoution)
-     (set-attribute! never-moved? f)      ; Снимаем атрибут у всех фигур стопки
+     (set-attribute! never-moved? f)      ; РЎРЅРёРјР°РµРј Р°С‚СЂРёР±СѓС‚ Сѓ РІСЃРµС… С„РёРіСѓСЂ СЃС‚РѕРїРєРё
      (set-attribute! jumped? 0 Piece)
      end-move
 )
@@ -75,7 +75,7 @@
      add
      (set-attribute! jumped? 0)
      (set-attribute! never-moved? f Piece)
-     lock                                ; Снимаем всю стопку со взятыми фигурами
+     lock                                ; РЎРЅРёРјР°РµРј РІСЃСЋ СЃС‚РѕРїРєСѓ СЃРѕ РІР·СЏС‚С‹РјРё С„РёРіСѓСЂР°РјРё
      n
      (check empty?)
      add
@@ -83,7 +83,7 @@
 )
 
 (def (move-common N)
-     (lock N)                            ; Снимаем верхнюю часть фигур
+     (lock N)                            ; РЎРЅРёРјР°РµРј РІРµСЂС…РЅСЋСЋ С‡Р°СЃС‚СЊ С„РёРіСѓСЂ
      (if (and (in Piece pawn-types) (not (promouted? Piece)))
          save-all
          (pawn-move)
@@ -119,11 +119,11 @@
 
 (def move-all
      (check (not empty?))
-     (let Piece (copy 1))                ; Смотрим на верхнюю фигуру в стопке
-     (check (friend? Piece))             ; Наверху дружественная фигура?
-     (while N (<= -size)                 ; size - количество фигур в текущей клетке
+     (let Piece (copy 1))                ; РЎРјРѕС‚СЂРёРј РЅР° РІРµСЂС…РЅСЋСЋ С„РёРіСѓСЂСѓ РІ СЃС‚РѕРїРєРµ
+     (check (friend? Piece))             ; РќР°РІРµСЂС…Сѓ РґСЂСѓР¶РµСЃС‚РІРµРЅРЅР°СЏ С„РёРіСѓСЂР°?
+     (while N (<= -size)                 ; size - РєРѕР»РёС‡РµСЃС‚РІРѕ С„РёРіСѓСЂ РІ С‚РµРєСѓС‰РµР№ РєР»РµС‚РєРµ
            save-all
-           (move-common N)               ; Если check не выполняется во вложенной процедуре - цикл не прерывается
+           (move-common N)               ; Р•СЃР»Рё check РЅРµ РІС‹РїРѕР»РЅСЏРµС‚СЃСЏ РІРѕ РІР»РѕР¶РµРЅРЅРѕР№ РїСЂРѕС†РµРґСѓСЂРµ - С†РёРєР» РЅРµ РїСЂРµСЂС‹РІР°РµС‚СЃСЏ
      )
 )
 
@@ -189,8 +189,8 @@
    (turn-order White Black)
 
    (board
-        (grid board 
-              (dims "a/b/c/d/e/f/g/h"
+        (grid (dims (name board)
+                    "a/b/c/d/e/f/g/h"
                     "8/7/6/5/4/3/2/1")
               (dir n    0 -1)
               (dir s    0  1)

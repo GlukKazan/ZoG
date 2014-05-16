@@ -1,0 +1,115 @@
+﻿; Ур
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; http://skyruk.livejournal.com/211326.html
+; http://skyruk.livejournal.com/231444.html
+
+(def get-dices
+     (if (= 0 (sum -all-pices (get v)))
+         4
+     )
+)
+
+(def clear-dices
+     (for P all-positions
+          save-all
+          P
+          (check (in-zone? dices))
+          capture
+     )
+)
+
+(def drop-dice
+     (check (in-zone? dices))
+     (check empty?)
+     (add Zero One)
+     (end-move-part-strict drop-dices)
+)
+
+(variant
+   (title "Ур")
+
+   (players First Second)
+   (turn-order 
+        (repeat
+             (attribute turn-count 1)
+             (? First drop-dices) First 
+        )
+        (repeat
+             (attribute turn-count 1)
+             (? Second drop-dices) Second
+        )
+   )
+
+   (board
+        (grid (name finish)
+              (dims "0"))
+        (grid (name dices)
+              (dims "i/ii/iii"))
+        (grid (name reserve)
+              (players First Second)
+              (dims "1/2/3/4/5/6/7"))
+        (grid (name board)
+              (dims "a/b/c/d/e/f/g/h"
+                    "3/2/1")
+        )
+        ((dir First Initial)  next (d1 c1) (c1 b1) (b1 a1) (a1 a2) (g2 g1) (g1 h1))
+        ((dir Second Initial) next (d3 c3) (c3 b3) (b3 a3) (a3 a2) (g2 g3) (g3 h3))
+        ((dir (First Second) Initial) next (a2 b2) (b2 c2) (c2 d2) (d2 e2) (e2 g2))
+        ((dir First Promouted)  next (h1 h2) (h2 h3) (h3 g3) (g3 g2))
+        ((dir Second Promouted) next (h3 h2) (h2 h1) (h1 g1) (g1 g2))
+        ((dir (First Second) Promouted) next (g2 e2) (e2 d2) (d2 c2) (c2 b2) (b2 a2) (a2 0))
+        ((dir First)  next (1 d1) (2 d1) (3 d1) (4 d1) (5 d1) (6 d1) (7 d1))
+        ((dir Second) next (1 d3) (2 d3) (3 d3) (4 d3) (5 d3) (6 d3) (7 d3))
+        (zone dices 
+              (positions i ii iii)
+        )
+        (zone promoution 
+              (positions h1 h3)
+        )
+        (zone rosette
+              (positions a1 a3 d2 g1 g3)
+        )
+        (zone depo
+              (positions b1 b3 d1 d3 g2)
+        )
+        (zone lock
+              (positions c2 f2)
+        )
+        (zone safe
+              (positions a2)
+        )
+   )
+
+   (setup
+      (First
+         (Initial 1 2 3 4 5 6 7)
+      )
+      (Second
+         (Initial 1 2 3 4 5 6 7)
+      )
+   )
+
+   (piece Zero
+        (constant v 0)
+   )
+   (piece One
+        (constant v 1)
+   )
+   (piece Initial)
+   (piece Promouted)
+
+   (move-priorities (normal pass))
+   (moves
+        (move-type normal)
+        drop-piece
+        move-piece
+        (move-type pass)
+        pass-turn
+        (move-type drop-dices)
+        drop-dice
+   )
+
+   (goals
+       (win-condition (= (sum pices) 0))
+   )
+)
