@@ -54,7 +54,7 @@
     )
 )
 
-(define red-king-jump
+(define red-king-jump-1
     ($1 (while empty?
             $1
         )
@@ -66,7 +66,97 @@
     )
 )
 
-(define black-king-jump
+(define red-king-jump-2
+    ($1 (while empty?
+            $1
+        )
+        (verify (or (piece? BlackChecker) (piece? BlackKing)))
+        capture
+        $1
+        (verify empty?)
+        $1
+        (verify empty?)
+        (add-partial jumptype)
+    )
+)
+
+(define red-king-jump-3
+    ($1 (while empty?
+            $1
+        )
+        (verify (or (piece? BlackChecker) (piece? BlackKing)))
+        capture
+        $1
+        (verify empty?)
+        $1
+        (verify empty?)
+        $1
+        (verify empty?)
+        (add-partial jumptype)
+    )
+)
+
+(define red-king-jump-4
+    ($1 (while empty?
+            $1
+        )
+        (verify (or (piece? BlackChecker) (piece? BlackKing)))
+        capture
+        $1
+        (verify empty?)
+        $1
+        (verify empty?)
+        $1
+        (verify empty?)
+        $1
+        (verify empty?)
+        (add-partial jumptype)
+    )
+)
+
+(define red-king-jump-5
+    ($1 (while empty?
+            $1
+        )
+        (verify (or (piece? BlackChecker) (piece? BlackKing)))
+        capture
+        $1
+        (verify empty?)
+        $1
+        (verify empty?)
+        $1
+        (verify empty?)
+        $1
+        (verify empty?)
+        $1
+        (verify empty?)
+        (add-partial jumptype)
+    )
+)
+
+(define red-king-jump-6
+    ($1 (while empty?
+            $1
+        )
+        (verify (or (piece? BlackChecker) (piece? BlackKing)))
+        capture
+        $1
+        (verify empty?)
+        $1
+        (verify empty?)
+        $1
+        (verify empty?)
+        $1
+        (verify empty?)
+        $1
+        (verify empty?)
+        $1
+        (verify empty?)
+        (add-partial jumptype)
+    )
+)
+
+(define black-king-jump-1
     ($1 (while empty?
             $1
         )
@@ -76,6 +166,109 @@
         (verify empty?)
         (add-partial jumptype)
     )
+)
+
+(define black-king-jump-2
+    ($1 (while empty?
+            $1
+        )
+        (verify (or (piece? RedChecker) (piece? RedKing)))
+        capture
+        $1
+        (verify empty?)
+        $1
+        (verify empty?)
+        (add-partial jumptype)
+    )
+)
+
+(define black-king-jump-3
+    ($1 (while empty?
+            $1
+        )
+        (verify (or (piece? RedChecker) (piece? RedKing)))
+        capture
+        $1
+        (verify empty?)
+        $1
+        (verify empty?)
+        $1
+        (verify empty?)
+        (add-partial jumptype)
+    )
+)
+
+(define black-king-jump-4
+    ($1 (while empty?
+            $1
+        )
+        (verify (or (piece? RedChecker) (piece? RedKing)))
+        capture
+        $1
+        (verify empty?)
+        $1
+        (verify empty?)
+        $1
+        (verify empty?)
+        $1
+        (verify empty?)
+        (add-partial jumptype)
+    )
+)
+
+(define black-king-jump-5
+    ($1 (while empty?
+            $1
+        )
+        (verify (or (piece? RedChecker) (piece? RedKing)))
+        capture
+        $1
+        (verify empty?)
+        $1
+        (verify empty?)
+        $1
+        (verify empty?)
+        $1
+        (verify empty?)
+        $1
+        (verify empty?)
+        (add-partial jumptype)
+    )
+)
+
+(define black-king-jump-6
+    ($1 (while empty?
+            $1
+        )
+        (verify (or (piece? RedChecker) (piece? RedKing)))
+        capture
+        $1
+        (verify empty?)
+        $1
+        (verify empty?)
+        $1
+        (verify empty?)
+        $1
+        (verify empty?)
+        $1
+        (verify empty?)
+        $1
+        (verify empty?)
+        (add-partial jumptype)
+    )
+)
+
+(define next-links-8x8
+      (dummy offboard)
+      (links next  (a1 c1) (c1 e1) (e1 g1) (g1 b2)
+                   (b2 d2) (d2 f2) (f2 h2) (h2 a3)
+                   (a3 c3) (c3 e3) (e3 g3) (g3 b4)
+                   (b4 d4) (d4 f4) (f4 h4) (h4 a5)
+                   (a5 c5) (c5 e5) (e5 g5) (g5 b6)
+                   (b6 d6) (d6 f6) (f6 h6) (h6 a7)
+                   (a7 c7) (c7 e7) (e7 g7) (g7 b8)
+                   (b8 d8) (d8 f8) (f8 h8) (h8 offboard)
+      )
 )
 
 (game
@@ -114,6 +307,7 @@
          )
          (directions (ne 1 -1) (nw -1 -1) (se 1 1) (sw -1 1))
       )
+      (next-links-8x8)
       (zone (name red-promotion-zone) (players Neurtal) (positions b8 d8 f8 h8) )
       (zone (name black-promotion-zone) (players Neurtal) (positions a1 c1 e1 g1) )
    )
@@ -168,10 +362,30 @@
       (help "King: moves diagonally any way, jumps to capture")
       (moves
          (move-type jumptype)
-         (red-king-jump nw)
-         (red-king-jump ne)
-         (red-king-jump sw)
-         (red-king-jump se)
+         (red-king-jump-1 nw)
+         (red-king-jump-1 ne)
+         (red-king-jump-1 sw)
+         (red-king-jump-1 se)
+         (red-king-jump-2 nw)
+         (red-king-jump-2 ne)
+         (red-king-jump-2 sw)
+         (red-king-jump-2 se)
+         (red-king-jump-3 nw)
+         (red-king-jump-3 ne)
+         (red-king-jump-3 sw)
+         (red-king-jump-3 se)
+         (red-king-jump-4 nw)
+         (red-king-jump-4 ne)
+         (red-king-jump-4 sw)
+         (red-king-jump-4 se)
+         (red-king-jump-5 nw)
+         (red-king-jump-5 ne)
+         (red-king-jump-5 sw)
+         (red-king-jump-5 se)
+         (red-king-jump-6 nw)
+         (red-king-jump-6 ne)
+         (red-king-jump-6 sw)
+         (red-king-jump-6 se)
          (move-type nonjumptype)
          (king-shift nw)
          (king-shift ne)
@@ -187,10 +401,30 @@
       (help "King: moves diagonally any way, jumps to capture")
       (moves
          (move-type jumptype)
-         (black-king-jump sw)
-         (black-king-jump se)
-         (black-king-jump nw)
-         (black-king-jump ne)
+         (black-king-jump-1 sw)
+         (black-king-jump-1 se)
+         (black-king-jump-1 nw)
+         (black-king-jump-1 ne)
+         (black-king-jump-2 sw)
+         (black-king-jump-2 se)
+         (black-king-jump-2 nw)
+         (black-king-jump-2 ne)
+         (black-king-jump-3 sw)
+         (black-king-jump-3 se)
+         (black-king-jump-3 nw)
+         (black-king-jump-3 ne)
+         (black-king-jump-4 sw)
+         (black-king-jump-4 se)
+         (black-king-jump-4 nw)
+         (black-king-jump-4 ne)
+         (black-king-jump-5 sw)
+         (black-king-jump-5 se)
+         (black-king-jump-5 nw)
+         (black-king-jump-5 ne)
+         (black-king-jump-6 sw)
+         (black-king-jump-6 se)
+         (black-king-jump-6 nw)
+         (black-king-jump-6 ne)
          (move-type nonjumptype)
          (king-shift sw)
          (king-shift se)
@@ -201,4 +435,5 @@
 
    (loss-condition (Red) (and (total-piece-count 0 RedChecker) (total-piece-count 0 RedKing)))
    (loss-condition (Black) (and (total-piece-count 0 BlackChecker) (total-piece-count 0 BlackKing)))
+   (loss-condition (Red Black) repetition)
 )
