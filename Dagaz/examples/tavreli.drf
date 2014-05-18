@@ -1,5 +1,6 @@
 ﻿; Русские шахматы
-;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; http://cyclowiki.org/wiki/%D0%A0%D1%83%D1%81%D1%81%D0%BA%D0%B8%D0%B5_%D1%88%D0%B0%D1%85%D0%BC%D0%B0%D1%82%D1%8B
 
 (def rook-dirs (list n s w e))
 (def bishop-dirs (list nw sw ne se))
@@ -13,7 +14,9 @@
 
 (def (leap X)
      X
-;    (check (not (piece? King)))         ; Не можем ставить фигуру на короля (но можем угрожать ему)
+     (if (not (mode? special))
+         (check (not (piece? King)))     ; Не можем ставить фигуру на короля (но можем угрожать ему)
+     )
      add                                 ; Добавляем снятую стопку поверх фигуры
      (set-attribute! never-moved? f Piece)
      end-move
@@ -121,30 +124,28 @@
      (check (not empty?))
      (let Piece (copy 1))                ; Смотрим на верхнюю фигуру в стопке
      (check (friend? Piece))             ; Наверху дружественная фигура?
-     (while N (<= -size)                 ; size - количество фигур в текущей клетке
+     (while N (<= size)                  ; size - количество фигур в текущей клетке
            save-all
            (move-common N)               ; Если check не выполняется во вложенной процедуре - цикл не прерывается
      )
 )
 
 (def O-O
-     save-all
-     (check (piece? King))
      (check never-moved?)
-     (check (not attacked?))
-     lock
+     (check (not (attacked? special)))   ; Для рассчета attacked, перемещаемая фигура временно устанавливается на поле
+     lock                                ; Предусмотреть кэширование результатов и частичный рассчет (для одного поля)
      e
      (check empty?)
-     (check (not attacked?))
+     (check (not (attacked? special)))
      e
      (check empty?)
-     (check (not attacked?))
+     (check (not (attacked? special)))
      add
      (set-attribute! never-moved? f)
      e
      cascade
      (check never-moved?)
-     (check (not attacked?))
+     (check (not (attacked? special)))
      lock
      w
      w
@@ -154,26 +155,24 @@
 )
 
 (def O-O-O
-     save-all
-     (check (piece? King))
      (check never-moved?)
-     (check (not attacked?))
+     (check (not (attacked? special)))
      lock
      w
      (check empty?)
-     (check (not attacked?))
+     (check (not (attacked? special)))
      w
      (check empty?)
-     (check (not attacked?))
+     (check (not (attacked? special)))
      w
      (check empty?)
-     (check (not attacked?))
+     (check (not (attacked? special)))
      add
      (set-attribute! never-moved? f)
      w
      cascade
      (check never-moved?)
-     (check (not attacked?))
+     (check (not (attacked? special)))
      lock
      e
      e
@@ -192,74 +191,77 @@
         (grid (dims (name board)
                     "a/b/c/d/e/f/g/h"
                     "8/7/6/5/4/3/2/1")
-              (dir n    0 -1)
-              (dir s    0  1)
-              (dir e    1  0)
-              (dir w   -1  0)
-              (dir nw  -1 -1)
-              (dir ne   1 -1)
-              (dir sw  -1  1)
-              (dir se   1  1)
-              (dir nnw -1 -2)
-              (dir nne  1 -2)
-              (dir een  2 -1)
-              (dir ees  2  1)
-              (dir sse  1  2)
-              (dir ssw -1  2)
-              (dir wwn -2 -1)
-              (dir wws -2  1)
+              (dir (name n)    0 -1)
+              (dir (name s)    0  1)
+              (dir (name e)    1  0)
+              (dir (name w)   -1  0)
+              (dir (name nw)  -1 -1)
+              (dir (name ne)   1 -1)
+              (dir (name sw)  -1  1)
+              (dir (name se)   1  1)
+              (dir (name nnw) -1 -2)
+              (dir (name nne)  1 -2)
+              (dir (name een)  2 -1)
+              (dir (name ees)  2  1)
+              (dir (name sse)  1  2)
+              (dir (name ssw) -1  2)
+              (dir (name wwn) -2 -1)
+              (dir (name wws) -2  1)
         )
-        (dir Black (n s)(s n)(nw sw)(sw nw)(ne se)(se ne))
-        (zone promotion
+        (dir (players Black) (n s)(s n)(nw sw)(sw nw)(ne se)(se ne))
+        (zone (name promotion)
               (players White)
               (positions a8 b8 c8 d8 e8 f8 g8 h8)
         )
-        (zone promotion
+        (zone (name promotion)
               (players Black)
               (positions a1 b1 c1 d1 e1 f1 g1 h1)
         )
    )
 
-   (piece Pawn-Rook
-        (attribute never-moved? t)
-        (attribute promouted? f)
-        (attribute jumped? 0)
-   )
-   (piece Pawn-Knight
-        (attribute never-moved? t)
-        (attribute promouted? f)
-        (attribute jumped? 0)
-   )
-   (piece Pawn-Bishop
-        (attribute never-moved? t)
-        (attribute promouted? f)
-        (attribute jumped? 0)
-   )
-   (piece Pawn-Queen
-        (attribute never-moved? t)
-        (attribute promouted? f)
-        (attribute jumped? 0)
-   )
-   (piece Pawn-Helg
-        (attribute never-moved? t)
-        (attribute promouted? f)
-        (attribute jumped? 0)
-   )
-   (piece Rook
-        (attribute never-moved? t)
-        (constant promouted? t)
-   )
-   (piece Knight
-        (constant promouted? t)
-   )
-   (piece Bishop
-        (constant promouted? t)
-   )
-   (piece Queen
-        (constant promouted? t)
-   )
-   (piece King
-        (attribute never-moved? t)
+   (pieces
+        (Pawn-Rook
+              (attribute never-moved? t)
+              (attribute promouted? f)
+              (attribute jumped? 0)
+        )
+        (Pawn-Knight
+              (attribute never-moved? t)
+              (attribute promouted? f)
+              (attribute jumped? 0)
+        )
+        (Pawn-Bishop
+              (attribute never-moved? t)
+              (attribute promouted? f)
+              (attribute jumped? 0)
+        )
+        (Pawn-Queen
+              (attribute never-moved? t)
+              (attribute promouted? f)
+              (attribute jumped? 0)
+        )
+        (Pawn-Helg
+              (attribute never-moved? t)
+              (attribute promouted? f)
+              (attribute jumped? 0)
+        )
+        (Rook
+              (attribute never-moved? t)
+              (constant promouted? t)
+        )
+        (Knight
+              (constant promouted? t)
+        )
+        (Bishop
+              (constant promouted? t)
+        )
+        (Queen
+              (constant promouted? t)
+        )
+        (King
+              (attribute never-moved? t)
+              (moves move-all O-O O-O-O) ; Перекрывает глобальное определение, если наверху King
+        )
    )
    (setup
       (White
@@ -287,10 +289,10 @@
          (King e8)
       )
    )
-   (moves move-all O-O O-O-O)
+   (moves move-all)
    (goals
         ((loss-condition (White Black) (King)) checkmated)
-        ((turn-condition (King)) (= (sum pices attacked?) 0))
+        ((turn-condition (King)) (= (sum pices (attacked? special)) 0))
         ((turn-condition pawn-types)
             (if (> jumped? 0)
                 (set-attribute! jumped? (- jumped? 1))

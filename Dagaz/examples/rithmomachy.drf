@@ -15,12 +15,12 @@
 
 (def check-equality
      (check enemy?)                      ; На случай, если фигура была взята ранее
-     (while N (<= -size)                 ; Итераторы автоматически корректируются при возможном удалении в теле цикла
+     (while N (<= size)                  ; Итераторы автоматически корректируются при возможном удалении в теле цикла
           (let X (get v (copy N 1)))     ; Получаем числовое значение атакуемой фигуры (возможно элемента пирамиды)
-          (for P no-check-attacked-by    ; Проверяем все атакующие фигуры (полученная клетка, виртуально, содержит только одну (атакующую) фигуру)
+          (for P (attacked-by capture)   ; Проверяем все атакующие фигуры (полученная клетка, виртуально, содержит только одну (атакующую) фигуру)
                save-position             ; Сохраняем текущую позицию
                P                         ; Позиционируемся на клетку
-               (while M (<= -size)
+               (while M (<= size)
                    (let Y (get v (copy M 1)))
                    (if (eq? X Y))        ; Если нашлась атакующая фигура с равным значением
                        restore-position  ; Отменяет неявный restore в конце итерации цикла
@@ -33,12 +33,12 @@
 
 (def check-eruption
      (check enemy?)
-     (while N (<= -size)
+     (while N (<= size)
           (let X (get v (copy N 1)))
           (for P (attacked-by long)      ; Проверка по направлению хода атакующей фигуры
                save-position             ; Сохраняем текущую позицию
                P                         ; Позиционируемся на клетку
-               (while M (<= -size)
+               (while M (<= size)
                     (let Y (get v (copy M 1)))
                     (if (or
                            (eq? X (* Y (+ distance 1)))
@@ -53,10 +53,10 @@
 
 (def check-ambush
      (check enemy?)
-     (while N (<= -size)
+     (while N (<= size)
           (let X (get v (copy N 1)))
           (if  (eq? T
-                    (sum no-check-attacked-by
+                    (sum (attacked-by capture)
                          (*   (variant -1 1)
                               (get v (copy (variant 1 .. size) 1)))
                          )
@@ -130,7 +130,7 @@
 )
 
 (def move-all                            ; Дублирующие сгенерированные ходы отсекать на уровне ядра
-     (while N (<= -size)
+     (while N (<= size)
            (let Piece (copy N 1))        ; Получаем одну фигуру снизу верхней стопки из N фигур
            save-all
            lock                          ; Снимаем всю стопку
@@ -142,6 +142,74 @@
            )
            (if (eq? Piece Square)
                (move-square-all)
+           )
+     )
+)
+
+(def (capture-orthogonal X)
+     X
+     (check empty?)
+     save-all
+     X
+     (check enemy?)
+     add
+     end-move
+     restore-all
+     save-all
+     (to-left X)
+     (check enemy?)
+     add
+     end-move
+     restore-all
+     (to-right X)
+     (check enemy?)
+     add
+     end-move
+)
+
+(def capture-triangle-all
+     (for X orthogonal-dirs
+          save-all
+          (capture-orthogonal X)
+     )
+)
+
+(def capture-square-all
+     (for X orthogonal-dirs
+          save-all
+          X
+          (check empty?)
+          (capture-orthogonal X)
+     )
+)
+
+(def (capture-circle X)
+     X
+     (check enemy?)
+     add
+     end-move
+)
+
+(def capture-circle-all
+     (for X diagonal-dirs
+          save-all
+          (capture-circle X)
+     )
+)
+
+(def capture-all
+     (while N (<= size)
+           (let Piece (copy N 1))
+           save-all
+           lock
+           (if (eq? Piece Circle)
+               (capture-circle-all)
+           )
+           (if (eq? Piece Triangle)
+               (capture-triangle-all)
+           )
+           (if (eq? Piece Square)
+               (capture-square-all)
            )
      )
 )
@@ -158,7 +226,7 @@
 )
 
 (def slide-all
-     (while N (<= -size)
+     (while N (<= size)
            (let Piece (copy N 1))
            save-all
            lock
@@ -185,26 +253,37 @@
         (grid (dims (name board)
                     "a/b/c/d/e/f/g/h"
                     "16/15/14/13/12/11/10/9/8/7/6/5/4/3/2/1")
-              (dir n    0 -1)
-              (dir s    0  1)
-              (dir e    1  0)
-              (dir w   -1  0)
-              (dir nw  -1 -1)
-              (dir ne   1 -1)
-              (dir sw  -1  1)
-              (dir se   1  1)
-              (dir to-left  (n nw) (s se) (w sw) (e ne))
-              (dir to-right (n ne) (s sw) (w nw) (e se))
+              (dir (name n)   0 -1)
+              (dir (name s)   0  1)
+              (dir (name e)   1  0)
+              (dir (name w)  -1  0)
+              (dir (name nw) -1 -1)
+              (dir (name ne)  1 -1)
+              (dir (name sw) -1  1)
+              (dir (name se)  1  1)
+              (dir (name to-left)  (n nw) (s se) (w sw) (e ne))
+              (dir (name to-right) (n ne) (s sw) (w nw) (e se))
         )
    )
-   (piece Circle
-        (constant v)                     ; Не проинициализированная константа
+   (move-priorities normal)              ; Для всех игроков разрешён только обычных ход (режимы long и short используется для рассчета взятий)
+   (moves 
+        (mode normal)
+        move-all
+        (mode capture)
+        capture-all
+        (mode long)
+        slide-all
    )
-   (piece Triagle
-        (constant v)
-   )
-   (piece Square
-        (constant v)
+   (pieces 
+        (Circle
+              (constant v)               ; Не проинициализированная константа
+        )
+        (Triagle
+              (constant v)
+        )
+        (Square
+              (constant v)
+        )
    )
    (setup
       (White
@@ -217,13 +296,6 @@
          (Triagle (v12) g12 (v 16) h12 (v25) a13 (v 30) e13 (v 36) f13 a13 (v 56) d13 (v 64) c13 (v 90) b12 (v 100) a12)
          (Circle (v 1) a13 (v 3) f11 (v 5) e11 (v 7) d11 (v 9) f12 c11 (v 25) e12 (v 49) d12 (v 81) c12)
       )
-   )
-   (move-priorities (normal))            ; Для всех игроков разрешён только обычных ход (режимы long и short используется для рассчета взятий)
-   (moves 
-        (move-type normal)
-        move-all
-        (move-type long)
-        slide-all
    )
    (goals
         ((loss-condition (White Black)) (< (sum all-pices) 14))

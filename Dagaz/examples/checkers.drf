@@ -1,98 +1,119 @@
-﻿(def forward-dirs (list nw ne))
+﻿; Шашки
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; http://ru.wikipedia.org/wiki/%D0%A8%D0%B0%D1%88%D0%BA%D0%B8
+
+(def forward-dirs (list nw ne))
 (def all-dirs (list nw sw ne se))
 
-(def (capture-all U)
-     (if (piece? Checker)
-         lock
-         (for X all-dirs
-              save-all
-              X
-              (check (enemy? U))
-              capture
-              X
-              (check empty?)
-              (check (not marked-position?))
-              (set-position-flag marked-position? t)
-              (if (in-zone? promotion)
-                  (add King)
-              else
-                   add
-              )
-              (end-move-part-strict current-mode)
-         )
-     )
-     (if (piece? King)
-         lock
-         (for X all-dirs
-              save-all
-              (loop
-                    X
-                    (check empty?)
-              )
-              (check (enemy? U))
-              capture
-              (loop
-                    X
-                    (check empty?)       ; При нарушении условия, loop цикл прерывается
-                    save-state           ; При восстановлении, снимается позиционный флаг установленный в текущей, но не в предыдущих итерациях цикла
-                    (check (not marked-position?))
-                    (set-position-flag marked-position? t)
-                    add
-                    (end-move-part-strict current-mode)
-              )
-              
-         )
+(def (capture-checker-all U)
+     lock
+     (for X all-dirs
+          save-all
+          X
+          (check (enemy? U))
+          capture
+          X
+          (check empty?)
+          (check (not marked-position?))
+          (set-position-flag marked-position? t)
+          (if (in-zone? promotion)
+              (add King)
+          else
+               add
+          )
+          (end-move-part (mode current-mode))
      )
 )
 
-(def capture-white-all
+(def (capture-king-all U)
+     lock
+     (for X all-dirs
+          save-all
+          (loop
+                X
+                (check empty?)
+          )
+          (check (enemy? U))
+          capture
+          (loop
+                X
+                (check empty?)           ; При нарушении условия, loop цикл прерывается
+                save-state               ; При восстановлении, снимается позиционный флаг установленный в текущей, но не в предыдущих итерациях цикла
+                (check (not marked-position?))
+                (set-position-flag marked-position? t)
+                add
+                (end-move-part (mode current-mode))
+          )
+     )
+)
+
+(def capture-white-checker-all
      (check (enemy? White))
-     (capture-all White)
+     (capture-checker-all White)
 )
 
-(def capture-black-all
+(def capture-black-checker-all
      (check (enemy? Black))
-     (capture-all White)
+     (capture-checker-all White)
 )
 
-(def move-all
-     (if (piece? Checker)
-         lock
-         (for X forward-dirs
-              save-all
-              X
-              (check empty?)
-              (if (in-zone? promotion)
-                  (add King)
-              else
-                   add
-              )
-              end-move
-         )
-     )
-     (if (piece? King)
-         lock
-         (for X all-dirs
-              save-all
-              (loop
-                    X
-                    (check empty?)
-                    save-state
-                    add
-                    end-move
-              )
-         )
+(def capture-white-king-all
+     (check (enemy? White))
+     (capture-king-all White)
+)
+
+(def capture-black-king-all
+     (check (enemy? Black))
+     (capture-king-all White)
+)
+
+(def move-checker-all
+     lock
+     (for X forward-dirs
+          save-all
+          X
+          (check empty?)
+          (if (in-zone? promotion)
+              (add King)
+          else
+               add
+          )
+          end-move
      )
 )
 
-(def move-white-all
+(def move-king-all
+     lock
+     (for X all-dirs
+          save-all
+          (loop
+                X
+                (check empty?)
+                save-state
+                add
+                end-move
+          )
+     )
+)
+
+(def move-white-checker-all
      (check (friend? White))
-     (move-all)
+     (move-checker-all)
 )
 
-(def move-black-all
+(def move-black-checker-all
      (check (friend? Black))
-     (move-all)
+     (move-checker-all)
+)
+
+(def move-white-king-all
+     (check (friend? White))
+     (move-king-all)
+)
+
+(def move-black-king-all
+     (check (friend? Black))
+     (move-king-all)
 )
 
 (variant
@@ -105,17 +126,17 @@
         (grid (dims (name board)
                     "a/b/c/d/e/f/g/h"
                     "8/7/6/5/4/3/2/1")
-              (dir nw  -1 -1)
-              (dir ne   1 -1)
-              (dir sw  -1  1)
-              (dir se   1  1)
+              (dir (name nw) -1 -1)
+              (dir (name ne)  1 -1)
+              (dir (name sw) -1  1)
+              (dir (name se)  1  1)
         )
-        (dir Black (nw sw)(sw nw)(ne se)(se ne))
-        (zone promotion
+        (dir (players Black) (nw sw)(sw nw)(ne se)(se ne))
+        (zone (name promotion)
               (players White)
               (positions b8 d8 f8 h8)
         )
-        (zone promotion
+        (zone (name promotion)
               (players Black)
               (positions a1 c1 e1 g1)
         )
@@ -130,19 +151,31 @@
       )
    )
 
-   (piece Checker)
-   (piece King)
-   (move-priorities (White) (with-black-capture (with-white-capture without-capture-white without-capture-black)))
-   (move-priorities (Black) (with-white-capture (with-black-capture without-capture-white without-capture-black)))
-   (moves
-        (move-type with-white-capture)
-        capture-white-all
-        (move-type with-black-capture)
-        capture-black-all
-        (move-type without-capture-white)
-        move-white-all
-        (move-type without-capture-black)
-        move-black-all
+   (move-priorities (pices White) (with-black-capture (with-white-capture without-capture)))
+   (move-priorities (pices Black) (with-white-capture (with-black-capture without-capture)))
+   (pieces 
+      (Checker
+             (moves
+                    (mode with-white-capture)
+                    capture-white-checker-all
+                    (mode with-black-capture)
+                    capture-black-checker-all
+                    (mode without-capture)
+                    move-white-checker-all
+                    move-black-checker-all
+             )
+       )
+       (King
+             (moves
+                    (mode with-white-capture)
+                    capture-white-king-all
+                    (mode with-black-capture)
+                    capture-black-king-all
+                    (mode without-capture)
+                    move-white-king-all
+                    move-black-king-all
+             )
+       )
    )
 
    (goals

@@ -117,6 +117,7 @@
 )
 
 (variant
+   (name thud)
    (title "Thud")
    (default)
    (group 1)
@@ -126,14 +127,14 @@
         (grid (name board)
               (dims "a/b/c/d/e/f/g/h/i/j/k/l/m/n/o"
                     "15/14/13/12/11/10/9/8/7/6/5/4/3/2/1")
-              (dir n   0 -1)
-              (dir s   0  1)
-              (dir e   1  0)
-              (dir w  -1  0)
-              (dir nw -1 -1)
-              (dir ne  1 -1)
-              (dir sw -1  1)
-              (dir se  1  1)
+              (dir (name n)   0 -1)
+              (dir (name s)   0  1)
+              (dir (name e)   1  0)
+              (dir (name w)  -1  0)
+              (dir (name nw) -1 -1)
+              (dir (name ne)  1 -1)
+              (dir (name sw) -1  1)
+              (dir (name se)  1  1)
         )
         (kills a15 b15 c15 d15 e15    k15 l15 m15 n15 o15
                a14 b14 c14 d14            l14 m14 n14 o14
@@ -146,20 +147,25 @@
                a3  b3  c3                     m3  n3  o3
                a2  b2  c2  d2             l2  m2  n2  o2
                a1  b1  c1  d1  e1     k1  l1  m1  n1  o1 )
-        (dir opposite (n s) (s n) (w e) (e w) (nw se) (sw ne) (ne sw) (se nw))
+        (dir (name opposite) (n s) (s n) (w e) (e w) (nw se) (sw ne) (ne sw) (se nw))
    )
-   (piece Dwarf)
-   (piece Troll)
+   (pieces 
+        (Dwarf 
+             (moves dwarf-capture-all dwarf-move-all)
+        )
+        (Troll
+             (moves troll-move-all)
+        )
+   )
    (setup
         (Dwarfs (Dwarf f1  g1  i1  j1  e2  k2  d3  l3  c4  m4  b5 
                        n5  a6  o6  a7  o7  a9  o9  a10 o10 b11 n11
                        c12 m12 d13 l13 e14 k14 f15 g15 i15 j15) )
         (Trolls (Troll g7  h7  i7  g8  i8  g9  h9  i9) )
    )
-   (moves dwarf-capture-all dwarf-move-all troll-move-all)
    (goals
         ((loss-condition (Dwarfs Trolls)) stalemated)
-        ((draw-condition (Dwarfs Trolls)) repetition)
+        ((loss-condition (Dwarfs Trolls)) repetition)
    )
 )
 
@@ -258,7 +264,7 @@
           Y
           (check-troll-win)
      )
-     (end-move-part -with-capture)       ; (save-all end-move restore-all (end-move-part-strict -with-capture))
+     (end-move-part (mode with-capture))
 )
 
 (def kv-troll-capture-all
@@ -272,9 +278,10 @@
 )
 
 (variant
+   (name kv)
+   (inherits thud)
    (title "Koom Valley Thud")
    (group 1)
-   (inherits thud)
    (board
         (kills a15 b15 c15 d15 e15    k15 l15 m15 n15 o15
                a14 b14 c14 d14            l14 m14 n14 o14
@@ -286,31 +293,37 @@
                a3  b3  c3                     m3  n3  o3
                a2  b2  c2  d2             l2  m2  n2  o2
                a1  b1  c1  d1  e1     k1  l1  m1  n1  o1 )
-        (zone goals 
+        (zone (name goals)
               (players Dwarfs) 
               (positions f15 g15 h15 i15 j15)
         )
    )
-   (piece Rock)
-   (piece Dwarf)
-   (piece Troll)
+   (pieces 
+        (Rock
+              (moves kv-rock-all)
+        )
+        (Dwarf
+              (moves kv-dwarf-capture-all)
+        )
+        (Troll
+              (moves 
+                     kv-troll-move-all
+                     (mode with-capture)
+                     kv-troll-capture-all
+                     (pass-turn part)
+              )
+        )
+   )
    (setup
       (Dwarfs (Dwarf a6 b5 c4 d3 e2 f1 g1 h1 i1 j1 k2 l3 m4 n5 o6 h7) 
               (Rock h8))
       (Trolls (Troll e13 f13 f14 h14 h13 j14 j13 k13) )
    )
-   (moves 
-        kv-rock-all 
-        kv-dwarf-capture-all
-        kv-troll-move-all
-        (move-type with-capture)
-        kv-troll-capture-all
-   )
    (goals
         ((win-condition  (Dwarfs) (Rock)) (= (sum pices (in-zone goals)) 1))
         ((loss-condition (Dwarfs) (Rock)) (= (sum pices) 0))
         ((loss-condition (Dwarfs Trolls)) stalemated)
-        ((draw-condition (Dwarfs Trolls)) repetition)
+        ((loss-condition (Dwarfs Trolls)) repetition)
    )
 )
 
@@ -386,16 +399,23 @@
 )
 
 (variant
+   (inherits kv)
    (title "Koom Valley Football")
    (group 2)
-   (inherits kv)
-   (piece Rock)
-   (piece Dwarf)
-   (piece Troll)
-   (moves kvb-rock-all kvb-dwarf-move-all kvb-troll-move-all)
+   (pieces 
+        (Rock
+             (moves kvb-rock-all)
+        )
+        (Dwarf
+             (moves kvb-dwarf-move-all)
+        )
+        (Troll
+             (moves kvb-troll-move-all)
+        )
+   )
    (goals
         ((win-condition  (Dwarfs) (Rock)) (= (sum pices (in-zone goals)) 1))
         ((loss-condition (Dwarfs Trolls)) stalemated)
-        ((draw-condition (Dwarfs Trolls)) repetition)
+        ((loss-condition (Dwarfs Trolls)) repetition)
    )
 )
