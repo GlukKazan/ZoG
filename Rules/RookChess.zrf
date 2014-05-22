@@ -1,4 +1,4 @@
-(version "2.0")
+﻿(version "2.0")
 
 (define leap2        ($1 $2 (verify not-friend?) add) )
 (define king-shift   ($1    (verify not-friend?) (set-attribute never-moved? false) add) )
@@ -40,30 +40,6 @@
   (set-attribute never-moved? false)
   add
 ))
-
-(define move-split
-  (  $1
-     (verify empty?)
-     mark
-     (go from)
-     (create $3)
-     (set-attribute never-moved? false)
-     back
-     (add $2)
-  ) 
-)
-
-(define eat-split
-  (  $1
-     (verify enemy?)
-     mark
-     (go from)
-     (create $3)
-     (set-attribute never-moved? false)
-     back
-     (add $2)
-  ) 
-)
 
 (define leap-split
   (  $1
@@ -163,9 +139,37 @@
        add
      )
 )
+
 (define Pawn-add
    (if (in-zone? promotion-zone) (add Knight Bishop Rook Queen) else add)
 )
+
+(define add-pawn
+   (if (in-zone? promotion-zone) (add Knight Bishop Rook Queen) else (add Pawn))
+)
+
+(define move-split
+  (  $1
+     (verify empty?)
+     mark
+     (go from)
+     (create $2)
+     back
+     (add-pawn)
+  ) 
+)
+
+(define eat-split
+  (  $1
+     (verify enemy?)
+     mark
+     (go from)
+     (create $2)
+     back
+     (add-pawn)
+  ) 
+)
+
 (define Pawn-move
    (
       n
@@ -236,10 +240,11 @@
 
 (game
    (title "Knight Transport Chess")
-   (description "Object: Checkmate the opponent's King by attacking
-	   it so it cannot escape.  To see a description of how a piece moves
-	   right-click on it to bring up its properties dialog.\\
-         Try playing one of the many exciting variants.")
+   (description "Object: Checkmate the opponent's King by attacking it so it cannot escape.
+
+           To see a description of how a piece moves right-click on it to bring up its properties dialog. \\
+           The Knights can transport the other pieces.")
+   (history "Implemented by Valentin Chelnokov, 2014-05-22")
 
    (option "animate captures" false)
    (option "prevent flipping" 2)
@@ -296,7 +301,8 @@
 	  (help "Knight: moves like an `L`, 2 squares one way and one the other")
       (description "Knight\A Knight moves like an `L`, two squares vertically plus one
           horizontally, or two squares horizontally plus one vertically.  It
-          hops over any pieces on the way.")
+          hops over any pieces on the way.\\
+          Can transport the other pieces.")
       (image White "images\Chess\SHaag\wknight.bmp" "images\Chess\wknight.bmp"
              Black "images\Chess\SHaag\bknight.bmp" "images\Chess\bknight.bmp")
       (moves
@@ -397,9 +403,9 @@
       (image White "images\Chess\SHaag\wknight.bmp" "images\Chess\wknight.bmp"
              Black "images\Chess\SHaag\bknight.bmp" "images\Chess\bknight.bmp")
       (moves
-	     (leap2 n ne) (move-split n  Pawn Knight)
-	     (leap2 n nw) (eat-split  nw Pawn Knight)
-	     (leap2 s se) (eat-split  ne Pawn Knight)
+	     (leap2 n ne) (move-split n  Knight)
+	     (leap2 n nw) (eat-split  nw Knight)
+	     (leap2 s se) (eat-split  ne Knight)
 	     (leap2 s sw)
 	     (leap2 e ne)
 	     (leap2 e se)
@@ -495,10 +501,11 @@
 
 (variant
    (title "Bishop Transport Chess")
-   (description "Object: Checkmate the opponent's King by attacking
-	   it so it cannot escape.  To see a description of how a piece moves
-	   right-click on it to bring up its properties dialog.\\
-         Try playing one of the many exciting variants.")
+   (description "Object: Checkmate the opponent's King by attacking it so it cannot escape.
+
+           To see a description of how a piece moves right-click on it to bring up its properties dialog. \\
+           The Bishops can transport the other pieces.")
+   (history "Implemented by Valentin Chelnokov, 2014-05-22")
 
    (board-setup
       (White
@@ -564,7 +571,8 @@
       (name Bishop)
 	  (help "Bishop: slides diagonally any number of squares")
       (description "Bishop\A Bishop moves any number of squares on a diagonal.  It may
-           not leap over other pieces.")
+           not leap over other pieces.\\
+           Can transport the other pieces.")
       (image White "images\Chess\SHaag\wbishop.bmp" "images\Chess\wbishop.bmp"
              Black "images\Chess\SHaag\bbishop.bmp" "images\Chess\bbishop.bmp")
       (moves
@@ -645,7 +653,7 @@
       (image White "images\Chess\SHaag\wbishop.bmp" "images\Chess\wbishop.bmp"
              Black "images\Chess\SHaag\bbishop.bmp" "images\Chess\bbishop.bmp")
       (moves
-         (slide ne) (move-split n  Pawn Bishop)
+         (slide ne) (move-split n Bishop)
          (slide nw) 
          (slide se) 
          (slide sw)
@@ -719,10 +727,11 @@
 
 (variant
    (title "Rook Transport Chess")
-   (description "Object: Checkmate the opponent's King by attacking
-	   it so it cannot escape.  To see a description of how a piece moves
-	   right-click on it to bring up its properties dialog.\\
-         Try playing one of the many exciting variants.")
+   (description "Object: Checkmate the opponent's King by attacking it so it cannot escape.
+
+           To see a description of how a piece moves right-click on it to bring up its properties dialog. \\
+           The Rooks can transport the other pieces.")
+   (history "Implemented by Valentin Chelnokov, 2014-05-22")
 
    (board-setup
       (White
@@ -803,7 +812,8 @@
       (name Rook)
 	  (help "Rook: slides any number of squares along the row or column.")
       (description "Rook\A Rook moves any number of squares orthogonally on a rank
-           or a file.  It may not leap over other pieces.")
+           or a file.  It may not leap over other pieces.\\
+           Can transport the other pieces.")
       (image White "images\Chess\SHaag\wrook.bmp" "images\Chess\wrook.bmp"
              Black "images\Chess\SHaag\brook.bmp" "images\Chess\brook.bmp")
       (attribute never-moved? true)
@@ -868,8 +878,8 @@
              Black "images\Chess\SHaag\brook.bmp" "images\Chess\brook.bmp")
       (attribute never-moved? true)
       (moves
-         (rook-slide n) (eat-split nw Pawn Rook)
-         (rook-slide e) (eat-split  ne Pawn Rook)
+         (rook-slide n) (eat-split nw Rook)
+         (rook-slide e) (eat-split ne Rook)
          (rook-slide s)
          (rook-slide w)
       )
