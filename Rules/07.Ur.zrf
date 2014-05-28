@@ -56,7 +56,7 @@
     (go from)
     (if (in-zone? promotion)
          back
-         (check-enemy-promouted $2 $3 $4 $5)
+         (check-enemy-promouted $2 $3 $4 $6)
      else
          back
          (check-enemy $2 $3 $5)
@@ -72,12 +72,12 @@
     (go from)
     (if (in-zone? promotion)
          back
-         (check-enemy-promouted $2 $3 $4 $5)
+         (check-enemy-promouted $2 $3 $4 $6)
      else
          $1
          (if (in-zone? promotion)
               back
-              (check-enemy-promouted $2 $3 $4 $5)
+              (check-enemy-promouted $2 $3 $4 $6)
           else
               back
               (check-enemy $2 $3 $5)
@@ -94,17 +94,17 @@
     (go from)
     (if (in-zone? promotion)
          back
-         (check-enemy-promouted $2 $3 $4 $5)
+         (check-enemy-promouted $2 $3 $4 $6)
      else
          $1
          (if (in-zone? promotion)
               back
-              (check-enemy-promouted $2 $3 $4 $5)
+              (check-enemy-promouted $2 $3 $4 $6)
           else
               $1
               (if (in-zone? promotion)
                    back
-                   (check-enemy-promouted $2 $3 $4 $5)
+                   (check-enemy-promouted $2 $3 $4 $6)
                else
                    back
                    (check-enemy $2 $3 $5)
@@ -122,22 +122,22 @@
     (go from)
     (if (in-zone? promotion)
          back
-         (check-enemy-promouted $2 $3 $4 $5)
+         (check-enemy-promouted $2 $3 $4 $6)
      else
          $1
          (if (in-zone? promotion)
               back
-              (check-enemy-promouted $2 $3 $4 $5)
+              (check-enemy-promouted $2 $3 $4 $6)
           else
               $1
               (if (in-zone? promotion)
                    back
-                   (check-enemy-promouted $2 $3 $4 $5)
+                   (check-enemy-promouted $2 $3 $4 $6)
                else
                    $1
                    (if (in-zone? promotion)
                         back
-                        (check-enemy-promouted $2 $3 $4 $5)
+                        (check-enemy-promouted $2 $3 $4 $6)
                     else
                         back
                         (check-enemy $2 $3 $5)
@@ -232,40 +232,40 @@
 	  (name  uinitial)
           (image Up   "images\Ur\BDisk.bmp")
       (moves
-          (step-1 anext Down dinitial upromouted dinitial)
-          (step-2 anext Down dinitial upromouted dinitial)
-          (step-3 anext Down dinitial upromouted dinitial)
-          (step-4 anext Down dinitial upromouted dinitial)
+          (step-1 anext Down dinitial upromouted dinitial dpromouted)
+          (step-2 anext Down dinitial upromouted dinitial dpromouted)
+          (step-3 anext Down dinitial upromouted dinitial dpromouted)
+          (step-4 anext Down dinitial upromouted dinitial dpromouted)
       )
    )
    (piece
 	  (name  upromouted)
           (image Up   "images\Ur\BDisk.bmp")
       (moves
-          (step-1 cnext Down dinitial upromouted dpromouted)
-          (step-2 cnext Down dinitial upromouted dpromouted)
-          (step-3 cnext Down dinitial upromouted dpromouted)
-          (step-4 cnext Down dinitial upromouted dpromouted)
+          (step-1 cnext Down dinitial upromouted dpromouted dpromouted)
+          (step-2 cnext Down dinitial upromouted dpromouted dpromouted)
+          (step-3 cnext Down dinitial upromouted dpromouted dpromouted)
+          (step-4 cnext Down dinitial upromouted dpromouted dpromouted)
       )
    )
    (piece
 	  (name  dinitial)
           (image Down "images\Ur\WDisk.bmp")
       (moves
-          (step-1 anext Up uinitial dpromouted uinitial)
-          (step-2 anext Up uinitial dpromouted uinitial)
-          (step-3 anext Up uinitial dpromouted uinitial)
-          (step-4 anext Up uinitial dpromouted uinitial)
+          (step-1 anext Up uinitial dpromouted uinitial upromouted)
+          (step-2 anext Up uinitial dpromouted uinitial upromouted)
+          (step-3 anext Up uinitial dpromouted uinitial upromouted)
+          (step-4 anext Up uinitial dpromouted uinitial upromouted)
       )
    )
    (piece
 	  (name  dpromouted)
           (image Down "images\Ur\WDisk.bmp")
       (moves
-          (step-1 cnext Up uinitial dpromouted upromouted)
-          (step-2 cnext Up uinitial dpromouted upromouted)
-          (step-3 cnext Up uinitial dpromouted upromouted)
-          (step-4 cnext Up uinitial dpromouted upromouted)
+          (step-1 cnext Up uinitial dpromouted upromouted upromouted)
+          (step-2 cnext Up uinitial dpromouted upromouted upromouted)
+          (step-3 cnext Up uinitial dpromouted upromouted upromouted)
+          (step-4 cnext Up uinitial dpromouted upromouted upromouted)
       )
    )
    (win-condition (Up Down) (and (pieces-remaining 0 uinitial) 
