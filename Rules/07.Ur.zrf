@@ -230,7 +230,7 @@
 
    (piece
 	  (name  uinitial)
-          (image Up   "images\Reversi\BDisk.bmp")
+          (image Up   "images\Ur\BDisk.bmp")
       (moves
           (step-1 anext Down dinitial upromouted dinitial)
           (step-2 anext Down dinitial upromouted dinitial)
@@ -240,7 +240,7 @@
    )
    (piece
 	  (name  upromouted)
-          (image Up   "images\Reversi\BDisk.bmp")
+          (image Up   "images\Ur\BDisk.bmp")
       (moves
           (step-1 cnext Down dinitial upromouted dpromouted)
           (step-2 cnext Down dinitial upromouted dpromouted)
@@ -250,7 +250,7 @@
    )
    (piece
 	  (name  dinitial)
-          (image Down "images\Reversi\WDisk.bmp")
+          (image Down "images\Ur\WDisk.bmp")
       (moves
           (step-1 anext Up uinitial dpromouted uinitial)
           (step-2 anext Up uinitial dpromouted uinitial)
@@ -260,7 +260,7 @@
    )
    (piece
 	  (name  dpromouted)
-          (image Down "images\Reversi\WDisk.bmp")
+          (image Down "images\Ur\WDisk.bmp")
       (moves
           (step-1 cnext Up uinitial dpromouted upromouted)
           (step-2 cnext Up uinitial dpromouted upromouted)
