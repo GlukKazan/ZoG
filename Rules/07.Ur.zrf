@@ -1,0 +1,275 @@
+(version "2.0")
+
+(define check-end
+  (if (in-zone? end)
+      capture
+      add
+  )
+  (verify (not-in-zone? end))
+)
+
+(define check-enemy
+  mark
+  (if (piece? $3)
+      z2
+      afree
+      (while (and (not-position? offboard) not-empty?)
+           afree
+      )
+      (if (not-position? offboard)
+          (create $1 $2)
+          back
+          add
+      )
+   else
+      (verify empty?)
+      back
+      add
+  )
+)
+ 
+(define check-enemy-promouted
+  mark
+  (if (piece? $4)
+      z2
+      afree
+      (while (and (not-position? offboard) not-empty?)
+           afree
+      )
+      (if (not-position? offboard)
+          (create $1 $2)
+          back
+          (add $3)
+      )
+   else
+      back
+      (verify empty?)
+      (add $3)
+  )
+)
+
+(define step-1
+  ( $1
+    (check-end)
+    (verify not-friend?)
+    mark
+    (go from)
+    (if (in-zone? promotion)
+         back
+         (check-enemy-promouted $2 $3 $4 $5)
+     else
+         back
+         (check-enemy $2 $3 $5)
+    )
+  )
+)
+
+(define step-2
+  ( $1 $1
+    (check-end)
+    (verify not-friend?)
+    mark
+    (go from)
+    (if (in-zone? promotion)
+         back
+         (check-enemy-promouted $2 $3 $4 $5)
+     else
+         $1
+         (if (in-zone? promotion)
+              back
+              (check-enemy-promouted $2 $3 $4 $5)
+          else
+              back
+              (check-enemy $2 $3 $5)
+         )
+    )
+  )
+)
+
+(define step-3
+  ( $1 $1 $1
+    (check-end)
+    (verify not-friend?)
+    mark
+    (go from)
+    (if (in-zone? promotion)
+         back
+         (check-enemy-promouted $2 $3 $4 $5)
+     else
+         $1
+         (if (in-zone? promotion)
+              back
+              (check-enemy-promouted $2 $3 $4 $5)
+          else
+              $1
+              (if (in-zone? promotion)
+                   back
+                   (check-enemy-promouted $2 $3 $4 $5)
+               else
+                   back
+                   (check-enemy $2 $3 $5)
+              )
+         )
+    )
+  )
+)
+
+(define step-4
+  ( $1 $1 $1 $1
+    (check-end)
+    (verify not-friend?)
+    mark
+    (go from)
+    (if (in-zone? promotion)
+         back
+         (check-enemy-promouted $2 $3 $4 $5)
+     else
+         $1
+         (if (in-zone? promotion)
+              back
+              (check-enemy-promouted $2 $3 $4 $5)
+          else
+              $1
+              (if (in-zone? promotion)
+                   back
+                   (check-enemy-promouted $2 $3 $4 $5)
+               else
+                   $1
+                   (if (in-zone? promotion)
+                        back
+                        (check-enemy-promouted $2 $3 $4 $5)
+                    else
+                        back
+                        (check-enemy $2 $3 $5)
+                   )
+              )
+         )
+    )
+  )
+)
+
+(define board-defs
+  (image "images/Ur/ur_board.bmp")
+  (grid
+     (start-rectangle -36 -10 24 82)
+     (dimensions
+         ("z/a/b/c/d/e/f/g/h/x" (67 0)) ; files
+         ("4/3/2/1/0" (0 66)) ; ranks
+     )    
+  )
+  (dummy offboard)
+  (links afree (z2 a4) (a4 b4) (b4 c4) (c4 d4) (d4 e4) (e4 f4) (f4 g4) (g4 offboard) )
+  (links bfree (z2 a0) (a0 b0) (b0 c0) (c0 d0) (d0 e0) (e0 f0) (f0 g0) (g0 offboard) )
+  (links anext (a0 d1) (b0 d1) (c0 d1) (d0 d1) (e0 d1) (f0 d1) (g0 d1)
+               (d1 c1) (c1 b1) (b1 a1) (a1 a2) (a2 b2) (b2 c2) (c2 d2) 
+               (d2 e2) (e2 f2) (f2 g2) (g2 g1) (g1 h1) (h1 h2) (h2 h3)
+               (h3 g3) (g3 g2)
+  )
+  (links cnext (h2 h3) (h3 g3) (g3 g2) (g2 f2) (f2 e2) (e2 d2) (d2 c2)
+               (c2 b2) (b2 a2) (a2 z2) 
+  )
+  (links bnext (a4 d3) (b4 d3) (c4 d3) (d4 d3) (e4 d3) (f4 d3) (g4 d3) 
+               (d3 c3) (c3 b3) (b3 a3) (a3 a2) (a2 b2) (b2 c2) (c2 d2) 
+               (d2 e2) (e2 f2) (f2 g2) (g2 g3) (g3 h3) (h3 h2) (h2 h1) 
+               (h1 g1) (g1 g2)
+  )
+  (links dnext (h2 h1) (h1 g1) (g1 g2) (g2 f2) (f2 e2) (e2 d2) (d2 c2)
+               (c2 b2) (b2 a2) (a2 z2)
+  )
+  (symmetry Up (anext bnext) (cnext dnext) (afree bfree))
+  (zone
+     (name promotion)
+     (players Down)
+     (positions h1)
+  )
+  (zone
+     (name promotion)
+     (players Up)
+     (positions h3)
+  )
+  (zone
+     (name end)
+     (players Up Down)
+     (positions z2)
+  )
+)
+
+(game
+   (title "Ur")
+
+   (option "animate captures" false)
+   (option "animate drops" false)
+   (option "show moves list" false)
+   (option "pass turn" forced)
+   (option "highlight goals" false)
+   (option "prevent flipping" true)
+
+   (drop-sound "Audio/Dice_cup.wav")
+   (move-sound "Audio/Clack.wav")
+
+   (capture-sound "")
+
+   (players Up Down ?Dice)
+
+   (turn-order Down Up)
+
+   (board (board-defs) )
+   (board-setup
+          (Up    (uinitial a4 b4 c4 d4 e4 f4 g4))
+          (Down  (dinitial a0 b0 c0 d0 e0 f0 g0))
+   )
+
+   (piece
+	  (name wdice)
+          (image ?Dice "images\ur\WDisk.bmp")
+   )
+   (piece
+	  (name bdice)
+          (image ?Dice "images\ur\BDisk.bmp")
+   )
+
+   (piece
+	  (name  uinitial)
+          (image Up   "images\Reversi\BDisk.bmp")
+      (moves
+          (step-1 anext Down dinitial upromouted dinitial)
+          (step-2 anext Down dinitial upromouted dinitial)
+          (step-3 anext Down dinitial upromouted dinitial)
+          (step-4 anext Down dinitial upromouted dinitial)
+      )
+   )
+   (piece
+	  (name  upromouted)
+          (image Up   "images\Reversi\BDisk.bmp")
+      (moves
+          (step-1 cnext Down dinitial upromouted dpromouted)
+          (step-2 cnext Down dinitial upromouted dpromouted)
+          (step-3 cnext Down dinitial upromouted dpromouted)
+          (step-4 cnext Down dinitial upromouted dpromouted)
+      )
+   )
+   (piece
+	  (name  dinitial)
+          (image Down "images\Reversi\WDisk.bmp")
+      (moves
+          (step-1 anext Up uinitial dpromouted uinitial)
+          (step-2 anext Up uinitial dpromouted uinitial)
+          (step-3 anext Up uinitial dpromouted uinitial)
+          (step-4 anext Up uinitial dpromouted uinitial)
+      )
+   )
+   (piece
+	  (name  dpromouted)
+          (image Down "images\Reversi\WDisk.bmp")
+      (moves
+          (step-1 cnext Up uinitial dpromouted upromouted)
+          (step-2 cnext Up uinitial dpromouted upromouted)
+          (step-3 cnext Up uinitial dpromouted upromouted)
+          (step-4 cnext Up uinitial dpromouted upromouted)
+      )
+   )
+   (win-condition (Up Down) (and (pieces-remaining 0 uinitial) 
+                                 (pieces-remaining 0 upromouted) 
+                                 (pieces-remaining 0 dinitial)
+                                 (pieces-remaining 0 dpromouted) ) )
+)
