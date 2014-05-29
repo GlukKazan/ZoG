@@ -1,4 +1,4 @@
-﻿(version "2.0")
+(version "2.0")
 
 (define leap2        ($1 $2 (verify not-friend?) add) )
 (define king-shift   ($1    (verify not-friend?) (set-attribute never-moved? false) add) )
@@ -396,7 +396,7 @@
 
    (piece
       (name KnightPawn)
-	  (help "Knight: moves like an `L`, 2 squares one way and one the other")
+	  (help "KnightPawn: moves like an `L`, 2 squares one way and one the other")
       (description "Knight\A Knight moves like an `L`, two squares vertically plus one
           horizontally, or two squares horizontally plus one vertically.  It
           hops over any pieces on the way.")
@@ -416,7 +416,7 @@
 
    (piece
       (name KnightBishop)
-	  (help "Knight: moves like an `L`, 2 squares one way and one the other")
+	  (help "KnightBishop: moves like an `L`, 2 squares one way and one the other")
       (description "Knight\A Knight moves like an `L`, two squares vertically plus one
           horizontally, or two squares horizontally plus one vertically.  It
           hops over any pieces on the way.")
@@ -436,7 +436,7 @@
 
    (piece
       (name KnightRook)
-	  (help "Knight: moves like an `L`, 2 squares one way and one the other")
+	  (help "KnightRook: moves like an `L`, 2 squares one way and one the other")
       (description "Knight\A Knight moves like an `L`, two squares vertically plus one
           horizontally, or two squares horizontally plus one vertically.  It
           hops over any pieces on the way.")
@@ -456,7 +456,7 @@
 
    (piece
       (name KnightQueen)
-	  (help "Knight: moves like an `L`, 2 squares one way and one the other")
+	  (help "KnightQueen: moves like an `L`, 2 squares one way and one the other")
       (description "Knight\A Knight moves like an `L`, two squares vertically plus one
           horizontally, or two squares horizontally plus one vertically.  It
           hops over any pieces on the way.")
@@ -476,7 +476,7 @@
 
    (piece
       (name KnightKing)
-	  (help "Knight: moves like an `L`, 2 squares one way and one the other")
+	  (help "KnightKing: moves like an `L`, 2 squares one way and one the other")
       (description "Knight\A Knight moves like an `L`, two squares vertically plus one
           horizontally, or two squares horizontally plus one vertically.  It
           hops over any pieces on the way.")
@@ -647,7 +647,7 @@
 
    (piece
       (name BishopPawn)
-	  (help "Bishop: slides diagonally any number of squares")
+	  (help "BishopPawn: slides diagonally any number of squares")
       (description "Bishop\A Bishop moves any number of squares on a diagonal.  It may
            not leap over other pieces.")
       (image White "images\Chess\SHaag\wbishop.bmp" "images\Chess\wbishop.bmp"
@@ -662,7 +662,7 @@
 
    (piece
       (name BishopKnight)
-	  (help "Bishop: slides diagonally any number of squares")
+	  (help "BishopKnight: slides diagonally any number of squares")
       (description "Bishop\A Bishop moves any number of squares on a diagonal.  It may
            not leap over other pieces.")
       (image White "images\Chess\SHaag\wbishop.bmp" "images\Chess\wbishop.bmp"
@@ -677,7 +677,7 @@
 
    (piece
       (name BishopRook)
-	  (help "Bishop: slides diagonally any number of squares")
+	  (help "BishopRook: slides diagonally any number of squares")
       (description "Bishop\A Bishop moves any number of squares on a diagonal.  It may
            not leap over other pieces.")
       (image White "images\Chess\SHaag\wbishop.bmp" "images\Chess\wbishop.bmp"
@@ -692,7 +692,7 @@
 
    (piece
       (name BishopQueen)
-	  (help "Bishop: slides diagonally any number of squares")
+	  (help "BishopQueen: slides diagonally any number of squares")
       (description "Bishop\A Bishop moves any number of squares on a diagonal.  It may
            not leap over other pieces.")
       (image White "images\Chess\SHaag\wbishop.bmp" "images\Chess\wbishop.bmp"
@@ -707,7 +707,7 @@
 
    (piece
       (name BishopKing)
-	  (help "Bishop: slides diagonally any number of squares")
+	  (help "BishopKing: slides diagonally any number of squares")
       (description "Bishop\A Bishop moves any number of squares on a diagonal.  It may
            not leap over other pieces.")
       (image White "images\Chess\SHaag\wbishop.bmp" "images\Chess\wbishop.bmp"
@@ -871,7 +871,7 @@
 
    (piece
       (name RookPawn)
-	  (help "Rook: slides any number of squares along the row or column.")
+	  (help "RookPawn: slides any number of squares along the row or column.")
       (description "Rook\A Rook moves any number of squares orthogonally on a rank
            or a file.  It may not leap over other pieces.")
       (image White "images\Chess\SHaag\wrook.bmp" "images\Chess\wrook.bmp"
@@ -887,7 +887,7 @@
 
    (piece
       (name RookKnight)
-	  (help "Rook: slides any number of squares along the row or column.")
+	  (help "RookKnight: slides any number of squares along the row or column.")
       (description "Rook\A Rook moves any number of squares orthogonally on a rank
            or a file.  It may not leap over other pieces.")
       (image White "images\Chess\SHaag\wrook.bmp" "images\Chess\wrook.bmp"
@@ -903,7 +903,7 @@
 
    (piece
       (name RookBishop)
-	  (help "Rook: slides any number of squares along the row or column.")
+	  (help "RookBishop: slides any number of squares along the row or column.")
       (description "Rook\A Rook moves any number of squares orthogonally on a rank
            or a file.  It may not leap over other pieces.")
       (image White "images\Chess\SHaag\wrook.bmp" "images\Chess\wrook.bmp"
@@ -919,7 +919,7 @@
 
    (piece
       (name RookQueen)
-	  (help "Rook: slides any number of squares along the row or column.")
+	  (help "RookQueen: slides any number of squares along the row or column.")
       (description "Rook\A Rook moves any number of squares orthogonally on a rank
            or a file.  It may not leap over other pieces.")
       (image White "images\Chess\SHaag\wrook.bmp" "images\Chess\wrook.bmp"
@@ -935,7 +935,7 @@
 
    (piece
       (name RookKing)
-	  (help "Rook: slides any number of squares along the row or column.")
+	  (help "RookKing: slides any number of squares along the row or column.")
       (description "Rook\A Rook moves any number of squares orthogonally on a rank
            or a file.  It may not leap over other pieces.")
       (image White "images\Chess\SHaag\wrook.bmp" "images\Chess\wrook.bmp"
@@ -954,3 +954,426 @@
    (loss-condition (White Black) repetition)
 )
 
+(variant
+   (title "-")
+)
+
+(variant
+   (title "Transport Madness")
+   (description "Object: Checkmate the opponent's King by attacking it so it cannot escape.
+
+           To see a description of how a piece moves right-click on it to bring up its properties dialog. \\
+           The Knights can transport the other pieces.")
+   (history "Implemented by Valentin Chelnokov, 2014-05-23")
+
+   (option "animate captures" false)
+   (option "prevent flipping" 2)
+   (win-sound "Audio\Orchestra_CF.wav")
+   (loss-sound "Audio\Orchestra_FC.wav")
+   (click-sound "Audio\Pickup.wav")
+   (release-sound "Audio\WoodThunk.wav")
+   (players White Black)
+   (turn-order White Black)
+   (board (Board-Definitions))
+
+   (board-setup
+      (White
+         (Pawn a2 b2 c2 d2 e2 f2 g2 h2)
+         (Knight b1 g1)
+         (Bishop c1 f1)
+         (Rook a1 h1)
+         (Queen d1)
+         (King e1)
+      )
+      (Black
+         (Pawn a7 b7 c7 d7 e7 f7 g7 h7)
+         (Knight b8 g8)
+         (Bishop c8 f8)
+         (Rook a8 h8)
+         (Queen d8)
+         (King e8)
+      )
+   )
+
+   (piece
+      (name Pawn)
+      (help "Pawn: moves forward, captures diagonally, can promote on 8th row")
+      (description "Pawn\A Pawn can move straight ahead one square, or two squares from
+           its starting position.  A Pawn captures by moving one square ahead and
+           diagonally.  If a Pawn reaches the far rank it promotes, changing into
+           a Knight, Bishop, Rook, or Queen.  On rare occasions Pawns can also execute
+           a move called `En Passant`, or `in passing`.  This allows a Pawn to take
+           an enemy Pawn that has just moved two squares.")
+      (image White "images\Chess\SHaag\wpawn.bmp" "images\Chess\wpawn.bmp"
+             Black "images\Chess\SHaag\bpawn.bmp" "images\Chess\bpawn.bmp")
+      (moves
+         (leap-join n  Knight KnightPawn)
+         (leap-join n  Bishop BishopPawn)
+         (leap-join n  Rook   RookPawn)
+         (Pawn-capture nw)
+         (Pawn-capture ne)
+         (Pawn-move)
+         (En-Passant e)
+         (En-Passant w)
+      )
+   )
+
+   (piece
+      (name Knight)
+	  (help "Knight: moves like an `L`, 2 squares one way and one the other")
+      (description "Knight\A Knight moves like an `L`, two squares vertically plus one
+          horizontally, or two squares horizontally plus one vertically.  It
+          hops over any pieces on the way.\\
+          Can transport the other pieces.")
+      (image White "images\Chess\SHaag\wknight.bmp" "images\Chess\wknight.bmp"
+             Black "images\Chess\SHaag\bknight.bmp" "images\Chess\bknight.bmp")
+      (moves
+	     (leap2 n ne) (leap2-join n ne Bishop BishopKnight) (leap2-join n ne Rook RookKnight)
+	     (leap2 n nw) (leap2-join n nw Bishop BishopKnight) (leap2-join n nw Rook RookKnight)
+	     (leap2 s se) (leap2-join s se Bishop BishopKnight) (leap2-join s se Rook RookKnight)
+	     (leap2 s sw) (leap2-join s sw Bishop BishopKnight) (leap2-join s sw Rook RookKnight)
+	     (leap2 e ne) (leap2-join e ne Bishop BishopKnight) (leap2-join e ne Rook RookKnight)
+	     (leap2 e se) (leap2-join e se Bishop BishopKnight) (leap2-join e se Rook RookKnight)
+	     (leap2 w nw) (leap2-join w nw Bishop BishopKnight) (leap2-join w nw Rook RookKnight)
+	     (leap2 w sw) (leap2-join w sw Bishop BishopKnight) (leap2-join w sw Rook RookKnight)
+      )
+   )
+
+   (piece
+      (name Bishop)
+	  (help "Bishop: slides diagonally any number of squares")
+      (description "Bishop\A Bishop moves any number of squares on a diagonal.  It may
+           not leap over other pieces.")
+      (image White "images\Chess\SHaag\wbishop.bmp" "images\Chess\wbishop.bmp"
+             Black "images\Chess\SHaag\bbishop.bmp" "images\Chess\bbishop.bmp")
+      (moves
+         (slide ne) (slide-join ne Knight KnightBishop) (slide-join ne Rook RookBishop)
+         (slide nw) (slide-join nw Knight KnightBishop) (slide-join nw Rook RookBishop)
+         (slide se) (slide-join se Knight KnightBishop) (slide-join se Rook RookBishop)
+         (slide sw) (slide-join sw Knight KnightBishop) (slide-join sw Rook RookBishop)
+      )
+   )
+
+   (piece
+      (name Rook)
+	  (help "Rook: slides any number of squares along the row or column.")
+      (description "Rook\A Rook moves any number of squares orthogonally on a rank
+           or a file.  It may not leap over other pieces.")
+      (image White "images\Chess\SHaag\wrook.bmp" "images\Chess\wrook.bmp"
+             Black "images\Chess\SHaag\brook.bmp" "images\Chess\brook.bmp")
+      (attribute never-moved? true)
+      (moves
+         (rook-slide n) (slide-join n Knight KnightRook) (slide-join n Bishop BishopRook)
+         (rook-slide e) (slide-join e Knight KnightRook) (slide-join e Bishop BishopRook)
+         (rook-slide s) (slide-join s Knight KnightRook) (slide-join s Bishop BishopRook)
+         (rook-slide w) (slide-join w Knight KnightRook) (slide-join w Bishop BishopRook)
+      )
+   )
+
+   (piece
+      (name Queen)
+	  (help "Queen: can slide any number of squares in any direction")
+      (description "Queen\A Queen moves any number of squares in a straight line.
+          It may not leap over other pieces.")
+      (image White "images\Chess\SHaag\wqueen.bmp" "images\Chess\wqueen.bmp"
+             Black "images\Chess\SHaag\bqueen.bmp" "images\Chess\bqueen.bmp")
+      (moves
+         (slide n)  (slide-join n  Knight KnightQueen) (slide-join n  Bishop BishopQueen) (slide-join n  Rook RookQueen)
+         (slide e)  (slide-join e  Knight KnightQueen) (slide-join e  Bishop BishopQueen) (slide-join e  Rook RookQueen)
+         (slide s)  (slide-join s  Knight KnightQueen) (slide-join s  Bishop BishopQueen) (slide-join s  Rook RookQueen)
+         (slide w)  (slide-join w  Knight KnightQueen) (slide-join w  Bishop BishopQueen) (slide-join w  Rook RookQueen)
+         (slide ne) (slide-join ne Knight KnightQueen) (slide-join ne Bishop BishopQueen) (slide-join ne Rook RookQueen)
+         (slide nw) (slide-join nw Knight KnightQueen) (slide-join nw Bishop BishopQueen) (slide-join nw Rook RookQueen)
+         (slide se) (slide-join se Knight KnightQueen) (slide-join se Bishop BishopQueen) (slide-join se Rook RookQueen)
+         (slide sw) (slide-join sw Knight KnightQueen) (slide-join sw Bishop BishopQueen) (slide-join sw Rook RookQueen)
+      )
+   )
+
+   (piece
+      (name King)
+	  (help "King: steps 1 square in any direction to a safe square")
+      (description "King\A King can move to any adjacent square, but never to a 
+	      square where it can be captured.  It may also `castle`
+          with the Rook if neither the Rook nor King has moved yet and there is
+          nothing in between them.  In castling the King moves two squares nearer
+          the Rook and the Rook leaps to the far side of the King.  You may not
+          castle out of or through check, or if the King or Rook involved has 
+		  previously moved.")
+      (image White "images\Chess\SHaag\wking.bmp" "images\Chess\wking.bmp"
+             Black "images\Chess\SHaag\bking.bmp" "images\Chess\bking.bmp")
+      (attribute never-moved? true)
+      (moves
+         (king-shift n)  (leap-join n  Knight KnightKing) (leap-join n  Bishop BishopKing) (leap-join n  Rook RookKing)
+         (king-shift e)  (leap-join e  Knight KnightKing) (leap-join e  Bishop BishopKing) (leap-join e  Rook RookKing)
+         (king-shift s)  (leap-join s  Knight KnightKing) (leap-join s  Bishop BishopKing) (leap-join s  Rook RookKing)
+         (king-shift w)  (leap-join w  Knight KnightKing) (leap-join w  Bishop BishopKing) (leap-join w  Rook RookKing)
+         (king-shift ne) (leap-join ne Knight KnightKing) (leap-join ne Bishop BishopKing) (leap-join ne Rook RookKing)
+         (king-shift nw) (leap-join nw Knight KnightKing) (leap-join nw Bishop BishopKing) (leap-join nw Rook RookKing)
+         (king-shift se) (leap-join se Knight KnightKing) (leap-join se Bishop BishopKing) (leap-join se Rook RookKing)
+         (king-shift sw) (leap-join sw Knight KnightKing) (leap-join sw Bishop BishopKing) (leap-join sw Rook RookKing)
+         (O-O)
+         (O-O-O)
+      )
+   )
+
+   (piece
+      (name KnightPawn)
+	  (help "KnightPawn: moves like an `L`, 2 squares one way and one the other")
+      (description "Knight\A Knight moves like an `L`, two squares vertically plus one
+          horizontally, or two squares horizontally plus one vertically.  It
+          hops over any pieces on the way.")
+      (image White "images\Chess\SHaag\wknight.bmp" "images\Chess\wknight.bmp"
+             Black "images\Chess\SHaag\bknight.bmp" "images\Chess\bknight.bmp")
+      (moves
+	     (leap2 n ne) (move-split n  Knight)
+	     (leap2 n nw) (eat-split  nw Knight)
+	     (leap2 s se) (eat-split  ne Knight)
+	     (leap2 s sw)
+	     (leap2 e ne)
+	     (leap2 e se)
+	     (leap2 w nw)
+	     (leap2 w sw)
+      )
+   )
+
+   (piece
+      (name KnightBishop)
+	  (help "KnightBishop: moves like an `L`, 2 squares one way and one the other")
+      (description "Knight\A Knight moves like an `L`, two squares vertically plus one
+          horizontally, or two squares horizontally plus one vertically.  It
+          hops over any pieces on the way.")
+      (image White "images\Chess\SHaag\wknight.bmp" "images\Chess\wknight.bmp"
+             Black "images\Chess\SHaag\bknight.bmp" "images\Chess\bknight.bmp")
+      (moves
+	     (leap2 n ne) (slide-split nw Bishop Knight)
+	     (leap2 n nw) (slide-split ne Bishop Knight)
+	     (leap2 s se) (slide-split sw Bishop Knight)
+	     (leap2 s sw) (slide-split se Bishop Knight)
+	     (leap2 e ne)
+	     (leap2 e se)
+	     (leap2 w nw)
+	     (leap2 w sw)
+      )
+   )
+
+   (piece
+      (name KnightRook)
+	  (help "KnightRook: moves like an `L`, 2 squares one way and one the other")
+      (description "Knight\A Knight moves like an `L`, two squares vertically plus one
+          horizontally, or two squares horizontally plus one vertically.  It
+          hops over any pieces on the way.")
+      (image White "images\Chess\SHaag\wknight.bmp" "images\Chess\wknight.bmp"
+             Black "images\Chess\SHaag\bknight.bmp" "images\Chess\bknight.bmp")
+      (moves
+	     (leap2 n ne) (slide-split n Rook Knight)
+	     (leap2 n nw) (slide-split s Rook Knight)
+	     (leap2 s se) (slide-split w Rook Knight)
+	     (leap2 s sw) (slide-split e Rook Knight)
+	     (leap2 e ne)
+	     (leap2 e se)
+	     (leap2 w nw)
+	     (leap2 w sw)
+      )
+   )
+
+   (piece
+      (name KnightQueen)
+	  (help "KnightQueen: moves like an `L`, 2 squares one way and one the other")
+      (description "Knight\A Knight moves like an `L`, two squares vertically plus one
+          horizontally, or two squares horizontally plus one vertically.  It
+          hops over any pieces on the way.")
+      (image White "images\Chess\SHaag\wknight.bmp" "images\Chess\wknight.bmp"
+             Black "images\Chess\SHaag\bknight.bmp" "images\Chess\bknight.bmp")
+      (moves
+	     (leap2 n ne) (slide-split n  Queen Knight)
+	     (leap2 n nw) (slide-split s  Queen Knight)
+	     (leap2 s se) (slide-split w  Queen Knight)
+	     (leap2 s sw) (slide-split e  Queen Knight)
+	     (leap2 e ne) (slide-split nw Queen Knight)
+	     (leap2 e se) (slide-split ne Queen Knight)
+	     (leap2 w nw) (slide-split sw Queen Knight)
+	     (leap2 w sw) (slide-split se Queen Knight)
+      )
+   )
+
+   (piece
+      (name KnightKing)
+	  (help "KnightKing: moves like an `L`, 2 squares one way and one the other")
+      (description "Knight\A Knight moves like an `L`, two squares vertically plus one
+          horizontally, or two squares horizontally plus one vertically.  It
+          hops over any pieces on the way.")
+      (image White "images\Chess\SHaag\wknight.bmp" "images\Chess\wknight.bmp"
+             Black "images\Chess\SHaag\bknight.bmp" "images\Chess\bknight.bmp")
+      (moves
+	     (leap2 n ne) (leap-split n  King Knight)
+	     (leap2 n nw) (leap-split s  King Knight)
+	     (leap2 s se) (leap-split w  King Knight)
+	     (leap2 s sw) (leap-split e  King Knight)
+	     (leap2 e ne) (leap-split nw King Knight)
+	     (leap2 e se) (leap-split ne King Knight)
+	     (leap2 w nw) (leap-split sw King Knight)
+	     (leap2 w sw) (leap-split se King Knight)
+      )
+   )
+
+   (piece
+      (name BishopPawn)
+	  (help "BishopPawn: slides diagonally any number of squares")
+      (description "Bishop\A Bishop moves any number of squares on a diagonal.  It may
+           not leap over other pieces.")
+      (image White "images\Chess\SHaag\wbishop.bmp" "images\Chess\wbishop.bmp"
+             Black "images\Chess\SHaag\bbishop.bmp" "images\Chess\bbishop.bmp")
+      (moves
+         (slide ne) (move-split n Bishop)
+         (slide nw) 
+         (slide se) 
+         (slide sw)
+      )
+   )
+
+   (piece
+      (name BishopKnight)
+	  (help "BishopKnight: slides diagonally any number of squares")
+      (description "Bishop\A Bishop moves any number of squares on a diagonal.  It may
+           not leap over other pieces.")
+      (image White "images\Chess\SHaag\wbishop.bmp" "images\Chess\wbishop.bmp"
+             Black "images\Chess\SHaag\bbishop.bmp" "images\Chess\bbishop.bmp")
+      (moves
+         (slide ne) (leap2-split n ne Knight Bishop) (leap2-split e ne Knight Bishop)
+         (slide nw) (leap2-split n nw Knight Bishop) (leap2-split e se Knight Bishop)
+         (slide se) (leap2-split s se Knight Bishop) (leap2-split w nw Knight Bishop)
+         (slide sw) (leap2-split s sw Knight Bishop) (leap2-split w sw Knight Bishop)
+      )
+   )
+
+   (piece
+      (name BishopRook)
+	  (help "BishopRook: slides diagonally any number of squares")
+      (description "Bishop\A Bishop moves any number of squares on a diagonal.  It may
+           not leap over other pieces.")
+      (image White "images\Chess\SHaag\wbishop.bmp" "images\Chess\wbishop.bmp"
+             Black "images\Chess\SHaag\bbishop.bmp" "images\Chess\bbishop.bmp")
+      (moves
+         (slide ne) (slide-split n Rook Bishop)
+         (slide nw) (slide-split s Rook Bishop)
+         (slide se) (slide-split w Rook Bishop)
+         (slide sw) (slide-split e Rook Bishop)
+      )
+   )
+
+   (piece
+      (name BishopQueen)
+	  (help "BishopQueen: slides diagonally any number of squares")
+      (description "Bishop\A Bishop moves any number of squares on a diagonal.  It may
+           not leap over other pieces.")
+      (image White "images\Chess\SHaag\wbishop.bmp" "images\Chess\wbishop.bmp"
+             Black "images\Chess\SHaag\bbishop.bmp" "images\Chess\bbishop.bmp")
+      (moves
+         (slide ne) (slide-split n Queen Bishop)
+         (slide nw) (slide-split s Queen Bishop)
+         (slide se) (slide-split w Queen Bishop)
+         (slide sw) (slide-split e Queen Bishop)
+      )
+   )
+
+   (piece
+      (name BishopKing)
+	  (help "BishopKing: slides diagonally any number of squares")
+      (description "Bishop\A Bishop moves any number of squares on a diagonal.  It may
+           not leap over other pieces.")
+      (image White "images\Chess\SHaag\wbishop.bmp" "images\Chess\wbishop.bmp"
+             Black "images\Chess\SHaag\bbishop.bmp" "images\Chess\bbishop.bmp")
+      (moves
+         (slide ne) (leap-split n King Bishop)
+         (slide nw) (leap-split s King Bishop)
+         (slide se) (leap-split w King Bishop)
+         (slide sw) (leap-split e King Bishop)
+      )
+   )
+
+   (piece
+      (name RookPawn)
+	  (help "RookPawn: slides any number of squares along the row or column.")
+      (description "Rook\A Rook moves any number of squares orthogonally on a rank
+           or a file.  It may not leap over other pieces.")
+      (image White "images\Chess\SHaag\wrook.bmp" "images\Chess\wrook.bmp"
+             Black "images\Chess\SHaag\brook.bmp" "images\Chess\brook.bmp")
+      (attribute never-moved? true)
+      (moves
+         (rook-slide n) (eat-split nw Rook)
+         (rook-slide e) (eat-split ne Rook)
+         (rook-slide s)
+         (rook-slide w)
+      )
+   )
+
+   (piece
+      (name RookKnight)
+	  (help "RookKnight: slides any number of squares along the row or column.")
+      (description "Rook\A Rook moves any number of squares orthogonally on a rank
+           or a file.  It may not leap over other pieces.")
+      (image White "images\Chess\SHaag\wrook.bmp" "images\Chess\wrook.bmp"
+             Black "images\Chess\SHaag\brook.bmp" "images\Chess\brook.bmp")
+      (attribute never-moved? true)
+      (moves
+         (rook-slide n) (leap2-split n ne Knight Rook) (leap2-split e ne Knight Rook)
+         (rook-slide e) (leap2-split n nw Knight Rook) (leap2-split e se Knight Rook)
+         (rook-slide s) (leap2-split s se Knight Rook) (leap2-split w nw Knight Rook)
+         (rook-slide w) (leap2-split s sw Knight Rook) (leap2-split w sw Knight Rook)
+      )
+   )
+
+   (piece
+      (name RookBishop)
+	  (help "RookBishop: slides any number of squares along the row or column.")
+      (description "Rook\A Rook moves any number of squares orthogonally on a rank
+           or a file.  It may not leap over other pieces.")
+      (image White "images\Chess\SHaag\wrook.bmp" "images\Chess\wrook.bmp"
+             Black "images\Chess\SHaag\brook.bmp" "images\Chess\brook.bmp")
+      (attribute never-moved? true)
+      (moves
+         (rook-slide n) (slide-split ne Bishop Rook)
+         (rook-slide e) (slide-split nw Bishop Rook)
+         (rook-slide s) (slide-split se Bishop Rook)
+         (rook-slide w) (slide-split sw Bishop Rook)
+      )
+   )
+
+   (piece
+      (name RookQueen)
+	  (help "RookQueen: slides any number of squares along the row or column.")
+      (description "Rook\A Rook moves any number of squares orthogonally on a rank
+           or a file.  It may not leap over other pieces.")
+      (image White "images\Chess\SHaag\wrook.bmp" "images\Chess\wrook.bmp"
+             Black "images\Chess\SHaag\brook.bmp" "images\Chess\brook.bmp")
+      (attribute never-moved? true)
+      (moves
+         (rook-slide n) (slide-split ne Queen Rook)
+         (rook-slide e) (slide-split nw Queen Rook)
+         (rook-slide s) (slide-split se Queen Rook)
+         (rook-slide w) (slide-split sw Queen Rook)
+      )
+   )
+
+   (piece
+      (name RookKing)
+	  (help "RookKing: slides any number of squares along the row or column.")
+      (description "Rook\A Rook moves any number of squares orthogonally on a rank
+           or a file.  It may not leap over other pieces.")
+      (image White "images\Chess\SHaag\wrook.bmp" "images\Chess\wrook.bmp"
+             Black "images\Chess\SHaag\brook.bmp" "images\Chess\brook.bmp")
+      (attribute never-moved? true)
+      (moves
+         (rook-slide n) (leap-split nw King Rook)
+         (rook-slide e) (leap-split ne King Rook)
+         (rook-slide s) (leap-split sw King Rook)
+         (rook-slide w) (leap-split se King Rook)
+      )
+   )
+
+   (loss-condition (White Black) (checkmated King) )
+   (loss-condition (White Black) (checkmated KnightKing) )
+   (loss-condition (White Black) (checkmated BishopKing) )
+   (loss-condition (White Black) (checkmated RookKing) )
+   (loss-condition (White Black) repetition)
+)
