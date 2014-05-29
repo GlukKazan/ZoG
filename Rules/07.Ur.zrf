@@ -1,8 +1,119 @@
 (version "2.0")
 
+(define drop-dice
+  ( (verify (in-zone? dices))
+    (verify empty?)
+    add
+  )
+)
+
+(define clear-dices
+  mark
+  x1
+  (while (not-position? offboard)
+     capture
+     next
+  )
+  back
+)
+
+(define check-0-dices
+  mark
+  (set-flag zero-dices true)
+  x1
+  (while (not-position? offboard)
+     (if (piece? wdice)
+         (set-flag zero-dices false)
+     )
+     next
+  )
+  (verify (flag? zero-dices))
+  back
+)
+
+(define check-1-dices
+  mark
+  (set-flag zero-dices true)
+  (set-flag one-dices false)
+  x1
+  (while (not-position? offboard)
+     (if (piece? wdice)
+         (if (flag? zero-dices)
+             (set-flag one-dices true)
+          else
+             (set-flag one-dices false)
+         )
+         (set-flag zero-dices false)
+     )
+     next
+  )
+  (verify (flag? one-dices))
+  back
+)
+
+(define check-2-dices
+  mark
+  (set-flag zero-dices true)
+  (set-flag one-dices false)
+  x1
+  (while (not-position? offboard)
+     (if (piece? bdice)
+         (if (flag? zero-dices)
+             (set-flag one-dices true)
+          else
+             (set-flag one-dices false)
+         )
+         (set-flag zero-dices false)
+     )
+     next
+  )
+  (verify (flag? one-dices))
+  back
+)
+
+(define check-3-dices
+  mark
+  (set-flag zero-dices true)
+  x1
+  (while (not-position? offboard)
+     (if (piece? bdice)
+         (set-flag zero-dices false)
+     )
+     next
+  )
+  (verify (flag? zero-dices))
+  back
+)
+
+(define clear-rosette
+  mark
+  x4
+  capture
+  back
+)
+
+(define check-rosette
+  (if (in-zone? rosette)
+      mark
+      x4
+      (create $1 lock)
+      back
+   else
+      (clear-rosette)
+  )
+)
+
+(define check-lock
+  mark
+  x4
+  (verify not-friend?)
+  back
+)
+
 (define check-end
   (if (in-zone? end)
       capture
+      (clear-rosette)
       add
   )
   (verify (not-in-zone? end))
@@ -19,11 +130,13 @@
       (if (not-position? offboard)
           (create $1 $2)
           back
+          (check-rosette $1)
           add
       )
    else
       (verify empty?)
       back
+      (check-rosette $1)
       add
   )
 )
@@ -39,17 +152,22 @@
       (if (not-position? offboard)
           (create $1 $2)
           back
+          (check-rosette $1)
           (add $3)
       )
    else
       back
       (verify empty?)
+      (check-rosette $1)
       (add $3)
   )
 )
 
 (define step-1
-  ( $1
+  ( (check-lock)
+    (check-1-dices)
+    (clear-dices)
+    $1
     (check-end)
     (verify not-friend?)
     mark
@@ -65,7 +183,10 @@
 )
 
 (define step-2
-  ( $1 $1
+  ( (check-lock)
+    (check-2-dices)
+    (clear-dices)
+    $1 $1
     (check-end)
     (verify not-friend?)
     mark
@@ -87,7 +208,10 @@
 )
 
 (define step-3
-  ( $1 $1 $1
+  ( (check-lock)
+    (check-3-dices)
+    (clear-dices)
+    $1 $1 $1
     (check-end)
     (verify not-friend?)
     mark
@@ -115,7 +239,10 @@
 )
 
 (define step-4
-  ( $1 $1 $1 $1
+  ( (check-lock)
+    (check-0-dices)
+    (clear-dices)
+    $1 $1 $1 $1
     (check-end)
     (verify not-friend?)
     mark
@@ -149,9 +276,9 @@
 )
 
 (define board-defs
-  (image "images/Ur/ur_board.bmp")
+  (image "images/Ur/board.bmp")
   (grid
-     (start-rectangle -36 -10 24 82)
+     (start-rectangle -34 -13 26 79)
      (dimensions
          ("z/a/b/c/d/e/f/g/h/x" (67 0)) ; files
          ("4/3/2/1/0" (0 66)) ; ranks
@@ -176,7 +303,13 @@
   (links dnext (h2 h1) (h1 g1) (g1 g2) (g2 f2) (f2 e2) (e2 d2) (d2 c2)
                (c2 b2) (b2 a2) (a2 z2)
   )
+  (links next  (x1 x2) (x2 x3) (x3 offboard) )
   (symmetry Up (anext bnext) (cnext dnext) (afree bfree))
+  (zone
+     (name dices)
+     (players ?Dice)
+     (positions x1 x2 x3)
+  )
   (zone
      (name promotion)
      (players Down)
@@ -186,6 +319,11 @@
      (name promotion)
      (players Up)
      (positions h3)
+  )
+  (zone
+     (name rosette)
+     (players Up Down)
+     (positions a1 a3 d2 g1 g3)
   )
   (zone
      (name end)
@@ -203,6 +341,7 @@
    (option "pass turn" forced)
    (option "highlight goals" false)
    (option "prevent flipping" true)
+   (option "recycle captures" true)
 
    (drop-sound "Audio/Dice_cup.wav")
    (move-sound "Audio/Clack.wav")
@@ -211,26 +350,36 @@
 
    (players Up Down ?Dice)
 
-   (turn-order Down Up)
+   (turn-order Down repeat 
+               ?Dice ?Dice ?Dice Up
+               ?Dice ?Dice ?Dice Down)
 
    (board (board-defs) )
    (board-setup
-          (Up    (uinitial a4 b4 c4 d4 e4 f4 g4))
-          (Down  (dinitial a0 b0 c0 d0 e0 f0 g0))
+          (?Dice (wdice x3 off 2) (bdice x2 x1 off 1) )
+          (Up    (uinitial a4 b4 c4 d4 e4 f4 g4) )
+          (Down  (dinitial a0 b0 c0 d0 e0 f0 g0) )
    )
 
    (piece
 	  (name wdice)
-          (image ?Dice "images\ur\WDisk.bmp")
+          (image ?Dice "images/Ur/wdice.bmp")
+          (drops (drop-dice) )
    )
    (piece
 	  (name bdice)
-          (image ?Dice "images\ur\BDisk.bmp")
+          (image ?Dice "images/Ur/bdice.bmp")
+          (drops (drop-dice) )
+   )
+   (piece
+	  (name lock)
+          (image Up    "images/Ur/invisible.bmp"
+                 Down  "images/Ur/invisible.bmp")
    )
 
    (piece
 	  (name  uinitial)
-          (image Up   "images\Ur\BDisk.bmp")
+          (image Up   "images/Ur/binit.bmp")
       (moves
           (step-1 anext Down dinitial upromouted dinitial dpromouted)
           (step-2 anext Down dinitial upromouted dinitial dpromouted)
@@ -240,7 +389,7 @@
    )
    (piece
 	  (name  upromouted)
-          (image Up   "images\Ur\BDisk.bmp")
+          (image Up   "images/Ur/bprom.bmp")
       (moves
           (step-1 cnext Down dinitial upromouted dpromouted dpromouted)
           (step-2 cnext Down dinitial upromouted dpromouted dpromouted)
@@ -250,7 +399,7 @@
    )
    (piece
 	  (name  dinitial)
-          (image Down "images\Ur\WDisk.bmp")
+          (image Down "images/Ur/winit.bmp")
       (moves
           (step-1 anext Up uinitial dpromouted uinitial upromouted)
           (step-2 anext Up uinitial dpromouted uinitial upromouted)
@@ -260,7 +409,7 @@
    )
    (piece
 	  (name  dpromouted)
-          (image Down "images\Ur\WDisk.bmp")
+          (image Down "images/Ur/wprom.bmp")
       (moves
           (step-1 cnext Up uinitial dpromouted upromouted upromouted)
           (step-2 cnext Up uinitial dpromouted upromouted upromouted)
