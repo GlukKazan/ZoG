@@ -1,20 +1,28 @@
 (version "2.0")
 
 (define drop-dice
-  ( (verify (in-zone? dices))
+  ( (verify (in-zone? dices) )
     (verify empty?)
+    mark
+    x0
+    capture
+    back
     add
   )
 )
 
 (define clear-dices
-  mark
-  x1
-  (while (not-position? offboard)
-     capture
-     next
+  ( (verify (in-zone? dices-lock))
+    (verify empty?)
+    mark
+    x1
+    (while (not-position? offboard)
+       capture
+       next
+    )
+    back
+    add
   )
-  back
 )
 
 (define check-0-dices
@@ -166,7 +174,6 @@
 (define step-1
   ( (check-lock)
     (check-1-dices)
-    (clear-dices)
     $1
     (check-end)
     (verify not-friend?)
@@ -185,7 +192,6 @@
 (define step-2
   ( (check-lock)
     (check-2-dices)
-    (clear-dices)
     $1 $1
     (check-end)
     (verify not-friend?)
@@ -210,7 +216,6 @@
 (define step-3
   ( (check-lock)
     (check-3-dices)
-    (clear-dices)
     $1 $1 $1
     (check-end)
     (verify not-friend?)
@@ -241,7 +246,6 @@
 (define step-4
   ( (check-lock)
     (check-0-dices)
-    (clear-dices)
     $1 $1 $1 $1
     (check-end)
     (verify not-friend?)
@@ -311,6 +315,11 @@
      (positions x1 x2 x3)
   )
   (zone
+     (name dices-lock)
+     (players ?Dice)
+     (positions x0)
+  )
+  (zone
      (name promotion)
      (players Down)
      (positions h1)
@@ -351,12 +360,12 @@
    (players Up Down ?Dice)
 
    (turn-order Down repeat 
-               ?Dice ?Dice ?Dice Up
-               ?Dice ?Dice ?Dice Down)
+               (?Dice clear-type) (?Dice drop-type) (?Dice drop-type) (?Dice drop-type) Up
+               (?Dice clear-type) (?Dice drop-type) (?Dice drop-type) (?Dice drop-type) Down)
 
    (board (board-defs) )
    (board-setup
-          (?Dice (wdice x3 off 2) (bdice x2 x1 off 1) )
+          (?Dice (wdice x3 off 2) (bdice x2 x1 off 1) (lock off 1) )
           (Up    (uinitial a4 b4 c4 d4 e4 f4 g4) )
           (Down  (dinitial a0 b0 c0 d0 e0 f0 g0) )
    )
@@ -364,17 +373,19 @@
    (piece
 	  (name wdice)
           (image ?Dice "images/Ur/wdice.bmp")
-          (drops (drop-dice) )
+          (drops (move-type drop-type) (drop-dice) )
    )
    (piece
 	  (name bdice)
           (image ?Dice "images/Ur/bdice.bmp")
-          (drops (drop-dice) )
+          (drops (move-type drop-type) (drop-dice) )
    )
    (piece
 	  (name lock)
-          (image Up    "images/Ur/invisible.bmp"
+          (image ?Dice "images/Ur/invisible.bmp"
+                 Up    "images/Ur/invisible.bmp"
                  Down  "images/Ur/invisible.bmp")
+          (drops (move-type clear-type) (clear-dices) )
    )
 
    (piece
