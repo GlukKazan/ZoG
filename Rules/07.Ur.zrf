@@ -185,17 +185,17 @@
           (go from)
           up up up
           (if not-empty?
-              (pop-pieces Up)
+              (pop-pieces $1)
            else
               (go from)
               up up
               (if not-empty?
-                  (pop-pieces Up)
+                  (pop-pieces $1)
                else
                   (go from)
                   up
                   (if not-empty?
-                      (pop-pieces Up)
+                      (pop-pieces $1)
                    else
                      (go from)
                   )
