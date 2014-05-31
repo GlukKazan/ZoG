@@ -431,6 +431,14 @@
      (positions a1 a3 d2 g1 g3)
   )
   (zone
+     (name end)
+     (players Up Down)
+     (positions z2)
+  )
+)
+
+(define additional-zones
+  (zone
      (name depo)
      (players Up Down)
      (positions b1 b3 c1 c3 g2)
@@ -440,10 +448,18 @@
      (players Up Down)
      (positions c2 f2)
   )
+)
+
+(define additional-zones-simple
   (zone
-     (name end)
+     (name depo)
      (players Up Down)
-     (positions z2)
+     (positions offboard)
+  )
+  (zone
+     (name safe)
+     (players Up Down)
+     (positions offboard)
   )
 )
 
@@ -469,7 +485,7 @@
                (?Dice clear-type) (?Dice drop-type) (?Dice drop-type) (?Dice drop-type) Up
                (?Dice clear-type) (?Dice drop-type) (?Dice drop-type) (?Dice drop-type) Down)
 
-   (board (board-defs) )
+   (board (board-defs) (additional-zones))
    (board-setup
           (?Dice (wdice x3 off 2) (bdice x2 x1 off 1) (lock off 1) )
           (Up    (uinitial a4 b4 c4 d4 e4 f4 g4) )
@@ -538,5 +554,9 @@
                                  (pieces-remaining 0 upromouted) 
                                  (pieces-remaining 0 dinitial)
                                  (pieces-remaining 0 dpromouted) ) )
-   (loss-condition (Up Down) repetition)
+)
+
+(variant
+   (title "Simple Ur")
+   (board (board-defs) (additional-zones-simple))
 )
