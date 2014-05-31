@@ -127,47 +127,131 @@
   (verify (not-in-zone? end))
 )
 
-(define check-enemy
-  mark
-  (if (piece? $3)
-      z2
-      afree
-      (while (and (not-position? offboard) not-empty?)
-           afree
+(define push-piece
+  (if (piece? $2)
+       up
+       (while (and (not-position? offboard) not-empty?)
+           up
+       )
+       (verify (not-position? offboard))
+       (create $1 $2)
+  )
+)
+
+(define pop-pieces
+  (if (piece? uinitial)
+       capture
+       (go from)
+       (create Up uinitial)
+   else
+       (if (piece? dinitial)
+            capture
+            (go from)
+            (create Down dinitial)
+        else
+            (if (piece? upromouted)
+                 capture
+                 (go from)
+                 (create Up upromouted)
+             else
+                 (if (piece? dpromouted)
+                      capture
+                      (go from)
+                      (create Down dpromouted)
+                )
+           )
       )
-      (if (not-position? offboard)
+  )
+)
+
+(define check-depo
+  (if (in-zone? depo)
+      (verify not-enemy?)
+  )
+  mark
+  (push-piece Up uinitial)
+  (push-piece Down dinitial)
+  (push-piece Up upromouted)
+  (push-piece Down dpromouted)
+  back
+)
+
+(define check-stack
+  (if (or (in-zone? depo) (in-zone? safe))
+      up up up up
+      (if not-empty?
+          (pop-pieces)
+       else
+          (go from)
+          up up up
+          (if not-empty?
+              (pop-pieces)
+           else
+              (go from)
+              up up
+              (if not-empty?
+                  (pop-pieces)
+               else
+                  (go from)
+                  up
+                  (if not-empty?
+                      (pop-pieces)
+                   else
+                     (go from)
+                  )
+              )
+          )
+      )
+  )
+)
+
+(define check-enemy
+  (if (or (in-zone? depo) (in-zone? safe))
+      (check-depo)
+      add
+   else
+      (if (piece? $3)
+          mark
+          z2
+          afree
+          (while (and (not-position? offboard) not-empty?)
+              afree
+          )
+          (verify (not-position? offboard) )
           (create $1 $2)
           back
           (check-rosette $1)
           add
+       else
+          (verify empty?)
+          (check-rosette $1)
+          add
       )
-   else
-      (verify empty?)
-      back
-      (check-rosette $1)
-      add
   )
 )
  
 (define check-enemy-promouted
-  mark
-  (if (piece? $4)
-      z2
-      afree
-      (while (and (not-position? offboard) not-empty?)
-           afree
-      )
-      (if (not-position? offboard)
+  (if (or (in-zone? depo) (in-zone? safe))
+      (check-depo)
+      (add $3)
+   else
+      (if (piece? $4)
+          mark
+          z2
+          afree
+          (while (and (not-position? offboard) not-empty?)
+               afree
+          )
+          (verify (not-position? offboard) )
           (create $1 $2)
           back
           (check-rosette $1)
           (add $3)
-      )
-   else
-      back
-      (verify empty?)
-      (check-rosette $1)
-      (add $3)
+       else
+          (verify empty?)
+          (check-rosette $1)
+          (add $3)
+       )
   )
 )
 
@@ -179,6 +263,7 @@
     (verify not-friend?)
     mark
     (go from)
+    (check-stack)
     (if (in-zone? promotion)
          back
          (check-enemy-promouted $2 $3 $4 $6)
@@ -197,6 +282,7 @@
     (verify not-friend?)
     mark
     (go from)
+    (check-stack)
     (if (in-zone? promotion)
          back
          (check-enemy-promouted $2 $3 $4 $6)
@@ -221,6 +307,7 @@
     (verify not-friend?)
     mark
     (go from)
+    (check-stack)
     (if (in-zone? promotion)
          back
          (check-enemy-promouted $2 $3 $4 $6)
@@ -251,6 +338,7 @@
     (verify not-friend?)
     mark
     (go from)
+    (check-stack)
     (if (in-zone? promotion)
          back
          (check-enemy-promouted $2 $3 $4 $6)
@@ -282,9 +370,9 @@
 (define board-defs
   (image "images/Ur/board.bmp")
   (grid
-     (start-rectangle -34 -13 26 79)
+     (start-rectangle -503 -13 -442 79)
      (dimensions
-         ("z/a/b/c/d/e/f/g/h/x" (67 0)) ; files
+         ("i/j/k/l/m/n/o/z/a/b/c/d/e/f/g/h/x" (67 0)) ; files
          ("4/3/2/1/0" (0 66)) ; ranks
      )    
   )
@@ -308,6 +396,14 @@
                (c2 b2) (b2 a2) (a2 z2)
   )
   (links next  (x1 x2) (x2 x3) (x3 offboard) )
+  (links up    (b1 i1) (i1 i2) (i2 i3) (i3 i4) (i4 offboard)
+               (c1 j1) (j1 j2) (j2 j3) (j3 j4) (j4 offboard)
+               (b3 k1) (k1 k2) (k2 k3) (k3 k4) (k4 offboard)
+               (c3 l1) (l1 l2) (l2 l3) (l3 l4) (l4 offboard)
+               (g2 m1) (m1 m2) (m2 m3) (m3 m4) (m4 offboard)
+               (c2 n1) (n1 n2) (n2 n3) (n3 n4) (n4 offboard)
+               (f2 o1) (o1 o2) (o2 o3) (o3 o4) (o4 offboard)
+  )
   (symmetry Up (anext bnext) (cnext dnext) (afree bfree))
   (zone
      (name dices)
@@ -333,6 +429,16 @@
      (name rosette)
      (players Up Down)
      (positions a1 a3 d2 g1 g3)
+  )
+  (zone
+     (name depo)
+     (players Up Down)
+     (positions b1 b3 c1 c3 g2)
+  )
+  (zone
+     (name safe)
+     (players Up Down)
+     (positions c2 f2)
   )
   (zone
      (name end)
@@ -432,4 +538,5 @@
                                  (pieces-remaining 0 upromouted) 
                                  (pieces-remaining 0 dinitial)
                                  (pieces-remaining 0 dpromouted) ) )
+   (loss-condition (Up Down) repetition)
 )
