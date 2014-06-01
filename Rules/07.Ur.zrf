@@ -406,9 +406,9 @@
   )
   (links next  (x1 x2) (x2 x3) (x3 offboard) )
   (links up    (b1 i1) (i1 i2) (i2 i3) (i3 i4) (i4 offboard)
-               (c1 j1) (j1 j2) (j2 j3) (j3 j4) (j4 offboard)
+               (d1 j1) (j1 j2) (j2 j3) (j3 j4) (j4 offboard)
                (b3 k1) (k1 k2) (k2 k3) (k3 k4) (k4 offboard)
-               (c3 l1) (l1 l2) (l2 l3) (l3 l4) (l4 offboard)
+               (d3 l1) (l1 l2) (l2 l3) (l3 l4) (l4 offboard)
                (g2 m1) (m1 m2) (m2 m3) (m3 m4) (m4 offboard)
                (c2 n1) (n1 n2) (n2 n3) (n3 n4) (n4 offboard)
                (f2 o1) (o1 o2) (o2 o3) (o3 o4) (o4 offboard)
@@ -451,7 +451,7 @@
   (zone
      (name depo)
      (players ?Up Up Down)
-     (positions b1 b3 c1 c3 g2)
+     (positions b1 b3 d1 d3 g2)
   )
   (zone
      (name safe)
