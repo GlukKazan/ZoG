@@ -98,13 +98,13 @@
   x4
   capture
   back
-)
+) 
 
 (define check-rosette
   (if (in-zone? rosette)
       mark
       x4
-      (create $1 lock)
+      (create $1 $2)
       back
    else
       (clear-rosette)
@@ -114,7 +114,7 @@
 (define check-lock
   mark
   x4
-  (verify not-friend?)
+  (verify (or (piece? $1) empty?) )
   back
 )
 
@@ -208,7 +208,7 @@
 (define check-enemy
   (if (or (in-zone? depo) (in-zone? safe))
       (check-depo $4)
-      (check-rosette $1)
+      (check-rosette $1 $5)
       add
    else
       (if (piece? $3)
@@ -221,11 +221,11 @@
           (verify (not-position? offboard) )
           (create $1 $2)
           back
-          (check-rosette $1)
+          (check-rosette $1 $5)
           add
        else
           (verify empty?)
-          (check-rosette $1)
+          (check-rosette $1 $5)
           add
       )
   )
@@ -234,7 +234,7 @@
 (define check-enemy-promouted
   (if (or (in-zone? depo) (in-zone? safe))
       (check-depo $5)
-      (check-rosette $1)
+      (check-rosette $1 $6)
       (add $3)
    else
       (if (piece? $4)
@@ -247,85 +247,92 @@
           (verify (not-position? offboard) )
           (create $1 $2)
           back
-          (check-rosette $1)
+          (check-rosette $1 $6)
           (add $3)
        else
           (verify empty?)
-          (check-rosette $1)
+          (check-rosette $1 $6)
           (add $3)
        )
   )
 )
 
+(define check-protect
+  (if (in-zone? protect)
+      (verify (and (not-piece? upromouted)
+                   (not-piece? dpromouted) ) )
+  )
+)
+
 (define step-1
-  ( (check-lock)
+  ( (check-lock $8)
     (check-1-dices)
     $1
+    (check-protect)
     (check-end)
-    (verify not-friend?)
     mark
     (go from)
     (check-stack $7)
     (if (in-zone? promotion)
          back
-         (check-enemy-promouted $2 $3 $4 $6 $7)
+         (check-enemy-promouted $2 $3 $4 $6 $7 $8)
      else
          back
-         (check-enemy $2 $3 $5 $7)
+         (check-enemy $2 $3 $5 $7 $8)
     )
   )
 )
 
 (define step-2
-  ( (check-lock)
+  ( (check-lock $8)
     (check-2-dices)
     $1 $1
+    (check-protect)
     (check-end)
-    (verify not-friend?)
     mark
     (go from)
     (check-stack $7)
     (if (in-zone? promotion)
          back
-         (check-enemy-promouted $2 $3 $4 $6 $7)
+         (check-enemy-promouted $2 $3 $4 $6 $7 $8)
      else
          $1
          (if (in-zone? promotion)
               back
-              (check-enemy-promouted $2 $3 $4 $6 $7)
+              (check-enemy-promouted $2 $3 $4 $6 $7 $8)
           else
               back
-              (check-enemy $2 $3 $5 $7)
+              (check-enemy $2 $3 $5 $7 $8)
          )
     )
   )
 )
 
 (define step-3
-  ( (check-lock)
+  ( (check-lock $8)
     (check-3-dices)
     $1 $1 $1
+    (check-protect)
     (check-end)
-    (verify not-friend?)
     mark
     (go from)
     (check-stack $7)
     (if (in-zone? promotion)
          back
-         (check-enemy-promouted $2 $3 $4 $6 $7)
+         (check-enemy-promouted $2 $3 $4 $6 $7 $8)
      else
          $1
          (if (in-zone? promotion)
               back
-              (check-enemy-promouted $2 $3 $4 $6 $7)
+              (check-enemy-promouted $2 $3 $4 $6 $7 $8)
           else
               $1
               (if (in-zone? promotion)
                    back
-                   (check-enemy-promouted $2 $3 $4 $6 $7)
+                   (check-enemy-promouted $2 $3 $4 $6 $7 $8)
                else
                    back
-                   (check-enemy $2 $3 $5 $7)
+                   (check-enemy $2 $3 $5 $7 $8)
               )
          )
     )
@@ -333,35 +340,35 @@
 )
 
 (define step-4
-  ( (check-lock)
+  ( (check-lock $8)
     (check-0-dices)
     $1 $1 $1 $1
+    (check-protect)
     (check-end)
-    (verify not-friend?)
     mark
     (go from)
     (check-stack $7)
     (if (in-zone? promotion)
          back
-         (check-enemy-promouted $2 $3 $4 $6 $7)
+         (check-enemy-promouted $2 $3 $4 $6 $7 $8)
      else
          $1
          (if (in-zone? promotion)
               back
-              (check-enemy-promouted $2 $3 $4 $6 $7)
+              (check-enemy-promouted $2 $3 $4 $6 $7 $8)
           else
               $1
               (if (in-zone? promotion)
                    back
-                   (check-enemy-promouted $2 $3 $4 $6 $7)
+                   (check-enemy-promouted $2 $3 $4 $6 $7 $8)
                else
                    $1
                    (if (in-zone? promotion)
                         back
-                        (check-enemy-promouted $2 $3 $4 $6 $7)
+                        (check-enemy-promouted $2 $3 $4 $6 $7 $8)
                     else
                         back
-                        (check-enemy $2 $3 $5 $7)
+                        (check-enemy $2 $3 $5 $7 $8)
                    )
               )
          )
@@ -406,7 +413,8 @@
                (c2 n1) (n1 n2) (n2 n3) (n3 n4) (n4 offboard)
                (f2 o1) (o1 o2) (o2 o3) (o3 o4) (o4 offboard)
   )
-  (symmetry Up (anext bnext) (cnext dnext) (afree bfree))
+  (symmetry Up  (anext bnext) (cnext dnext) (afree bfree))
+  (symmetry ?Up (anext bnext) (cnext dnext) (afree bfree))
   (zone
      (name dices)
      (players ?Dice)
@@ -424,17 +432,17 @@
   )
   (zone
      (name promotion)
-     (players Up)
+     (players ?Up Up)
      (positions h3)
   )
   (zone
      (name rosette)
-     (players Up Down)
+     (players ?Up Up Down)
      (positions a1 a3 d2 g1 g3)
   )
   (zone
      (name end)
-     (players Up Down)
+     (players ?Up Up Down)
      (positions z2)
   )
 )
@@ -442,25 +450,35 @@
 (define additional-zones
   (zone
      (name depo)
-     (players Up Down)
+     (players ?Up Up Down)
      (positions b1 b3 c1 c3 g2)
   )
   (zone
      (name safe)
-     (players Up Down)
+     (players ?Up Up Down)
      (positions c2 f2)
+  )
+  (zone
+     (name protect)
+     (players ?Up Up Down)
+     (positions a2)
   )
 )
 
 (define additional-zones-simple
   (zone
      (name depo)
-     (players Up Down)
+     (players ?Up Up Down)
      (positions offboard)
   )
   (zone
      (name safe)
-     (players Up Down)
+     (players ?Up Up Down)
+     (positions offboard)
+  )
+  (zone
+     (name protect)
+     (players ?Up Up Down)
      (positions offboard)
   )
 )
@@ -478,10 +496,9 @@
 
    (drop-sound "Audio/Dice_cup.wav")
    (move-sound "Audio/Clack.wav")
-
    (capture-sound "")
 
-   (players Up Down ?Dice)
+   (players ?Up Up Down ?Dice)
 
    (turn-order Down repeat 
                (?Dice clear-type) (?Dice drop-type) (?Dice drop-type) (?Dice drop-type) Up
@@ -506,50 +523,56 @@
    )
    (piece
 	  (name lock)
-          (image ?Dice "images/Ur/invisible.bmp"
-                 Up    "images/Ur/invisible.bmp"
-                 Down  "images/Ur/invisible.bmp")
+          (image ?Dice "images/Ur/invisible.bmp")
           (drops (move-type clear-type) (clear-dices) )
+   )
+   (piece
+	  (name ulock)
+          (image Up    "images/Ur/invisible.bmp")
+   )
+   (piece
+	  (name dlock)
+          (image Down  "images/Ur/invisible.bmp")
    )
 
    (piece
 	  (name  uinitial)
           (image Up   "images/Ur/binit.bmp")
       (moves
-          (step-1 anext Down dinitial upromouted dinitial dpromouted Up)
-          (step-2 anext Down dinitial upromouted dinitial dpromouted Up)
-          (step-3 anext Down dinitial upromouted dinitial dpromouted Up)
-          (step-4 anext Down dinitial upromouted dinitial dpromouted Up)
+          (step-1 anext Down dinitial upromouted dinitial dpromouted Up dlock)
+          (step-2 anext Down dinitial upromouted dinitial dpromouted Up dlock)
+          (step-3 anext Down dinitial upromouted dinitial dpromouted Up dlock)
+          (step-4 anext Down dinitial upromouted dinitial dpromouted Up dlock)
       )
    )
    (piece
 	  (name  upromouted)
           (image Up   "images/Ur/bprom.bmp")
       (moves
-          (step-1 cnext Down dinitial upromouted dpromouted dpromouted Up)
-          (step-2 cnext Down dinitial upromouted dpromouted dpromouted Up)
-          (step-3 cnext Down dinitial upromouted dpromouted dpromouted Up)
-          (step-4 cnext Down dinitial upromouted dpromouted dpromouted Up)
+          (step-1 cnext Down dinitial upromouted dpromouted dpromouted Up dlock)
+          (step-2 cnext Down dinitial upromouted dpromouted dpromouted Up dlock)
+          (step-3 cnext Down dinitial upromouted dpromouted dpromouted Up dlock)
+          (step-4 cnext Down dinitial upromouted dpromouted dpromouted Up dlock)
       )
    )
    (piece
 	  (name  dinitial)
           (image Down "images/Ur/winit.bmp")
       (moves
-          (step-1 anext Up uinitial dpromouted uinitial upromouted Up)
-          (step-2 anext Up uinitial dpromouted uinitial upromouted Up)
-          (step-3 anext Up uinitial dpromouted uinitial upromouted Up)
-          (step-4 anext Up uinitial dpromouted uinitial upromouted Up)
+          (step-1 anext Up uinitial dpromouted uinitial upromouted Up ulock)
+          (step-2 anext Up uinitial dpromouted uinitial upromouted Up ulock)
+          (step-3 anext Up uinitial dpromouted uinitial upromouted Up ulock)
+          (step-4 anext Up uinitial dpromouted uinitial upromouted Up ulock)
       )
    )
    (piece
 	  (name  dpromouted)
           (image Down "images/Ur/wprom.bmp")
       (moves
-          (step-1 cnext Up uinitial dpromouted upromouted upromouted Up)
-          (step-2 cnext Up uinitial dpromouted upromouted upromouted Up)
-          (step-3 cnext Up uinitial dpromouted upromouted upromouted Up)
-          (step-4 cnext Up uinitial dpromouted upromouted upromouted Up)
+          (step-1 cnext Up uinitial dpromouted upromouted upromouted Up ulock)
+          (step-2 cnext Up uinitial dpromouted upromouted upromouted Up ulock)
+          (step-3 cnext Up uinitial dpromouted upromouted upromouted Up ulock)
+          (step-4 cnext Up uinitial dpromouted upromouted upromouted Up ulock)
       )
    )
    (win-condition (Up Down) (and (pieces-remaining 0 uinitial) 
@@ -559,6 +582,140 @@
 )
 
 (variant
+   (title "Ur (Random opponent)")
+
+   (turn-order Down repeat 
+               (?Dice clear-type) (?Dice drop-type) (?Dice drop-type) (?Dice drop-type) ?Up
+               (?Dice clear-type) (?Dice drop-type) (?Dice drop-type) (?Dice drop-type) Down)
+
+   (board-setup
+          (?Dice (wdice x3 off 2) (bdice x2 x1 off 1) (lock off 1) )
+          (?Up   (uinitial a4 b4 c4 d4 e4 f4 g4) )
+          (Down  (dinitial a0 b0 c0 d0 e0 f0 g0) )
+   )
+
+   (piece
+	  (name ulock)
+          (image ?Up   "images/Ur/invisible.bmp")
+   )
+
+   (piece
+	  (name  uinitial)
+          (image ?Up   "images/Ur/binit.bmp")
+      (moves
+          (step-1 anext Down dinitial upromouted dinitial dpromouted ?Up dlock)
+          (step-2 anext Down dinitial upromouted dinitial dpromouted ?Up dlock)
+          (step-3 anext Down dinitial upromouted dinitial dpromouted ?Up dlock)
+          (step-4 anext Down dinitial upromouted dinitial dpromouted ?Up dlock)
+      )
+   )
+   (piece
+	  (name  upromouted)
+          (image ?Up   "images/Ur/bprom.bmp")
+      (moves
+          (step-1 cnext Down dinitial upromouted dpromouted dpromouted ?Up dlock)
+          (step-2 cnext Down dinitial upromouted dpromouted dpromouted ?Up dlock)
+          (step-3 cnext Down dinitial upromouted dpromouted dpromouted ?Up dlock)
+          (step-4 cnext Down dinitial upromouted dpromouted dpromouted ?Up dlock)
+      )
+   )
+   (piece
+	  (name  dinitial)
+          (image Down "images/Ur/winit.bmp")
+      (moves
+          (step-1 anext ?Up uinitial dpromouted uinitial upromouted ?Up ulock)
+          (step-2 anext ?Up uinitial dpromouted uinitial upromouted ?Up ulock)
+          (step-3 anext ?Up uinitial dpromouted uinitial upromouted ?Up ulock)
+          (step-4 anext ?Up uinitial dpromouted uinitial upromouted ?Up ulock)
+      )
+   )
+   (piece
+	  (name  dpromouted)
+          (image Down "images/Ur/wprom.bmp")
+      (moves
+          (step-1 cnext ?Up uinitial dpromouted upromouted upromouted ?Up ulock)
+          (step-2 cnext ?Up uinitial dpromouted upromouted upromouted ?Up ulock)
+          (step-3 cnext ?Up uinitial dpromouted upromouted upromouted ?Up ulock)
+          (step-4 cnext ?Up uinitial dpromouted upromouted upromouted ?Up ulock)
+      )
+   )
+   (win-condition (?Up Down) (and (pieces-remaining 0 uinitial) 
+                                  (pieces-remaining 0 upromouted) 
+                                  (pieces-remaining 0 dinitial)
+                                  (pieces-remaining 0 dpromouted) ) )
+)
+
+(variant
+   (title "-")
+)
+
+(variant
    (title "Simple Ur")
    (board (board-defs) (additional-zones-simple))
+)
+
+(variant
+   (title "Simple Ur (Random opponent)")
+
+   (board (board-defs) (additional-zones-simple))
+
+   (turn-order Down repeat 
+               (?Dice clear-type) (?Dice drop-type) (?Dice drop-type) (?Dice drop-type) ?Up
+               (?Dice clear-type) (?Dice drop-type) (?Dice drop-type) (?Dice drop-type) Down)
+
+   (board-setup
+          (?Dice (wdice x3 off 2) (bdice x2 x1 off 1) (lock off 1) )
+          (?Up   (uinitial a4 b4 c4 d4 e4 f4 g4) )
+          (Down  (dinitial a0 b0 c0 d0 e0 f0 g0) )
+   )
+
+   (piece
+	  (name ulock)
+          (image ?Up   "images/Ur/invisible.bmp")
+   )
+
+   (piece
+	  (name  uinitial)
+          (image ?Up   "images/Ur/binit.bmp")
+      (moves
+          (step-1 anext Down dinitial upromouted dinitial dpromouted ?Up dlock)
+          (step-2 anext Down dinitial upromouted dinitial dpromouted ?Up dlock)
+          (step-3 anext Down dinitial upromouted dinitial dpromouted ?Up dlock)
+          (step-4 anext Down dinitial upromouted dinitial dpromouted ?Up dlock)
+      )
+   )
+   (piece
+	  (name  upromouted)
+          (image ?Up   "images/Ur/bprom.bmp")
+      (moves
+          (step-1 cnext Down dinitial upromouted dpromouted dpromouted ?Up dlock)
+          (step-2 cnext Down dinitial upromouted dpromouted dpromouted ?Up dlock)
+          (step-3 cnext Down dinitial upromouted dpromouted dpromouted ?Up dlock)
+          (step-4 cnext Down dinitial upromouted dpromouted dpromouted ?Up dlock)
+      )
+   )
+   (piece
+	  (name  dinitial)
+          (image Down "images/Ur/winit.bmp")
+      (moves
+          (step-1 anext ?Up uinitial dpromouted uinitial upromouted ?Up ulock)
+          (step-2 anext ?Up uinitial dpromouted uinitial upromouted ?Up ulock)
+          (step-3 anext ?Up uinitial dpromouted uinitial upromouted ?Up ulock)
+          (step-4 anext ?Up uinitial dpromouted uinitial upromouted ?Up ulock)
+      )
+   )
+   (piece
+	  (name  dpromouted)
+          (image Down "images/Ur/wprom.bmp")
+      (moves
+          (step-1 cnext ?Up uinitial dpromouted upromouted upromouted ?Up ulock)
+          (step-2 cnext ?Up uinitial dpromouted upromouted upromouted ?Up ulock)
+          (step-3 cnext ?Up uinitial dpromouted upromouted upromouted ?Up ulock)
+          (step-4 cnext ?Up uinitial dpromouted upromouted upromouted ?Up ulock)
+      )
+   )
+   (win-condition (?Up Down) (and (pieces-remaining 0 uinitial) 
+                                  (pieces-remaining 0 upromouted) 
+                                  (pieces-remaining 0 dinitial)
+                                  (pieces-remaining 0 dpromouted) ) )
 )
