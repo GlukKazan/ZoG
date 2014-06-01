@@ -178,27 +178,21 @@
 
 (define check-stack
   (if (or (in-zone? depo) (in-zone? safe))
-      up up up up
+      up up up
       (if not-empty?
           (pop-pieces $1)
        else
           (go from)
-          up up up
+          up up
           (if not-empty?
               (pop-pieces $1)
            else
               (go from)
-              up up
+              up
               (if not-empty?
                   (pop-pieces $1)
                else
                   (go from)
-                  up
-                  (if not-empty?
-                      (pop-pieces $1)
-                   else
-                     (go from)
-                  )
               )
           )
       )
@@ -405,13 +399,13 @@
                (c2 b2) (b2 a2) (a2 z2)
   )
   (links next  (x1 x2) (x2 x3) (x3 offboard) )
-  (links up    (b1 i1) (i1 i2) (i2 i3) (i3 i4) (i4 offboard)
-               (d1 j1) (j1 j2) (j2 j3) (j3 j4) (j4 offboard)
-               (b3 k1) (k1 k2) (k2 k3) (k3 k4) (k4 offboard)
-               (d3 l1) (l1 l2) (l2 l3) (l3 l4) (l4 offboard)
-               (g2 m1) (m1 m2) (m2 m3) (m3 m4) (m4 offboard)
-               (c2 n1) (n1 n2) (n2 n3) (n3 n4) (n4 offboard)
-               (f2 o1) (o1 o2) (o2 o3) (o3 o4) (o4 offboard)
+  (links up    (b1 i1) (i1 i2) (i2 i3) (i3 offboard)
+               (d1 j1) (j1 j2) (j2 j3) (j3 offboard)
+               (b3 k1) (k1 k2) (k2 k3) (k3 offboard)
+               (d3 l1) (l1 l2) (l2 l3) (l3 offboard)
+               (g2 m1) (m1 m2) (m2 m3) (m3 offboard)
+               (c2 n1) (n1 n2) (n2 n3) (n3 offboard)
+               (f2 o1) (o1 o2) (o2 o3) (o3 offboard)
   )
   (symmetry Up  (anext bnext) (cnext dnext) (afree bfree))
   (symmetry ?Up (anext bnext) (cnext dnext) (afree bfree))
