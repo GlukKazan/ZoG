@@ -1,0 +1,186 @@
+(version "2.0")
+
+(game
+   (title "Ur")
+
+   (description "Object: Carry out all 7 pieces across the board.\\
+                 Move pieces using dices:\\
+                 One white dice - One square
+
+                 Two white dices - Two squares
+
+                 Three white dices - Three squares
+
+                 All black dices - Four squares\\
+                 Some fields have special features:\\
+                 a1, a3, d2, g1 and g3 - Allow to make an additional move
+
+                 h1 and h3 - The promotion fields
+
+                 b1, b3, d1, d3 and g2 - Allow to put the pieces on each other
+
+                 c2 and f2 - These fields are safe
+
+                 a2 - Therein can't capture the promouted pieces\\
+                 Promouted pieces can't capture unpromouted and vice versa.")
+
+   (history "This game has been found in the ruins of the Ur city in 1926.
+
+             Used version of the rules was invented in 2011 by Dmitry Skyruk.")
+
+   (strategy "Use special fields.")
+
+   (engine "Axiom\\Ur\\axiom.dll")
+
+   (option "animate captures" false)
+   (option "animate drops" false)
+   (option "show moves list" false)
+   (option "pass turn" forced)
+   (option "highlight goals" false)
+   (option "prevent flipping" true)
+   (option "recycle captures" true)
+
+   (drop-sound "Audio/Dice_cup.wav")
+   (move-sound "Audio/Clack.wav")
+   (capture-sound "")
+
+   (players Up Down ?Dice)
+
+   (turn-order Down repeat 
+               (?Dice clear-type) (?Dice drop-type) (?Dice drop-type) (?Dice drop-type) Up
+               (?Dice clear-type) (?Dice drop-type) (?Dice drop-type) (?Dice drop-type) Down)
+
+   (board 
+      (image "Images\Ur\board.bmp")
+      (grid
+         (start-rectangle -503 -13 -442 79)
+         (dimensions
+             ("i/j/k/l/m/n/o/z/a/b/c/d/e/f/g/h/x" (67 0)) ; files
+             ("4/3/2/1/0" (0 66)) ; ranks
+         )    
+      )
+      (dummy offboard)
+      (links afree (z2 a4) (a4 b4) (b4 c4) (c4 d4) (d4 e4) (e4 f4) (f4 g4) (g4 offboard) )
+      (links bfree (z2 a0) (a0 b0) (b0 c0) (c0 d0) (d0 e0) (e0 f0) (f0 g0) (g0 offboard) )
+      (links anext (a0 d1) (b0 d1) (c0 d1) (d0 d1) (e0 d1) (f0 d1) (g0 d1)
+                   (d1 c1) (c1 b1) (b1 a1) (a1 a2) (a2 b2) (b2 c2) (c2 d2) 
+                   (d2 e2) (e2 f2) (f2 g2) (g2 g1) (g1 h1) (h1 h2) (h2 h3)
+                   (h3 g3) (g3 g2)
+      )
+      (links cnext (h2 h3) (h3 g3) (g3 g2) (g2 f2) (f2 e2) (e2 d2) (d2 c2)
+                   (c2 b2) (b2 a2) (a2 z2) 
+      )
+      (links bnext (a4 d3) (b4 d3) (c4 d3) (d4 d3) (e4 d3) (f4 d3) (g4 d3) 
+                   (d3 c3) (c3 b3) (b3 a3) (a3 a2) (a2 b2) (b2 c2) (c2 d2) 
+                   (d2 e2) (e2 f2) (f2 g2) (g2 g3) (g3 h3) (h3 h2) (h2 h1) 
+                   (h1 g1) (g1 g2)
+      )
+      (links dnext (h2 h1) (h1 g1) (g1 g2) (g2 f2) (f2 e2) (e2 d2) (d2 c2)
+                   (c2 b2) (b2 a2) (a2 z2)
+      )
+      (links next  (x1 x2) (x2 x3) (x3 offboard) )
+      (links up    (b1 i1) (i1 i2) (i2 i3) (i3 offboard)
+                   (d1 j1) (j1 j2) (j2 j3) (j3 offboard)
+                   (b3 k1) (k1 k2) (k2 k3) (k3 offboard)
+                   (d3 l1) (l1 l2) (l2 l3) (l3 offboard)
+                   (g2 m1) (m1 m2) (m2 m3) (m3 offboard)
+                   (c2 n1) (n1 n2) (n2 n3) (n3 offboard)
+                   (f2 o1) (o1 o2) (o2 o3) (o3 offboard)
+      )
+      (symmetry Up (anext bnext) (cnext dnext) (afree bfree))
+      (zone
+         (name dices)
+         (players ?Dice)
+         (positions x1 x2 x3)
+      )
+      (zone
+         (name dices-lock)
+         (players ?Dice)
+         (positions x0)
+      )
+      (zone
+         (name promotion)
+         (players Down)
+         (positions h1)
+      )
+      (zone
+         (name promotion)
+         (players Up)
+         (positions h3)
+      )
+      (zone
+         (name rosette)
+         (players Up Down)
+         (positions a1 a3 d2 g1 g3)
+      )
+      (zone
+         (name end)
+         (players Up Down)
+         (positions z2)
+      )
+      (zone
+         (name depo)
+         (players Up Down)
+         (positions b1 b3 d1 d3 g2)
+      )
+      (zone
+         (name safe)
+         (players Up Down)
+         (positions c2 f2)
+      )
+      (zone
+         (name protect)
+         (players Up Down)
+         (positions a2)
+      )
+   )
+
+   (board-setup
+          (?Dice (wdice x3) (bdice x2 x1) )
+          (Up    (uinitial a4 b4 c4 d4 e4 f4 g4) )
+          (Down  (dinitial a0 b0 c0 d0 e0 f0 g0) )
+   )
+
+   (piece
+	  (name wdice)
+          (image ?Dice "Images\Ur\wdice.bmp")
+   )
+   (piece
+	  (name bdice)
+          (image ?Dice "Images\Ur\bdice.bmp")
+   )
+   (piece
+	  (name lock)
+          (image ?Dice "Images\Ur\invisible.bmp")
+   )
+   (piece
+	  (name ulock)
+          (image Up    "Images\Ur\invisible.bmp")
+   )
+   (piece
+	  (name dlock)
+          (image Down  "Images\Ur\invisible.bmp")
+   )
+
+   (piece
+	  (name  uinitial)
+          (image Up   "Images\Ur\binit.bmp")
+   )
+   (piece
+	  (name  upromouted)
+          (image Up   "Images\Ur\bprom.bmp")
+   )
+   (piece
+	  (name  dinitial)
+          (image Down "Images\Ur\winit.bmp")
+   )
+   (piece
+	  (name  dpromouted)
+          (image Down "Images\Ur\wprom.bmp")
+   )
+
+   ; The following dummy piece is required in order to placate the Zillions engine.
+   ; It appears as though Zillions must find at least one "moves" keyword somewhere
+   ; in the zrf in order for it to be happy and thus allow "moves" to work correctly.
+   (piece (name Dummy) (dummy) (moves (from)))
+)
