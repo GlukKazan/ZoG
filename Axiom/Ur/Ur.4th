@@ -134,7 +134,7 @@ directions}
 {players
 	{player}	Down    {random}
 	{player}	Up      {random}
-	{player}	?Dice	{random}
+	{neutral}	?Dice	{random}
 players}
 
 {symmetries 
