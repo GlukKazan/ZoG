@@ -36,7 +36,6 @@ board}
 	{link}		Anext i3 j3
 	{link}		Anext j3 k3
 	{link}		Anext k3 l3
-
 	{link}		Anext l3 m3
 	{link}		Anext m3 n3
 	{link}		Anext n3 o3
@@ -69,8 +68,8 @@ board}
 	{link}		Bnext o4 p4
 	{link}		Bnext p4 p3
 	{link}		Bnext p3 p2
-	{link}		Anext p2 o2
-	{link}		Anext o2 o3
+	{link}		Bnext p2 o2
+	{link}		Bnext o2 o3
 
 	( Cnext )
 	{link}		Cnext p3 p4
@@ -134,7 +133,7 @@ directions}
 {players
 	{player}	Down    {random}
 	{player}	Up      {random}
-	{neutral}	?Dice	{random}
+	{player}	?Dice	{random}
 players}
 
 {symmetries 
@@ -145,30 +144,79 @@ symmetries}
 
 {turn-order
 	{turn}	Down
-	{repeat}
-	{turn}	?Dice	{of-type} clear-type
-	{turn}	?Dice	{of-type} drop-type
-	{turn}	?Dice	{of-type} drop-type
-	{turn}	?Dice	{of-type} drop-type
+\	{repeat}
+\	{turn}	?Dice	{of-type} clear-type
+\	{turn}	?Dice	{of-type} drop-type
+\	{turn}	?Dice	{of-type} drop-type
+\	{turn}	?Dice	{of-type} drop-type
 	{turn}	Up
-	{turn}	?Dice	{of-type} clear-type
-	{turn}	?Dice	{of-type} drop-type
-	{turn}	?Dice	{of-type} drop-type
-	{turn}	?Dice	{of-type} drop-type
-	{turn}	Down
+\	{turn}	?Dice	{of-type} clear-type
+\	{turn}	?Dice	{of-type} drop-type
+\	{turn}	?Dice	{of-type} drop-type
+\	{turn}	?Dice	{of-type} drop-type
+\	{turn}	Down
 turn-order}
 
+h3	CONSTANT	endPosition
+
+: common-move ( 'dir n -- )
+	SWAP
+	BEGIN
+		DUP EXECUTE DROP SWAP
+		1-  DUP
+		0=  IF
+			DROP
+			TRUE
+		ELSE
+			SWAP
+			FALSE
+		ENDIF
+	UNTIL
+	empty?	IF
+		from
+		here
+		move
+		here endPosition
+		= IF
+			capture
+		ENDIF
+		add-move
+	ENDIF
+;
+
+: i-move-1 ( -- ) ['] Anext 1 common-move ;
+: i-move-2 ( -- ) ['] Anext 2 common-move ;
+: i-move-3 ( -- ) ['] Anext 3 common-move ;
+: i-move-4 ( -- ) ['] Anext 4 common-move ;
+: p-move-1 ( -- ) ['] Cnext 1 common-move ;
+: p-move-2 ( -- ) ['] Cnext 2 common-move ;
+: p-move-3 ( -- ) ['] Cnext 3 common-move ;
+: p-move-4 ( -- ) ['] Cnext 4 common-move ;
+
+{moves i-moves
+	{move} i-move-1
+	{move} i-move-2
+	{move} i-move-3
+	{move} i-move-4
+moves}
+
+{moves p-moves
+	{move} p-move-1
+	{move} p-move-2
+	{move} p-move-3
+	{move} p-move-4
+moves}
+
 {pieces
+	{piece}		uinitial	{moves} i-moves
+	{piece}		upromouted	{moves} p-moves
+	{piece}		dinitial	{moves} i-moves
+	{piece}		dpromouted	{moves} p-moves
 	{piece}		wdice
 	{piece}		bdice
 	{piece}		lock
 	{piece}		ulock
 	{piece}		dlock
-	{piece}		uinitial
-	{piece}		upromouted
-	{piece}		dinitial
-	{piece}		dpromouted
-	{piece}		Dummy
 pieces}
 
 {board-setup

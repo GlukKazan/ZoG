@@ -46,9 +46,11 @@
 
    (players Up Down ?Dice)
 
-   (turn-order Down repeat 
-               (?Dice clear-type) (?Dice drop-type) (?Dice drop-type) (?Dice drop-type) Up
-               (?Dice clear-type) (?Dice drop-type) (?Dice drop-type) (?Dice drop-type) Down)
+;  (turn-order Down repeat 
+;              (?Dice clear-type) (?Dice drop-type) (?Dice drop-type) (?Dice drop-type) Up
+;              (?Dice clear-type) (?Dice drop-type) (?Dice drop-type) (?Dice drop-type) Down)
+
+   (turn-order Down Up)
 
    (board 
       (image "Images\Ur\board.bmp")
