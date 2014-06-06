@@ -44,13 +44,13 @@
    (move-sound "Audio/Clack.wav")
    (capture-sound "")
 
-   (players Up Down ?Dice)
+   (players Black White ?Dice)
 
-;  (turn-order Down repeat 
-;              (?Dice clear-type) (?Dice drop-type) (?Dice drop-type) (?Dice drop-type) Up
-;              (?Dice clear-type) (?Dice drop-type) (?Dice drop-type) (?Dice drop-type) Down)
+;  (turn-order White repeat 
+;              (?Dice clear-type) (?Dice drop-type) (?Dice drop-type) (?Dice drop-type) Black
+;              (?Dice clear-type) (?Dice drop-type) (?Dice drop-type) (?Dice drop-type) White)
 
-   (turn-order Down Up)
+   (turn-order White Black)
 
    (board 
       (image "Images\Ur\board.bmp")
@@ -65,8 +65,8 @@
 
    (board-setup
           (?Dice (wdice q4) (bdice q3 q2) )
-          (Up    (uinitial i5 j5 k5 l5 m5 n5 o5) )
-          (Down  (dinitial i1 j1 k1 l1 m1 n1 o1) )
+          (Black (binit i5 j5 k5 l5 m5 n5 o5) )
+          (White (winit i1 j1 k1 l1 m1 n1 o1) )
    )
 
    (piece
@@ -83,28 +83,28 @@
    )
    (piece
 	  (name ulock)
-          (image Up    "Images\Ur\invisible.bmp")
+          (image Black "Images\Ur\invisible.bmp")
    )
    (piece
 	  (name dlock)
-          (image Down  "Images\Ur\invisible.bmp")
+          (image White "Images\Ur\invisible.bmp")
    )
 
    (piece
-	  (name  uinitial)
-          (image Up   "Images\Ur\binit.bmp")
+	  (name  binit)
+          (image Black "Images\Ur\binit.bmp")
    )
    (piece
-	  (name  upromouted)
-          (image Up   "Images\Ur\bprom.bmp")
+	  (name  bprom)
+          (image Black "Images\Ur\bprom.bmp")
    )
    (piece
-	  (name  dinitial)
-          (image Down "Images\Ur\winit.bmp")
+	  (name  winit)
+          (image White "Images\Ur\winit.bmp")
    )
    (piece
-	  (name  dpromouted)
-          (image Down "Images\Ur\wprom.bmp")
+	  (name  wprom)
+          (image White "Images\Ur\wprom.bmp")
    )
 
    ; The following dummy piece is required in order to placate the Zillions engine.

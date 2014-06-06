@@ -131,37 +131,50 @@ board}
 directions}
 
 {players
-	{player}	Down    {random}
-	{player}	Up      {random}
+	{player}	White   {random}
+	{player}	Black   {random}
 	{player}	?Dice	{random}
 players}
 
 {symmetries 
-	Up		{symmetry} Afree Bfree
-	Up		{symmetry} Anext Bnext
-	Up		{symmetry} Cnext Dnext
+	Black		{symmetry} Afree Bfree
+	Black		{symmetry} Anext Bnext
+	Black		{symmetry} Cnext Dnext
 symmetries}
 
 {turn-order
-	{turn}	Down
+	{turn}	White
 \	{repeat}
 \	{turn}	?Dice	{of-type} clear-type
 \	{turn}	?Dice	{of-type} drop-type
 \	{turn}	?Dice	{of-type} drop-type
 \	{turn}	?Dice	{of-type} drop-type
-	{turn}	Up
+	{turn}	Black
 \	{turn}	?Dice	{of-type} clear-type
 \	{turn}	?Dice	{of-type} drop-type
 \	{turn}	?Dice	{of-type} drop-type
 \	{turn}	?Dice	{of-type} drop-type
-\	{turn}	Down
+\	{turn}	White
 turn-order}
 
 h3	CONSTANT	endPosition
+p2	CONSTANT	whitePromoution
+p4	CONSTANT	blackPromoution
+
+VARIABLE		isPromouted
 
 : common-move ( 'dir n -- )
+	0 isPromouted !
 	SWAP
 	BEGIN
+		current-player White
+		= IF
+			here whitePromoution
+			= IF 1 isPromouted ! ENDIF
+		ELSE
+			here blackPromoution
+			= IF 1 isPromouted ! ENDIF
+		ENDIF
 		DUP EXECUTE DROP SWAP
 		1-  DUP
 		0=  IF
@@ -179,6 +192,10 @@ h3	CONSTANT	endPosition
 		here endPosition
 		= IF
 			capture
+		ENDIF
+ 		isPromouted @
+		0<> IF
+			current-piece-type 1+ change-type
 		ENDIF
 		add-move
 	ENDIF
@@ -208,10 +225,10 @@ moves}
 moves}
 
 {pieces
-	{piece}		uinitial	{moves} i-moves
-	{piece}		upromouted	{moves} p-moves
-	{piece}		dinitial	{moves} i-moves
-	{piece}		dpromouted	{moves} p-moves
+	{piece}		binit	{moves} i-moves
+	{piece}		bprom	{moves} p-moves
+	{piece}		winit	{moves} i-moves
+	{piece}		wprom	{moves} p-moves
 	{piece}		wdice
 	{piece}		bdice
 	{piece}		lock
@@ -224,19 +241,19 @@ pieces}
 	{setup}	?Dice bdice q3
 	{setup}	?Dice bdice q2
 
-	{setup}	Up uinitial i5
-	{setup}	Up uinitial j5
-	{setup}	Up uinitial k5
-	{setup}	Up uinitial l5
-	{setup}	Up uinitial m5
-	{setup}	Up uinitial n5
-	{setup}	Up uinitial o5
+	{setup}	Black binit i5
+	{setup}	Black binit j5
+	{setup}	Black binit k5
+	{setup}	Black binit l5
+	{setup}	Black binit m5
+	{setup}	Black binit n5
+	{setup}	Black binit o5
 
-	{setup}	Down dinitial i1
-	{setup}	Down dinitial j1
-	{setup}	Down dinitial k1
-	{setup}	Down dinitial l1
-	{setup}	Down dinitial m1
-	{setup}	Down dinitial n1
-	{setup}	Down dinitial o1
+	{setup}	White winit i1
+	{setup}	White winit j1
+	{setup}	White winit k1
+	{setup}	White winit l1
+	{setup}	White winit m1
+	{setup}	White winit n1
+	{setup}	White winit o1
 board-setup}
