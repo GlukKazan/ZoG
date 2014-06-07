@@ -157,47 +157,61 @@ symmetries}
 \	{turn}	White
 turn-order}
 
-h3	CONSTANT	endPosition
-p2	CONSTANT	whitePromoution
-p4	CONSTANT	blackPromoution
-
 VARIABLE		isPromouted
 
+: is-rosette? ( -- ? )
+	here i2 =
+	here i4 = OR
+	here l3 = OR
+	here o2 = OR
+	here o4 = OR
+;
+
 : common-move ( 'dir n -- )
-	0 isPromouted !
-	SWAP
-	BEGIN
-		current-player White
-		= IF
-			here whitePromoution
-			= IF 1 isPromouted ! ENDIF
-		ELSE
-			here blackPromoution
-			= IF 1 isPromouted ! ENDIF
-		ENDIF
-		DUP EXECUTE DROP SWAP
-		1-  DUP
-		0=  IF
-			DROP
-			TRUE
-		ELSE
-			SWAP
-			FALSE
-		ENDIF
-	UNTIL
-	empty?	IF
-		from
-		here
-		move
-		here endPosition
-		= IF
-			capture
-		ENDIF
- 		isPromouted @
-		0<> IF
-			current-piece-type 1+ change-type
-		ENDIF
+	q5 enemy-at? IF
+		Pass DROP DROP
 		add-move
+	ELSE
+		0 isPromouted !
+		SWAP
+		BEGIN
+			current-player White
+			= IF
+				here p2
+				= IF 1 isPromouted ! ENDIF
+			ELSE
+				here p4
+				= IF 1 isPromouted ! ENDIF
+			ENDIF
+			DUP EXECUTE DROP SWAP
+			1-  DUP
+			0=  IF
+				DROP
+				TRUE
+			ELSE
+				SWAP
+				FALSE
+			ENDIF
+		UNTIL
+		empty?	IF
+			from
+			here
+			move
+			here h3
+			= IF
+				capture
+			ENDIF
+ 			isPromouted @
+			0<> IF
+				current-piece-type 1+ change-type
+			ENDIF
+			is-rosette? IF
+				q1 piece-type-at q5 create-piece-type-at
+			ELSE
+				q5 capture-at
+			ENDIF
+			add-move
+		ENDIF
 	ENDIF
 ;
 
@@ -232,14 +246,13 @@ moves}
 	{piece}		wdice
 	{piece}		bdice
 	{piece}		lock
-	{piece}		ulock
-	{piece}		dlock
 pieces}
 
 {board-setup
 	{setup}	?Dice wdice q4
 	{setup}	?Dice bdice q3
 	{setup}	?Dice bdice q2
+	{setup}	?Dice lock  q1
 
 	{setup}	Black binit i5
 	{setup}	Black binit j5
