@@ -80,8 +80,8 @@
    (piece
 	  (name lock)
           (image ?Dice "Images\Ur\invisible.bmp"
-                 Black "Images\Ur\bdice.bmp"
-                 White "Images\Ur\wdice.bmp")
+                 Black "Images\Ur\invisible.bmp"
+                 White "Images\Ur\invisible.bmp")
    )
 
    (piece
