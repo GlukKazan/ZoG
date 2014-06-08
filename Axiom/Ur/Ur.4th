@@ -289,6 +289,8 @@ VARIABLE		isCaptured
 ;
 
 : pass-move ( -- )
+	q5 capture-at
+	repetition-reset
 	Pass
 	add-move
 ;
