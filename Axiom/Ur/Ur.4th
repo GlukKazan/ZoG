@@ -298,6 +298,10 @@ VARIABLE		isCaptured
 : i-move ( -- ) ['] Anext count-dices common-move ;
 : p-move ( -- ) ['] Cnext count-dices common-move ;
 
+: OnNewGame ( -- )
+	RANDOMIZE
+;
+
 : OnIsGameOver ( -- gameResult )
 	repetition-reset
 	#UnknownScore
