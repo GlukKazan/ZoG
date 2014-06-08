@@ -140,7 +140,6 @@ symmetries}
 
 {turn-order
 	{turn}	White
-	{repeat}
 	{turn}	?Dice
 	{turn}	?Dice
 	{turn}	?Dice
@@ -148,7 +147,6 @@ symmetries}
 	{turn}	?Dice
 	{turn}	?Dice
 	{turn}	?Dice
-	{turn}	White
 turn-order}
 
 VARIABLE		isPromouted
@@ -209,10 +207,7 @@ VARIABLE		isCaptured
 ;
 
 : common-move ( 'dir n -- )
-	q5 enemy-at? IF
-		Pass DROP DROP
-		add-move
-	ELSE
+	q5 enemy-at? NOT IF
 		FALSE isPromouted !
 		FALSE isCaptured !
 		SWAP
@@ -246,12 +241,12 @@ VARIABLE		isCaptured
 			= IF
 				capture
 			ENDIF
- 			isPromouted @ IF
+				isPromouted @ IF
 				current-piece-type 1+ change-type
 			ENDIF
 			is-rosette? IF
 				q1 piece-type-at q5 create-piece-type-at
-			ELSE
+			ELSE  
 				q5 capture-at
 			ENDIF
 			isCaptured @ IF
@@ -269,36 +264,45 @@ VARIABLE		isCaptured
 	q2 here = q3 here = OR q4 here = OR empty? AND IF
 		drop
 		add-move
-	ELSE
-		q2 not-empty-at? q3 not-empty-at? q4 not-empty-at?
-		AND AND IF
-			Pass
-			add-move
-		ENDIF
 	ENDIF
+;
+
+: pass-move ( -- )
+	Pass
+	add-move
 ;
 
 : i-move ( -- ) ['] Anext count-dices common-move ;
 : p-move ( -- ) ['] Cnext count-dices common-move ;
 
 {moves i-moves
-	{move} i-move
+	{move} i-move {move-type} normal-type
+	{move} pass-move {move-type} pass-type
 moves}
 
 {moves p-moves
-	{move} p-move
+	{move} p-move {move-type} normal-type
+	{move} pass-move {move-type} pass-type
 moves}
 
 {moves drops
-	{move} drop-dices
+	{move} drop-dices {move-type} normal-type
+	{move} pass-move {move-type} pass-type
 moves}
+
+{move-priorities
+	{move-priority} normal-type
+	{move-priority} pass-type
+move-priorities}
 
 {pieces
 	{piece}		lock
 	{piece}		init	{moves} i-moves
 	{piece}		prom	{moves} p-moves
-	{piece}		wdice	{drops} drops 1 {value}
-	{piece}		bdice	{drops} drops 0 {value}
+	{piece}		wdice	{drops} drops 
+					1 {value}
+	{piece}		bdice	{drops} drops 
+					0 {value}
 pieces}
 
 {board-setup
