@@ -95,10 +95,6 @@ board}
 	{link}		Dnext j3 i3
 	{link}		Dnext i3 h3
 
-	( Next )
-	{link}		Next q2 q3
-	{link}		Next q3 q4
-
 	( Top )
 	{link}		Top j2 a2
 	{link}		Top a2 a3
@@ -158,6 +154,7 @@ symmetries}
 turn-order}
 
 VARIABLE		isPromouted
+VARIABLE		isCaptured
 
 : is-rosette? ( -- ? )
 	here i2 =
@@ -167,21 +164,68 @@ VARIABLE		isPromouted
 	here o4 = OR
 ;
 
+: move-granted? ( -- ? )
+	empty?
+	current-piece-type
+	isPromouted @ IF
+		1+
+	ENDIF
+	piece-type = enemy? AND OR
+;
+
+: enemy-player ( -- player )
+	current-player
+	White = IF
+		Black
+	ELSE
+		White
+	ENDIF
+;
+
+: move-to-reserve ( -- )
+	h5 to
+	BEGIN
+		Afree IF
+			empty? IF
+				enemy-player 
+				q1 piece-type-at 1+
+				create-player-piece-type
+				TRUE
+			ELSE
+				FALSE
+			ENDIF
+		ELSE
+			TRUE
+		ENDIF
+	UNTIL
+;
+
+: count-dices ( -- n )
+	q2 piece-at piece-value
+	q3 piece-at piece-value +
+	q4 piece-at piece-value +
+	DUP 0= IF
+		DROP
+		4
+	ENDIF
+;
+
 : common-move ( 'dir n -- )
 	q5 enemy-at? IF
 		Pass DROP DROP
 		add-move
 	ELSE
-		0 isPromouted !
+		FALSE isPromouted !
+		FALSE isCaptured !
 		SWAP
 		BEGIN
 			current-player White
 			= IF
 				here p2
-				= IF 1 isPromouted ! ENDIF
+				= IF TRUE isPromouted ! ENDIF
 			ELSE
 				here p4
-				= IF 1 isPromouted ! ENDIF
+				= IF TRUE isPromouted ! ENDIF
 			ENDIF
 			DUP EXECUTE DROP SWAP
 			1-  DUP
@@ -193,7 +237,10 @@ VARIABLE		isPromouted
 				FALSE
 			ENDIF
 		UNTIL
-		empty?	IF
+		move-granted? IF
+			enemy? IF 
+				TRUE isCaptured !
+			ENDIF
 			from
 			here
 			move
@@ -201,8 +248,7 @@ VARIABLE		isPromouted
 			= IF
 				capture
 			ENDIF
- 			isPromouted @
-			0<> IF
+ 			isPromouted @ IF
 				current-piece-type 1+ change-type
 			ENDIF
 			is-rosette? IF
@@ -210,42 +256,44 @@ VARIABLE		isPromouted
 			ELSE
 				q5 capture-at
 			ENDIF
+			isCaptured @ IF
+				move-to-reserve
+			ENDIF
 			add-move
 		ENDIF
 	ENDIF
 ;
 
-: i-move-1 ( -- ) ['] Anext 1 common-move ;
-: i-move-2 ( -- ) ['] Anext 2 common-move ;
-: i-move-3 ( -- ) ['] Anext 3 common-move ;
-: i-move-4 ( -- ) ['] Anext 4 common-move ;
-: p-move-1 ( -- ) ['] Cnext 1 common-move ;
-: p-move-2 ( -- ) ['] Cnext 2 common-move ;
-: p-move-3 ( -- ) ['] Cnext 3 common-move ;
-: p-move-4 ( -- ) ['] Cnext 4 common-move ;
+: c-drop ( -- )
+	here q1 = verify
+	drop
+	q2 capture-at
+	q3 capture-at
+	q4 capture-at
+	add-move
+;
+
+: i-move ( -- ) ['] Anext count-dices common-move ;
+: p-move ( -- ) ['] Cnext count-dices common-move ;
 
 {moves i-moves
-	{move} i-move-1
-	{move} i-move-2
-	{move} i-move-3
-	{move} i-move-4
+	{move} i-move
 moves}
 
 {moves p-moves
-	{move} p-move-1
-	{move} p-move-2
-	{move} p-move-3
-	{move} p-move-4
+	{move} p-move
+moves}
+
+{moves c-drops
+	{move} c-drop
 moves}
 
 {pieces
-	{piece}		binit	{moves} i-moves
-	{piece}		bprom	{moves} p-moves
-	{piece}		winit	{moves} i-moves
-	{piece}		wprom	{moves} p-moves
-	{piece}		wdice
-	{piece}		bdice
-	{piece}		lock
+	{piece}		lock	\ Error: Black Drops! {drops} c-drops
+	{piece}		init	{moves} i-moves
+	{piece}		prom	{moves} p-moves
+	{piece}		wdice	1 {value}
+	{piece}		bdice	0 {value}
 pieces}
 
 {board-setup
@@ -254,19 +302,19 @@ pieces}
 	{setup}	?Dice bdice q2
 	{setup}	?Dice lock  q1
 
-	{setup}	Black binit i5
-	{setup}	Black binit j5
-	{setup}	Black binit k5
-	{setup}	Black binit l5
-	{setup}	Black binit m5
-	{setup}	Black binit n5
-	{setup}	Black binit o5
+	{setup}	Black init i5
+	{setup}	Black init j5
+	{setup}	Black init k5
+	{setup}	Black init l5
+	{setup}	Black init m5
+	{setup}	Black init n5
+	{setup}	Black init o5
 
-	{setup}	White winit i1
-	{setup}	White winit j1
-	{setup}	White winit k1
-	{setup}	White winit l1
-	{setup}	White winit m1
-	{setup}	White winit n1
-	{setup}	White winit o1
+	{setup}	White init i1
+	{setup}	White init j1
+	{setup}	White init k1
+	{setup}	White init l1
+	{setup}	White init m1
+	{setup}	White init n1
+	{setup}	White init o1
 board-setup}
