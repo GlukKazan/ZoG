@@ -140,10 +140,12 @@ symmetries}
 
 {turn-order
 	{turn}	White
+	{turn}	?Dice {of-type} clear-type
 	{turn}	?Dice
 	{turn}	?Dice
 	{turn}	?Dice
 	{turn}	Black
+	{turn}	?Dice {of-type} clear-type
 	{turn}	?Dice
 	{turn}	?Dice
 	{turn}	?Dice
@@ -252,9 +254,6 @@ VARIABLE		isCaptured
 			isCaptured @ IF
 				move-to-reserve
 			ENDIF
-			q2 capture-at
-			q3 capture-at
-			q4 capture-at
 			add-move
 		ENDIF
 	ENDIF
@@ -263,6 +262,18 @@ VARIABLE		isCaptured
 : drop-dices ( -- )
 	q2 here = q3 here = OR q4 here = OR empty? AND IF
 		drop
+		add-move
+	ENDIF
+;
+
+: clear-dices ( -- )
+	q1 here = verify
+	q2 not-empty-at? q3 not-empty-at? q4 not-empty-at?
+	AND AND IF
+		drop
+		q2 capture-at
+		q3 capture-at
+		q4 capture-at
 		add-move
 	ENDIF
 ;
@@ -290,13 +301,17 @@ moves}
 	{move} pass-move {move-type} pass-type
 moves}
 
+{moves clears
+	{move} clear-dices {move-type} clear-type
+moves}
+
 {move-priorities
 	{move-priority} normal-type
 	{move-priority} pass-type
 move-priorities}
 
 {pieces
-	{piece}		lock
+	{piece}		lock	{moves} clears
 	{piece}		init	{moves} i-moves
 	{piece}		prom	{moves} p-moves
 	{piece}		wdice	{drops} drops 

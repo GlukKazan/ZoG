@@ -46,7 +46,7 @@
 
    (players Black White ?Dice)
 
-   (turn-order White ?Dice ?Dice ?Dice Black ?Dice ?Dice ?Dice)
+   (turn-order White ?Dice ?Dice ?Dice ?Dice Black ?Dice ?Dice ?Dice ?Dice)
 
    (board 
       (image "Images\Ur\board.bmp")
