@@ -246,12 +246,12 @@ VARIABLE		isCaptured
 			move
 			here h3
 			= IF
-				capture
 				current-player White = IF
 					COMPILE WhitePieces++
 				ELSE
 					COMPILE BlackPieces++
 				ENDIF
+				capture
 			ENDIF
 				isPromouted @ IF
 				current-piece-type 1+ change-type
@@ -297,19 +297,20 @@ VARIABLE		isCaptured
 : p-move ( -- ) ['] Cnext count-dices common-move ;
 
 : OnIsGameOver ( -- gameResult )
+	repetition-reset
 	#UnknownScore
 	current-player White = IF
-		WhitePieces @
-		0> IF
+		BlackPieces @
+		7 - 0=  IF
 			DROP
-			#WinScore
+			#LossScore
 		ENDIF
 	ENDIF
 	current-player Black = IF
-		BlackPieces @
-		0> IF
+		WhitePieces @
+		7 - 0=  IF
 			DROP
-			#WinScore
+			#LossScore
 		ENDIF
 	ENDIF
 ;
