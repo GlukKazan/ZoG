@@ -46,11 +46,7 @@
 
    (players Black White ?Dice)
 
-;  (turn-order White repeat 
-;              (?Dice clear-type) (?Dice drop-type) (?Dice drop-type) (?Dice drop-type) Black
-;              (?Dice clear-type) (?Dice drop-type) (?Dice drop-type) (?Dice drop-type) White)
-
-   (turn-order White Black)
+   (turn-order White repeat ?Dice ?Dice ?Dice Black ?Dice ?Dice ?Dice)
 
    (board 
       (image "Images\Ur\board.bmp")
@@ -72,8 +68,8 @@
    (piece
 	  (name lock)
           (image ?Dice "Images\Ur\invisible.bmp"
-                 Black "Images\Ur\invisible.bmp"
-                 White "Images\Ur\invisible.bmp")
+                 Black "Images\Ur\bdice.bmp"
+                 White "Images\Ur\wdice.bmp")
    )
    (piece
 	  (name  init)

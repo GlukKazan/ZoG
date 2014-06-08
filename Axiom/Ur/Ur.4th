@@ -140,17 +140,15 @@ symmetries}
 
 {turn-order
 	{turn}	White
-\	{repeat}
-\	{turn}	?Dice	{of-type} clear-type
-\	{turn}	?Dice	{of-type} drop-type
-\	{turn}	?Dice	{of-type} drop-type
-\	{turn}	?Dice	{of-type} drop-type
+	{repeat}
+	{turn}	?Dice
+	{turn}	?Dice
+	{turn}	?Dice
 	{turn}	Black
-\	{turn}	?Dice	{of-type} clear-type
-\	{turn}	?Dice	{of-type} drop-type
-\	{turn}	?Dice	{of-type} drop-type
-\	{turn}	?Dice	{of-type} drop-type
-\	{turn}	White
+	{turn}	?Dice
+	{turn}	?Dice
+	{turn}	?Dice
+	{turn}	White
 turn-order}
 
 VARIABLE		isPromouted
@@ -259,18 +257,25 @@ VARIABLE		isCaptured
 			isCaptured @ IF
 				move-to-reserve
 			ENDIF
+			q2 capture-at
+			q3 capture-at
+			q4 capture-at
 			add-move
 		ENDIF
 	ENDIF
 ;
 
-: c-drop ( -- )
-	here q1 = verify
-	drop
-	q2 capture-at
-	q3 capture-at
-	q4 capture-at
-	add-move
+: drop-dices ( -- )
+	q2 here = q3 here = OR q4 here = OR empty? AND IF
+		drop
+		add-move
+	ELSE
+		q2 not-empty-at? q3 not-empty-at? q4 not-empty-at?
+		AND AND IF
+			Pass
+			add-move
+		ENDIF
+	ENDIF
 ;
 
 : i-move ( -- ) ['] Anext count-dices common-move ;
@@ -284,16 +289,16 @@ moves}
 	{move} p-move
 moves}
 
-{moves c-drops
-	{move} c-drop
+{moves drops
+	{move} drop-dices
 moves}
 
 {pieces
-	{piece}		lock	\ Error: Black Drops! {drops} c-drops
+	{piece}		lock
 	{piece}		init	{moves} i-moves
 	{piece}		prom	{moves} p-moves
-	{piece}		wdice	1 {value}
-	{piece}		bdice	0 {value}
+	{piece}		wdice	{drops} drops 1 {value}
+	{piece}		bdice	{drops} drops 0 {value}
 pieces}
 
 {board-setup
