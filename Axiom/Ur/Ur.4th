@@ -1,5 +1,7 @@
 {board
 	5 17 		{grid}
+	{variable}	WhitePieces
+	{variable}	BlackPieces
 board}
 
 {directions
@@ -154,6 +156,9 @@ turn-order}
 VARIABLE		isPromouted
 VARIABLE		isCaptured
 
+: WhitePieces++ WhitePieces ++ ;
+: BlackPieces++ BlackPieces ++ ;
+
 : is-rosette? ( -- ? )
 	here i2 =
 	here i4 = OR
@@ -242,6 +247,11 @@ VARIABLE		isCaptured
 			here h3
 			= IF
 				capture
+				current-player White = IF
+					COMPILE WhitePieces++
+				ELSE
+					COMPILE BlackPieces++
+				ENDIF
 			ENDIF
 				isPromouted @ IF
 				current-piece-type 1+ change-type
@@ -285,6 +295,24 @@ VARIABLE		isCaptured
 
 : i-move ( -- ) ['] Anext count-dices common-move ;
 : p-move ( -- ) ['] Cnext count-dices common-move ;
+
+: OnIsGameOver ( -- gameResult )
+	#UnknownScore
+	current-player White = IF
+		WhitePieces @
+		0> IF
+			DROP
+			#WinScore
+		ENDIF
+	ENDIF
+	current-player Black = IF
+		BlackPieces @
+		0> IF
+			DROP
+			#WinScore
+		ENDIF
+	ENDIF
+;
 
 {moves i-moves
 	{move} i-move {move-type} normal-type
