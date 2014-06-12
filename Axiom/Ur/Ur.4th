@@ -97,34 +97,64 @@ board}
 	{link}		Dnext j3 i3
 	{link}		Dnext i3 h3
 
-	( Top )
-	{link}		Top j2 a2
-	{link}		Top a2 a3
-	{link}		Top a3 a4
+	( Up )
+	{link}		Up j2 a2
+	{link}		Up a2 a3
+	{link}		Up a3 a4
 
-	{link}		Top j4 b2
-	{link}		Top b2 b3
-	{link}		Top b3 b4
+	{link}		Up j4 b2
+	{link}		Up b2 b3
+	{link}		Up b3 b4
 
-	{link}		Top l2 c2
-	{link}		Top c2 c3
-	{link}		Top c3 c4
+	{link}		Up l2 c2
+	{link}		Up c2 c3
+	{link}		Up c3 c4
 
-	{link}		Top l4 d2
-	{link}		Top d2 d3
-	{link}		Top d3 d4
+	{link}		Up l4 d2
+	{link}		Up d2 d3
+	{link}		Up d3 d4
 
-	{link}		Top o3 e2
-	{link}		Top e2 e3
-	{link}		Top e3 e4
+	{link}		Up o3 e2
+	{link}		Up e2 e3
+	{link}		Up e3 e4
 
-	{link}		Top k3 f2
-	{link}		Top f2 f3
-	{link}		Top f3 f4
+	{link}		Up k3 f2
+	{link}		Up f2 f3
+	{link}		Up f3 f4
 
-	{link}		Top n3 g2
-	{link}		Top g2 g3
-	{link}		Top g3 g4
+	{link}		Up n3 g2
+	{link}		Up g2 g3
+	{link}		Up g3 g4
+
+	( Down )
+
+	{link}		Down j2 a4
+	{link}		Down a4 a3
+	{link}		Down a3 a2
+
+	{link}		Down j4 b4
+	{link}		Down b4 b3
+	{link}		Down b3 b2
+
+	{link}		Down l2 c4
+	{link}		Down c4 c3
+	{link}		Down c3 c2
+
+	{link}		Down l4 d4
+	{link}		Down d4 d3
+	{link}		Down d3 d2
+
+	{link}		Down o3 e4
+	{link}		Down e4 e3
+	{link}		Down e3 e2
+
+	{link}		Down k3 f4
+	{link}		Down f4 f3
+	{link}		Down f3 f2
+
+	{link}		Down n3 g4
+	{link}		Down g4 g3
+	{link}		Down g3 g2
 
 directions}
 
@@ -155,6 +185,9 @@ turn-order}
 
 VARIABLE		isPromouted
 VARIABLE		isCaptured
+VARIABLE		isLocked
+VARIABLE		lockedPlayer
+VARIABLE		lockedPieceType
 
 : WhitePieces++ WhitePieces ++ ;
 : BlackPieces++ BlackPieces ++ ;
@@ -168,12 +201,28 @@ VARIABLE		isCaptured
 ;
 
 : move-granted? ( -- ? )
-	empty?
 	current-piece-type
 	isPromouted @ IF
 		1+
 	ENDIF
-	piece-type = enemy? AND OR
+	piece-type = enemy? AND 
+
+	not-empty? here i3 = AND IF
+		q1 piece-type-at 2 + piece-type =
+		NOT AND
+	ENDIF
+
+	empty? OR
+
+	here Down IF
+		empty? SWAP to OR
+	ELSE
+		DROP
+	ENDIF
+
+	here o3 = enemy? AND IF
+		FALSE AND
+	ENDIF
 ;
 
 : enemy-player ( -- player )
@@ -213,10 +262,51 @@ VARIABLE		isCaptured
 	ENDIF
 ;
 
+: try-push-to-up ( -- )
+	here
+	BEGIN
+		Up IF
+			empty? IF
+				FALSE isCaptured !
+				lockedPlayer @
+				lockedPieceType @
+			        create-player-piece-type
+				TRUE
+			ELSE
+				FALSE
+			ENDIF
+		ELSE
+			TRUE
+		ENDIF
+	UNTIL
+	to
+;
+
+: try-pop-from-down ( -- )
+	from to here
+	BEGIN
+		Down IF
+			not-empty? IF
+				player SWAP
+				piece-type SWAP
+				capture
+				to create-player-piece-type
+				TRUE
+			ELSE
+				FALSE
+			ENDIF	
+		ELSE
+			to
+			TRUE
+		ENDIF
+	UNTIL
+;
+
 : common-move ( 'dir n -- )
 	q5 enemy-at? NOT IF
 		FALSE isPromouted !
 		FALSE isCaptured !
+		FALSE isLocked !
 		SWAP
 		BEGIN
 			current-player White
@@ -241,6 +331,11 @@ VARIABLE		isCaptured
 			enemy? IF 
 				TRUE isCaptured !
 			ENDIF
+			not-empty? IF
+				TRUE isLocked !
+				player lockedPlayer !
+				piece-type lockedPieceType !
+			ENDIF
 			from
 			here
 			move
@@ -261,6 +356,10 @@ VARIABLE		isCaptured
 			ELSE  
 				q5 capture-at
 			ENDIF
+			isLocked @ IF
+				try-push-to-up
+			ENDIF
+			try-pop-from-down
 			isCaptured @ IF
 				move-to-reserve
 			ENDIF
