@@ -159,8 +159,8 @@ board}
 directions}
 
 {players
-	{player}	White   {random}
-	{player}	Black   {random}
+	{player}	White
+	{player}	Black
 	{player}	?Dice	{random}
 players}
 

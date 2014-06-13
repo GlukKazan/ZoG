@@ -1,0 +1,23 @@
+Final results:
+Player 1 "Ur-[first]", wins = 92.
+Player 2 "Ur-[first]", wins = 8.
+Draws = 0
+100 game(s) played
+
+Final results:
+Player 1 "Ur-[random]", wins = 52.
+Player 2 "Ur-[random]", wins = 48.
+Draws = 0
+100 game(s) played
+
+Final results:
+Player 1 "Ur-[first]", wins = 89.
+Player 2 "Ur-[random]", wins = 11.
+Draws = 0
+100 game(s) played
+
+Final results:
+Player 1 "Ur-[random]", wins = 60.
+Player 2 "Ur-[first]", wins = 40.
+Draws = 0
+100 game(s) played

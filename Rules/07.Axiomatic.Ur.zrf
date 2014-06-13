@@ -95,3 +95,7 @@
    ; in the zrf in order for it to be happy and thus allow "moves" to work correctly.
    (piece (name Dummy) (dummy) (moves (from)))
 )
+
+(variant (title "Ur [first]"))
+(variant (title "Ur [random]"))
+(variant (title "Ur [simple evaluation]"))
