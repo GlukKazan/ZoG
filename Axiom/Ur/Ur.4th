@@ -188,6 +188,8 @@ VARIABLE		isCaptured
 VARIABLE		isLocked
 VARIABLE		lockedPlayer
 VARIABLE		lockedPieceType
+VARIABLE		whiteScored
+VARIABLE		blackScored
 
 : WhitePieces++ WhitePieces ++ ;
 : BlackPieces++ BlackPieces ++ ;
@@ -392,6 +394,23 @@ VARIABLE		lockedPieceType
 	repetition-reset
 	Pass
 	add-move
+;
+
+: Score ( value piece-type player pos -- score )
+	DUP not-empty-at? IF
+		DUP player-at White = IF
+			whiteScored --
+		ELSE
+			blackScored --
+		ENDIF
+		DUP ROT SWAP player-at =
+		ROT ROT piece-type-at =
+		AND NOT IF
+			DROP 0
+		ENDIF
+	ELSE
+		DROP DROP DROP DROP 0
+	ENDIF
 ;
 
 : i-move ( -- ) ['] Anext count-dices common-move ;
