@@ -1,0 +1,1 @@
+AutoPlay Ur-[random] Ur-[simple-evaluation] 100
