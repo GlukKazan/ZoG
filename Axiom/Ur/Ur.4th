@@ -217,7 +217,8 @@ VARIABLE		blackScored
 	empty? OR
 
 	here Down IF
-		empty? SWAP to OR
+		TRUE ROT OR SWAP
+		empty? SWAP to AND
 	ELSE
 		DROP
 	ENDIF
@@ -319,7 +320,7 @@ VARIABLE		blackScored
 				here p4
 				= IF TRUE isPromouted ! ENDIF
 			ENDIF
-			DUP EXECUTE DROP SWAP
+			DUP EXECUTE verify SWAP
 			1-  DUP
 			0=  IF
 				DROP
