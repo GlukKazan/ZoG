@@ -99,5 +99,4 @@
 (variant (title "Ur [first]"))
 (variant (title "Ur [random]"))
 (variant (title "Ur [simple evaluation]"))
-(variant (title "Ur [weighted evaluation]"))
-(variant (title "Ur [negate evaluation]"))
+(variant (title "Ur [aggressive]"))
