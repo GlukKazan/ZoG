@@ -1,0 +1,2488 @@
+Zillions Save Game File Version 0.02 CHC
+RulesFile=C:\Games\ZoG\my\Ur\07.Axiomatic.Ur.zrf
+VariantName=Ur [aggressive]
+1. init i1 - l2 x q5
+1. ?Dice lock q1 x q2 x q3 x q4
+1. ?Dice bdice q4
+1. ?Dice bdice q3
+1. ?Dice bdice q2
+1. init i5 - i4 Black lock q5
+1. ?Dice lock q1 x q2 x q3 x q4
+1. ?Dice bdice q2
+1. ?Dice wdice q4
+1. ?Dice wdice q3
+2. Pass
+2. ?Dice lock q1 x q2 x q3 x q4
+2. ?Dice wdice q3
+2. ?Dice wdice q4
+2. ?Dice bdice q2
+2. init j5 - k4 x q5
+2. ?Dice lock q1 x q2 x q3 x q4
+2. ?Dice bdice q2
+2. ?Dice wdice q4
+2. ?Dice bdice q3
+3. init l2 - k2 x q5
+3. ?Dice lock q1 x q2 x q3 x q4
+3. ?Dice bdice q2
+3. ?Dice wdice q3
+3. ?Dice bdice q4
+3. init k5 - l4 x q5
+3. ?Dice lock q1 x q2 x q3 x q4
+3. ?Dice wdice q3
+3. ?Dice bdice q4
+3. ?Dice bdice q2
+4. init j1 - l2 x q5
+4. ?Dice lock q1 x q2 x q3 x q4
+4. ?Dice bdice q3
+4. ?Dice wdice q4
+4. ?Dice wdice q2
+4. init i4 - j3 x q5
+4. ?Dice lock q1 x q2 x q3 x q4
+4. ?Dice wdice q2
+4. ?Dice wdice q4
+4. ?Dice wdice q3
+5. init k2 - i3 x q5
+5. ?Dice lock q1 x q2 x q3 x q4
+5. ?Dice wdice q4
+5. ?Dice bdice q3
+5. ?Dice bdice q2
+5. init l5 x l4 x q5 Black init d2
+5. ?Dice lock q1 x q2 x q3 x q4
+5. ?Dice bdice q2
+5. ?Dice bdice q4
+5. ?Dice wdice q3
+6. init i3 x j3 x q5 Black init i5
+6. ?Dice lock q1 x q2 x q3 x q4
+6. ?Dice bdice q2
+6. ?Dice wdice q3
+6. ?Dice bdice q4
+6. init i5 x l4 x q5 Black init d3
+6. ?Dice lock q1 x q2 x q3 x q4
+6. ?Dice bdice q4
+6. ?Dice bdice q3
+6. ?Dice wdice q2
+7. init j3 - k3 x q5
+7. ?Dice lock q1 x q2 x q3 x q4
+7. ?Dice wdice q3
+7. ?Dice wdice q4
+7. ?Dice wdice q2
+7. init m5 - j4 x q5
+7. ?Dice lock q1 x q2 x q3 x q4
+7. ?Dice wdice q4
+7. ?Dice wdice q2
+7. ?Dice wdice q3
+8. init l2 - i2 White lock q5
+8. ?Dice lock q1 x q2 x q3 x q4
+8. ?Dice wdice q3
+8. ?Dice bdice q2
+8. ?Dice wdice q4
+8. x q5
+8. ?Dice lock q1 x q2 x q3 x q4
+8. ?Dice bdice q2
+8. ?Dice wdice q3
+8. ?Dice bdice q4
+9. init k3 - l3 White lock q5
+9. ?Dice lock q1 x q2 x q3 x q4
+9. ?Dice wdice q3
+9. ?Dice wdice q2
+9. ?Dice wdice q4
+9. x q5
+9. ?Dice lock q1 x q2 x q3 x q4
+9. ?Dice bdice q2
+9. ?Dice bdice q4
+9. ?Dice wdice q3
+10. init l3 - m3 x q5
+10. ?Dice lock q1 x q2 x q3 x q4
+10. ?Dice bdice q2
+10. ?Dice bdice q4
+10. ?Dice bdice q3
+10. init n5 - i4 Black lock q5
+10. ?Dice lock q1 x q2 x q3 x q4
+10. ?Dice wdice q4
+10. ?Dice wdice q2
+10. ?Dice wdice q3
+11. Pass
+11. ?Dice lock q1 x q2 x q3 x q4
+11. ?Dice bdice q4
+11. ?Dice wdice q3
+11. ?Dice bdice q2
+11. init o5 x l4 x q5 Black init d4
+11. ?Dice lock q1 x q2 x q3 x q4
+11. ?Dice wdice q3
+11. ?Dice bdice q2
+11. ?Dice bdice q4
+12. init m3 - n3 x q5
+12. ?Dice lock q1 x q2 x q3 x q4
+12. ?Dice wdice q4
+12. ?Dice bdice q2
+12. ?Dice bdice q3
+12. init i4 - i3 x q5
+12. ?Dice lock q1 x q2 x q3 x q4
+12. ?Dice wdice q3
+12. ?Dice bdice q2
+12. ?Dice wdice q4
+13. init i2 - j3 x q5
+13. ?Dice lock q1 x q2 x q3 x q4
+13. ?Dice wdice q2
+13. ?Dice bdice q3
+13. ?Dice wdice q4
+13. init k4 - i4 Black lock q5
+13. ?Dice lock q1 x q2 x q3 x q4
+13. ?Dice bdice q3
+13. ?Dice wdice q4
+13. ?Dice bdice q2
+14. Pass
+14. ?Dice lock q1 x q2 x q3 x q4
+14. ?Dice bdice q4
+14. ?Dice bdice q3
+14. ?Dice bdice q2
+14. init i4 - l3 Black lock q5
+14. ?Dice lock q1 x q2 x q3 x q4
+14. ?Dice wdice q3
+14. ?Dice bdice q2
+14. ?Dice wdice q4
+15. Pass
+15. ?Dice lock q1 x q2 x q3 x q4
+15. ?Dice wdice q3
+15. ?Dice bdice q2
+15. ?Dice wdice q4
+15. init l4 x j4 x q5 Black init b2 x d4 Black init l4
+15. ?Dice lock q1 x q2 x q3 x q4
+15. ?Dice bdice q2
+15. ?Dice wdice q3
+15. ?Dice wdice q4
+16. init j3 x l3 White lock q5 Black init i5
+16. ?Dice lock q1 x q2 x q3 x q4
+16. ?Dice bdice q3
+16. ?Dice wdice q2
+16. ?Dice wdice q4
+16. x q5
+16. ?Dice lock q1 x q2 x q3 x q4
+16. ?Dice bdice q4
+16. ?Dice wdice q2
+16. ?Dice bdice q3
+17. init n3 - o3 x q5
+17. ?Dice lock q1 x q2 x q3 x q4
+17. ?Dice wdice q3
+17. ?Dice bdice q2
+17. ?Dice wdice q4
+17. init i5 - k4 x q5
+17. ?Dice lock q1 x q2 x q3 x q4
+17. ?Dice bdice q4
+17. ?Dice bdice q3
+17. ?Dice wdice q2
+18. init o3 - o2 White lock q5
+18. ?Dice lock q1 x q2 x q3 x q4
+18. ?Dice wdice q2
+18. ?Dice bdice q4
+18. ?Dice wdice q3
+18. x q5
+18. ?Dice lock q1 x q2 x q3 x q4
+18. ?Dice bdice q4
+18. ?Dice wdice q2
+18. ?Dice bdice q3
+19. init l3 - m3 x q5
+19. ?Dice lock q1 x q2 x q3 x q4
+19. ?Dice wdice q2
+19. ?Dice bdice q3
+19. ?Dice wdice q4
+19. init k4 - i4 Black lock q5
+19. ?Dice lock q1 x q2 x q3 x q4
+19. ?Dice wdice q2
+19. ?Dice bdice q4
+19. ?Dice wdice q3
+20. Pass
+20. ?Dice lock q1 x q2 x q3 x q4
+20. ?Dice bdice q4
+20. ?Dice wdice q3
+20. ?Dice bdice q2
+20. init l4 - k4 x q5 x d3 Black init l4
+20. ?Dice lock q1 x q2 x q3 x q4
+20. ?Dice bdice q2
+20. ?Dice bdice q3
+20. ?Dice wdice q4
+21. init k1 - l2 x q5
+21. ?Dice lock q1 x q2 x q3 x q4
+21. ?Dice wdice q4
+21. ?Dice wdice q2
+21. ?Dice wdice q3
+21. init i4 - k3 x q5
+21. ?Dice lock q1 x q2 x q3 x q4
+21. ?Dice bdice q4
+21. ?Dice wdice q2
+21. ?Dice bdice q3
+22. init l2 - k2 x q5
+22. ?Dice lock q1 x q2 x q3 x q4
+22. ?Dice wdice q2
+22. ?Dice wdice q4
+22. ?Dice bdice q3
+22. init k3 x m3 x q5 White init i1
+22. ?Dice lock q1 x q2 x q3 x q4
+22. ?Dice bdice q4
+22. ?Dice wdice q2
+22. ?Dice wdice q3
+23. init k2 - i2 White lock q5
+23. ?Dice lock q1 x q2 x q3 x q4
+23. ?Dice bdice q2
+23. ?Dice wdice q3
+23. ?Dice wdice q4
+23. x q5
+23. ?Dice lock q1 x q2 x q3 x q4
+23. ?Dice bdice q4
+23. ?Dice wdice q2
+23. ?Dice wdice q3
+24. init i1 - k2 x q5
+24. ?Dice lock q1 x q2 x q3 x q4
+24. ?Dice bdice q2
+24. ?Dice bdice q4
+24. ?Dice wdice q3
+24. init j4 - i4 Black lock q5 x b2 Black init j4
+24. ?Dice lock q1 x q2 x q3 x q4
+24. ?Dice bdice q3
+24. ?Dice bdice q2
+24. ?Dice bdice q4
+25. Pass
+25. ?Dice lock q1 x q2 x q3 x q4
+25. ?Dice bdice q3
+25. ?Dice bdice q4
+25. ?Dice wdice q2
+25. init k4 x j4 x q5 Black init b2
+25. ?Dice lock q1 x q2 x q3 x q4
+25. ?Dice wdice q4
+25. ?Dice bdice q3
+25. ?Dice wdice q2
+26. init i2 - j3 x q5
+26. ?Dice lock q1 x q2 x q3 x q4
+26. ?Dice wdice q3
+26. ?Dice wdice q2
+26. ?Dice bdice q4
+26. init i4 x j3 x q5 White init i1
+26. ?Dice lock q1 x q2 x q3 x q4
+26. ?Dice wdice q4
+26. ?Dice bdice q2
+26. ?Dice bdice q3
+27. init i1 - l2 x q5
+27. ?Dice lock q1 x q2 x q3 x q4
+27. ?Dice wdice q2
+27. ?Dice bdice q4
+27. ?Dice wdice q3
+27. init l4 x j4 x q5 Black init b3 x d2 Black init l4
+27. ?Dice lock q1 x q2 x q3 x q4
+27. ?Dice wdice q4
+27. ?Dice bdice q2
+27. ?Dice wdice q3
+28. init k2 - i2 White lock q5
+28. ?Dice lock q1 x q2 x q3 x q4
+28. ?Dice wdice q3
+28. ?Dice bdice q2
+28. ?Dice wdice q4
+28. x q5
+28. ?Dice lock q1 x q2 x q3 x q4
+28. ?Dice bdice q2
+28. ?Dice wdice q3
+28. ?Dice bdice q4
+29. init i2 x i3 x q5 Black init i5
+29. ?Dice lock q1 x q2 x q3 x q4
+29. ?Dice bdice q2
+29. ?Dice bdice q3
+29. ?Dice bdice q4
+29. init l4 x i3 x q5 White init i1
+29. ?Dice lock q1 x q2 x q3 x q4
+29. ?Dice bdice q2
+29. ?Dice wdice q3
+29. ?Dice wdice q4
+30. init l2 - j2 x q5
+30. ?Dice lock q1 x q2 x q3 x q4
+30. ?Dice bdice q2
+30. ?Dice wdice q4
+30. ?Dice wdice q3
+30. init i5 - k4 x q5
+30. ?Dice lock q1 x q2 x q3 x q4
+30. ?Dice bdice q4
+30. ?Dice bdice q3
+30. ?Dice bdice q2
+31. init i1 - i2 White lock q5
+31. ?Dice lock q1 x q2 x q3 x q4
+31. ?Dice wdice q4
+31. ?Dice wdice q3
+31. ?Dice wdice q2
+31. x q5
+31. ?Dice lock q1 x q2 x q3 x q4
+31. ?Dice bdice q2
+31. ?Dice wdice q4
+31. ?Dice wdice q3
+32. init i2 x j3 x q5 Black init i5
+32. ?Dice lock q1 x q2 x q3 x q4
+32. ?Dice bdice q4
+32. ?Dice bdice q3
+32. ?Dice wdice q2
+32. init i3 x j3 x q5 White init i1
+32. ?Dice lock q1 x q2 x q3 x q4
+32. ?Dice bdice q4
+32. ?Dice wdice q2
+32. ?Dice bdice q3
+33. init j2 - i2 White lock q5
+33. ?Dice lock q1 x q2 x q3 x q4
+33. ?Dice bdice q3
+33. ?Dice wdice q4
+33. ?Dice bdice q2
+33. x q5
+33. ?Dice lock q1 x q2 x q3 x q4
+33. ?Dice bdice q3
+33. ?Dice bdice q4
+33. ?Dice wdice q2
+34. init i1 - l2 x q5
+34. ?Dice lock q1 x q2 x q3 x q4
+34. ?Dice bdice q3
+34. ?Dice wdice q4
+34. ?Dice bdice q2
+34. init i5 - l4 x q5
+34. ?Dice lock q1 x q2 x q3 x q4
+34. ?Dice wdice q2
+34. ?Dice wdice q4
+34. ?Dice wdice q3
+35. init i2 - k3 x q5
+35. ?Dice lock q1 x q2 x q3 x q4
+35. ?Dice wdice q2
+35. ?Dice bdice q4
+35. ?Dice bdice q3
+35. init j4 - i4 Black lock q5 x b3 Black init j4
+35. ?Dice lock q1 x q2 x q3 x q4
+35. ?Dice bdice q2
+35. ?Dice bdice q4
+35. ?Dice bdice q3
+36. Pass
+36. ?Dice lock q1 x q2 x q3 x q4
+36. ?Dice bdice q2
+36. ?Dice wdice q3
+36. ?Dice wdice q4
+36. init j4 - i3 x q5 x b2 Black init j4
+36. ?Dice lock q1 x q2 x q3 x q4
+36. ?Dice wdice q4
+36. ?Dice wdice q3
+36. ?Dice bdice q2
+37. init k3 x m3 x q5 Black init i5
+37. ?Dice lock q1 x q2 x q3 x q4
+37. ?Dice wdice q2
+37. ?Dice bdice q3
+37. ?Dice wdice q4
+37. init l4 x j4 x q5 Black init b2
+37. ?Dice lock q1 x q2 x q3 x q4
+37. ?Dice bdice q2
+37. ?Dice wdice q4
+37. ?Dice wdice q3
+38. init m3 - o3 x q5
+38. ?Dice lock q1 x q2 x q3 x q4
+38. ?Dice wdice q4
+38. ?Dice wdice q2
+38. ?Dice wdice q3
+38. init i5 x j4 x q5 Black init b3
+38. ?Dice lock q1 x q2 x q3 x q4
+38. ?Dice bdice q2
+38. ?Dice bdice q3
+38. ?Dice wdice q4
+39. init l2 - k2 x q5
+39. ?Dice lock q1 x q2 x q3 x q4
+39. ?Dice wdice q3
+39. ?Dice wdice q2
+39. ?Dice wdice q4
+39. init i4 - k3 x q5
+39. ?Dice lock q1 x q2 x q3 x q4
+39. ?Dice wdice q2
+39. ?Dice bdice q3
+39. ?Dice bdice q4
+40. init k2 - j2 x q5
+40. ?Dice lock q1 x q2 x q3 x q4
+40. ?Dice bdice q3
+40. ?Dice bdice q2
+40. ?Dice wdice q4
+40. init j4 - i4 Black lock q5 x b3 Black init j4
+40. ?Dice lock q1 x q2 x q3 x q4
+40. ?Dice wdice q4
+40. ?Dice wdice q2
+40. ?Dice wdice q3
+41. Pass
+41. ?Dice lock q1 x q2 x q3 x q4
+41. ?Dice bdice q3
+41. ?Dice bdice q4
+41. ?Dice wdice q2
+41. init k4 x j4 x q5 Black init b3
+41. ?Dice lock q1 x q2 x q3 x q4
+41. ?Dice wdice q4
+41. ?Dice bdice q2
+41. ?Dice bdice q3
+42. init l1 - l2 x q5
+42. ?Dice lock q1 x q2 x q3 x q4
+42. ?Dice bdice q2
+42. ?Dice bdice q4
+42. ?Dice bdice q3
+42. init i4 - l3 Black lock q5
+42. ?Dice lock q1 x q2 x q3 x q4
+42. ?Dice bdice q4
+42. ?Dice bdice q2
+42. ?Dice bdice q3
+43. Pass
+43. ?Dice lock q1 x q2 x q3 x q4
+43. ?Dice wdice q3
+43. ?Dice wdice q4
+43. ?Dice bdice q2
+43. init i3 x k3 x q5 Black init f2
+43. ?Dice lock q1 x q2 x q3 x q4
+43. ?Dice wdice q4
+43. ?Dice wdice q3
+43. ?Dice wdice q2
+44. init l2 - i2 White lock q5
+44. ?Dice lock q1 x q2 x q3 x q4
+44. ?Dice bdice q3
+44. ?Dice wdice q4
+44. ?Dice wdice q2
+44. x q5
+44. ?Dice lock q1 x q2 x q3 x q4
+44. ?Dice wdice q3
+44. ?Dice wdice q2
+44. ?Dice bdice q4
+45. init i2 x j3 x q5 Black init i5
+45. ?Dice lock q1 x q2 x q3 x q4
+45. ?Dice bdice q2
+45. ?Dice bdice q4
+45. ?Dice wdice q3
+45. init i5 - l4 x q5
+45. ?Dice lock q1 x q2 x q3 x q4
+45. ?Dice wdice q4
+45. ?Dice bdice q2
+45. ?Dice wdice q3
+46. init j3 x l3 White lock q5 Black init i5
+46. ?Dice lock q1 x q2 x q3 x q4
+46. ?Dice wdice q2
+46. ?Dice bdice q3
+46. ?Dice bdice q4
+46. x q5
+46. ?Dice lock q1 x q2 x q3 x q4
+46. ?Dice bdice q3
+46. ?Dice wdice q2
+46. ?Dice bdice q4
+47. init j2 - i2 White lock q5
+47. ?Dice lock q1 x q2 x q3 x q4
+47. ?Dice wdice q2
+47. ?Dice bdice q4
+47. ?Dice bdice q3
+47. x q5
+47. ?Dice lock q1 x q2 x q3 x q4
+47. ?Dice bdice q2
+47. ?Dice bdice q4
+47. ?Dice wdice q3
+48. init l3 - m3 x q5
+48. ?Dice lock q1 x q2 x q3 x q4
+48. ?Dice wdice q2
+48. ?Dice bdice q3
+48. ?Dice wdice q4
+48. init k3 x m3 x q5 x f2 Black init k3 White init i1
+48. ?Dice lock q1 x q2 x q3 x q4
+48. ?Dice bdice q4
+48. ?Dice bdice q2
+48. ?Dice wdice q3
+49. init i1 - l2 x q5
+49. ?Dice lock q1 x q2 x q3 x q4
+49. ?Dice bdice q3
+49. ?Dice bdice q2
+49. ?Dice bdice q4
+49. init i5 - i4 Black lock q5
+49. ?Dice lock q1 x q2 x q3 x q4
+49. ?Dice wdice q4
+49. ?Dice wdice q3
+49. ?Dice bdice q2
+50. Pass
+50. ?Dice lock q1 x q2 x q3 x q4
+50. ?Dice wdice q3
+50. ?Dice wdice q4
+50. ?Dice wdice q2
+50. init i4 x k3 x q5 Black init f2
+50. ?Dice lock q1 x q2 x q3 x q4
+50. ?Dice bdice q2
+50. ?Dice wdice q4
+50. ?Dice wdice q3
+51. init l2 - j2 x q5
+51. ?Dice lock q1 x q2 x q3 x q4
+51. ?Dice bdice q2
+51. ?Dice wdice q4
+51. ?Dice wdice q3
+51. init j4 - i3 x q5 x b3 Black init j4
+51. ?Dice lock q1 x q2 x q3 x q4
+51. ?Dice wdice q3
+51. ?Dice bdice q4
+51. ?Dice bdice q2
+52. init i2 x i3 x q5 Black init i5
+52. ?Dice lock q1 x q2 x q3 x q4
+52. ?Dice bdice q2
+52. ?Dice wdice q4
+52. ?Dice wdice q3
+52. init j4 x i3 x q5 x b2 Black init j4 White init i1
+52. ?Dice lock q1 x q2 x q3 x q4
+52. ?Dice wdice q3
+52. ?Dice bdice q2
+52. ?Dice bdice q4
+53. init j2 - i2 White lock q5
+53. ?Dice lock q1 x q2 x q3 x q4
+53. ?Dice wdice q4
+53. ?Dice bdice q2
+53. ?Dice bdice q3
+53. x q5
+53. ?Dice lock q1 x q2 x q3 x q4
+53. ?Dice bdice q3
+53. ?Dice bdice q2
+53. ?Dice wdice q4
+54. init i2 x i3 x q5 Black init j5
+54. ?Dice lock q1 x q2 x q3 x q4
+54. ?Dice bdice q3
+54. ?Dice bdice q2
+54. ?Dice bdice q4
+54. init l4 x i3 x q5 White init j1
+54. ?Dice lock q1 x q2 x q3 x q4
+54. ?Dice bdice q3
+54. ?Dice bdice q4
+54. ?Dice bdice q2
+55. init j1 - i2 White lock q5
+55. ?Dice lock q1 x q2 x q3 x q4
+55. ?Dice bdice q4
+55. ?Dice wdice q2
+55. ?Dice wdice q3
+55. x q5
+55. ?Dice lock q1 x q2 x q3 x q4
+55. ?Dice bdice q2
+55. ?Dice wdice q3
+55. ?Dice bdice q4
+56. init i2 x i3 x q5 Black init k5
+56. ?Dice lock q1 x q2 x q3 x q4
+56. ?Dice wdice q4
+56. ?Dice bdice q3
+56. ?Dice wdice q2
+56. init j4 x i3 x q5 White init j1
+56. ?Dice lock q1 x q2 x q3 x q4
+56. ?Dice wdice q4
+56. ?Dice bdice q3
+56. ?Dice wdice q2
+57. init j1 - k2 x q5
+57. ?Dice lock q1 x q2 x q3 x q4
+57. ?Dice bdice q4
+57. ?Dice wdice q2
+57. ?Dice bdice q3
+57. init i5 - l4 x q5
+57. ?Dice lock q1 x q2 x q3 x q4
+57. ?Dice wdice q2
+57. ?Dice wdice q4
+57. ?Dice bdice q3
+58. init k2 - i2 White lock q5
+58. ?Dice lock q1 x q2 x q3 x q4
+58. ?Dice wdice q2
+58. ?Dice wdice q4
+58. ?Dice wdice q3
+58. x q5
+58. ?Dice lock q1 x q2 x q3 x q4
+58. ?Dice wdice q3
+58. ?Dice wdice q2
+58. ?Dice wdice q4
+59. init i2 x k3 x q5 Black init f3
+59. ?Dice lock q1 x q2 x q3 x q4
+59. ?Dice wdice q2
+59. ?Dice wdice q3
+59. ?Dice wdice q4
+59. init j5 - j4 x q5
+59. ?Dice lock q1 x q2 x q3 x q4
+59. ?Dice wdice q3
+59. ?Dice bdice q4
+59. ?Dice bdice q2
+60. init m1 - l2 x q5
+60. ?Dice lock q1 x q2 x q3 x q4
+60. ?Dice wdice q2
+60. ?Dice bdice q3
+60. ?Dice wdice q4
+60. init k5 - k4 x q5
+60. ?Dice lock q1 x q2 x q3 x q4
+60. ?Dice wdice q2
+60. ?Dice wdice q4
+60. ?Dice bdice q3
+61. init l2 - j2 x q5
+61. ?Dice lock q1 x q2 x q3 x q4
+61. ?Dice wdice q3
+61. ?Dice wdice q4
+61. ?Dice bdice q2
+61. init k4 - i4 Black lock q5
+61. ?Dice lock q1 x q2 x q3 x q4
+61. ?Dice wdice q3
+61. ?Dice wdice q2
+61. ?Dice wdice q4
+62. Pass
+62. ?Dice lock q1 x q2 x q3 x q4
+62. ?Dice bdice q4
+62. ?Dice wdice q2
+62. ?Dice bdice q3
+62. init l4 - k4 x q5
+62. ?Dice lock q1 x q2 x q3 x q4
+62. ?Dice wdice q3
+62. ?Dice bdice q2
+62. ?Dice bdice q4
+63. init j2 - i2 White lock q5
+63. ?Dice lock q1 x q2 x q3 x q4
+63. ?Dice wdice q4
+63. ?Dice bdice q3
+63. ?Dice bdice q2
+63. x q5
+63. ?Dice lock q1 x q2 x q3 x q4
+63. ?Dice bdice q2
+63. ?Dice bdice q4
+63. ?Dice bdice q3
+64. init i2 - l3 White lock q5
+64. ?Dice lock q1 x q2 x q3 x q4
+64. ?Dice bdice q4
+64. ?Dice bdice q2
+64. ?Dice wdice q3
+64. x q5
+64. ?Dice lock q1 x q2 x q3 x q4
+64. ?Dice bdice q2
+64. ?Dice bdice q4
+64. ?Dice bdice q3
+65. init o2 - o4 = prom White lock q5
+65. ?Dice lock q1 x q2 x q3 x q4
+65. ?Dice wdice q2
+65. ?Dice wdice q4
+65. ?Dice bdice q3
+65. x q5
+65. ?Dice lock q1 x q2 x q3 x q4
+65. ?Dice bdice q4
+65. ?Dice bdice q2
+65. ?Dice wdice q3
+66. init l3 x m3 x q5 Black init i5
+66. ?Dice lock q1 x q2 x q3 x q4
+66. ?Dice wdice q4
+66. ?Dice wdice q3
+66. ?Dice bdice q2
+66. init i4 - j3 x q5
+66. ?Dice lock q1 x q2 x q3 x q4
+66. ?Dice bdice q4
+66. ?Dice wdice q2
+66. ?Dice bdice q3
+67. init k3 - l3 White lock q5 x f3 Black init k3
+67. ?Dice lock q1 x q2 x q3 x q4
+67. ?Dice wdice q3
+67. ?Dice wdice q2
+67. ?Dice wdice q4
+67. x q5
+67. ?Dice lock q1 x q2 x q3 x q4
+67. ?Dice wdice q3
+67. ?Dice wdice q4
+67. ?Dice wdice q2
+68. init m3 - o2 White lock q5
+68. ?Dice lock q1 x q2 x q3 x q4
+68. ?Dice bdice q4
+68. ?Dice wdice q3
+68. ?Dice wdice q2
+68. x q5
+68. ?Dice lock q1 x q2 x q3 x q4
+68. ?Dice wdice q2
+68. ?Dice bdice q4
+68. ?Dice bdice q3
+69. init l3 - m3 x q5
+69. ?Dice lock q1 x q2 x q3 x q4
+69. ?Dice bdice q2
+69. ?Dice bdice q4
+69. ?Dice bdice q3
+69. init i3 x m3 x q5 White init j1
+69. ?Dice lock q1 x q2 x q3 x q4
+69. ?Dice bdice q4
+69. ?Dice bdice q2
+69. ?Dice wdice q3
+70. init j1 - l2 x q5
+70. ?Dice lock q1 x q2 x q3 x q4
+70. ?Dice bdice q2
+70. ?Dice bdice q4
+70. ?Dice bdice q3
+70. init i5 - i4 Black lock q5
+70. ?Dice lock q1 x q2 x q3 x q4
+70. ?Dice bdice q2
+70. ?Dice bdice q4
+70. ?Dice bdice q3
+71. Pass
+71. ?Dice lock q1 x q2 x q3 x q4
+71. ?Dice bdice q3
+71. ?Dice wdice q4
+71. ?Dice bdice q2
+71. init i4 - i3 x q5
+71. ?Dice lock q1 x q2 x q3 x q4
+71. ?Dice bdice q2
+71. ?Dice wdice q3
+71. ?Dice wdice q4
+72. init l2 - j2 x q5
+72. ?Dice lock q1 x q2 x q3 x q4
+72. ?Dice wdice q2
+72. ?Dice bdice q4
+72. ?Dice wdice q3
+72. init k4 - i4 Black lock q5
+72. ?Dice lock q1 x q2 x q3 x q4
+72. ?Dice wdice q3
+72. ?Dice bdice q2
+72. ?Dice bdice q4
+73. Pass
+73. ?Dice lock q1 x q2 x q3 x q4
+73. ?Dice wdice q3
+73. ?Dice bdice q4
+73. ?Dice bdice q2
+73. init j3 x k3 x q5 Black init f3
+73. ?Dice lock q1 x q2 x q3 x q4
+73. ?Dice wdice q4
+73. ?Dice wdice q3
+73. ?Dice wdice q2
+74. init i1 x j2 x q5 White init a2
+74. ?Dice lock q1 x q2 x q3 x q4
+74. ?Dice wdice q4
+74. ?Dice bdice q2
+74. ?Dice wdice q3
+74. init i4 - j3 x q5
+74. ?Dice lock q1 x q2 x q3 x q4
+74. ?Dice bdice q3
+74. ?Dice bdice q2
+74. ?Dice bdice q4
+75. init n1 - i2 White lock q5
+75. ?Dice lock q1 x q2 x q3 x q4
+75. ?Dice wdice q3
+75. ?Dice bdice q4
+75. ?Dice wdice q2
+75. x q5
+75. ?Dice lock q1 x q2 x q3 x q4
+75. ?Dice wdice q4
+75. ?Dice bdice q2
+75. ?Dice bdice q3
+76. init i2 x i3 x q5 Black init i5
+76. ?Dice lock q1 x q2 x q3 x q4
+76. ?Dice wdice q2
+76. ?Dice bdice q4
+76. ?Dice bdice q3
+76. init i5 - l4 x q5
+76. ?Dice lock q1 x q2 x q3 x q4
+76. ?Dice bdice q3
+76. ?Dice bdice q4
+76. ?Dice wdice q2
+77. init i3 x j3 x q5 Black init i5
+77. ?Dice lock q1 x q2 x q3 x q4
+77. ?Dice wdice q2
+77. ?Dice wdice q3
+77. ?Dice bdice q4
+77. init i5 - k4 x q5
+77. ?Dice lock q1 x q2 x q3 x q4
+77. ?Dice bdice q2
+77. ?Dice wdice q3
+77. ?Dice wdice q4
+78. init j3 - l3 White lock q5
+78. ?Dice lock q1 x q2 x q3 x q4
+78. ?Dice wdice q2
+78. ?Dice bdice q4
+78. ?Dice wdice q3
+78. x q5
+78. ?Dice lock q1 x q2 x q3 x q4
+78. ?Dice bdice q4
+78. ?Dice bdice q3
+78. ?Dice wdice q2
+79. init l3 x m3 x q5 Black init i5
+79. ?Dice lock q1 x q2 x q3 x q4
+79. ?Dice bdice q4
+79. ?Dice wdice q3
+79. ?Dice wdice q2
+79. init k3 x m3 x q5 x f3 Black init k3 White init i1
+79. ?Dice lock q1 x q2 x q3 x q4
+79. ?Dice bdice q3
+79. ?Dice bdice q2
+79. ?Dice bdice q4
+80. init i1 - i2 White lock q5
+80. ?Dice lock q1 x q2 x q3 x q4
+80. ?Dice wdice q2
+80. ?Dice bdice q3
+80. ?Dice wdice q4
+80. x q5
+80. ?Dice lock q1 x q2 x q3 x q4
+80. ?Dice bdice q3
+80. ?Dice bdice q4
+80. ?Dice bdice q2
+81. init i2 - l3 White lock q5
+81. ?Dice lock q1 x q2 x q3 x q4
+81. ?Dice bdice q2
+81. ?Dice wdice q4
+81. ?Dice bdice q3
+81. x q5
+81. ?Dice lock q1 x q2 x q3 x q4
+81. ?Dice wdice q3
+81. ?Dice wdice q2
+81. ?Dice wdice q4
+82. init l3 x o3 x q5 White init e2
+82. ?Dice lock q1 x q2 x q3 x q4
+82. ?Dice wdice q3
+82. ?Dice bdice q4
+82. ?Dice wdice q2
+82. init j4 - i3 x q5
+82. ?Dice lock q1 x q2 x q3 x q4
+82. ?Dice bdice q2
+82. ?Dice wdice q3
+82. ?Dice wdice q4
+83. init j2 x i3 x q5 x a2 White init j2 Black init j5
+83. ?Dice lock q1 x q2 x q3 x q4
+83. ?Dice bdice q3
+83. ?Dice bdice q2
+83. ?Dice wdice q4
+83. init i5 x l4 x q5 Black init d2
+83. ?Dice lock q1 x q2 x q3 x q4
+83. ?Dice bdice q3
+83. ?Dice wdice q2
+83. ?Dice wdice q4
+84. init i3 x k3 x q5 Black init f3
+84. ?Dice lock q1 x q2 x q3 x q4
+84. ?Dice bdice q3
+84. ?Dice wdice q2
+84. ?Dice wdice q4
+84. init k4 - i4 Black lock q5
+84. ?Dice lock q1 x q2 x q3 x q4
+84. ?Dice wdice q4
+84. ?Dice bdice q3
+84. ?Dice bdice q2
+85. Pass
+85. ?Dice lock q1 x q2 x q3 x q4
+85. ?Dice wdice q3
+85. ?Dice wdice q4
+85. ?Dice bdice q2
+85. init j5 - k4 x q5
+85. ?Dice lock q1 x q2 x q3 x q4
+85. ?Dice bdice q3
+85. ?Dice wdice q2
+85. ?Dice wdice q4
+86. init k3 x m3 x q5 x f3 Black init k3 Black init i5
+86. ?Dice lock q1 x q2 x q3 x q4
+86. ?Dice wdice q2
+86. ?Dice wdice q3
+86. ?Dice bdice q4
+86. init k3 x m3 x q5 x f2 Black init k3 White init i1
+86. ?Dice lock q1 x q2 x q3 x q4
+86. ?Dice wdice q2
+86. ?Dice bdice q3
+86. ?Dice bdice q4
+87. init j2 - i2 White lock q5
+87. ?Dice lock q1 x q2 x q3 x q4
+87. ?Dice wdice q4
+87. ?Dice bdice q3
+87. ?Dice bdice q2
+87. x q5
+87. ?Dice lock q1 x q2 x q3 x q4
+87. ?Dice bdice q2
+87. ?Dice bdice q4
+87. ?Dice wdice q3
+88. init i1 - l2 x q5
+88. ?Dice lock q1 x q2 x q3 x q4
+88. ?Dice bdice q2
+88. ?Dice bdice q3
+88. ?Dice wdice q4
+88. init i5 x l4 x q5 Black init d3
+88. ?Dice lock q1 x q2 x q3 x q4
+88. ?Dice wdice q4
+88. ?Dice wdice q3
+88. ?Dice bdice q2
+89. init l2 - j2 x q5
+89. ?Dice lock q1 x q2 x q3 x q4
+89. ?Dice bdice q2
+89. ?Dice wdice q3
+89. ?Dice wdice q4
+89. init i4 - j3 x q5
+89. ?Dice lock q1 x q2 x q3 x q4
+89. ?Dice wdice q4
+89. ?Dice bdice q3
+89. ?Dice bdice q2
+90. prom o4 x o3 x q5 White init e3
+90. ?Dice lock q1 x q2 x q3 x q4
+90. ?Dice wdice q4
+90. ?Dice bdice q3
+90. ?Dice wdice q2
+90. init k4 - i4 Black lock q5
+90. ?Dice lock q1 x q2 x q3 x q4
+90. ?Dice bdice q3
+90. ?Dice bdice q2
+90. ?Dice wdice q4
+91. Pass
+91. ?Dice lock q1 x q2 x q3 x q4
+91. ?Dice bdice q3
+91. ?Dice bdice q2
+91. ?Dice wdice q4
+91. init i4 - i3 x q5
+91. ?Dice lock q1 x q2 x q3 x q4
+91. ?Dice wdice q4
+91. ?Dice wdice q3
+91. ?Dice wdice q2
+92. init o1 x j2 x q5 White init a2
+92. ?Dice lock q1 x q2 x q3 x q4
+92. ?Dice wdice q3
+92. ?Dice wdice q4
+92. ?Dice wdice q2
+92. init l4 - i4 Black lock q5 x d3 Black init l4
+92. ?Dice lock q1 x q2 x q3 x q4
+92. ?Dice wdice q3
+92. ?Dice bdice q2
+92. ?Dice bdice q4
+93. Pass
+93. ?Dice lock q1 x q2 x q3 x q4
+93. ?Dice bdice q2
+93. ?Dice bdice q3
+93. ?Dice wdice q4
+93. init l4 - k4 x q5 x d2 Black init l4
+93. ?Dice lock q1 x q2 x q3 x q4
+93. ?Dice bdice q3
+93. ?Dice bdice q4
+93. ?Dice wdice q2
+94. init i2 x i3 x q5 Black init i5
+94. ?Dice lock q1 x q2 x q3 x q4
+94. ?Dice bdice q2
+94. ?Dice wdice q4
+94. ?Dice bdice q3
+94. init i4 x i3 x q5 White init i1
+94. ?Dice lock q1 x q2 x q3 x q4
+94. ?Dice bdice q2
+94. ?Dice wdice q4
+94. ?Dice wdice q3
+95. init j2 x i3 x q5 x a2 White init j2 Black init j5
+95. ?Dice lock q1 x q2 x q3 x q4
+95. ?Dice wdice q2
+95. ?Dice wdice q3
+95. ?Dice wdice q4
+95. init k4 x i3 x q5 White init j1
+95. ?Dice lock q1 x q2 x q3 x q4
+95. ?Dice bdice q2
+95. ?Dice wdice q3
+95. ?Dice bdice q4
+96. init j2 - i2 White lock q5
+96. ?Dice lock q1 x q2 x q3 x q4
+96. ?Dice bdice q4
+96. ?Dice wdice q3
+96. ?Dice bdice q2
+96. x q5
+96. ?Dice lock q1 x q2 x q3 x q4
+96. ?Dice wdice q4
+96. ?Dice bdice q3
+96. ?Dice wdice q2
+97. init j1 - k2 x q5
+97. ?Dice lock q1 x q2 x q3 x q4
+97. ?Dice wdice q2
+97. ?Dice bdice q3
+97. ?Dice wdice q4
+97. init i5 - k4 x q5
+97. ?Dice lock q1 x q2 x q3 x q4
+97. ?Dice bdice q3
+97. ?Dice wdice q2
+97. ?Dice wdice q4
+98. init i2 x j3 x q5 Black init i5
+98. ?Dice lock q1 x q2 x q3 x q4
+98. ?Dice wdice q4
+98. ?Dice wdice q2
+98. ?Dice bdice q3
+98. init k4 - i4 Black lock q5
+98. ?Dice lock q1 x q2 x q3 x q4
+98. ?Dice bdice q2
+98. ?Dice bdice q4
+98. ?Dice bdice q3
+99. Pass
+99. ?Dice lock q1 x q2 x q3 x q4
+99. ?Dice bdice q4
+99. ?Dice wdice q3
+99. ?Dice wdice q2
+99. init i4 x j3 x q5 White init j1
+99. ?Dice lock q1 x q2 x q3 x q4
+99. ?Dice wdice q2
+99. ?Dice bdice q3
+99. ?Dice wdice q4
+100. init k2 - i2 White lock q5
+100. ?Dice lock q1 x q2 x q3 x q4
+100. ?Dice wdice q2
+100. ?Dice bdice q4
+100. ?Dice wdice q3
+100. x q5
+100. ?Dice lock q1 x q2 x q3 x q4
+100. ?Dice wdice q4
+100. ?Dice wdice q3
+100. ?Dice bdice q2
+101. init i2 x j3 x q5 Black init k5
+101. ?Dice lock q1 x q2 x q3 x q4
+101. ?Dice bdice q3
+101. ?Dice bdice q4
+101. ?Dice bdice q2
+101. init i5 - i4 Black lock q5
+101. ?Dice lock q1 x q2 x q3 x q4
+101. ?Dice bdice q4
+101. ?Dice wdice q3
+101. ?Dice bdice q2
+102. Pass
+102. ?Dice lock q1 x q2 x q3 x q4
+102. ?Dice bdice q2
+102. ?Dice wdice q4
+102. ?Dice bdice q3
+102. init i3 x j3 x q5 White init k1
+102. ?Dice lock q1 x q2 x q3 x q4
+102. ?Dice bdice q4
+102. ?Dice bdice q3
+102. ?Dice wdice q2
+103. init k1 - l2 x q5
+103. ?Dice lock q1 x q2 x q3 x q4
+103. ?Dice wdice q4
+103. ?Dice bdice q2
+103. ?Dice bdice q3
+103. init j5 x l4 x q5 Black init d2
+103. ?Dice lock q1 x q2 x q3 x q4
+103. ?Dice bdice q4
+103. ?Dice wdice q2
+103. ?Dice wdice q3
+104. init j1 - k2 x q5
+104. ?Dice lock q1 x q2 x q3 x q4
+104. ?Dice wdice q3
+104. ?Dice wdice q4
+104. ?Dice bdice q2
+104. init k5 - k4 x q5
+104. ?Dice lock q1 x q2 x q3 x q4
+104. ?Dice bdice q4
+104. ?Dice bdice q2
+104. ?Dice bdice q3
+105. init i1 - i2 White lock q5
+105. ?Dice lock q1 x q2 x q3 x q4
+105. ?Dice wdice q2
+105. ?Dice wdice q3
+105. ?Dice wdice q4
+105. x q5
+105. ?Dice lock q1 x q2 x q3 x q4
+105. ?Dice wdice q2
+105. ?Dice bdice q4
+105. ?Dice wdice q3
+106. init i2 x j3 x q5 Black init i5
+106. ?Dice lock q1 x q2 x q3 x q4
+106. ?Dice bdice q2
+106. ?Dice bdice q4
+106. ?Dice bdice q3
+106. init k4 x j3 x q5 White init i1
+106. ?Dice lock q1 x q2 x q3 x q4
+106. ?Dice bdice q3
+106. ?Dice bdice q2
+106. ?Dice bdice q4
+107. init i1 - i2 White lock q5
+107. ?Dice lock q1 x q2 x q3 x q4
+107. ?Dice bdice q2
+107. ?Dice bdice q4
+107. ?Dice bdice q3
+107. x q5
+107. ?Dice lock q1 x q2 x q3 x q4
+107. ?Dice wdice q2
+107. ?Dice bdice q4
+107. ?Dice bdice q3
+108. init k2 - j2 x q5
+108. ?Dice lock q1 x q2 x q3 x q4
+108. ?Dice bdice q4
+108. ?Dice wdice q2
+108. ?Dice bdice q3
+108. init i5 x l4 x q5 Black init d3
+108. ?Dice lock q1 x q2 x q3 x q4
+108. ?Dice bdice q4
+108. ?Dice wdice q3
+108. ?Dice wdice q2
+109. init i2 x j3 x q5 Black init i5
+109. ?Dice lock q1 x q2 x q3 x q4
+109. ?Dice wdice q2
+109. ?Dice wdice q3
+109. ?Dice wdice q4
+109. init i5 - j4 x q5
+109. ?Dice lock q1 x q2 x q3 x q4
+109. ?Dice bdice q4
+109. ?Dice wdice q3
+109. ?Dice bdice q2
+110. init j3 x k3 x q5 Black init f2
+110. ?Dice lock q1 x q2 x q3 x q4
+110. ?Dice bdice q3
+110. ?Dice wdice q2
+110. ?Dice wdice q4
+110. init i4 - j3 x q5
+110. ?Dice lock q1 x q2 x q3 x q4
+110. ?Dice bdice q4
+110. ?Dice bdice q2
+110. ?Dice bdice q3
+111. init j2 x k3 x q5 White init f3
+111. ?Dice lock q1 x q2 x q3 x q4
+111. ?Dice bdice q3
+111. ?Dice bdice q4
+111. ?Dice bdice q2
+111. init j4 x k3 x q5 White init f4
+111. ?Dice lock q1 x q2 x q3 x q4
+111. ?Dice bdice q2
+111. ?Dice wdice q4
+111. ?Dice wdice q3
+112. init l2 - j2 x q5
+112. ?Dice lock q1 x q2 x q3 x q4
+112. ?Dice bdice q4
+112. ?Dice bdice q3
+112. ?Dice bdice q2
+112. init l4 - i3 x q5 x d3 Black init l4
+112. ?Dice lock q1 x q2 x q3 x q4
+112. ?Dice wdice q3
+112. ?Dice bdice q2
+112. ?Dice wdice q4
+113. init j2 x i3 x q5 Black init i5
+113. ?Dice lock q1 x q2 x q3 x q4
+113. ?Dice bdice q4
+113. ?Dice bdice q3
+113. ?Dice bdice q2
+113. init l4 x i3 x q5 x d2 Black init l4 White init i1
+113. ?Dice lock q1 x q2 x q3 x q4
+113. ?Dice bdice q2
+113. ?Dice wdice q3
+113. ?Dice wdice q4
+114. init i1 - k2 x q5
+114. ?Dice lock q1 x q2 x q3 x q4
+114. ?Dice bdice q3
+114. ?Dice bdice q2
+114. ?Dice wdice q4
+114. init i5 x l4 x q5 Black init d2
+114. ?Dice lock q1 x q2 x q3 x q4
+114. ?Dice bdice q2
+114. ?Dice wdice q3
+114. ?Dice wdice q4
+115. init k2 - i2 White lock q5
+115. ?Dice lock q1 x q2 x q3 x q4
+115. ?Dice wdice q2
+115. ?Dice bdice q4
+115. ?Dice wdice q3
+115. x q5
+115. ?Dice lock q1 x q2 x q3 x q4
+115. ?Dice bdice q3
+115. ?Dice wdice q4
+115. ?Dice bdice q2
+116. init i2 x i3 x q5 Black init i5
+116. ?Dice lock q1 x q2 x q3 x q4
+116. ?Dice wdice q3
+116. ?Dice wdice q4
+116. ?Dice bdice q2
+116. init i5 - k4 x q5
+116. ?Dice lock q1 x q2 x q3 x q4
+116. ?Dice wdice q4
+116. ?Dice bdice q3
+116. ?Dice bdice q2
+117. init i3 x j3 x q5 Black init i5
+117. ?Dice lock q1 x q2 x q3 x q4
+117. ?Dice bdice q2
+117. ?Dice bdice q4
+117. ?Dice wdice q3
+117. init i5 x l4 x q5 Black init d3
+117. ?Dice lock q1 x q2 x q3 x q4
+117. ?Dice wdice q4
+117. ?Dice wdice q3
+117. ?Dice wdice q2
+118. init j3 x m3 x q5 Black init i5
+118. ?Dice lock q1 x q2 x q3 x q4
+118. ?Dice wdice q4
+118. ?Dice wdice q3
+118. ?Dice bdice q2
+118. init k3 x m3 x q5 x f4 White init k3 White init i1
+118. ?Dice lock q1 x q2 x q3 x q4
+118. ?Dice wdice q4
+118. ?Dice bdice q3
+118. ?Dice bdice q2
+119. init k3 - l3 White lock q5 x f3 White init k3
+119. ?Dice lock q1 x q2 x q3 x q4
+119. ?Dice wdice q3
+119. ?Dice wdice q4
+119. ?Dice bdice q2
+119. x q5
+119. ?Dice lock q1 x q2 x q3 x q4
+119. ?Dice bdice q4
+119. ?Dice bdice q3
+119. ?Dice wdice q2
+120. init l3 x m3 x q5 Black init j5
+120. ?Dice lock q1 x q2 x q3 x q4
+120. ?Dice bdice q4
+120. ?Dice bdice q2
+120. ?Dice bdice q3
+120. init i5 - i4 Black lock q5
+120. ?Dice lock q1 x q2 x q3 x q4
+120. ?Dice wdice q3
+120. ?Dice bdice q2
+120. ?Dice bdice q4
+121. Pass
+121. ?Dice lock q1 x q2 x q3 x q4
+121. ?Dice bdice q2
+121. ?Dice wdice q4
+121. ?Dice bdice q3
+121. init j5 x l4 x q5 Black init d4
+121. ?Dice lock q1 x q2 x q3 x q4
+121. ?Dice bdice q3
+121. ?Dice bdice q4
+121. ?Dice wdice q2
+122. init k3 - l3 White lock q5 x f2 Black init k3
+122. ?Dice lock q1 x q2 x q3 x q4
+122. ?Dice wdice q3
+122. ?Dice bdice q4
+122. ?Dice wdice q2
+122. x q5
+122. ?Dice lock q1 x q2 x q3 x q4
+122. ?Dice wdice q2
+122. ?Dice bdice q4
+122. ?Dice wdice q3
+123. init l3 - n3 x q5
+123. ?Dice lock q1 x q2 x q3 x q4
+123. ?Dice wdice q3
+123. ?Dice wdice q4
+123. ?Dice wdice q2
+123. init i4 x k3 x q5 Black init f2
+123. ?Dice lock q1 x q2 x q3 x q4
+123. ?Dice wdice q4
+123. ?Dice wdice q3
+123. ?Dice wdice q2
+124. init o2 - p4 = prom x q5
+124. ?Dice lock q1 x q2 x q3 x q4
+124. ?Dice wdice q2
+124. ?Dice wdice q4
+124. ?Dice bdice q3
+124. init k3 x m3 x q5 x f2 Black init k3 White init j1
+124. ?Dice lock q1 x q2 x q3 x q4
+124. ?Dice wdice q2
+124. ?Dice bdice q4
+124. ?Dice wdice q3
+125. init n3 - o2 White lock q5
+125. ?Dice lock q1 x q2 x q3 x q4
+125. ?Dice wdice q2
+125. ?Dice wdice q3
+125. ?Dice bdice q4
+125. x q5
+125. ?Dice lock q1 x q2 x q3 x q4
+125. ?Dice wdice q4
+125. ?Dice bdice q3
+125. ?Dice wdice q2
+126. init j1 - k2 x q5
+126. ?Dice lock q1 x q2 x q3 x q4
+126. ?Dice bdice q3
+126. ?Dice wdice q4
+126. ?Dice bdice q2
+126. init k4 - j4 x q5
+126. ?Dice lock q1 x q2 x q3 x q4
+126. ?Dice bdice q4
+126. ?Dice bdice q3
+126. ?Dice wdice q2
+127. init o2 - p2 x q5
+127. ?Dice lock q1 x q2 x q3 x q4
+127. ?Dice wdice q4
+127. ?Dice wdice q3
+127. ?Dice wdice q2
+127. init j4 - j3 x q5
+127. ?Dice lock q1 x q2 x q3 x q4
+127. ?Dice bdice q4
+127. ?Dice wdice q2
+127. ?Dice wdice q3
+128. init k2 - i2 White lock q5
+128. ?Dice lock q1 x q2 x q3 x q4
+128. ?Dice bdice q3
+128. ?Dice bdice q4
+128. ?Dice wdice q2
+128. x q5
+128. ?Dice lock q1 x q2 x q3 x q4
+128. ?Dice bdice q3
+128. ?Dice wdice q2
+128. ?Dice wdice q4
+129. init i2 x j3 x q5 Black init i5
+129. ?Dice lock q1 x q2 x q3 x q4
+129. ?Dice wdice q2
+129. ?Dice bdice q3
+129. ?Dice bdice q4
+129. init l4 - k4 x q5 x d4 Black init l4
+129. ?Dice lock q1 x q2 x q3 x q4
+129. ?Dice bdice q4
+129. ?Dice bdice q2
+129. ?Dice bdice q3
+130. init j3 - n3 x q5
+130. ?Dice lock q1 x q2 x q3 x q4
+130. ?Dice wdice q2
+130. ?Dice bdice q4
+130. ?Dice wdice q3
+130. init k4 - i4 Black lock q5
+130. ?Dice lock q1 x q2 x q3 x q4
+130. ?Dice wdice q3
+130. ?Dice wdice q2
+130. ?Dice bdice q4
+131. Pass
+131. ?Dice lock q1 x q2 x q3 x q4
+131. ?Dice wdice q2
+131. ?Dice bdice q3
+131. ?Dice bdice q4
+131. init i5 x l4 x q5 Black init d4
+131. ?Dice lock q1 x q2 x q3 x q4
+131. ?Dice wdice q3
+131. ?Dice wdice q4
+131. ?Dice wdice q2
+132. init i1 - j2 x q5
+132. ?Dice lock q1 x q2 x q3 x q4
+132. ?Dice wdice q4
+132. ?Dice wdice q3
+132. ?Dice bdice q2
+132. init i4 - j3 x q5
+132. ?Dice lock q1 x q2 x q3 x q4
+132. ?Dice bdice q4
+132. ?Dice bdice q2
+132. ?Dice bdice q3
+133. init j2 x k3 x q5 Black init f2
+133. ?Dice lock q1 x q2 x q3 x q4
+133. ?Dice wdice q4
+133. ?Dice wdice q3
+133. ?Dice bdice q2
+133. init l4 - j4 x q5 x d4 Black init l4
+133. ?Dice lock q1 x q2 x q3 x q4
+133. ?Dice bdice q3
+133. ?Dice wdice q4
+133. ?Dice wdice q2
+134. init k3 x m3 x q5 x f2 Black init k3 Black init i5
+134. ?Dice lock q1 x q2 x q3 x q4
+134. ?Dice bdice q3
+134. ?Dice bdice q4
+134. ?Dice bdice q2
+134. init i5 - i4 Black lock q5
+134. ?Dice lock q1 x q2 x q3 x q4
+134. ?Dice bdice q2
+134. ?Dice bdice q4
+134. ?Dice wdice q3
+135. Pass
+135. ?Dice lock q1 x q2 x q3 x q4
+135. ?Dice bdice q3
+135. ?Dice wdice q4
+135. ?Dice wdice q2
+135. init k3 x m3 x q5 White init i1
+135. ?Dice lock q1 x q2 x q3 x q4
+135. ?Dice bdice q3
+135. ?Dice bdice q2
+135. ?Dice bdice q4
+136. init i1 - i2 White lock q5
+136. ?Dice lock q1 x q2 x q3 x q4
+136. ?Dice wdice q2
+136. ?Dice wdice q4
+136. ?Dice wdice q3
+136. x q5
+136. ?Dice lock q1 x q2 x q3 x q4
+136. ?Dice wdice q3
+136. ?Dice wdice q2
+136. ?Dice bdice q4
+137. init i2 x j3 x q5 Black init i5
+137. ?Dice lock q1 x q2 x q3 x q4
+137. ?Dice wdice q3
+137. ?Dice bdice q4
+137. ?Dice bdice q2
+137. init i5 x l4 x q5 Black init d4
+137. ?Dice lock q1 x q2 x q3 x q4
+137. ?Dice bdice q3
+137. ?Dice wdice q4
+137. ?Dice bdice q2
+138. init j3 - k3 x q5
+138. ?Dice lock q1 x q2 x q3 x q4
+138. ?Dice bdice q3
+138. ?Dice bdice q4
+138. ?Dice bdice q2
+138. init i4 - l3 Black lock q5
+138. ?Dice lock q1 x q2 x q3 x q4
+138. ?Dice wdice q3
+138. ?Dice wdice q2
+138. ?Dice bdice q4
+139. Pass
+139. ?Dice lock q1 x q2 x q3 x q4
+139. ?Dice bdice q2
+139. ?Dice bdice q4
+139. ?Dice bdice q3
+139. init j4 x k3 x q5 White init f2
+139. ?Dice lock q1 x q2 x q3 x q4
+139. ?Dice wdice q4
+139. ?Dice wdice q3
+139. ?Dice wdice q2
+140. init p2 - o4 = prom White lock q5
+140. ?Dice lock q1 x q2 x q3 x q4
+140. ?Dice wdice q4
+140. ?Dice bdice q3
+140. ?Dice wdice q2
+140. x q5
+140. ?Dice lock q1 x q2 x q3 x q4
+140. ?Dice bdice q2
+140. ?Dice bdice q4
+140. ?Dice wdice q3
+141. init n3 x o3 x q5 White prom e4
+141. ?Dice lock q1 x q2 x q3 x q4
+141. ?Dice wdice q3
+141. ?Dice wdice q4
+141. ?Dice bdice q2
+141. init l4 - j4 x q5 x d4 Black init l4
+141. ?Dice lock q1 x q2 x q3 x q4
+141. ?Dice bdice q3
+141. ?Dice wdice q4
+141. ?Dice wdice q2
+142. prom o4 - n3 x q5
+142. ?Dice lock q1 x q2 x q3 x q4
+142. ?Dice bdice q2
+142. ?Dice bdice q4
+142. ?Dice bdice q3
+142. init j4 x k3 x q5 Black init f3
+142. ?Dice lock q1 x q2 x q3 x q4
+142. ?Dice wdice q3
+142. ?Dice wdice q4
+142. ?Dice bdice q2
+143. init o3 - p2 x q5 x e4 White prom o3
+143. ?Dice lock q1 x q2 x q3 x q4
+143. ?Dice bdice q3
+143. ?Dice wdice q4
+143. ?Dice bdice q2
+143. init l4 - k4 x q5 x d3 Black init l4
+143. ?Dice lock q1 x q2 x q3 x q4
+143. ?Dice bdice q2
+143. ?Dice bdice q4
+143. ?Dice wdice q3
+144. prom p4 - o4 White lock q5
+144. ?Dice lock q1 x q2 x q3 x q4
+144. ?Dice bdice q4
+144. ?Dice bdice q3
+144. ?Dice wdice q2
+144. x q5
+144. ?Dice lock q1 x q2 x q3 x q4
+144. ?Dice wdice q4
+144. ?Dice wdice q2
+144. ?Dice wdice q3
+145. prom n3 x k3 x q5 Black init f4
+145. ?Dice lock q1 x q2 x q3 x q4
+145. ?Dice wdice q3
+145. ?Dice bdice q2
+145. ?Dice wdice q4
+145. init k4 - i4 Black lock q5
+145. ?Dice lock q1 x q2 x q3 x q4
+145. ?Dice wdice q4
+145. ?Dice wdice q2
+145. ?Dice bdice q3
+146. Pass
+146. ?Dice lock q1 x q2 x q3 x q4
+146. ?Dice wdice q4
+146. ?Dice wdice q2
+146. ?Dice wdice q3
+146. x q5
+146. ?Dice lock q1 x q2 x q3 x q4
+146. ?Dice wdice q4
+146. ?Dice bdice q2
+146. ?Dice wdice q3
+147. prom k3 - i3 x q5 x f4 Black init k3
+147. ?Dice lock q1 x q2 x q3 x q4
+147. ?Dice bdice q3
+147. ?Dice wdice q2
+147. ?Dice wdice q4
+147. init i4 - j3 x q5
+147. ?Dice lock q1 x q2 x q3 x q4
+147. ?Dice wdice q4
+147. ?Dice bdice q3
+147. ?Dice bdice q2
+148. prom i3 - h3 x h3 x q5
+148. ?Dice lock q1 x q2 x q3 x q4
+148. ?Dice wdice q4
+148. ?Dice bdice q3
+148. ?Dice wdice q2
+148. init l4 - j4 x q5 x d2 Black init l4
+148. ?Dice lock q1 x q2 x q3 x q4
+148. ?Dice wdice q3
+148. ?Dice bdice q4
+148. ?Dice wdice q2
+149. prom o4 - n3 x q5
+149. ?Dice lock q1 x q2 x q3 x q4
+149. ?Dice bdice q3
+149. ?Dice wdice q2
+149. ?Dice bdice q4
+149. init j4 - i4 Black lock q5
+149. ?Dice lock q1 x q2 x q3 x q4
+149. ?Dice wdice q2
+149. ?Dice wdice q3
+149. ?Dice wdice q4
+150. Pass
+150. ?Dice lock q1 x q2 x q3 x q4
+150. ?Dice bdice q2
+150. ?Dice wdice q4
+150. ?Dice wdice q3
+150. init l4 - j4 x q5
+150. ?Dice lock q1 x q2 x q3 x q4
+150. ?Dice bdice q4
+150. ?Dice wdice q3
+150. ?Dice wdice q2
+151. init p2 - p4 = prom x q5
+151. ?Dice lock q1 x q2 x q3 x q4
+151. ?Dice bdice q4
+151. ?Dice wdice q2
+151. ?Dice wdice q3
+151. init j4 - i3 x q5
+151. ?Dice lock q1 x q2 x q3 x q4
+151. ?Dice wdice q2
+151. ?Dice bdice q3
+151. ?Dice wdice q4
+152. prom p4 x o3 x q5 White prom e4
+152. ?Dice lock q1 x q2 x q3 x q4
+152. ?Dice bdice q3
+152. ?Dice wdice q2
+152. ?Dice wdice q4
+152. init i3 x k3 x q5 Black init f4
+152. ?Dice lock q1 x q2 x q3 x q4
+152. ?Dice wdice q3
+152. ?Dice bdice q4
+152. ?Dice wdice q2
+153. Pass
+153. ?Dice lock q1 x q2 x q3 x q4
+153. ?Dice wdice q2
+153. ?Dice wdice q4
+153. ?Dice bdice q3
+153. init l3 x n3 x q5 White prom g2
+153. ?Dice lock q1 x q2 x q3 x q4
+153. ?Dice wdice q4
+153. ?Dice wdice q2
+153. ?Dice bdice q3
+154. Pass
+154. ?Dice lock q1 x q2 x q3 x q4
+154. ?Dice bdice q2
+154. ?Dice bdice q4
+154. ?Dice bdice q3
+154. init i4 - l3 Black lock q5
+154. ?Dice lock q1 x q2 x q3 x q4
+154. ?Dice bdice q4
+154. ?Dice bdice q2
+154. ?Dice bdice q3
+155. Pass
+155. ?Dice lock q1 x q2 x q3 x q4
+155. ?Dice wdice q3
+155. ?Dice wdice q2
+155. ?Dice wdice q4
+155. init k3 x n3 x q5 Black init g3 x f4 Black init k3
+155. ?Dice lock q1 x q2 x q3 x q4
+155. ?Dice bdice q4
+155. ?Dice wdice q2
+155. ?Dice bdice q3
+156. prom o3 x n3 x q5 Black init g4 x e4 White prom o3
+156. ?Dice lock q1 x q2 x q3 x q4
+156. ?Dice wdice q2
+156. ?Dice wdice q4
+156. ?Dice bdice q3
+156. x q5
+156. ?Dice lock q1 x q2 x q3 x q4
+156. ?Dice wdice q4
+156. ?Dice wdice q2
+156. ?Dice wdice q3
+157. prom n3 x k3 x q5 Black init f4 x g4 Black init n3
+157. ?Dice lock q1 x q2 x q3 x q4
+157. ?Dice bdice q2
+157. ?Dice bdice q3
+157. ?Dice wdice q4
+157. init m3 x n3 x q5 Black init g4
+157. ?Dice lock q1 x q2 x q3 x q4
+157. ?Dice bdice q2
+157. ?Dice bdice q4
+157. ?Dice wdice q3
+158. Pass
+158. ?Dice lock q1 x q2 x q3 x q4
+158. ?Dice bdice q3
+158. ?Dice bdice q2
+158. ?Dice bdice q4
+158. init l3 - o4 Black lock q5
+158. ?Dice lock q1 x q2 x q3 x q4
+158. ?Dice wdice q2
+158. ?Dice bdice q4
+158. ?Dice wdice q3
+159. Pass
+159. ?Dice lock q1 x q2 x q3 x q4
+159. ?Dice bdice q2
+159. ?Dice wdice q4
+159. ?Dice wdice q3
+159. init o4 - p3 = prom x q5
+159. ?Dice lock q1 x q2 x q3 x q4
+159. ?Dice wdice q4
+159. ?Dice bdice q3
+159. ?Dice wdice q2
+160. prom o3 - m3 x q5 x e3 White init o3
+160. ?Dice lock q1 x q2 x q3 x q4
+160. ?Dice wdice q2
+160. ?Dice wdice q4
+160. ?Dice wdice q3
+160. init n3 - p4 x q5 x g4 Black init n3
+160. ?Dice lock q1 x q2 x q3 x q4
+160. ?Dice wdice q3
+160. ?Dice wdice q4
+160. ?Dice bdice q2
+161. prom k3 - i3 x q5 x f4 Black init k3
+161. ?Dice lock q1 x q2 x q3 x q4
+161. ?Dice wdice q3
+161. ?Dice wdice q4
+161. ?Dice bdice q2
+161. init p4 - p2 = prom x q5
+161. ?Dice lock q1 x q2 x q3 x q4
+161. ?Dice bdice q3
+161. ?Dice wdice q2
+161. ?Dice bdice q4
+162. prom m3 - l3 White lock q5
+162. ?Dice lock q1 x q2 x q3 x q4
+162. ?Dice wdice q4
+162. ?Dice wdice q2
+162. ?Dice wdice q3
+162. x q5
+162. ?Dice lock q1 x q2 x q3 x q4
+162. ?Dice bdice q3
+162. ?Dice bdice q4
+162. ?Dice bdice q2
+163. prom l3 - h3 x h3 x q5
+163. ?Dice lock q1 x q2 x q3 x q4
+163. ?Dice wdice q4
+163. ?Dice bdice q3
+163. ?Dice bdice q2
+163. init j3 x k3 x q5 Black init f4
+163. ?Dice lock q1 x q2 x q3 x q4
+163. ?Dice bdice q4
+163. ?Dice wdice q2
+163. ?Dice wdice q3
+164. Pass
+164. ?Dice lock q1 x q2 x q3 x q4
+164. ?Dice bdice q4
+164. ?Dice wdice q3
+164. ?Dice bdice q2
+164. init k3 - l3 Black lock q5 x f4 Black init k3
+164. ?Dice lock q1 x q2 x q3 x q4
+164. ?Dice wdice q2
+164. ?Dice wdice q4
+164. ?Dice wdice q3
+165. Pass
+165. ?Dice lock q1 x q2 x q3 x q4
+165. ?Dice bdice q4
+165. ?Dice wdice q3
+165. ?Dice wdice q2
+165. init k3 - m3 x q5 x f3 Black init k3
+165. ?Dice lock q1 x q2 x q3 x q4
+165. ?Dice wdice q4
+165. ?Dice wdice q2
+165. ?Dice bdice q3
+166. Pass
+166. ?Dice lock q1 x q2 x q3 x q4
+166. ?Dice bdice q4
+166. ?Dice bdice q3
+166. ?Dice bdice q2
+166. init l3 - o4 Black lock q5
+166. ?Dice lock q1 x q2 x q3 x q4
+166. ?Dice wdice q3
+166. ?Dice wdice q2
+166. ?Dice bdice q4
+167. Pass
+167. ?Dice lock q1 x q2 x q3 x q4
+167. ?Dice bdice q4
+167. ?Dice wdice q2
+167. ?Dice wdice q3
+167. prom p3 - o2 Black lock q5
+167. ?Dice lock q1 x q2 x q3 x q4
+167. ?Dice bdice q3
+167. ?Dice wdice q4
+167. ?Dice wdice q2
+168. Pass
+168. ?Dice lock q1 x q2 x q3 x q4
+168. ?Dice bdice q4
+168. ?Dice wdice q2
+168. ?Dice bdice q3
+168. init o4 - p4 x q5
+168. ?Dice lock q1 x q2 x q3 x q4
+168. ?Dice wdice q2
+168. ?Dice bdice q4
+168. ?Dice bdice q3
+169. prom i3 - h3 x h3 x q5
+169. ?Dice lock q1 x q2 x q3 x q4
+169. ?Dice wdice q2
+169. ?Dice bdice q3
+169. ?Dice bdice q4
+169. init p4 - p3 = prom x q5
+169. ?Dice lock q1 x q2 x q3 x q4
+169. ?Dice wdice q2
+169. ?Dice wdice q3
+169. ?Dice wdice q4
+170. init o3 x p3 = prom x q5 x e2 White init o3 Black init i5
+170. ?Dice lock q1 x q2 x q3 x q4
+170. ?Dice wdice q2
+170. ?Dice wdice q3
+170. ?Dice wdice q4
+170. init i5 - j4 x q5
+170. ?Dice lock q1 x q2 x q3 x q4
+170. ?Dice wdice q4
+170. ?Dice wdice q3
+170. ?Dice wdice q2
+171. prom p3 x o3 x q5 White init e2
+171. ?Dice lock q1 x q2 x q3 x q4
+171. ?Dice bdice q2
+171. ?Dice wdice q3
+171. ?Dice bdice q4
+171. init j4 - i4 Black lock q5
+171. ?Dice lock q1 x q2 x q3 x q4
+171. ?Dice wdice q3
+171. ?Dice bdice q4
+171. ?Dice wdice q2
+172. Pass
+172. ?Dice lock q1 x q2 x q3 x q4
+172. ?Dice bdice q2
+172. ?Dice bdice q3
+172. ?Dice wdice q4
+172. init i4 - i3 x q5
+172. ?Dice lock q1 x q2 x q3 x q4
+172. ?Dice wdice q3
+172. ?Dice wdice q2
+172. ?Dice wdice q4
+173. prom o3 - l3 White lock q5 x e2 White init o3
+173. ?Dice lock q1 x q2 x q3 x q4
+173. ?Dice bdice q3
+173. ?Dice bdice q4
+173. ?Dice wdice q2
+173. x q5
+173. ?Dice lock q1 x q2 x q3 x q4
+173. ?Dice bdice q4
+173. ?Dice wdice q2
+173. ?Dice wdice q3
+174. prom l3 - j3 x q5
+174. ?Dice lock q1 x q2 x q3 x q4
+174. ?Dice bdice q2
+174. ?Dice wdice q4
+174. ?Dice wdice q3
+174. init i3 x k3 x q5 Black init f3
+174. ?Dice lock q1 x q2 x q3 x q4
+174. ?Dice wdice q4
+174. ?Dice bdice q3
+174. ?Dice bdice q2
+175. prom j3 - i3 x q5
+175. ?Dice lock q1 x q2 x q3 x q4
+175. ?Dice bdice q4
+175. ?Dice bdice q3
+175. ?Dice bdice q2
+175. init m3 - p4 x q5
+175. ?Dice lock q1 x q2 x q3 x q4
+175. ?Dice wdice q2
+175. ?Dice bdice q4
+175. ?Dice bdice q3
+176. prom i3 - h3 x h3 x q5
+176. ?Dice lock q1 x q2 x q3 x q4
+176. ?Dice wdice q2
+176. ?Dice wdice q4
+176. ?Dice bdice q3
+176. init k3 - m3 x q5 x f3 Black init k3
+176. ?Dice lock q1 x q2 x q3 x q4
+176. ?Dice wdice q4
+176. ?Dice wdice q2
+176. ?Dice wdice q3
+177. init o3 - p3 = prom x q5
+177. ?Dice lock q1 x q2 x q3 x q4
+177. ?Dice wdice q3
+177. ?Dice wdice q2
+177. ?Dice bdice q4
+177. init m3 - o3 x q5
+177. ?Dice lock q1 x q2 x q3 x q4
+177. ?Dice bdice q2
+177. ?Dice bdice q3
+177. ?Dice bdice q4
+178. prom p3 x n3 x q5 Black init g4
+178. ?Dice lock q1 x q2 x q3 x q4
+178. ?Dice bdice q4
+178. ?Dice bdice q3
+178. ?Dice wdice q2
+178. init p4 - p3 = prom x q5
+178. ?Dice lock q1 x q2 x q3 x q4
+178. ?Dice wdice q4
+178. ?Dice wdice q3
+178. ?Dice wdice q2
+179. prom n3 x k3 x q5 Black init f3 x g4 Black init n3
+179. ?Dice lock q1 x q2 x q3 x q4
+179. ?Dice bdice q4
+179. ?Dice wdice q3
+179. ?Dice bdice q2
+179. init n3 x o3 x q5 Black init e2 x g3 Black init n3
+179. ?Dice lock q1 x q2 x q3 x q4
+179. ?Dice wdice q2
+179. ?Dice wdice q3
+179. ?Dice bdice q4
+180. prom k3 - i3 x q5 x f3 Black init k3
+180. ?Dice lock q1 x q2 x q3 x q4
+180. ?Dice bdice q4
+180. ?Dice wdice q2
+180. ?Dice wdice q3
+180. init k3 - m3 x q5 x f2 White init k3
+180. ?Dice lock q1 x q2 x q3 x q4
+180. ?Dice wdice q4
+180. ?Dice bdice q2
+180. ?Dice bdice q3
+181. prom i3 - h3 x h3 x q5
+181. ?Dice lock q1 x q2 x q3 x q4
+181. ?Dice bdice q2
+181. ?Dice wdice q4
+181. ?Dice bdice q3
+181. init m3 x n3 x q5 Black init g3
+181. ?Dice lock q1 x q2 x q3 x q4
+181. ?Dice wdice q4
+181. ?Dice bdice q3
+181. ?Dice bdice q2
+182. init k3 - l3 White lock q5
+182. ?Dice lock q1 x q2 x q3 x q4
+182. ?Dice wdice q4
+182. ?Dice bdice q2
+182. ?Dice wdice q3
+182. x q5
+182. ?Dice lock q1 x q2 x q3 x q4
+182. ?Dice wdice q3
+182. ?Dice wdice q2
+182. ?Dice bdice q4
+183. init l3 x n3 x q5 Black init g4
+183. ?Dice lock q1 x q2 x q3 x q4
+183. ?Dice bdice q3
+183. ?Dice wdice q2
+183. ?Dice wdice q4
+183. init o3 - p4 x q5 x e2 Black init o3
+183. ?Dice lock q1 x q2 x q3 x q4
+183. ?Dice wdice q4
+183. ?Dice bdice q2
+183. ?Dice bdice q3
+184. Pass
+184. ?Dice lock q1 x q2 x q3 x q4
+184. ?Dice wdice q2
+184. ?Dice wdice q3
+184. ?Dice bdice q4
+184. prom p2 x o3 x q5 Black init e2
+184. ?Dice lock q1 x q2 x q3 x q4
+184. ?Dice wdice q4
+184. ?Dice wdice q3
+184. ?Dice bdice q2
+185. Pass
+185. ?Dice lock q1 x q2 x q3 x q4
+185. ?Dice bdice q4
+185. ?Dice bdice q3
+185. ?Dice wdice q2
+185. prom p3 - p2 x q5
+185. ?Dice lock q1 x q2 x q3 x q4
+185. ?Dice bdice q4
+185. ?Dice wdice q2
+185. ?Dice wdice q3
+186. Pass
+186. ?Dice lock q1 x q2 x q3 x q4
+186. ?Dice bdice q3
+186. ?Dice bdice q4
+186. ?Dice bdice q2
+186. init p4 x o3 = prom x q5 Black prom e3
+186. ?Dice lock q1 x q2 x q3 x q4
+186. ?Dice bdice q4
+186. ?Dice wdice q2
+186. ?Dice bdice q3
+187. Pass
+187. ?Dice lock q1 x q2 x q3 x q4
+187. ?Dice wdice q3
+187. ?Dice wdice q2
+187. ?Dice wdice q4
+187. prom o3 - l3 Black lock q5 x e3 Black prom o3
+187. ?Dice lock q1 x q2 x q3 x q4
+187. ?Dice wdice q4
+187. ?Dice wdice q3
+187. ?Dice bdice q2
+188. Pass
+188. ?Dice lock q1 x q2 x q3 x q4
+188. ?Dice bdice q3
+188. ?Dice wdice q4
+188. ?Dice wdice q2
+188. prom l3 - j3 x q5
+188. ?Dice lock q1 x q2 x q3 x q4
+188. ?Dice bdice q4
+188. ?Dice bdice q3
+188. ?Dice wdice q2
+189. Pass
+189. ?Dice lock q1 x q2 x q3 x q4
+189. ?Dice bdice q3
+189. ?Dice bdice q4
+189. ?Dice wdice q2
+189. prom j3 - i3 x q5
+189. ?Dice lock q1 x q2 x q3 x q4
+189. ?Dice bdice q4
+189. ?Dice bdice q2
+189. ?Dice bdice q3
+190. init n3 - p3 = prom x q5 x g4 Black init n3
+190. ?Dice lock q1 x q2 x q3 x q4
+190. ?Dice wdice q3
+190. ?Dice wdice q4
+190. ?Dice bdice q2
+190. init n3 - o4 Black lock q5 x g3 Black init n3
+190. ?Dice lock q1 x q2 x q3 x q4
+190. ?Dice wdice q4
+190. ?Dice bdice q2
+190. ?Dice bdice q3
+191. Pass
+191. ?Dice lock q1 x q2 x q3 x q4
+191. ?Dice bdice q2
+191. ?Dice wdice q3
+191. ?Dice wdice q4
+191. init o4 x p3 = prom x q5 White init i1
+191. ?Dice lock q1 x q2 x q3 x q4
+191. ?Dice wdice q3
+191. ?Dice bdice q4
+191. ?Dice wdice q2
+192. init i1 - k2 x q5
+192. ?Dice lock q1 x q2 x q3 x q4
+192. ?Dice bdice q4
+192. ?Dice wdice q3
+192. ?Dice wdice q2
+192. init n3 - o4 Black lock q5 x g2 White prom n3
+192. ?Dice lock q1 x q2 x q3 x q4
+192. ?Dice wdice q3
+192. ?Dice bdice q4
+192. ?Dice wdice q2
+193. Pass
+193. ?Dice lock q1 x q2 x q3 x q4
+193. ?Dice wdice q3
+193. ?Dice bdice q2
+193. ?Dice wdice q4
+193. prom o3 - m3 x q5 x e2 Black init o3
+193. ?Dice lock q1 x q2 x q3 x q4
+193. ?Dice bdice q2
+193. ?Dice wdice q4
+193. ?Dice bdice q3
+194. init k2 - j2 x q5
+194. ?Dice lock q1 x q2 x q3 x q4
+194. ?Dice wdice q3
+194. ?Dice wdice q4
+194. ?Dice wdice q2
+194. prom m3 - j3 x q5
+194. ?Dice lock q1 x q2 x q3 x q4
+194. ?Dice bdice q3
+194. ?Dice wdice q4
+194. ?Dice wdice q2
+195. prom n3 - l3 White lock q5
+195. ?Dice lock q1 x q2 x q3 x q4
+195. ?Dice bdice q4
+195. ?Dice wdice q3
+195. ?Dice wdice q2
+195. x q5
+195. ?Dice lock q1 x q2 x q3 x q4
+195. ?Dice bdice q3
+195. ?Dice wdice q2
+195. ?Dice bdice q4
+196. init j2 - i2 White lock q5
+196. ?Dice lock q1 x q2 x q3 x q4
+196. ?Dice wdice q2
+196. ?Dice bdice q4
+196. ?Dice wdice q3
+196. x q5
+196. ?Dice lock q1 x q2 x q3 x q4
+196. ?Dice bdice q4
+196. ?Dice wdice q3
+196. ?Dice bdice q2
+197. prom l3 - k3 x q5
+197. ?Dice lock q1 x q2 x q3 x q4
+197. ?Dice bdice q3
+197. ?Dice bdice q4
+197. ?Dice wdice q2
+197. init o4 - p4 x q5
+197. ?Dice lock q1 x q2 x q3 x q4
+197. ?Dice bdice q4
+197. ?Dice wdice q3
+197. ?Dice bdice q2
+198. prom k3 x j3 x q5 Black init i5
+198. ?Dice lock q1 x q2 x q3 x q4
+198. ?Dice bdice q4
+198. ?Dice bdice q2
+198. ?Dice bdice q3
+198. init i5 - i4 Black lock q5
+198. ?Dice lock q1 x q2 x q3 x q4
+198. ?Dice bdice q2
+198. ?Dice bdice q3
+198. ?Dice bdice q4
+199. Pass
+199. ?Dice lock q1 x q2 x q3 x q4
+199. ?Dice wdice q2
+199. ?Dice wdice q3
+199. ?Dice bdice q4
+199. prom o2 - n3 x q5
+199. ?Dice lock q1 x q2 x q3 x q4
+199. ?Dice wdice q2
+199. ?Dice wdice q3
+199. ?Dice bdice q4
+200. prom j3 - h3 x h3 x q5
+200. ?Dice lock q1 x q2 x q3 x q4
+200. ?Dice wdice q3
+200. ?Dice wdice q4
+200. ?Dice wdice q2
+200. init i4 - k3 x q5
+200. ?Dice lock q1 x q2 x q3 x q4
+200. ?Dice bdice q3
+200. ?Dice wdice q4
+200. ?Dice wdice q2
+201. init i2 - j3 x q5
+201. ?Dice lock q1 x q2 x q3 x q4
+201. ?Dice wdice q4
+201. ?Dice wdice q2
+201. ?Dice wdice q3
+201. init p4 - o2 = prom Black lock q5
+201. ?Dice lock q1 x q2 x q3 x q4
+201. ?Dice bdice q4
+201. ?Dice bdice q2
+201. ?Dice wdice q3
+202. Pass
+202. ?Dice lock q1 x q2 x q3 x q4
+202. ?Dice wdice q2
+202. ?Dice wdice q4
+202. ?Dice bdice q3
+202. init k3 - m3 x q5
+202. ?Dice lock q1 x q2 x q3 x q4
+202. ?Dice wdice q3
+202. ?Dice wdice q4
+202. ?Dice wdice q2
+203. init j3 x m3 x q5 Black init i5
+203. ?Dice lock q1 x q2 x q3 x q4
+203. ?Dice bdice q2
+203. ?Dice bdice q3
+203. ?Dice bdice q4
+203. init i5 - i4 Black lock q5
+203. ?Dice lock q1 x q2 x q3 x q4
+203. ?Dice wdice q3
+203. ?Dice bdice q2
+203. ?Dice bdice q4
+204. Pass
+204. ?Dice lock q1 x q2 x q3 x q4
+204. ?Dice wdice q2
+204. ?Dice bdice q3
+204. ?Dice wdice q4
+204. init i4 - j3 x q5
+204. ?Dice lock q1 x q2 x q3 x q4
+204. ?Dice wdice q4
+204. ?Dice wdice q3
+204. ?Dice wdice q2
+205. Pass
+205. ?Dice lock q1 x q2 x q3 x q4
+205. ?Dice bdice q3
+205. ?Dice wdice q2
+205. ?Dice bdice q4
+205. prom i3 - h3 x h3 x q5
+205. ?Dice lock q1 x q2 x q3 x q4
+205. ?Dice bdice q3
+205. ?Dice bdice q4
+205. ?Dice wdice q2
+206. init m3 x n3 x q5 Black prom g2
+206. ?Dice lock q1 x q2 x q3 x q4
+206. ?Dice bdice q2
+206. ?Dice wdice q3
+206. ?Dice bdice q4
+206. init j3 - k3 x q5
+206. ?Dice lock q1 x q2 x q3 x q4
+206. ?Dice wdice q3
+206. ?Dice bdice q4
+206. ?Dice wdice q2
+207. Pass
+207. ?Dice lock q1 x q2 x q3 x q4
+207. ?Dice bdice q4
+207. ?Dice wdice q2
+207. ?Dice bdice q3
+207. init k3 - l3 Black lock q5
+207. ?Dice lock q1 x q2 x q3 x q4
+207. ?Dice wdice q2
+207. ?Dice bdice q3
+207. ?Dice wdice q4
+208. Pass
+208. ?Dice lock q1 x q2 x q3 x q4
+208. ?Dice bdice q2
+208. ?Dice wdice q3
+208. ?Dice wdice q4
+208. init l3 x n3 x q5 White init g3
+208. ?Dice lock q1 x q2 x q3 x q4
+208. ?Dice wdice q4
+208. ?Dice bdice q3
+208. ?Dice bdice q2
+209. Pass
+209. ?Dice lock q1 x q2 x q3 x q4
+209. ?Dice wdice q2
+209. ?Dice bdice q3
+209. ?Dice wdice q4
+209. init n3 - o4 Black lock q5 x g3 White init n3
+209. ?Dice lock q1 x q2 x q3 x q4
+209. ?Dice bdice q2
+209. ?Dice bdice q4
+209. ?Dice bdice q3
+210. Pass
+210. ?Dice lock q1 x q2 x q3 x q4
+210. ?Dice bdice q3
+210. ?Dice wdice q2
+210. ?Dice wdice q4
+210. init o3 - p4 x q5
+210. ?Dice lock q1 x q2 x q3 x q4
+210. ?Dice wdice q4
+210. ?Dice wdice q2
+210. ?Dice bdice q3
+211. Pass
+211. ?Dice lock q1 x q2 x q3 x q4
+211. ?Dice wdice q4
+211. ?Dice wdice q2
+211. ?Dice wdice q3
+211. prom p3 - o3 x q5
+211. ?Dice lock q1 x q2 x q3 x q4
+211. ?Dice wdice q2
+211. ?Dice bdice q3
+211. ?Dice wdice q4
+212. Pass
+212. ?Dice lock q1 x q2 x q3 x q4
+212. ?Dice bdice q3
+212. ?Dice bdice q4
+212. ?Dice bdice q2
+212. init p4 x o3 = prom x q5 Black prom e2
+212. ?Dice lock q1 x q2 x q3 x q4
+212. ?Dice wdice q3
+212. ?Dice wdice q4
+212. ?Dice bdice q2
+213. Pass
+213. ?Dice lock q1 x q2 x q3 x q4
+213. ?Dice bdice q4
+213. ?Dice bdice q3
+213. ?Dice bdice q2
+213. prom o3 - k3 x q5 x e2 Black prom o3
+213. ?Dice lock q1 x q2 x q3 x q4
+213. ?Dice bdice q3
+213. ?Dice bdice q2
+213. ?Dice wdice q4
+214. Pass
+214. ?Dice lock q1 x q2 x q3 x q4
+214. ?Dice bdice q2
+214. ?Dice wdice q3
+214. ?Dice bdice q4
+214. init o4 - p4 x q5
+214. ?Dice lock q1 x q2 x q3 x q4
+214. ?Dice bdice q4
+214. ?Dice bdice q3
+214. ?Dice bdice q2
+215. init n3 - p3 = prom x q5 x g2 Black prom n3
+215. ?Dice lock q1 x q2 x q3 x q4
+215. ?Dice wdice q4
+215. ?Dice bdice q3
+215. ?Dice wdice q2
+215. prom k3 - i3 x q5
+215. ?Dice lock q1 x q2 x q3 x q4
+215. ?Dice wdice q3
+215. ?Dice wdice q4
+215. ?Dice wdice q2
+216. Pass
+216. ?Dice lock q1 x q2 x q3 x q4
+216. ?Dice wdice q2
+216. ?Dice bdice q3
+216. ?Dice wdice q4
+216. prom n3 - l3 Black lock q5
+216. ?Dice lock q1 x q2 x q3 x q4
+216. ?Dice wdice q4
+216. ?Dice bdice q3
+216. ?Dice bdice q2
+217. Pass
+217. ?Dice lock q1 x q2 x q3 x q4
+217. ?Dice bdice q2
+217. ?Dice bdice q3
+217. ?Dice bdice q4
+217. init p4 x o3 = prom x q5 Black prom e2
+217. ?Dice lock q1 x q2 x q3 x q4
+217. ?Dice wdice q4
+217. ?Dice wdice q2
+217. ?Dice wdice q3
+218. Pass
+218. ?Dice lock q1 x q2 x q3 x q4
+218. ?Dice wdice q3
+218. ?Dice bdice q4
+218. ?Dice bdice q2
+218. prom i3 - h3 x h3 x q5
+218. ?Dice lock q1 x q2 x q3 x q4
+218. ?Dice wdice q4
+218. ?Dice bdice q3
+218. ?Dice bdice q2
+219. prom p3 - p4 x q5
+219. ?Dice lock q1 x q2 x q3 x q4
+219. ?Dice wdice q2
+219. ?Dice bdice q4
+219. ?Dice wdice q3
+219. prom l3 - j3 x q5
+219. ?Dice lock q1 x q2 x q3 x q4
+219. ?Dice wdice q3
+219. ?Dice bdice q2
+219. ?Dice bdice q4
+220. prom p4 - o4 White lock q5
+220. ?Dice lock q1 x q2 x q3 x q4
+220. ?Dice bdice q4
+220. ?Dice bdice q3
+220. ?Dice bdice q2
+220. x q5
+220. ?Dice lock q1 x q2 x q3 x q4
+220. ?Dice wdice q2
+220. ?Dice wdice q3
+220. ?Dice bdice q4
+221. prom o4 - n3 x q5
+221. ?Dice lock q1 x q2 x q3 x q4
+221. ?Dice bdice q2
+221. ?Dice wdice q4
+221. ?Dice wdice q3
+221. prom j3 - h3 x h3 x q5
+221. ?Dice lock q1 x q2 x q3 x q4
+221. ?Dice wdice q4
+221. ?Dice wdice q3
+221. ?Dice wdice q2
+222. prom n3 - k3 x q5
+222. ?Dice lock q1 x q2 x q3 x q4
+222. ?Dice wdice q4
+222. ?Dice wdice q3
+222. ?Dice bdice q2
+222. prom o3 - m3 x q5 x e2 Black prom o3
+222. ?Dice lock q1 x q2 x q3 x q4
+222. ?Dice bdice q4
+222. ?Dice wdice q2
+222. ?Dice bdice q3
+223. prom k3 - j3 x q5
+223. ?Dice lock q1 x q2 x q3 x q4
+223. ?Dice wdice q4
+223. ?Dice wdice q2
+223. ?Dice wdice q3
+223. prom m3 x j3 x q5 White init i1
+223. ?Dice lock q1 x q2 x q3 x q4
+223. ?Dice wdice q4
+223. ?Dice wdice q3
+223. ?Dice wdice q2
+224. init i1 - j2 x q5
+224. ?Dice lock q1 x q2 x q3 x q4
+224. ?Dice wdice q3
+224. ?Dice bdice q2
+224. ?Dice wdice q4
+224. prom j3 - h3 x h3 x q5
+224. ?Dice lock q1 x q2 x q3 x q4
+224. ?Dice wdice q3
+224. ?Dice wdice q4
+224. ?Dice wdice q2
+225. init j2 - j3 x q5
+225. ?Dice lock q1 x q2 x q3 x q4
+225. ?Dice bdice q4
+225. ?Dice wdice q2
+225. ?Dice wdice q3
+225. prom o3 - m3 x q5
+225. ?Dice lock q1 x q2 x q3 x q4
+225. ?Dice wdice q2
+225. ?Dice wdice q4
+225. ?Dice bdice q3
+226. init j3 - l3 White lock q5
+226. ?Dice lock q1 x q2 x q3 x q4
+226. ?Dice wdice q3
+226. ?Dice wdice q2
+226. ?Dice bdice q4
+226. x q5
+226. ?Dice lock q1 x q2 x q3 x q4
+226. ?Dice wdice q2
+226. ?Dice bdice q4
+226. ?Dice wdice q3
+227. init l3 - n3 x q5
+227. ?Dice lock q1 x q2 x q3 x q4
+227. ?Dice wdice q2
+227. ?Dice wdice q4
+227. ?Dice wdice q3
+227. prom m3 - j3 x q5
+227. ?Dice lock q1 x q2 x q3 x q4
+227. ?Dice wdice q3
+227. ?Dice bdice q4
+227. ?Dice bdice q2
+228. init n3 - o3 x q5
+228. ?Dice lock q1 x q2 x q3 x q4
+228. ?Dice bdice q4
+228. ?Dice wdice q3
+228. ?Dice bdice q2
+228. prom j3 - i3 x q5
+228. ?Dice lock q1 x q2 x q3 x q4
+228. ?Dice bdice q3
+228. ?Dice wdice q2
+228. ?Dice bdice q4
+229. Pass
+229. ?Dice lock q1 x q2 x q3 x q4
+229. ?Dice bdice q4
+229. ?Dice wdice q3
+229. ?Dice wdice q2
+229. prom o2 - n3 x q5
+229. ?Dice lock q1 x q2 x q3 x q4
+229. ?Dice bdice q4
+229. ?Dice wdice q2
+229. ?Dice bdice q3
+230. init o3 - o2 White lock q5
+230. ?Dice lock q1 x q2 x q3 x q4
+230. ?Dice wdice q2
+230. ?Dice wdice q3
+230. ?Dice bdice q4
+230. x q5
+230. ?Dice lock q1 x q2 x q3 x q4
+230. ?Dice wdice q3
+230. ?Dice bdice q2
+230. ?Dice bdice q4
+231. Pass
+231. ?Dice lock q1 x q2 x q3 x q4
+231. ?Dice bdice q4
+231. ?Dice wdice q3
+231. ?Dice bdice q2
+231. prom i3 - h3 x h3 x q5
+231. ?Dice lock q1 x q2 x q3 x q4
+231. ?Dice wdice q4
+231. ?Dice bdice q2
+231. ?Dice bdice q3
+232. Pass
+232. ?Dice lock q1 x q2 x q3 x q4
+232. ?Dice bdice q2
+232. ?Dice bdice q3
+232. ?Dice wdice q4
+232. prom n3 - m3 x q5
+232. ?Dice lock q1 x q2 x q3 x q4
+232. ?Dice bdice q3
+232. ?Dice bdice q4
+232. ?Dice wdice q2
+233. Pass
+233. ?Dice lock q1 x q2 x q3 x q4
+233. ?Dice bdice q4
+233. ?Dice bdice q3
+233. ?Dice wdice q2
+233. prom m3 - l3 Black lock q5
+233. ?Dice lock q1 x q2 x q3 x q4
+233. ?Dice wdice q3
+233. ?Dice wdice q2
+233. ?Dice bdice q4
+234. Pass
+234. ?Dice lock q1 x q2 x q3 x q4
+234. ?Dice wdice q2
+234. ?Dice bdice q4
+234. ?Dice wdice q3
+234. prom l3 - j3 x q5
+234. ?Dice lock q1 x q2 x q3 x q4
+234. ?Dice bdice q3
+234. ?Dice wdice q2
+234. ?Dice bdice q4
+235. Pass
+235. ?Dice lock q1 x q2 x q3 x q4
+235. ?Dice wdice q2
+235. ?Dice bdice q4
+235. ?Dice wdice q3
+235. prom j3 - h3 x h3 x q5
+235. ?Dice lock q1 x q2 x q3 x q4
+235. ?Dice wdice q4
+235. ?Dice wdice q2
+235. ?Dice bdice q3
+236. init o2 - p3 = prom x q5
+236. ?Dice lock q1 x q2 x q3 x q4
+236. ?Dice wdice q4
+236. ?Dice wdice q2
+236. ?Dice bdice q3
+236. prom p2 - o3 x q5
+236. ?Dice lock q1 x q2 x q3 x q4
+236. ?Dice bdice q2
+236. ?Dice wdice q4
+236. ?Dice wdice q3
+237. prom p3 - o4 White lock q5
+237. ?Dice lock q1 x q2 x q3 x q4
+237. ?Dice bdice q2
+237. ?Dice wdice q3
+237. ?Dice wdice q4
+237. x q5
+237. ?Dice lock q1 x q2 x q3 x q4
+237. ?Dice bdice q3
+237. ?Dice bdice q2
+237. ?Dice wdice q4
+238. Pass
+238. ?Dice lock q1 x q2 x q3 x q4
+238. ?Dice wdice q2
+238. ?Dice wdice q4
+238. ?Dice wdice q3
+238. prom o3 - l3 Black lock q5
+238. ?Dice lock q1 x q2 x q3 x q4
+238. ?Dice bdice q2
+238. ?Dice bdice q3
+238. ?Dice bdice q4
+239. Pass
+239. ?Dice lock q1 x q2 x q3 x q4
+239. ?Dice wdice q2
+239. ?Dice bdice q4
+239. ?Dice bdice q3
+239. prom l3 - k3 x q5
+239. ?Dice lock q1 x q2 x q3 x q4
+239. ?Dice wdice q2
+239. ?Dice wdice q4
+239. ?Dice wdice q3
+240. prom o4 - m3 x q5
+240. ?Dice lock q1 x q2 x q3 x q4
+240. ?Dice wdice q2
+240. ?Dice bdice q4
+240. ?Dice bdice q3
+240. prom k3 - j3 x q5
+240. ?Dice lock q1 x q2 x q3 x q4
+240. ?Dice bdice q4
+240. ?Dice wdice q3
+240. ?Dice bdice q2
+241. prom m3 - l3 White lock q5
+241. ?Dice lock q1 x q2 x q3 x q4
+241. ?Dice bdice q3
+241. ?Dice wdice q4
+241. ?Dice wdice q2
+241. x q5
+241. ?Dice lock q1 x q2 x q3 x q4
+241. ?Dice bdice q3
+241. ?Dice wdice q2
+241. ?Dice wdice q4
+242. prom l3 x j3 x q5 Black init i5
+242. ?Dice lock q1 x q2 x q3 x q4
+242. ?Dice bdice q4
+242. ?Dice bdice q2
+242. ?Dice bdice q3
+242. init i5 - i4 Black lock q5
+242. ?Dice lock q1 x q2 x q3 x q4
+242. ?Dice wdice q3
+242. ?Dice bdice q4
+242. ?Dice bdice q2
+243. Pass
+243. ?Dice lock q1 x q2 x q3 x q4
+243. ?Dice wdice q3
+243. ?Dice wdice q2
+243. ?Dice wdice q4
+243. init i4 - k3 x q5
+243. ?Dice lock q1 x q2 x q3 x q4
+243. ?Dice bdice q3
+243. ?Dice wdice q2
+243. ?Dice bdice q4
+244. prom j3 - i3 x q5
+244. ?Dice lock q1 x q2 x q3 x q4
+244. ?Dice bdice q2
+244. ?Dice wdice q4
+244. ?Dice bdice q3
+244. init k3 - l3 Black lock q5
+244. ?Dice lock q1 x q2 x q3 x q4
+244. ?Dice wdice q3
+244. ?Dice wdice q4
+244. ?Dice bdice q2
+245. Pass
+245. ?Dice lock q1 x q2 x q3 x q4
+245. ?Dice wdice q4
+245. ?Dice wdice q2
+245. ?Dice bdice q3
+245. init l3 - n3 x q5
+245. ?Dice lock q1 x q2 x q3 x q4
+245. ?Dice bdice q2
+245. ?Dice wdice q3
+245. ?Dice wdice q4
+246. Pass
+246. ?Dice lock q1 x q2 x q3 x q4
+246. ?Dice wdice q4
+246. ?Dice bdice q3
+246. ?Dice wdice q2
+246. init n3 - o4 Black lock q5
+246. ?Dice lock q1 x q2 x q3 x q4
+246. ?Dice bdice q3
+246. ?Dice wdice q4
+246. ?Dice bdice q2
+247. Pass
+247. ?Dice lock q1 x q2 x q3 x q4
+247. ?Dice bdice q4
+247. ?Dice bdice q3
+247. ?Dice bdice q2
+247. init o4 - o2 = prom Black lock q5
+247. ?Dice lock q1 x q2 x q3 x q4
+247. ?Dice bdice q2
+247. ?Dice wdice q4
+247. ?Dice wdice q3
+248. Pass
+248. ?Dice lock q1 x q2 x q3 x q4
+248. ?Dice wdice q4
+248. ?Dice wdice q2
+248. ?Dice bdice q3
+248. prom o2 - n3 x q5
+248. ?Dice lock q1 x q2 x q3 x q4
+248. ?Dice bdice q2
+248. ?Dice bdice q4
+248. ?Dice wdice q3
+249. prom i3 - h3 x h3 x q5
+249. ?Dice lock q1 x q2 x q3 x q4
+249. ?Dice bdice q3
+249. ?Dice bdice q2
+249. ?Dice wdice q4
