@@ -5,37 +5,65 @@ VARIABLE Nodes			\ The number of possibilities explored by our search engine.
 VARIABLE Eated
 VARIABLE Rosettes
 
+: enemy-value-at ( pos -- value )
+	DUP
+	empty-at?
+	IF
+		DROP 0
+	ELSE
+		0 SWAP
+		player-at current-player <>
+		IF DROP 1 ENDIF
+	ENDIF
+;
+
+: friend-value-at ( pos -- value )
+	DUP
+	empty-at?
+	IF
+		DROP 0
+	ELSE
+		1 SWAP
+		player-at current-player <>
+		IF DROP 0 ENDIF
+	ENDIF
+;
+
+: Make_enemy_p  ( pos -- ) <BUILDS , DOES> @ enemy-value-at ;
+: Make_friend_p ( pos -- ) <BUILDS , DOES> @ enemy-value-at ;
+
+i1 Make_enemy_p e0
+j1 Make_enemy_p e1
+k1 Make_enemy_p e2
+l1 Make_enemy_p e3
+m1 Make_enemy_p e4
+n1 Make_enemy_p e5
+o1 Make_enemy_p e6
+i5 Make_enemy_p e7
+j5 Make_enemy_p e8
+k5 Make_enemy_p e9
+l5 Make_enemy_p e10
+m5 Make_enemy_p e11
+n5 Make_enemy_p e12
+o5 Make_enemy_p e13
+
+i2 Make_friend_p r0
+i4 Make_friend_p r1
+l3 Make_friend_p r2
+o2 Make_friend_p r3
+o4 Make_friend_p r4
+
 : CountEated ( -- count )
-	0
-	i1 enemy-at? IF 1+ ENDIF
-	j1 enemy-at? IF 1+ ENDIF
-	k1 enemy-at? IF 1+ ENDIF
-	l1 enemy-at? IF 1+ ENDIF
-	m1 enemy-at? IF 1+ ENDIF
-	n1 enemy-at? IF 1+ ENDIF
-	o1 enemy-at? IF 1+ ENDIF
-	i5 enemy-at? IF 1+ ENDIF
-	j5 enemy-at? IF 1+ ENDIF
-	k5 enemy-at? IF 1+ ENDIF
-	l5 enemy-at? IF 1+ ENDIF
-	m5 enemy-at? IF 1+ ENDIF
-	n5 enemy-at? IF 1+ ENDIF
-	o5 enemy-at? IF 1+ ENDIF
+	e0 e1 + e2 + e3 + e4 + e5 + e6 + e7 + e8 + e9 + e10 + e11 + e12 + e13 +
 ;
 
 : CountRosettes ( -- count )
-	0
-	i2 friend-at? IF 1+ ENDIF
-	i4 friend-at? IF 1+ ENDIF
-	l3 friend-at? IF 1+ ENDIF
-	o2 friend-at? IF 1+ ENDIF
-	o4 friend-at? IF 1+ ENDIF
+	r0 r1 + r2 + r3 + r4 +
 ;
 
 : Score ( -- score )
-	CountEated Eated @ - 2 *
-	CountRosettes Rosettes @ - +
-	current-player Black = IF NEGATE ENDIF
+	Eated @ CountEated < IF 10 ELSE 0 ENDIF
+	Rosettes @ CountRosettes < IF 5 ELSE 0 ENDIF +
 ;
 
 : Custom-Engine ( -- )
