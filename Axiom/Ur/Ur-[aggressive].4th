@@ -47,18 +47,18 @@ m5 Make_enemy_p e11
 n5 Make_enemy_p e12
 o5 Make_enemy_p e13
 
-i2 Make_friend_p r0
-i4 Make_friend_p r1
-l3 Make_friend_p r2
-o2 Make_friend_p r3
-o4 Make_friend_p r4
+i2 Make_friend_p f0
+i4 Make_friend_p f1
+l3 Make_friend_p f2
+o2 Make_friend_p f3
+o4 Make_friend_p f4
 
 : CountEated ( -- count )
 	e0 e1 + e2 + e3 + e4 + e5 + e6 + e7 + e8 + e9 + e10 + e11 + e12 + e13 +
 ;
 
 : CountRosettes ( -- count )
-	r0 r1 + r2 + r3 + r4 +
+	f0 f1 + f2 + f3 + f4 +
 ;
 
 : Score ( -- score )
@@ -94,6 +94,7 @@ o4 Make_friend_p r4
 		IF
 			DUP BestScore !			\ Save the improved score.
 			Score!				\ Inform ZoG of the improved score.
+			0 Depth!
 
 			DUP $MoveString BestMove!	\ Inform ZoG of the best move found so far.
 		ELSE

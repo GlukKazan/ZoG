@@ -371,12 +371,12 @@
 )
 
 (define board-defs
-  (image "images/Ur/board.bmp")
+  (image "images/Ur/ur.bmp")
   (grid
-     (start-rectangle -503 -13 -442 79)
+     (start-rectangle -483 27 -422 99)
      (dimensions
-         ("i/j/k/l/m/n/o/z/a/b/c/d/e/f/g/h/x" (67 0)) ; files
-         ("4/3/2/1/0" (0 66)) ; ranks
+         ("i/j/k/l/m/n/o/z/a/b/c/d/e/f/g/h/y/x" (67 0)) ; files
+         ("4/3/2/1/0" (0 68)) ; ranks
      )    
   )
   (dummy offboard)

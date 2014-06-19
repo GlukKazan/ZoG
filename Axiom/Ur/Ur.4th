@@ -1,5 +1,5 @@
 {board
-	5 17 		{grid}
+	5 18 		{grid}
 	{variable}	WhitePieces
 	{variable}	BlackPieces
 board}
@@ -210,7 +210,7 @@ VARIABLE		blackScored
 	piece-type = enemy? AND 
 
 	not-empty? here i3 = AND IF
-		q1 piece-type-at 2 + piece-type =
+		r1 piece-type-at 2 + piece-type =
 		NOT AND
 	ENDIF
 
@@ -243,7 +243,7 @@ VARIABLE		blackScored
 		Afree IF
 			empty? IF
 				enemy-player 
-				q1 piece-type-at 1+
+				r1 piece-type-at 1+
 				create-player-piece-type
 				TRUE
 			ELSE
@@ -256,9 +256,9 @@ VARIABLE		blackScored
 ;
 
 : count-dices ( -- n )
-	q2 piece-at piece-value
-	q3 piece-at piece-value +
-	q4 piece-at piece-value +
+	r2 piece-at piece-value
+	r3 piece-at piece-value +
+	r4 piece-at piece-value +
 	DUP 0= IF
 		DROP
 		4
@@ -306,7 +306,7 @@ VARIABLE		blackScored
 ;
 
 : common-move ( 'dir n -- )
-	q5 enemy-at? NOT IF
+	r5 enemy-at? NOT IF
 		FALSE isPromouted !
 		FALSE isCaptured !
 		FALSE isLocked !
@@ -355,9 +355,9 @@ VARIABLE		blackScored
 				current-piece-type 1+ change-type
 			ENDIF
 			is-rosette? IF
-				q1 piece-type-at q5 create-piece-type-at
+				r1 piece-type-at r5 create-piece-type-at
 			ELSE  
-				q5 capture-at
+				r5 capture-at
 			ENDIF
 			isLocked @ IF
 				try-push-to-up
@@ -372,26 +372,26 @@ VARIABLE		blackScored
 ;
 
 : drop-dices ( -- )
-	q2 here = q3 here = OR q4 here = OR empty? AND IF
+	r2 here = r3 here = OR r4 here = OR empty? AND IF
 		drop
 		add-move
 	ENDIF
 ;
 
 : clear-dices ( -- )
-	q1 here = verify
-	q2 not-empty-at? q3 not-empty-at? q4 not-empty-at?
+	r1 here = verify
+	r2 not-empty-at? r3 not-empty-at? r4 not-empty-at?
 	AND AND IF
 		drop
-		q2 capture-at
-		q3 capture-at
-		q4 capture-at
+		r2 capture-at
+		r3 capture-at
+		r4 capture-at
 		add-move
 	ENDIF
 ;
 
 : pass-move ( -- )
-	q5 capture-at
+	r5 capture-at
 	repetition-reset
 	Pass
 	add-move
@@ -475,10 +475,10 @@ move-priorities}
 pieces}
 
 {board-setup
-	{setup}	?Dice wdice q4
-	{setup}	?Dice bdice q3
-	{setup}	?Dice bdice q2
-	{setup}	?Dice lock  q1
+	{setup}	?Dice wdice r4
+	{setup}	?Dice bdice r3
+	{setup}	?Dice bdice r2
+	{setup}	?Dice lock  r1
 
 	{setup}	Black init i5
 	{setup}	Black init j5
