@@ -3,7 +3,7 @@
 (game
    (title "Splut")
 
-   (engine "Axiom/splut/axiom.dll")
+   (engine "../Axiom/splut/axiom.dll")
 
    (option "animate captures" false)
    (option "animate drops" false)
@@ -23,7 +23,7 @@
    )
 
    (board 
-      (image "Images/splut/board.bmp")
+      (image "../Images/splut/board.bmp")
       (grid
          (start-rectangle 8 8 56 56)
          (dimensions
@@ -42,38 +42,38 @@
 
    (piece
 	  (name  lock)
-          (image South "Images/splut/invisible.bmp"
-                 West  "Images/splut/invisible.bmp"
-                 North "Images/splut/invisible.bmp"
-                 East  "Images/splut/invisible.bmp")
+          (image South "../Images/splut/invisible.bmp"
+                 West  "../Images/splut/invisible.bmp"
+                 North "../Images/splut/invisible.bmp"
+                 East  "../Images/splut/invisible.bmp")
    )
    (piece
 	  (name  stone)
-          (image South "Images/splut/stone.bmp"
-                 West  "Images/splut/stone.bmp"
-                 North "Images/splut/stone.bmp"
-                 East  "Images/splut/stone.bmp")
+          (image South "../Images/splut/stone.bmp"
+                 West  "../Images/splut/stone.bmp"
+                 North "../Images/splut/stone.bmp"
+                 East  "../Images/splut/stone.bmp")
    )
    (piece
 	  (name  wizard)
-          (image South "Images/splut/swizard.bmp"
-                 West  "Images/splut/wwizard.bmp"
-                 North "Images/splut/nwizard.bmp"
-                 East  "Images/splut/ewizard.bmp")
+          (image South "../Images/splut/swizard.bmp"
+                 West  "../Images/splut/wwizard.bmp"
+                 North "../Images/splut/nwizard.bmp"
+                 East  "../Images/splut/ewizard.bmp")
    )
    (piece
 	  (name  dwarf)
-          (image South "Images/splut/sdwarf.bmp"
-                 West  "Images/splut/wdwarf.bmp"
-                 North "Images/splut/ndwarf.bmp"
-                 East  "Images/splut/edwarf.bmp")
+          (image South "../Images/splut/sdwarf.bmp"
+                 West  "../Images/splut/wdwarf.bmp"
+                 North "../Images/splut/ndwarf.bmp"
+                 East  "../Images/splut/edwarf.bmp")
    )
    (piece
 	  (name  troll)
-          (image South "Images/splut/stroll.bmp"
-                 West  "Images/splut/wtroll.bmp"
-                 North "Images/splut/ntroll.bmp"
-                 East  "Images/splut/etroll.bmp")
+          (image South "../Images/splut/stroll.bmp"
+                 West  "../Images/splut/wtroll.bmp"
+                 North "../Images/splut/ntroll.bmp"
+                 East  "../Images/splut/etroll.bmp")
    )
 
    ; The following dummy piece is required in order to placate the Zillions engine.

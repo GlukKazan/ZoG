@@ -30,7 +30,7 @@
 
    (strategy "Use special fields.")
 
-   (engine "Axiom/Ur/axiom.dll")
+   (engine "../Axiom/Ur/axiom.dll")
 
    (option "animate captures" false)
    (option "animate drops" false)

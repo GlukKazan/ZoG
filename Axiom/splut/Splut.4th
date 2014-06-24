@@ -149,18 +149,36 @@ directions}
 players}
 
 DEFER CONTINUE-TYPE
+DEFER LOCK
 DEFER STONE
 DEFER WIZARD
 DEFER DWARF
 DEFER TROLL
 
+: lock-continue ( -- )
+	LOCK a1 create-piece-type-at
+;
+
+: unlock-continue ( -- )
+	a1 capture-at
+;
+
+: check-continue? ( -- ? )
+	a1 friend-at? NOT
+;
+
 : one-step ( 'dir -- )
-	EXECUTE verify
-	empty? verify
-	from
-	here
-	move
-	add-move
+	check-continue? IF
+		EXECUTE verify
+		empty? verify
+		from
+		here
+		move
+		unlock-continue
+		add-move
+	ELSE
+		DROP
+	ENDIF
 ;
 
 : step-to-north ( -- ) ['] north one-step ;
@@ -168,20 +186,28 @@ DEFER TROLL
 : step-to-east  ( -- ) ['] east  one-step ;
 : step-to-west  ( -- ) ['] west  one-step ;
 
+: is-stone? ( -- ? )
+	piece-type STONE =
+;
+
 : drag ( 'dir 'opposite -- )
-	EXECUTE verify
-	piece piece-index 1 = verify
-	piece-type
-	SWAP here SWAP
-	DUP EXECUTE DROP EXECUTE verify
-	empty? verify
-	from
-	here
-	move
-	capture-at
-	from create-piece-type-at
-	add-move
-	add-move
+	check-continue? IF
+		EXECUTE verify
+		is-stone? verify
+		piece-type
+		SWAP here SWAP
+		DUP EXECUTE DROP EXECUTE verify
+		empty? verify
+		from
+		here
+		move
+		capture-at
+		from create-piece-type-at
+		unlock-continue
+		add-move
+	ELSE
+		DROP DROP
+	ENDIF
 ;
 
 : drag-to-north ( -- ) ['] north ['] south drag ;
@@ -190,13 +216,18 @@ DEFER TROLL
 : drag-to-west  ( -- ) ['] west  ['] east  drag ;
 
 : take-stone ( 'dir -- )
-	EXECUTE verify
-	piece piece-index 1 = verify
-	CONTINUE-TYPE partial-move-type
-	from
-	here
-	move
-	add-move
+	check-continue? IF
+		EXECUTE verify
+		is-stone? verify
+		CONTINUE-TYPE partial-move-type
+		from
+		here
+		move
+		unlock-continue
+		add-move
+	ELSE
+		DROP
+	ENDIF
 ;
 
 : take-to-north ( -- ) ['] north take-stone ;
@@ -260,7 +291,7 @@ DEFER TROLL
 : check-edge? ( 'dir -- ? )
 	here SWAP check-empty? SWAP 
 	EXECUTE IF
-		piece-type STONE =
+		is-stone?
 		piece-type TROLL = OR
 	ELSE
 		TRUE
@@ -299,6 +330,7 @@ DEFER TROLL
 	on-board? AND IF
 		check-troll? IF
 			drop
+			lock-continue
 			add-move
 		ENDIF
 	ENDIF
@@ -368,6 +400,7 @@ pieces}
 
 ' continue-type 	IS CONTINUE-TYPE
 
+' lock	 		IS LOCK
 ' stone 		IS STONE
 ' wizard 		IS WIZARD
 ' dwarf 		IS DWARF
