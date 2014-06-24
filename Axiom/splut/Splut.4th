@@ -495,6 +495,71 @@ VARIABLE	here-pos
 	add-move
 ;
 
+: check-wizard ( pos -- ? )
+	DUP not-empty-at? IF
+		DUP piece-type-at WIZARD = IF
+			friend-at?
+		ELSE
+			DROP
+			TRUE
+		ENDIF
+	ELSE
+		DROP
+		TRUE
+	ENDIF
+;
+
+: is-alone? ( -- ? )
+	a5 check-wizard
+	b4 check-wizard AND
+	b5 check-wizard AND
+	b6 check-wizard AND
+	c3 check-wizard AND
+	c4 check-wizard AND
+	c5 check-wizard AND
+	c6 check-wizard AND
+	c7 check-wizard AND
+	d2 check-wizard AND
+	d3 check-wizard AND
+	d4 check-wizard AND
+	d5 check-wizard AND
+	d6 check-wizard AND
+	d7 check-wizard AND
+	d8 check-wizard AND
+	e1 check-wizard AND
+	e2 check-wizard AND
+	e3 check-wizard AND
+	e4 check-wizard AND
+	e5 check-wizard AND
+	e6 check-wizard AND
+	e7 check-wizard AND
+	e8 check-wizard AND
+	e9 check-wizard AND
+	f2 check-wizard AND
+	f3 check-wizard AND
+	f4 check-wizard AND
+	f5 check-wizard AND
+	f6 check-wizard AND
+	f7 check-wizard AND
+	f8 check-wizard AND
+	g3 check-wizard AND
+	g4 check-wizard AND
+	g5 check-wizard AND
+	g6 check-wizard AND
+	g7 check-wizard AND
+	h4 check-wizard AND
+	h5 check-wizard AND
+	h6 check-wizard AND
+	i5 check-wizard AND
+;
+
+: OnIsGameOver ( -- gameResult )
+	#UnknownScore
+	is-alone? IF
+		DROP #WinScore
+	ENDIF
+;
+
 {moves wizard-moves
 	{move} step-to-north {move-type} normal-type
 	{move} step-to-south {move-type} normal-type
