@@ -139,6 +139,48 @@ board}
 	{link}		west h4 g4
 	{link}		west i5 h5
 
+	( next )
+	{link}		next a5 b4
+	{link}		next b4 b5
+	{link}		next b5 b6
+	{link}		next b6 c3
+	{link}		next c3 c4
+	{link}		next c4 c5
+	{link}		next c5 c6
+	{link}		next c6 c7
+	{link}		next c7 d2
+	{link}		next d2 d3
+	{link}		next d3 d4
+	{link}		next d4 d5
+	{link}		next d5 d6
+	{link}		next d6 d7
+	{link}		next d7 d8
+	{link}		next d8 e1
+	{link}		next e1 e2
+	{link}		next e2 e3
+	{link}		next e3 e4
+	{link}		next e4 e5
+	{link}		next e5 e6
+	{link}		next e6 e7
+	{link}		next e7 e8
+	{link}		next e8 e9
+	{link}		next e9 f2
+	{link}		next f2 f3
+	{link}		next f3 f4
+	{link}		next f4 f5
+	{link}		next f5 f6
+	{link}		next f6 f7
+	{link}		next f7 f8
+	{link}		next f8 g3
+	{link}		next g3 g4
+	{link}		next g4 g5
+	{link}		next g5 g6
+	{link}		next g6 g7
+	{link}		next g7 h4
+	{link}		next h4 h5
+	{link}		next h5 h6
+	{link}		next h6 i5
+
 directions}
 
 {players
@@ -150,10 +192,32 @@ players}
 
 DEFER CONTINUE-TYPE
 DEFER LOCK
-DEFER STONE
+DEFER SSTONE
+DEFER NSTONE
+DEFER WSTONE
+DEFER ESTONE
 DEFER WIZARD
 DEFER DWARF
 DEFER TROLL
+
+: piece-is-not-present? ( -- ? )
+	here a5 to
+	BEGIN
+		piece-type current-piece-type = IF
+			to
+			FALSE
+			TRUE
+		ELSE
+			next IF
+				FALSE
+			ELSE
+				to
+				TRUE
+				TRUE
+			ENDIF
+		ENDIF
+	UNTIL
+;
 
 : lock-continue ( -- )
 	LOCK a1 create-piece-type-at
@@ -187,7 +251,10 @@ DEFER TROLL
 : step-to-west  ( -- ) ['] west  one-step ;
 
 : is-stone? ( -- ? )
-	piece-type STONE =
+	piece-type SSTONE =
+	piece-type NSTONE = OR
+	piece-type WSTONE = OR
+	piece-type ESTONE = OR
 ;
 
 : drag ( 'dir 'opposite -- )
@@ -328,7 +395,7 @@ DEFER TROLL
 : drop-stone ( 'opposite 'dir -- )
 	check-edge? check-wizard? OR 
 	on-board? AND IF
-		check-troll? IF
+		check-troll? piece-is-not-present? AND IF
 			drop
 			lock-continue
 			add-move
@@ -392,7 +459,10 @@ move-priorities}
 
 {pieces
 	{piece}		lock
-	{piece}		stone	{drops} stone-drops
+	{piece}		sstone	{drops} stone-drops
+	{piece}		nstone	{drops} stone-drops
+	{piece}		wstone	{drops} stone-drops
+	{piece}		estone	{drops} stone-drops
 	{piece}		wizard	{moves} wizard-moves
 	{piece}		dwarf	{moves} dwarf-moves
 	{piece}		troll	{moves} troll-moves
@@ -401,7 +471,10 @@ pieces}
 ' continue-type 	IS CONTINUE-TYPE
 
 ' lock	 		IS LOCK
-' stone 		IS STONE
+' sstone 		IS SSTONE
+' nstone 		IS NSTONE
+' wstone 		IS WSTONE
+' estone 		IS ESTONE
 ' wizard 		IS WIZARD
 ' dwarf 		IS DWARF
 ' troll 		IS TROLL
@@ -426,22 +499,22 @@ pieces}
 turn-order}
 
 {board-setup
-	{setup}	South stone  e1
+	{setup}	South sstone e1
 	{setup}	South wizard d2
 	{setup}	South dwarf  e2
 	{setup}	South troll  f2
 
-	{setup}	West stone   a5
+	{setup}	West wstone  a5
 	{setup}	West wizard  b6
 	{setup}	West dwarf   b5
 	{setup}	West troll   b4
 
-	{setup}	North stone  e9
+	{setup}	North nstone e9
 	{setup}	North wizard f8
 	{setup}	North dwarf  e8
 	{setup}	North troll  d8
 
-	{setup}	East stone   i5
+	{setup}	East estone  i5
 	{setup}	East wizard  h4
 	{setup}	East dwarf   h5
 	{setup}	East troll   h6
