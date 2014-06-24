@@ -34,7 +34,7 @@
    )
 
    (board-setup
-	(South (sstone e4) (wizard e2) (dwarf e1) (troll e3) (lock f1))
+	(South (sstone e1) (wizard f2) (dwarf e2) (troll d2) (lock f1))
 	(West  (wstone a5) (wizard b6) (dwarf b5) (troll b4) (lock g1))
 	(North (nstone e9) (wizard f8) (dwarf e8) (troll d8) (lock h1))
 	(East  (estone i5) (wizard h4) (dwarf h5) (troll h6) (lock i1))

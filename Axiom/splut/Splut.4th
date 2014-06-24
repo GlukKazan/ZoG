@@ -500,7 +500,6 @@ VARIABLE	here-pos
 	{move} step-to-south {move-type} normal-type
 	{move} step-to-east  {move-type} normal-type
 	{move} step-to-west  {move-type} normal-type
-	{move} pass-move     {move-type} pass-type
 moves}
 
 {moves dwarf-moves
@@ -512,7 +511,6 @@ moves}
 	{move} push-to-south {move-type} normal-type
 	{move} push-to-east  {move-type} normal-type
 	{move} push-to-west  {move-type} normal-type
-	{move} pass-move     {move-type} pass-type
 moves}
 
 {moves troll-moves
@@ -528,7 +526,6 @@ moves}
 	{move} take-to-south {move-type} normal-type
 	{move} take-to-east  {move-type} normal-type
 	{move} take-to-west  {move-type} normal-type
-	{move} pass-move     {move-type} pass-type
 moves}
 
 {moves stone-drops
@@ -589,10 +586,10 @@ pieces}
 turn-order}
 
 {board-setup
-	{setup}	South sstone e4
-	{setup}	South wizard e2
-	{setup}	South dwarf  e1
-	{setup}	South troll  e3
+	{setup}	South sstone e1
+	{setup}	South wizard f2
+	{setup}	South dwarf  e2
+	{setup}	South troll  d2
 	{setup}	South lock   f1
 
 	{setup}	West wstone  a5
