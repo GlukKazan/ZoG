@@ -397,11 +397,36 @@ VARIABLE	here-pos
 	UNTIL
 ;
 
+: drop-team ( player -- )
+	here SWAP a5 to
+	BEGIN
+		DUP player = IF
+			is-stone? NOT 
+                        piece-type WIZARD = NOT AND IF
+				capture
+			ENDIF
+		ENDIF
+		next IF
+			FALSE
+		ELSE
+			DROP
+			TRUE
+		ENDIF
+	UNTIL
+	to
+;
+
 : drop-stone ( 'opposite 'dir -- )
 	check-edge? check-wizard? OR 
 	on-board? AND IF
 		check-troll? piece-is-not-present? AND IF
+			player piece-type
 			drop
+			WIZARD = IF
+				drop-team
+			ELSE
+				DROP
+			ENDIF
 			lock-continue
 			add-move
 		ENDIF
@@ -513,13 +538,17 @@ moves}
 	{move} drop-to-west  {move-type} continue-type
 moves}
 
+{moves pass-moves
+	{move} pass-move     {move-type} pass-type
+moves}
+
 {move-priorities
 	{move-priority} normal-type
 	{move-priority} pass-type
 move-priorities}
 
 {pieces
-	{piece}		lock
+	{piece}		lock    {moves} pass-moves
 	{piece}		sstone	{drops} stone-drops
 	{piece}		nstone	{drops} stone-drops
 	{piece}		wstone	{drops} stone-drops
@@ -560,24 +589,28 @@ pieces}
 turn-order}
 
 {board-setup
-	{setup}	South sstone e1
-	{setup}	South wizard d2
-	{setup}	South dwarf  e2
-	{setup}	South troll  f2
+	{setup}	South sstone e4
+	{setup}	South wizard e2
+	{setup}	South dwarf  e1
+	{setup}	South troll  e3
+	{setup}	South lock   f1
 
 	{setup}	West wstone  a5
 	{setup}	West wizard  b6
 	{setup}	West dwarf   b5
 	{setup}	West troll   b4
+	{setup}	West lock    g1
 
 	{setup}	North nstone e9
 	{setup}	North wizard f8
 	{setup}	North dwarf  e8
 	{setup}	North troll  d8
+	{setup}	North lock   h1
 
 	{setup}	East estone  i5
 	{setup}	East wizard  h4
 	{setup}	East dwarf   h5
 	{setup}	East troll   h6
+	{setup}	East lock    i1
 board-setup}
 
