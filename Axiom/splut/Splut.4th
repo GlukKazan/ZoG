@@ -190,15 +190,20 @@ directions}
 	{player}	East
 players}
 
-DEFER CONTINUE-TYPE
-DEFER LOCK
-DEFER SSTONE
-DEFER NSTONE
-DEFER WSTONE
-DEFER ESTONE
-DEFER WIZARD
-DEFER DWARF
-DEFER TROLL
+DEFER		CONTINUE-TYPE
+DEFER		LOCK
+DEFER		SSTONE
+DEFER		NSTONE
+DEFER		WSTONE
+DEFER		ESTONE
+DEFER		WIZARD
+DEFER		DWARF
+DEFER		TROLL
+
+VARIABLE	forward
+VARIABLE	backward
+VARIABLE	step-count
+VARIABLE	here-pos
 
 : piece-is-not-present? ( -- ? )
 	here a5 to
@@ -408,6 +413,58 @@ DEFER TROLL
 : drop-to-east  ( -- ) ['] east  ['] west  drop-stone ;
 : drop-to-west  ( -- ) ['] west  ['] east  drop-stone ;
 
+: push-step ( 'opposite 'dir -- )
+	check-continue? IF
+		0 step-count ! forward ! backward !
+		forward @ EXECUTE verify not-empty? verify
+		step-count ++
+		player piece-type
+		here here-pos !
+		BEGIN
+			forward @ EXECUTE IF
+				empty? IF
+					TRUE
+				ELSE
+					step-count ++
+					player piece-type
+					FALSE
+				ENDIF
+			ELSE
+				BEGIN
+					step-count @ 0> IF
+						step-count --
+						DROP DROP
+						FALSE
+					ELSE
+						TRUE
+					ENDIF
+				UNTIL
+				TRUE
+			ENDIF
+		UNTIL
+		step-count @ 0> verify
+		from here-pos @ move
+		BEGIN
+			step-count @ 0> IF
+				step-count --
+				create-player-piece-type
+				backward @ EXECUTE DROP
+				FALSE
+			ELSE
+				TRUE
+			ENDIF		
+		UNTIL
+		add-move
+	ELSE
+		DROP DROP
+	ENDIF
+;
+
+: push-to-north ( -- ) ['] north ['] south push-step ;
+: push-to-south ( -- ) ['] south ['] north push-step ;
+: push-to-east  ( -- ) ['] east  ['] west  push-step ;
+: push-to-west  ( -- ) ['] west  ['] east  push-step ;
+
 : pass-move ( -- )
 	Pass
 	add-move
@@ -426,6 +483,10 @@ moves}
 	{move} step-to-south {move-type} normal-type
 	{move} step-to-east  {move-type} normal-type
 	{move} step-to-west  {move-type} normal-type
+	{move} push-to-north {move-type} normal-type
+	{move} push-to-south {move-type} normal-type
+	{move} push-to-east  {move-type} normal-type
+	{move} push-to-west  {move-type} normal-type
 	{move} pass-move     {move-type} pass-type
 moves}
 
