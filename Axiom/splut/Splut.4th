@@ -490,6 +490,42 @@ VARIABLE	here-pos
 : push-to-east  ( -- ) ['] east  ['] west  push-step ;
 : push-to-west  ( -- ) ['] west  ['] east  push-step ;
 
+: can-fly? ( -- ? )
+	here from = empty? OR
+;
+
+: fly-stone ( 'dir -- )
+	DUP EXECUTE empty? AND IF
+		a5 to
+		BEGIN
+			is-stone? IF
+				here here-pos !
+				DUP EXECUTE can-fly? AND IF
+					from to
+					DUP EXECUTE DROP
+					from
+					here
+					move
+					here-pos @ to
+					DUP piece-type SWAP
+					capture
+					EXECUTE DROP
+					create-piece-type
+					add-move
+				ENDIF
+				here-pos @ to
+			ENDIF
+			DUP next NOT
+		UNTIL
+	ENDIF
+	DROP
+;
+
+: fly-to-north ( -- ) ['] north fly-stone ;
+: fly-to-south ( -- ) ['] south fly-stone ;
+: fly-to-east  ( -- ) ['] east  fly-stone ;
+: fly-to-west  ( -- ) ['] west  fly-stone ;
+
 : pass-move ( -- )
 	Pass
 	add-move
@@ -565,6 +601,10 @@ VARIABLE	here-pos
 	{move} step-to-south {move-type} normal-type
 	{move} step-to-east  {move-type} normal-type
 	{move} step-to-west  {move-type} normal-type
+	{move} fly-to-north  {move-type} normal-type
+	{move} fly-to-south  {move-type} normal-type
+	{move} fly-to-east   {move-type} normal-type
+	{move} fly-to-west   {move-type} normal-type
 moves}
 
 {moves dwarf-moves
