@@ -1,10 +1,11 @@
 LOAD CustomEngine.4th ( Load the Custom Engine )
 
 {players
-	{player}	South	{search-engine} Custom-Engine
-	{player}	West	{search-engine} Custom-Engine
-	{player}	North	{search-engine} Custom-Engine
-	{player}	East	{search-engine} Custom-Engine
+	{player}	South		{search-engine} Custom-Engine
+	{player}	West		{search-engine} Custom-Engine
+	{player}	North		{search-engine} Custom-Engine
+	{player}	East		{search-engine} Custom-Engine
+	{player}	?Cleaner        {random}
 players}
 
 DEFER		CONTINUE-TYPE
@@ -21,6 +22,69 @@ VARIABLE	forward
 VARIABLE	backward
 VARIABLE	step-count
 VARIABLE	here-pos
+
+: is-stone? ( -- ? )
+	piece-type SSTONE =
+	piece-type NSTONE = OR
+	piece-type WSTONE = OR
+	piece-type ESTONE = OR
+;
+
+: is-stone-type? ( piece-type -- ? )
+	DUP  SSTONE =
+	OVER NSTONE = OR
+	OVER WSTONE = OR
+	OVER ESTONE = OR
+	SWAP DROP
+;
+
+: clear-lock ( pos -- )
+	DUP not-empty? IF
+		capture-at
+	ELSE
+		DROP
+	ENDIF
+;
+
+: clear-locks ( -- )
+	here a9 = IF
+		drop
+		f1 clear-lock
+		g1 clear-lock
+		h1 clear-lock
+		i1 clear-lock
+		add-move
+	ENDIF
+;
+
+: stone-locker ( piece-type -- pos )
+	DUP SSTONE = IF
+		f1 SWAP
+	ENDIF
+	DUP WSTONE = IF
+		g1 SWAP
+	ENDIF
+	DUP NSTONE = IF
+		h1 SWAP
+	ENDIF
+	ESTONE = IF
+		i1
+	ENDIF
+;
+
+: lock-stone ( piece-type -- )
+	stone-locker
+	LOCK SWAP create-piece-type-at
+;
+
+: not-locked? ( -- ? )
+	is-stone? not-empty? AND IF
+		piece-type stone-locker
+		enemy-at? NOT
+	ELSE
+		TRUE
+	ENDIF
+;
 
 : piece-is-not-present? ( -- ? )
 	here a5 to
@@ -72,13 +136,6 @@ VARIABLE	here-pos
 : step-to-east  ( -- ) ['] east  one-step ;
 : step-to-west  ( -- ) ['] west  one-step ;
 
-: is-stone? ( -- ? )
-	piece-type SSTONE =
-	piece-type NSTONE = OR
-	piece-type WSTONE = OR
-	piece-type ESTONE = OR
-;
-
 : drag ( 'dir 'opposite -- )
 	check-continue? IF
 		EXECUTE verify
@@ -91,6 +148,7 @@ VARIABLE	here-pos
 		here
 		move
 		capture-at
+		DUP lock-stone
 		from create-piece-type-at
 		unlock-continue
 		add-move
@@ -245,6 +303,7 @@ VARIABLE	here-pos
 				DROP
 			ENDIF
 			lock-continue
+			current-piece-type lock-stone
 			add-move
 		ENDIF
 	ENDIF
@@ -289,6 +348,9 @@ VARIABLE	here-pos
 		BEGIN
 			step-count @ 0> IF
 				step-count --
+				DUP is-stone-type? IF
+					DUP lock-stone
+				ENDIF
 				create-player-piece-type
 				backward @ EXECUTE DROP
 				FALSE
@@ -316,7 +378,7 @@ VARIABLE	here-pos
 		DUP EXECUTE empty? AND IF
 			a5 to
 			BEGIN
-				is-stone? IF
+				is-stone? not-locked? AND IF
 					here here-pos !
 					DUP EXECUTE can-fly? AND IF
 						from to
@@ -328,6 +390,7 @@ VARIABLE	here-pos
 						DUP piece-type SWAP
 						capture
 						EXECUTE DROP
+						DUP lock-stone
 						create-piece-type
 						add-move
 					ENDIF
@@ -465,13 +528,17 @@ moves}
 	{move} pass-move     {move-type} pass-type
 moves}
 
+{moves clear-moves
+	{move} clear-locks   {move-type} clear-type
+moves}
+
 {move-priorities
 	{move-priority} normal-type
 	{move-priority} pass-type
 move-priorities}
 
 {pieces
-	{piece}		lock    {moves} pass-moves
+	{piece}		lock    {moves} pass-moves 	{drops} clear-moves
 	{piece}		sstone	{drops} stone-drops
 	{piece}		nstone	{drops} stone-drops
 	{piece}		wstone	{drops} stone-drops
@@ -503,6 +570,7 @@ pieces}
 	{turn}	East
 	{turn}	East
 	{turn}	East
+	{turn}  ?Cleaner {of-type} clear-type
 	{turn}	South
 	{turn}	South
 	{turn}	South

@@ -11,13 +11,14 @@
    (option "prevent flipping" true)
    (option "recycle captures" true)
 
-   (players South West North East)
+   (players South West North East ?Cleaner)
 
    (turn-order South 
                West West 
                repeat
                North North North 
                East East East 
+               ?Cleaner
                South South South
                West West West 
    )
@@ -42,10 +43,11 @@
 
    (piece
 	  (name  lock)
-          (image South "../Images/splut/invisible.bmp"
-                 West  "../Images/splut/invisible.bmp"
-                 North "../Images/splut/invisible.bmp"
-                 East  "../Images/splut/invisible.bmp")
+          (image South    "../Images/splut/invisible.bmp"
+                 West     "../Images/splut/invisible.bmp"
+                 North    "../Images/splut/invisible.bmp"
+                 East     "../Images/splut/invisible.bmp"
+                 ?Cleaner "../Images/splut/invisible.bmp")
    )
    (piece
 	  (name  sstone)
@@ -109,6 +111,7 @@
    (turn-order South
                North North 
                repeat
+               ?Cleaner
                South South South
                North North North 
    )

@@ -1,10 +1,11 @@
 LOAD Splut.4th ( Load the base Splut game )
 
 {players
-	{player}	South	{search-engine} Custom-Engine
+	{player}	South	 {search-engine} Custom-Engine
 	{neutral}	West
-	{player}	North	{search-engine} Custom-Engine
+	{player}	North	 {search-engine} Custom-Engine
 	{neutral}	East
+	{player}	?Cleaner {random}
 players}
 
 {turn-order
@@ -12,6 +13,7 @@ players}
 	{turn}	North
 	{turn}	North
 	{repeat}
+	{turn}  ?Cleaner {of-type} clear-type
 	{turn}	South
 	{turn}	South
 	{turn}	South
