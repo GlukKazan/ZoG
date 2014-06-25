@@ -495,30 +495,34 @@ VARIABLE	here-pos
 ;
 
 : fly-stone ( 'dir -- )
-	DUP EXECUTE empty? AND IF
-		a5 to
-		BEGIN
-			is-stone? IF
-				here here-pos !
-				DUP EXECUTE can-fly? AND IF
-					from to
-					DUP EXECUTE DROP
-					from
-					here
-					move
+	check-continue? IF
+		DUP EXECUTE empty? AND IF
+			a5 to
+			BEGIN
+				is-stone? IF
+					here here-pos !
+					DUP EXECUTE can-fly? AND IF
+						from to
+						DUP EXECUTE DROP
+						from
+						here
+						move
+						here-pos @ to
+						DUP piece-type SWAP
+						capture
+						EXECUTE DROP
+						create-piece-type
+						add-move
+					ENDIF
 					here-pos @ to
-					DUP piece-type SWAP
-					capture
-					EXECUTE DROP
-					create-piece-type
-					add-move
 				ENDIF
-				here-pos @ to
-			ENDIF
-			DUP next NOT
-		UNTIL
+				DUP next NOT
+			UNTIL
+		ENDIF
+		DROP
+	ELSE
+		DROP
 	ENDIF
-	DROP
 ;
 
 : fly-to-north ( -- ) ['] north fly-stone ;
