@@ -1,10 +1,10 @@
 LOAD CustomEngine.4th ( Load the Custom Engine )
 
 {players
-	{player}	South		{search-engine} Custom-Engine
-	{player}	West		{search-engine} Custom-Engine
-	{player}	North		{search-engine} Custom-Engine
-	{player}	East		{search-engine} Custom-Engine
+	{player}	South		{random} \ {search-engine} Custom-Engine
+	{player}	West		{random} \ {search-engine} Custom-Engine
+	{player}	North		{random} \ {search-engine} Custom-Engine
+	{player}	East		{random} \ {search-engine} Custom-Engine
 	{player}	?Cleaner        {random}
 players}
 

@@ -1,9 +1,9 @@
 LOAD Splut.4th ( Load the base Splut game )
 
 {players
-	{player}	South	 {search-engine} Custom-Engine
+	{player}	South	 {random} \ {search-engine} Custom-Engine
 	{neutral}	West
-	{player}	North	 {search-engine} Custom-Engine
+	{player}	North	 {random} \ {search-engine} Custom-Engine
 	{neutral}	East
 	{player}	?Cleaner {random}
 players}
