@@ -34,8 +34,7 @@ VARIABLE	here-pos
 	DUP  SSTONE =
 	OVER NSTONE = OR
 	OVER WSTONE = OR
-	OVER ESTONE = OR
-	SWAP DROP
+	SWAP ESTONE = OR
 ;
 
 : clear-lock ( pos -- )
@@ -53,7 +52,21 @@ VARIABLE	here-pos
 		g1 clear-lock
 		h1 clear-lock
 		i1 clear-lock
+		f9 clear-lock
+		g9 clear-lock
+		h9 clear-lock
+		i9 clear-lock
+		b9 clear-lock
 		add-move
+	ENDIF
+;
+
+: lock-fly ( -- )
+	f9 friend-at?
+	g9 friend-at? OR
+	h9 friend-at? OR
+	i9 friend-at? OR IF
+		LOCK b9 create-piece-type-at
 	ENDIF
 ;
 
@@ -125,6 +138,7 @@ VARIABLE	here-pos
 		here
 		move
 		unlock-continue
+		lock-fly
 		add-move
 	ELSE
 		DROP
@@ -151,6 +165,7 @@ VARIABLE	here-pos
 		DUP lock-stone
 		from create-piece-type-at
 		unlock-continue
+		lock-fly
 		add-move
 	ELSE
 		DROP DROP
@@ -358,6 +373,7 @@ VARIABLE	here-pos
 				TRUE
 			ENDIF		
 		UNTIL
+		lock-fly
 		add-move
 	ELSE
 		DROP DROP
@@ -369,8 +385,44 @@ VARIABLE	here-pos
 : push-to-east  ( -- ) ['] east  ['] west  push-step ;
 : push-to-west  ( -- ) ['] west  ['] east  push-step ;
 
-: can-fly? ( -- ? )
-	here from = empty? OR
+: fly-locker ( piece-type -- pos )
+	DUP SSTONE = IF
+		f9 SWAP
+	ENDIF
+	DUP WSTONE = IF
+		g9 SWAP
+	ENDIF
+	DUP NSTONE = IF
+		h9 SWAP
+	ENDIF
+	ESTONE = IF
+		i9
+	ENDIF
+;
+
+: fly-possible? ( pos1 pos2 -- ? )
+	SWAP OVER
+	= IF
+		DROP
+		TRUE
+	ELSE
+		friend-at? NOT
+	ENDIF
+;
+
+: can-fly? ( piece-type -- ? )
+	fly-locker
+	DUP  f9 fly-possible?
+	OVER g9 fly-possible? AND
+	OVER h9 fly-possible? AND
+	SWAP i9 fly-possible? AND
+	b9 friend-at? NOT AND
+	here from = empty? OR AND
+;
+
+: begin-fly ( piece-type -- )
+	fly-locker LOCK SWAP
+	create-piece-type-at
 ;
 
 : fly-stone ( 'dir -- )
@@ -380,17 +432,19 @@ VARIABLE	here-pos
 			BEGIN
 				is-stone? not-locked? AND IF
 					here here-pos !
-					DUP EXECUTE can-fly? AND IF
+					DUP piece-type SWAP
+					EXECUTE SWAP
+					can-fly? AND IF
 						from to
 						DUP EXECUTE DROP
 						from
 						here
 						move
 						here-pos @ to
-						DUP piece-type SWAP
-						capture
+						DUP piece-type SWAP capture
 						EXECUTE DROP
 						DUP lock-stone
+						DUP begin-fly
 						create-piece-type
 						add-move
 					ENDIF
@@ -472,6 +526,10 @@ VARIABLE	here-pos
 	h6 check-wizard AND
 	i5 check-wizard AND
 ;
+
+\ : OnNewGame ( -- )
+\	RANDOMIZE
+\ ;
 
 : OnIsGameOver ( -- gameResult )
 	#UnknownScore
