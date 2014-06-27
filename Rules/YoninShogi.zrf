@@ -1,0 +1,83 @@
+(game
+  (title "Yonin Shogi")
+
+  (players South West North East)
+  (turn-order South West North East)
+
+  (board
+        (image "../Images/YoninShogi/Board.bmp")
+        (grid
+               (start-rectangle 14 14 54 59)
+               (dimensions ("O1/O2/x/9/8/7/6/5/4/3/2/1/z/O3/O4" (41 0))
+                           ("l/m/n/a/b/c/d/e/f/g/h/i/x/y/z" (0 41))
+               )
+               (directions (n 0 1) (e -1 0) (s 0 -1) (w 1 0) 
+                           (ne -1 1) (nw 1 1) (se -1 -1) (sw 1 -1)
+                           (nn 0 2) (ss 0 -2) 
+               )
+        )
+  )
+
+  (board-setup
+        ( South (King 5i)
+                (Gold 4i 6i)
+                (Silver 3i 7i)
+                (Rook 5h)
+                (Pawn 4h 6h 5g)
+        )
+        ( West  (King 9e)
+                (Gold 9d 9f)
+                (Silver 9c 9g)
+                (Rook 8e)
+                (Pawn 8d 8f 7e)
+        )
+        ( North (King 5a)
+                (Gold 4a 6a)
+                (Silver 3a 7a)
+                (Rook 5b)
+                (Pawn 4b 6b 5c)
+        )
+        ( East  (King 1e)
+                (Gold 1d 1f)
+                (Silver 1c 1g)
+                (Rook 2e)
+                (Pawn 2d 2f 3e)
+        )
+  )
+
+  (piece
+        (name  Pawn)
+        (image South "../Images/YoninShogi/Alpha/SPawn.bmp"
+               West  "../Images/YoninShogi/Alpha/WPawn.bmp"
+               North "../Images/YoninShogi/Alpha/NPawn.bmp"
+               East  "../Images/YoninShogi/Alpha/EPawn.bmp")
+  )
+  (piece
+        (name  Silver)
+        (image South "../Images/YoninShogi/Alpha/SSilver.bmp"
+               West  "../Images/YoninShogi/Alpha/WSilver.bmp"
+               North "../Images/YoninShogi/Alpha/NSilver.bmp"
+               East  "../Images/YoninShogi/Alpha/ESilver.bmp")
+  )
+  (piece
+        (name  Gold)
+        (image South "../Images/YoninShogi/Alpha/SGold.bmp"
+               West  "../Images/YoninShogi/Alpha/WGold.bmp"
+               North "../Images/YoninShogi/Alpha/NGold.bmp"
+               East  "../Images/YoninShogi/Alpha/EGold.bmp")
+  )
+  (piece
+        (name  Rook)
+        (image South "../Images/YoninShogi/Alpha/SRook.bmp"
+               West  "../Images/YoninShogi/Alpha/WRook.bmp"
+               North "../Images/YoninShogi/Alpha/NRook.bmp"
+               East  "../Images/YoninShogi/Alpha/ERook.bmp")
+  )
+  (piece
+        (name  King)
+        (image South "../Images/YoninShogi/Alpha/SKing.bmp"
+               West  "../Images/YoninShogi/Alpha/WKing.bmp"
+               North "../Images/YoninShogi/Alpha/NKing.bmp"
+               East  "../Images/YoninShogi/Alpha/EKing.bmp")
+  )
+)
