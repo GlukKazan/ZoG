@@ -8,7 +8,7 @@
         (image "../Images/YoninShogi/Board.bmp")
         (grid
                (start-rectangle 14 14 54 59)
-               (dimensions ("O1/O2/x/9/8/7/6/5/4/3/2/1/z/O3/O4" (41 0))
+               (dimensions ("I/II/01/9/8/7/6/5/4/3/2/1/02/III/IV" (41 0))
                            ("l/m/n/a/b/c/d/e/f/g/h/i/x/y/z" (0 41))
                )
                (directions (n 0 1) (e -1 0) (s 0 -1) (w 1 0) 
@@ -47,37 +47,66 @@
 
   (piece
         (name  Pawn)
-        (image South "../Images/YoninShogi/Alpha/SPawn.bmp"
-               West  "../Images/YoninShogi/Alpha/WPawn.bmp"
-               North "../Images/YoninShogi/Alpha/NPawn.bmp"
-               East  "../Images/YoninShogi/Alpha/EPawn.bmp")
+        (image South "../Images/YoninShogi/Kanji/SPawn.bmp" "../Images/YoninShogi/Old/SPawn.bmp" "../Images/YoninShogi/Chess/SPawn.bmp" "../Images/YoninShogi/Alpha/SPawn.bmp" "../Images/YoninShogi/Draw/SPawn.bmp"
+               West  "../Images/YoninShogi/Kanji/WPawn.bmp" "../Images/YoninShogi/Old/WPawn.bmp" "../Images/YoninShogi/Chess/WPawn.bmp" "../Images/YoninShogi/Alpha/WPawn.bmp" "../Images/YoninShogi/Draw/WPawn.bmp"
+               North "../Images/YoninShogi/Kanji/NPawn.bmp" "../Images/YoninShogi/Old/NPawn.bmp" "../Images/YoninShogi/Chess/NPawn.bmp" "../Images/YoninShogi/Alpha/NPawn.bmp" "../Images/YoninShogi/Draw/NPawn.bmp"
+               East  "../Images/YoninShogi/Kanji/EPawn.bmp" "../Images/YoninShogi/Old/EPawn.bmp" "../Images/YoninShogi/Chess/EPawn.bmp" "../Images/YoninShogi/Alpha/EPawn.bmp" "../Images/YoninShogi/Draw/EPawn.bmp"
+        )
+  )
+  (piece
+        (name  PawnP)
+        (image South "../Images/YoninShogi/Kanji/SPawn+.bmp" "../Images/YoninShogi/Old/SPawn+.bmp" "../Images/YoninShogi/Chess/SPawn+.bmp" "../Images/YoninShogi/Alpha/SPawn+.bmp" "../Images/YoninShogi/Draw/SPawn+.bmp"
+               West  "../Images/YoninShogi/Kanji/WPawn+.bmp" "../Images/YoninShogi/Old/WPawn+.bmp" "../Images/YoninShogi/Chess/WPawn+.bmp" "../Images/YoninShogi/Alpha/WPawn+.bmp" "../Images/YoninShogi/Draw/WPawn+.bmp"
+               North "../Images/YoninShogi/Kanji/NPawn+.bmp" "../Images/YoninShogi/Old/NPawn+.bmp" "../Images/YoninShogi/Chess/NPawn+.bmp" "../Images/YoninShogi/Alpha/NPawn+.bmp" "../Images/YoninShogi/Draw/NPawn+.bmp"
+               East  "../Images/YoninShogi/Kanji/EPawn+.bmp" "../Images/YoninShogi/Old/EPawn+.bmp" "../Images/YoninShogi/Chess/EPawn+.bmp" "../Images/YoninShogi/Alpha/EPawn+.bmp" "../Images/YoninShogi/Draw/EPawn+.bmp"
+        )
   )
   (piece
         (name  Silver)
-        (image South "../Images/YoninShogi/Alpha/SSilver.bmp"
-               West  "../Images/YoninShogi/Alpha/WSilver.bmp"
-               North "../Images/YoninShogi/Alpha/NSilver.bmp"
-               East  "../Images/YoninShogi/Alpha/ESilver.bmp")
+        (image South "../Images/YoninShogi/Kanji/SSilver.bmp" "../Images/YoninShogi/Old/SSilver.bmp" "../Images/YoninShogi/Chess/SSilver.bmp" "../Images/YoninShogi/Alpha/SSilver.bmp" "../Images/YoninShogi/Draw/SSilver.bmp"
+               West  "../Images/YoninShogi/Kanji/WSilver.bmp" "../Images/YoninShogi/Old/WSilver.bmp" "../Images/YoninShogi/Chess/WSilver.bmp" "../Images/YoninShogi/Alpha/WSilver.bmp" "../Images/YoninShogi/Draw/WSilver.bmp"
+               North "../Images/YoninShogi/Kanji/NSilver.bmp" "../Images/YoninShogi/Old/NSilver.bmp" "../Images/YoninShogi/Chess/NSilver.bmp" "../Images/YoninShogi/Alpha/NSilver.bmp" "../Images/YoninShogi/Draw/NSilver.bmp"
+               East  "../Images/YoninShogi/Kanji/ESilver.bmp" "../Images/YoninShogi/Old/ESilver.bmp" "../Images/YoninShogi/Chess/ESilver.bmp" "../Images/YoninShogi/Alpha/ESilver.bmp" "../Images/YoninShogi/Draw/ESilver.bmp"
+        )
+  )
+  (piece
+        (name  SilverP)
+        (image South "../Images/YoninShogi/Kanji/SSilver+.bmp" "../Images/YoninShogi/Old/SSilver+.bmp" "../Images/YoninShogi/Chess/SSilver+.bmp" "../Images/YoninShogi/Alpha/SSilver+.bmp" "../Images/YoninShogi/Draw/SSilver+.bmp"
+               West  "../Images/YoninShogi/Kanji/WSilver+.bmp" "../Images/YoninShogi/Old/WSilver+.bmp" "../Images/YoninShogi/Chess/WSilver+.bmp" "../Images/YoninShogi/Alpha/WSilver+.bmp" "../Images/YoninShogi/Draw/WSilver+.bmp"
+               North "../Images/YoninShogi/Kanji/NSilver+.bmp" "../Images/YoninShogi/Old/NSilver+.bmp" "../Images/YoninShogi/Chess/NSilver+.bmp" "../Images/YoninShogi/Alpha/NSilver+.bmp" "../Images/YoninShogi/Draw/NSilver+.bmp"
+               East  "../Images/YoninShogi/Kanji/ESilver+.bmp" "../Images/YoninShogi/Old/ESilver+.bmp" "../Images/YoninShogi/Chess/ESilver+.bmp" "../Images/YoninShogi/Alpha/ESilver+.bmp" "../Images/YoninShogi/Draw/ESilver+.bmp"
+        )
   )
   (piece
         (name  Gold)
-        (image South "../Images/YoninShogi/Alpha/SGold.bmp"
-               West  "../Images/YoninShogi/Alpha/WGold.bmp"
-               North "../Images/YoninShogi/Alpha/NGold.bmp"
-               East  "../Images/YoninShogi/Alpha/EGold.bmp")
+        (image South "../Images/YoninShogi/Kanji/SGold.bmp" "../Images/YoninShogi/Old/SGold.bmp" "../Images/YoninShogi/Chess/SGold.bmp" "../Images/YoninShogi/Alpha/SGold.bmp" "../Images/YoninShogi/Draw/SGold.bmp"
+               West  "../Images/YoninShogi/Kanji/WGold.bmp" "../Images/YoninShogi/Old/WGold.bmp" "../Images/YoninShogi/Chess/WGold.bmp" "../Images/YoninShogi/Alpha/WGold.bmp" "../Images/YoninShogi/Draw/WGold.bmp"
+               North "../Images/YoninShogi/Kanji/NGold.bmp" "../Images/YoninShogi/Old/NGold.bmp" "../Images/YoninShogi/Chess/NGold.bmp" "../Images/YoninShogi/Alpha/NGold.bmp" "../Images/YoninShogi/Draw/NGold.bmp"
+               East  "../Images/YoninShogi/Kanji/EGold.bmp" "../Images/YoninShogi/Old/EGold.bmp" "../Images/YoninShogi/Chess/EGold.bmp" "../Images/YoninShogi/Alpha/EGold.bmp" "../Images/YoninShogi/Draw/EGold.bmp"
+        )
   )
   (piece
         (name  Rook)
-        (image South "../Images/YoninShogi/Alpha/SRook.bmp"
-               West  "../Images/YoninShogi/Alpha/WRook.bmp"
-               North "../Images/YoninShogi/Alpha/NRook.bmp"
-               East  "../Images/YoninShogi/Alpha/ERook.bmp")
+        (image South "../Images/YoninShogi/Kanji/SRook.bmp" "../Images/YoninShogi/Old/SRook.bmp" "../Images/YoninShogi/Chess/SRook.bmp" "../Images/YoninShogi/Alpha/SRook.bmp" "../Images/YoninShogi/Draw/SRook.bmp"
+               West  "../Images/YoninShogi/Kanji/WRook.bmp" "../Images/YoninShogi/Old/WRook.bmp" "../Images/YoninShogi/Chess/WRook.bmp" "../Images/YoninShogi/Alpha/WRook.bmp" "../Images/YoninShogi/Draw/WRook.bmp"
+               North "../Images/YoninShogi/Kanji/NRook.bmp" "../Images/YoninShogi/Old/NRook.bmp" "../Images/YoninShogi/Chess/NRook.bmp" "../Images/YoninShogi/Alpha/NRook.bmp" "../Images/YoninShogi/Draw/NRook.bmp"
+               East  "../Images/YoninShogi/Kanji/ERook.bmp" "../Images/YoninShogi/Old/ERook.bmp" "../Images/YoninShogi/Chess/ERook.bmp" "../Images/YoninShogi/Alpha/ERook.bmp" "../Images/YoninShogi/Draw/ERook.bmp"
+        )
+  )
+  (piece
+        (name  RookP)
+        (image South "../Images/YoninShogi/Kanji/SRook+.bmp" "../Images/YoninShogi/Old/SRook+.bmp" "../Images/YoninShogi/Chess/SRook+.bmp" "../Images/YoninShogi/Alpha/SRook+.bmp" "../Images/YoninShogi/Draw/SRook+.bmp"
+               West  "../Images/YoninShogi/Kanji/WRook+.bmp" "../Images/YoninShogi/Old/WRook+.bmp" "../Images/YoninShogi/Chess/WRook+.bmp" "../Images/YoninShogi/Alpha/WRook+.bmp" "../Images/YoninShogi/Draw/WRook+.bmp"
+               North "../Images/YoninShogi/Kanji/NRook+.bmp" "../Images/YoninShogi/Old/NRook+.bmp" "../Images/YoninShogi/Chess/NRook+.bmp" "../Images/YoninShogi/Alpha/NRook+.bmp" "../Images/YoninShogi/Draw/NRook+.bmp"
+               East  "../Images/YoninShogi/Kanji/ERook+.bmp" "../Images/YoninShogi/Old/ERook+.bmp" "../Images/YoninShogi/Chess/ERook+.bmp" "../Images/YoninShogi/Alpha/ERook+.bmp" "../Images/YoninShogi/Draw/ERook+.bmp"
+        )
   )
   (piece
         (name  King)
-        (image South "../Images/YoninShogi/Alpha/SKing.bmp"
-               West  "../Images/YoninShogi/Alpha/WKing.bmp"
-               North "../Images/YoninShogi/Alpha/NKing.bmp"
-               East  "../Images/YoninShogi/Alpha/EKing.bmp")
+        (image South "../Images/YoninShogi/Kanji/SKing.bmp" "../Images/YoninShogi/Old/SKing.bmp" "../Images/YoninShogi/Chess/SKing.bmp" "../Images/YoninShogi/Alpha/SKing.bmp" "../Images/YoninShogi/Draw/SKing.bmp"
+               West  "../Images/YoninShogi/Kanji/WKing.bmp" "../Images/YoninShogi/Old/WKing.bmp" "../Images/YoninShogi/Chess/WKing.bmp" "../Images/YoninShogi/Alpha/WKing.bmp" "../Images/YoninShogi/Draw/WKing.bmp"
+               North "../Images/YoninShogi/Kanji/NKing.bmp" "../Images/YoninShogi/Old/NKing.bmp" "../Images/YoninShogi/Chess/NKing.bmp" "../Images/YoninShogi/Alpha/NKing.bmp" "../Images/YoninShogi/Draw/NKing.bmp"
+               East  "../Images/YoninShogi/Kanji/EKing.bmp" "../Images/YoninShogi/Old/EKing.bmp" "../Images/YoninShogi/Chess/EKing.bmp" "../Images/YoninShogi/Alpha/EKing.bmp" "../Images/YoninShogi/Draw/EKing.bmp"
+        )
   )
 )
