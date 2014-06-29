@@ -1,10 +1,10 @@
 LOAD CustomEngine.4th ( Load the Custom Engine )
 
 {players
-	{player}	South		{random} \ {search-engine} Custom-Engine
-	{player}	West		{random} \ {search-engine} Custom-Engine
-	{player}	North		{random} \ {search-engine} Custom-Engine
-	{player}	East		{random} \ {search-engine} Custom-Engine
+	{player}	South		{search-engine} Custom-Engine
+	{player}	West		{search-engine} Custom-Engine
+	{player}	North		{search-engine} Custom-Engine
+	{player}	East		{search-engine} Custom-Engine
 	{player}	?Cleaner        {random}
 players}
 
@@ -527,9 +527,9 @@ VARIABLE	here-pos
 	i5 check-wizard AND
 ;
 
-\ : OnNewGame ( -- )
-\	RANDOMIZE
-\ ;
+: OnNewGame ( -- )
+	RANDOMIZE
+;
 
 : OnIsGameOver ( -- gameResult )
 	#UnknownScore
@@ -597,13 +597,13 @@ move-priorities}
 
 {pieces
 	{piece}		lock    {moves} pass-moves 	{drops} clear-moves
-	{piece}		sstone	{drops} stone-drops
-	{piece}		nstone	{drops} stone-drops
-	{piece}		wstone	{drops} stone-drops
-	{piece}		estone	{drops} stone-drops
-	{piece}		wizard	{moves} wizard-moves	100 {value}
-	{piece}		dwarf	{moves} dwarf-moves	50  {value}
-	{piece}		troll	{moves} troll-moves
+	{piece}		sstone	{drops} stone-drops	0	{value}
+	{piece}		nstone	{drops} stone-drops	0	{value}
+	{piece}		wstone	{drops} stone-drops	0	{value}
+	{piece}		estone	{drops} stone-drops	0	{value}
+	{piece}		wizard	{moves} wizard-moves	4	{value}
+	{piece}		dwarf	{moves} dwarf-moves	3	{value}
+	{piece}		troll	{moves} troll-moves	2	{value}
 pieces}
 
 ' continue-type 	IS CONTINUE-TYPE
