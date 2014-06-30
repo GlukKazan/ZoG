@@ -1,8 +1,33 @@
+(version "2.0")
+
+(define leap
+  (  $1
+     (verify (in-zone? board-zone))
+     (verify not-friend?)
+     add
+  )
+)
+
+(define slide
+  (  $1
+     (while (and (in-zone? board-zone) empty?)
+          add
+          $1
+     )
+     (verify (in-zone? board-zone))
+     (verify not-friend?)
+     add
+  )
+)
+
 (game
   (title "Yonin Shogi")
 
   (players South West North East)
   (turn-order South West North East)
+
+  (option "animate captures" false)
+  (option "animate drops" false)
 
   (board
         (image "../Images/YoninShogi/Board.bmp")
@@ -11,10 +36,105 @@
                (dimensions ("I/II/01/9/8/7/6/5/4/3/2/1/02/III/IV" (41 0))
                            ("l/m/n/a/b/c/d/e/f/g/h/i/x/y/z" (0 41))
                )
-               (directions (n 0 1) (e -1 0) (s 0 -1) (w 1 0) 
-                           (ne -1 1) (nw 1 1) (se -1 -1) (sw 1 -1)
-                           (nn 0 2) (ss 0 -2) 
+               (directions (n 0 -1) (e 1 0) (s 0 1) (w -1 0) 
+                           (ne 1 -1) (nw -1 -1) (se 1 1) (sw -1 1)
                )
+        )
+        (dummy START SH NH WH EH END)
+	(links next
+               (START 1a)
+               (1a 2a) (2a 3a) (3a 4a) (4a 5a) (5a 6a) (6a 7a) (7a 8a) (8a 9a) (9a 1b)
+               (1b 2b) (2b 3b) (3b 4b) (4b 5b) (5b 6b) (6b 7b) (7b 8b) (8b 9b) (9b 1c)
+               (1c 2c) (2c 3c) (3c 4c) (4c 5c) (5c 6c) (6c 7c) (7c 8c) (8c 9c) (9c 1d)
+               (1d 2d) (2d 3d) (3d 4d) (4d 5d) (5d 6d) (6d 7d) (7d 8d) (8d 9d) (9d 1e)
+               (1e 2e) (2e 3e) (3e 4e) (4e 5e) (5e 6e) (6e 7e) (7e 8e) (8e 9e) (9e 1f)
+               (1f 2f) (2f 3f) (3f 4f) (4f 5f) (5f 6f) (6f 7f) (7f 8f) (8f 9f) (9f 1g)
+               (1g 2g) (2g 3g) (3g 4g) (4g 5g) (5g 6g) (6g 7g) (7g 8g) (8g 9g) (9g 1h)
+               (1h 2h) (2h 3h) (3h 4h) (4h 5h) (5h 6h) (6h 7h) (7h 8h) (8h 9h) (9h 1i)
+               (1i 2i) (2i 3i) (3i 4i) (4i 5i) (5i 6i) (6i 7i) (7i 8i) (8i 9i) (9i END)
+        )
+        (links to-hand
+               (SH 1y)
+               (1y 2y) (2y 3y) (3y 4y) (4y 5y) (5y 6y) (6y 7y) (7y 8y) (8y 9y) (9y 1z)
+               (1z 2z) (2z 3z) (3z 4z) (4z 5z) (5z 6z) (6z 7z) (7z 8z) (8z 9z) (9z END)
+               (NH 1l)
+               (1l 2l) (2l 3l) (3l 4l) (4l 5l) (5l 6l) (6l 7l) (7l 8l) (8l 9l) (9l 1m)
+               (1m 2m) (2m 3m) (3m 4m) (4m 5m) (5m 6m) (6m 7m) (7m 8m) (8m 9m) (9m END)
+               (WH Ia)
+               (Ia Ib) (Ib Ic) (Ic Id) (Id Ie) (Ie If) (If Ig) (Ig Ih) (Ih Ii) (Ii IIa)
+               (IIa IIb) (IIb IIc) (IIc IId) (IId IIe) (IIe IIf) (IIf IIg) (IIg IIh) (IIh IIi) (IIi END)
+               (EH IIIa)
+               (IIIa IIIb) (IIIb IIIc) (IIIc IIId) (IIId IIIe) (IIIe IIIf) (IIIf IIIg) (IIIg IIIh) (IIIh IIIi) (IIIi IVa)
+               (IVa IVb) (IVb IVc) (IVc IVd) (IVd IVe) (IVe IVf) (IVf IVg) (IVg IVh) (IVh IVi) (IVi END)
+        )
+        (zone (name board-zone) (players South North West East)
+              (positions 1a 2a 3a 4a 5a 6a 7a 8a 9a
+                         1b 2b 3b 4b 5b 6b 7b 8b 9b
+                         1c 2c 3c 4c 5c 6c 7c 8c 9c
+                         1d 2d 3d 4d 5d 6d 7d 8d 9d
+                         1e 2e 3e 4e 5e 6e 7e 8e 9e
+                         1f 2f 3f 4f 5f 6f 7f 8f 9f
+                         1g 2g 3g 4g 5g 6g 7g 8g 9g
+                         1h 2h 3h 4h 5h 6h 7h 8h 9h
+                         1i 2i 3i 4i 5i 6i 7i 8i 9i
+              )
+        )
+        (zone (name hand-zone) (players South)
+              (positions 1y 2y 3y 4y 5y 6y 7y 8y 9y 1z 2z 3z 4z 5z 6z 7z 8z 9z)
+        )
+        (zone (name hand-zone) (players North)
+              (positions 1l 2l 3l 4l 5l 6l 7l 8l 9l 1m 2m 3m 4m 5m 6m 7m 8m 9m)
+        )
+        (zone (name hand-zone) (players West)
+              (positions Ia Ib Ic Id Ie If Ig Ih Ii IIa IIb IIc IId IIe IIf IIg IIh IIi)
+        )
+        (zone (name hand-zone) (players East)
+              (positions IIIa IIIb IIIc IIId IIIe IIIf IIIg IIIh IIIi IVa IVb IVc IVd IVe IVf IVg IVh IVi)
+        )
+        (zone (name stop-zone) (players South)
+              (positions 1a 2a 3a 4a 5a 6a 7a 8a 9a)
+        )
+        (zone (name stop-zone) (players North)
+              (positions 1i 2i 3i 4i 5i 6i 7i 8i 9i)
+        )
+        (zone (name stop-zone) (players West)
+              (positions 9a 9b 9c 9d 9e 9f 9g 9h 9i)
+        )
+        (zone (name stop-zone) (players East)
+              (positions 1a 1b 1c 1d 1e 1f 1g 1h 1i)
+        )
+        (zone (name promotion-zone) (players South)
+              (positions 1a 2a 3a 4a 5a 6a 7a 8a 9a
+                         1b 2b 3b 4b 5b 6b 7b 8b 9b
+                         1c 2c 3c 4c 5c 6c 7c 8c 9c
+              )
+        )
+        (zone (name promotion-zone) (players North)
+              (positions 1i 2i 3i 4i 5i 6i 7i 8i 9i
+                         1h 2h 3h 4h 5h 6h 7h 8h 9h
+                         1g 2g 3g 4g 5g 6g 7g 8g 9g
+              )
+        )
+        (zone (name promotion-zone) (players West)
+              (positions 9a 9b 9c 9d 9e 9f 9g 9h 9i
+                         8a 8b 8c 8d 8e 8f 8g 8h 8i
+                         7a 7b 7c 7d 7e 7f 7g 7h 7i
+              )
+        )
+        (zone (name promotion-zone) (players East)
+              (positions 1a 1b 1c 1d 1e 1f 1g 1h 1i
+                         2a 2b 2c 2d 2e 2f 2g 2h 2i
+                         3a 3b 3c 3d 3e 3f 3g 3h 3i
+              )
+        )
+        (symmetry North (n s) (s n) (e w) (w e) 
+                        (ne sw) (sw ne) (nw se) (se nw)
+        )
+        (symmetry West  (n e) (s w) (e s) (w n) 
+                        (nw ne) (sw nw) (ne se) (se sw)
+        )
+        (symmetry East  (n w) (s e) (e n) (w s) 
+                        (nw sw) (sw se) (ne nw) (se ne)
         )
   )
 
@@ -52,6 +172,9 @@
                North "../Images/YoninShogi/Kanji/NPawn.bmp" "../Images/YoninShogi/Old/NPawn.bmp" "../Images/YoninShogi/Chess/NPawn.bmp" "../Images/YoninShogi/Alpha/NPawn.bmp" "../Images/YoninShogi/Draw/NPawn.bmp"
                East  "../Images/YoninShogi/Kanji/EPawn.bmp" "../Images/YoninShogi/Old/EPawn.bmp" "../Images/YoninShogi/Chess/EPawn.bmp" "../Images/YoninShogi/Alpha/EPawn.bmp" "../Images/YoninShogi/Draw/EPawn.bmp"
         )
+        (moves
+               (leap n) 
+        )
   )
   (piece
         (name  PawnP)
@@ -59,6 +182,14 @@
                West  "../Images/YoninShogi/Kanji/WPawn+.bmp" "../Images/YoninShogi/Old/WPawn+.bmp" "../Images/YoninShogi/Chess/WPawn+.bmp" "../Images/YoninShogi/Alpha/WPawn+.bmp" "../Images/YoninShogi/Draw/WPawn+.bmp"
                North "../Images/YoninShogi/Kanji/NPawn+.bmp" "../Images/YoninShogi/Old/NPawn+.bmp" "../Images/YoninShogi/Chess/NPawn+.bmp" "../Images/YoninShogi/Alpha/NPawn+.bmp" "../Images/YoninShogi/Draw/NPawn+.bmp"
                East  "../Images/YoninShogi/Kanji/EPawn+.bmp" "../Images/YoninShogi/Old/EPawn+.bmp" "../Images/YoninShogi/Chess/EPawn+.bmp" "../Images/YoninShogi/Alpha/EPawn+.bmp" "../Images/YoninShogi/Draw/EPawn+.bmp"
+        )
+        (moves
+               (leap n) 
+               (leap s)
+               (leap w)
+               (leap e)
+               (leap nw)
+               (leap ne)
         )
   )
   (piece
@@ -68,6 +199,13 @@
                North "../Images/YoninShogi/Kanji/NSilver.bmp" "../Images/YoninShogi/Old/NSilver.bmp" "../Images/YoninShogi/Chess/NSilver.bmp" "../Images/YoninShogi/Alpha/NSilver.bmp" "../Images/YoninShogi/Draw/NSilver.bmp"
                East  "../Images/YoninShogi/Kanji/ESilver.bmp" "../Images/YoninShogi/Old/ESilver.bmp" "../Images/YoninShogi/Chess/ESilver.bmp" "../Images/YoninShogi/Alpha/ESilver.bmp" "../Images/YoninShogi/Draw/ESilver.bmp"
         )
+        (moves
+               (leap n) 
+               (leap nw)
+               (leap ne)
+               (leap sw)
+               (leap se)
+        )
   )
   (piece
         (name  SilverP)
@@ -75,6 +213,14 @@
                West  "../Images/YoninShogi/Kanji/WSilver+.bmp" "../Images/YoninShogi/Old/WSilver+.bmp" "../Images/YoninShogi/Chess/WSilver+.bmp" "../Images/YoninShogi/Alpha/WSilver+.bmp" "../Images/YoninShogi/Draw/WSilver+.bmp"
                North "../Images/YoninShogi/Kanji/NSilver+.bmp" "../Images/YoninShogi/Old/NSilver+.bmp" "../Images/YoninShogi/Chess/NSilver+.bmp" "../Images/YoninShogi/Alpha/NSilver+.bmp" "../Images/YoninShogi/Draw/NSilver+.bmp"
                East  "../Images/YoninShogi/Kanji/ESilver+.bmp" "../Images/YoninShogi/Old/ESilver+.bmp" "../Images/YoninShogi/Chess/ESilver+.bmp" "../Images/YoninShogi/Alpha/ESilver+.bmp" "../Images/YoninShogi/Draw/ESilver+.bmp"
+        )
+        (moves
+               (leap n) 
+               (leap s)
+               (leap w)
+               (leap e)
+               (leap nw)
+               (leap ne)
         )
   )
   (piece
@@ -84,6 +230,14 @@
                North "../Images/YoninShogi/Kanji/NGold.bmp" "../Images/YoninShogi/Old/NGold.bmp" "../Images/YoninShogi/Chess/NGold.bmp" "../Images/YoninShogi/Alpha/NGold.bmp" "../Images/YoninShogi/Draw/NGold.bmp"
                East  "../Images/YoninShogi/Kanji/EGold.bmp" "../Images/YoninShogi/Old/EGold.bmp" "../Images/YoninShogi/Chess/EGold.bmp" "../Images/YoninShogi/Alpha/EGold.bmp" "../Images/YoninShogi/Draw/EGold.bmp"
         )
+        (moves
+               (leap n) 
+               (leap s)
+               (leap w)
+               (leap e)
+               (leap nw)
+               (leap ne)
+        )
   )
   (piece
         (name  Rook)
@@ -91,6 +245,12 @@
                West  "../Images/YoninShogi/Kanji/WRook.bmp" "../Images/YoninShogi/Old/WRook.bmp" "../Images/YoninShogi/Chess/WRook.bmp" "../Images/YoninShogi/Alpha/WRook.bmp" "../Images/YoninShogi/Draw/WRook.bmp"
                North "../Images/YoninShogi/Kanji/NRook.bmp" "../Images/YoninShogi/Old/NRook.bmp" "../Images/YoninShogi/Chess/NRook.bmp" "../Images/YoninShogi/Alpha/NRook.bmp" "../Images/YoninShogi/Draw/NRook.bmp"
                East  "../Images/YoninShogi/Kanji/ERook.bmp" "../Images/YoninShogi/Old/ERook.bmp" "../Images/YoninShogi/Chess/ERook.bmp" "../Images/YoninShogi/Alpha/ERook.bmp" "../Images/YoninShogi/Draw/ERook.bmp"
+        )
+        (moves
+               (slide n) 
+               (slide s)
+               (slide w)
+               (slide e)
         )
   )
   (piece
@@ -100,6 +260,16 @@
                North "../Images/YoninShogi/Kanji/NRook+.bmp" "../Images/YoninShogi/Old/NRook+.bmp" "../Images/YoninShogi/Chess/NRook+.bmp" "../Images/YoninShogi/Alpha/NRook+.bmp" "../Images/YoninShogi/Draw/NRook+.bmp"
                East  "../Images/YoninShogi/Kanji/ERook+.bmp" "../Images/YoninShogi/Old/ERook+.bmp" "../Images/YoninShogi/Chess/ERook+.bmp" "../Images/YoninShogi/Alpha/ERook+.bmp" "../Images/YoninShogi/Draw/ERook+.bmp"
         )
+        (moves
+               (slide n) 
+               (slide s)
+               (slide w)
+               (slide e)
+               (leap nw)
+               (leap ne)
+               (leap sw)
+               (leap se)
+        )
   )
   (piece
         (name  King)
@@ -108,5 +278,17 @@
                North "../Images/YoninShogi/Kanji/NKing.bmp" "../Images/YoninShogi/Old/NKing.bmp" "../Images/YoninShogi/Chess/NKing.bmp" "../Images/YoninShogi/Alpha/NKing.bmp" "../Images/YoninShogi/Draw/NKing.bmp"
                East  "../Images/YoninShogi/Kanji/EKing.bmp" "../Images/YoninShogi/Old/EKing.bmp" "../Images/YoninShogi/Chess/EKing.bmp" "../Images/YoninShogi/Alpha/EKing.bmp" "../Images/YoninShogi/Draw/EKing.bmp"
         )
+        (moves
+               (leap n) 
+               (leap s)
+               (leap w)
+               (leap e)
+               (leap nw)
+               (leap ne)
+               (leap sw)
+               (leap se)
+        )
   )
+
+  (loss-condition (South North West East) (checkmated King) )
 )
