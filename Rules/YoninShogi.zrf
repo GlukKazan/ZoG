@@ -290,5 +290,6 @@
         )
   )
 
-  (loss-condition (South North West East) (checkmated King) )
+; (loss-condition (South North West East) (checkmated King))
+  (loss-condition (South North West East) (pieces-remaining 0 King))
 )
