@@ -67,10 +67,13 @@
 )
 
 (define eat-enemy
-  (set-flag is-pawn false)
+  (set-flag is-pawn   false)
   (set-flag is-silver false)
-  (set-flag is-gold false)
-  (set-flag is-rook false)
+  (set-flag is-gold   false)
+  (set-flag is-knight false)
+  (set-flag is-lance  false)
+  (set-flag is-bishop false)
+  (set-flag is-rook   false)
   (if enemy?
      (if (or (piece? Pawn) (piece? PawnP))
          (set-flag is-pawn true)
@@ -81,10 +84,19 @@
      (if (piece? Gold)
          (set-flag is-gold true)
      )
+     (if (or (piece? Knight) (piece? KnightP))
+         (set-flag is-knight true)
+     )
+     (if (or (piece? Lance) (piece? LanceP))
+         (set-flag is-lance true)
+     )
+     (if (or (piece? Bishop) (piece? BishopP))
+         (set-flag is-bishop true)
+     )
      (if (or (piece? Rook) (piece? RookP))
          (set-flag is-rook true)
      )
-     (if (or (flag? is-pawn) (flag? is-silver) (flag? is-gold) (flag? is-rook))
+     (if (or (flag? is-pawn) (flag? is-silver) (flag? is-gold) (flag? is-knight) (flag? is-lance) (flag? is-bishop) (flag? is-rook))
           mark
           START to-hand
           (while (and (not-position? END) not-empty?)
@@ -99,6 +111,15 @@
           )
           (if (flag? is-gold)
                 (create Gold)
+          )
+          (if (flag? is-knight)
+                (create Knight)
+          )
+          (if (flag? is-lance)
+                (create Lance)
+          )
+          (if (flag? is-bishop)
+                (create Bishop)
           )
           (if (flag? is-rook)
                 (create Rook)
@@ -143,7 +164,7 @@
   )
 )
 
-(define silver-leap
+(define piece-leap
   (  (verify (in-zone? board-zone))
      (set-flag is-promoted false)
      (if (in-zone? promotion-zone)
@@ -157,9 +178,49 @@
      )
      (eat-enemy)
      (if (flag? is-promoted)
-           (add Silver SilverP)
+           (add $2 $3)
      else
            add
+     )
+  )
+)
+
+(define check-knight-stop-zone
+  (set-flag is-stop-zone false)
+  (if (in-zone? stop-zone)
+      (set-flag is-stop-zone true)
+  else
+      mark
+      n
+      (if (in-zone? stop-zone)
+          (set-flag is-stop-zone true)
+      )
+      back
+  )
+)
+
+(define knight-leap
+  (  (verify (in-zone? board-zone))
+     (set-flag is-promoted false)
+     (if (in-zone? promotion-zone)
+          (set-flag is-promoted true)
+     )
+     n $1
+     (verify (in-zone? board-zone))
+     (verify not-friend?)
+     (if (in-zone? promotion-zone)
+          (set-flag is-promoted true)
+     )
+     (eat-enemy)
+     (check-knight-stop-zone)
+     (if (flag? is-stop-zone)
+          (add KnightP)
+     else
+          (if (flag? is-promoted)
+                (add Knight KnightP)
+          else
+                 add
+          )
      )
   )
 )
@@ -178,7 +239,7 @@
   )
 )
 
-(define rook-slide
+(define piece-slide
   (  (verify (in-zone? board-zone))
      (set-flag is-promoted false)
      (if (in-zone? promotion-zone)
@@ -186,7 +247,14 @@
      )
      $1
      (while (and (in-zone? board-zone) empty?)
-          add
+          (if (in-zone? promotion-zone)
+              (set-flag is-promoted true)
+          )
+          (if (flag? is-promoted)
+              (add $2 $3)
+          else
+              add
+          )
           $1
      )
      (verify (in-zone? board-zone))
@@ -196,15 +264,61 @@
      )
      (eat-enemy)
      (if (flag? is-promoted)
-          (add Rook RookP)
+          (add $2 $3)
      else
           add
      )
   )
 )
 
+(define lance-slide
+  (  (verify (in-zone? board-zone))
+     (set-flag is-promoted false)
+     (if (in-zone? promotion-zone)
+          (set-flag is-promoted true)
+     )
+     n
+     (while (and (in-zone? board-zone) empty?)
+          (if (in-zone? promotion-zone)
+              (set-flag is-promoted true)
+          )
+          (if (in-zone? stop-zone)
+              (add LanceP)
+          else
+              (if (flag? is-promoted)
+                  (add Lance LanceP)
+              else
+                  add
+              )
+          )
+          n
+     )
+     (verify (in-zone? board-zone))
+     (verify not-friend?)
+     (if (in-zone? promotion-zone)
+          (set-flag is-promoted true)
+     )
+     (eat-enemy)
+     (if (in-zone? stop-zone)
+          (add LanceP)
+     else
+          (if (flag? is-promoted)
+              (add Lance LanceP)
+          else
+              add
+          )
+     )
+  )
+)
+
 (game
   (title "Yonin Shogi")
+
+  (description "Yonin shogi, is a four-person variant of shogi (Japanese chess).")
+
+  (history "This version of Yonin shogi was devised in 1993 by Ota Mitsuyasu, 
+
+            former mayor of Hirata (present day Izumo) in Shimane Prefecture.")
 
   (players South West North East)
   (turn-order South West North East)
@@ -527,7 +641,6 @@
                (leap e)
                (leap nw)
                (leap ne)
-               (piece-drop)
         )
   )
   (piece
@@ -538,11 +651,11 @@
                East  "../Images/YoninShogi/Kanji/ESilver.bmp" "../Images/YoninShogi/Old/ESilver.bmp" "../Images/YoninShogi/Chess/ESilver.bmp" "../Images/YoninShogi/Alpha/ESilver.bmp" "../Images/YoninShogi/Draw/ESilver.bmp"
         )
         (moves
-               (silver-leap n) 
-               (silver-leap nw)
-               (silver-leap ne)
-               (silver-leap sw)
-               (silver-leap se)
+               (piece-leap n  Silver SilverP) 
+               (piece-leap nw Silver SilverP)
+               (piece-leap ne Silver SilverP)
+               (piece-leap sw Silver SilverP)
+               (piece-leap se Silver SilverP)
                (piece-drop)
         )
   )
@@ -560,7 +673,6 @@
                (leap e)
                (leap nw)
                (leap ne)
-               (piece-drop)
         )
   )
   (piece
@@ -581,6 +693,96 @@
         )
   )
   (piece
+        (name  Knight)
+        (image South "../Images/YoninShogi/Kanji/SKnight.bmp" "../Images/YoninShogi/Old/SKnight.bmp" "../Images/YoninShogi/Chess/SKnight.bmp" "../Images/YoninShogi/Alpha/SKnight.bmp" "../Images/YoninShogi/Draw/SKnight.bmp"
+               West  "../Images/YoninShogi/Kanji/WKnight.bmp" "../Images/YoninShogi/Old/WKnight.bmp" "../Images/YoninShogi/Chess/WKnight.bmp" "../Images/YoninShogi/Alpha/WKnight.bmp" "../Images/YoninShogi/Draw/WKnight.bmp"
+               North "../Images/YoninShogi/Kanji/NKnight.bmp" "../Images/YoninShogi/Old/NKnight.bmp" "../Images/YoninShogi/Chess/NKnight.bmp" "../Images/YoninShogi/Alpha/NKnight.bmp" "../Images/YoninShogi/Draw/NKnight.bmp"
+               East  "../Images/YoninShogi/Kanji/EKnight.bmp" "../Images/YoninShogi/Old/EKnight.bmp" "../Images/YoninShogi/Chess/EKnight.bmp" "../Images/YoninShogi/Alpha/EKnight.bmp" "../Images/YoninShogi/Draw/EKnight.bmp"
+        )
+        (moves
+               (knight-leap nw)
+               (knight-leap ne)
+               (piece-drop)
+        )
+  )
+  (piece
+        (name  KnightP)
+        (image South "../Images/YoninShogi/Kanji/SKnight+.bmp" "../Images/YoninShogi/Old/SKnight+.bmp" "../Images/YoninShogi/Chess/SKnight+.bmp" "../Images/YoninShogi/Alpha/SKnight+.bmp" "../Images/YoninShogi/Draw/SKnight+.bmp"
+               West  "../Images/YoninShogi/Kanji/WKnight+.bmp" "../Images/YoninShogi/Old/WKnight+.bmp" "../Images/YoninShogi/Chess/WKnight+.bmp" "../Images/YoninShogi/Alpha/WKnight+.bmp" "../Images/YoninShogi/Draw/WKnight+.bmp"
+               North "../Images/YoninShogi/Kanji/NKnight+.bmp" "../Images/YoninShogi/Old/NKnight+.bmp" "../Images/YoninShogi/Chess/NKnight+.bmp" "../Images/YoninShogi/Alpha/NKnight+.bmp" "../Images/YoninShogi/Draw/NKnight+.bmp"
+               East  "../Images/YoninShogi/Kanji/EKnight+.bmp" "../Images/YoninShogi/Old/EKnight+.bmp" "../Images/YoninShogi/Chess/EKnight+.bmp" "../Images/YoninShogi/Alpha/EKnight+.bmp" "../Images/YoninShogi/Draw/EKnight+.bmp"
+        )
+        (moves
+               (leap n) 
+               (leap s)
+               (leap w)
+               (leap e)
+               (leap nw)
+               (leap ne)
+        )
+  )
+  (piece
+        (name  Lance)
+        (image South "../Images/YoninShogi/Kanji/SLance.bmp" "../Images/YoninShogi/Old/SLance.bmp" "../Images/YoninShogi/Chess/SLance.bmp" "../Images/YoninShogi/Alpha/SLance.bmp" "../Images/YoninShogi/Draw/SLance.bmp"
+               West  "../Images/YoninShogi/Kanji/WLance.bmp" "../Images/YoninShogi/Old/WLance.bmp" "../Images/YoninShogi/Chess/WLance.bmp" "../Images/YoninShogi/Alpha/WLance.bmp" "../Images/YoninShogi/Draw/WLance.bmp"
+               North "../Images/YoninShogi/Kanji/NLance.bmp" "../Images/YoninShogi/Old/NLance.bmp" "../Images/YoninShogi/Chess/NLance.bmp" "../Images/YoninShogi/Alpha/NLance.bmp" "../Images/YoninShogi/Draw/NLance.bmp"
+               East  "../Images/YoninShogi/Kanji/ELance.bmp" "../Images/YoninShogi/Old/ELance.bmp" "../Images/YoninShogi/Chess/ELance.bmp" "../Images/YoninShogi/Alpha/ELance.bmp" "../Images/YoninShogi/Draw/ELance.bmp"
+        )
+        (moves
+               (lance-slide) 
+               (piece-drop)
+        )
+  )
+  (piece
+        (name  LanceP)
+        (image South "../Images/YoninShogi/Kanji/SLance+.bmp" "../Images/YoninShogi/Old/SLance+.bmp" "../Images/YoninShogi/Chess/SLance+.bmp" "../Images/YoninShogi/Alpha/SLance+.bmp" "../Images/YoninShogi/Draw/SLance+.bmp"
+               West  "../Images/YoninShogi/Kanji/WLance+.bmp" "../Images/YoninShogi/Old/WLance+.bmp" "../Images/YoninShogi/Chess/WLance+.bmp" "../Images/YoninShogi/Alpha/WLance+.bmp" "../Images/YoninShogi/Draw/WLance+.bmp"
+               North "../Images/YoninShogi/Kanji/NLance+.bmp" "../Images/YoninShogi/Old/NLance+.bmp" "../Images/YoninShogi/Chess/NLance+.bmp" "../Images/YoninShogi/Alpha/NLance+.bmp" "../Images/YoninShogi/Draw/NLance+.bmp"
+               East  "../Images/YoninShogi/Kanji/ELance+.bmp" "../Images/YoninShogi/Old/ELance+.bmp" "../Images/YoninShogi/Chess/ELance+.bmp" "../Images/YoninShogi/Alpha/ELance+.bmp" "../Images/YoninShogi/Draw/ELance+.bmp"
+        )
+        (moves
+               (leap n) 
+               (leap s)
+               (leap w)
+               (leap e)
+               (leap nw)
+               (leap ne)
+        )
+  )
+  (piece
+        (name  Bishop)
+        (image South "../Images/YoninShogi/Kanji/SBishop.bmp" "../Images/YoninShogi/Old/SBishop.bmp" "../Images/YoninShogi/Chess/SBishop.bmp" "../Images/YoninShogi/Alpha/SBishop.bmp" "../Images/YoninShogi/Draw/SBishop.bmp"
+               West  "../Images/YoninShogi/Kanji/WBishop.bmp" "../Images/YoninShogi/Old/WBishop.bmp" "../Images/YoninShogi/Chess/WBishop.bmp" "../Images/YoninShogi/Alpha/WBishop.bmp" "../Images/YoninShogi/Draw/WBishop.bmp"
+               North "../Images/YoninShogi/Kanji/NBishop.bmp" "../Images/YoninShogi/Old/NBishop.bmp" "../Images/YoninShogi/Chess/NBishop.bmp" "../Images/YoninShogi/Alpha/NBishop.bmp" "../Images/YoninShogi/Draw/NBishop.bmp"
+               East  "../Images/YoninShogi/Kanji/EBishop.bmp" "../Images/YoninShogi/Old/EBishop.bmp" "../Images/YoninShogi/Chess/EBishop.bmp" "../Images/YoninShogi/Alpha/EBishop.bmp" "../Images/YoninShogi/Draw/EBishop.bmp"
+        )
+        (moves
+               (piece-slide nw Bishop BishopP) 
+               (piece-slide sw Bishop BishopP)
+               (piece-slide ne Bishop BishopP)
+               (piece-slide se Bishop BishopP)
+               (piece-drop)
+        )
+  )
+  (piece
+        (name  BishopP)
+        (image South "../Images/YoninShogi/Kanji/SBishop+.bmp" "../Images/YoninShogi/Old/SBishop+.bmp" "../Images/YoninShogi/Chess/SBishop+.bmp" "../Images/YoninShogi/Alpha/SBishop+.bmp" "../Images/YoninShogi/Draw/SBishop+.bmp"
+               West  "../Images/YoninShogi/Kanji/WBishop+.bmp" "../Images/YoninShogi/Old/WBishop+.bmp" "../Images/YoninShogi/Chess/WBishop+.bmp" "../Images/YoninShogi/Alpha/WBishop+.bmp" "../Images/YoninShogi/Draw/WBishop+.bmp"
+               North "../Images/YoninShogi/Kanji/NBishop+.bmp" "../Images/YoninShogi/Old/NBishop+.bmp" "../Images/YoninShogi/Chess/NBishop+.bmp" "../Images/YoninShogi/Alpha/NBishop+.bmp" "../Images/YoninShogi/Draw/NBishop+.bmp"
+               East  "../Images/YoninShogi/Kanji/EBishop+.bmp" "../Images/YoninShogi/Old/EBishop+.bmp" "../Images/YoninShogi/Chess/EBishop+.bmp" "../Images/YoninShogi/Alpha/EBishop+.bmp" "../Images/YoninShogi/Draw/EBishop+.bmp"
+        )
+        (moves
+               (slide nw) 
+               (slide sw)
+               (slide ne)
+               (slide se)
+               (leap n)
+               (leap e)
+               (leap w)
+               (leap s)
+        )
+  )
+  (piece
         (name  Rook)
         (image South "../Images/YoninShogi/Kanji/SRook.bmp" "../Images/YoninShogi/Old/SRook.bmp" "../Images/YoninShogi/Chess/SRook.bmp" "../Images/YoninShogi/Alpha/SRook.bmp" "../Images/YoninShogi/Draw/SRook.bmp"
                West  "../Images/YoninShogi/Kanji/WRook.bmp" "../Images/YoninShogi/Old/WRook.bmp" "../Images/YoninShogi/Chess/WRook.bmp" "../Images/YoninShogi/Alpha/WRook.bmp" "../Images/YoninShogi/Draw/WRook.bmp"
@@ -588,10 +790,10 @@
                East  "../Images/YoninShogi/Kanji/ERook.bmp" "../Images/YoninShogi/Old/ERook.bmp" "../Images/YoninShogi/Chess/ERook.bmp" "../Images/YoninShogi/Alpha/ERook.bmp" "../Images/YoninShogi/Draw/ERook.bmp"
         )
         (moves
-               (rook-slide n) 
-               (rook-slide s)
-               (rook-slide w)
-               (rook-slide e)
+               (piece-slide n Rook RookP) 
+               (piece-slide s Rook RookP)
+               (piece-slide w Rook RookP)
+               (piece-slide e Rook RookP)
                (piece-drop)
         )
   )
@@ -611,7 +813,6 @@
                (leap ne)
                (leap sw)
                (leap se)
-               (piece-drop)
         )
   )
   (piece
@@ -635,4 +836,49 @@
 
 ; (loss-condition (South North West East) (checkmated King))
   (loss-condition (South North West East) (pieces-remaining 0 King))
+)
+
+(variant
+  (title "Yonin Shogi [variant]")
+
+  (history "")
+
+  (board-setup
+        ( South (King 5i)
+                (Gold 4i 6i)
+                (Silver 3i 7i)
+                (Knight 2i 8i)
+                (Lance 9i)
+                (Bishop 8h)
+                (Rook 3h)
+                (Pawn 2g 3g 4g 5g 6g)
+        )
+        ( West  (King 9e)
+                (Gold 9d 9f)
+                (Silver 9c 9g)
+                (Knight 9b 9h)
+                (Lance 9a)
+                (Bishop 8b)
+                (Rook 8g)
+                (Pawn 7h 7g 7f 7e 7d)
+        )
+        ( North (King 5a)
+                (Gold 4a 6a)
+                (Silver 3a 7a)
+                (Knight 2a 8a)
+                (Lance 1a)
+                (Bishop 2b)
+                (Rook 7b)
+                (Pawn 8c 7c 6c 5c 4c)
+        )
+        ( East  (King 1e)
+                (Gold 1d 1f)
+                (Silver 1c 1g)
+                (Knight 1b 1h)
+                (Lance 1i)
+                (Bishop 2h)
+                (Rook 2c)
+                (Pawn 3b 3c 3d 3e 3f)
+        )
+  )
 )
