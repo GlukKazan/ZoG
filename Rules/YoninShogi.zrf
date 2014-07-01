@@ -1,15 +1,61 @@
 (version "2.0")
 
 (define leap
-  (  $1
+  (  (verify (in-zone? board-zone))
+     $1
      (verify (in-zone? board-zone))
      (verify not-friend?)
      add
   )
 )
 
+(define pawn-leap
+  (  (verify (in-zone? board-zone))
+     (set-flag is-promoted false)
+     (if (in-zone? promotion-zone)
+          (set-flag is-promoted true)
+     )
+     n
+     (verify (in-zone? board-zone))
+     (verify not-friend?)
+     (if (in-zone? promotion-zone)
+          (set-flag is-promoted true)
+     )
+     (if (in-zone? stop-zone)
+          (add PawnP)
+     else
+          (if (flag? is-promoted)
+               (add Pawn PawnP)
+          else
+               add
+          )
+     )
+  )
+)
+
+(define silver-leap
+  (  (verify (in-zone? board-zone))
+     (set-flag is-promoted false)
+     (if (in-zone? promotion-zone)
+          (set-flag is-promoted true)
+     )
+     $1
+     (verify (in-zone? board-zone))
+     (verify not-friend?)
+     (if (in-zone? promotion-zone)
+          (set-flag is-promoted true)
+     )
+     (if (flag? is-promoted)
+           (add Silver SilverP)
+     else
+           add
+     )
+  )
+)
+
 (define slide
-  (  $1
+  (  (verify (in-zone? board-zone))
+     $1
      (while (and (in-zone? board-zone) empty?)
           add
           $1
@@ -17,6 +63,30 @@
      (verify (in-zone? board-zone))
      (verify not-friend?)
      add
+  )
+)
+
+(define rook-slide
+  (  (verify (in-zone? board-zone))
+     (set-flag is-promoted false)
+     (if (in-zone? promotion-zone)
+          (set-flag is-promoted true)
+     )
+     $1
+     (while (and (in-zone? board-zone) empty?)
+          add
+          $1
+     )
+     (verify (in-zone? board-zone))
+     (verify not-friend?)
+     (if (in-zone? promotion-zone)
+          (set-flag is-promoted true)
+     )
+     (if (flag? is-promoted)
+          (add Rook RookP)
+     else
+          add
+     )
   )
 )
 
@@ -40,7 +110,7 @@
                            (ne 1 -1) (nw -1 -1) (se 1 1) (sw -1 1)
                )
         )
-        (dummy START SH NH WH EH END)
+        (dummy START END)
 	(links next
                (START 1a)
                (1a 2a) (2a 3a) (3a 4a) (4a 5a) (5a 6a) (6a 7a) (7a 8a) (8a 9a) (9a 1b)
@@ -54,18 +124,60 @@
                (1i 2i) (2i 3i) (3i 4i) (4i 5i) (5i 6i) (6i 7i) (7i 8i) (8i 9i) (9i END)
         )
         (links to-hand
-               (SH 1y)
+               (START 1y)
                (1y 2y) (2y 3y) (3y 4y) (4y 5y) (5y 6y) (6y 7y) (7y 8y) (8y 9y) (9y 1z)
                (1z 2z) (2z 3z) (3z 4z) (4z 5z) (5z 6z) (6z 7z) (7z 8z) (8z 9z) (9z END)
-               (NH 1l)
+        )
+        (links n-hand
+               (START 1l)
                (1l 2l) (2l 3l) (3l 4l) (4l 5l) (5l 6l) (6l 7l) (7l 8l) (8l 9l) (9l 1m)
                (1m 2m) (2m 3m) (3m 4m) (4m 5m) (5m 6m) (6m 7m) (7m 8m) (8m 9m) (9m END)
-               (WH Ia)
+        )
+        (links w-hand
+               (START Ia)
                (Ia Ib) (Ib Ic) (Ic Id) (Id Ie) (Ie If) (If Ig) (Ig Ih) (Ih Ii) (Ii IIa)
                (IIa IIb) (IIb IIc) (IIc IId) (IId IIe) (IIe IIf) (IIf IIg) (IIg IIh) (IIh IIi) (IIi END)
-               (EH IIIa)
+        )
+        (links e-hand
+               (START IIIa)
                (IIIa IIIb) (IIIb IIIc) (IIIc IIId) (IIId IIIe) (IIIe IIIf) (IIIf IIIg) (IIIg IIIh) (IIIh IIIi) (IIIi IVa)
                (IVa IVb) (IVb IVc) (IVc IVd) (IVd IVe) (IVe IVf) (IVf IVg) (IVg IVh) (IVh IVi) (IVi END)
+        )
+        (links to-rank-1
+               (START 1a)
+               (1a 1b) (1b 1c) (1c 1d) (1d 1e) (1e 1f) (1f 1g) (1g 1h) (1h 1i) (1i END)
+        )
+        (links to-rank-2
+               (START 2a)
+               (2a 2b) (2b 2c) (2c 2d) (2d 2e) (2e 2f) (2f 2g) (2g 2h) (2h 2i) (2i END)
+        )
+        (links to-rank-3
+               (START 3a)
+               (3a 3b) (3b 3c) (3c 3d) (3d 3e) (3e 3f) (3f 3g) (3g 3h) (3h 3i) (3i END)
+        )
+        (links to-rank-4
+               (START 4a)
+               (4a 4b) (4b 4c) (4c 4d) (4d 4e) (4e 4f) (4f 4g) (4g 4h) (4h 4i) (4i END)
+        )
+        (links to-rank-5
+               (START 5a)
+               (5a 5b) (5b 5c) (5c 5d) (5d 5e) (5e 5f) (5f 5g) (5g 5h) (5h 5i) (5i END)
+        )
+        (links to-rank-6
+               (START 6a)
+               (6a 6b) (6b 6c) (6c 6d) (6d 6e) (6e 6f) (6f 6g) (6g 6h) (6h 6i) (6i END)
+        )
+        (links to-rank-7
+               (START 7a)
+               (7a 7b) (7b 7c) (7c 7d) (7d 7e) (7e 7f) (7f 7g) (7g 7h) (7h 7i) (7i END)
+        )
+        (links to-rank-8
+               (START 8a)
+               (8a 8b) (8b 8c) (8c 8d) (8d 8e) (8e 8f) (8f 8g) (8g 8h) (8h 8i) (8i END)
+        )
+        (links to-rank-9
+               (START 9a)
+               (9a 9b) (9b 9c) (9c 9d) (9d 9e) (9e 9f) (9f 9g) (9g 9h) (9h 9i) (9i END)
         )
         (zone (name board-zone) (players South North West East)
               (positions 1a 2a 3a 4a 5a 6a 7a 8a 9a
@@ -78,6 +190,33 @@
                          1h 2h 3h 4h 5h 6h 7h 8h 9h
                          1i 2i 3i 4i 5i 6i 7i 8i 9i
               )
+        )
+        (zone (name rank-1-zone) (players South North West East)
+              (positions 1a 1b 1c 1d 1e 1f 1g 1h 1i)
+        )
+        (zone (name rank-2-zone) (players South North West East)
+              (positions 2a 2b 2c 2d 2e 2f 2g 2h 2i)
+        )
+        (zone (name rank-3-zone) (players South North West East)
+              (positions 3a 3b 3c 3d 3e 3f 3g 3h 3i)
+        )
+        (zone (name rank-4-zone) (players South North West East)
+              (positions 4a 4b 4c 4d 4e 4f 4g 4h 4i)
+        )
+        (zone (name rank-5-zone) (players South North West East)
+              (positions 5a 5b 5c 5d 5e 5f 5g 5h 5i)
+        )
+        (zone (name rank-6-zone) (players South North West East)
+              (positions 6a 6b 6c 6d 6e 6f 6g 6h 6i)
+        )
+        (zone (name rank-7-zone) (players South North West East)
+              (positions 7a 7b 7c 7d 7e 7f 7g 7h 7i)
+        )
+        (zone (name rank-8-zone) (players South North West East)
+              (positions 8a 8b 8c 8d 8e 8f 8g 8h 8i)
+        )
+        (zone (name rank-9-zone) (players South North West East)
+              (positions 9a 9b 9c 9d 9e 9f 9g 9h 9i)
         )
         (zone (name hand-zone) (players South)
               (positions 1y 2y 3y 4y 5y 6y 7y 8y 9y 1z 2z 3z 4z 5z 6z 7z 8z 9z)
@@ -98,10 +237,10 @@
               (positions 1i 2i 3i 4i 5i 6i 7i 8i 9i)
         )
         (zone (name stop-zone) (players West)
-              (positions 9a 9b 9c 9d 9e 9f 9g 9h 9i)
+              (positions 1a 1b 1c 1d 1e 1f 1g 1h 1i)
         )
         (zone (name stop-zone) (players East)
-              (positions 1a 1b 1c 1d 1e 1f 1g 1h 1i)
+              (positions 9a 9b 9c 9d 9e 9f 9g 9h 9i)
         )
         (zone (name promotion-zone) (players South)
               (positions 1a 2a 3a 4a 5a 6a 7a 8a 9a
@@ -116,25 +255,28 @@
               )
         )
         (zone (name promotion-zone) (players West)
-              (positions 9a 9b 9c 9d 9e 9f 9g 9h 9i
-                         8a 8b 8c 8d 8e 8f 8g 8h 8i
-                         7a 7b 7c 7d 7e 7f 7g 7h 7i
-              )
-        )
-        (zone (name promotion-zone) (players East)
               (positions 1a 1b 1c 1d 1e 1f 1g 1h 1i
                          2a 2b 2c 2d 2e 2f 2g 2h 2i
                          3a 3b 3c 3d 3e 3f 3g 3h 3i
               )
         )
+        (zone (name promotion-zone) (players East)
+              (positions 9a 9b 9c 9d 9e 9f 9g 9h 9i
+                         8a 8b 8c 8d 8e 8f 8g 8h 8i
+                         7a 7b 7c 7d 7e 7f 7g 7h 7i
+              )
+        )
         (symmetry North (n s) (s n) (e w) (w e) 
                         (ne sw) (sw ne) (nw se) (se nw)
+                        (to-hand n-hand)
         )
         (symmetry West  (n e) (s w) (e s) (w n) 
                         (nw ne) (sw nw) (ne se) (se sw)
+                        (to-hand w-hand)
         )
         (symmetry East  (n w) (s e) (e n) (w s) 
                         (nw sw) (sw se) (ne nw) (se ne)
+                        (to-hand e-hand)
         )
   )
 
@@ -173,7 +315,7 @@
                East  "../Images/YoninShogi/Kanji/EPawn.bmp" "../Images/YoninShogi/Old/EPawn.bmp" "../Images/YoninShogi/Chess/EPawn.bmp" "../Images/YoninShogi/Alpha/EPawn.bmp" "../Images/YoninShogi/Draw/EPawn.bmp"
         )
         (moves
-               (leap n) 
+               (pawn-leap) 
         )
   )
   (piece
@@ -200,11 +342,11 @@
                East  "../Images/YoninShogi/Kanji/ESilver.bmp" "../Images/YoninShogi/Old/ESilver.bmp" "../Images/YoninShogi/Chess/ESilver.bmp" "../Images/YoninShogi/Alpha/ESilver.bmp" "../Images/YoninShogi/Draw/ESilver.bmp"
         )
         (moves
-               (leap n) 
-               (leap nw)
-               (leap ne)
-               (leap sw)
-               (leap se)
+               (silver-leap n) 
+               (silver-leap nw)
+               (silver-leap ne)
+               (silver-leap sw)
+               (silver-leap se)
         )
   )
   (piece
@@ -247,10 +389,10 @@
                East  "../Images/YoninShogi/Kanji/ERook.bmp" "../Images/YoninShogi/Old/ERook.bmp" "../Images/YoninShogi/Chess/ERook.bmp" "../Images/YoninShogi/Alpha/ERook.bmp" "../Images/YoninShogi/Draw/ERook.bmp"
         )
         (moves
-               (slide n) 
-               (slide s)
-               (slide w)
-               (slide e)
+               (rook-slide n) 
+               (rook-slide s)
+               (rook-slide w)
+               (rook-slide e)
         )
   )
   (piece
