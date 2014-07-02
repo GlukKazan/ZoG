@@ -199,6 +199,33 @@
   )
 )
 
+(define lance-drop
+  ( (verify (not (in-zone? board-zone)))
+    START next
+    (while (not-position? END)
+       (if (and empty? (not (in-zone? stop-zone)))
+           add
+       )
+       next
+    )
+  )
+)
+
+(define knight-drop
+  ( (verify (not (in-zone? board-zone)))
+    START next
+    (while (not-position? END)
+       (if empty?
+           (check-knight-stop-zone)
+           (if (not (flag? is-stop-zone))
+                add
+           )
+       )
+       next
+    )
+  )
+)
+
 (define knight-leap
   (  (verify (in-zone? board-zone))
      (set-flag is-promoted false)
@@ -702,7 +729,7 @@
         (moves
                (knight-leap nw)
                (knight-leap ne)
-               (piece-drop)
+               (knight-drop)
         )
   )
   (piece
@@ -730,7 +757,7 @@
         )
         (moves
                (lance-slide) 
-               (piece-drop)
+               (lance-drop)
         )
   )
   (piece
