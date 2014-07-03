@@ -48,6 +48,7 @@ VARIABLE	here-pos
 : clear-locks ( -- )
 	here a9 = IF
 		drop
+		a1 clear-lock
 		f1 clear-lock
 		g1 clear-lock
 		h1 clear-lock
@@ -122,10 +123,6 @@ VARIABLE	here-pos
 	LOCK a1 create-piece-type-at
 ;
 
-: unlock-continue ( -- )
-	a1 capture-at
-;
-
 : check-continue? ( -- ? )
 	a1 friend-at? NOT
 ;
@@ -137,7 +134,6 @@ VARIABLE	here-pos
 		from
 		here
 		move
-		unlock-continue
 		lock-fly
 		add-move
 	ELSE
@@ -164,7 +160,6 @@ VARIABLE	here-pos
 		capture-at
 		DUP lock-stone
 		from create-piece-type-at
-		unlock-continue
 		lock-fly
 		add-move
 	ELSE
@@ -185,7 +180,6 @@ VARIABLE	here-pos
 		from
 		here
 		move
-		unlock-continue
 		add-move
 	ELSE
 		DROP
@@ -410,13 +404,17 @@ VARIABLE	here-pos
 	ENDIF
 ;
 
-: can-fly? ( piece-type -- ? )
+: can-fly-lock? ( piece-type -- ? )
 	fly-locker
 	DUP  f9 fly-possible?
 	OVER g9 fly-possible? AND
 	OVER h9 fly-possible? AND
 	SWAP i9 fly-possible? AND
 	b9 friend-at? NOT AND
+;
+
+: can-fly? ( piece-type -- ? )
+	can-fly-lock?
 	here from = empty? OR AND
 ;
 
@@ -463,6 +461,35 @@ VARIABLE	here-pos
 : fly-to-south ( -- ) ['] south fly-stone ;
 : fly-to-east  ( -- ) ['] east  fly-stone ;
 : fly-to-west  ( -- ) ['] west  fly-stone ;
+
+: push-stone ( 'dir -- )
+	check-continue? IF
+		DUP EXECUTE is-stone? not-locked? AND AND IF
+			piece-type can-fly-lock? IF
+				here SWAP
+				piece-type SWAP
+				EXECUTE empty? AND IF
+					SWAP from SWAP move
+					DUP lock-stone
+					DUP begin-fly
+					create-piece-type
+					add-move
+				ELSE
+					DROP DROP DROP
+				ENDIF
+			ELSE
+				DROP
+			ENDIF
+                ENDIF
+	ELSE
+		DROP
+	ENDIF
+;
+
+: force-to-north ( -- ) ['] north push-stone ;
+: force-to-south ( -- ) ['] south push-stone ;
+: force-to-east  ( -- ) ['] east  push-stone ;
+: force-to-west  ( -- ) ['] west  push-stone ;
 
 : pass-move ( -- )
 	Pass
@@ -539,14 +566,18 @@ VARIABLE	here-pos
 ;
 
 {moves wizard-moves
-	{move} step-to-north {move-type} normal-type
-	{move} step-to-south {move-type} normal-type
-	{move} step-to-east  {move-type} normal-type
-	{move} step-to-west  {move-type} normal-type
-	{move} fly-to-north  {move-type} normal-type
-	{move} fly-to-south  {move-type} normal-type
-	{move} fly-to-east   {move-type} normal-type
-	{move} fly-to-west   {move-type} normal-type
+	{move} step-to-north  {move-type} normal-type
+	{move} step-to-south  {move-type} normal-type
+	{move} step-to-east   {move-type} normal-type
+	{move} step-to-west   {move-type} normal-type
+	{move} fly-to-north   {move-type} normal-type
+	{move} fly-to-south   {move-type} normal-type
+	{move} fly-to-east    {move-type} normal-type
+	{move} fly-to-west    {move-type} normal-type
+	{move} force-to-north {move-type} normal-type
+	{move} force-to-south {move-type} normal-type
+	{move} force-to-east  {move-type} normal-type
+	{move} force-to-west  {move-type} normal-type
 moves}
 
 {moves dwarf-moves
