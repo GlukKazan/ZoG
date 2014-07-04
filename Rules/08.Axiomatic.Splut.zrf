@@ -123,3 +123,22 @@
 	(East  (estone i5))
    )
 )
+
+(variant
+   (title "Random")
+
+   (turn-order South
+               North North 
+               repeat
+               ?Cleaner
+               South South South
+               North North North 
+   )
+
+   (board-setup
+	(South (sstone e1) (wizard f2) (dwarf e2) (troll d2) (lock f1))
+	(West  (wstone a5))
+	(North (nstone e9) (wizard f8) (dwarf e8) (troll d8) (lock h1))
+	(East  (estone i5))
+   )
+)

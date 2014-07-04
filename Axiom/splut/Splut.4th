@@ -1,4 +1,4 @@
-LOAD CustomEngine.4th ( Load the Custom Engine )
+LOAD Engine.4th ( Load the Custom Engine )
 
 {players
 	{player}	South		{search-engine} Custom-Engine
@@ -632,9 +632,9 @@ move-priorities}
 	{piece}		nstone	{drops} stone-drops	0	{value}
 	{piece}		wstone	{drops} stone-drops	0	{value}
 	{piece}		estone	{drops} stone-drops	0	{value}
-	{piece}		wizard	{moves} wizard-moves	4	{value}
-	{piece}		dwarf	{moves} dwarf-moves	3	{value}
-	{piece}		troll	{moves} troll-moves	2	{value}
+	{piece}		wizard	{moves} wizard-moves	100	{value}
+	{piece}		dwarf	{moves} dwarf-moves	10	{value}
+	{piece}		troll	{moves} troll-moves	0	{value}
 pieces}
 
 ' continue-type 	IS CONTINUE-TYPE
