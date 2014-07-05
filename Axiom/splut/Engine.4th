@@ -3,29 +3,115 @@ LOAD Board.4th ( Load the Board Definitions )
 \ $gameLog	OFF
 
 81 CONSTANT	BoardSize
-6  CONSTANT	MaxDepth
+5  CONSTANT	MaxDepth
 
 VARIABLE	BestScore
 VARIABLE	Nodes
 VARIABLE	Depth
 VARIABLE	CurrEval
+VARIABLE	CurrPos
+VARIABLE	CurrFlag
 
 MaxDepth []	CurrMove[]
 MaxDepth []	CurrTurn[]
 MaxDepth []	CurrScore[]
+
+: get-x ( pos -- x )
+	9 MOD
+;
+
+: get-y ( pos -- y )
+	9 /
+;
+
+: delta-x ( pos1 pos2 -- delta )
+	get-x SWAP get-x - ABS
+;
+
+: delta-y ( pos1 pos2 -- delta )
+	get-y SWAP get-y - ABS
+;
+
+: CheckPiece ( pos value -- pos ? )
+	OVER piece-at piece-value =
+;
+
+: AddValue ( value -- )
+	CurrEval @ + CurrEval !
+;
+
+: CheckStones ( pos ? -- )
+	CurrFlag !
+	CurrPos !
+	BoardSize BEGIN
+		1-
+		DUP not-empty-at? IF
+			1 CheckPiece IF
+				DUP CurrPos @ delta-x OVER CurrPos @ delta-y
+				MIN 0= IF
+					CurrFlag @ IF
+						-500 AddValue
+					ELSE
+						100 AddValue
+					ENDIF
+				ENDIF
+			ENDIF
+		ENDIF
+		DUP 0> IF
+			FALSE
+		ELSE
+			TRUE
+		ENDIF
+	UNTIL
+	DROP
+;
+
+: CalcDelta ( pos ? -- )
+	CurrFlag !
+	CurrPos !
+	BoardSize BEGIN
+		1-
+		DUP not-empty-at? IF
+			1 CheckPiece IF
+				DUP CurrPos @ delta-x OVER CurrPos @ delta-y +
+				CurrFlag @ IF
+					-30 * AddValue
+				ELSE
+					10 * AddValue
+				ENDIF				
+			ENDIF
+		ENDIF
+		DUP 0> IF
+			FALSE
+		ELSE
+			TRUE
+		ENDIF
+	UNTIL
+	DROP
+;
 
 : Eval ( -- score )
 	0 CurrEval !
 	BoardSize BEGIN
 		1-
 		DUP not-empty-at? IF
-			DUP piece-at piece-value
-			OVER friend-at? IF
-				3 *
-			ELSE
-				NEGATE
+			2 CheckPiece IF
+				DUP DUP friend-at? CalcDelta
+			ENDIF			
+			3 CheckPiece IF
+				DUP friend-at? IF 300 ELSE -100 ENDIF
+				AddValue
 			ENDIF
-			CurrEval @ + CurrEval !
+			4 CheckPiece IF
+				DUP friend-at? IF 
+					9000 AddValue
+					TRUE
+				ELSE 
+					-3000 AddValue
+					FALSE
+				ENDIF
+				OVER CheckStones
+			ENDIF
 		ENDIF
 		DUP 0> IF
 			FALSE
@@ -46,7 +132,7 @@ MaxDepth []	CurrScore[]
 		DUP turn-offset-to-player FALSE 0 $GenerateMoves 
                 Depth @ CurrTurn[] !
 		$FirstMove Depth @ CurrMove[] !
-		-1000 Depth @ CurrScore[] !
+		-10000 Depth @ CurrScore[] !
 		BEGIN
 			$CloneBoard
 			Depth @ CurrMove[] @
@@ -96,7 +182,7 @@ MaxDepth []	CurrScore[]
 ;
 
 : Custom-Engine ( -- )
-	-1000 BestScore !
+	-10000 BestScore !
 	0 Nodes !
 	$FirstMove
 	BEGIN
@@ -106,7 +192,7 @@ MaxDepth []	CurrScore[]
 		CurrentMove!
 		DUP .moveCFA EXECUTE
 		MaxDepth Depth !
-		BestScore @ 1000 turn-offset next-turn-offset Score
+		BestScore @ 10000 turn-offset next-turn-offset Score
 		0 10 $RAND-WITHIN +
 \		BL EMIT DUP . CR
 		BestScore @ OVER <

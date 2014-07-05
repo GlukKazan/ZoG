@@ -628,13 +628,13 @@ move-priorities}
 
 {pieces
 	{piece}		lock    {moves} pass-moves 	{drops} clear-moves
-	{piece}		sstone	{drops} stone-drops	0	{value}
-	{piece}		nstone	{drops} stone-drops	0	{value}
-	{piece}		wstone	{drops} stone-drops	0	{value}
-	{piece}		estone	{drops} stone-drops	0	{value}
-	{piece}		wizard	{moves} wizard-moves	100	{value}
-	{piece}		dwarf	{moves} dwarf-moves	10	{value}
-	{piece}		troll	{moves} troll-moves	0	{value}
+	{piece}		sstone	{drops} stone-drops	1	{value}
+	{piece}		nstone	{drops} stone-drops	1	{value}
+	{piece}		wstone	{drops} stone-drops	1	{value}
+	{piece}		estone	{drops} stone-drops	1	{value}
+	{piece}		wizard	{moves} wizard-moves	4	{value}
+	{piece}		dwarf	{moves} dwarf-moves	3	{value}
+	{piece}		troll	{moves} troll-moves	2	{value}
 pieces}
 
 ' continue-type 	IS CONTINUE-TYPE

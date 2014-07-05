@@ -1,1 +1,1 @@
-AutoPlay Random Duel 10
+AutoPlay Random Duel 5
