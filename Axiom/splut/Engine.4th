@@ -3,26 +3,24 @@ LOAD Board.4th ( Load the Board Definitions )
 \ $gameLog	OFF
 
 81 CONSTANT	BoardSize
-5  CONSTANT	MaxDepth
+6  CONSTANT	MaxDepth
 
 VARIABLE	BestScore
 VARIABLE	Nodes
 VARIABLE	Depth
 VARIABLE	CurrEval
-VARIABLE	CurrPlayer
 
 MaxDepth []	CurrMove[]
 MaxDepth []	CurrTurn[]
 MaxDepth []	CurrScore[]
 
-: Eval ( player -- score )
-	CurrPlayer !
+: Eval ( -- score )
 	0 CurrEval !
 	BoardSize BEGIN
 		1-
 		DUP not-empty-at? IF
 			DUP piece-at piece-value
-			OVER player-at CurrPlayer @ = IF
+			OVER friend-at? IF
 				3 *
 			ELSE
 				NEGATE
@@ -42,8 +40,8 @@ MaxDepth []	CurrScore[]
 : Score ( alpha beta turn -- score )
 	Depth -- Depth @
 	0< IF
-		SWAP DROP SWAP DROP
-		turn-offset-to-player Eval
+		DROP DROP DROP
+		Eval
 	ELSE
 		DUP turn-offset-to-player FALSE 0 $GenerateMoves 
                 Depth @ CurrTurn[] !
@@ -58,10 +56,6 @@ MaxDepth []	CurrScore[]
 			RECURSE
 			$DeallocateBoard
 			$Yield
-			Depth @ CurrTurn[] @ turn-offset-to-player
-			current-player <> IF
-				NEGATE
-			ENDIF
 			DUP Depth @ CurrScore[] @ > IF
 				Depth @ CurrScore[] !
 			ELSE
@@ -80,6 +74,10 @@ MaxDepth []	CurrScore[]
 				OVER Depth @ CurrScore[] !
 				TRUE
 			ELSE
+				Depth @ CurrTurn[] @ turn-offset-to-player
+				current-player <> IF
+					NEGATE SWAP NEGATE
+				ENDIF
 				Depth @ CurrMove[] @
 				$NextMove
 				DUP Depth @ CurrMove[] !
@@ -89,6 +87,10 @@ MaxDepth []	CurrScore[]
 		$DeallocateMoves
 		DROP DROP
 		Depth @ CurrScore[] @
+		Depth @ CurrTurn[] @ turn-offset-to-player
+		current-player <> IF
+			NEGATE
+		ENDIF
 	ENDIF
 	Depth ++
 ;
