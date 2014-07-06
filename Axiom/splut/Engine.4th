@@ -1,6 +1,6 @@
 LOAD Board.4th ( Load the Board Definitions )
 
-\ $gameLog	OFF
+\ $gameLog	ON
 
 81 CONSTANT	BoardSize
 5  CONSTANT	MaxDepth
@@ -11,6 +11,7 @@ VARIABLE	Depth
 VARIABLE	CurrEval
 VARIABLE	CurrPos
 VARIABLE	CurrFlag
+VARIABLE	EvalCount
 
 MaxDepth []	CurrMove[]
 MaxDepth []	CurrTurn[]
@@ -126,8 +127,13 @@ MaxDepth []	CurrScore[]
 : Score ( alpha beta turn -- score )
 	Depth -- Depth @
 	0< IF
-		DROP DROP DROP
+		SWAP DROP SWAP DROP
 		Eval
+		SWAP turn-offset-to-player
+		current-player <> IF
+			NEGATE
+		ENDIF
+		EvalCount ++
 	ELSE
 		DUP turn-offset-to-player FALSE 0 $GenerateMoves 
                 Depth @ CurrTurn[] !
@@ -192,9 +198,11 @@ MaxDepth []	CurrScore[]
 		CurrentMove!
 		DUP .moveCFA EXECUTE
 		MaxDepth Depth !
+		0 EvalCount !
 		BestScore @ 10000 turn-offset next-turn-offset Score
 		0 10 $RAND-WITHIN +
-\		BL EMIT DUP . CR
+\		BL EMIT DUP . TAB
+\		BL EMIT EvalCount @ . CR
 		BestScore @ OVER <
 		IF
 			DUP BestScore !
