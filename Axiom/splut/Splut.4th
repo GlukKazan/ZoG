@@ -670,9 +670,9 @@ turn-order}
 
 {board-setup
 	{setup}	South sstone e1
-	{setup}	South wizard f2
+	{setup}	South wizard d2
 	{setup}	South dwarf  e2
-	{setup}	South troll  d2
+	{setup}	South troll  f2
 	{setup}	South lock   f1
 
 	{setup}	West wstone  a5
