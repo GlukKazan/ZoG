@@ -391,10 +391,10 @@ VARIABLE		blackScored
 ;
 
 : pass-move ( -- )
-	r5 capture-at
-	repetition-reset
+\	r5 capture-at
+\	repetition-reset
 	Pass
-	add-move
+\	add-move
 ;
 
 : Score ( value piece-type player pos -- score )

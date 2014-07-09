@@ -127,8 +127,12 @@ MaxDepth []	CurrScore[]
 : Score ( alpha beta turn -- score )
 	Depth -- Depth @
 	0< IF
-		DROP DROP DROP
+		SWAP DROP SWAP DROP
 		Eval
+		SWAP turn-offset-to-player
+		current-player <> IF
+			NEGATE
+		ENDIF
 		EvalCount ++
 	ELSE
 		DUP turn-offset-to-player FALSE 0 $GenerateMoves 
@@ -142,10 +146,6 @@ MaxDepth []	CurrScore[]
 			2DUP
 			Depth @ CurrTurn[] @ next-turn-offset
 			RECURSE
-			Depth @ CurrTurn[] @
-			current-player <> IF
-				NEGATE
-			ENDIF
 			$DeallocateBoard
 			$Yield
 			DUP Depth @ CurrScore[] @ > IF
@@ -179,6 +179,11 @@ MaxDepth []	CurrScore[]
 		$DeallocateMoves
 		DROP DROP
 		Depth @ CurrScore[] @
+		Depth @ CurrTurn[] @
+		turn-offset-to-player
+		current-player <> IF
+			NEGATE
+		ENDIF
 	ENDIF
 	Depth ++
 ;
@@ -190,15 +195,12 @@ MaxDepth []	CurrScore[]
 	BEGIN
 		$CloneBoard
 		DUP $MoveString 
-\		DUP TYPE
 		CurrentMove!
 		DUP .moveCFA EXECUTE
 		MaxDepth Depth !
 		0 EvalCount !
 		BestScore @ 10000 turn-offset next-turn-offset Score
-		0 10 $RAND-WITHIN +
-\		BL EMIT DUP . TAB
-\		BL EMIT EvalCount @ . CR
+		0 5 $RAND-WITHIN +
 		BestScore @ OVER <
 		IF
 			DUP BestScore !
@@ -216,5 +218,4 @@ MaxDepth []	CurrScore[]
 		DUP NOT
 	UNTIL
 	DROP
-\	CR
 ;
