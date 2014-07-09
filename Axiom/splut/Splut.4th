@@ -493,7 +493,7 @@ VARIABLE	here-pos
 
 : pass-move ( -- )
 	Pass
-	add-move
+\	add-move
 ;
 
 : check-wizard ( pos -- ? )
