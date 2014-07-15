@@ -28,7 +28,7 @@ public abstract class Pool implements IPool {
 		return nodes.keySet();
 	}
 	
-	protected INode add(INode n) throws Exception {
+	public INode add(INode n) throws Exception {
 		String name = n.getName();
 		INode r = nodes.get(name);
 		if (r == null) {

@@ -13,10 +13,14 @@ public class Scaner implements IScaner {
 	private final static char COMMENT_CHAR = ';';
 	private final static char LB_CHAR      = '(';
 	private final static char RB_CHAR      = ')';
+	private final static char QUOTE_CHAR   = '"';
+	private final static char ESC_CHAR   = '\\';
 	
 	private IParser parser;
 	private ILexem  currentLexem = new Lexem();
 	private boolean isCommented  = false;
+	private boolean isQuoted     = false;
+	private boolean isEscaped    = false;
 	
 	public Scaner(IParser parser) {
 		this.parser = parser;
@@ -30,6 +34,19 @@ public class Scaner implements IScaner {
 	}
 
 	public void scan(char c) throws Exception {
+		if (isEscaped) {
+			currentLexem.addChar(c);
+			isEscaped = false;
+			return;
+		}
+		if (isQuoted) {
+			if (c == QUOTE_CHAR) {
+				closeLexem();
+			} else {
+				currentLexem.addChar(c);
+			}
+			return;
+		}
 		if (isCommented) {
 			switch (c) {
 				case CR_CHAR:
@@ -54,9 +71,21 @@ public class Scaner implements IScaner {
 				currentLexem.addChar(c);
 				closeLexem();
 				break;
+			case QUOTE_CHAR:
+				closeLexem();
+				currentLexem.setString();
+				isQuoted = true;
+				break;
+			case ESC_CHAR:
+				isEscaped = true;
+				break;
 			default:
 				currentLexem.addChar(c);
 				break;
 		}
+	}
+
+	public void cr() throws Exception {
+		scan(CR_CHAR);
 	}
 }
