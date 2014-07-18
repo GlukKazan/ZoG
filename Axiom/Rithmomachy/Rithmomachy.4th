@@ -1,5 +1,12 @@
+\ TODO: Check repeatable capturing
+
+16	CONSTANT	ROWS
+12	CONSTANT	COLS
+34	CONSTANT	MAXV
+8	CONSTANT	MAXS
+
 {board
-	16 	12	{grid}
+	ROWS 	COLS	{grid}
 board}
 
 {directions
@@ -13,13 +20,13 @@ board}
 	-1 -1  {direction} Northwest
 	 1 -1  {direction} Southwest
 
-	 ( white-p )
-	 {link} white-p a1  l1	{link} white-p l1  l2	{link} white-p l2  l3
-	 {link} white-p l3  l4	{link} white-p l4  l5	{link} white-p l5  l6
+	 ( friend-p )
+	 {link} friend-p a1  l1	{link} friend-p l1  l2	{link} friend-p l2  l3
+	 {link} friend-p l3  l4	{link} friend-p l4  l5	{link} friend-p l5  l6
 
-	 ( black-p )
-	 {link} black-p a1  a16	{link} black-p a16 a15	{link} black-p a15 a14
-	 {link} black-p a14 a13	{link} black-p a13 a12	{link} black-p a12 a11
+	 ( enemy-p )
+	 {link} enemy-p a1  a16	{link} enemy-p a16 a15	{link} enemy-p a15 a14
+	 {link} enemy-p a14 a13	{link} enemy-p a13 a12	{link} enemy-p a12 a11
 directions}
 
 {players
@@ -33,16 +40,28 @@ players}
 turn-order}
 
 {symmetries
-	Black		{symmetry} white-p black-p
+	Black		{symmetry} friend-p enemy-p
 symmetries}
 
-DEFER	ROUND
-DEFER	TRIANGLE
-DEFER	SQUARE
-DEFER	PYRAMID
+DEFER		ROUND
+DEFER		TRIANGLE
+DEFER		SQUARE
+DEFER		PYRAMID
+
+VARIABLE	is-friend?
+VARIABLE	is-captured?
+VARIABLE	siege-counter
+VARIABLE	attacking-sum
+VARIABLE	attacked-cnt
+VARIABLE	attacking-count
+VARIABLE	current-count
+
+MAXV []		attacking-values[]
+MAXS []		current-positions[]
+MAXS []		current-values[]
 
 : get-x ( pos -- x )
-	12 MOD
+	COLS MOD
 ;
 
 : on-board-at? ( pos -- ? )
@@ -54,9 +73,353 @@ DEFER	PYRAMID
 	here on-board-at?
 ;
 
-: capture-all ( -- )
+: is-pyramid-at? ( pos -- ? )
+	DUP not-empty-at? IF
+		DUP friend-at? is-friend? !
+		piece PYRAMID >
+	ELSE
+		DROP FALSE
+	ENDIF
+;
+
+: is-piece-type? ( piece-type -- ? )
+	not-empty? IF
+		piece-type PYRAMID > IF
+			PYRAMID =
+		ELSE
+			piece-type SQUARE > IF
+				SQUARE =
+			ELSE
+				piece-type TRIANGLE > IF
+					TRIANGLE =
+				ELSE
+					ROUND =
+				ENDIF
+			ENDIF
+		ENDIF
+	ELSE
+		DROP FALSE
+	ENDIF
+;
+
+: sum-pyramid-values ( -- sum )
+	here
+	DUP is-pyramid-at? IF
+		a1 to 0
+		BEGIN
+			is-friend? @ IF
+				friend-p
+			ELSE
+				enemy-p
+			ENDIF
+			IF
+				not-empty? IF
+					piece piece-value +
+				ENDIF
+				FALSE
+			ELSE
+				TRUE
+			ENDIF
+		UNTIL
+		SWAP to
+	ELSE
+		DROP 0
+	ENDIF
+;
+
+: capture-piece ( -- )
+	PYRAMID is-piece-type? IF
+		here a1 to
+		BEGIN
+			enemy-p IF
+				not-empty? IF
+					capture
+				ENDIF
+				FALSE
+			ELSE
+				TRUE
+			ENDIF
+		UNTIL
+		to
+	ENDIF
+	capture
+;
+
+: get-attacking-values ( piece-type -- )
+	PYRAMID is-piece-type? IF
+		attacking-count @ MAXV < IF
+			sum-pyramid-values
+			attacking-count @ attacking-values[] !
+			attacking-count ++
+		ENDIF
+		here a1 to
+		BEGIN
+			friend-p IF
+				not-empty? attacking-count @ MAXV < AND IF
+					OVER is-piece-type? IF
+						piece piece-value
+						attacking-count @ attacking-values[] !
+						attacking-count ++
+					ENDIF
+				ENDIF				         
+				FALSE
+			ELSE
+				TRUE
+			ENDIF
+		UNTIL
+		to
+	ELSE
+		is-piece-type? attacking-count @ MAXV < AND IF
+			piece piece-value
+			attacking-count @ attacking-values[] !
+			attacking-count ++
+		ENDIF
+	ENDIF
+;
+
+: capture-equality-pieces ( value -- )
+	current-count 1 > IF
+		0 attacked-cnt !
+	ELSE
+		1 attacked-cnt !
+	ENDIF
+	current-count @
+	BEGIN
+		1- DUP 0> IF
+			OVER OVER current-values[] @ = IF
+				DUP current-positions[] @
+				capture-at
+			ELSE
+				attacked-cnt ++
+			ENDIF
+			FALSE
+		ELSE
+			TRUE
+		ENDIF
+	UNTIL
+	DROP
+	IF current-count 0> IF
+		0 current-values[] @ = IF
+			TRUE is-captured? !
+		ENDIF
+	ELSE
+		DROP
+	ENDIF
+	attacked-cnt @ 0= IF
+		TRUE is-captured? !
+	ENDIF
+;
+
+: check-equality-piece ( piece-type -- )
+	0 attacking-sum !
+	PYRAMID is-piece-type? IF
+		here a1 to
+		BEGIN
+			friend-p IF
+				not-empty? IF
+					piece piece-value
+					DUP attacking-sum @ + attacking-sum !
+					capture-equality-pieces
+				ENDIF
+				FALSE
+			ELSE
+				TRUE
+			ENDIF
+		UNTIL
+		to
+		attacking-sum @ 0> IF
+			attacking-sum @
+			capture-equality-pieces
+		ENDIF
+	ELSE
+		is-piece-type? IF
+			piece piece-value
+			capture-equality-pieces
+		ENDIF
+	ENDIF
+;
+
+: check-siege-od ( 'dir -- )
+	EXECUTE IF
+		on-board? NOT enemy? OR IF
+			siege-counter --
+		ENDIF
+		\ TODO: Capture by Eruption !!!
+
+	ELSE
+		siege-counter --
+	ENDIF
+;
+
+: check-siege-dd ( 'dir -- )
+	EXECUTE IF
+		on-board? NOT enemy? OR IF
+			siege-counter --
+		ENDIF
+                on-board? enemy? AND IF
+			ROUND get-attacking-values
+			ROUND check-equality-piece
+			\ TODO: Capture by Eruption ???
+
+		ENDIF
+	ELSE
+		siege-counter --
+	ENDIF
+;
+
+: check-siege ( pos -- )
+	4 siege-counter !
+	DUP to ['] North check-siege-od
+	DUP to ['] South check-siege-od
+	DUP to ['] West  check-siege-od
+	DUP to ['] East  check-siege-od
+	siege-counter @ 0= IF
+		TRUE is-captured? !
+	ENDIF
+	4 siege-counter !
+	DUP to ['] Northeast check-siege-dd
+	DUP to ['] Southeast check-siege-dd
+	DUP to ['] Northwest check-siege-dd
+	DUP to ['] Southwest check-siege-dd
+	siege-counter @ 0= IF
+		TRUE is-captured? !
+	ENDIF
+	to
+;
+
+: count-to-piece-type ( count -- piece-type )
+	0= IF
+		SQUARE
+	ELSE
+		TRIANGLE
+	ENDIF
+;
+
+: check-equality-dd ( 'second-dir count 'first-dir -- )
+	EXECUTE on-board? AND IF
+		BEGIN
+			1- 0< IF
+				TRUE			
+			ELSE
+				OVER EXECUTE on-board? AND IF
+					enemy? IF
+						DUP count-to-piece-type
+						DUP get-attacking-values
+						check-equality-piece
+					ENDIF
+	                                FALSE
+				ELSE
+					TRUE
+				ENDIF
+			ENDIF
+		UNTIL
+		DROP DROP
+	ENDIF
+;
+
+: check-equality-od ( 'second-dir count 'first-dir -- )
+	EXECUTE on-board? AND empty? AND IF
+		BEGIN
+			1- 0< IF
+				TRUE			
+			ELSE
+				OVER EXECUTE on-board? AND IF
+					enemy? IF
+						DUP count-to-piece-type
+						DUP get-attacking-values
+						check-equality-piece
+						TRUE
+					ELSE
+						not-empty?
+					ENDIF
+				ELSE
+					TRUE
+				ENDIF
+			ENDIF
+		UNTIL
+		DROP DROP
+	ENDIF
+;
+
+: check-equality ( pos -- )
+	DUP to ['] North 2 ['] North     check-equality-od
+	DUP to ['] North 2 ['] Northwest check-equality-dd
+	DUP to ['] North 2 ['] Northeast check-equality-dd
+	DUP to ['] South 2 ['] South     check-equality-od
+	DUP to ['] South 2 ['] Southwest check-equality-dd
+	DUP to ['] South 2 ['] Southeast check-equality-dd
+	DUP to ['] West  2 ['] West      check-equality-od
+	DUP to ['] West  2 ['] Northwest check-equality-dd
+	DUP to ['] West  2 ['] Southwest check-equality-dd
+	DUP to ['] East  2 ['] East      check-equality-od
+	DUP to ['] East  2 ['] Northeast check-equality-dd
+	DUP to ['] East  2 ['] Southeast check-equality-dd
+	to
+;
+
+: check-ambush ( pos -- )
 	\ TODO:
 
+;
+
+: check-eruption ( pos -- )
+	\ TODO:
+
+;
+
+: fill-current ( pos -- )
+	1 current-count !
+	DUP 0 current-positions[] !
+	DUP piece-type-at PYRAMID > IF
+		a1 to 0
+		BEGIN
+			enemy-p IF
+				not-empty? IF
+					piece piece-value
+					current-count MAXS < IF
+						here current-count @ current-positions[] !
+						DUP  current-count @ current-values[] !
+						current-count ++
+					ENDIF
+					+
+				ENDIF
+				FALSE
+			ELSE
+				TRUE
+			ENDIF
+		UNTIL
+	ELSE
+		DUP piece piece-value
+	ENDIF
+	0 current-values[] !
+	to
+;
+
+: capture-all ( -- )
+	here ROWS COLS *
+	BEGIN
+		1-
+		DUP on-board-at? enemy? AND IF
+			0 attacking-count  !
+			FALSE is-captured? !
+			fill-current
+			DUP check-siege
+			is-captured? @ NOT IF
+				DUP check-equality
+			ENDIF
+			is-captured? @ NOT IF
+				DUP check-ambush
+			ENDIF
+			is-captured? @ NOT IF
+				DUP check-eruption
+			ENDIF
+			is-captured? @ IF
+				DUP to capture-piece
+			ENDIF
+		ENDIF
+		DUP 0> NOT
+	UNTIL
+	DROP to
 ;
 
 : leap-0 ( 'leap-dir ? -- )
@@ -139,28 +502,12 @@ DEFER	PYRAMID
 	ENDIF
 ;
 
-: is-piece-type? ( piece-type -- ? )
-	not-empty? IF
-		piece-type SQUARE > IF
-			SQUARE =
-		ELSE
-			piece-type TRIANGLE > IF
-				TRIANGLE =
-			ELSE
-				ROUND =
-			ENDIF
-		ENDIF
-	ELSE
-		DROP FALSE
-	ENDIF
-;
-
 : is-correct-type? ( piece-type -- ? )
 	not-empty? IF
 		piece PYRAMID > IF
 			here SWAP a1 to
 			BEGIN
-				white-p IF
+				friend-p IF
 					DUP is-piece-type? IF
 						DROP TRUE TRUE
 					ELSE
