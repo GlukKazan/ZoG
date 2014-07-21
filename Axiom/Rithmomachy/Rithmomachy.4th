@@ -1,12 +1,18 @@
-\ TODO: Check repeatable capturing
-
 16	CONSTANT	ROWS
 12	CONSTANT	COLS
 34	CONSTANT	MAXV
 8	CONSTANT	MAXS
+30	CONSTANT	MAXE
+15	CONSTANT	WINC
+1315	CONSTANT	WINW
+984	CONSTANT	WINB
 
 {board
 	ROWS 	COLS	{grid}
+	{variable}	WhitePieces
+	{variable}	BlackPieces
+	{variable}	WhiteValues
+	{variable}	BlackValues
 board}
 
 {directions
@@ -50,15 +56,46 @@ DEFER		PYRAMID
 
 VARIABLE	is-friend?
 VARIABLE	is-captured?
+VARIABLE	is-diagonal-checking?
 VARIABLE	siege-counter
 VARIABLE	attacking-sum
 VARIABLE	attacked-cnt
+VARIABLE	value-1
+VARIABLE	value-2
 VARIABLE	attacking-count
 VARIABLE	current-count
+VARIABLE	eruption-count
 
 MAXV []		attacking-values[]
 MAXS []		current-positions[]
 MAXS []		current-values[]
+MAXS []		eruption-values[]
+
+: WhitePieces++ WhitePieces ++ ;
+: BlackPieces++ BlackPieces ++ ;
+: WhiteValues++ WhiteValues ++ ;
+: BlackValues++ BlackValues ++ ;
+
+: ChangePieces ( pos -- )
+	DUP piece piece-value SWAP
+	player-at White = IF
+		COMPILE WhitePieces++
+		BEGIN
+			1-
+			COMPILE WhiteValues++
+			DUP 0> NOT
+		UNTIL
+		DROP
+	ELSE
+		COMPILE BlackPieces++
+		BEGIN
+			1-
+			COMPILE BlackValues++
+			DUP 0> NOT
+		UNTIL
+		DROP
+	ENDIF
+;
 
 : get-x ( pos -- x )
 	COLS MOD
@@ -128,21 +165,66 @@ MAXS []		current-values[]
 ;
 
 : capture-piece ( -- )
+	current-count @
+	BEGIN
+		1- DUP 0> IF
+			DUP current-positions[] @
+			DUP 0> IF
+				DUP enemy-at? IF
+					DUP ChangePieces
+					capture-at
+				ELSE
+					DROP
+				ENDIF
+			ELSE
+				DROP
+			ENDIF
+			FALSE
+		ELSE
+			DUP current-positions[] @
+			DUP enemy-at? IF
+				current-count @ 1 = IF
+					DUP ChangePieces
+				ENDIF
+				capture-at
+			ELSE
+				DROP
+			ENDIF
+			TRUE
+		ENDIF
+	UNTIL
+	DROP
+;
+
+: get-eruption-values ( n -- )
 	PYRAMID is-piece-type? IF
+		eruption-count @ MAXE < IF
+			DUP sum-pyramid-values *
+			eruption-count @ eruption-values[] !
+			eruption-count ++
+		ENDIF
 		here a1 to
 		BEGIN
-			enemy-p IF
-				not-empty? IF
-					capture
-				ENDIF
+			friend-p IF
+				not-empty? eruption-count @ MAXE < AND IF
+					DUP piece piece-value *
+					eruption-count @ eruption-values[] !
+					eruption-count ++
+				ENDIF				         
 				FALSE
 			ELSE
 				TRUE
 			ENDIF
 		UNTIL
 		to
+		DROP
+	ELSE
+		eruption-count @ MAXE < IF
+			piece piece-value *
+			eruption-count @ eruption-values[] !
+			eruption-count ++
+		ENDIF
 	ENDIF
-	capture
 ;
 
 : get-attacking-values ( piece-type -- )
@@ -188,7 +270,17 @@ MAXS []		current-values[]
 		1- DUP 0> IF
 			OVER OVER current-values[] @ = IF
 				DUP current-positions[] @
-				capture-at
+				DUP 0= IF
+					DROP
+				ELSE
+					DUP enemy-at? IF
+						DUP ChangePieces
+						capture-at
+					ELSE
+						DROP
+					ENDIF
+					0 OVER current-positions[] !
+				ENDIF
 			ELSE
 				attacked-cnt ++
 			ENDIF
@@ -241,11 +333,12 @@ MAXS []		current-values[]
 
 : check-siege-od ( 'dir -- )
 	EXECUTE IF
-		on-board? NOT enemy? OR IF
+		on-board? NOT friend? OR IF
 			siege-counter --
 		ENDIF
-		\ TODO: Capture by Eruption !!!
-
+		on-board? friend? AND IF
+			2 get-eruption-values
+		ENDIF
 	ELSE
 		siege-counter --
 	ENDIF
@@ -253,14 +346,15 @@ MAXS []		current-values[]
 
 : check-siege-dd ( 'dir -- )
 	EXECUTE IF
-		on-board? NOT enemy? OR IF
+		on-board? NOT friend? OR IF
 			siege-counter --
 		ENDIF
-                on-board? enemy? AND IF
+                on-board? friend? AND IF
 			ROUND get-attacking-values
 			ROUND check-equality-piece
-			\ TODO: Capture by Eruption ???
-
+			is-diagonal-checking? @ IF
+				2 get-eruption-values
+			ENDIF
 		ENDIF
 	ELSE
 		siege-counter --
@@ -295,6 +389,14 @@ MAXS []		current-values[]
 	ENDIF
 ;
 
+: count-to-factor ( count -- n )
+	0= IF
+		4
+	ELSE
+		3
+	ENDIF
+;
+
 : check-equality-dd ( 'second-dir count 'first-dir -- )
 	EXECUTE on-board? AND IF
 		BEGIN
@@ -303,6 +405,7 @@ MAXS []		current-values[]
 			ELSE
 				OVER EXECUTE on-board? AND IF
 					enemy? IF
+						DUP count-to-factor get-eruption-values
 						DUP count-to-piece-type
 						DUP get-attacking-values
 						check-equality-piece
@@ -313,7 +416,7 @@ MAXS []		current-values[]
 				ENDIF
 			ENDIF
 		UNTIL
-		DROP DROP
+		2DROP
 	ENDIF
 ;
 
@@ -325,6 +428,9 @@ MAXS []		current-values[]
 			ELSE
 				OVER EXECUTE on-board? AND IF
 					enemy? IF
+						is-diagonal-checking? @ IF
+							DUP count-to-factor get-eruption-values
+						ENDIF
 						DUP count-to-piece-type
 						DUP get-attacking-values
 						check-equality-piece
@@ -337,7 +443,7 @@ MAXS []		current-values[]
 				ENDIF
 			ENDIF
 		UNTIL
-		DROP DROP
+		2DROP
 	ENDIF
 ;
 
@@ -357,14 +463,147 @@ MAXS []		current-values[]
 	to
 ;
 
-: check-ambush ( pos -- )
-	\ TODO:
+: check-ambush-prod ( value -- ? )
+	value-1 @ value-2 @ * OVER = IF
+		DROP TRUE
+	ELSE
+		DUP value-1 @ * value-2 @ = IF
+			DROP TRUE
+		ELSE
+			value-2 @ * value-1 @ = IF
+				TRUE
+			ELSE
+				FALSE
+			ENDIF
+		ENDIF
+	ENDIF
+;
 
+: check-ambush-cond ( value -- ? )
+	value-1 @ value-2 @ + OVER = IF
+		DROP TRUE
+	ELSE
+		DUP value-1 @ + value-2 @ = IF
+			DROP TRUE
+		ELSE
+			DUP value-2 @ + value-1 @ = IF
+				DROP TRUE
+			ELSE
+				check-ambush-prod
+			ENDIF
+		ENDIF
+	ENDIF
+;
+
+: check-ambush-pair ( -- )
+	current-count @
+	BEGIN
+		1-
+		DUP current-positions[] @ 0<> IF
+			DUP current-values[] @ check-ambush-cond IF
+				DUP 0> IF
+					DUP current-positions[] @ 
+					DUP enemy-at? IF
+						DUP ChangePieces
+						capture-at
+					ELSE
+						DROP
+					ENDIF
+					0 OVER current-positions[] !
+				ELSE
+					TRUE is-captured? !
+				ENDIF
+			ENDIF
+		ENDIF
+		DUP 0> NOT
+	UNTIL
+	DROP
+;
+
+: check-ambush ( -- )
+	attacking-count @
+	BEGIN
+		1-
+		attacking-count @
+		BEGIN
+			1-
+			2DUP < IF
+				2DUP 
+				attacking-values[] @ value-1 !
+				attacking-values[] @ value-2 !
+				check-ambush-pair
+			ENDIF
+			DUP 0> NOT
+		UNTIL
+		DROP
+		DUP 0> NOT
+	UNTIL
+	DROP
+;
+
+: fill-eruption-values ( 'dir pos n -- )
+	value-1 ! to 1
+	BEGIN
+		1+ OVER EXECUTE IF
+			on-board? friend? AND DUP value-1 @ > AND IF
+				DUP get-eruption-values
+			ENDIF
+			FALSE
+		ELSE
+			TRUE
+		ENDIF
+	UNTIL
+	2DROP
+;
+
+: check-eruption-pair ( -- )
+	current-count @
+	BEGIN
+		1-
+		DUP current-positions[] @ 0<> IF
+			DUP current-values[] @ value-1 @ = IF
+				DUP 0> IF
+					DUP current-positions[] @ 
+					DUP enemy-at? IF
+						DUP ChangePieces
+						capture-at
+					ELSE
+						DROP
+					ENDIF
+					0 OVER current-positions[] !
+				ELSE
+					TRUE is-captured? !
+				ENDIF
+			ENDIF
+		ENDIF
+		DUP 0> NOT
+	UNTIL
+	DROP
+;
+
+: check-eruption-values ( -- )
+	eruption-count @
+	BEGIN
+		1-
+		DUP eruption-values[] @ value-1 !
+		check-eruption-pair
+		DUP 0> NOT
+	UNTIL
+	DROP
 ;
 
 : check-eruption ( pos -- )
-	\ TODO:
-
+	['] North OVER 4 fill-eruption-values
+	['] South OVER 4 fill-eruption-values
+	['] West  OVER 4 fill-eruption-values
+	['] East  OVER 4 fill-eruption-values
+	is-diagonal-checking? @ IF
+		['] Northeast OVER 2 fill-eruption-values
+		['] Southeast OVER 2 fill-eruption-values
+		['] Northwest OVER 2 fill-eruption-values
+		['] Southwest OVER 2 fill-eruption-values
+	ENDIF
+	to check-eruption-values
 ;
 
 : fill-current ( pos -- )
@@ -401,6 +640,7 @@ MAXS []		current-values[]
 		1-
 		DUP on-board-at? enemy? AND IF
 			0 attacking-count  !
+			0 eruption-count   !
 			FALSE is-captured? !
 			fill-current
 			DUP check-siege
@@ -408,7 +648,7 @@ MAXS []		current-values[]
 				DUP check-equality
 			ENDIF
 			is-captured? @ NOT IF
-				DUP check-ambush
+				check-ambush
 			ENDIF
 			is-captured? @ NOT IF
 				DUP check-eruption
@@ -446,13 +686,13 @@ MAXS []		current-values[]
 					1- DUP 0> IF
 						FALSE
 					ELSE
-						DROP DROP TRUE TRUE
+						2DROP TRUE TRUE
 					ENDIF
 				ELSE
-					DROP DROP FALSE TRUE
+					2DROP FALSE TRUE
 				ENDIF
 			ELSE
-				DROP DROP FALSE TRUE
+				2DROP FALSE TRUE
 			ENDIF
 		UNTIL
 		IF
@@ -469,7 +709,7 @@ MAXS []		current-values[]
 			DROP
 		ENDIF
 	ELSE
-		DROP DROP DROP
+		2DROP DROP
 	ENDIF
 ;
 
@@ -481,13 +721,13 @@ MAXS []		current-values[]
 					1- DUP 0> IF
 						FALSE
 					ELSE
-						DROP DROP TRUE TRUE
+						2DROP TRUE TRUE
 					ENDIF
 				ELSE
-					DROP DROP FALSE TRUE
+					2DROP FALSE TRUE
 				ENDIF
 			ELSE
-				DROP DROP FALSE TRUE
+				2DROP FALSE TRUE
 			ENDIF
 		UNTIL
 		IF
@@ -498,7 +738,7 @@ MAXS []		current-values[]
 			add-move
 		ENDIF
 	ELSE
-		DROP DROP
+		2DROP
 	ENDIF
 ;
 
@@ -523,6 +763,35 @@ MAXS []		current-values[]
 		ENDIF
 	ELSE
 		DROP FALSE
+	ENDIF
+;
+
+: OnNewGame ( -- )
+	TRUE is-diagonal-checking? !
+	RANDOMIZE
+;
+
+: OnIsGameOver ( -- gameResult )
+	#UnknownScore
+	current-player White = IF
+		WhitePieces @ WINC >= IF
+			DROP
+			#LossScore
+		ENDIF
+		WhiteValues @ WINW >= IF
+			DROP
+			#LossScore
+		ENDIF
+	ENDIF
+	current-player Black = IF
+		BlackPieces @ WINC >= IF
+			DROP
+			#LossScore
+		ENDIF
+		BlackValues @ WINB >= IF
+			DROP
+			#LossScore
+		ENDIF
 	ENDIF
 ;
 
