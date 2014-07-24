@@ -1,4 +1,4 @@
-16	CONSTANT	ROWS
+14	CONSTANT	ROWS
 12	CONSTANT	COLS
 34	CONSTANT	MAXV
 8	CONSTANT	MAXS
@@ -31,8 +31,8 @@ board}
 	 {link} friend-p l3  l4	{link} friend-p l4  l5	{link} friend-p l5  l6
 
 	 ( enemy-p )
-	 {link} enemy-p a1  a16	{link} enemy-p a16 a15	{link} enemy-p a15 a14
-	 {link} enemy-p a14 a13	{link} enemy-p a13 a12	{link} enemy-p a12 a11
+	 {link} enemy-p a1  a14	{link} enemy-p a14 a13	{link} enemy-p a13 a12
+	 {link} enemy-p a12 a11	{link} enemy-p a11 a10	{link} enemy-p a10 a9
 directions}
 
 {players
@@ -65,6 +65,7 @@ VARIABLE	value-2
 VARIABLE	attacking-count
 VARIABLE	current-count
 VARIABLE	eruption-count
+VARIABLE	last-position
 
 MAXV []		attacking-values[]
 MAXS []		current-positions[]
@@ -77,7 +78,7 @@ MAXS []		eruption-values[]
 : BlackValues++ BlackValues ++ ;
 
 : ChangePieces ( pos -- )
-	DUP piece piece-value SWAP
+	DUP piece-at piece-value SWAP
 	player-at White = IF
 		COMPILE WhitePieces++
 		BEGIN
@@ -113,7 +114,7 @@ MAXS []		eruption-values[]
 : is-pyramid-at? ( pos -- ? )
 	DUP not-empty-at? IF
 		DUP friend-at? is-friend? !
-		piece PYRAMID >
+		piece-type PYRAMID >
 	ELSE
 		DROP FALSE
 	ENDIF
@@ -169,7 +170,7 @@ MAXS []		eruption-values[]
 	BEGIN
 		1- DUP 0> IF
 			DUP current-positions[] @
-			DUP 0> IF
+			DUP 0< NOT IF
 				DUP enemy-at? IF
 					DUP ChangePieces
 					capture-at
@@ -183,9 +184,7 @@ MAXS []		eruption-values[]
 		ELSE
 			DUP current-positions[] @
 			DUP enemy-at? IF
-				current-count @ 1 = IF
-					DUP ChangePieces
-				ENDIF
+				DUP ChangePieces
 				capture-at
 			ELSE
 				DROP
@@ -270,7 +269,7 @@ MAXS []		eruption-values[]
 		1- DUP 0> IF
 			OVER OVER current-values[] @ = IF
 				DUP current-positions[] @
-				DUP 0= IF
+				DUP 0< IF
 					DROP
 				ELSE
 					DUP enemy-at? IF
@@ -279,7 +278,7 @@ MAXS []		eruption-values[]
 					ELSE
 						DROP
 					ENDIF
-					0 OVER current-positions[] !
+					-1 OVER current-positions[] !
 				ENDIF
 			ELSE
 				attacked-cnt ++
@@ -331,14 +330,27 @@ MAXS []		eruption-values[]
 	ENDIF
 ;
 
+: predict-move ( -- pos )
+	here 
+	DUP from = IF
+		last-position @ to
+	ELSE
+		DUP last-position @ = IF
+			from to
+		ENDIF
+	ENDIF
+;
+
 : check-siege-od ( 'dir -- )
 	EXECUTE IF
+		predict-move
 		on-board? NOT friend? OR IF
 			siege-counter --
 		ENDIF
 		on-board? friend? AND IF
 			2 get-eruption-values
 		ENDIF
+		to
 	ELSE
 		siege-counter --
 	ENDIF
@@ -346,16 +358,18 @@ MAXS []		eruption-values[]
 
 : check-siege-dd ( 'dir -- )
 	EXECUTE IF
+		predict-move
 		on-board? NOT friend? OR IF
 			siege-counter --
 		ENDIF
-                on-board? friend? AND IF
+		on-board? friend? AND IF
 			ROUND get-attacking-values
 			ROUND check-equality-piece
 			is-diagonal-checking? @ IF
 				2 get-eruption-values
 			ENDIF
 		ENDIF
+		to
 	ELSE
 		siege-counter --
 	ENDIF
@@ -499,7 +513,7 @@ MAXS []		eruption-values[]
 	current-count @
 	BEGIN
 		1-
-		DUP current-positions[] @ 0<> IF
+		DUP current-positions[] @ 0< NOT IF
 			DUP current-values[] @ check-ambush-cond IF
 				DUP 0> IF
 					DUP current-positions[] @ 
@@ -509,7 +523,7 @@ MAXS []		eruption-values[]
 					ELSE
 						DROP
 					ENDIF
-					0 OVER current-positions[] !
+					-1 OVER current-positions[] !
 				ELSE
 					TRUE is-captured? !
 				ENDIF
@@ -560,7 +574,7 @@ MAXS []		eruption-values[]
 	current-count @
 	BEGIN
 		1-
-		DUP current-positions[] @ 0<> IF
+		DUP current-positions[] @ 0< NOT IF
 			DUP current-values[] @ value-1 @ = IF
 				DUP 0> IF
 					DUP current-positions[] @ 
@@ -570,7 +584,7 @@ MAXS []		eruption-values[]
 					ELSE
 						DROP
 					ENDIF
-					0 OVER current-positions[] !
+					-1 OVER current-positions[] !
 				ELSE
 					TRUE is-captured? !
 				ENDIF
@@ -615,7 +629,7 @@ MAXS []		eruption-values[]
 			enemy-p IF
 				not-empty? IF
 					piece piece-value
-					current-count MAXS < IF
+					current-count @ MAXS < IF
 						here current-count @ current-positions[] !
 						DUP  current-count @ current-values[] !
 						current-count ++
@@ -638,11 +652,11 @@ MAXS []		eruption-values[]
 	here ROWS COLS *
 	BEGIN
 		1-
-		DUP on-board-at? enemy? AND IF
+		DUP on-board-at? OVER enemy-at? AND IF
 			0 attacking-count  !
 			0 eruption-count   !
 			FALSE is-captured? !
-			fill-current
+			DUP fill-current
 			DUP check-siege
 			is-captured? @ NOT IF
 				DUP check-equality
@@ -654,7 +668,7 @@ MAXS []		eruption-values[]
 				DUP check-eruption
 			ENDIF
 			is-captured? @ IF
-				DUP to capture-piece
+				capture-piece
 			ENDIF
 		ENDIF
 		DUP 0> NOT
@@ -667,7 +681,7 @@ MAXS []		eruption-values[]
 		EXECUTE IF
 			on-board? empty? AND IF
 				from
-				here
+				here DUP last-position !
 				move
 				capture-all
 				add-move
@@ -699,7 +713,7 @@ MAXS []		eruption-values[]
 			EXECUTE IF
 				on-board? empty? AND IF
 					from
-					here
+					here DUP last-position !
 					move
 					capture-all
 					add-move
@@ -732,7 +746,7 @@ MAXS []		eruption-values[]
 		UNTIL
 		IF
 			from
-			here
+			here DUP last-position !
 			move
 			capture-all
 			add-move
@@ -744,7 +758,7 @@ MAXS []		eruption-values[]
 
 : is-correct-type? ( piece-type -- ? )
 	not-empty? IF
-		piece PYRAMID > IF
+		piece-type PYRAMID > IF
 			here SWAP a1 to
 			BEGIN
 				friend-p IF
@@ -798,12 +812,12 @@ MAXS []		eruption-values[]
 : r-move-ne ( -- ) ['] Northeast TRUE leap-0 ;
 : r-move-se ( -- ) ['] Southeast TRUE leap-0 ;
 : r-move-nw ( -- ) ['] Northwest TRUE leap-0 ;
-: r-move-sw ( -- ) ['] Southeast TRUE leap-0 ;
+: r-move-sw ( -- ) ['] Southwest TRUE leap-0 ;
 
 : pr-move-ne ( -- ) ['] Northeast ROUND is-correct-type? leap-0 ;
 : pr-move-se ( -- ) ['] Southeast ROUND is-correct-type? leap-0 ;
 : pr-move-nw ( -- ) ['] Northwest ROUND is-correct-type? leap-0 ;
-: pr-move-sw ( -- ) ['] Southeast ROUND is-correct-type? leap-0 ;
+: pr-move-sw ( -- ) ['] Southwest ROUND is-correct-type? leap-0 ;
 
 : t-move-n ( -- ) ['] North 2 TRUE shift-n ;
 : t-move-s ( -- ) ['] South 2 TRUE shift-n ;
@@ -833,15 +847,15 @@ MAXS []		eruption-values[]
 : pt-move-en ( -- ) ['] Northeast ['] East  1 TRIANGLE is-correct-type? leap-n ;
 : pt-move-es ( -- ) ['] Southeast ['] East  1 TRIANGLE is-correct-type? leap-n ;
 
-: s-move-n ( -- ) ['] North 3 TRUE shift ;
-: s-move-s ( -- ) ['] South 3 TRUE shift ;
-: s-move-w ( -- ) ['] West  3 TRUE shift ;
-: s-move-e ( -- ) ['] East  3 TRUE shift ;
+: s-move-n ( -- ) ['] North 3 TRUE shift-n ;
+: s-move-s ( -- ) ['] South 3 TRUE shift-n ;
+: s-move-w ( -- ) ['] West  3 TRUE shift-n ;
+: s-move-e ( -- ) ['] East  3 TRUE shift-n ;
 
-: ps-move-n ( -- ) ['] North 3 SQUARE is-correct-type? shift ;
-: ps-move-s ( -- ) ['] South 3 SQUARE is-correct-type? shift ;
-: ps-move-w ( -- ) ['] West  3 SQUARE is-correct-type? shift ;
-: ps-move-e ( -- ) ['] East  3 SQUARE is-correct-type? shift ;
+: ps-move-n ( -- ) ['] North 3 SQUARE is-correct-type? shift-n ;
+: ps-move-s ( -- ) ['] South 3 SQUARE is-correct-type? shift-n ;
+: ps-move-w ( -- ) ['] West  3 SQUARE is-correct-type? shift-n ;
+: ps-move-e ( -- ) ['] East  3 SQUARE is-correct-type? shift-n ;
 
 : s-move-nw ( -- ) ['] Northwest ['] North 2 TRUE leap-n ;
 : s-move-ne ( -- ) ['] Northeast ['] North 2 TRUE leap-n ;
@@ -991,8 +1005,8 @@ pieces}
 ' P0	IS PYRAMID
 
 {board-setup
-	{setup}	White	S15	c2
 	{setup}	White	S25	c1
+	{setup}	White	S15	c2
 	{setup}	White	T9	c3
 	{setup}	White	S81	d1
 	{setup}	White	S45	d2
@@ -1023,34 +1037,34 @@ pieces}
 	{setup}	White	R4	l5
 	{setup}	White	R1	l6
 
-	{setup}	Black	S361	c16
-	{setup}	Black	P190	c15
-	{setup}	Black	T100	c14
-	{setup}	Black	S225	d16
-	{setup}	Black	S120	d15
-	{setup}	Black	T90	d14
-	{setup}	Black	T64	e15
-	{setup}	Black	R81	e14
-	{setup}	Black	R9	e13
-	{setup}	Black	T56	f15
-	{setup}	Black	R49	f14
-	{setup}	Black	R7	f13
-	{setup}	Black	T30	g15
-	{setup}	Black	R25	g14
-	{setup}	Black	R5	g13
-	{setup}	Black	T36	h15
-	{setup}	Black	R9	h14
-	{setup}	Black	R3	h13
-	{setup}	Black	S121	i16
-	{setup}	Black	S66	i15
-	{setup}	Black	T12	i14
-	{setup}	Black	S49	j16
-	{setup}	Black	S28	j15
-	{setup}	Black	T16	j14
+	{setup}	Black	S361	c14
+	{setup}	Black	P190	c13
+	{setup}	Black	T100	c12
+	{setup}	Black	S225	d14
+	{setup}	Black	S120	d13
+	{setup}	Black	T90	d12
+	{setup}	Black	T64	e13
+	{setup}	Black	R81	e12
+	{setup}	Black	R9	e11
+	{setup}	Black	T56	f13
+	{setup}	Black	R49	f12
+	{setup}	Black	R7	f11
+	{setup}	Black	T30	g13
+	{setup}	Black	R25	g12
+	{setup}	Black	R5	g11
+	{setup}	Black	T36	h13
+	{setup}	Black	R9	h12
+	{setup}	Black	R3	h11
+	{setup}	Black	S121	i14
+	{setup}	Black	S66	i13
+	{setup}	Black	T12	i12
+	{setup}	Black	S49	j14
+	{setup}	Black	S28	j13
+	{setup}	Black	T16	j12
 
-	{setup}	Black	S64	a16
-	{setup}	Black	S49	a15
-	{setup}	Black	T36	a14
-	{setup}	Black	T25	a13
-	{setup}	Black	R16	a12
+	{setup}	Black	S64	a14
+	{setup}	Black	S49	a13
+	{setup}	Black	T36	a12
+	{setup}	Black	T25	a11
+	{setup}	Black	R16	a10
 board-setup}

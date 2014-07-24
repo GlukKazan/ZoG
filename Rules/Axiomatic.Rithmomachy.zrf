@@ -1,0 +1,240 @@
+(version "2.0")
+
+(game
+   (title "Rithmomachy")
+   (engine "../Axiom/Rithmomachy/axiom.dll")
+   (option "animate captures" false)
+   (players White Black)
+   (turn-order White Black)
+   (board 
+      (image "../Images/Rithmomachy/board.bmp")
+      (grid
+         (start-rectangle -27 54 21 85)
+         (dimensions
+             ("a/b/c/d/e/f/g/h/i/j/k/l" (37 0)) ; files
+             ("14/13/12/11/10/9/8/7/6/5/4/3/2/1" (0 39)) ; ranks
+         )    
+      )
+   )
+   (board-setup
+          (White (S25 c1) (S15 c2) (T9 c3) (S81 d1) (S45 d2) (T6 d3) (T25 e2) 
+                 (R4 e3) (R2 e4) (T20 f2) (R16 f3) (R4 f4) (T42 g2) (R36 g3)
+                 (R6 g4) (T49 h2) (R64 h3) (R8 h4) (S169 i1) (P91 i2) (T72 i3)
+                 (S289 j1) (S153 j2) (T81 j3) (S36 l1) (S25 l2) (T16 l3)
+                 (T9 l4) (R4 l5) (R1 l6)
+          )
+          (Black (S361 c14) (P190 c13) (T100 c12) (S225 d14) (S120 d13) (T90 d12)
+                 (T64 e13) (R81 e12) (R9 e11) (T56 f13) (R49 f12) (R7 f11)
+                 (T30 g13) (R25 g12) (R5 g11) (T36 h13) (R9 h12) (R3 h11)
+                 (S121 i14) (S66 i13) (T12 i12) (S49 j14) (S28 j13) (T16 j12)
+                 (S64 a14) (S49 a13) (T36 a12) (T25 a11) (R16 a10)
+          )
+   )
+   (piece
+	  (name  S25)
+          (image White "../Images/Rithmomachy/S25w.bmp")
+   )
+   (piece
+	  (name  S15)
+          (image White "../Images/Rithmomachy/S15w.bmp")
+   )
+   (piece
+	  (name  T9)
+          (image White "../Images/Rithmomachy/T9w.bmp")
+   )
+   (piece
+	  (name  S81)
+          (image White "../Images/Rithmomachy/S81w.bmp")
+   )
+   (piece
+	  (name  S45)
+          (image White "../Images/Rithmomachy/S45w.bmp")
+   )
+   (piece
+	  (name  T6)
+          (image White "../Images/Rithmomachy/T6w.bmp")
+   )
+   (piece
+	  (name  T25)
+          (image White "../Images/Rithmomachy/T25w.bmp"
+                 Black "../Images/Rithmomachy/T25b.bmp"
+          )
+   )
+   (piece
+	  (name  R4)
+          (image White "../Images/Rithmomachy/R4w.bmp")
+   )
+   (piece
+	  (name  R2)
+          (image White "../Images/Rithmomachy/R2w.bmp")
+   )
+   (piece
+	  (name  T20)
+          (image White "../Images/Rithmomachy/T20w.bmp")
+   )
+   (piece
+	  (name  R16)
+          (image White "../Images/Rithmomachy/R16w.bmp"
+                 Black "../Images/Rithmomachy/R16b.bmp"
+          )
+   )
+   (piece
+	  (name  T42)
+          (image White "../Images/Rithmomachy/T42w.bmp")
+   )
+   (piece
+	  (name  R36)
+          (image White "../Images/Rithmomachy/R36w.bmp")
+   )
+   (piece
+	  (name  R6)
+          (image White "../Images/Rithmomachy/R6w.bmp")
+   )
+   (piece
+	  (name  T49)
+          (image White "../Images/Rithmomachy/T49w.bmp")
+   )
+   (piece
+	  (name  R64)
+          (image White "../Images/Rithmomachy/R64w.bmp")
+   )
+   (piece
+	  (name  R8)
+          (image White "../Images/Rithmomachy/R8w.bmp")
+   )
+   (piece
+	  (name  S169)
+          (image White "../Images/Rithmomachy/S169w.bmp")
+   )
+   (piece
+	  (name  P91)
+          (image White "../Images/Rithmomachy/P91w.bmp")
+   )
+   (piece
+	  (name  T72)
+          (image White "../Images/Rithmomachy/T72w.bmp")
+   )
+   (piece
+	  (name  S289)
+          (image White "../Images/Rithmomachy/S289w.bmp")
+   )
+   (piece
+	  (name  S153)
+          (image White "../Images/Rithmomachy/S153w.bmp")
+   )
+   (piece
+	  (name  T81)
+          (image White "../Images/Rithmomachy/T81w.bmp")
+   )
+   (piece
+	  (name  S36)
+          (image White "../Images/Rithmomachy/S36w.bmp")
+   )
+   (piece
+	  (name  T16)
+          (image White "../Images/Rithmomachy/T16w.bmp"
+                 Black "../Images/Rithmomachy/T16b.bmp"
+          )
+   )
+   (piece
+	  (name  R1)
+          (image White "../Images/Rithmomachy/R1w.bmp")
+   )
+   (piece
+	  (name  S361)
+          (image Black "../Images/Rithmomachy/S361b.bmp")
+   )
+   (piece
+	  (name  P190)
+          (image Black "../Images/Rithmomachy/P190b.bmp")
+   )
+   (piece
+	  (name  T100)
+          (image Black "../Images/Rithmomachy/T100b.bmp")
+   )
+   (piece
+	  (name  S225)
+          (image Black "../Images/Rithmomachy/S225b.bmp")
+   )
+   (piece
+	  (name  S120)
+          (image Black "../Images/Rithmomachy/S120b.bmp")
+   )
+   (piece
+	  (name  T90)
+          (image Black "../Images/Rithmomachy/T90b.bmp")
+   )
+   (piece
+	  (name  T64)
+          (image Black "../Images/Rithmomachy/T64b.bmp")
+   )
+   (piece
+	  (name  R81)
+          (image Black "../Images/Rithmomachy/R81b.bmp")
+   )
+   (piece
+	  (name  R9)
+          (image Black "../Images/Rithmomachy/R9b.bmp")
+   )
+   (piece
+	  (name  T56)
+          (image Black "../Images/Rithmomachy/T56b.bmp")
+   )
+   (piece
+	  (name  R49)
+          (image Black "../Images/Rithmomachy/R49b.bmp")
+   )
+   (piece
+	  (name  R7)
+          (image Black "../Images/Rithmomachy/R7b.bmp")
+   )
+   (piece
+	  (name  T30)
+          (image Black "../Images/Rithmomachy/T30b.bmp")
+   )
+   (piece
+	  (name  R25)
+          (image Black "../Images/Rithmomachy/R25b.bmp")
+   )
+   (piece
+	  (name  R5)
+          (image Black "../Images/Rithmomachy/R5b.bmp")
+   )
+   (piece
+	  (name  T36)
+          (image Black "../Images/Rithmomachy/T36b.bmp")
+   )
+   (piece
+	  (name  R3)
+          (image Black "../Images/Rithmomachy/R3b.bmp")
+   )
+   (piece
+	  (name  S121)
+          (image Black "../Images/Rithmomachy/S121b.bmp")
+   )
+   (piece
+	  (name  S66)
+          (image Black "../Images/Rithmomachy/S66b.bmp")
+   )
+   (piece
+	  (name  T12)
+          (image Black "../Images/Rithmomachy/T12b.bmp")
+   )
+   (piece
+	  (name  S49)
+          (image Black "../Images/Rithmomachy/S49b.bmp")
+   )
+   (piece
+	  (name  S28)
+          (image Black "../Images/Rithmomachy/S28b.bmp")
+   )
+   (piece
+	  (name  S64)
+          (image Black "../Images/Rithmomachy/S64b.bmp")
+   )
+
+   ; The following dummy piece is required in order to placate the Zillions engine.
+   ; It appears as though Zillions must find at least one "moves" keyword somewhere
+   ; in the zrf in order for it to be happy and thus allow "moves" to work correctly.
+   (piece (name Dummy) (dummy) (moves (from)))
+)
