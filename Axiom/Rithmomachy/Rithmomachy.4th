@@ -66,6 +66,8 @@ VARIABLE	attacking-count
 VARIABLE	current-count
 VARIABLE	eruption-count
 VARIABLE	last-position
+VARIABLE	sum-value
+VARIABLE	sum-flag
 
 MAXV []		attacking-values[]
 MAXS []		current-positions[]
@@ -140,31 +142,6 @@ MAXS []		eruption-values[]
 	ENDIF
 ;
 
-: sum-pyramid-values ( -- sum )
-	here
-	DUP is-pyramid-at? IF
-		a1 to 0
-		BEGIN
-			is-friend? @ IF
-				friend-p
-			ELSE
-				enemy-p
-			ENDIF
-			IF
-				not-empty? IF
-					piece piece-value +
-				ENDIF
-				FALSE
-			ELSE
-				TRUE
-			ENDIF
-		UNTIL
-		SWAP to
-	ELSE
-		DROP 0
-	ENDIF
-;
-
 : capture-piece ( -- )
 	current-count @
 	BEGIN
@@ -196,17 +173,15 @@ MAXS []		eruption-values[]
 ;
 
 : get-eruption-values ( n -- )
+	0 sum-value !
 	PYRAMID is-piece-type? IF
-		eruption-count @ MAXE < IF
-			DUP sum-pyramid-values *
-			eruption-count @ eruption-values[] !
-			eruption-count ++
-		ENDIF
 		here a1 to
 		BEGIN
 			friend-p IF
 				not-empty? eruption-count @ MAXE < AND IF
-					DUP piece piece-value *
+					DUP piece piece-value 
+					DUP sum-value @ + sum-value !
+					*
 					eruption-count @ eruption-values[] !
 					eruption-count ++
 				ENDIF				         
@@ -216,7 +191,13 @@ MAXS []		eruption-values[]
 			ENDIF
 		UNTIL
 		to
-		DROP
+		eruption-count @ MAXE < IF
+			sum-value @ *
+			eruption-count @ eruption-values[] !
+			eruption-count ++
+		ELSE
+			DROP
+		ENDIF
 	ELSE
 		eruption-count @ MAXE < IF
 			piece piece-value *
@@ -227,20 +208,21 @@ MAXS []		eruption-values[]
 ;
 
 : get-attacking-values ( piece-type -- )
+	0 sum-value    !
+	FALSE sum-flag !
 	PYRAMID is-piece-type? IF
-		attacking-count @ MAXV < IF
-			sum-pyramid-values
-			attacking-count @ attacking-values[] !
-			attacking-count ++
-		ENDIF
 		here a1 to
 		BEGIN
 			friend-p IF
 				not-empty? attacking-count @ MAXV < AND IF
+					piece piece-value
+					sum-value @ + sum-value !
 					OVER is-piece-type? IF
+						TRUE sum-flag !
 						piece piece-value
 						attacking-count @ attacking-values[] !
 						attacking-count ++
+					ELSE
 					ENDIF
 				ENDIF				         
 				FALSE
@@ -248,7 +230,12 @@ MAXS []		eruption-values[]
 				TRUE
 			ENDIF
 		UNTIL
-		to
+		to DROP
+		sum-flag @ attacking-count @ MAXV < AND IF
+			sum-value @
+			attacking-count @ attacking-values[] !
+			attacking-count ++
+		ENDIF
 	ELSE
 		is-piece-type? attacking-count @ MAXV < AND IF
 			piece piece-value
@@ -259,7 +246,7 @@ MAXS []		eruption-values[]
 ;
 
 : capture-equality-pieces ( value -- )
-	current-count 1 > IF
+	current-count @ 1 > IF
 		0 attacked-cnt !
 	ELSE
 		1 attacked-cnt !
@@ -289,7 +276,7 @@ MAXS []		eruption-values[]
 		ENDIF
 	UNTIL
 	DROP
-	IF current-count 0> IF
+	current-count @ 0> IF
 		0 current-values[] @ = IF
 			TRUE is-captured? !
 		ENDIF
@@ -304,6 +291,7 @@ MAXS []		eruption-values[]
 : check-equality-piece ( piece-type -- )
 	0 attacking-sum !
 	PYRAMID is-piece-type? IF
+		DROP
 		here a1 to
 		BEGIN
 			friend-p IF
@@ -414,16 +402,18 @@ MAXS []		eruption-values[]
 : check-equality-dd ( 'second-dir count 'first-dir -- )
 	EXECUTE on-board? AND IF
 		BEGIN
-			1- 0< IF
+			1- DUP 0< IF
 				TRUE			
 			ELSE
 				OVER EXECUTE on-board? AND IF
-					enemy? IF
-						DUP count-to-factor get-eruption-values
-						DUP count-to-piece-type
+					predict-move
+					friend? IF
+						OVER count-to-factor get-eruption-values
+						OVER count-to-piece-type
 						DUP get-attacking-values
 						check-equality-piece
 					ENDIF
+					to
 	                                FALSE
 				ELSE
 					TRUE
@@ -431,32 +421,38 @@ MAXS []		eruption-values[]
 			ENDIF
 		UNTIL
 		2DROP
+	ELSE
+		2DROP
 	ENDIF
 ;
 
 : check-equality-od ( 'second-dir count 'first-dir -- )
 	EXECUTE on-board? AND empty? AND IF
 		BEGIN
-			1- 0< IF
+			1- DUP 0< IF
 				TRUE			
 			ELSE
 				OVER EXECUTE on-board? AND IF
-					enemy? IF
+					predict-move
+					friend? IF
 						is-diagonal-checking? @ IF
-							DUP count-to-factor get-eruption-values
+							OVER count-to-factor get-eruption-values
 						ENDIF
-						DUP count-to-piece-type
+						OVER count-to-piece-type
 						DUP get-attacking-values
 						check-equality-piece
 						TRUE
 					ELSE
 						not-empty?
 					ENDIF
+					SWAP to
 				ELSE
 					TRUE
 				ENDIF
 			ENDIF
 		UNTIL
+		2DROP
+	ELSE
 		2DROP
 	ENDIF
 ;
@@ -642,7 +638,7 @@ MAXS []		eruption-values[]
 			ENDIF
 		UNTIL
 	ELSE
-		DUP piece piece-value
+		DUP piece-at piece-value
 	ENDIF
 	0 current-values[] !
 	to
