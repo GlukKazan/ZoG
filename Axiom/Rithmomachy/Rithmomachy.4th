@@ -1,4 +1,4 @@
-14	CONSTANT	ROWS
+16	CONSTANT	ROWS
 12	CONSTANT	COLS
 34	CONSTANT	MAXV
 8	CONSTANT	MAXS
@@ -31,8 +31,8 @@ board}
 	 {link} friend-p l3  l4	{link} friend-p l4  l5	{link} friend-p l5  l6
 
 	 ( enemy-p )
-	 {link} enemy-p a1  a14	{link} enemy-p a14 a13	{link} enemy-p a13 a12
-	 {link} enemy-p a12 a11	{link} enemy-p a11 a10	{link} enemy-p a10 a9
+	 {link} enemy-p a1  a16	{link} enemy-p a16 a15	{link} enemy-p a15 a14
+	 {link} enemy-p a14 a13	{link} enemy-p a13 a12	{link} enemy-p a12 a11
 directions}
 
 {players
@@ -1001,30 +1001,30 @@ pieces}
 ' P0	IS PYRAMID
 
 {board-setup
-	{setup}	White	S25	c1
-	{setup}	White	S15	c2
-	{setup}	White	T9	c3
-	{setup}	White	S81	d1
-	{setup}	White	S45	d2
-	{setup}	White	T6	d3
-	{setup}	White	T25	e2
-	{setup}	White	R4	e3
-	{setup}	White	R2	e4
-	{setup}	White	T20	f2
-	{setup}	White	R16	f3
-	{setup}	White	R4	f4
-	{setup}	White	T42	g2
-	{setup}	White	R36	g3
-	{setup}	White	R6	g4
-	{setup}	White	T49	h2
-	{setup}	White	R64	h3
-	{setup}	White	R8	h4
-	{setup}	White	S169	i1
-	{setup}	White	P91	i2
-	{setup}	White	T72	i3
-	{setup}	White	S289	j1
-	{setup}	White	S153	j2
-	{setup}	White	T81	j3
+	{setup}	White	S25	c3
+	{setup}	White	S15	c4
+	{setup}	White	T9	c5
+	{setup}	White	S81	d3
+	{setup}	White	S45	d4
+	{setup}	White	T6	d5
+	{setup}	White	T25	e4
+	{setup}	White	R4	e5
+	{setup}	White	R2	e6
+	{setup}	White	T20	f4
+	{setup}	White	R16	f5
+	{setup}	White	R4	f6
+	{setup}	White	T42	g4
+	{setup}	White	R36	g5
+	{setup}	White	R6	g6
+	{setup}	White	T49	h4
+	{setup}	White	R64	h5
+	{setup}	White	R8	h6
+	{setup}	White	S169	i3
+	{setup}	White	P91	i4
+	{setup}	White	T72	i5
+	{setup}	White	S289	j3
+	{setup}	White	S153	j4
+	{setup}	White	T81	j5
 
 	{setup}	White	S36	l1
 	{setup}	White	S25	l2
@@ -1058,9 +1058,9 @@ pieces}
 	{setup}	Black	S28	j13
 	{setup}	Black	T16	j12
 
-	{setup}	Black	S64	a14
-	{setup}	Black	S49	a13
-	{setup}	Black	T36	a12
-	{setup}	Black	T25	a11
-	{setup}	Black	R16	a10
+	{setup}	Black	S64	a16
+	{setup}	Black	S49	a15
+	{setup}	Black	T36	a14
+	{setup}	Black	T25	a13
+	{setup}	Black	R16	a12
 board-setup}

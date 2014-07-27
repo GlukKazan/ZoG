@@ -9,25 +9,25 @@
    (board 
       (image "../Images/Rithmomachy/board.bmp")
       (grid
-         (start-rectangle -27 54 21 85)
+         (start-rectangle -7 45 41 105)
          (dimensions
              ("a/b/c/d/e/f/g/h/i/j/k/l" (37 0)) ; files
-             ("14/13/12/11/10/9/8/7/6/5/4/3/2/1" (0 39)) ; ranks
+             ("16/15/14/13/12/11/10/9/8/7/6/5/4/3/2/1" (0 38)) ; ranks
          )    
       )
    )
    (board-setup
-          (White (S25 c1) (S15 c2) (T9 c3) (S81 d1) (S45 d2) (T6 d3) (T25 e2) 
-                 (R4 e3) (R2 e4) (T20 f2) (R16 f3) (R4 f4) (T42 g2) (R36 g3)
-                 (R6 g4) (T49 h2) (R64 h3) (R8 h4) (S169 i1) (P91 i2) (T72 i3)
-                 (S289 j1) (S153 j2) (T81 j3) (S36 l1) (S25 l2) (T16 l3)
+          (White (S25 c3) (S15 c4) (T9 c5) (S81 d3) (S45 d4) (T6 d5) (T25 e4) 
+                 (R4 e5) (R2 e6) (T20 f4) (R16 f5) (R4 f6) (T42 g4) (R36 g5)
+                 (R6 g6) (T49 h4) (R64 h5) (R8 h6) (S169 i3) (P91 i4) (T72 i5)
+                 (S289 j3) (S153 j4) (T81 j5) (S36 l1) (S25 l2) (T16 l3)
                  (T9 l4) (R4 l5) (R1 l6)
           )
           (Black (S361 c14) (P190 c13) (T100 c12) (S225 d14) (S120 d13) (T90 d12)
                  (T64 e13) (R81 e12) (R9 e11) (T56 f13) (R49 f12) (R7 f11)
                  (T30 g13) (R25 g12) (R5 g11) (T36 h13) (R9 h12) (R3 h11)
                  (S121 i14) (S66 i13) (T12 i12) (S49 j14) (S28 j13) (T16 j12)
-                 (S64 a14) (S49 a13) (T36 a12) (T25 a11) (R16 a10)
+                 (S64 a16) (S49 a15) (T36 a14) (T25 a13) (R16 a12)
           )
    )
    (piece
