@@ -179,7 +179,7 @@ MAXS []		eruption-values[]
 		BEGIN
 			friend-p IF
 				not-empty? eruption-count @ MAXE < AND IF
-					DUP piece piece-value 
+					OVER piece piece-value 
 					DUP sum-value @ + sum-value !
 					*
 					eruption-count @ eruption-values[] !
@@ -191,19 +191,16 @@ MAXS []		eruption-values[]
 			ENDIF
 		UNTIL
 		to
-		eruption-count @ MAXE < IF
-			sum-value @ *
-			eruption-count @ eruption-values[] !
-			eruption-count ++
-		ELSE
-			DROP
-		ENDIF
+		sum-value @
 	ELSE
-		eruption-count @ MAXE < IF
-			piece piece-value *
-			eruption-count @ eruption-values[] !
-			eruption-count ++
-		ENDIF
+		piece piece-value
+	ENDIF
+	eruption-count @ MAXE < IF
+		*
+		eruption-count @ eruption-values[] !
+		eruption-count ++
+	ELSE
+		2DROP
 	ENDIF
 ;
 
@@ -408,7 +405,6 @@ MAXS []		eruption-values[]
 				OVER EXECUTE on-board? AND IF
 					predict-move
 					friend? IF
-						OVER count-to-factor get-eruption-values
 						OVER count-to-piece-type
 						DUP get-attacking-values
 						check-equality-piece
@@ -435,9 +431,7 @@ MAXS []		eruption-values[]
 				OVER EXECUTE on-board? AND IF
 					predict-move
 					friend? IF
-						is-diagonal-checking? @ IF
-							OVER count-to-factor get-eruption-values
-						ENDIF
+						OVER count-to-factor get-eruption-values
 						OVER count-to-piece-type
 						DUP get-attacking-values
 						check-equality-piece
@@ -555,9 +549,11 @@ MAXS []		eruption-values[]
 	value-1 ! to 1
 	BEGIN
 		1+ OVER EXECUTE IF
-			on-board? friend? AND DUP value-1 @ > AND IF
-				DUP get-eruption-values
+			predict-move
+			OVER value-1 @ > on-board? friend? AND AND IF
+				OVER get-eruption-values
 			ENDIF
+			to
 			FALSE
 		ELSE
 			TRUE
@@ -613,7 +609,8 @@ MAXS []		eruption-values[]
 		['] Northwest OVER 2 fill-eruption-values
 		['] Southwest OVER 2 fill-eruption-values
 	ENDIF
-	to check-eruption-values
+	to
+	check-eruption-values
 ;
 
 : fill-current ( pos -- )
@@ -654,7 +651,7 @@ MAXS []		eruption-values[]
 			FALSE is-captured? !
 			DUP fill-current
 			DUP check-siege
-			is-captured? @ NOT IF
+ 			is-captured? @ NOT IF
 				DUP check-equality
 			ENDIF
 			is-captured? @ NOT IF
