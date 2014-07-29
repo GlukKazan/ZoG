@@ -2,7 +2,7 @@
 12	CONSTANT	COLS
 34	CONSTANT	MAXV
 8	CONSTANT	MAXS
-30	CONSTANT	MAXE
+100	CONSTANT	MAXE
 15	CONSTANT	WINC
 1315	CONSTANT	WINW
 984	CONSTANT	WINB
@@ -56,7 +56,6 @@ DEFER		PYRAMID
 
 VARIABLE	is-friend?
 VARIABLE	is-captured?
-VARIABLE	is-diagonal-checking?
 VARIABLE	siege-counter
 VARIABLE	attacking-sum
 VARIABLE	attacked-cnt
@@ -350,9 +349,6 @@ MAXS []		eruption-values[]
 		on-board? friend? AND IF
 			ROUND get-attacking-values
 			ROUND check-equality-piece
-			is-diagonal-checking? @ IF
-				2 get-eruption-values
-			ENDIF
 		ENDIF
 		to
 	ELSE
@@ -603,12 +599,6 @@ MAXS []		eruption-values[]
 	['] South OVER 4 fill-eruption-values
 	['] West  OVER 4 fill-eruption-values
 	['] East  OVER 4 fill-eruption-values
-	is-diagonal-checking? @ IF
-		['] Northeast OVER 2 fill-eruption-values
-		['] Southeast OVER 2 fill-eruption-values
-		['] Northwest OVER 2 fill-eruption-values
-		['] Southwest OVER 2 fill-eruption-values
-	ENDIF
 	to
 	check-eruption-values
 ;
@@ -774,7 +764,6 @@ MAXS []		eruption-values[]
 ;
 
 : OnNewGame ( -- )
-	TRUE is-diagonal-checking? !
 	RANDOMIZE
 ;
 
