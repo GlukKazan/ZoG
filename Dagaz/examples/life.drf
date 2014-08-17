@@ -1,0 +1,88 @@
+; Game of Life
+;;;;;;;;;;;;;;;;
+
+(def all-dirs (list n s e w nw sw ne se))
+
+(def valid-move?
+    (and (on-board? main) empty?)
+)
+
+(def life-tick
+   (for all-positions
+        (if (on-board? old)
+            (let here (position here (board main))
+                (check  not-empty?))
+                (let neighbors-count (count (list all-dirs (check not-empty?)))
+                    (if (or (< 2 neighbors-count) (> 3 neighbors-count)
+                        (let here (position here (board old))
+                            drop
+                        )
+                    )
+                )
+            )
+        )
+        (if (on-board? new)
+            (let here (position here (board main))
+                (let friend-count (count (list all-dirs (check friend?)))
+                    (let enemy-count (count (list all-dirs (check enemy?)))
+                         (if (in (2 3) (+ friend-count enemy-count))
+                              (let here (position here (board new))
+                                  (if (> friend-count enemy-count)
+                                      (let player (next player)
+                                           drop
+                                      )
+                                  )
+                                  (if (> enemy-count friend-count)
+                                       drop
+                                  )
+                              )
+                         )
+                    )
+                )
+            )
+        )
+   )
+)
+
+(def move-pieces
+   (for all-pieces
+        (if (on-board? new)
+            (let here (position from (board main))
+                 move
+            )
+        )
+        (if (on-board? old)
+            (let here (position from (board main))
+                 capture
+            )
+            capture
+        )
+   )
+)
+
+(variant
+   (players Black White)
+   (board
+        (grid ss (name main) (default))
+        (grid ss (name new))
+        (grid ss (name old))
+        (dir   0  1 (name  s) (wrap))
+        (dir   0 -1 (name  n) (wrap))
+        (dir   1  0 (name  e) (wrap))
+        (dir  -1  0 (name  w) (wrap))
+        (dir   1  1 (name se) (wrap))
+        (dir   1 -1 (name ne) (wrap))
+        (dir  -1  1 (name sw) (wrap))
+        (dir  -1 -1 (name nw) (wrap))
+   )
+   (pieces
+        (Stone (move drop (pre valid-move?) (post life-tick move-pieces)))
+   )
+   (setup
+        (Black (Stone dc de dp fd ij kj od oo oq qd qp))
+        (White (Stone cd do dq ec ee ji jk np pd po pq))
+   )
+   (goals
+        (loss-condition (= 0 (count friend-pieces)))
+   )
+)
