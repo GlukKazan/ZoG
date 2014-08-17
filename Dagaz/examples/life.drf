@@ -1,6 +1,8 @@
 ; Game of Life
 ;;;;;;;;;;;;;;;;
 
+(include common.drf)
+
 (def all-dirs (list n s e w nw sw ne se))
 
 (def valid-move?
@@ -10,11 +12,11 @@
 (def life-tick
    (for all-positions
         (if (on-board? old)
-            (let here (position here (board main))
-                (check  not-empty?))
+            (set-board main
+                (check not-empty?)
                 (let neighbors-count (count (list all-dirs (check not-empty?)))
-                    (if (or (< 2 neighbors-count) (> 3 neighbors-count)
-                        (let here (position here (board old))
+                    (if (not-in (2 3) neighbors-count)
+                        (set-board old
                             drop
                         )
                     )
@@ -22,11 +24,11 @@
             )
         )
         (if (on-board? new)
-            (let here (position here (board main))
+            (set-board main
                 (let friend-count (count (list all-dirs (check friend?)))
                     (let enemy-count (count (list all-dirs (check enemy?)))
                          (if (in (2 3) (+ friend-count enemy-count))
-                              (let here (position here (board new))
+                              (set-board new
                                   (if (> friend-count enemy-count)
                                       (let player (next player)
                                            drop
@@ -47,12 +49,12 @@
 (def move-pieces
    (for all-pieces
         (if (on-board? new)
-            (let here (position from (board main))
-                 move
+            (set-board main
+                 move ; from-here
             )
         )
         (if (on-board? old)
-            (let here (position from (board main))
+            (set-board main
                  capture
             )
             capture

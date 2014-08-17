@@ -1,0 +1,3 @@
+(macro (set-board a b)
+    (let here (position here (board a)) b)
+)
