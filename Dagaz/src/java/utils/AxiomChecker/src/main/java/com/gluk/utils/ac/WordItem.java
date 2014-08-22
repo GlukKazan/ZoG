@@ -2,8 +2,8 @@ package com.gluk.utils.ac;
 
 public class WordItem {
 	
-	private int inArgs;
-	private int outArgs;
+	protected int inArgs;
+	protected int outArgs;
 	
 	public WordItem(int inArgs, int outArgs) {
 		this.inArgs  = inArgs;

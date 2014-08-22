@@ -22,15 +22,14 @@ public class WordPool {
 	public WordItem getWord(String name) throws Exception {
 		WordItem r = words.get(name);
 		if (r == null) {
-			throw new Exception("Word [" + name + "] not found");
+			return new WordItem(0, 0);
 		}
 		return r;
 	}
 	
 	public void setWord(String name, int inArgs, int outArgs) throws Exception {
-		WordItem r = words.get(name);
-		if (r != null) {
-			throw new Exception("Word [" + name + "] already defined");
+		if (words.get(name) != null) {
+			return;
 		}
 		words.put(name, new WordItem(inArgs, outArgs));
 	}

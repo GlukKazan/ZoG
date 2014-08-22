@@ -8,6 +8,7 @@ public class WordCounter {
 	private WordCounter counter = null;
 	
 	public WordCounter(String name, int size) {
+		this.name = name;
 		this.size = size;
 	}
 	
