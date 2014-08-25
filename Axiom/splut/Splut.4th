@@ -1,14 +1,13 @@
 LOAD Engine.4th ( Load the Custom Engine )
 
 {players
-	{player}	South		{search-engine} Custom-Engine
-	{player}	West		{search-engine} Custom-Engine
-	{player}	North		{search-engine} Custom-Engine
-	{player}	East		{search-engine} Custom-Engine
+	{player}	South		\ {search-engine} Custom-Engine
+	{player}	West		\ {search-engine} Custom-Engine
+	{player}	North		\ {search-engine} Custom-Engine
+	{player}	East		\ {search-engine} Custom-Engine
 	{player}	?Cleaner        {random}
 players}
 
-DEFER		CONTINUE-TYPE
 DEFER		LOCK
 DEFER		SSTONE
 DEFER		NSTONE
@@ -22,6 +21,7 @@ VARIABLE	forward
 VARIABLE	backward
 VARIABLE	step-count
 VARIABLE	here-pos
+VARIABLE	last-pos
 
 : is-stone? ( -- ? )
 	piece-type SSTONE =
@@ -100,25 +100,6 @@ VARIABLE	here-pos
 	ENDIF
 ;
 
-: piece-is-not-present? ( -- ? )
-	here a5 to
-	BEGIN
-		piece-type current-piece-type = IF
-			to
-			FALSE
-			TRUE
-		ELSE
-			next IF
-				FALSE
-			ELSE
-				to
-				TRUE
-				TRUE
-			ENDIF
-		ENDIF
-	UNTIL
-;
-
 : lock-continue ( -- )
 	LOCK a1 create-piece-type-at
 ;
@@ -172,25 +153,6 @@ VARIABLE	here-pos
 : drag-to-east  ( -- ) ['] east  ['] west  drag ;
 : drag-to-west  ( -- ) ['] west  ['] east  drag ;
 
-: take-stone ( 'dir -- )
-	check-continue? IF
-		EXECUTE verify
-		is-stone? verify
-		CONTINUE-TYPE partial-move-type
-		from
-		here
-		move
-		add-move
-	ELSE
-		DROP
-	ENDIF
-;
-
-: take-to-north ( -- ) ['] north take-stone ;
-: take-to-south ( -- ) ['] south take-stone ;
-: take-to-east  ( -- ) ['] east  take-stone ;
-: take-to-west  ( -- ) ['] west  take-stone ;
-
 : on-board? ( -- ? )
 	e9 here =
 	d8 here = OR
@@ -238,47 +200,11 @@ VARIABLE	here-pos
 : check-empty? ( -- ? )
 	empty?
 	piece-type DWARF = OR
+	from here = OR
 ;
 
 : check-wizard? ( -- ? )
 	piece-type WIZARD =
-;
-
-: check-edge? ( 'dir -- ? )
-	here SWAP check-empty? SWAP 
-	EXECUTE IF
-		is-stone?
-		piece-type TROLL = OR
-	ELSE
-		TRUE
-	ENDIF
-	AND
-	SWAP to
-;
-
-: check-troll? ( 'dir -- ? )
-	here SWAP
-	BEGIN
-		DUP EXECUTE IF
-			check-empty? IF
-				FALSE
-			ELSE
-				piece-type TROLL = friend? AND IF
-					DROP to
-					TRUE
-					TRUE
-				ELSE
-					DROP to
-					FALSE
-					TRUE
-				ENDIF
-			ENDIF
-		ELSE
-			DROP to
-			FALSE
-			TRUE
-		ENDIF
-	UNTIL
 ;
 
 : drop-team ( player -- )
@@ -300,28 +226,78 @@ VARIABLE	here-pos
 	to
 ;
 
-: drop-stone ( 'opposite 'dir -- )
-	check-edge? check-wizard? OR 
-	on-board? AND IF
-		check-troll? piece-is-not-present? AND IF
-			player piece-type
-			drop
-			WIZARD = IF
-				drop-team
+: drop-stone ( 'dir piece-type -- )
+	here here-pos !
+	here last-pos !
+	SWAP
+	BEGIN
+		DUP EXECUTE on-board? AND IF
+			check-wizard? IF
+				here last-pos !
+				TRUE
 			ELSE
-				DROP
+				check-empty? IF
+					here last-pos !
+					FALSE
+				ELSE
+					TRUE
+				ENDIF
 			ENDIF
-			lock-continue
-			current-piece-type lock-stone
-			add-move
+		ELSE
+			TRUE
 		ENDIF
+	UNTIL
+	DROP
+	here-pos @ last-pos @ <> IF
+		last-pos @ to
+		piece-type WIZARD = IF
+			player drop-team
+		ENDIF
+		capture
+		DUP create-piece-type
+		lock-continue
+		lock-stone
+		add-move
+	ELSE
+		DROP
 	ENDIF
 ;
 
-: drop-to-north ( -- ) ['] north ['] south drop-stone ;
-: drop-to-south ( -- ) ['] south ['] north drop-stone ;
-: drop-to-east  ( -- ) ['] east  ['] west  drop-stone ;
-: drop-to-west  ( -- ) ['] west  ['] east  drop-stone ;
+: take-stone ( 'dir 'dir -- )
+	check-continue? IF
+		EXECUTE is-stone? AND IF
+			piece-type
+			from
+			here
+			move
+			drop-stone
+		ELSE
+			DROP
+		ENDIF
+	ELSE
+		2DROP
+	ENDIF
+;
+
+: take-to-n-north ( -- ) ['] north ['] north take-stone ;
+: take-to-s-north ( -- ) ['] south ['] north take-stone ;
+: take-to-e-north ( -- ) ['] east  ['] north take-stone ;
+: take-to-w-north ( -- ) ['] west  ['] north take-stone ;
+
+: take-to-n-south ( -- ) ['] north ['] south take-stone ;
+: take-to-s-south ( -- ) ['] south ['] south take-stone ;
+: take-to-e-south ( -- ) ['] east  ['] south take-stone ;
+: take-to-w-south ( -- ) ['] west  ['] south take-stone ;
+
+: take-to-n-east  ( -- ) ['] north ['] east  take-stone ;
+: take-to-s-east  ( -- ) ['] south ['] east  take-stone ;
+: take-to-e-east  ( -- ) ['] east  ['] east  take-stone ;
+: take-to-w-east  ( -- ) ['] west  ['] east  take-stone ;
+
+: take-to-n-west  ( -- ) ['] north ['] west  take-stone ;
+: take-to-s-west  ( -- ) ['] south ['] west  take-stone ;
+: take-to-e-west  ( -- ) ['] east  ['] west  take-stone ;
+: take-to-w-west  ( -- ) ['] west  ['] west  take-stone ;
 
 : push-step ( 'opposite 'dir -- )
 	check-continue? IF
@@ -493,7 +469,6 @@ VARIABLE	here-pos
 
 : pass-move ( -- )
 	Pass
-\	add-move
 ;
 
 : check-wizard ( pos -- ? )
@@ -592,25 +567,30 @@ moves}
 moves}
 
 {moves troll-moves
-	{move} step-to-north {move-type} normal-type
-	{move} step-to-south {move-type} normal-type
-	{move} step-to-east  {move-type} normal-type
-	{move} step-to-west  {move-type} normal-type
-	{move} drag-to-north {move-type} normal-type
-	{move} drag-to-south {move-type} normal-type
-	{move} drag-to-east  {move-type} normal-type
-	{move} drag-to-west  {move-type} normal-type
-	{move} take-to-north {move-type} normal-type
-	{move} take-to-south {move-type} normal-type
-	{move} take-to-east  {move-type} normal-type
-	{move} take-to-west  {move-type} normal-type
-moves}
-
-{moves stone-drops
-	{move} drop-to-north {move-type} continue-type
-	{move} drop-to-south {move-type} continue-type
-	{move} drop-to-east  {move-type} continue-type
-	{move} drop-to-west  {move-type} continue-type
+	{move} step-to-north   {move-type} normal-type
+	{move} step-to-south   {move-type} normal-type
+	{move} step-to-east    {move-type} normal-type
+	{move} step-to-west    {move-type} normal-type
+	{move} drag-to-north   {move-type} normal-type
+	{move} drag-to-south   {move-type} normal-type
+	{move} drag-to-east    {move-type} normal-type
+	{move} drag-to-west    {move-type} normal-type
+	{move} take-to-n-north {move-type} normal-type
+	{move} take-to-s-north {move-type} normal-type
+	{move} take-to-e-north {move-type} normal-type
+	{move} take-to-w-north {move-type} normal-type
+	{move} take-to-n-south {move-type} normal-type
+	{move} take-to-s-south {move-type} normal-type
+	{move} take-to-e-south {move-type} normal-type
+	{move} take-to-w-south {move-type} normal-type
+	{move} take-to-n-east  {move-type} normal-type
+	{move} take-to-s-east  {move-type} normal-type
+	{move} take-to-e-east  {move-type} normal-type
+	{move} take-to-w-east  {move-type} normal-type
+	{move} take-to-n-west  {move-type} normal-type
+	{move} take-to-s-west  {move-type} normal-type
+	{move} take-to-e-west  {move-type} normal-type
+	{move} take-to-w-west  {move-type} normal-type
 moves}
 
 {moves pass-moves
@@ -628,16 +608,14 @@ move-priorities}
 
 {pieces
 	{piece}		lock    {moves} pass-moves 	{drops} clear-moves
-	{piece}		sstone	{drops} stone-drops	1	{value}
-	{piece}		nstone	{drops} stone-drops	1	{value}
-	{piece}		wstone	{drops} stone-drops	1	{value}
-	{piece}		estone	{drops} stone-drops	1	{value}
+	{piece}		sstone				1	{value}
+	{piece}		nstone				1	{value}
+	{piece}		wstone				1	{value}
+	{piece}		estone				1	{value}
 	{piece}		wizard	{moves} wizard-moves	4	{value}
 	{piece}		dwarf	{moves} dwarf-moves	3	{value}
 	{piece}		troll	{moves} troll-moves	2	{value}
 pieces}
-
-' continue-type 	IS CONTINUE-TYPE
 
 ' lock	 		IS LOCK
 ' sstone 		IS SSTONE
