@@ -1,7 +1,7 @@
 16	CONSTANT	ROWS
 12	CONSTANT	COLS
 34	CONSTANT	MAXV
-8	CONSTANT	MAXS
+10	CONSTANT	MAXS
 100	CONSTANT	MAXE
 15	CONSTANT	WINC
 1315	CONSTANT	WINW
@@ -71,12 +71,12 @@ VARIABLE	sum-flag
 MAXV []		attacking-values[]
 MAXS []		current-positions[]
 MAXS []		current-values[]
-MAXS []		eruption-values[]
+MAXE []		eruption-values[]
 
-: WhitePieces++ WhitePieces ++ ;
-: BlackPieces++ BlackPieces ++ ;
-: WhiteValues++ WhiteValues ++ ;
-: BlackValues++ BlackValues ++ ;
+: WhitePieces++ ( -- ) WhitePieces ++ ;
+: BlackPieces++ ( -- ) BlackPieces ++ ;
+: WhiteValues++ ( -- ) WhiteValues ++ ;
+: BlackValues++ ( -- ) BlackValues ++ ;
 
 : ChangePieces ( pos -- )
 	DUP piece-at piece-value SWAP
@@ -177,13 +177,13 @@ MAXS []		eruption-values[]
 		here a1 to
 		BEGIN
 			friend-p IF
-				not-empty? eruption-count @ MAXE < AND IF
-					OVER piece piece-value 
+ 				not-empty? eruption-count @ MAXE < AND IF
+					OVER piece piece-value
 					DUP sum-value @ + sum-value !
 					*
 					eruption-count @ eruption-values[] !
 					eruption-count ++
-				ENDIF				         
+				ENDIF
 				FALSE
 			ELSE
 				TRUE
