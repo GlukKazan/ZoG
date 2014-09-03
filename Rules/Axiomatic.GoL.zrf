@@ -1,0 +1,40 @@
+(version "2.0")
+
+(game
+    (title "Game Of Life")
+
+    (engine "../Axiom/GoL/axiom.dll")
+
+    (option "animate drops" false)
+    (option "animate captures" false)
+    (drop-sound "Audio/Click2.wav")
+    (capture-sound "Audio/WoodBlock.wav")
+
+    (players ?E B W)
+    (turn-order B W)
+
+    (board 
+        (image "..\images\Go-Moku\GomokuLg.bmp")
+        (grid
+            (start-rectangle 9 9 27 27)
+            (dimensions
+                ("a/b/c/d/e/f/g/h/i/j/k/l/m/n/o/p/q/r/s" (18 0))
+                ("19/18/17/16/15/14/13/12/11/10/9/8/7/6/5/4/3/2/1" (0 18)))
+        )
+    )
+    (board-setup
+        (B (S d3 c5 e5 i10 k10 o4 p4 q4 o15 p17 q15))
+        (W (S c4 d15 d16 d17 e4 d6 j9 j11 p14 o16 q16))
+    )
+    (piece
+        (name S)
+        (image  B "..\images\Go-Moku\GoStoneB17.bmp"
+                W "..\images\Go-Moku\GoStoneW17.bmp")
+        (help "Stone: drops on any empty square")
+    )
+
+    ; The following dummy piece is required in order to placate the Zillions engine.
+    ; It appears as though Zillions must find at least one "moves" keyword somewhere
+    ; in the zrf in order for it to be happy and thus allow "moves" to work correctly.
+    (piece (name Dummy) (dummy) (moves (from)))
+)
