@@ -631,6 +631,24 @@ MAXE []		eruption-values[]
 	to
 ;
 
+: check-all-captured ( -- )
+	current-count @ 1 > IF
+		current-count @
+		BEGIN
+			1-
+			DUP current-positions[] @ 0> OVER 0> AND IF
+				TRUE
+			ELSE
+				DUP 0= IF
+					TRUE is-captured? !
+				ENDIF
+				DUP 0> NOT
+			ENDIF
+		UNTIL
+		DROP
+	ENDIF
+;
+
 : capture-all ( -- )
 	here ROWS COLS *
 	BEGIN
@@ -650,6 +668,7 @@ MAXE []		eruption-values[]
 			is-captured? @ NOT IF
 				DUP check-eruption
 			ENDIF
+                        check-all-captured
 			is-captured? @ IF
 				capture-piece
 			ENDIF
@@ -761,6 +780,10 @@ MAXE []		eruption-values[]
 	ELSE
 		DROP FALSE
 	ENDIF
+;
+
+: OnEvaluate ( -- score )
+	current-player material-balance
 ;
 
 : OnNewGame ( -- )
