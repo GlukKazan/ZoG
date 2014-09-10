@@ -1,0 +1,448 @@
+(macro move-captured
+   (let here to)
+   (loop
+      (break empty?)
+      (let current-piece piece)
+      (if is-promouted?
+          (set is-promouted? f)
+      )
+      (let position here)
+      (let counter move-size)
+      (loop
+          (check up)
+          (let counter (- counter 1))
+          (break (= counter 0))
+      )
+      (move position here)
+      (let here position)
+      (break (not up))
+   )
+)
+
+(macro move-tail
+   (let destination to)
+   (let here from)
+   (loop
+      (break (not up))
+      (let position here)
+      (let here destination)
+      (check up)
+      (move position here)
+      (let destination here)
+      (let here position)
+   )
+)
+
+(macro count-pieces
+   (let here from)
+   (let counter 0)
+   (loop
+      (break empty?)
+      (let counter (+ counter 1))
+      (break (not up))
+   )
+)
+
+(move
+   (name leap)
+   (arg direction)
+   (action
+       (check direction)
+       (check (not friend?))
+       (move from here)
+       end-move
+   )
+)
+
+(move
+   (name slide)
+   (arg direction)
+   (action
+       (loop
+           (check direction)
+           (if (not friend?)
+               (move from here)
+               end-move
+           )
+           (check empty?)
+       )
+   )
+)
+
+(move
+   (name pawn-move)
+   (action
+       (check n)
+       (check empty?)
+       (move from here)
+       end-move
+   )
+)
+
+(move
+   (name pawn-jump)
+   (pre (check never-moved?))
+   (post (set is-jumped? t))
+   (action
+       (check n)
+       (check empty?)
+       (check n)
+       (check empty?)
+       (move from here)
+       end-move
+   )
+)
+
+(move
+   (name pawn-eat)
+   (arg direction)
+   (action
+       (check direction)
+       (check enemy?)
+       (move from here)
+       end-move
+   )
+)
+
+(move
+   (name en-passant)
+   (arg eat-direction move-direction)
+   (action
+       (check eat-direction)
+       (check enemy?)
+       (check (piece Pawn))
+       (check (is-jumped? piece))
+       (let eated-piece piece)
+       (let position here)
+       (let here from)
+       (check move-direction)
+       (check empty?)
+       (let eating-piece current-piece)
+       (let current-piece eated-piece)
+       (move position here)
+       (let current-piece eating-piece)
+       (move from here)
+       end-move
+   )
+)
+
+(move
+   (name O-O)
+   (pre (check never-moved?))
+   (pre (check (not attacked?)))
+   (action
+       (check w)
+       (check empty?)
+       (check w)
+       (check empty?)
+       (move from here)
+       (check w)
+       (check (piece Rook))
+       (let from here)
+       (let current-piece piece)
+       (check never-moved?)
+       (check not attacked?)
+       e e
+       (move from here)
+       end-move
+   )
+)
+
+(move
+   (name O-O-O)
+   (pre (check never-moved?))
+   (pre (check (not attacked?)))
+   (action
+       (check e)
+       (check empty?)
+       (check e)
+       (check empty?)
+       (check e)
+       (check empty?)
+       (move from here)
+       (check e)
+       (check (piece Rook))
+       (let from here)
+       (let current-piece piece)
+       (check never-moved?)
+       (check not attacked?)
+       w w
+       (move from here)
+       end-move
+)
+
+(variant
+   (name "Chess")
+
+   (players White Black)
+
+   (board
+      (grid H 8_1)
+      (dir (name n)    0  1)
+      (dir (name s)    0 -1)
+      (dir (name e)    1  0)
+      (dir (name w)   -1  0)
+      (dir (name nw)  -1  1)
+      (dir (name ne)   1  1)
+      (dir (name sw)  -1 -1)
+      (dir (name se)   1 -1)
+      (dir (name nnw) -1  2)
+      (dir (name nne)  1  2)
+      (dir (name een)  2  1)
+      (dir (name ees)  2 -1)
+      (dir (name sse)  1 -2)
+      (dir (name ssw) -1 -2)
+      (dir (name wwn) -2  1)
+      (dir (name wws) -2 -1)
+      (dir (players Black) (n s) (s n)  (e w) (w e)
+                           (nw se) (sw ne) (ne sw) (se nw)
+      )
+      (zone (name promotion)
+            (players White)
+            (positions A8 B8 C8 D8 E8 F8 G8 H8)
+      )
+      (zone (name promotion)
+            (players Black)
+            (positions A1 B1 C1 D1 E1 F1 G1 H1)
+      )
+   )
+
+   (pieces
+        (pre (check friend?))
+        (pre
+             (if is-jumped?
+                 (set is-jumped? f)
+             )
+        )
+        (post (set never-moved? f))
+        (post (check (not (attacked? King))))
+        (piece
+            (name Pawn)
+            (attribute never-moved? t)
+            (attribute is-jumped? f)
+            (post
+                 (if (in-zone? promotion)
+                     (promote Knight Bishop Rook Queen)
+                 )
+            )
+            (moves pawn-move pawn-jump (pawn-eat nw) (pawn-eat ne) 
+                 (en-passant w nw) (en-passant e ne)
+            )
+        )
+        (piece
+            (name Rook)
+            (attribute never-moved? t)
+            (moves (slide n) (slide s) (slide w) (slide e))
+        )
+        (piece 
+            (name Knight)
+            (moves (leap nnw) (leap nne) (leap een) (leap ees)
+                   (leap sse) (leap ssw) (leap wwn) (leap wws)
+            )
+        )
+        (piece 
+            (name Bishop)
+            (moves (slide nw) (slide ne) (slide sw) (slide se))
+        )
+        (piece 
+            (name Queen)
+            (moves (slide nw) (slide ne) (slide sw) (slide se)
+                   (slide n)  (slide s)  (slide w)  (slide e)
+            )
+        )
+        (piece
+            (name King)
+            (attribute never-moved? t)
+            (moves (leap n) (leap s) (leap e) (leap w)
+                   (O-O) (O-O-O)
+            )
+        )
+   )
+
+   (setup
+      (White
+         (Pawn A2 H2 B2 G2 C2 F2 D2 E2)
+         (Knight B1 G1)
+         (Bishop C1 F1)
+         (Rook A1 H1)
+         (Queen D1)
+         (King E1)
+      )
+      (Black
+         (Pawn A7 H7 B7 G7 C7 F7 D7 E7)
+         (Knight B8 G8)
+         (Bishop C8 F8)
+         (Rook A8 H8)
+         (Queen D8)
+         (King E8)
+      )
+   )
+
+   (goals
+      (loss stalemate?)
+   )
+)
+
+(variant
+   (name "Tavreli")
+
+   (players White Black)
+
+   (board
+      (grid H 8_1 0_30)
+      (dir (name up)   0  0  1)
+      (dir (name n)    0  1  0)
+      (dir (name s)    0 -1  0)
+      (dir (name e)    1  0  0)
+      (dir (name w)   -1  0  0)
+      (dir (name nw)  -1  1  0)
+      (dir (name ne)   1  1  0)
+      (dir (name sw)  -1 -1  0)
+      (dir (name se)   1 -1  0)
+      (dir (name nnw) -1  2  0)
+      (dir (name nne)  1  2  0)
+      (dir (name een)  2  1  0)
+      (dir (name ees)  2 -1  0)
+      (dir (name sse)  1 -2  0)
+      (dir (name ssw) -1 -2  0)
+      (dir (name wwn) -2  1  0)
+      (dir (name wws) -2 -1  0)
+      (dir (players Black) (n s) (s n)  (e w) (w e)
+                           (nw se) (sw ne) (ne sw) (se nw)
+      )
+      (zone (name plane)
+            (positions ??0)
+      )
+      (zone (name promotion)
+            (players White)
+            (positions A80 B80 C80 D80 E80 F80 G80 H80)
+      )
+      (zone (name promotion)
+            (players Black)
+            (positions A10 B10 C10 D10 E10 F10 G10 H10)
+      )
+   )
+
+   (pieces
+        (let stack-size (count-pieces))
+        (let move-size 1_stack-size)
+        (pre (check (in-zone? plane)))
+        (pre (check friend?))
+        (pre
+             (if is-jumped?
+                 (set is-jumped? f)
+             )
+        )
+        (post move-captured)
+        (post move-tail)
+        (post (set never-moved? f))
+        (post (check (not (attacked? King))))
+        (piece 
+            (name Pawn)
+            (attribute never-moved? t)
+            (attribute is-promouted? f)
+            (attribute is-jumped? f)
+            (pre (check (not is-promouted?)))
+            (post
+                 (if (in-zone? promotion)
+                     (set is-promouted? t)
+                 )
+            )
+            (moves pawn-move pawn-jump (pawn-eat nw) (pawn-eat ne) 
+                 (en-passant w nw) (en-passant e ne)
+            )
+            (piece 
+                 (name Pawn-Rook)
+                 (pre (check is-promouted?))
+                 (moves (slide n) (slide s) (slide w) (slide e))
+            )
+            (piece
+                 (name Pawn-Knight)
+                 (pre (check is-promouted?))
+                 (moves (leap nnw) (leap nne) (leap een) (leap ees)
+                        (leap sse) (leap ssw) (leap wwn) (leap wws)
+                 )
+            )
+            (piece 
+                 (name Pawn-Bishop)
+                 (pre (check is-promouted?))
+                 (moves (slide nw) (slide ne) (slide sw) (slide se))
+            )
+            (piece 
+                 (name Pawn-Queen)
+                 (pre (check is-promouted?))
+                 (moves (slide nw) (slide ne) (slide sw) (slide se)
+                        (slide n)  (slide s)  (slide w)  (slide e)
+                 )
+            )
+            (piece 
+                 (name Pawn-Helg)
+                 (pre (check is-promouted?))
+                 (moves (leap nnw) (leap nne) (leap een) (leap ees)
+                        (leap sse) (leap ssw) (leap wwn) (leap wws)
+                        (slide nw) (slide ne) (slide sw) (slide se)
+                        (slide n)  (slide s)  (slide w)  (slide e)
+                 )
+            )
+        )
+        (piece 
+            (name Rook)
+            (attribute never-moved? t)
+            (moves (slide n) (slide s) (slide w) (slide e))
+        )
+        (piece
+            (name Knight)
+            (moves (leap nnw) (leap nne) (leap een) (leap ees)
+                   (leap sse) (leap ssw) (leap wwn) (leap wws)
+            )
+        )
+        (piece 
+            (name Bishop)
+            (moves (slide nw) (slide ne) (slide sw) (slide se))
+        )
+        (piece 
+            (name Queen)
+            (moves (slide nw) (slide ne) (slide sw) (slide se)
+                   (slide n)  (slide s)  (slide w)  (slide e)
+            )
+        )
+        (piece 
+            (name King)
+            (attribute never-moved? t)
+            (moves (leap n) (leap s) (leap e) (leap w)
+                   (O-O) (O-O-O)
+            )
+        )
+   )
+
+   (setup
+      (White
+         (Pawn-Rook A2 H2)
+         (Pawn-Knight B2 G2)
+         (Pawn-Bishop C2 F2)
+         (Pawn-Queen D2)
+         (Pawn-Helg E2)
+         (Knight B1 G1)
+         (Bishop C1 F1)
+         (Rook A1 H1)
+         (Queen D1)
+         (King E1)
+      )
+      (Black
+         (Pawn-Rook A7 H7)
+         (Pawn-Knight B7 G7)
+         (Pawn-Bishop C7 F7)
+         (Pawn-Queen D7)
+         (Pawn-Helg E7)
+         (Knight B8 G8)
+         (Bishop C8 F8)
+         (Rook A8 H8)
+         (Queen D8)
+         (King E8)
+      )
+   )
+
+   (goals
+      (loss stalemate?)
+   )
+)

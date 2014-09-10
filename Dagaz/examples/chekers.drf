@@ -1,0 +1,157 @@
+(move
+   (name checker-move)
+   (arg direction)
+   (action
+       (check direction)
+       (check empty?)
+       (move from here)
+       end-move
+   )
+)
+
+(move
+   (name checker-eat)
+   (pre (check is-current?))
+   (arg direction)
+   (action
+       (check direction)
+       (check enemy?)
+       capture
+       (let captured-counter (+ captured-counter 1))
+       (check direction)
+       (check empty?)
+       (move from here)
+       (end-move-part eat-mode)
+   )
+)
+
+(move
+   (name dama-move)
+   (arg direction)
+   (action
+       (loop
+           (check direction)
+           (check empty?)
+           (move from here)
+           end-move
+       )
+   )
+)
+
+(move
+   (name dama-eat)
+   (pre (check is-current?))
+   (arg direction)
+   (action
+       (loop
+           (check direction)
+           (break (not empty?))
+       )
+       (check enemy?)
+       capture
+       (let captured-counter (+ captured-counter 1))
+       (loop
+           (check direction)
+           (check empty?)
+           (move from here)
+           (end-move-part eat-mode)
+       )
+   )
+)
+
+(variant
+   (name "International Checkers")
+
+   (players White Black)
+
+   (board
+      (grid J 10_1)
+      (dir (name nw)  -1  1)
+      (dir (name ne)   1  1)
+      (dir (name sw)  -1 -1)
+      (dir (name se)   1 -1)
+      (dir (players Black) (nw sw) (sw nw) (ne se) (se ne))
+      (zone (name promotion)
+            (players White)
+            (positions B8 D8 F8 H8 J8)
+      )
+      (zone (name promotion)
+            (players Black)
+            (positions A1 C1 E1 G1 I1)
+      )
+   )
+
+   (pieces
+      (let captured-counter 0)
+      (let max-captured 0)
+      (attribute is-current? f)
+      (pre (check friend?))
+      (pre
+            (set is-current? f)
+      )
+      (post
+            (if is-current?
+                  (check (= 0 (count-moves eat-mode)))
+            )
+      )
+      (post
+            (check (>= captured-counter max-captured))
+            (set max-captured captured-counter)
+      )
+      (post
+            (if (and is-current? is-promouted?)
+                  (promote Dama)
+            )
+      )
+      (piece
+            (name Checker)
+            (attribute is-promouted? f)
+            (post
+                  (set is-current? t)
+            )
+            (post 
+                  (if (in-zone? promotion)
+                      (set is-promouted? t)
+                  )
+            )
+            (mode 
+                  (name normal-mode)
+                  (moves (checker-move nw) (checker-move ne))
+            )
+            (mode 
+                  (name eat-mode)
+                  (moves (checker-eat nw) (checker-eat ne) 
+                         (checker-eat sw) (checker-eat se)
+                  )
+            )
+      )
+      (piece
+            (name Dama)
+            (mode 
+                  (name normal-mode)
+                  (moves (dama-move nw) (dama-move ne) 
+                         (dama-move sw) (dama-move se)
+                  )
+            )
+            (mode 
+                  (name eat-mode)
+                  (moves (dama-eat nw) (dama-eat ne) 
+                         (dama-eat sw) (dama-eat se)
+                  )
+            )
+      )
+   )
+
+   (setup
+      (White
+         (Checker A1 C1 E1 G1 I1 B2 D2 F2 H2 J2 A3 C3 E3 G3 I3)
+      )
+      (Black
+         (Checker B8 D8 F8 H8 J8 A7 C7 E7 G7 I7 B6 D6 F6 H6 J6)
+      )
+   )
+
+   (goals
+      (loss stalemate?)
+   )
+)
