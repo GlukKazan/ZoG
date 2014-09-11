@@ -1,35 +1,43 @@
-(macro move-captured
-   (let here to)
+(macro prepare-moving-sets
+   (let here from)
+   (let counter move-size)
    (loop
-      (break empty?)
-      (let current-piece piece)
-      (if is-promouted?
-          (set is-promouted? f)
-      )
-      (let position here)
-      (let counter move-size)
+      (set counter (- counter 1))
+      (break (= counter 0))
+      (check up)
+      (check (not empty?))
+      (add-to-current-set piece)
+   )
+   (if (and up (not empty?))
+      (let current-set piece)
+      (move here from)
       (loop
-          (check up)
-          (let counter (- counter 1))
-          (break (= counter 0))
+          (break (not up))
+          (break empty?)
+          (add-to-current-set piece)
       )
-      (move position here)
-      (let here position)
-      (break (not up))
    )
 )
 
-(macro move-tail
-   (let destination to)
-   (let here from)
-   (loop
-      (break (not up))
-      (let position here)
-      (let here destination)
-      (check up)
-      (move position here)
-      (let destination here)
-      (let here position)
+(macro move-captured
+   (let here to)
+   (if (not empty?)
+      (let current-set piece)
+      (let counter move-size)
+      (loop
+         (set counter (- counter 1))
+         (break (= counter 0))
+         (check up)
+         (if (not empty?)
+             (add-to-current-set piece)
+         )
+      )
+      (move to here)
+      (loop
+          (break (not up))
+          (break empty?)
+          (add-to-current-set piece)
+      )
    )
 )
 
@@ -110,17 +118,17 @@
    (action
        (check eat-direction)
        (check enemy?)
-       (check (piece Pawn))
+       (check (is-piece-type? Pawn))
        (check (is-jumped? piece))
        (let eated-piece piece)
        (let position here)
        (let here from)
        (check move-direction)
        (check empty?)
-       (let eating-piece current-piece)
-       (let current-piece eated-piece)
+       (let eating-piece current-set)
+       (let current-set eated-piece)
        (move position here)
-       (let current-piece eating-piece)
+       (let current-set eating-piece)
        (move from here)
        end-move
    )
@@ -133,15 +141,16 @@
    (action
        (check w)
        (check empty?)
+       (check (not attacked?))
        (check w)
        (check empty?)
+       (check (not attacked?))
        (move from here)
        (check w)
-       (check (piece Rook))
+       (check (is-piece-type? Rook))
        (let from here)
-       (let current-piece piece)
+       (let current-set piece)
        (check never-moved?)
-       (check not attacked?)
        e e
        (move from here)
        end-move
@@ -155,18 +164,19 @@
    (action
        (check e)
        (check empty?)
+       (check (not attacked?))
        (check e)
        (check empty?)
-       (check e)
-       (check empty?)
+       (check (not attacked?))
        (move from here)
        (check e)
-       (check (piece Rook))
+       (check empty?)
+       (check e)
+       (check (is-piece-type? Rook))
        (let from here)
-       (let current-piece piece)
+       (let current-set piece)
        (check never-moved?)
-       (check not attacked?)
-       w w
+       w w w
        (move from here)
        end-move
 )
@@ -311,7 +321,14 @@
                            (nw se) (sw ne) (ne sw) (se nw)
       )
       (zone (name plane)
-            (positions ??0)
+            (positions A10 B10 C10 D10 E10 F10 G10 H10
+                       A20 B20 C20 D20 E20 F20 G20 H20
+                       A30 B30 C30 D30 E30 F30 G30 H30
+                       A40 B40 C40 D40 E40 F40 G40 H40
+                       A50 B50 C50 D50 E50 F50 G50 H50
+                       A60 B60 C60 D60 E60 F60 G60 H60
+                       A70 B70 C70 D70 E70 F70 G70 H70
+                       A80 B80 C80 D80 E80 F80 G80 H80)
       )
       (zone (name promotion)
             (players White)
@@ -333,8 +350,8 @@
                  (set is-jumped? f)
              )
         )
+        (pre prepare-moving-sets)
         (post move-captured)
-        (post move-tail)
         (post (set never-moved? f))
         (post (check (not (attacked? King))))
         (piece 
