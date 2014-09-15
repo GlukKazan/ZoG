@@ -1,3 +1,7 @@
+(macro stalemate-goal
+   (loss (= 0 count-moves))
+)
+
 (macro prepare-moving-sets
    (let here from)
    (let counter move-size)
@@ -41,17 +45,16 @@
    )
 )
 
-(macro count-pieces
+(macro calc-size
    (let here from)
-   (let counter 0)
    (loop
       (break empty?)
-      (let counter (+ counter 1))
+      (set stack-size (+ stack-size 1))
       (break (not up))
    )
 )
 
-(move
+(turn
    (name leap)
    (arg direction)
    (action
@@ -62,7 +65,7 @@
    )
 )
 
-(move
+(turn
    (name slide)
    (arg direction)
    (action
@@ -77,7 +80,7 @@
    )
 )
 
-(move
+(turn
    (name pawn-move)
    (action
        (check n)
@@ -87,7 +90,7 @@
    )
 )
 
-(move
+(turn
    (name pawn-jump)
    (pre (check never-moved?))
    (post (set is-jumped? t))
@@ -101,7 +104,7 @@
    )
 )
 
-(move
+(turn
    (name pawn-eat)
    (arg direction)
    (action
@@ -112,7 +115,7 @@
    )
 )
 
-(move
+(turn
    (name en-passant)
    (arg eat-direction move-direction)
    (action
@@ -134,7 +137,7 @@
    )
 )
 
-(move
+(turn
    (name O-O)
    (pre (check never-moved?))
    (pre (check (not attacked?)))
@@ -157,7 +160,7 @@
    )
 )
 
-(move
+(turn
    (name O-O-O)
    (pre (check never-moved?))
    (pre (check (not attacked?)))
@@ -235,35 +238,35 @@
                      (promote Knight Bishop Rook Queen)
                  )
             )
-            (moves pawn-move pawn-jump (pawn-eat nw) (pawn-eat ne) 
+            (turns pawn-move pawn-jump (pawn-eat nw) (pawn-eat ne) 
                  (en-passant w nw) (en-passant e ne)
             )
         )
         (piece
             (name Rook)
             (attribute never-moved? t)
-            (moves (slide n) (slide s) (slide w) (slide e))
+            (turns (slide n) (slide s) (slide w) (slide e))
         )
         (piece 
             (name Knight)
-            (moves (leap nnw) (leap nne) (leap een) (leap ees)
+            (turns (leap nnw) (leap nne) (leap een) (leap ees)
                    (leap sse) (leap ssw) (leap wwn) (leap wws)
             )
         )
         (piece 
             (name Bishop)
-            (moves (slide nw) (slide ne) (slide sw) (slide se))
+            (turns (slide nw) (slide ne) (slide sw) (slide se))
         )
         (piece 
             (name Queen)
-            (moves (slide nw) (slide ne) (slide sw) (slide se)
+            (turns (slide nw) (slide ne) (slide sw) (slide se)
                    (slide n)  (slide s)  (slide w)  (slide e)
             )
         )
         (piece
             (name King)
             (attribute never-moved? t)
-            (moves (leap n) (leap s) (leap e) (leap w)
+            (turns (leap n) (leap s) (leap e) (leap w)
                    (O-O) (O-O-O)
             )
         )
@@ -289,7 +292,7 @@
    )
 
    (goals
-      (loss stalemate?)
+      stalemate-goal
    )
 )
 
@@ -341,10 +344,11 @@
    )
 
    (pieces
-        (let stack-size (count-pieces))
-        (let move-size 1_stack-size)
+        (let stack-size 0)
         (pre (check (in-zone? plane)))
         (pre (check friend?))
+        (pre calc-size)
+        (let move-size 1_stack-size)
         (pre
              (if is-jumped?
                  (set is-jumped? f)
@@ -365,37 +369,37 @@
                      (set is-promouted? t)
                  )
             )
-            (moves pawn-move pawn-jump (pawn-eat nw) (pawn-eat ne) 
+            (turns pawn-move pawn-jump (pawn-eat nw) (pawn-eat ne) 
                  (en-passant w nw) (en-passant e ne)
             )
             (piece 
                  (name Pawn-Rook)
                  (pre (check is-promouted?))
-                 (moves (slide n) (slide s) (slide w) (slide e))
+                 (turns (slide n) (slide s) (slide w) (slide e))
             )
             (piece
                  (name Pawn-Knight)
                  (pre (check is-promouted?))
-                 (moves (leap nnw) (leap nne) (leap een) (leap ees)
+                 (turns (leap nnw) (leap nne) (leap een) (leap ees)
                         (leap sse) (leap ssw) (leap wwn) (leap wws)
                  )
             )
             (piece 
                  (name Pawn-Bishop)
                  (pre (check is-promouted?))
-                 (moves (slide nw) (slide ne) (slide sw) (slide se))
+                 (turns (slide nw) (slide ne) (slide sw) (slide se))
             )
             (piece 
                  (name Pawn-Queen)
                  (pre (check is-promouted?))
-                 (moves (slide nw) (slide ne) (slide sw) (slide se)
+                 (turns (slide nw) (slide ne) (slide sw) (slide se)
                         (slide n)  (slide s)  (slide w)  (slide e)
                  )
             )
             (piece 
                  (name Pawn-Helg)
                  (pre (check is-promouted?))
-                 (moves (leap nnw) (leap nne) (leap een) (leap ees)
+                 (turns (leap nnw) (leap nne) (leap een) (leap ees)
                         (leap sse) (leap ssw) (leap wwn) (leap wws)
                         (slide nw) (slide ne) (slide sw) (slide se)
                         (slide n)  (slide s)  (slide w)  (slide e)
@@ -405,28 +409,28 @@
         (piece 
             (name Rook)
             (attribute never-moved? t)
-            (moves (slide n) (slide s) (slide w) (slide e))
+            (turns (slide n) (slide s) (slide w) (slide e))
         )
         (piece
             (name Knight)
-            (moves (leap nnw) (leap nne) (leap een) (leap ees)
+            (turns (leap nnw) (leap nne) (leap een) (leap ees)
                    (leap sse) (leap ssw) (leap wwn) (leap wws)
             )
         )
         (piece 
             (name Bishop)
-            (moves (slide nw) (slide ne) (slide sw) (slide se))
+            (turns (slide nw) (slide ne) (slide sw) (slide se))
         )
         (piece 
             (name Queen)
-            (moves (slide nw) (slide ne) (slide sw) (slide se)
+            (turns (slide nw) (slide ne) (slide sw) (slide se)
                    (slide n)  (slide s)  (slide w)  (slide e)
             )
         )
         (piece 
             (name King)
             (attribute never-moved? t)
-            (moves (leap n) (leap s) (leap e) (leap w)
+            (turns (leap n) (leap s) (leap e) (leap w)
                    (O-O) (O-O-O)
             )
         )
@@ -460,6 +464,6 @@
    )
 
    (goals
-      (loss stalemate?)
+      stalemate-goal
    )
 )

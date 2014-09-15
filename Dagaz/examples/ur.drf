@@ -1,155 +1,154 @@
-﻿; Ур
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; http://skyruk.livejournal.com/211326.html
-; http://skyruk.livejournal.com/231444.html
-
-(def get-dices
-     (if (= 0 (sum -all-pices (get v)))
-         4
-     )
+﻿(macro calc-dices
 )
 
-(def clear-dices
-     (for P all-positions
-          save-all
-          P
-          (check (in-zone? dices))
-          capture
-     )
+(turn
+   (name man-move)
+   (action
+   )
 )
 
-(def drop-dice
-     (check (in-zone? dices))
-     (check empty?)
-     (add Zero One)
-     (end-move-part-strict (mode drop-dices))
+(turn
+   (name drop-dice)
+   (action
+       drop
+       (set value curr-value)
+       end-move
+   )
 )
 
-(def move-piece
-     (check (or (in-zone? reserve) (in-zone? board)))
-     (check friend?)
-     (let P (copy 1))                    ; Фигура сохраняется вместе с данными о её позиции
-     (lock 1)
-     (while _ (<= get-dices)
-         next
-     )
-     (if (not empty?)
-         (check (not (in-zone? safe)))
-         (if (or (in-zone? depo) (in-zone? lock))
-             (check (< size 4))
-             (if (in-zone? depo)
-                 (check (friend? (copy size 1)))
-             )
-         else
-             (check (not friend?)))      ; Нельзя брать дружественную фигуру
-             (check (eq? P (copy 1)))    ; Нельзя брать фигуру другого типа
-             (capture-to reserve)        ; Фигуры перемещаются в свободное место резерва своего цвета
-         )
-     )
-     (if (not (in-zone finish))
-         (if (in-zone? promoution P)     ; Начальная позиция хода является полем превращения?
-             (add Promouted)             ; Заменить перемещаемую фигуру превращенной фигурой
-         else
-             add
-         )
-     )
-     (clear-dices)
-     (if (in-zone? rosette)
-         (end-move (label repeat))
-     else
-         end-move
-     )
+(turn
+   (name clear-all)
+   (action
+       (capture a)
+       (capture b)
+       (capture c)
+       (if (enemy? L)
+           (capture L)
+       )
+       end-move
+   )
+)
+
+(turn
+   (name pass-turn)
+   (action
+       end-move
+   )
 )
 
 (variant
-   (title "Ур")
-   (players First Second)
+   (name "Ur")
+
+   (players White Black)
    (turn-order 
-        (label 
-              (name repeat)
-              (First (mode drop-dices) random) 
-              First 
-        )
-        (label
-              (name repeat)
-              (Second (mode drop-dices) random) 
-              Second
-        )
+      (White (modes drop-dices) (engine random))
+      (White (modes drop-dices) (engine random))
+      (White (modes drop-dices) (engine random))
+      (White (modes normal-mode pass-mode))
+      (White (modes clear-dices))
+      (Black (modes drop-dices) (engine random))
+      (Black (modes drop-dices) (engine random))
+      (Black (modes drop-dices) (engine random))
+      (Black (modes normal-mode pass-mode))
+      (Black (modes clear-dices))
    )
 
    (board
-        (grid (name finish)
-              (dims "0"))
-        (grid (name dices)
-              (dims "i/ii/iii"))
-        (grid (name reserve)
-              (players First Second)
-              (dims "1/2/3/4/5/6/7"))
-        (grid (name board)
-              (dims "a/b/c/d/e/f/g/h"
-                    "3/2/1")
-        )
-        ((dir First Initial)  (name next) (d1 c1) (c1 b1) (b1 a1) (a1 a2) (g2 g1) (g1 h1))
-        ((dir Second Initial) (name next) (d3 c3) (c3 b3) (b3 a3) (a3 a2) (g2 g3) (g3 h3))
-        ((dir (First Second) Initial) (name next) (a2 b2) (b2 c2) (c2 d2) (d2 e2) (e2 g2))
-        ((dir First Promouted)  (name next) (h1 h2) (h2 h3) (h3 g3) (g3 g2))
-        ((dir Second Promouted) (name next) (h3 h2) (h2 h1) (h1 g1) (g1 g2))
-        ((dir (First Second) Promouted) (name next) (g2 e2) (e2 d2) (d2 c2) (c2 b2) (b2 a2) (a2 0))
-        ((dir First)  (name next) (1 d1) (2 d1) (3 d1) (4 d1) (5 d1) (6 d1) (7 d1))
-        ((dir Second) (name next) (1 d3) (2 d3) (3 d3) (4 d3) (5 d3) (6 d3) (7 d3))
-        (zone (name dices)
-              (positions i ii iii)
-        )
-        (zone (name reserve)
-              (positions 1 2 3 4 5 6 7)
-        )
-        (zone (name promoution)
-              (positions h1 h3)
-        )
-        (zone (name rosette)
-              (positions a1 a3 d2 g1 g3)
-        )
-        (zone (name depo)
-              (positions b1 b3 d1 d3 g2)
-        )
-        (zone (name lock)
-              (positions c2 f2)
-        )
-        (zone (name safe)
-              (positions a2)
-        )
+      (grid H 3_1 0_3)
+      (grid (zone start) (players White Black) G)
+      (grid (zone finis) X_X)
+      (grid (zone lock) L_L)
+      (grid (zone dices) c)
+      (dir (name up)   0  0  1)
+      (dir (name init) (players White) (A D10) (B D10) (C D10) (D D10) (E D10) (F D10) (G D10))
+      (dir (name init) (players Black) (A D30) (B D30) (C D30) (D D30) (E D30) (F D30) (G D30))
+      (dir (name init) (players White) (D10 C10) (C10 B10) (B10 A10) (A10 A20))
+      (dir (name init) (players Black) (D30 C30) (C30 B30) (B30 A30) (A30 A20))
+      (dir (name init) (A20 B20) (B20 C20) (C20 D20) (D20 E20) (E20 F20) (F20 G20))
+      (dir (name init) (players White) (G20 G10) (G10 H10) (H10 H20) (H20 H30) (H30 G30) (G30 G20))
+      (dir (name init) (players Black) (G20 G30) (G30 H30) (H30 H20) (H20 H10) (H10 G10) (G10 G20))
+      (dir (name prom) (players White) (H20 H30) (H30 G30) (G30 G20))
+      (dir (name prom) (players Black) (H20 H10) (H10 G10) (G10 G20))
+      (dir (name prom) (G20 F20) (F20 E20) (E20 D20) (D20 C20) (C20 B20) (B20 A20) (A20 X))
+      (zone (name plane)
+         (zone start)
+         (positions A10 B10 C10 D10 E10 F10 G10 H10
+                    A20 B20 C20 D20 E20 F20 G20 H20
+                    A30 B30 C30 D30 E30 F30 G30 H30
+         )
+      )
+      (zone (name promotion) (players White) (positions H10))
+      (zone (name promotion) (players Black) (positions H30))
+      (zone (name rosette)
+          (positions A10 A30 D20 G10 G30)
+      )
+      (zone (name depo)
+          (positions B10 B30 D10 D30 G20)
+      )
+      (zone (name safe)
+          (positions C20 F20)
+      )
+      (zone (name protect)
+          (positions A20)
+      )
+   )
+
+   (pieces
+      (piece
+            (name Dice)
+            (attribute value 0)
+            (turns
+                  (let curr-value 0_1)
+                  (pre (in-zone? dices))
+                  (pre empty?)
+                  (mode drop-dices)
+                  (turns drop-dice)
+            )
+      )
+      (piece
+            (name Man)
+            (pre (not (enemy? L)))
+            (pre (in-zone? plane))
+            (let step-count 0)
+            (pre calc-dices)
+            (piece
+                  (name Initial)
+                  (turns
+                       (mode normal-mode)
+                       (man-move init)
+                  )
+            )
+            (piece
+                  (name Promouted)
+                  (turns
+                       (mode normal-mode)
+                       (man-move prom)
+                  )
+            )
+      )
+      (turns
+            (mode pass-mode)
+            (pre
+                (check (= 0 (count-moves (= current-mode normal-mode))))
+            )
+            (turns pass-turn)
+      )
+      (turns
+            (mode clear-dices)
+            (turns clear-all)
+      )
    )
 
    (setup
-      (First
-         (Initial 1 2 3 4 5 6 7)
+      (White
+         (Initial A B C D E F G)
       )
-      (Second
-         (Initial 1 2 3 4 5 6 7)
+      (Black
+         (Initial A B C D E F G)
       )
-   )
-
-   (move-priorities (normal pass))
-   (pieces
-        (Zero
-              (constant v 0)
-        )
-        (One
-              (constant v 1)
-        )
-        Initial
-        Promouted
-   )
-   (moves
-        (move-type normal)
-        move-piece
-        (move-type pass)
-        pass-turn
-        (move-type drop-dices)
-        drop-dice
    )
 
    (goals
-       (win-condition (= (sum pices) 0))
+      (win (= 0 (count-pieces friend?)))
    )
 )

@@ -13,13 +13,13 @@
    )
 )
 
-(macro checker-eat-begin
+(macro man-eat-begin
    (check direction)
    (check enemy?)
    common-eat
 )
 
-(macro checker-eat-end
+(macro man-eat-end
    (check direction)
    (check empty?)
    (move from here)
@@ -32,14 +32,7 @@
        (break (not empty?))
    )
    (check enemy?)
-   (let current-set piece)
-   (check (not is-captured?))
-   (set is-captured? t)
-   (let current-set current-piece)
-   (let captured-counter (+ captured-counter piece-value))
-   (if (is-piece-type? King)
-       (let king-captured-counter (+ king-captured-counter piece-value))
-   )
+   common-eat
 )
 
 (macro king-eat-end
@@ -170,13 +163,21 @@
 )
 
 (macro stalemate-goal
-   (goals
-       (loss stalemate?)
+   (loss (= 0 count-moves))
+)
+
+(macro prepare-moving-set
+   (let here from)
+   (loop
+      (break (not up))
+      (break empty?)
+      (set stack-size (+ stack-size 1))
+      (add-to-current-set piece)
    )
 )
 
-(move
-   (name checker-move)
+(turn
+   (name man-move)
    (arg direction)
    (action
        (check direction)
@@ -186,18 +187,18 @@
    )
 )
 
-(move
-   (name checker-eat)
+(turn
+   (name man-eat)
    (arg direction)
    eat-pre-condition
    (action
-       checker-eat-begin
+       man-eat-begin
        capture
-       checker-eat-end
+       man-eat-end
    )
 )
 
-(move
+(turn
    (name king-move)
    (arg direction)
    (action
@@ -210,7 +211,7 @@
    )
 )
 
-(move
+(turn
    (name king-eat)
    (arg direction)
    eat-pre-condidtion
@@ -221,22 +222,22 @@
    )
 )
 
-(move
-   (name north-checker-eat)
+(turn
+   (name north-man-eat)
    (arg direction)
    eat-pre-condidtion
    (action
-       checker-eat-begin
+       man-eat-begin
        (if (is-piece-type? King)
            (promote Man)
        else
            capture
        )
-       checker-eat-end
+       man-eat-end
    )
 )
 
-(move
+(turn
    (name north-king-eat)
    (arg direction)
    eat-pre-condidtion
@@ -251,53 +252,53 @@
    )
 )
 
-(move
+(turn
    (name thai-eat)
    (arg direction)
    eat-pre-condidtion
    (action
        king-eat-begin
        capture
-       checker-eat-end
+       man-eat-end
    )
 )
 
-(move
+(turn
    (name italian-eat)
    (arg direction)
    eat-pre-condidtion
    (action
-       checker-eat-begin
+       man-eat-begin
        (check (is-piece-type? Man))
        capture
-       checker-eat-end
+       man-eat-end
    )
 )
 
-(move
+(turn
    (name damone-eat)
    (arg direction)
    eat-pre-condidtion
    (action
-       checker-eat-begin
+       man-eat-begin
        (check (not (is-piece-type? Damone)))
        capture
-       checker-eat-end
+       man-eat-end
    )
 )
 
-(move
-   (name turk-checker-eat)
+(turn
+   (name turk-man-eat)
    (arg direction)
    eat-pre-condition
    (action
-       checker-eat-begin
+       man-eat-begin
        capture-immediate
-       checker-eat-end
+       man-eat-end
    )
 )
 
-(move
+(turn
    (name turk-king-eat)
    (arg direction)
    eat-pre-condidtion
@@ -310,7 +311,7 @@
    )
 )
 
-(move
+(turn
    (name ken-move)
    (arg direction)
    (action
@@ -323,20 +324,20 @@
    )
 )
 
-(move
+(turn
    (name fris-eat)
    (arg direction)
    eat-pre-condition
    (action
        (check direction)
-       checker-eat-begin
+       man-eat-begin
        capture
        (check direction)
-       checker-eat-end
+       man-eat-end
    )
 )
 
-(move
+(turn
    (name fris-move)
    (arg direction)
    (action
@@ -350,7 +351,7 @@
    )
 )
 
-(move
+(turn
    (name fris-king-eat)
    (arg direction)
    eat-pre-condidtion
@@ -367,7 +368,7 @@
    )
 )
 
-(move
+(turn
    (name linear-move)
    (arg direction)
    (action
@@ -376,7 +377,7 @@
    )
 )
 
-(move
+(turn
    (name linear-eat)
    (arg direction)
    (action
@@ -395,7 +396,7 @@
    )
 )
 
-(move
+(turn
    (name buska-eat)
    (arg direction)
    eat-pre-condidtion
@@ -403,14 +404,14 @@
        (check direction)
        (check empty?)
        (move from here)
-       checker-eat-begin
+       man-eat-begin
        capture
        (end-move-part eat-mode)
    )
 )
 
 
-(move
+(turn
    (name buska-king-eat)
    (arg direction)
    eat-pre-condidtion
@@ -424,6 +425,62 @@
        common-eat
        capture
        (end-move-part eat-mode)
+   )
+)
+
+(macro bashni-eat-begin
+   (let eat-position here)
+   (check up)
+   (if (not empty?)
+       (let current-set piece)
+       (move here eat-position)
+       (loop
+            (break (not up))
+            (break empty?)
+            (add-to-current-set piece)
+       )
+   )
+   (let here eat-position)
+   (let current-set piece)
+)
+
+(macro bashni-eat-end
+   (move from here)
+   (let counter stack-size)
+   (loop
+       (break (<= counter 0))
+       (check up)
+       (set counter (- counter 1))
+   )
+   (move eat-position here)
+   (end-move-part eat-mode)
+)
+
+(turn
+   (name bashni-man-eat)
+   (arg direction)
+   eat-pre-condition
+   (action
+       man-eat-begin
+       bashni-eat-begin
+       (check direction)
+       (check empty?)
+       bashni-eat-end
+   )
+)
+
+(turn
+   (name bashni-king-eat)
+   (arg direction)
+   eat-pre-condidtion
+   (action
+       king-eat-begin
+       bashni-eat-begin
+       (loop
+           (check direction)
+           (check empty?)
+           bashni-eat-end
+       )
    )
 )
 
@@ -454,31 +511,31 @@
             (name Man)
             set-current-condition
             delayed-promotion-prepare
-            (moves
+            (turns
                   (mode normal-mode)
                   priority-condition
-                  (moves (checker-move nw) (checker-move ne))
+                  (turns (man-move nw) (man-move ne))
             )
-            (moves
+            (turns
                   (mode eat-mode)
-                  (moves (checker-eat nw) (checker-eat ne) 
-                         (checker-eat sw) (checker-eat se)
+                  (turns (man-eat nw) (man-eat ne) 
+                         (man-eat sw) (man-eat se)
                   )
             )
       )
       (piece
             (name King)
             set-current-condition
-            (moves
+            (turns
                   (mode normal-mode)
                   priority-condition
-                  (moves (king-move nw) (king-move ne) 
+                  (turns (king-move nw) (king-move ne) 
                          (king-move sw) (king-move se)
                   )
             )
-            (moves
+            (turns
                   (mode eat-mode)
-                  (moves (king-eat nw) (king-eat ne) 
+                  (turns (king-eat nw) (king-eat ne) 
                          (king-eat sw) (king-eat se)
                   )
             )
@@ -494,7 +551,9 @@
       )
    )
 
-   stalemate-goal
+   (goals
+      stalemate-goal
+   )
 )
 
 (variant
@@ -595,15 +654,15 @@
             (post 
                   (set king-moving-counter 0)
             )
-            (moves
+            (turns
                   (mode normal-mode)
                   priority-condition
-                  (moves (checker-move nw) (checker-move ne))
+                  (turns (man-move nw) (man-move ne))
             )
-            (moves
+            (turns
                   (mode eat-mode)               
-                  (moves (checker-eat nw) (checker-eat ne) 
-                         (checker-eat sw) (checker-eat se)
+                  (turns (man-eat nw) (man-eat ne) 
+                         (man-eat sw) (man-eat se)
                          (fris-eat n) (fris-eat s) 
                          (fris-eat w) (fris-eat e)
                   )
@@ -618,29 +677,29 @@
             (post 
                   (set king-moving-counter 1)
             )
-            (moves
+            (turns
                   (mode normal-mode)
                   priority-condition
                   (pre
-                         (if is-old-current?
+                         (if (and is-old-current? (> (count-pieces (and friend? (is-piece-type? Man)))))
                                (set move-counter (+ move-counter 1))
                                (check (< move-counter 3))
                          else
                                (set move-counter 0)
                          )
                   )
-                  (moves (king-move nw) (king-move ne) 
+                  (turns (king-move nw) (king-move ne) 
                          (king-move sw) (king-move se)
                          (fris-move n) (fris-move s) 
                          (fris-move w) (fris-move e)
                   )
             )
-            (moves
+            (turns
                   (mode eat-mode)
                   (pre
                          (set move-counter 0)
                   )
-                  (moves (king-eat nw) (king-eat ne) 
+                  (turns (king-eat nw) (king-eat ne) 
                          (king-eat sw) (king-eat se)
                          (fris-king-eat n) (fris-king-eat s) 
                          (fris-king-eat w) (fris-king-eat e)
@@ -675,31 +734,31 @@
             (name Man)
             set-current-condition
             immediate-promotion-condition
-            (moves
+            (turns
                   (mode normal-mode)
                   priority-condition
-                  (moves (checker-move nw) (checker-move ne))
+                  (turns (man-move nw) (man-move ne))
             )
-            (moves
+            (turns
                   (mode eat-mode)
-                  (moves (checker-eat nw) (checker-eat ne) 
-                         (checker-eat sw) (checker-eat se)
+                  (turns (man-eat nw) (man-eat ne) 
+                         (man-eat sw) (man-eat se)
                   )
             )
       )
       (piece
             (name King)
             set-current-condition
-            (moves
+            (turns
                   (mode normal-mode)
                   priority-condition
-                  (moves (king-move nw) (king-move ne) 
+                  (turns (king-move nw) (king-move ne) 
                          (king-move sw) (king-move se)
                   )
             )
-            (moves
+            (turns
                   (mode eat-mode)
-                  (moves (king-eat nw) (king-eat ne) 
+                  (turns (king-eat nw) (king-eat ne) 
                          (king-eat sw) (king-eat se)
                   )
             )
@@ -715,7 +774,9 @@
       )
    )
 
-   stalemate-goal
+   (goals
+      stalemate-goal
+   )
 )
 
 (variant
@@ -772,35 +833,35 @@
             (name Man)
             set-current-condition
             immediate-promotion-condition
-            (moves
+            (turns
                   (mode normal-mode)
                   (pre
                          (check (= 0 (count-moves (and friend? (= current-mode eat-mode)))))
                   )
-                  (moves (checker-move nw) (checker-move ne))
+                  (turns (man-move nw) (man-move ne))
             )
-            (moves
+            (turns
                   (mode eat-mode)
-                  (moves (checker-eat nw) (checker-eat ne) 
-                         (checker-eat sw) (checker-eat se)
+                  (turns (man-eat nw) (man-eat ne) 
+                         (man-eat sw) (man-eat se)
                   )
             )
       )
       (piece
             (name King)
             set-current-condition
-            (moves
+            (turns
                   (mode normal-mode)
                   (pre
                          (check (= 0 (count-moves (and friend? (= current-mode eat-mode)))))
                   )
-                  (moves (king-move nw) (king-move ne) 
+                  (turns (king-move nw) (king-move ne) 
                          (king-move sw) (king-move se)
                   )
             )
-            (moves
+            (turns
                   (mode eat-mode)
-                  (moves (king-eat nw) (king-eat ne) 
+                  (turns (king-eat nw) (king-eat ne) 
                          (king-eat sw) (king-eat se)
                   )
             )
@@ -820,31 +881,31 @@
             (name Man)
             set-current-condition
             immediate-promotion-condition
-            (moves
+            (turns
                   (mode normal-mode)
                   priority-condition
-                  (moves (checker-move nw) (checker-move ne))
+                  (turns (man-move nw) (man-move ne))
             )
-            (moves
+            (turns
                   (mode eat-mode)
-                  (moves (north-checker-eat nw) (north-checker-eat ne) 
-                         (north-checker-eat sw) (north-checker-eat se)
+                  (turns (north-man-eat nw) (north-man-eat ne) 
+                         (north-man-eat sw) (north-man-eat se)
                   )
             )
       )
       (piece
             (name King)
             set-current-condition
-            (moves
+            (turns
                   (mode normal-mode)
                   priority-condition
-                  (moves (king-move nw) (king-move ne) 
+                  (turns (king-move nw) (king-move ne) 
                          (king-move sw) (king-move se)
                   )
             )
-            (moves
+            (turns
                   (mode eat-mode)
-                  (moves (north-king-eat nw) (north-king-eat ne) 
+                  (turns (north-king-eat nw) (north-king-eat ne) 
                          (north-king-eat sw) (north-king-eat se)
                   )
             )
@@ -879,29 +940,29 @@
             (name Man)
             set-current-condition
             immediate-promotion-condition
-            (moves
+            (turns
                   (mode normal-mode)
                   priority-condition
-                  (moves (checker-move nw) (checker-move ne))
+                  (turns (man-move nw) (man-move ne))
             )
-            (moves
+            (turns
                   (mode eat-mode)
-                  (moves (checker-eat nw) (checker-eat ne))
+                  (turns (man-eat nw) (man-eat ne))
             )
       )
       (piece
             (name King)
             set-current-condition
-            (moves
+            (turns
                   (mode normal-mode)
                   priority-condition
-                  (moves (king-move nw) (king-move ne) 
+                  (turns (king-move nw) (king-move ne) 
                          (king-move sw) (king-move se)
                   )
             )
-            (moves
+            (turns
                   (mode eat-mode)
-                  (moves (thai-eat nw) (thai-eat ne) 
+                  (turns (thai-eat nw) (thai-eat ne) 
                          (thai-eat sw) (thai-eat se)
                   )
             )
@@ -943,30 +1004,30 @@
             (name Man)
             set-current-condition
             break-promotion-condition
-            (moves
+            (turns
                   (mode normal-mode)
                   priority-condition
-                  (moves (checker-move nw) (checker-move ne))
+                  (turns (man-move nw) (man-move ne))
             )
-            (moves
+            (turns
                   (mode eat-mode)
-                  (moves (checker-eat nw) (checker-eat ne))
+                  (turns (man-eat nw) (man-eat ne))
             )
       )
       (piece
             (name King)
             set-current-condition
-            (moves
+            (turns
                   (mode normal-mode)
                   priority-condition
-                  (moves (checker-move nw) (checker-move ne) 
-                         (checker-move sw) (checker-move se)
+                  (turns (man-move nw) (man-move ne) 
+                         (man-move sw) (man-move se)
                   )
             )
-            (moves
+            (turns
                   (mode eat-mode)
-                  (moves (checker-eat nw) (checker-eat ne) 
-                         (checker-eat sw) (checker-eat se)
+                  (turns (man-eat nw) (man-eat ne) 
+                         (man-eat sw) (man-eat se)
                   )
             )
       )
@@ -981,7 +1042,9 @@
       )
    )
 
-   stalemate-goal
+   (goals
+      stalemate-goal
+   )
 )
 
 (variant
@@ -1010,30 +1073,30 @@
             (name Man)
             set-current-condition
             immediate-promotion-condition
-            (moves
+            (turns
                   (mode normal-mode)
                   priority-condition
-                  (moves (checker-move nw) (checker-move ne))
+                  (turns (man-move nw) (man-move ne))
             )
-            (moves
+            (turns
                   (mode eat-mode)
-                  (moves (italian-eat nw) (italian-eat ne))
+                  (turns (italian-eat nw) (italian-eat ne))
             )
       )
       (piece
             (name King)
             set-current-condition
-            (moves
+            (turns
                   (mode normal-mode)
                   priority-condition
-                  (moves (checker-move nw) (checker-move ne) 
-                         (checker-move sw) (checker-move se)
+                  (turns (man-move nw) (man-move ne) 
+                         (man-move sw) (man-move se)
                   )
             )
-            (moves
+            (turns
                   (mode eat-mode)
-                  (moves (checker-eat nw) (checker-eat ne) 
-                         (checker-eat sw) (checker-eat se)
+                  (turns (man-eat nw) (man-eat ne) 
+                         (man-eat sw) (man-eat se)
                   )
             )
       )
@@ -1048,7 +1111,9 @@
       )
    )
 
-   stalemate-goal
+   (goals
+      stalemate-goal
+   )
 )
 
 (variant
@@ -1093,14 +1158,14 @@
                       (promote Damone)
                   )
             )
-            (moves
+            (turns
                   (mode normal-mode)
                   priority-condition
-                  (moves (checker-move nw) (checker-move ne) (checker-move sw))
+                  (turns (man-move nw) (man-move ne) (man-move sw))
             )
-            (moves
+            (turns
                   (mode eat-mode)
-                  (moves (italian-eat nw) (italian-eat ne) (italian-eat sw))
+                  (turns (italian-eat nw) (italian-eat ne) (italian-eat sw))
             )
       )
       (piece
@@ -1112,16 +1177,16 @@
                       (promote Damone)
                   )
             )
-            (moves
+            (turns
                   (mode normal-mode)
                   priority-condition
-                  (moves (checker-move nw) (checker-move ne) 
-                         (checker-move sw) (checker-move se)
+                  (turns (man-move nw) (man-move ne) 
+                         (man-move sw) (man-move se)
                   )
             )
-            (moves
+            (turns
                   (mode eat-mode)
-                  (moves (damone-eat nw) (damone-eat ne) 
+                  (turns (damone-eat nw) (damone-eat ne) 
                          (damone-eat sw) (damone-eat se)
                   )
             )
@@ -1129,17 +1194,17 @@
       (piece
             (name Damone)
             set-current-condition
-            (moves
+            (turns
                   (mode normal-mode)
                   priority-condition
-                  (moves (checker-move nw) (checker-move ne) 
-                         (checker-move sw) (checker-move se)
+                  (turns (man-move nw) (man-move ne) 
+                         (man-move sw) (man-move se)
                   )
             )
-            (moves
+            (turns
                   (mode eat-mode)
-                  (moves (checker-eat nw) (checker-eat ne) 
-                         (checker-eat sw) (checker-eat se)
+                  (turns (man-eat nw) (man-eat ne) 
+                         (man-eat sw) (man-eat se)
                   )
             )
       )
@@ -1187,30 +1252,30 @@
             (post
                   (set is-promouted? (in-zone? promotion))
             )
-            (moves
+            (turns
                   (mode normal-mode)
                   priority-condition
-                  (moves (checker-move nw) (checker-move ne))
+                  (turns (man-move nw) (man-move ne))
             )
-            (moves
+            (turns
                   (mode eat-mode)
-                  (moves (checker-eat nw) (checker-eat ne))
+                  (turns (man-eat nw) (man-eat ne))
             )
       )
       (piece
             (name King)
             set-current-condition
-            (moves
+            (turns
                   (mode normal-mode)
                   priority-condition
-                  (moves (king-move nw) (king-move ne) 
+                  (turns (king-move nw) (king-move ne) 
                          (king-move sw) (king-move se)
                   )
             )
-            (moves
+            (turns
                   (mode eat-mode)
                   (let king-moving-counter 1)
-                  (moves (king-eat nw) (king-eat ne) 
+                  (turns (king-eat nw) (king-eat ne) 
                          (king-eat sw) (king-eat se)
                   )
             )
@@ -1247,29 +1312,29 @@
             (name Man)
             set-current-condition
             delayed-promotion-prepare
-            (moves
+            (turns
                   (mode normal-mode)
                   priority-condition
-                  (moves (checker-move n) (checker-move e) (checker-move w))
+                  (turns (man-move n) (man-move e) (man-move w))
             )
-            (moves
+            (turns
                   (mode eat-mode)
-                  (moves (turk-checker-eat n) (turk-checker-eat e) (turk-checker-eat w))
+                  (turns (turk-man-eat n) (turk-man-eat e) (turk-man-eat w))
             )
       )
       (piece
             (name King)
             set-current-condition
-            (moves
+            (turns
                   (mode normal-mode)
                   priority-condition
-                  (moves (king-move n) (king-move s) 
+                  (turns (king-move n) (king-move s) 
                          (king-move w) (king-move e)
                   )
             )
-            (moves
+            (turns
                   (mode eat-mode)
-                  (moves (turk-king-eat n) (turk-king-eat s) 
+                  (turns (turk-king-eat n) (turk-king-eat s) 
                          (turk-king-eat w) (turk-king-eat e)
                   )
             )
@@ -1285,7 +1350,9 @@
       )
    )
 
-   stalemate-goal
+   (goals
+      stalemate-goal
+   )
 )
 
 (variant
@@ -1315,30 +1382,30 @@
             (name Man)
             set-current-condition
             immediate-promotion-condition
-            (moves
+            (turns
                   (mode normal-mode)
                   priority-condition
-                  (moves (checker-move n) (checker-move e) (checker-move w)
-                         (checker-move nw) (checker-move ne))
+                  (turns (man-move n) (man-move e) (man-move w)
+                         (man-move nw) (man-move ne))
             )
-            (moves
+            (turns
                   (mode eat-mode)
-                  (moves (checker-eat n) (checker-eat e) (checker-eat w))
+                  (turns (man-eat n) (man-eat e) (man-eat w))
             )
       )
       (piece
             (name King)
             set-current-condition
-            (moves
+            (turns
                   (mode normal-mode)
                   priority-condition
-                  (moves (king-move n)  (king-move s)  (king-move w)  (king-move e)
+                  (turns (king-move n)  (king-move s)  (king-move w)  (king-move e)
                          (king-move nw) (king-move sw) (king-move ne) (king-move se)
                   )
             )
-            (moves
+            (turns
                   (mode eat-mode)
-                  (moves (king-eat n) (king-eat s) 
+                  (turns (king-eat n) (king-eat s) 
                          (king-eat w) (king-eat e)
                   )
             )
@@ -1358,31 +1425,31 @@
             (name Man)
             set-current-condition
             immediate-promotion-condition
-            (moves
+            (turns
                   (mode normal-mode)
-                  (moves (checker-move n) (checker-move e) (checker-move w)
+                  (turns (man-move n) (man-move e) (man-move w)
                          (ken-move n) (ken-move s) (ken-move e) (ken-move w)
                   )
             )
-            (moves
+            (turns
                   (mode eat-mode)
-                  (moves (checker-eat n) (checker-eat s) 
-                         (checker-eat e) (checker-eat w)
+                  (turns (man-eat n) (man-eat s) 
+                         (man-eat e) (man-eat w)
                   )
             )
       )
       (piece
             (name King)
             set-current-condition
-            (moves
+            (turns
                   (mode normal-mode)
-                  (moves (king-move n) (king-move s) 
+                  (turns (king-move n) (king-move s) 
                          (king-move w) (king-move e)
                   )
             )
-            (moves
+            (turns
                   (mode eat-mode)
-                  (moves (king-eat n) (king-eat s) 
+                  (turns (king-eat n) (king-eat s) 
                          (king-eat w) (king-eat e)
                   )
             )
@@ -1403,28 +1470,28 @@
             (name Man)
             set-current-condition
             break-promotion-condition
-            (moves
+            (turns
                   (mode normal-mode)
                   priority-condition
                   (pre
                        (check (= 0 (count-moves (= current-mode linear-mode))))
                   )
-                  (moves (checker-move nw) (checker-move ne)
+                  (turns (man-move nw) (man-move ne)
                          (linear-move nw) (linear-move ne)
                   )
             )
-            (moves
+            (turns
                   (mode eat-mode)
                   (pre
                        (check (= 0 (count-moves (= current-mode linear-mode))))
                   )
-                  (moves (buska-eat nw) (buska-eat ne)
+                  (turns (buska-eat nw) (buska-eat ne)
                          (buska-eat sw) (buska-eat se)
                   )
             )
-            (moves
+            (turns
                   (mode linear-mode)
-                  (moves (linear-eat nw) (linear-eat ne)
+                  (turns (linear-eat nw) (linear-eat ne)
                          (linear-eat sw) (linear-eat se)
                   )
             )
@@ -1438,7 +1505,7 @@
                   (pre
                        (check (= 0 (count-moves (= current-mode linear-mode))))
                   )
-                  (moves (king-move nw) (king-move ne) 
+                  (turns (king-move nw) (king-move ne) 
                          (king-move sw) (king-move se)
                   )
             )
@@ -1447,7 +1514,7 @@
                   (pre
                        (check (= 0 (count-moves (= current-mode linear-mode))))
                   )
-                  (moves (buska-king-eat nw) (buska-king-eat ne)
+                  (turns (buska-king-eat nw) (buska-king-eat ne)
                          (buska-king-eat sw) (buska-king-eat se)
                   )
             )
@@ -1461,5 +1528,94 @@
       (Black
          (Man B10 D10 F10 H10 J10 A9 C9 E9 G9 I9 B8 D8 F8 H8 J8)
       )
+   )
+)
+
+(variant
+   (name "Bashni")
+
+   (players White Black)
+
+   (board
+      (grid H 8_1 0_23)
+      (dir (name up)   0  0  1)
+      (dir (name nw)  -1  1  0)
+      (dir (name ne)   1  1  0)
+      (dir (name sw)  -1 -1  0)
+      (dir (name se)   1 -1  0)
+      (dir (players Black) (nw se) (sw ne) (ne sw) (se nw))
+      (zone (name plane)
+            (positions A10 C10 E10 G10
+                       B20 D20 F20 H20
+                       A30 C30 E30 G30
+                       B40 D40 F40 H40
+                       A50 C50 E50 G50
+                       B60 D60 F60 H60
+                       A70 C70 E70 G70
+                       B80 D80 F80 H80
+            )
+      )
+      (zone (name promotion)
+            (players White)
+            (positions B80 D80 F80 H80)
+      )
+      (zone (name promotion)
+            (players Black)
+            (positions A10 C10 E10 G10)
+      )
+   )
+
+   (pieces
+      (let stack-size 1)
+      (pre (check (in-zone? plane)))
+      (pre (check friend?))
+      (pre prepare-moving-set)
+      common-conditions
+      (piece
+            (name Man)
+            set-current-condition
+            immediate-promotion-condition
+            (turns
+                  (mode normal-mode)
+                  priority-condition
+                  (turns (man-move nw) (man-move ne))
+            )
+            (turns
+                  (mode eat-mode)
+                  (turns (bashni-man-eat nw) (bashni-man-eat ne) 
+                         (bashni-man-eat sw) (bashni-man-eat se)
+                  )
+            )
+      )
+      (piece
+            (name King)
+            set-current-condition
+            (turns
+                  (mode normal-mode)
+                  priority-condition
+                  (turns (king-move nw) (king-move ne) 
+                         (king-move sw) (king-move se)
+                  )
+            )
+            (turns
+                  (mode eat-mode)
+                  (turns (bashni-king-eat nw) (bashni-king-eat ne) 
+                         (bashni-king-eat sw) (bashni-king-eat se)
+                  )
+            )
+      )
+   )
+
+   (setup
+      (White
+         (Man A10 C10 E10 G10 B20 D20 F20 H20 A30 C30 E30 G30)
+      )
+      (Black
+         (Man B80 D80 F80 H80 A70 C70 E70 G70 B60 D60 F60 H60)
+      )
+   )
+
+   (goals
+      stalemate-goal
    )
 )
