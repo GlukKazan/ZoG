@@ -1,9 +1,77 @@
 ﻿(macro calc-dices
+   (let here a)
+   (loop
+       (check (not empty?))
+       (set step-count (+ step-count (get value)))
+       (break (not next))
+   )
+   (if (= step-count 0)
+       (set step-count 4)
+   )
+)
+
+(macro move-tail
+   (let here from)
+   (if (and up (not empty?))
+       (let current-set piece)
+       (move here from)
+       (loop
+           (break (not up))
+           (break empty?)
+           (add-to-current-set piece)
+       )
+   )
 )
 
 (turn
    (name man-move)
+   (arg direction)
    (action
+       (loop
+           (iterate step-count)
+           (if (in-zone? promotion)
+               (set is-promouted? true)
+           )
+           (check direction)
+       )
+       (move from here)
+       (if (not empty?)
+           (if (in-zone? safe)
+               (if (in-zone? depo)
+                   (check friend?)
+               )
+               (let current-position here)
+               (let current-set piece)
+               (check up)
+               (move current-position here)
+               (loop
+                   (add-to-current-set piece)
+                   (check up)
+                   (break empty?)
+               )
+               (let current-set current-piece)
+           else
+               (check enemy?)
+               (if (in-zone? protect)
+                   (check (not (is-piece-type? Promouted)))
+               )
+               (if (or is-promouted? (= current-piece-type Promouted))
+                   (check (is-piece-type? Promouted))
+               else
+                   (check (is-piece-type? Initial))
+               )
+               (let current-position here)
+               (let current-set current-piece)
+               (let current-player piece-owner)
+               (let here A)
+               (loop
+                   (break empty?)
+                   (check next)
+               )
+               (move current-position here)
+           )
+       )
+       end-move
    )
 )
 
@@ -56,10 +124,11 @@
    (board
       (grid H 3_1 0_3)
       (grid (zone start) (players White Black) G)
-      (grid (zone finis) X_X)
+      (grid (zone finish) X_X)
       (grid (zone lock) L_L)
       (grid (zone dices) c)
       (dir (name up)   0  0  1)
+      (dir (name next) 1)
       (dir (name init) (players White) (A D10) (B D10) (C D10) (D D10) (E D10) (F D10) (G D10))
       (dir (name init) (players Black) (A D30) (B D30) (C D30) (D D30) (E D30) (F D30) (G D30))
       (dir (name init) (players White) (D10 C10) (C10 B10) (B10 A10) (A10 A20))
@@ -86,6 +155,7 @@
           (positions B10 B30 D10 D30 G20)
       )
       (zone (name safe)
+          (zone depo)
           (positions C20 F20)
       )
       (zone (name protect)
@@ -111,6 +181,25 @@
             (pre (in-zone? plane))
             (let step-count 0)
             (pre calc-dices)
+            (let is-promouted? false)
+            (post
+                  (if is-promouted?
+                       (promote Promouted)
+                  )
+            )
+            (post 
+                  (if (in-zone? finish)
+                       capture
+                  )
+            )
+            (post
+                  (if (in-zone? rosette)
+                      (drop Initial L)
+                  else
+                      (capture L)
+                  )
+            )
+            (post move-tail)
             (piece
                   (name Initial)
                   (turns

@@ -4,10 +4,8 @@
 
 (macro prepare-moving-sets
    (let here from)
-   (let counter move-size)
    (loop
-      (set counter (- counter 1))
-      (break (= counter 0))
+      (iterate move-size)
       (check up)
       (check (not empty?))
       (add-to-current-set piece)
@@ -27,10 +25,8 @@
    (let here to)
    (if (not empty?)
       (let current-set piece)
-      (let counter move-size)
       (loop
-         (set counter (- counter 1))
-         (break (= counter 0))
+         (iterate move-size)
          (check up)
          (if (not empty?)
              (add-to-current-set piece)
@@ -93,7 +89,7 @@
 (turn
    (name pawn-jump)
    (pre (check never-moved?))
-   (post (set is-jumped? t))
+   (post (set is-jumped? true))
    (action
        (check n)
        (check empty?)
@@ -224,15 +220,15 @@
         (pre (check friend?))
         (pre
              (if is-jumped?
-                 (set is-jumped? f)
+                 (set is-jumped? false)
              )
         )
-        (post (set never-moved? f))
+        (post (set never-moved? false))
         (post (check (not (attacked? King))))
         (piece
             (name Pawn)
-            (attribute never-moved? t)
-            (attribute is-jumped? f)
+            (attribute never-moved? true)
+            (attribute is-jumped? false)
             (post
                  (if (in-zone? promotion)
                      (promote Knight Bishop Rook Queen)
@@ -244,7 +240,7 @@
         )
         (piece
             (name Rook)
-            (attribute never-moved? t)
+            (attribute never-moved? true)
             (turns (slide n) (slide s) (slide w) (slide e))
         )
         (piece 
@@ -265,7 +261,7 @@
         )
         (piece
             (name King)
-            (attribute never-moved? t)
+            (attribute never-moved? true)
             (turns (leap n) (leap s) (leap e) (leap w)
                    (O-O) (O-O-O)
             )
@@ -351,22 +347,22 @@
         (let move-size 1_stack-size)
         (pre
              (if is-jumped?
-                 (set is-jumped? f)
+                 (set is-jumped? false)
              )
         )
         (pre prepare-moving-sets)
         (post move-captured)
-        (post (set never-moved? f))
+        (post (set never-moved? false))
         (post (check (not (attacked? King))))
         (piece 
             (name Pawn)
-            (attribute never-moved? t)
-            (attribute is-promouted? f)
-            (attribute is-jumped? f)
+            (attribute never-moved? true)
+            (attribute is-promouted? false)
+            (attribute is-jumped? false)
             (pre (check (not is-promouted?)))
             (post
                  (if (in-zone? promotion)
-                     (set is-promouted? t)
+                     (set is-promouted? true)
                  )
             )
             (turns pawn-move pawn-jump (pawn-eat nw) (pawn-eat ne) 
@@ -408,7 +404,7 @@
         )
         (piece 
             (name Rook)
-            (attribute never-moved? t)
+            (attribute never-moved? true)
             (turns (slide n) (slide s) (slide w) (slide e))
         )
         (piece
@@ -429,7 +425,7 @@
         )
         (piece 
             (name King)
-            (attribute never-moved? t)
+            (attribute never-moved? true)
             (turns (leap n) (leap s) (leap e) (leap w)
                    (O-O) (O-O-O)
             )

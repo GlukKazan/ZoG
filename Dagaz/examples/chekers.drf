@@ -5,11 +5,11 @@
 (macro common-eat
    (let current-set piece)
    (check (not is-captured?))
-   (set is-captured? t)
+   (set is-captured? true)
    (let current-set current-piece)
-   (let captured-counter (+ captured-counter piece-value))
+   (let captured-counter (+ captured-counter 1))
    (if (is-piece-type? King)
-       (let king-captured-counter (+ king-captured-counter piece-value))
+       (let king-captured-counter (+ king-captured-counter 1))
    )
 )
 
@@ -74,15 +74,15 @@
 )
 
 (macro common-conditions
-   (let is-first-part? t)
-   (attribute is-current? f)
-   (attribute is-captured? f)
+   (let is-first-part? true)
+   (attribute is-current? false)
+   (attribute is-captured? false)
    (pre
-       (set is-current? f)
-       (set is-captured? f)
+       (set is-current? false)
+       (set is-captured? false)
    )
    (post
-       (set is-first-part? f)
+       (set is-first-part? false)
    )
    (post
        (if is-current?
@@ -124,7 +124,7 @@
 
 (macro set-current-condition
    (post
-       (set is-current? t)
+       (set is-current? true)
    )
 )
 
@@ -137,10 +137,10 @@
 )
 
 (macro delayed-promotion-prepare
-   (attribute is-promouted? f)
+   (attribute is-promouted? false)
    (post 
         (if (in-zone? promotion)
-             (set is-promouted? t)
+             (set is-promouted? true)
         )
    )
 )
@@ -446,11 +446,9 @@
 
 (macro bashni-eat-end
    (move from here)
-   (let counter stack-size)
    (loop
-       (break (<= counter 0))
+       (iterate stack-size)
        (check up)
-       (set counter (- counter 1))
    )
    (move eat-position here)
    (end-move-part eat-mode)
@@ -671,7 +669,7 @@
       (piece
             (name King)
             (attribute move-counter 0)
-            (attribute is-old-current? f)
+            (attribute is-old-current? false)
             set-current-condition
             (post is-old-current? is-current?)
             (post 
@@ -1152,7 +1150,7 @@
             (post 
                   (if (in-zone? king-promotion)
                       (promote King)
-                      (set is-promouted? t)
+                      (set is-promouted? true)
                   )
                   (if (in-zone? (and (not is-promouted?) damone-promotion))
                       (promote Damone)
@@ -1170,7 +1168,7 @@
       )
       (piece
             (name King)
-            (attribute is-promouted? f)
+            (attribute is-promouted? false)
             set-current-condition
             (post 
                   (if (in-zone? damone-promotion)
@@ -1248,7 +1246,7 @@
       (piece
             (name Man)
             set-current-condition
-            (attribute is-promouted? f)
+            (attribute is-promouted? false)
             (post
                   (set is-promouted? (in-zone? promotion))
             )
@@ -1414,7 +1412,7 @@
 )
 
 (variant
-   (name "Osetian Checkers")
+   (name "Ossetian Checkers")
 
    (inherits "Turkish Draughts")
 
