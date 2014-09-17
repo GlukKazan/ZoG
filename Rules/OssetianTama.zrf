@@ -1,0 +1,266 @@
+(version "2.0")
+
+(define ken-add (
+   if (not-in-zone? promotion-zone)
+      add
+   else
+      (add Perez)
+))
+
+(define ken-jump-add (
+   if (not-in-zone? promotion-zone)
+      (add-partial jumptype)
+   else
+      (add-partial Perez jumptype)
+))
+
+(define clear-visited
+   mark
+   a1
+   (while (not-position? offboard) 
+      (if enemy?
+          (set-attribute visited? false)
+      )
+      next
+   )
+   back
+)
+
+(define ken-shift (   
+    (clear-visited)
+    $1 
+    (verify empty?) 
+    (ken-add)
+))
+
+(define ken-capture (
+    (clear-visited)
+    $1 
+    (verify enemy?) 
+    capture 
+    $1 
+    (verify empty?) 
+    (ken-jump-add)
+))
+
+(define ken-jump (
+    (clear-visited)
+    $1 
+    (verify friend?)
+    (verify (piece? Ken))
+    (verify (not visited?))
+    (set-attribute visited? true)
+    $1 
+    (verify empty?) 
+    (ken-jump-add)
+))
+
+(define perez-shift (
+    (clear-visited)
+    $1
+    (while empty?
+       add
+       $1
+    )
+))
+
+(define perez-jump-1 (
+    (clear-visited)
+    $1
+    (while empty?
+       $1
+    )
+    (verify enemy?)
+    capture
+    $1
+    (verify empty?)
+    (add-partial jumptype)
+))
+
+(define perez-jump-2 (
+    (clear-visited)
+    $1
+    (while empty?
+       $1
+    )
+    (verify enemy?)
+    capture
+    $1
+    (verify empty?)
+    $1
+    (verify empty?)
+    (add-partial jumptype)
+))
+
+(define perez-jump-3 (
+    (clear-visited)
+    $1
+    (while empty?
+       $1
+    )
+    (verify enemy?)
+    capture
+    $1
+    (verify empty?)
+    $1
+    (verify empty?)
+    $1
+    (verify empty?)
+    (add-partial jumptype)
+))
+
+(define perez-jump-4 (
+    (clear-visited)
+    $1
+    (while empty?
+       $1
+    )
+    (verify enemy?)
+    capture
+    $1
+    (verify empty?)
+    $1
+    (verify empty?)
+    $1
+    (verify empty?)
+    $1
+    (verify empty?)
+    (add-partial jumptype)
+))
+
+(define perez-jump-5 (
+    (clear-visited)
+    $1
+    (while empty?
+       $1
+    )
+    (verify enemy?)
+    capture
+    $1
+    (verify empty?)
+    $1
+    (verify empty?)
+    $1
+    (verify empty?)
+    $1
+    (verify empty?)
+    $1
+    (verify empty?)
+    (add-partial jumptype)
+))
+
+(define perez-jump-6 (
+    (clear-visited)
+    $1
+    (while empty?
+       $1
+    )
+    (verify enemy?)
+    capture
+    $1
+    (verify empty?)
+    $1
+    (verify empty?)
+    $1
+    (verify empty?)
+    $1
+    (verify empty?)
+    $1
+    (verify empty?)
+    $1
+    (verify empty?)
+    (add-partial jumptype)
+))
+
+(game
+   (title "Ossetian Tama")
+   (description "")
+   (history "")
+   (strategy "Plan ahead and try not to leave your opponent with multiple jumps.")
+
+   (option "pass partial" true)
+   (option "maximal captures" false)
+   (option "prevent flipping" 2)
+
+   (click-sound "Audio/WoodClick.wav")
+   (release-sound "Audio/WoodClick.wav")
+   (move-sound "Audio/WoodClick.wav")
+
+   (players Black White)
+   (turn-order Black White)
+
+   (board
+      (image "images/Checkers/Shaag/Turkish_checkbd2.bmp")
+      (grid
+         (start-rectangle 6 6 55 55)
+         (dimensions
+             ("a/b/c/d/e/f/g/h" (50 0)) ; files
+             ("8/7/6/5/4/3/2/1" (0 50)) ; ranks
+         )
+         (directions (n 0 -1) (s 0 1) (e 1 0) (w -1 0) (nw -1 -1) (ne 1 -1) (se 1 1) (sw -1 1))
+      )
+      (dummy offboard)
+      (links next (a1 a2) (a2 a3) (a3 a4) (a4 a5) (a5 a6) (a6 a7) (a7 a8) (a8 b1) 
+                  (b1 b2) (b2 b3) (b3 b4) (b4 b5) (b5 b6) (b6 b7) (b7 b8) (b8 c1) 
+                  (c1 c2) (c2 c3) (c3 c4) (c4 c5) (c5 c6) (c6 c7) (c7 c8) (c8 d1) 
+                  (d1 d2) (d2 d3) (d3 d4) (d4 d5) (d5 d6) (d6 d7) (d7 d8) (d8 e1) 
+                  (e1 e2) (e2 e3) (e3 e4) (e4 e5) (e5 e6) (e6 e7) (e7 e8) (e8 f1) 
+                  (f1 f2) (f2 f3) (f3 f4) (f4 f5) (f5 f6) (f6 f7) (f7 f8) (f8 g1) 
+                  (g1 g2) (g2 g3) (g3 g4) (g4 g5) (g5 g6) (g6 g7) (g7 g8) (g8 h1) 
+                  (h1 h2) (h2 h3) (h3 h4) (h4 h5) (h5 h6) (h6 h7) (h7 h8) (h8 offboard)
+      )
+      (symmetry White (n s) (s n) (ne sw) (sw ne) (nw se) (se nw))
+      (zone (name promotion-zone) (players Black) (positions a8 b8 c8 d8 e8 f8 g8 h8))
+      (zone (name promotion-zone) (players White) (positions a1 b1 c1 d1 e1 f1 g1 h1))
+   )
+
+   (board-setup
+      (Black (Ken a2 b2 c2 d2 e2 f2 g2 h2 a3 b3 c3 d3 e3 f3 g3 h3))
+      (White (Ken a7 b7 c7 d7 e7 f7 g7 h7 a6 b6 c6 d6 e6 f6 g6 h6))
+   )
+
+   (piece
+      (name Ken)
+      (image White "images/Checkers/Shaag/Turkish_chkrRM.bmp"
+             Black "images/Checkers/Shaag/Turkish_chkrBM.bmp"
+      )
+      (description "Checkers move forward, left, right or diagonally forward to empty squares.  They may
+	      also capture an enemy piece (or a series of them) by jumping over it, but not diagonally.
+	      A Checker landing on the far side may promote to a Perez.")
+      (help "Ken: moves or jumps to capture forward, left, right. Moves forward diagonally.")
+      (attribute visited? false)
+      (moves
+         (move-type jumptype)
+         (ken-capture n) (ken-capture s) (ken-capture e) (ken-capture w)
+         (ken-jump n) (ken-jump s) (ken-jump e) (ken-jump w)
+
+         (move-type nonjumptype)
+         (ken-shift n) (ken-shift e) (ken-shift w)
+      )
+   )
+   (piece
+      (name Perez)
+      (image White "images/Checkers/Shaag/Turkish_chkrRK.bmp"
+             Black "images/Checkers/Shaag/Turkish_chkrBK.bmp"
+      )
+      (description "Perez can slide up, down, left or right, or capture pieces
+	    by jumping over them.  It can move, but not capture, diagonally.")
+      (help "Perez: moves or jumps to capture left, right, up, down. Moves but not captures diagonally.")
+      (moves
+         (move-type jumptype)
+         (perez-jump-1 n) (perez-jump-1 e) (perez-jump-1 s) (perez-jump-1 w)
+         (perez-jump-2 n) (perez-jump-2 e) (perez-jump-2 s) (perez-jump-2 w)
+         (perez-jump-3 n) (perez-jump-3 e) (perez-jump-3 s) (perez-jump-3 w)
+         (perez-jump-4 n) (perez-jump-4 e) (perez-jump-4 s) (perez-jump-4 w)
+         (perez-jump-5 n) (perez-jump-5 e) (perez-jump-5 s) (perez-jump-5 w)
+         (perez-jump-6 n) (perez-jump-6 e) (perez-jump-6 s) (perez-jump-6 w)
+ 
+         (move-type nonjumptype)
+         (perez-shift n) (perez-shift e) (perez-shift s) (perez-shift w)
+      )
+   )
+
+
+   (loss-condition (White Black) (pieces-remaining 0))
+   (loss-condition (White Black) stalemated)
+)
