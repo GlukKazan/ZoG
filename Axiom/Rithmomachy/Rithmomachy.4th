@@ -54,6 +54,8 @@ DEFER		TRIANGLE
 DEFER		SQUARE
 DEFER		PYRAMID
 
+DEFER		check-siege
+
 VARIABLE	is-friend?
 VARIABLE	is-captured?
 VARIABLE	siege-counter
@@ -177,13 +179,13 @@ MAXE []		eruption-values[]
 		here a1 to
 		BEGIN
 			friend-p IF
- 				not-empty? eruption-count @ MAXE < AND IF
-					OVER piece piece-value
+				not-empty? eruption-count @ MAXE < AND IF
+					OVER piece piece-value 
 					DUP sum-value @ + sum-value !
 					*
 					eruption-count @ eruption-values[] !
 					eruption-count ++
-				ENDIF
+				ENDIF				         
 				FALSE
 			ELSE
 				TRUE
@@ -354,26 +356,6 @@ MAXE []		eruption-values[]
 	ELSE
 		siege-counter --
 	ENDIF
-;
-
-: check-siege ( pos -- )
-	4 siege-counter !
-	DUP to ['] North check-siege-od
-	DUP to ['] South check-siege-od
-	DUP to ['] West  check-siege-od
-	DUP to ['] East  check-siege-od
-	siege-counter @ 0= IF
-		TRUE is-captured? !
-	ENDIF
-	4 siege-counter !
-	DUP to ['] Northeast check-siege-dd
-	DUP to ['] Southeast check-siege-dd
-	DUP to ['] Northwest check-siege-dd
-	DUP to ['] Southwest check-siege-dd
-	siege-counter @ 0= IF
-		TRUE is-captured? !
-	ENDIF
-	to
 ;
 
 : count-to-piece-type ( count -- piece-type )

@@ -1,7 +1,7 @@
 (version "2.0")
 
 (game
-   (title "Rithmomachy")
+   (title "Basic")
    (engine "../Axiom/Rithmomachy/axiom.dll")
    (option "animate captures" false)
    (players White Black)
@@ -237,4 +237,8 @@
    ; It appears as though Zillions must find at least one "moves" keyword somewhere
    ; in the zrf in order for it to be happy and thus allow "moves" to work correctly.
    (piece (name Dummy) (dummy) (moves (from)))
+)
+
+(variant
+   (title "Distant Siege")
 )
