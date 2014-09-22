@@ -6,6 +6,7 @@
 15	CONSTANT	WINC
 1315	CONSTANT	WINW
 984	CONSTANT	WINB
+32	CONSTANT	HLFC
 
 {board
 	ROWS 	COLS	{grid}
@@ -69,11 +70,20 @@ VARIABLE	eruption-count
 VARIABLE	last-position
 VARIABLE	sum-value
 VARIABLE	sum-flag
+VARIABLE	white-half-count
+VARIABLE	black-half-count
+VARIABLE	half-size
 
 MAXV []		attacking-values[]
 MAXS []		current-positions[]
 MAXS []		current-values[]
 MAXE []		eruption-values[]
+HLFC []		white-half-value[]
+HLFC []		black-half-value[]
+HLFC []		white-half-pos[]
+HLFC []		black-half-pos[]
+HLFC [] 	white-half-enemy[]
+HLFC [] 	black-half-enemy[]
 
 : WhitePieces++ ( -- ) WhitePieces ++ ;
 : BlackPieces++ ( -- ) BlackPieces ++ ;
@@ -772,28 +782,121 @@ MAXE []		eruption-values[]
 	RANDOMIZE
 ;
 
+: get-half-count ( ? -- count )
+	IF
+		white-half-count @
+	ELSE
+		black-half-count @
+	ENDIF
+;
+
+: inc-half-count ( ? -- )
+	IF
+		white-half-count ++
+	ELSE
+		black-half-count ++
+	ENDIF
+;
+
+: load-piece ( ? pos value -- )
+	ROT DUP get-half-count HLFC < IF
+		SWAP OVER DUP get-half-count SWAP IF
+			white-half-value[] !
+		ELSE
+			black-half-value[] !
+		ENDIF
+		SWAP OVER DUP get-half-count SWAP IF
+			2DUP SWAP player-at White <> SWAP white-half-enemy[] !
+			white-half-pos[] !
+		ELSE
+			2DUP SWAP player-at Black <> SWAP black-half-enemy[] !
+			black-half-pos[] !
+		ENDIF
+		inc-half-count
+	ELSE
+		2DROP DROP
+	ENDIF
+;
+
+: load-pieces ( ? pos -- )
+	DUP piece-type-at PYRAMID > IF
+		0 sum-value !
+		a1 to
+		DUP friend-at? IF
+			BEGIN
+				friend-p IF
+					empty? NOT IF
+						2DUP piece piece-value 
+						DUP sum-value @ + sum-value !
+						load-piece
+					ENDIF
+					FALSE
+				ELSE
+					TRUE
+				ENDIF
+			UNTIL
+		ELSE
+			BEGIN
+				enemy-p IF
+					empty? NOT IF
+						2DUP piece piece-value 
+						DUP sum-value @ + sum-value !
+						load-piece
+					ENDIF
+					FALSE
+				ELSE
+					TRUE
+				ENDIF
+			UNTIL
+		ENDIF
+		sum-value @ DUP 0> IF
+			load-piece
+		ELSE
+			2DROP DROP
+		ENDIF
+	ELSE
+		DUP piece-at piece-value load-piece
+	ENDIF
+;
+
+: load-halfs ( -- )
+	0 white-half-count !
+	0 black-half-count !
+	ROWS COLS *
+	DUP 2/ half-size !
+	BEGIN
+		1-
+		DUP on-board-at? OVER empty-at? NOT AND IF
+			DUP half-size @ < IF
+				TRUE OVER load-pieces
+			ELSE
+				FALSE OVER load-pieces
+			ENDIF
+		ENDIF
+		DUP 0=
+	UNTIL
+	DROP
+;
+
 : OnIsGameOver ( -- gameResult )
 	#UnknownScore
-	current-player White = IF
-		WhitePieces @ WINC >= IF
-			DROP
+	WhitePieces @ WINC >= WhiteValues @ WINW >= OR IF
+		DROP
+		current-player White = IF
 			#LossScore
-		ENDIF
-		WhiteValues @ WINW >= IF
-			DROP
-			#LossScore
+		ELSE
+			#WinScore
 		ENDIF
 	ENDIF
-	current-player Black = IF
-		BlackPieces @ WINC >= IF
-			DROP
+	BlackPieces @ WINC >= BlackValues @ WINB >= OR IF
+		DROP
+		current-player Black = IF
 			#LossScore
-		ENDIF
-		BlackValues @ WINB >= IF
-			DROP
-			#LossScore
+		ELSE
+			#WinScore
 		ENDIF
 	ENDIF
+	here load-halfs to
 ;
 
 : r-move-ne ( -- ) ['] Northeast TRUE leap-0 ;
