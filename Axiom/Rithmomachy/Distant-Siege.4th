@@ -1,4 +1,4 @@
-LOAD Rithmomachy.4th
+LOAD Common.4th
 
 : ds-check-siege-od ( 'dir -- )
 	EXECUTE IF

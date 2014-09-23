@@ -1,7 +1,7 @@
 (version "2.0")
 
 (game
-   (title "Basic")
+   (title "Rithmomachy")
    (engine "../Axiom/Rithmomachy/axiom.dll")
    (option "animate captures" false)
    (players White Black)
@@ -241,4 +241,28 @@
 
 (variant
    (title "Distant Siege")
+)
+
+(variant
+   (title "-")
+)
+
+(variant
+   (title "Rithmomachy with Glorious Victories")
+)
+
+(variant
+   (title "Distant Siege with Glorious Victories")
+)
+
+(variant
+   (title "-")
+)
+
+(variant
+   (title "Random")
+)
+
+(variant
+   (title "Random with Glorious Victories")
 )
