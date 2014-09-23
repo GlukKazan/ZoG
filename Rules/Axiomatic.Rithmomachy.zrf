@@ -2,6 +2,61 @@
 
 (game
    (title "Rithmomachy")
+   (description "Object of the game is to win by any of: \\
+- capturing 15 of the (more than half) of the opposing pieces
+
+- capturing pieces whose value sums to 1315 or more White,  or  984 or more Black  (3/4 of the sum of the total opponent values) \\
+Moves: \\
+Players alternate turns, starting with Black. Movement is only possible to an 
+empty square. Horizontal and vertical moves are blocked by intervening pieces.
+
+Moves with a diagonal component can't be blocked - they're like chess knights 
+moves. \\
+- Rounds move one step diagonally
+
+- Triangles move 2 steps horizontally, or a knight's move
+
+- Squares move 3 steps horizontally or vertically, or a longer knights move
+
+- Pyramids move in any of the ways permitted by any of the pieces they still contain. \\
+Capturing: \\
+Capturing depends on the geometric or numeric relationship between the 
+captured and capturing pieces. Capturing never involves moving into the 
+
+square occupied by the captured piece.  Capturing pieces stay where they are.
+If by luck or design multiple captures are possible after a single move, they 
+
+all occur. Pyramids can capture or be captured using either their total value, 
+or the value of any component. \\
+Capture by Siege: \\
+A piece is captured by siege if it is surrounded by enemies or the edge of 
+the board on all 4 orthogonal or all four diagonal directions. \\
+Capture by Equality: \\
+A piece or stack is captured by equality if the attacking piece (or stack) has 
+the same value, and if the attacking piece could move to the position of 
+
+the attacked piece if it were vacant.  Note that very few of the black and 
+white pieces have the same value. \\
+Capture by Eruption: \\
+A piece or stack is captured by eruption if the value of the smaller, 
+multiplied by the distance between the pieces, is equal to the value of the 
+
+greater.  Captures by eruption do no depend on the natural movement of the 
+pieces.  The starting and ending locations are both counted, so the minimum 
+
+distance between pieces is 2. \\
+Capture by Ambush: \\
+A piece is captured by ambush if two pieces, which could move to the enemy 
+to be captured, have a sum, difference, product, or quotient equal to 
+
+the captured piece value.")
+
+   (history "Rithmomachy, sometimes known as The Philosophers' Game, is a highly complex, 
+early European mathematical board game. The earliest known description of it 
+
+dates from the eleventh century. A literal translation of the name is 
+''The Battle of the Numbers''.")
+
    (engine "../Axiom/Rithmomachy/axiom.dll")
    (option "animate captures" false)
    (players White Black)
@@ -32,204 +87,253 @@
    )
    (piece
 	  (name  S25)
+          (help "Square: move 3 steps horizontally or vertically, or a longer knights move")
           (image White "../Images/Rithmomachy/S25w.bmp")
    )
    (piece
 	  (name  S15)
+          (help "Square: move 3 steps horizontally or vertically, or a longer knights move")
           (image White "../Images/Rithmomachy/S15w.bmp")
    )
    (piece
 	  (name  T9)
+          (help "Triangle: move 2 steps horizontally, or a knight's move")
           (image White "../Images/Rithmomachy/T9w.bmp")
    )
    (piece
 	  (name  S81)
+          (help "Square: move 3 steps horizontally or vertically, or a longer knights move")
           (image White "../Images/Rithmomachy/S81w.bmp")
    )
    (piece
 	  (name  S45)
+          (help "Square: move 3 steps horizontally or vertically, or a longer knights move")
           (image White "../Images/Rithmomachy/S45w.bmp")
    )
    (piece
 	  (name  T6)
+          (help "Triangle: move 2 steps horizontally, or a knight's move")
           (image White "../Images/Rithmomachy/T6w.bmp")
    )
    (piece
 	  (name  T25)
+          (help "Triangle: move 2 steps horizontally, or a knight's move")
           (image White "../Images/Rithmomachy/T25w.bmp"
                  Black "../Images/Rithmomachy/T25b.bmp"
           )
    )
    (piece
 	  (name  R4)
+          (help "Round: move one step diagonally")
           (image White "../Images/Rithmomachy/R4w.bmp")
    )
    (piece
 	  (name  R2)
+          (help "Round: move one step diagonally")
           (image White "../Images/Rithmomachy/R2w.bmp")
    )
    (piece
 	  (name  T20)
+          (help "Triangle: move 2 steps horizontally, or a knight's move")
           (image White "../Images/Rithmomachy/T20w.bmp")
    )
    (piece
 	  (name  R16)
+          (help "Round: move one step diagonally")
           (image White "../Images/Rithmomachy/R16w.bmp"
                  Black "../Images/Rithmomachy/R16b.bmp"
           )
    )
    (piece
 	  (name  T42)
+          (help "Triangle: move 2 steps horizontally, or a knight's move")
           (image White "../Images/Rithmomachy/T42w.bmp")
    )
    (piece
 	  (name  R36)
+          (help "Round: move one step diagonally")
           (image White "../Images/Rithmomachy/R36w.bmp")
    )
    (piece
 	  (name  R6)
+          (help "Round: move one step diagonally")
           (image White "../Images/Rithmomachy/R6w.bmp")
    )
    (piece
 	  (name  T49)
+          (help "Triangle: move 2 steps horizontally, or a knight's move")
           (image White "../Images/Rithmomachy/T49w.bmp")
    )
    (piece
 	  (name  R64)
+          (help "Round: move one step diagonally")
           (image White "../Images/Rithmomachy/R64w.bmp")
    )
    (piece
 	  (name  R8)
+          (help "Round: move one step diagonally")
           (image White "../Images/Rithmomachy/R8w.bmp")
    )
    (piece
 	  (name  S169)
+          (help "Square: move 3 steps horizontally or vertically, or a longer knights move")
           (image White "../Images/Rithmomachy/S169w.bmp")
    )
    (piece
 	  (name  P91)
+          (help "Pyramid: move in any of the ways permitted by any of the pieces they still contain")
           (image White "../Images/Rithmomachy/P91w.bmp")
    )
    (piece
 	  (name  T72)
+          (help "Triangle: move 2 steps horizontally, or a knight's move")
           (image White "../Images/Rithmomachy/T72w.bmp")
    )
    (piece
 	  (name  S289)
+          (help "Square: move 3 steps horizontally or vertically, or a longer knights move")
           (image White "../Images/Rithmomachy/S289w.bmp")
    )
    (piece
 	  (name  S153)
+          (help "Square: move 3 steps horizontally or vertically, or a longer knights move")
           (image White "../Images/Rithmomachy/S153w.bmp")
    )
    (piece
 	  (name  T81)
+          (help "Triangle: move 2 steps horizontally, or a knight's move")
           (image White "../Images/Rithmomachy/T81w.bmp")
    )
    (piece
 	  (name  S36)
+          (help "Square: move 3 steps horizontally or vertically, or a longer knights move")
           (image White "../Images/Rithmomachy/S36w.bmp")
    )
    (piece
 	  (name  T16)
+          (help "Triangle: move 2 steps horizontally, or a knight's move")
           (image White "../Images/Rithmomachy/T16w.bmp"
                  Black "../Images/Rithmomachy/T16b.bmp"
           )
    )
    (piece
 	  (name  R1)
+          (help "Round: move one step diagonally")
           (image White "../Images/Rithmomachy/R1w.bmp")
    )
    (piece
 	  (name  S361)
+          (help "Square: move 3 steps horizontally or vertically, or a longer knights move")
           (image Black "../Images/Rithmomachy/S361b.bmp")
    )
    (piece
 	  (name  P190)
+          (help "Pyramid: move in any of the ways permitted by any of the pieces they still contain")
           (image Black "../Images/Rithmomachy/P190b.bmp")
    )
    (piece
 	  (name  T100)
+          (help "Triangle: move 2 steps horizontally, or a knight's move")
           (image Black "../Images/Rithmomachy/T100b.bmp")
    )
    (piece
 	  (name  S225)
+          (help "Square: move 3 steps horizontally or vertically, or a longer knights move")
           (image Black "../Images/Rithmomachy/S225b.bmp")
    )
    (piece
 	  (name  S120)
+          (help "Square: move 3 steps horizontally or vertically, or a longer knights move")
           (image Black "../Images/Rithmomachy/S120b.bmp")
    )
    (piece
 	  (name  T90)
+          (help "Triangle: move 2 steps horizontally, or a knight's move")
           (image Black "../Images/Rithmomachy/T90b.bmp")
    )
    (piece
 	  (name  T64)
+          (help "Triangle: move 2 steps horizontally, or a knight's move")
           (image Black "../Images/Rithmomachy/T64b.bmp")
    )
    (piece
 	  (name  R81)
+          (help "Round: move one step diagonally")
           (image Black "../Images/Rithmomachy/R81b.bmp")
    )
    (piece
 	  (name  R9)
+          (help "Round: move one step diagonally")
           (image Black "../Images/Rithmomachy/R9b.bmp")
    )
    (piece
 	  (name  T56)
+          (help "Triangle: move 2 steps horizontally, or a knight's move")
           (image Black "../Images/Rithmomachy/T56b.bmp")
    )
    (piece
 	  (name  R49)
+          (help "Round: move one step diagonally")
           (image Black "../Images/Rithmomachy/R49b.bmp")
    )
    (piece
 	  (name  R7)
+          (help "Round: move one step diagonally")
           (image Black "../Images/Rithmomachy/R7b.bmp")
    )
    (piece
 	  (name  T30)
+          (help "Triangle: move 2 steps horizontally, or a knight's move")
           (image Black "../Images/Rithmomachy/T30b.bmp")
    )
    (piece
 	  (name  R25)
+          (help "Round: move one step diagonally")
           (image Black "../Images/Rithmomachy/R25b.bmp")
    )
    (piece
 	  (name  R5)
+          (help "Round: move one step diagonally")
           (image Black "../Images/Rithmomachy/R5b.bmp")
    )
    (piece
 	  (name  T36)
+          (help "Triangle: move 2 steps horizontally, or a knight's move")
           (image Black "../Images/Rithmomachy/T36b.bmp")
    )
    (piece
 	  (name  R3)
+          (help "Round: move one step diagonally")
           (image Black "../Images/Rithmomachy/R3b.bmp")
    )
    (piece
 	  (name  S121)
+          (help "Square: move 3 steps horizontally or vertically, or a longer knights move")
           (image Black "../Images/Rithmomachy/S121b.bmp")
    )
    (piece
 	  (name  S66)
+          (help "Square: move 3 steps horizontally or vertically, or a longer knights move")
           (image Black "../Images/Rithmomachy/S66b.bmp")
    )
    (piece
 	  (name  T12)
+          (help "Triangle: move 2 steps horizontally, or a knight's move")
           (image Black "../Images/Rithmomachy/T12b.bmp")
    )
    (piece
 	  (name  S49)
+          (help "Square: move 3 steps horizontally or vertically, or a longer knights move")
           (image Black "../Images/Rithmomachy/S49b.bmp")
    )
    (piece
 	  (name  S28)
+          (help "Square: move 3 steps horizontally or vertically, or a longer knights move")
           (image Black "../Images/Rithmomachy/S28b.bmp")
    )
    (piece
 	  (name  S64)
+          (help "Square: move 3 steps horizontally or vertically, or a longer knights move")
           (image Black "../Images/Rithmomachy/S64b.bmp")
    )
 
@@ -241,6 +345,60 @@
 
 (variant
    (title "Distant Siege")
+
+   (description "Object of the game is to win by any of: \\
+- capturing 15 of the (more than half) of the opposing pieces
+
+- capturing pieces whose value sums to 1315 or more White,  or  984 or more Black  (3/4 of the sum of the total opponent values) \\
+Moves: \\
+Players alternate turns, starting with Black. Movement is only possible to an 
+empty square. Horizontal and vertical moves are blocked by intervening pieces.
+
+Moves with a diagonal component can't be blocked - they're like chess knights 
+moves. \\
+- Rounds move one step diagonally
+
+- Triangles move 2 steps horizontally, or a knight's move
+
+- Squares move 3 steps horizontally or vertically, or a longer knights move
+
+- Pyramids move in any of the ways permitted by any of the pieces they still contain. \\
+Capturing: \\
+Capturing depends on the geometric or numeric relationship between the 
+captured and capturing pieces. Capturing never involves moving into the 
+
+square occupied by the captured piece.  Capturing pieces stay where they are.
+If by luck or design multiple captures are possible after a single move, they 
+
+all occur. Pyramids can capture or be captured using either their total value, 
+or the value of any component. \\
+Capture by Siege: \\
+A common description of capture by siege is that a piece is captured if all 
+of its 'ordinary movements' are blocked by adversaries.  The ''orthogonal''
+
+directions are considered ordinary, and the ''knight's'' type moves are 
+considered irregular.  So capture by siege could occur for triangles and 
+
+squares blocked at a distance of 2 or 3. \\
+Capture by Equality: \\
+A piece or stack is captured by equality if the attacking piece (or stack) has 
+the same value, and if the attacking piece could move to the position of 
+
+the attacked piece if it were vacant.  Note that very few of the black and 
+white pieces have the same value. \\
+Capture by Eruption: \\
+A piece or stack is captured by eruption if the value of the smaller, 
+multiplied by the distance between the pieces, is equal to the value of the 
+
+greater.  Captures by eruption do no depend on the natural movement of the 
+pieces.  The starting and ending locations are both counted, so the minimum 
+
+distance between pieces is 2. \\
+Capture by Ambush: \\
+A piece is captured by ambush if two pieces, which could move to the enemy 
+to be captured, have a sum, difference, product, or quotient equal to 
+
+the captured piece value.")
 )
 
 (variant
@@ -249,20 +407,116 @@
 
 (variant
    (title "Rithmomachy with Glorious Victories")
+
+   (description "Object of the game is to win by any of: \\
+- capturing 15 of the (more than half) of the opposing pieces
+
+- capturing pieces whose value sums to 1315 or more White,  or  984 or more Black  (3/4 of the sum of the total opponent values)
+
+- forming a glorious victory on the opponent's side of the board, with one of your own pieces as one end \\
+Moves: \\
+Players alternate turns, starting with Black. Movement is only possible to an 
+empty square. Horizontal and vertical moves are blocked by intervening pieces.
+
+Moves with a diagonal component can't be blocked - they're like chess knights 
+moves. \\
+- Rounds move one step diagonally
+
+- Triangles move 2 steps horizontally, or a knight's move
+
+- Squares move 3 steps horizontally or vertically, or a longer knights move
+
+- Pyramids move in any of the ways permitted by any of the pieces they still contain. \\
+Capturing: \\
+Capturing depends on the geometric or numeric relationship between the 
+captured and capturing pieces. Capturing never involves moving into the 
+
+square occupied by the captured piece.  Capturing pieces stay where they are.
+If by luck or design multiple captures are possible after a single move, they 
+
+all occur. Pyramids can capture or be captured using either their total value, 
+or the value of any component. \\
+Capture by Siege: \\
+A piece is captured by siege if it is surrounded by enemies or the edge of 
+the board on all 4 orthogonal or all four diagonal directions. \\
+Capture by Equality: \\
+A piece or stack is captured by equality if the attacking piece (or stack) has 
+the same value, and if the attacking piece could move to the position of 
+
+the attacked piece if it were vacant.  Note that very few of the black and 
+white pieces have the same value. \\
+Capture by Eruption: \\
+A piece or stack is captured by eruption if the value of the smaller, 
+multiplied by the distance between the pieces, is equal to the value of the 
+
+greater.  Captures by eruption do no depend on the natural movement of the 
+pieces.  The starting and ending locations are both counted, so the minimum 
+
+distance between pieces is 2. \\
+Capture by Ambush: \\
+A piece is captured by ambush if two pieces, which could move to the enemy 
+to be captured, have a sum, difference, product, or quotient equal to 
+
+the captured piece value.")
 )
 
 (variant
    (title "Distant Siege with Glorious Victories")
+
+   (description "Object of the game is to win by any of: \\
+- capturing 15 of the (more than half) of the opposing pieces
+
+- capturing pieces whose value sums to 1315 or more White,  or  984 or more Black  (3/4 of the sum of the total opponent values)
+
+- forming a glorious victory on the opponent's side of the board, with one of your own pieces as one end \\
+Moves: \\
+Players alternate turns, starting with Black. Movement is only possible to an 
+empty square. Horizontal and vertical moves are blocked by intervening pieces.
+
+Moves with a diagonal component can't be blocked - they're like chess knights 
+moves. \\
+- Rounds move one step diagonally
+
+- Triangles move 2 steps horizontally, or a knight's move
+
+- Squares move 3 steps horizontally or vertically, or a longer knights move
+
+- Pyramids move in any of the ways permitted by any of the pieces they still contain. \\
+Capturing: \\
+Capturing depends on the geometric or numeric relationship between the 
+captured and capturing pieces. Capturing never involves moving into the 
+
+square occupied by the captured piece.  Capturing pieces stay where they are.
+If by luck or design multiple captures are possible after a single move, they 
+
+all occur. Pyramids can capture or be captured using either their total value, 
+or the value of any component. \\
+Capture by Siege: \\
+A common description of capture by siege is that a piece is captured if all 
+of its 'ordinary movements' are blocked by adversaries.  The ''orthogonal''
+
+directions are considered ordinary, and the ''knight's'' type moves are 
+considered irregular.  So capture by siege could occur for triangles and 
+
+squares blocked at a distance of 2 or 3. \\
+Capture by Equality: \\
+A piece or stack is captured by equality if the attacking piece (or stack) has 
+the same value, and if the attacking piece could move to the position of 
+
+the attacked piece if it were vacant.  Note that very few of the black and 
+white pieces have the same value. \\
+Capture by Eruption: \\
+A piece or stack is captured by eruption if the value of the smaller, 
+multiplied by the distance between the pieces, is equal to the value of the 
+
+greater.  Captures by eruption do no depend on the natural movement of the 
+pieces.  The starting and ending locations are both counted, so the minimum 
+
+distance between pieces is 2. \\
+Capture by Ambush: \\
+A piece is captured by ambush if two pieces, which could move to the enemy 
+to be captured, have a sum, difference, product, or quotient equal to 
+
+the captured piece value.")
 )
 
-(variant
-   (title "-")
-)
-
-(variant
-   (title "Random")
-)
-
-(variant
-   (title "Random with Glorious Victories")
-)
