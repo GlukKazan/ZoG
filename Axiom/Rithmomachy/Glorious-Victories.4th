@@ -1,5 +1,7 @@
 32	CONSTANT	HLFC
 
+VARIABLE	white-pyramid-is-missing?
+VARIABLE	black-pyramid-is-missing?
 VARIABLE	white-half-count
 VARIABLE	black-half-count
 VARIABLE	half-size
@@ -56,6 +58,12 @@ HLFC [] 	black-half-enemy[]
 
 : load-pieces ( ? pos -- )
 	DUP piece-type-at PYRAMID > IF
+		DUP player-at White = IF
+			FALSE white-pyramid-is-missing? !
+		ENDIF
+		DUP player-at Black = IF
+			FALSE black-pyramid-is-missing? !
+		ENDIF
 		0 sum-value !
 		a1 to
 		DUP friend-at? IF
@@ -98,6 +106,8 @@ HLFC [] 	black-half-enemy[]
 : load-halfs ( -- )
 	0 white-half-count !
 	0 black-half-count !
+	TRUE white-pyramid-is-missing? !
+	TRUE black-pyramid-is-missing? !
 	ROWS COLS *
 	DUP 2/ half-size !
 	BEGIN
