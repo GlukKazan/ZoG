@@ -105,6 +105,10 @@ MAXE []		eruption-values[]
 	COLS MOD
 ;
 
+: get-y ( pos -- y )
+	COLS /
+;
+
 : on-board-at? ( pos -- ? )
 	get-x DUP
 	1 > SWAP 10 < AND

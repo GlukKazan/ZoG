@@ -164,14 +164,6 @@ HLFC [] 	black-half-enemy[]
 	c-index @ get-value-by-index
 ;
 
-: get-x ( pos -- x )
-	COLS MOD
-;
-
-: get-y ( pos -- y )
-	COLS /
-;
-
 : sort-values ( -- )
 	b-value @ a-value @ 2DUP < IF
 		b-value !
