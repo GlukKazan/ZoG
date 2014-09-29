@@ -5,10 +5,12 @@ R C *		CONSTANT	SIZE
 VARIABLE	move-pos
 VARIABLE	curr-pos
 VARIABLE	size-pos
+VARIABLE	size-start
 VARIABLE	is-killed?
 VARIABLE	is-safe?
 
 SIZE []		position[]
+4    []		starts[]
 
 {board
 	R C {grid}
@@ -49,6 +51,20 @@ players}
 	2DROP
 ;
 
+: check-starts ( pos -- )
+	size-start @
+	BEGIN
+		1-
+		DUP 0 >= IF
+			OVER OVER starts[] @ = IF
+				-1 OVER starts[] !
+			ENDIF
+		ENDIF
+		DUP 0> NOT
+	UNTIL
+	2DROP
+;
+
 : check-pos ( -- )
 	empty? IF
 		here move-pos @ <> IF	
@@ -56,7 +72,7 @@ players}
 		ENDIF
 	ELSE
 		enemy? IF
-			here add-pos
+			here DUP check-starts add-pos
 		ENDIF
 	ENDIF
 ;
@@ -88,25 +104,44 @@ players}
 
 : check-dir ( -- )
 	enemy? IF
-		here DUP scan-pos to
-		is-killed? @ IF
-			TRUE is-safe? !
-		ENDIF
+		here size-start @ starts[] !
+		size-start ++
 	ELSE
 		TRUE is-safe? !
 	ENDIF
+;
+
+: scan-starts ( -- )
+	size-start @
+	BEGIN
+		1-
+		DUP 0 >= IF
+			DUP starts[] @ DUP 0< IF
+				DROP
+			ELSE
+				scan-pos
+				is-killed? @ IF
+					TRUE is-safe? !
+				ENDIF
+			ENDIF
+		ENDIF
+		DUP 0> NOT
+	UNTIL
+	DROP
 ;
 
 : drop-stone ( -- )
 	empty? IF
 		here move-pos !
 		drop
+		0 size-start !
 		FALSE is-safe? !
 		here
 		DUP to North IF	check-dir ENDIF
 		DUP to South IF	check-dir ENDIF
 		DUP to East  IF	check-dir ENDIF
 		DUP to West  IF	check-dir ENDIF
+		scan-starts
 		to
 		is-safe? @ IF
 			add-move
