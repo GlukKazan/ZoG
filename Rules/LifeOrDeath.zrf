@@ -26,9 +26,14 @@
     )
     (piece
         (name Stone)
-        (image  Black "images\Go-Moku\GoStoneB17.bmp"
-                White "images\Go-Moku\GoStoneW17.bmp")
+        (image  Black "images/Go-Moku/GoStoneB17.bmp"
+                White "images/Go-Moku/GoStoneW17.bmp")
         (help "Stone: drops on any empty square")
+    )
+    (piece
+        (name  Ko)
+        (image Black "../Images/Go/invisible.bmp"
+               White "../Images/Go/invisible.bmp")
     )
 
     ; The following dummy piece is required in order to placate the Zillions engine.

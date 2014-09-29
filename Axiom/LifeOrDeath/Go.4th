@@ -6,11 +6,16 @@ VARIABLE	move-pos
 VARIABLE	curr-pos
 VARIABLE	size-pos
 VARIABLE	size-start
+VARIABLE	size-captured
 VARIABLE	is-killed?
 VARIABLE	is-safe?
+VARIABLE	is-ko?
 
 SIZE []		position[]
+SIZE []		captured[]
 4    []		starts[]
+
+DEFER		KO
 
 {board
 	R C {grid}
@@ -27,6 +32,13 @@ directions}
 	{player}	Black
 	{player}	White
 players}
+
+: my-empty? ( -- ? )
+	empty? DUP NOT IF
+		DROP
+		piece-type KO =
+	ENDIF
+;
 
 : clear-pos ( -- )
 	0 size-pos !
@@ -66,7 +78,7 @@ players}
 ;
 
 : check-pos ( -- )
-	empty? IF
+	my-empty? IF
 		here move-pos @ <> IF	
 			FALSE is-killed? !
 		ENDIF
@@ -79,7 +91,10 @@ players}
 
 : capture-pos ( -- )
 	0 BEGIN
-		DUP position[] @ capture-at
+		size-captured @ SIZE < IF
+			DUP position[] @ size-captured @ captured[] !
+			size-captured ++
+		ENDIF
 		1+ DUP size-pos @ >=
 	UNTIL
 	DROP
@@ -108,6 +123,7 @@ players}
 		size-start ++
 	ELSE
 		TRUE is-safe? !
+		FALSE is-ko? !
 	ENDIF
 ;
 
@@ -130,18 +146,54 @@ players}
 	DROP
 ;
 
+: capture-all ( -- )
+	size-captured @
+	BEGIN
+		1-
+		DUP 0 >= IF
+			DUP captured[] @ 
+			size-captured @ 1 = is-ko? @ AND IF
+				KO SWAP create-piece-type-at
+			ELSE
+				capture-at
+			ENDIF
+		ENDIF
+		DUP 0> NOT
+	UNTIL
+	DROP
+;
+
+: clear-ko ( -- )
+	SIZE BEGIN
+		1-
+		DUP 0 >= IF
+			DUP empty-at? NOT IF
+				DUP piece-type-at KO = IF
+					DUP capture-at
+				ENDIF
+			ENDIF
+		ENDIF
+		DUP 0> NOT
+	UNTIL
+	DROP
+;
+
 : drop-stone ( -- )
 	empty? IF
 		here move-pos !
 		drop
+		clear-ko
 		0 size-start !
 		FALSE is-safe? !
+		TRUE is-ko? !
 		here
 		DUP to North IF	check-dir ENDIF
 		DUP to South IF	check-dir ENDIF
 		DUP to East  IF	check-dir ENDIF
 		DUP to West  IF	check-dir ENDIF
+		0 size-captured !
 		scan-starts
+		capture-all
 		to
 		is-safe? @ IF
 			add-move
@@ -155,7 +207,10 @@ moves}
 
 {pieces
 	{piece}		Stone	{drops} drop-moves
+	{piece}		Ko
 pieces}
+
+' Ko	 		IS KO
 
 {turn-order
 	{repeat}
