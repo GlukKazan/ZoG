@@ -16,6 +16,7 @@ SIZE []		captured[]
 4    []		starts[]
 
 DEFER		KO
+DEFER		CHECK-MOVE
 
 {board
 	R C {grid}
@@ -179,7 +180,7 @@ players}
 ;
 
 : drop-stone ( -- )
-	empty? IF
+	empty? CHECK-MOVE AND IF
 		here move-pos !
 		drop
 		clear-ko
@@ -201,6 +202,10 @@ players}
 	ENDIF
 ;
 
+: check-move ( -- ? )
+	TRUE
+;
+
 {moves drop-moves
 	{move} drop-stone
 moves}
@@ -211,6 +216,7 @@ moves}
 pieces}
 
 ' Ko	 		IS KO
+' check-move		IS CHECK-MOVE
 
 {turn-order
 	{repeat}
