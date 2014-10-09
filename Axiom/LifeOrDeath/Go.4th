@@ -20,6 +20,7 @@ DEFER		CHECK-MOVE
 
 {board
 	R C {grid}
+	{variable}	move-counter
 board}
 
 {directions
@@ -34,11 +35,26 @@ directions}
 	{player}	White
 players}
 
-: my-empty? ( -- ? )
-	empty? DUP NOT IF
-		DROP
-		piece-type KO =
+: move-counter++ ( -- ) move-counter ++ ;
+
+: get-x ( pos -- x )
+	C MOD
+;
+
+: get-y ( pos -- y )
+	C /
+;
+
+: my-empty-at? ( pos -- ? )
+	DUP empty-at? IF
+		DROP TRUE
+	ELSE
+		piece-type-at KO =
 	ENDIF
+;
+
+: my-empty? ( -- ? )
+	here my-empty-at?
 ;
 
 : clear-pos ( -- )
@@ -197,6 +213,7 @@ players}
 		capture-all
 		to
 		is-safe? @ IF
+			COMPILE move-counter++
 			add-move
 		ENDIF
 	ENDIF

@@ -43,5 +43,14 @@
 )
 
 (variant
-    (title "Cite")
+    (title "Tsumego")
+
+    (board-setup
+      (White
+         (Stone a18 b18 c18 d18 d19)
+      )
+      (Black
+         (Stone b15 b17 c17 d17 e18 f18)
+      )
+    )
 )
