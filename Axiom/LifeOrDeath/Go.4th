@@ -61,7 +61,7 @@ players}
 	0 size-pos !
 ;
 
-: add-pos ( pos -- )
+: add-to-pos ( pos -- )
 	size-pos @
 	BEGIN
 		1-
@@ -81,10 +81,8 @@ players}
 ;
 
 : check-starts ( pos -- )
-	size-start @
-	BEGIN
-		1-
-		DUP 0 >= IF
+	size-start @ BEGIN
+		1- DUP 0 >= IF
 			OVER OVER starts[] @ = IF
 				-1 OVER starts[] !
 			ENDIF
@@ -101,7 +99,7 @@ players}
 		ENDIF
 	ELSE
 		enemy? IF
-			here DUP check-starts add-pos
+			here DUP check-starts add-to-pos
 		ENDIF
 	ENDIF
 ;
@@ -119,7 +117,7 @@ players}
 
 : scan-pos ( pos -- )
 	TRUE is-killed? !
-	clear-pos add-pos
+	clear-pos add-to-pos
 	0 BEGIN
 		DUP position[] @
 		DUP to North IF	check-pos ENDIF
@@ -145,10 +143,8 @@ players}
 ;
 
 : scan-starts ( -- )
-	size-start @
-	BEGIN
-		1-
-		DUP 0 >= IF
+	size-start @ BEGIN
+		1- DUP 0 >= IF
 			DUP starts[] @ DUP 0< IF
 				DROP
 			ELSE
@@ -164,10 +160,8 @@ players}
 ;
 
 : capture-all ( -- )
-	size-captured @
-	BEGIN
-		1-
-		DUP 0 >= IF
+	size-captured @ BEGIN
+		1- DUP 0 >= IF
 			DUP captured[] @ 
 			size-captured @ 1 = is-ko? @ AND IF
 				KO SWAP create-piece-type-at
@@ -182,8 +176,7 @@ players}
 
 : clear-ko ( -- )
 	SIZE BEGIN
-		1-
-		DUP 0 >= IF
+		1- DUP 0 >= IF
 			DUP empty-at? NOT IF
 				DUP piece-type-at KO = IF
 					DUP capture-at
