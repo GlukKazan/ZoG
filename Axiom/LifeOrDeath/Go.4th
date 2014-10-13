@@ -92,13 +92,25 @@ players}
 	2DROP
 ;
 
-: check-pos ( -- )
+: check-enemy-pos ( -- )
 	my-empty? IF
 		here move-pos @ <> IF	
 			FALSE is-killed? !
 		ENDIF
 	ELSE
 		enemy? IF
+			here DUP check-starts add-to-pos
+		ENDIF
+	ENDIF
+;
+
+: check-friend-pos ( -- )
+	my-empty? IF
+		here move-pos @ <> IF	
+			TRUE is-safe? !
+		ENDIF
+	ELSE
+		friend? IF
 			here DUP check-starts add-to-pos
 		ENDIF
 	ENDIF
@@ -115,15 +127,15 @@ players}
 	DROP
 ;
 
-: scan-pos ( pos -- )
+: scan-enemy ( pos -- )
 	TRUE is-killed? !
 	clear-pos add-to-pos
 	0 BEGIN
 		DUP position[] @
-		DUP to North IF	check-pos ENDIF
-		DUP to South IF	check-pos ENDIF
-		DUP to East  IF	check-pos ENDIF
-		    to West  IF check-pos ENDIF
+		DUP to North IF	check-enemy-pos ENDIF
+		DUP to South IF	check-enemy-pos ENDIF
+		DUP to East  IF	check-enemy-pos ENDIF
+		    to West  IF check-enemy-pos ENDIF
 		1+ DUP size-pos @ >=
 	UNTIL
 	DROP
@@ -132,12 +144,27 @@ players}
 	ENDIF	
 ;
 
+: scan-friend ( pos -- )
+	clear-pos add-to-pos
+	0 BEGIN
+		DUP position[] @
+		DUP to North IF	check-friend-pos ENDIF
+		DUP to South IF	check-friend-pos ENDIF
+		DUP to East  IF	check-friend-pos ENDIF
+		    to West  IF check-friend-pos ENDIF
+		1+ DUP size-pos @ >=
+	UNTIL
+	DROP
+;
+
 : check-dir ( -- )
-	enemy? IF
+	my-empty? NOT IF
 		here size-start @ starts[] !
 		size-start ++
 	ELSE
 		TRUE is-safe? !
+	ENDIF
+	enemy? NOT IF
 		FALSE is-ko? !
 	ENDIF
 ;
@@ -148,9 +175,13 @@ players}
 			DUP starts[] @ DUP 0< IF
 				DROP
 			ELSE
-				scan-pos
-				is-killed? @ IF
-					TRUE is-safe? !
+				DUP enemy-at? IF
+					scan-enemy
+					is-killed? @ IF
+						TRUE is-safe? !
+					ENDIF
+				ELSE
+					scan-friend
 				ENDIF
 			ENDIF
 		ENDIF
