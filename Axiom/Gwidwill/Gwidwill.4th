@@ -27,9 +27,35 @@ players}
 	{turn}	Black
 turn-order}
 
+: get-value ( -- n )
+	piece piece-value
+	DUP 100 = IF
+		DROP 3
+	ENDIF
+	DUP 400 = IF
+		DROP 4
+	ENDIF
+;
+
+: add-value ( n 'dir -- n )
+	EXECUTE friend? AND IF
+		get-value +
+	ENDIF
+;
+
+: is-attacked? ( -- ? )
+	here 0
+		OVER to ['] north add-value
+		OVER to ['] south add-value
+		OVER to ['] east  add-value
+		OVER to ['] west  add-value
+	SWAP to
+	get-value >
+;
+
 : kill-step ( 'dir -- )
 	EXECUTE IF
-		enemy? IF
+		enemy? is-attacked? AND IF
 			from here move
 			add-move
 		ENDIF
@@ -132,11 +158,11 @@ moves}
 moves}
 
 {pieces
-	{piece}		Squire		{moves} moves-1	1 {value}
-	{piece}		Knight		{moves} moves-2	2 {value}
-	{piece}		King		{moves} moves-1	3 {value}
-	{piece}		Champion	{moves} moves-3	3 {value}
-	{piece}		Pendragon	{moves} moves-1	4 {value}
+	{piece}		Squire		{moves} moves-1	1   {value}
+	{piece}		Knight		{moves} moves-2	2   {value}
+	{piece}		King		{moves} moves-1	100 {value}
+	{piece}		Champion	{moves} moves-3	3   {value}
+	{piece}		Pendragon	{moves} moves-1	400 {value}
 pieces}
 
 {board-setup
