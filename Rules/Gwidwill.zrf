@@ -1,0 +1,68 @@
+(version "2.0")
+
+; See: http://www.ri-kon.narod.ru/gwyddwill.htm
+
+(game
+   (title "Gwidwill")
+
+   (engine "../Axiom/Gwidwill/axiom.dll")
+
+   (players White Black)
+   (turn-order White Black)
+
+   (board
+      (image "images/Chess/SHaag/Chess8x8.bmp")
+      (grid
+         (start-rectangle 5 5 53 53)
+         (dimensions
+             ("a/b/c/d/e/f/g/h" (49 0)) ; files
+             ("8/7/6/5/4/3/2/1" (0 49)) ; ranks
+         )
+      )
+   )
+
+   (board-setup
+      (White
+         (Pendragon d5)
+         (Champion e4)
+         (Knight d4 e5)
+         (Squire c3 c4 c5 c6 d3 d6 e3 e6 f3 f4 f5 f6)
+      )
+      (Black
+         (King d1 a5 e8 h4)
+         (Knight e1 a4 d8 h5)
+         (Squire c1 f1 a3 a6 c8 f8 h3 h6)
+      )
+   )
+
+   (piece
+      (name Squire)
+      (image White "images/Chess/SHaag/wpawn.bmp"
+             Black "images/Chess/SHaag/bpawn.bmp")
+   )
+   (piece
+      (name Knight)
+      (image White "images/Chess/SHaag/wknight.bmp"
+             Black "images/Chess/SHaag/bknight.bmp")
+   )
+   (piece
+      (name King)
+      (image White "images/Chess/SHaag/wking.bmp"
+             Black "images/Chess/SHaag/bking.bmp")
+   )
+   (piece
+      (name Champion)
+      (image White "images/Chess/SHaag/wqueen.bmp"
+             Black "images/Chess/SHaag/bqueen.bmp")
+   )
+   (piece
+      (name Pendragon)
+      (image White "images/Chess/SHaag/wrook.bmp"
+             Black "images/Chess/SHaag/brook.bmp")
+   )
+
+   ; The following dummy piece is required in order to placate the Zillions engine.
+   ; It appears as though Zillions must find at least one "moves" keyword somewhere
+   ; in the zrf in order for it to be happy and thus allow "moves" to work correctly.
+   (piece (name Dummy) (dummy) (moves (from)))
+)
