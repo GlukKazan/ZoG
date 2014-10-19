@@ -7,6 +7,7 @@ MAXP []		pos[]
 
 {board
 	DIM DIM {grid}
+	{position} Z1
 board}
 
 {directions
@@ -19,6 +20,7 @@ directions}
 {players
 	{player}	White
 	{player}	Black
+	{player}	?Dice	{random}
 players}
 
 {turn-order
@@ -163,6 +165,12 @@ moves}
 	{piece}		King		{moves} moves-1	100 {value}
 	{piece}		Champion	{moves} moves-3	3   {value}
 	{piece}		Pendragon	{moves} moves-1	400 {value}
+	{piece}		One				1   {value}
+	{piece}		Two				2   {value}
+	{piece}		Three				3   {value}
+	{piece}		Four				4   {value}
+	{piece}		Five				5   {value}
+	{piece}		Six				6   {value}
 pieces}
 
 {board-setup

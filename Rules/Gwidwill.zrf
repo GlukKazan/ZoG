@@ -7,17 +7,28 @@
 
    (engine "../Axiom/Gwidwill/axiom.dll")
 
-   (players White Black)
+   (players White Black ?Dice)
    (turn-order White Black)
 
+   (option "animate drops" true)
+   (option "animate captures" false)
+
+   (release-sound "../Audio/Gwidwill/Move.wav")
+   (capture-sound "../Audio/Gwidwill/Nosound.wav")
+   (move-sound "../Audio/Gwidwill/Move.wav")
+   (drop-sound "../Audio/Gwidwill/Dice_cup.wav")
+
    (board
-      (image "images/Chess/SHaag/Chess8x8.bmp")
+      (image "../images/Gwidwill/board.bmp")
       (grid
-         (start-rectangle 5 5 53 53)
+         (start-rectangle 5 3 39 37)
          (dimensions
-             ("a/b/c/d/e/f/g/h" (49 0)) ; files
-             ("8/7/6/5/4/3/2/1" (0 49)) ; ranks
+             ("a/b/c/d/e/f/g/h" (34 0)) ; files
+             ("8/7/6/5/4/3/2/1" (0 34)) ; ranks
          )
+      )
+      (positions  
+             (Z1 155 161 465 100)  
       )
    )
 
@@ -37,28 +48,51 @@
 
    (piece
       (name Squire)
-      (image White "images/Chess/SHaag/wpawn.bmp"
-             Black "images/Chess/SHaag/bpawn.bmp")
+      (image White "../images/Gwidwill/wp.bmp"
+             Black "../images/Gwidwill/bp.bmp")
    )
    (piece
       (name Knight)
-      (image White "images/Chess/SHaag/wknight.bmp"
-             Black "images/Chess/SHaag/bknight.bmp")
+      (image White "../images/Gwidwill/wn.bmp"
+             Black "../images/Gwidwill/bn.bmp")
    )
    (piece
       (name King)
-      (image White "images/Chess/SHaag/wking.bmp"
-             Black "images/Chess/SHaag/bking.bmp")
+      (image White "../images/Gwidwill/wk.bmp"
+             Black "../images/Gwidwill/bk.bmp")
    )
    (piece
       (name Champion)
-      (image White "images/Chess/SHaag/wqueen.bmp"
-             Black "images/Chess/SHaag/bqueen.bmp")
+      (image White "../images/Gwidwill/wq.bmp")
    )
    (piece
       (name Pendragon)
-      (image White "images/Chess/SHaag/wrook.bmp"
-             Black "images/Chess/SHaag/brook.bmp")
+      (image White "../images/Gwidwill/wk.bmp"
+             Black "../images/Gwidwill/bk.bmp")
+   )
+   (piece
+      (name One)
+      (image ?Dice "../images/Gwidwill/One.bmp")
+   )
+   (piece
+      (name Two)
+      (image ?Dice "../images/Gwidwill/Two.bmp")
+   )
+   (piece
+      (name Three)
+      (image ?Dice "../images/Gwidwill/Three.bmp")
+   )
+   (piece
+      (name Four)
+      (image ?Dice "../images/Gwidwill/Four.bmp")
+   )
+   (piece
+      (name Five)
+      (image ?Dice "../images/Gwidwill/Five.bmp")
+   )
+   (piece
+      (name Siz)
+      (image ?Dice "../images/Gwidwill/Six.bmp")
    )
 
    ; The following dummy piece is required in order to placate the Zillions engine.
