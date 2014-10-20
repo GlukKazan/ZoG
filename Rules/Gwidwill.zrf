@@ -1,16 +1,14 @@
 (version "2.0")
 
-; See: http://www.ri-kon.narod.ru/gwyddwill.htm
-
 (game
    (title "Gwidwill")
 
    (engine "../Axiom/Gwidwill/axiom.dll")
 
    (players White Black ?Dice)
-   (turn-order White Black)
+   (turn-order ?Dice White ?Dice Black)
 
-   (option "animate drops" true)
+   (option "animate drops" false)
    (option "animate captures" false)
 
    (release-sound "../Audio/Gwidwill/Move.wav")
@@ -28,7 +26,7 @@
          )
       )
       (positions  
-             (Z1 155 161 465 100)  
+             (Z1 289 11 328 50)  
       )
    )
 
@@ -91,7 +89,7 @@
       (image ?Dice "../images/Gwidwill/Five.bmp")
    )
    (piece
-      (name Siz)
+      (name Six)
       (image ?Dice "../images/Gwidwill/Six.bmp")
    )
 

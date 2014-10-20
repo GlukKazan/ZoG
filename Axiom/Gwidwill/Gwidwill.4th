@@ -2,6 +2,8 @@
 DIM DIM *	CONSTANT	SIZE
 26		CONSTANT	MAXP
 
+VARIABLE	wking-count
+VARIABLE	bking-count
 VARIABLE	size-p
 MAXP []		pos[]
 
@@ -25,16 +27,18 @@ players}
 
 {turn-order
 	{repeat}
+	{turn}	?Dice
 	{turn}	White
+	{turn}	?Dice
 	{turn}	Black
 turn-order}
 
 : get-value ( -- n )
 	piece piece-value
-	DUP 100 = IF
+	DUP 700 = IF
 		DROP 3
 	ENDIF
-	DUP 400 = IF
+	DUP 800 = IF
 		DROP 4
 	ENDIF
 ;
@@ -55,8 +59,13 @@ turn-order}
 	get-value >
 ;
 
+: check-dice? ( -- ? )
+	Z1 piece-at piece-value
+	get-value >=
+;
+
 : kill-step ( 'dir -- )
-	EXECUTE IF
+	check-dice? SWAP EXECUTE AND IF
 		enemy? is-attacked? AND IF
 			from here move
 			add-move
@@ -122,8 +131,17 @@ turn-order}
 ;
 
 : step-all ( n -- )
-	0 size-p !
-	step-r
+	check-dice? IF
+		0 size-p !
+		step-r
+	ENDIF
+;
+
+: drop-dice ( -- )
+	Z1 here = current-player ?Dice = AND IF
+		drop
+		add-move
+	ENDIF
 ;
 
 : kill-n ( -- ) ['] north kill-step ;
@@ -136,42 +154,104 @@ turn-order}
 : step-3 ( -- ) 3 step-all ;
 
 {moves moves-1
-	{move} step-1
-	{move} kill-n
-	{move} kill-s
-	{move} kill-e
-	{move} kill-w
+	{move} step-1	{move-type} normal-type
+	{move} kill-n	{move-type} normal-type
+	{move} kill-s	{move-type} normal-type
+	{move} kill-e	{move-type} normal-type
+	{move} kill-w	{move-type} normal-type
+	{move} Pass	{move-type} pass-type
 moves}
 
 {moves moves-2
-	{move} step-2
-	{move} kill-n
-	{move} kill-s
-	{move} kill-e
-	{move} kill-w
+	{move} step-2	{move-type} normal-type
+	{move} kill-n	{move-type} normal-type
+	{move} kill-s	{move-type} normal-type
+	{move} kill-e	{move-type} normal-type
+	{move} kill-w	{move-type} normal-type
 moves}
 
 {moves moves-3
-	{move} step-3
-	{move} kill-n
-	{move} kill-s
-	{move} kill-e
-	{move} kill-w
+	{move} step-3	{move-type} normal-type
+	{move} kill-n	{move-type} normal-type
+	{move} kill-s	{move-type} normal-type
+	{move} kill-e	{move-type} normal-type
+	{move} kill-w	{move-type} normal-type
 moves}
+
+{moves drop-d
+	{move} drop-dice {move-type} normal-type
+moves}
+
+{move-priorities
+	{move-priority} normal-type
+	{move-priority} pass-type
+move-priorities}
 
 {pieces
 	{piece}		Squire		{moves} moves-1	1   {value}
 	{piece}		Knight		{moves} moves-2	2   {value}
-	{piece}		King		{moves} moves-1	100 {value}
+	{piece}		King		{moves} moves-1	700 {value}
 	{piece}		Champion	{moves} moves-3	3   {value}
-	{piece}		Pendragon	{moves} moves-1	400 {value}
-	{piece}		One				1   {value}
-	{piece}		Two				2   {value}
-	{piece}		Three				3   {value}
-	{piece}		Four				4   {value}
-	{piece}		Five				5   {value}
-	{piece}		Six				6   {value}
+	{piece}		Pendragon	{moves} moves-1	800 {value}
+	{piece}		One		{drops} drop-d	1   {value}
+	{piece}		Two		{drops} drop-d	2   {value}
+	{piece}		Three		{drops} drop-d	3   {value}
+	{piece}		Four		{drops} drop-d	4   {value}
+	{piece}		Five		{drops} drop-d	5   {value}
+	{piece}		Six		{drops} drop-d	6   {value}
 pieces}
+
+: OnNewGame ( -- )
+	RANDOMIZE
+;
+
+: Mobility ( -- score )
+	move-count
+	current-player TRUE 0 $GenerateMoves
+	move-count -
+	$DeallocateMoves
+;
+
+: OnEvaluate ( -- score )
+	Mobility
+	current-player material-balance 3 * +
+;
+
+: OnIsGameOver ( -- gameResult )
+	#UnknownScore
+	0 wking-count !
+	0 bking-count !
+	SIZE BEGIN
+		1-
+		DUP 0 >= IF
+			DUP empty-at? NOT IF
+				DUP piece-type-at King = IF
+					bking-count ++
+				ENDIF
+				DUP piece-type-at Pendragon = IF
+					wking-count ++
+				ENDIF
+			ENDIF
+		ENDIF
+		DUP 0> NOT
+	UNTIL DROP
+	bking-count @ 0= IF
+		current-player White = IF
+			DROP #WinScore
+		ENDIF
+		current-player Black = IF
+			DROP #LossScore
+		ENDIF
+	ENDIF
+	wking-count @ 0= IF
+		current-player Black = IF
+			DROP #WinScore
+		ENDIF
+		current-player White = IF
+			DROP #LossScore
+		ENDIF
+	ENDIF
+;
 
 {board-setup
 	{setup}	White Pendragon d5
