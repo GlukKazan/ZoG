@@ -193,12 +193,12 @@ move-priorities}
 	{piece}		King		{moves} moves-1	700 {value}
 	{piece}		Champion	{moves} moves-3	3   {value}
 	{piece}		Pendragon	{moves} moves-1	800 {value}
-	{piece}		One		{drops} drop-d	1   {value}
-	{piece}		Two		{drops} drop-d	2   {value}
-	{piece}		Three		{drops} drop-d	3   {value}
-	{piece}		Four		{drops} drop-d	4   {value}
-	{piece}		Five		{drops} drop-d	5   {value}
-	{piece}		Six		{drops} drop-d	6   {value}
+	{piece}		One		{drops} drop-d	0   {value}
+	{piece}		Two		{drops} drop-d	0   {value}
+	{piece}		Three		{drops} drop-d	1   {value}
+	{piece}		Four		{drops} drop-d	2   {value}
+	{piece}		Five		{drops} drop-d	3   {value}
+	{piece}		Six		{drops} drop-d	4   {value}
 pieces}
 
 : OnNewGame ( -- )
