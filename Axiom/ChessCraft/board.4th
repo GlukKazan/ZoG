@@ -208,7 +208,75 @@ board}
 	 {link} Southwest-around d11 p10
 	 {link} Southwest-around d12 p11
 	 {link} Southwest-around d13 p12
+
+	 {link} Next c1  s13
+	 {link} Next s13 s12
+	 {link} Next s12 s11
+	 {link} Next s11 s10
+	 {link} Next s10 s9
+	 {link} Next s9  s8
+	 {link} Next s8  s7
+	 {link} Next s7  s6
+	 {link} Next s6  s5
+	 {link} Next s5  s4
+	 {link} Next s4  s3
+	 {link} Next s3  s2
+	 {link} Next s2  s1
+	 {link} Next s1  r13
+	 {link} Next r13 r12
+	 {link} Next r12 r11
+	 {link} Next r11 r10
+	 {link} Next r10 r9
+	 {link} Next r9  r8
+	 {link} Next r8  r7
+	 {link} Next r7  r6
+	 {link} Next r6  r5
+	 {link} Next r5  r4
+	 {link} Next r4  r3
+	 {link} Next r3  r2
+	 {link} Next r2  r1
+
+	 {link} Next-black c1  a1
+	 {link} Next-black a1  a2
+	 {link} Next-black a2  a3
+	 {link} Next-black a3  a4
+	 {link} Next-black a4  a5
+	 {link} Next-black a5  a6
+	 {link} Next-black a6  a7
+	 {link} Next-black a7  a8
+	 {link} Next-black a8  a9
+	 {link} Next-black a9  a10
+	 {link} Next-black a10 a11
+	 {link} Next-black a11 a12
+	 {link} Next-black a12 a13
+	 {link} Next-black a13 b1
+	 {link} Next-black b1  b2
+	 {link} Next-black b2  b3
+	 {link} Next-black b3  b4
+	 {link} Next-black b4  b5
+	 {link} Next-black b5  b6
+	 {link} Next-black b6  b7
+	 {link} Next-black b7  b8
+	 {link} Next-black b8  b9
+	 {link} Next-black b9  b10
+	 {link} Next-black b10 b11
+	 {link} Next-black b11 b12
+	 {link} Next-black b12 b13
 directions}
+
+{players
+	{player}	White
+	{player}	Black
+players}
+
+{symmetries 
+	Black	{symmetry} Next Next-black
+symmetries}
+
+{turn-order
+	{turn}	White
+	{turn}	Black
+turn-order}
 
 : OnNewGame ( -- )
 	RANDOMIZE
