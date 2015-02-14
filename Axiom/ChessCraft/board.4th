@@ -21,6 +21,15 @@ board}
 	-1 -1  {direction} Northwest
 	 1 -1  {direction} Southwest
 
+	-1  0  {direction} North-around
+	 1  0  {direction} South-around
+	 0  1  {direction} East-around
+	 0 -1  {direction} West-around
+	-1  1  {direction} Northeast-around
+	 1  1  {direction} Southeast-around
+	-1 -1  {direction} Northwest-around
+	 1 -1  {direction} Southwest-around
+
 	 {ulink} East p1
 	 {ulink} East p2
 	 {ulink} East p3
