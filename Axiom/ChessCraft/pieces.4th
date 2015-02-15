@@ -37,24 +37,6 @@ LOAD board.4th
 : r-slide-b-nw ( -- ) ['] Southwest ['] Northeast ['] North ['] West ['] Northwest ROWS r-slide ;
 : r-slide-b-sw ( -- ) ['] Northwest ['] Southeast ['] South ['] West ['] Southwest ROWS r-slide ;
 
-: jump-1-nnw ( -- ) ['] North ['] Northwest 1 jump;
-: jump-1-nne ( -- ) ['] North ['] Northeast 1 jump;
-: jump-1-ene ( -- ) ['] East  ['] Northeast 1 jump;
-: jump-1-ese ( -- ) ['] East  ['] Southeast 1 jump;
-: jump-1-ssw ( -- ) ['] South ['] Southwest 1 jump;
-: jump-1-sse ( -- ) ['] South ['] Southeast 1 jump;
-: jump-1-wnw ( -- ) ['] West  ['] Northwest 1 jump;
-: jump-1-wsw ( -- ) ['] West  ['] Southwest 1 jump;
-
-: jump-b-nnw ( -- ) ['] North ['] Northwest ROWS jump;
-: jump-b-nne ( -- ) ['] North ['] Northeast ROWS jump;
-: jump-b-ene ( -- ) ['] East  ['] Northeast ROWS jump;
-: jump-b-ese ( -- ) ['] East  ['] Southeast ROWS jump;
-: jump-b-ssw ( -- ) ['] South ['] Southwest ROWS jump;
-: jump-b-sse ( -- ) ['] South ['] Southeast ROWS jump;
-: jump-b-wnw ( -- ) ['] West  ['] Northwest ROWS jump;
-: jump-b-wsw ( -- ) ['] West  ['] Southwest ROWS jump;
-
 : a-slide-1-n  ( -- ) ['] North-around     1 slide ;
 : a-slide-1-s  ( -- ) ['] South-around     1 slide ;
 : a-slide-1-e  ( -- ) ['] East-around      1 slide ;
@@ -72,6 +54,33 @@ LOAD board.4th
 : a-slide-3-se ( -- ) ['] Southeast-around 3 slide ;
 : a-slide-3-nw ( -- ) ['] Northwest-around 3 slide ;
 : a-slide-3-sw ( -- ) ['] Southwest-around 3 slide ;
+
+: a-slide-b-n  ( -- ) ['] North-around     ROWS slide ;
+: a-slide-b-s  ( -- ) ['] South-around     ROWS slide ;
+: a-slide-b-e  ( -- ) ['] East-around      ROWS slide ;
+: a-slide-b-w  ( -- ) ['] West-around      ROWS slide ;
+: a-slide-b-ne ( -- ) ['] Northeast-around ROWS slide ;
+: a-slide-b-se ( -- ) ['] Southeast-around ROWS slide ;
+: a-slide-b-nw ( -- ) ['] Northwest-around ROWS slide ;
+: a-slide-b-sw ( -- ) ['] Southwest-around ROWS slide ;
+
+: jump-1-nnw ( -- ) ['] North ['] Northwest 1 jump;
+: jump-1-nne ( -- ) ['] North ['] Northeast 1 jump;
+: jump-1-ene ( -- ) ['] East  ['] Northeast 1 jump;
+: jump-1-ese ( -- ) ['] East  ['] Southeast 1 jump;
+: jump-1-ssw ( -- ) ['] South ['] Southwest 1 jump;
+: jump-1-sse ( -- ) ['] South ['] Southeast 1 jump;
+: jump-1-wnw ( -- ) ['] West  ['] Northwest 1 jump;
+: jump-1-wsw ( -- ) ['] West  ['] Southwest 1 jump;
+
+: jump-b-nnw ( -- ) ['] North ['] Northwest ROWS jump;
+: jump-b-nne ( -- ) ['] North ['] Northeast ROWS jump;
+: jump-b-ene ( -- ) ['] East  ['] Northeast ROWS jump;
+: jump-b-ese ( -- ) ['] East  ['] Southeast ROWS jump;
+: jump-b-ssw ( -- ) ['] South ['] Southwest ROWS jump;
+: jump-b-sse ( -- ) ['] South ['] Southeast ROWS jump;
+: jump-b-wnw ( -- ) ['] West  ['] Northwest ROWS jump;
+: jump-b-wsw ( -- ) ['] West  ['] Southwest ROWS jump;
 
 : a-jump-1-nnw ( -- ) ['] North-around ['] Northwest-around 1 jump;
 : a-jump-1-nne ( -- ) ['] North-around ['] Northeast-around 1 jump;

@@ -44,6 +44,72 @@ board}
 	 {ulink} East p12
 	 {ulink} East p13
 
+	 {ulink} Northeast p1
+	 {ulink} Northeast p2
+	 {ulink} Northeast p3
+	 {ulink} Northeast p4
+	 {ulink} Northeast p5
+	 {ulink} Northeast p6
+	 {ulink} Northeast p7
+	 {ulink} Northeast p8
+	 {ulink} Northeast p9
+	 {ulink} Northeast p10
+	 {ulink} Northeast p11
+	 {ulink} Northeast p12
+
+	 {ulink} Southeast p2
+	 {ulink} Southeast p3
+	 {ulink} Southeast p4
+	 {ulink} Southeast p5
+	 {ulink} Southeast p6
+	 {ulink} Southeast p7
+	 {ulink} Southeast p8
+	 {ulink} Southeast p9
+	 {ulink} Southeast p10
+	 {ulink} Southeast p11
+	 {ulink} Southeast p12
+	 {ulink} Southeast p13
+
+	 {ulink} East-around p1
+	 {ulink} East-around p2
+	 {ulink} East-around p3
+	 {ulink} East-around p4
+	 {ulink} East-around p5
+	 {ulink} East-around p6
+	 {ulink} East-around p7
+	 {ulink} East-around p8
+	 {ulink} East-around p9
+	 {ulink} East-around p10
+	 {ulink} East-around p11
+	 {ulink} East-around p12
+	 {ulink} East-around p13
+
+	 {ulink} Northeast-around p1
+	 {ulink} Northeast-around p2
+	 {ulink} Northeast-around p3
+	 {ulink} Northeast-around p4
+	 {ulink} Northeast-around p5
+	 {ulink} Northeast-around p6
+	 {ulink} Northeast-around p7
+	 {ulink} Northeast-around p8
+	 {ulink} Northeast-around p9
+	 {ulink} Northeast-around p10
+	 {ulink} Northeast-around p11
+	 {ulink} Northeast-around p12
+
+	 {ulink} Southeast-around p2
+	 {ulink} Southeast-around p3
+	 {ulink} Southeast-around p4
+	 {ulink} Southeast-around p5
+	 {ulink} Southeast-around p6
+	 {ulink} Southeast-around p7
+	 {ulink} Southeast-around p8
+	 {ulink} Southeast-around p9
+	 {ulink} Southeast-around p10
+	 {ulink} Southeast-around p11
+	 {ulink} Southeast-around p12
+	 {ulink} Southeast-around p13
+
 	 {ulink} West d1
 	 {ulink} West d2
 	 {ulink} West d3
@@ -57,6 +123,72 @@ board}
 	 {ulink} West d11
 	 {ulink} West d12
 	 {ulink} West d13
+
+	 {ulink} Northwest d1
+	 {ulink} Northwest d2
+	 {ulink} Northwest d3
+	 {ulink} Northwest d4
+	 {ulink} Northwest d5
+	 {ulink} Northwest d6
+	 {ulink} Northwest d7
+	 {ulink} Northwest d8
+	 {ulink} Northwest d9
+	 {ulink} Northwest d10
+	 {ulink} Northwest d11
+	 {ulink} Northwest d12
+
+	 {ulink} Southwest d2
+	 {ulink} Southwest d3
+	 {ulink} Southwest d4
+	 {ulink} Southwest d5
+	 {ulink} Southwest d6
+	 {ulink} Southwest d7
+	 {ulink} Southwest d8
+	 {ulink} Southwest d9
+	 {ulink} Southwest d10
+	 {ulink} Southwest d11
+	 {ulink} Southwest d12
+	 {ulink} Southwest d13
+
+	 {ulink} West-around d1
+	 {ulink} West-around d2
+	 {ulink} West-around d3
+	 {ulink} West-around d4
+	 {ulink} West-around d5
+	 {ulink} West-around d6
+	 {ulink} West-around d7
+	 {ulink} West-around d8
+	 {ulink} West-around d9
+	 {ulink} West-around d10
+	 {ulink} West-around d11
+	 {ulink} West-around d12
+	 {ulink} West-around d13
+
+	 {ulink} Northwest-around d1
+	 {ulink} Northwest-around d2
+	 {ulink} Northwest-around d3
+	 {ulink} Northwest-around d4
+	 {ulink} Northwest-around d5
+	 {ulink} Northwest-around d6
+	 {ulink} Northwest-around d7
+	 {ulink} Northwest-around d8
+	 {ulink} Northwest-around d9
+	 {ulink} Northwest-around d10
+	 {ulink} Northwest-around d11
+	 {ulink} Northwest-around d12
+
+	 {ulink} Southwest-around d2
+	 {ulink} Southwest-around d3
+	 {ulink} Southwest-around d4
+	 {ulink} Southwest-around d5
+	 {ulink} Southwest-around d6
+	 {ulink} Southwest-around d7
+	 {ulink} Southwest-around d8
+	 {ulink} Southwest-around d9
+	 {ulink} Southwest-around d10
+	 {ulink} Southwest-around d11
+	 {ulink} Southwest-around d12
+	 {ulink} Southwest-around d13
 
 	 {link} North-around d13 d1
 	 {link} North-around e13 e1
@@ -245,6 +377,85 @@ board}
 	 {link} Next r3  r2
 	 {link} Next r2  r1
 
+	 {link} Next c2  d6
+	 {link} Next d6  e6
+	 {link} Next e6  f6
+	 {link} Next f6  g6
+	 {link} Next g6  h6
+	 {link} Next h6  i6
+	 {link} Next i6  j6
+	 {link} Next j6  k6
+	 {link} Next k6  l6
+	 {link} Next l6  m6
+	 {link} Next m6  n6
+	 {link} Next n6  o6
+	 {link} Next o6  p6
+	 {link} Next p6  d5
+	 {link} Next d5  e5
+	 {link} Next e5  f5
+	 {link} Next f5  g5
+	 {link} Next g5  h5
+	 {link} Next h5  i5
+	 {link} Next i5  j5
+	 {link} Next j5  k5
+	 {link} Next k5  l5
+	 {link} Next l5  m5
+	 {link} Next m5  n5
+	 {link} Next n5  o5
+	 {link} Next o5  p5
+	 {link} Next p5  d4
+	 {link} Next d4  e4
+	 {link} Next e4  f4
+	 {link} Next f4  g4
+	 {link} Next g4  h4
+	 {link} Next h4  i4
+	 {link} Next i4  j4
+	 {link} Next j4  k4
+	 {link} Next k4  l4
+	 {link} Next l4  m4
+	 {link} Next m4  n4
+	 {link} Next n4  o4
+	 {link} Next o4  p4
+	 {link} Next p4  d3
+	 {link} Next d3  e3
+	 {link} Next e3  f3
+	 {link} Next f3  g3
+	 {link} Next g3  h3
+	 {link} Next h3  i3
+	 {link} Next i3  j3
+	 {link} Next j3  k3
+	 {link} Next k3  l3
+	 {link} Next l3  m3
+	 {link} Next m3  n3
+	 {link} Next n3  o3
+	 {link} Next o3  p3
+	 {link} Next p3  d2
+	 {link} Next d2  e2
+	 {link} Next e2  f2
+	 {link} Next f2  g2
+	 {link} Next g2  h2
+	 {link} Next h2  i2
+	 {link} Next i2  j2
+	 {link} Next j2  k2
+	 {link} Next k2  l2
+	 {link} Next l2  m2
+	 {link} Next m2  n2
+	 {link} Next n2  o2
+	 {link} Next o2  p2
+	 {link} Next p2  d1
+	 {link} Next d1  e1
+	 {link} Next e1  f1
+	 {link} Next f1  g1
+	 {link} Next g1  h1
+	 {link} Next h1  i1
+	 {link} Next i1  j1
+	 {link} Next j1  k1
+	 {link} Next k1  l1
+	 {link} Next l1  m1
+	 {link} Next m1  n1
+	 {link} Next n1  o1
+	 {link} Next o1  p1
+
 	 {link} Next-black c1  a1
 	 {link} Next-black a1  a2
 	 {link} Next-black a2  a3
@@ -271,6 +482,85 @@ board}
 	 {link} Next-black b10 b11
 	 {link} Next-black b11 b12
 	 {link} Next-black b12 b13
+
+	 {link} Next-black c2  d8
+	 {link} Next-black d8  e8
+	 {link} Next-black e8  f8
+	 {link} Next-black f8  g8
+	 {link} Next-black g8  h8
+	 {link} Next-black h8  i8
+	 {link} Next-black i8  j8
+	 {link} Next-black j8  k8
+	 {link} Next-black k8  l8
+	 {link} Next-black l9  m8
+	 {link} Next-black m8  n8
+	 {link} Next-black n8  o8
+	 {link} Next-black o8  p8
+	 {link} Next-black p8  d9
+	 {link} Next-black d9  e9
+	 {link} Next-black e9  f9
+	 {link} Next-black f9  g9
+	 {link} Next-black g9  h9
+	 {link} Next-black h9  i9
+	 {link} Next-black i9  j9
+	 {link} Next-black j9  k9
+	 {link} Next-black k9  l9
+	 {link} Next-black l9  m9
+	 {link} Next-black m9  n9
+	 {link} Next-black n9  o9
+	 {link} Next-black o9  p9
+	 {link} Next-black p9  d10
+	 {link} Next-black d10 e10
+	 {link} Next-black e10 f10
+	 {link} Next-black f10 g10
+	 {link} Next-black g10 h10
+	 {link} Next-black h10 i10
+	 {link} Next-black i10 j10
+	 {link} Next-black j10 k10
+	 {link} Next-black k10 l10
+	 {link} Next-black l10 m10
+	 {link} Next-black m10 n10
+	 {link} Next-black n10 o10
+	 {link} Next-black o10 p10
+	 {link} Next-black p10 d11
+	 {link} Next-black d11 e11
+	 {link} Next-black e11 f11
+	 {link} Next-black f11 g11
+	 {link} Next-black g11 h11
+	 {link} Next-black h11 i11
+	 {link} Next-black i11 j11
+	 {link} Next-black j11 k11
+	 {link} Next-black k11 l11
+	 {link} Next-black l11 m11
+	 {link} Next-black m11 n11
+	 {link} Next-black n11 o11
+	 {link} Next-black o11 p11
+	 {link} Next-black p11 d12
+	 {link} Next-black d12 e12
+	 {link} Next-black e12 f12
+	 {link} Next-black f12 g12
+	 {link} Next-black g12 h12
+	 {link} Next-black h12 i12
+	 {link} Next-black i12 j12
+	 {link} Next-black j12 k12
+	 {link} Next-black k12 l12
+	 {link} Next-black l12 m12
+	 {link} Next-black m12 n12
+	 {link} Next-black n12 o12
+	 {link} Next-black o12 p12
+	 {link} Next-black p12 d13
+	 {link} Next-black d13 e13
+	 {link} Next-black e13 f13
+	 {link} Next-black f13 g13
+	 {link} Next-black g13 h13
+	 {link} Next-black h13 i13
+	 {link} Next-black i13 j13
+	 {link} Next-black j13 k13
+	 {link} Next-black k13 l13
+	 {link} Next-black l13 m13
+	 {link} Next-black m13 n13
+	 {link} Next-black n13 o13
+	 {link} Next-black o13 p13
 directions}
 
 {players
