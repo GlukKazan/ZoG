@@ -9,6 +9,12 @@ LOAD	constants.4th
 	{variable}	BlackEnergy
 	{variable}	WhiteLimit
 	{variable}	BlackLimit
+	{variable}	WhiteSupport
+	{variable}	BlackSupport
+	{variable}	WhiteMinProduce
+	{variable}	BlackMinProduce
+	{variable}	WhiteMaxProduce
+	{variable}	BlackMaxProduce
 board}
 
 {directions
@@ -535,10 +541,97 @@ symmetries}
 	{turn}	Black
 turn-order}
 
+: change-energy ( v -- )
+	current-player White = IF WhiteEnergy  @ ELSE BlackEnergy  @ ENDIF
+	+
+	current-player White = IF WhiteLimit   @ ELSE BlackLimit   @ ENDIF
+	MIN
+	current-player White = IF WhiteEnergy  ! ELSE BlackEnergy  ! ENDIF
+;
+
+: change-limit ( v -- )
+	current-player White = IF WhiteLimit   @ ELSE BlackLimit   @ ENDIF
+	+
+	current-player White = IF WhiteLimit   ! ELSE BlackLimit   ! ENDIF
+;
+
+: change-support ( v -- )
+	current-player White = IF WhiteSupport @ ELSE BlackSupport @ ENDIF
+	+
+	current-player White = IF WhiteSupport ! ELSE BlackSupport ! ENDIF
+;
+
+: change-produce ( min max -- )
+	current-player White = IF WhiteMaxProduce @ ELSE BlackMaxProduce @ ENDIF
+	+
+	current-player White = IF WhiteMaxProduce ! ELSE BlackMaxProduce ! ENDIF
+	current-player White = IF WhiteMinProduce @ ELSE BlackMinProduce @ ENDIF
+	+
+	current-player White = IF WhiteMinProduce ! ELSE BlackMinProduce ! ENDIF
+;
+
+: support ( -- )
+	current-player White = IF WhiteMinProduce @ ELSE BlackMinProduce @ ENDIF
+	current-player White = IF WhiteMaxProduce @ ELSE BlackMaxProduce @ ENDIF
+	RAND-WITHIN 
+	current-player White = IF WhiteSupport @ ELSE BlackSupport @ ENDIF
+	+ change-energy
+;
+
+: add-base	PRICE-BASE		change-energy 
+		LIMIT-BASE		change-limit
+		MIN-PRODUCE-BASE	MAX-PRODUCE-BASE	change-produce ;
+: add-mobile	PRICE-MOBILE		change-energy
+		LIMIT-MOBILE		change-limit
+		MIN-PRODUCE-MOBILE	MAX-PRODUCE-MOBILE	change-produce ;
+: del-base	0 LIMIT-BASE -		change-limit
+		0 MIN-PRODUCE-BASE -	0 MAX-PRODUCE-BASE -	change-produce ;
+: del-mobile	0 LIMIT-MOBILE -		change-limit
+		0 MIN-PRODUCE-MOBILE -	0 MAX-PRODUCE-MOBILE -	change-produce ;
+
+: add-wall	PRICE-WALL		change-energy ;
+: add-swamp	PRICE-SWAMP		change-energy ;
+: add-bomb	PRICE-BOMB		change-energy ;
+: add-bomb-b	PRICE-BOMB-BOOST	change-energy ;
+: add-bomb-w	PRICE-WALL-BOMB		change-energy ;
+: add-bomb-s	PRICE-SWAMP-BOMB	change-energy ;
+: add-swamp-f	PRICE-SWAMP-FREEZE	change-energy ;
+: add-b		PRICE-BISHOP		change-energy ;
+: add-r		PRICE-ROOK		change-energy ;
+: add-k		PRICE-KNIGHT		change-energy ;
+: add-rb	PRICE-QUEEN		change-energy ;
+: add-bk	PRICE-ARCHBISHOP	change-energy ;
+: add-rk	PRICE-CANCELOR		change-energy ;
+: add-rbk	PRICE-AMAZON		change-energy ;
+: add-clear	PRICE-CLEAR		change-energy ;
+: add-boost	PRICE-BOOST		change-energy ;
+: add-weak	PRICE-WEAK		change-energy ;
+: add-freez	PRICE-FREEZE		change-energy ;
+: add-kill	PRICE-KILL		change-energy ;
+: add-richt	PRICE-RICOCHET		change-energy ;
+: add-around	PRICE-AROUND		change-energy ;
+: add-clear-m	PRICE-MASS-CLEAR	change-energy ;
+: add-boost-m	PRICE-MASS-BOOST	change-energy ;
+: add-weak-m	PRICE-MASS-WEAK		change-energy ;
+: add-freez-m	PRICE-MASS-FREEZE	change-energy ;
+: add-kill-m	PRICE-MASS-KILL		change-energy ;
+: add-fix	PRICE-FIX		change-energy ;
+
+: sup-rb	SUPPORT-QUEEN		change-support ;
+: sup-bk	SUPPORT-ARCHBISHOP	change-support ;
+: sup-rk	SUPPORT-CANCELOR	change-support ;
+: sup-rbk	SUPPORT-AMAZON		change-support ;
+
 : OnNewGame ( -- )
 	RANDOMIZE
 	0 WhiteLimit !
 	0 BlackLimit !
+	0 WhiteSupport !
+	0 BlackSupport !
+	0 WhiteMinProduce !
+	0 BlackMinProduce !
+	0 WhiteMaxProduce !
+	0 BlackMaxProduce !
 	VALUE-START WhiteEnergy !
 	VALUE-START BlackEnergy !
 ;
