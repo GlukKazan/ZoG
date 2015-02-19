@@ -545,7 +545,7 @@ turn-order}
 	current-player White = IF WhiteEnergy  @ ELSE BlackEnergy  @ ENDIF
 	+
 	current-player White = IF WhiteLimit   @ ELSE BlackLimit   @ ENDIF
-	MIN
+	MIN DUP 0< NOT verify
 	current-player White = IF WhiteEnergy  ! ELSE BlackEnergy  ! ENDIF
 ;
 
