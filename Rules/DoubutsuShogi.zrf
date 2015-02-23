@@ -240,11 +240,13 @@
   )
 
   (loss-condition (Green Red) (checkmated King))
+  (win-condition  (Green Red) (absolute-config King (promotion-zone)))
   (loss-condition (Green Red) repetition)
 )
 
 (variant
   (title "Doubutsu Shogi (no checks)")
   (loss-condition (Green Red) (pieces-remaining 0 King))
+  (win-condition  (Green Red) (absolute-config King (promotion-zone)))
   (loss-condition (Green Red) repetition)
 )
