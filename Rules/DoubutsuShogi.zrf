@@ -14,7 +14,7 @@
 
 (define za-drop
   ( (verify (not (in-zone? board-zone)))
-    START next
+    START za-next
     (while (not-position? END)
        (if empty?
            (if (in-zone? promotion-zone)
@@ -23,7 +23,7 @@
                add
            )
        )
-       next
+       za-next
     )
   )
 )
@@ -118,6 +118,18 @@
                (a3 b3) (b3 c3) (c3 a4)
                (a4 b4) (b4 c4) (c4 END)
         )
+	(links za-next
+               (START a1)
+               (a1 b1) (b1 c1) (c1 a2)
+               (a2 b2) (b2 c2) (c2 a3)
+               (a3 b3) (b3 c3) (c3 END)
+        )
+	(links r-next
+               (START a2)
+               (a2 b2) (b2 c2) (c2 a3)
+               (a3 b3) (b3 c3) (c3 a4)
+               (a4 b4) (b4 c4) (c4 END)
+        )
         (links to-hand
                (START g1) (g1 g2) (g2 g3) (g3 g4) (g4 END)
         )
@@ -143,7 +155,8 @@
         (zone (name promotion-zone) (players Red)
               (positions a1 b1 c1)
         )
-        (symmetry Red (n s) (s n) (nw sw) (sw nw) (ne se) (se ne) (to-hand r-hand))
+        (symmetry Red (n s) (s n) (nw sw) (sw nw) (ne se) (se ne) 
+                  (to-hand r-hand) (za-next r-next))
   )
 
   (piece
@@ -227,9 +240,11 @@
   )
 
   (loss-condition (Green Red) (checkmated King))
+  (loss-condition (Green Red) repetition)
 )
 
 (variant
   (title "Doubutsu Shogi (no checks)")
   (loss-condition (Green Red) (pieces-remaining 0 King))
+  (loss-condition (Green Red) repetition)
 )
