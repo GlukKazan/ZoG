@@ -1,0 +1,235 @@
+(version "2.0")
+
+(define piece-drop
+  ( (verify (not (in-zone? board-zone)))
+    START next
+    (while (not-position? END)
+       (if empty?
+           add
+       )
+       next
+    )
+  )
+)
+
+(define za-drop
+  ( (verify (not (in-zone? board-zone)))
+    START next
+    (while (not-position? END)
+       (if empty?
+           (if (in-zone? promotion-zone)
+               (add Hu)
+            else
+               add
+           )
+       )
+       next
+    )
+  )
+)
+
+(define eat-enemy
+  (set-flag is-za   false)
+  (set-flag is-sand false)
+  (set-flag is-jang false)
+  (if enemy?
+     (if (or (piece? Za) (piece? Hu))
+         (set-flag is-za true)
+     )
+     (if (piece? Sand)
+         (set-flag is-sand true)
+     )
+     (if (piece? Jang)
+         (set-flag is-jang true)
+     )
+     mark
+     START to-hand
+     (while (and (not-position? END) not-empty?)
+           to-hand
+     )
+     (verify (not-position? END))
+     (if (flag? is-za)
+         (create Za)
+     )
+     (if (flag? is-sand)
+         (create Sand)
+     )
+     (if (flag? is-jang)
+         (create Jang)
+     )
+     back
+  )
+)
+
+(define leap
+  (  (verify (in-zone? board-zone))
+     $1
+     (verify (in-zone? board-zone))
+     (verify not-friend?)
+     (if (not (piece? King))
+         (eat-enemy)
+     )
+     add
+  )
+)
+
+(define za-leap
+  (  (verify (in-zone? board-zone))
+     $1
+     (verify (in-zone? board-zone))
+     (verify not-friend?)
+     (if (not (piece? King))
+         (eat-enemy)
+     )
+     (if (in-zone? promotion-zone)
+         (add Hu)
+      else
+         add
+     )
+  )
+)
+
+(game
+  (title "Doubutsu Shogi")
+
+  (players Green Red)
+
+  (turn-order Green Red)
+
+  (option "animate captures" false)
+  (option "animate drops" false)
+
+  (board
+        (image "../Images/DoubutsuShogi/board.BMP")
+        (grid
+               (start-rectangle 24 24 230 210)
+               (dimensions ("r/a/b/c/g" (185 0))
+                           ("4/3/2/1" (0 188))
+               )
+               (directions (n 0 -1) (e 1 0) (s 0 1) (w -1 0) 
+                           (ne 1 -1) (nw -1 -1) (se 1 1) (sw -1 1)
+               )
+        )
+        (dummy START END)
+	(links next
+               (START a1)
+               (a1 b1) (b1 c1) (c1 a2)
+               (a2 b2) (b2 c2) (c2 a3)
+               (a3 b3) (b3 c3) (c3 a4)
+               (a4 b4) (b4 c4) (c4 END)
+        )
+        (links to-hand
+               (START g1) (g1 g2) (g2 g3) (g3 g4) (g4 END)
+        )
+        (links r-hand
+               (START r4) (r4 r3) (r3 r2) (r2 r1) (r1 END)
+        )
+        (zone (name board-zone) (players Green Red)
+              (positions a1 b1 c1
+                         a2 b2 c2
+                         a3 b3 c3
+                         a4 b4 c4
+              )
+        )
+        (zone (name hand-zone) (players Green)
+              (positions g1 g2 g3 g4)
+        )
+        (zone (name hand-zone) (players Red)
+              (positions r1 r2 r3 r4)
+        )
+        (zone (name promotion-zone) (players Green)
+              (positions a4 b4 c4)
+        )
+        (zone (name promotion-zone) (players Red)
+              (positions a1 b1 c1)
+        )
+        (symmetry Red (n s) (s n) (nw sw) (sw nw) (ne se) (se ne) (to-hand r-hand))
+  )
+
+  (piece
+        (name  King)
+        (image Green "../Images/DoubutsuShogi/king-green.BMP"
+               Red   "../Images/DoubutsuShogi/king-red.BMP"
+        )
+        (moves
+               (leap n) 
+               (leap s)
+               (leap w)
+               (leap e)
+               (leap nw)
+               (leap ne)
+               (leap sw)
+               (leap se)
+        )
+  )
+  (piece
+        (name  Za)
+        (image Green "../Images/DoubutsuShogi/za-green.BMP"
+               Red   "../Images/DoubutsuShogi/za-red.BMP"
+        )
+        (moves
+               (za-leap n) 
+               (za-drop)
+        )
+  )
+  (piece
+        (name  Sand)
+        (image Green "../Images/DoubutsuShogi/sang-green.BMP"
+               Red   "../Images/DoubutsuShogi/sang-red.BMP"
+        )
+        (moves
+               (leap nw)
+               (leap ne)
+               (leap sw)
+               (leap se)
+               (piece-drop)
+        )
+  )
+  (piece
+        (name  Jang)
+        (image Green "../Images/DoubutsuShogi/jang-green.BMP"
+               Red   "../Images/DoubutsuShogi/jang-red.BMP"
+        )
+        (moves
+               (leap n) 
+               (leap s)
+               (leap w)
+               (leap e)
+               (piece-drop)
+        )
+  )
+  (piece
+        (name  Hu)
+        (image Green "../Images/DoubutsuShogi/hu-green.BMP"
+               Red   "../Images/DoubutsuShogi/hu-red.BMP"
+        )
+        (moves
+               (leap n) 
+               (leap s)
+               (leap w)
+               (leap e)
+               (leap nw)
+               (leap ne)
+        )
+  )
+
+  (board-setup
+        ( Green (Sand a1)
+                (King b1)
+                (Jang c1)
+                (Za   b2)
+        )
+        ( Red   (Sand c4)
+                (King b4)
+                (Jang a4)
+                (Za   b3)
+        )
+  )
+
+  (loss-condition (Green Red) (checkmated King))
+)
+
+(variant
+  (title "Doubutsu Shogi (no checks)")
+  (loss-condition (Green Red) (pieces-remaining 0 King))
+)
