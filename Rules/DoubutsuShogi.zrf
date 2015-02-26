@@ -92,8 +92,17 @@
 (game
   (title "Doubutsu Shogi")
 
-  (players Green Red)
+  (description "Object: Checkmate your opponent's King.\\
+                When a piece is captured it is added to the capturer's `reserve`, an
 
+                army of pieces which can be reintroduced into play on the capturer's
+
+                side (pieces in reserve are also said to be `in hand`).")
+  (history "Dobutsu shogi (Animal chess) is a small shogi variant for young children.
+
+            It was invented by female professional shogi player Madoka Kitao.")
+
+  (players Green Red)
   (turn-order Green Red)
 
   (option "animate captures" false)
@@ -161,6 +170,7 @@
 
   (piece
         (name  King)
+        (help  "Lion: steps 1 square in any direction to a safe square")
         (image Green "../Images/DoubutsuShogi/king-green.BMP"
                Red   "../Images/DoubutsuShogi/king-red.BMP"
         )
@@ -177,6 +187,7 @@
   )
   (piece
         (name  Za)
+        (help  "Chick: steps 1 square to forward, promote on last row")
         (image Green "../Images/DoubutsuShogi/za-green.BMP"
                Red   "../Images/DoubutsuShogi/za-red.BMP"
         )
@@ -187,6 +198,7 @@
   )
   (piece
         (name  Sand)
+        (help  "Elephant: steps 1 square on any diagonal")
         (image Green "../Images/DoubutsuShogi/sang-green.BMP"
                Red   "../Images/DoubutsuShogi/sang-red.BMP"
         )
@@ -200,6 +212,7 @@
   )
   (piece
         (name  Jang)
+        (help  "Giraffe: steps 1 square on any orthogonal")
         (image Green "../Images/DoubutsuShogi/jang-green.BMP"
                Red   "../Images/DoubutsuShogi/jang-red.BMP"
         )
@@ -213,6 +226,7 @@
   )
   (piece
         (name  Hu)
+        (help  "Hen: steps 1 square in any direction except diagonally backwards")
         (image Green "../Images/DoubutsuShogi/hu-green.BMP"
                Red   "../Images/DoubutsuShogi/hu-red.BMP"
         )
