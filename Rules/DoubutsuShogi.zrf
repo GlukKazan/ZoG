@@ -108,6 +108,11 @@
   (option "animate captures" false)
   (option "animate drops" false)
 
+  (move-sound "Audio\Pickup.wav")
+  (release-sound "Audio\Pickup.wav")
+  (capture-sound "")
+  (drop-sound "")
+
   (board
         (image "../Images/DoubutsuShogi/board.BMP")
         (grid

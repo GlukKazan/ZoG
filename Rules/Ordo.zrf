@@ -1,0 +1,44 @@
+(version "2.0")
+
+(define step (
+  $1
+  (verify not-friend?)
+  add
+))
+
+(game
+   (title "Ordo")
+   (players Light Dark)
+   (turn-order Light Dark)
+   (option "animate captures" false)
+   (move-sound "Audio/Pickup.wav")
+   (release-sound "Audio/Pickup.wav")
+   (capture-sound "")
+   (board 
+      (image "../Images/Ordo/board.bmp")
+      (grid
+               (start-rectangle 5 5 53 53)
+               (dimensions
+                   ("a/b/c/d/e/f/g/h/i/j" (49 0)) ; files
+                   ("8/7/6/5/4/3/2/1" (0 49)) ; ranks
+               )
+               (directions (n 0 -1) (e 1 0) (s 0 1) (w -1 0)
+                           (ne 1 -1) (nw -1 -1) (se 1 1) (sw -1 1))
+      )
+      (symmetry Dark (n s) (s n) (nw sw) (sw nw) (ne se) (se ne))
+   )
+   (piece
+      (name Man)
+      (image Light "../Images/Ordo/GoW.bmp"
+             Dark  "../Images/Ordo/GoB.bmp")
+      (moves (step n) (step nw) (step ne))
+   )
+   (board-setup
+      (Light
+             (Man a2 a3 b2 b3 c1 c2 d1 d2 e2 e3 f2 f3 g1 g2 h1 h2 i2 i3 j2 j3)
+      )
+      (Dark
+             (Man a7 a6 b7 b6 c8 c7 d8 d7 e7 e6 f7 f6 g8 g7 h8 h7 i7 i6 j7 j6)
+      )
+   )
+)
