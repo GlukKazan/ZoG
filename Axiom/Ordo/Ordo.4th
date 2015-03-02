@@ -1,11 +1,17 @@
 8		CONSTANT	ROWS
 10		CONSTANT	COLS
 ROWS COLS *	CONSTANT	SIZE
-20		CONSTANT	COUNT
+20		CONSTANT	LS
+10		CONSTANT	SS
 
-COUNT []	list[]
+LS []		list[]
 VARIABLE	list-size
+SS []		set[]
+VARIABLE	set-size
 VARIABLE	curr-pos
+VARIABLE	step-dir
+VARIABLE	step-cnt
+VARIABLE	from-pos
 
 {board
 	ROWS COLS 		{grid}
@@ -52,7 +58,7 @@ turn-order}
 ;
 
 : add-position ( -- )
-	list-size @ COUNT < IF
+	list-size @ LS < IF
 		here not-in-list? IF
 			here list-size @ list[] !
 			list-size ++
@@ -113,15 +119,78 @@ turn-order}
 	ENDIF
 ;
 
-: slide-n ( -- ) ['] n slide ;
-: slide-s ( -- ) ['] s slide ;
-: slide-e ( -- ) ['] e slide ;
-: slide-w ( -- ) ['] w slide ;
+: ordo-slide-n ( -- ? )
+	here from-pos !
+	FALSE step-cnt @ BEGIN
+		1- DUP 0 >= IF
+			step-dir @ EXECUTE empty? AND NOT IF
+				DROP 0
+			ENDIF
+		ELSE
+			from-pos @ here move
+			2DROP TRUE 0
+		ENDIF
+		DUP 0> NOT
+	UNTIL DROP
+;
 
-: slide-nw ( -- ) ['] nw slide ;
-: slide-sw ( -- ) ['] sw slide ;
-: slide-ne ( -- ) ['] ne slide ;
-: slide-se ( -- ) ['] se slide ;
+: ordo-slide-set ( -- ? )
+	FALSE 0 BEGIN
+		DUP set-size @ < IF
+			DUP set[] @ to
+			ordo-slide-n IF
+				1+
+				FALSE
+			ELSE
+				TRUE
+			ENDIF
+		ELSE
+			2DROP TRUE 0
+			TRUE
+		ENDIF
+	UNTIL DROP
+	DUP ( check-coherence AND ) IF
+		add-move
+	ENDIF
+;
+
+: ordo-slide ( -- )
+	0 step-cnt !
+	here BEGIN
+		step-cnt ++
+		ordo-slide-set NOT
+	UNTIL to
+;
+
+: ordo ( 'side 'fwd -- )
+	step-dir !
+	0 set-size !
+	here set-size @ set[] ! set-size ++
+	BEGIN
+		DUP EXECUTE friend? AND IF
+			here set-size @ set[] ! set-size ++
+			ordo-slide
+			FALSE
+		ELSE
+			TRUE
+		ENDIF
+	UNTIL DROP
+;
+
+: slide-n	( -- ) ['] n slide ;
+: slide-s	( -- ) ['] s slide ;
+: slide-e	( -- ) ['] e slide ;
+: slide-w	( -- ) ['] w slide ;
+
+: slide-nw	( -- ) ['] nw slide ;
+: slide-sw	( -- ) ['] sw slide ;
+: slide-ne	( -- ) ['] ne slide ;
+: slide-se	( -- ) ['] se slide ;
+
+: ordo-en	( -- ) ['] e ['] n ordo ;
+: ordo-se	( -- ) ['] s ['] e ordo ;
+: ordo-sw	( -- ) ['] s ['] w ordo ;
+: ordo-es	( -- ) ['] e ['] s ordo ;
 
 {moves man-moves
 	{move} slide-n	{move-type} normal-type
@@ -132,6 +201,11 @@ turn-order}
 	{move} slide-s	{move-type} repair-type
 	{move} slide-sw	{move-type} repair-type
 	{move} slide-se	{move-type} repair-type
+
+(	{move} ordo-en	{move-type} normal-type
+	{move} ordo-se	{move-type} normal-type
+	{move} ordo-sw	{move-type} normal-type
+	{move} ordo-es	{move-type} repair-type )
 moves}
 
 
