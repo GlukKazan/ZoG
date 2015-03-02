@@ -126,7 +126,8 @@ turn-order}
 			step-dir @ EXECUTE empty? AND NOT IF
 				DROP 0
 			ENDIF
-		ELSE
+		ENDIF
+		DUP 0= IF
 			from-pos @ here move
 			2DROP TRUE 0
 		ENDIF
