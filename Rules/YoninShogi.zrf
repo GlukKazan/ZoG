@@ -1,201 +1,53 @@
-(version "2.0")
+(define verify-king-on-board
+    mark
+    START next
+    (while (and (or empty? enemy? (not (piece? King))) (not-position? END)) next)
+    (verify (and friend? (piece? King)))
+    back
+)
 
 (define piece-drop
-  ( (verify (not (in-zone? board-zone)))
+  ( (verify (not-in-zone? board-zone))
     START next
     (while (not-position? END)
-       (if empty?
-           add
-       )
+       (if empty? add)
        next
     )
   )
 )
 
 (define check-duplicated
-  (set-flag not-duplicated true)
-  mark
-  START $1
-  (while (not-position? END)
-       (if (and friend? (piece? Pawn))
-           (set-flag not-duplicated false)
-       )
-       $1
-  )
-  back
+    (if (in-zone? rank-$1-zone)
+        (set-flag not-duplicated true)
+        mark
+        START to-rank-$1
+        (while (not-position? END)
+            (if (and friend? (piece? Pawn)) (set-flag not-duplicated false))
+            to-rank-$1
+        )
+        back
+    )
 )
 
 (define pawn-drop
-  ( (verify (not (in-zone? board-zone)))
+  ( (verify (not-in-zone? board-zone))
     START next
     (while (not-position? END)
        (if (and empty? (not (in-zone? stop-zone)))
-           (if (in-zone? rank-1-zone)
-               (check-duplicated to-rank-1)
-           )
-           (if (in-zone? rank-2-zone)
-               (check-duplicated to-rank-2)
-           )
-           (if (in-zone? rank-3-zone)
-               (check-duplicated to-rank-3)
-           )
-           (if (in-zone? rank-4-zone)
-               (check-duplicated to-rank-4)
-           )
-           (if (in-zone? rank-5-zone)
-               (check-duplicated to-rank-5)
-           )
-           (if (in-zone? rank-6-zone)
-               (check-duplicated to-rank-6)
-           )
-           (if (in-zone? rank-7-zone)
-               (check-duplicated to-rank-7)
-           )
-           (if (in-zone? rank-8-zone)
-               (check-duplicated to-rank-8)
-           )
-           (if (in-zone? rank-9-zone)
-               (check-duplicated to-rank-9)
-           )
-           (if (flag? not-duplicated)
-                add
+           (check-duplicated 1)
+           (check-duplicated 2)
+           (check-duplicated 3)
+           (check-duplicated 4)
+           (check-duplicated 5)
+           (check-duplicated 6)
+           (check-duplicated 7)
+           (check-duplicated 8)
+           (check-duplicated 9)
+           (if (flag? not-duplicated) add
            )
        )
        next
     )
-  )
-)
-
-(define eat-enemy
-  (set-flag is-pawn   false)
-  (set-flag is-silver false)
-  (set-flag is-gold   false)
-  (set-flag is-knight false)
-  (set-flag is-lance  false)
-  (set-flag is-bishop false)
-  (set-flag is-rook   false)
-  (if enemy?
-     (if (or (piece? Pawn) (piece? PawnP))
-         (set-flag is-pawn true)
-     )
-     (if (or (piece? Silver) (piece? SilverP))
-         (set-flag is-silver true)
-     )
-     (if (piece? Gold)
-         (set-flag is-gold true)
-     )
-     (if (or (piece? Knight) (piece? KnightP))
-         (set-flag is-knight true)
-     )
-     (if (or (piece? Lance) (piece? LanceP))
-         (set-flag is-lance true)
-     )
-     (if (or (piece? Bishop) (piece? BishopP))
-         (set-flag is-bishop true)
-     )
-     (if (or (piece? Rook) (piece? RookP))
-         (set-flag is-rook true)
-     )
-     (if (or (flag? is-pawn) (flag? is-silver) (flag? is-gold) (flag? is-knight) (flag? is-lance) (flag? is-bishop) (flag? is-rook))
-          mark
-          START to-hand
-          (while (and (not-position? END) not-empty?)
-                to-hand
-          )
-          (verify (not-position? END))
-          (if (flag? is-pawn)
-                (create Pawn)
-          )
-          (if (flag? is-silver)
-                (create Silver)
-          )
-          (if (flag? is-gold)
-                (create Gold)
-          )
-          (if (flag? is-knight)
-                (create Knight)
-          )
-          (if (flag? is-lance)
-                (create Lance)
-          )
-          (if (flag? is-bishop)
-                (create Bishop)
-          )
-          (if (flag? is-rook)
-                (create Rook)
-          )
-          back
-     )
-  )
-)
-
-(define leap
-  (  (verify (in-zone? board-zone))
-     $1
-     (verify (in-zone? board-zone))
-     (verify not-friend?)
-     (eat-enemy)
-     add
-  )
-)
-
-(define pawn-leap
-  (  (verify (in-zone? board-zone))
-     (set-flag is-promoted false)
-     (if (in-zone? promotion-zone)
-          (set-flag is-promoted true)
-     )
-     n
-     (verify (in-zone? board-zone))
-     (verify not-friend?)
-     (if (in-zone? promotion-zone)
-          (set-flag is-promoted true)
-     )
-     (eat-enemy)
-     (if (in-zone? stop-zone)
-          (add PawnP)
-     else
-          (if (flag? is-promoted)
-               (add Pawn PawnP)
-          else
-               add
-          )
-     )
-  )
-)
-
-(define piece-leap
-  (  (verify (in-zone? board-zone))
-     (set-flag is-promoted false)
-     (if (in-zone? promotion-zone)
-          (set-flag is-promoted true)
-     )
-     $1
-     (verify (in-zone? board-zone))
-     (verify not-friend?)
-     (if (in-zone? promotion-zone)
-          (set-flag is-promoted true)
-     )
-     (eat-enemy)
-     (if (flag? is-promoted)
-           (add $2 $3)
-     else
-           add
-     )
-  )
-)
-
-(define check-knight-stop-zone
-  (set-flag is-stop-zone false)
-  (if (in-zone? stop-zone)
-      (set-flag is-stop-zone true)
-  else
-      mark
-      n
-      (if (in-zone? stop-zone)
-          (set-flag is-stop-zone true)
-      )
-      back
   )
 )
 
@@ -203,9 +55,7 @@
   ( (verify (not (in-zone? board-zone)))
     START next
     (while (not-position? END)
-       (if (and empty? (not (in-zone? stop-zone)))
-           add
-       )
+       (if (and empty? (not-in-zone? stop-zone)) add)
        next
     )
   )
@@ -215,156 +65,202 @@
   ( (verify (not (in-zone? board-zone)))
     START next
     (while (not-position? END)
-       (if empty?
-           (check-knight-stop-zone)
-           (if (not (flag? is-stop-zone))
-                add
-           )
-       )
+       (if (and empty? (not-in-zone? stop-zone) (not-in-zone? stop-zone n)) add)
        next
     )
   )
 )
 
+(define first-empty-hand
+    START to-hand
+    (while (and not-empty? (not-in-zone? end-zone)) in-hand)
+)
+
+(define identify-enemy
+    (set-flag demote-Pawn   (piece? PawnP))
+    (set-flag demote-Lance  (piece? LanceP))
+    (set-flag demote-Knight (piece? KnightP))
+    (set-flag demote-Silver (piece? SilverP))
+    (set-flag demote-Bishop (piece? BishopP))
+    (set-flag demote-Rook   (piece? RookP))
+)
+
+(define convert-enemy
+    (first-empty-hand)
+    to
+    change-owner
+    (if (flag? demote-Pawn)   (change-type Pawn)   else
+    (if (flag? demote-Lance)  (change-type Lance)  else
+    (if (flag? demote-Knight) (change-type Knight) else
+    (if (flag? demote-Silver) (change-type Silver) else
+    (if (flag? demote-Bishop) (change-type Bishop) else
+    (if (flag? demote-Rook)   (change-type Rook)  ))))))
+)
+
+(define eat-enemy
+    (identify-enemy)
+    cascade
+    mark
+;   (first-empty-hand)
+;   to
+    (convert-enemy)
+    back
+)
+
+(define leap
+  ( (verify-king-on-board)
+    (verify (in-zone? board-zone))
+    $1
+    (verify (in-zone? board-zone))
+    (verify not-friend?)
+    (if enemy? (eat-enemy))
+    add
+  )
+)
+
+(define pawn-leap
+  ( (verify-king-on-board)
+    (verify (in-zone? board-zone))
+    n
+    (verify (in-zone? board-zone))
+    (verify not-friend?)
+    (if enemy?
+        (if (in-zone? promotion-zone) (change-type PawnP) (eat-enemy) add)
+        (if (not-in-zone? stop-zone) (if (in-zone? promotion-zone) (convert-enemy) else (eat-enemy)) add)
+    else
+        (if (in-zone? promotion-zone) (add PawnP))
+        (if (not-in-zone? stop-zone) add)
+    )
+  )
+)
+
+(define silver-leap
+  ( (verify-king-on-board)
+    (verify (in-zone? board-zone))
+    (set-flag came-from-promotion-zone (in-zone? promotion-zone))
+    $1
+    (verify (in-zone? board-zone))
+    (verify not-friend?)
+    (if enemy? 
+        (if (or (flag? came-from-promotion-zone) (in-zone? promotion-zone)) (change-type SilverP) (eat-enemy) add)
+        (if (or (flag? came-from-promotion-zone) (in-zone? promotion-zone)) (convert-enemy) else (eat-enemy)) add
+    else
+        (if (or (flag? came-from-promotion-zone) (in-zone? promotion-zone)) (add SilverP))
+        add
+    )
+  )
+)
+
 (define knight-leap
-  (  (verify (in-zone? board-zone))
-     (set-flag is-promoted false)
-     (if (in-zone? promotion-zone)
-          (set-flag is-promoted true)
-     )
-     n $1
-     (verify (in-zone? board-zone))
-     (verify not-friend?)
-     (if (in-zone? promotion-zone)
-          (set-flag is-promoted true)
-     )
-     (eat-enemy)
-     (check-knight-stop-zone)
-     (if (flag? is-stop-zone)
-          (add KnightP)
-     else
-          (if (flag? is-promoted)
-                (add Knight KnightP)
-          else
-                 add
-          )
-     )
+  ( (verify-king-on-board)
+    (verify (in-zone? board-zone))
+    n $1
+    (verify (in-zone? board-zone))
+    (verify not-friend?)
+    (if enemy?
+       (if (in-zone? promotion-zone) (change-type KnightP) (eat-enemy) add)
+       (if (not-in-zone? promotion-zone s) (if (in-zone? promotion-zone) (convert-enemy) else (eat-enemy)) add)
+    else
+       (if (in-zone? promotion-zone) (add KnightP))
+       (if (not-in-zone? promotion-zone s) add)
+    )
   )
 )
 
 (define slide
-  (  (verify (in-zone? board-zone))
-     $1
-     (while (and (in-zone? board-zone) empty?)
-          add
-          $1
-     )
-     (verify (in-zone? board-zone))
-     (verify not-friend?)
-     (eat-enemy)
-     add
+  ( (verify-king-on-board)
+    (verify (in-zone? board-zone))
+    $1
+    (while (and (in-zone? board-zone) empty?)
+         add
+         $1
+    )
+    (verify (in-zone? board-zone))
+    (verify enemy?)
+    (eat-enemy)
+    add
   )
 )
 
 (define piece-slide
-  (  (verify (in-zone? board-zone))
-     (set-flag is-promoted false)
-     (if (in-zone? promotion-zone)
-          (set-flag is-promoted true)
-     )
-     $1
-     (while (and (in-zone? board-zone) empty?)
-          (if (in-zone? promotion-zone)
-              (set-flag is-promoted true)
-          )
-          (if (flag? is-promoted)
-              (add $2 $3)
-          else
-              add
-          )
-          $1
-     )
-     (verify (in-zone? board-zone))
-     (verify not-friend?)
-     (if (in-zone? promotion-zone)
-          (set-flag is-promoted true)
-     )
-     (eat-enemy)
-     (if (flag? is-promoted)
-          (add $2 $3)
-     else
-          add
-     )
+  ( (verify-king-on-board)
+    (verify (in-zone? board-zone))
+    (set-flag came-from-promotion-zone (in-zone? promotion-zone))
+    $1
+    (while (and (in-zone? board-zone) empty?)
+       (if (or (flag? came-from-promotion-zone) (in-zone? promotion-zone)) (add $2P))
+       add
+       $1
+    )
+    (verify (in-zone? board-zone))
+    (verify enemy?)
+    (if (or (flag? came-from-promotion-zone) (in-zone? promotion-zone)) (change-type $2P) (eat-enemy) add)
+    (if (or (flag? came-from-promotion-zone) (in-zone? promotion-zone)) (convert-enemy) else (eat-enemy)) add
   )
 )
 
 (define lance-slide
-  (  (verify (in-zone? board-zone))
-     (set-flag is-promoted false)
-     (if (in-zone? promotion-zone)
-          (set-flag is-promoted true)
-     )
-     n
-     (while (and (in-zone? board-zone) empty?)
-          (if (in-zone? promotion-zone)
-              (set-flag is-promoted true)
-          )
-          (if (in-zone? stop-zone)
-              (add LanceP)
-          else
-              (if (flag? is-promoted)
-                  (add Lance LanceP)
-              else
-                  add
-              )
-          )
-          n
-     )
-     (verify (in-zone? board-zone))
-     (verify not-friend?)
-     (if (in-zone? promotion-zone)
-          (set-flag is-promoted true)
-     )
-     (eat-enemy)
-     (if (in-zone? stop-zone)
-          (add LanceP)
-     else
-          (if (flag? is-promoted)
-              (add Lance LanceP)
-          else
-              add
-          )
-     )
+  ( (verify-king-on-board)
+    (verify (in-zone? board-zone))
+    n
+    (while (and (in-zone? board-zone) empty?)
+         (if (in-zone? promotion-zone) (add LanceP))
+         (if (not-in-zone? stop-zone) add)
+         n
+    )
+    (verify (in-zone? board-zone))
+    (verify enemy?)
+    (if (in-zone? promotion-zone) (change-type LanceP) (eat-enemy) add)
+    (if (not-in-zone? stop-zone) (if (in-zone? promotion-zone) (convert-enemy) else (eat-enemy)) add)
   )
 )
 
 (game
-  (title "Yonin Shogi")
+  (title "Yonin Shogi 0.0.2 nine men")
 
-  (description "Yonin shogi, is a four-person variant of shogi (Japanese chess).")
+  (description "Yonin Shogi, is a four-person variant of shogi (Japanese chess).")
 
-  (history "This version of Yonin shogi was devised in 1993 by Ota Mitsuyasu, 
-
-            former mayor of Hirata (present day Izumo) in Shimane Prefecture.")
+  (history "This version of Yonin shogi was devised in 1993 by Ota Mitsuyasu,
+            former mayor of Hirata (present day Izumo) in Shimane Prefecture.\\
+        February  1961   weekly children's magazine published version (fifteen men).\
+                  1963   Ota Mituyasu popularized his rules and set-up (nine men).\
+0.0.1   July      2014   Valentin Chelnokov submitted version.\
+0.0.2   January   2015   included version and number of men in title of game and variant.\
+                         simplified script to allow play in version 1 of Zillions.\
+                         changed goal of game to that of capturing all four kings.\
+                         allowed array of captured pieces to overflow eighteen spaces.\
+")
 
   (players South West North East)
   (turn-order South West North East)
 
-  (option "animate captures" false)
-  (option "animate drops" false)
+ ;(option "animate captures" false)
+ ;(option "animate drops" false)
 
   (board
         (image "../Images/YoninShogi/Board.bmp")
         (grid
                (start-rectangle 14 14 54 59)
-               (dimensions ("I/II/01/9/8/7/6/5/4/3/2/1/02/III/IV" (41 0))
-                           ("l/m/n/a/b/c/d/e/f/g/h/i/x/y/z" (0 41))
+               (dimensions ("I/II/10/9/8/7/6/5/4/3/2/1/0/III/IV" (41 0))
+                           ("m/n/o/a/b/c/d/e/f/g/h/i/x/y/z" (0 41))
                )
-               (directions (n 0 -1) (e 1 0) (s 0 1) (w -1 0) 
+               (directions (n 0 -1) (e 1 0) (s 0 1) (w -1 0)
                            (ne 1 -1) (nw -1 -1) (se 1 1) (sw -1 1)
                )
         )
         (dummy START END)
+        (zone (name board-zone) (players South West North East)
+              (positions 1a 2a 3a 4a 5a 6a 7a 8a 9a
+                         1b 2b 3b 4b 5b 6b 7b 8b 9b
+                         1c 2c 3c 4c 5c 6c 7c 8c 9c
+                         1d 2d 3d 4d 5d 6d 7d 8d 9d
+                         1e 2e 3e 4e 5e 6e 7e 8e 9e
+                         1f 2f 3f 4f 5f 6f 7f 8f 9f
+                         1g 2g 3g 4g 5g 6g 7g 8g 9g
+                         1h 2h 3h 4h 5h 6h 7h 8h 9h
+                         1i 2i 3i 4i 5i 6i 7i 8i 9i
+              )
+        )
 	(links next
                (START 1a)
                (1a 2a) (2a 3a) (3a 4a) (4a 5a) (5a 6a) (6a 7a) (7a 8a) (8a 9a) (9a 1b)
@@ -377,26 +273,35 @@
                (1h 2h) (2h 3h) (3h 4h) (4h 5h) (5h 6h) (6h 7h) (7h 8h) (8h 9h) (9h 1i)
                (1i 2i) (2i 3i) (3i 4i) (4i 5i) (5i 6i) (6i 7i) (7i 8i) (8i 9i) (9i END)
         )
-        (links to-hand
-               (START 9y)
-               (9y 8y) (8y 7y) (7y 6y) (6y 5y) (5y 4y) (4y 3y) (3y 2y) (2y 1y) (1y 9z)
-               (9z 8z) (8z 7z) (7z 6z) (6z 5z) (5z 4z) (4z 3z) (3z 2z) (2z 1z) (1z END)
+        (zone (name hand-zone) (players South East North West)
+              (positions 9z 9y 8z 8y 7z 7y 6z 6y 5z 5y 4z 4y 3z 3y 2z 2y 1z 1y 0z 0y IIIz IIIy IVz IVy IVx IIIx
+                         IVi IIIi IVh IIIh IVg IIIg IVf IIIf IVe IIIe IVd IIId IVc IIIc IVb IIIb IVa IIIa
+                         IVo IIIo IVn IIIn IVm IIIm 0m 0n
+                         1m 1n 2m 2n 3m 3n 4m 4n 5m 5n 6m 6n 7m 7n 8m 8n 9m 9n 10m 10n IIm IIn Im In Io IIo
+                         Ia IIa Ib IIb Ic IIc Id IId Ie IIe If IIf Ig IIg Ih IIh Ii IIi Ix IIx Iy IIy Iz IIz 10z 10y)
         )
-        (links n-hand
-               (START 1m)
-               (1m 2m) (2m 3m) (3m 4m) (4m 5m) (5m 6m) (6m 7m) (7m 8m) (8m 9m) (9m 1l)
-               (1l 2l) (2l 3l) (3l 4l) (4l 5l) (5l 6l) (6l 7l) (7l 8l) (8l 9l) (9l END)
+        (links in-hand
+               (9z 9y) (9y 8z) (8z 8y) (8y 7z) (7z 7y) (7y 6z) (6z 6y) (6y 5z) (5z 5y)
+               (5y 4z) (4z 4y) (4y 3z) (3z 3y) (3y 2z) (2z 2y) (2y 1z) (1z 1y)
+               (1y 0z) (0z 0y) (0y IIIz) (IIIz IIIy) (IIIy IVz) (IVz IVy) (IVy IVx) (IVx IIIx) (IIIx IVi)
+               (IVi IIIi) (IIIi IVh) (IVh IIIh) (IIIh IVg) (IVg IIIg) (IIIg IVf) (IVf IIIf) (IIIf IVe) (IVe IIIe)
+               (IIIe IVd) (IVd IIId) (IIId IVc) (IVc IIIc) (IIIc IVb) (IVb IIIb) (IIIb IVa) (IVa IIIa)
+               (IIIa IVo) (IVo IIIo) (IIIo IVn) (IVn IIIn) (IIIn IVm) (IVm IIIm) (IIIm 0m) (0m 0n) (0n 1m)
+               (1m 1n) (1n 2m) (2m 2n) (2n 3m) (3m 3n) (3n 4m) (4m 4n) (4n 5m) (5m 5n)
+               (5n 6m) (6m 6n) (6n 7m) (7m 7n) (7n 8m) (8m 8n) (8n 9m) (9m 9n)
+               (9n 10m) (10m 10n) (10n IIm) (IIm IIn) (IIn Im) (Im In) (In Io) (Io IIo) (IIo Ia)
+               (Ia IIa) (IIa Ib) (Ib IIb) (IIb Ic) (Ic IIc) (IIc Id) (Id IId) (IId Ie) (Ie IIe)
+               (IIe If) (If IIf) (IIf Ig) (Ig IIg) (IIg Ih) (Ih IIh) (IIh Ii) (Ii IIi)
+               (IIi Ix) (Ix IIx) (IIx Iy) (Iy IIy) (IIy Iz) (Iz IIz) (IIz 10z) (10z 10y) (10y 9z)
         )
-        (links w-hand
-               (START IIa)
-               (IIa IIb) (IIb IIc) (IIc IId) (IId IIe) (IIe IIf) (IIf IIg) (IIg IIh) (IIh IIi) (IIi Ia)
-               (Ia Ib) (Ib Ic) (Ic Id) (Id Ie) (Ie If) (If Ig) (Ig Ih) (Ih Ii) (Ii END)
-        )
-        (links e-hand
-               (START IIIi)
-               (IIIi IIIh) (IIIh IIIg) (IIIg IIIf) (IIIf IIIe) (IIIe IIId) (IIId IIIc) (IIIc IIIb) (IIIb IIIa) (IIIa IVi)
-               (IVi IVh) (IVh IVg) (IVg IVf) (IVf IVe) (IVe IVd) (IVd IVc) (IVc IVb) (IVb IVa) (IVa END)
-        )
+        (links to-hand (START 9z))
+        (zone (name end-zone) (players South) (positions  10y))
+        (links w-hand (START Ia))
+        (zone (name end-zone) (players West)  (positions  IIo))
+        (links n-hand (START 1m))
+        (zone (name end-zone) (players North) (positions   0n))
+        (links e-hand (START IVi))
+        (zone (name end-zone) (players East)  (positions IIIx))
         (links to-rank-1
                (START 1a)
                (1a 1b) (1b 1c) (1c 1d) (1d 1e) (1e 1f) (1f 1g) (1g 1h) (1h 1i) (1i END)
@@ -469,18 +374,6 @@
                (START 1i)
                (1i 2i) (2i 3i) (3i 4i) (4i 5i) (5i 6i) (6i 7i) (7i 8i) (8i 9i) (9i END)
         )
-        (zone (name board-zone) (players South North West East)
-              (positions 1a 2a 3a 4a 5a 6a 7a 8a 9a
-                         1b 2b 3b 4b 5b 6b 7b 8b 9b
-                         1c 2c 3c 4c 5c 6c 7c 8c 9c
-                         1d 2d 3d 4d 5d 6d 7d 8d 9d
-                         1e 2e 3e 4e 5e 6e 7e 8e 9e
-                         1f 2f 3f 4f 5f 6f 7f 8f 9f
-                         1g 2g 3g 4g 5g 6g 7g 8g 9g
-                         1h 2h 3h 4h 5h 6h 7h 8h 9h
-                         1i 2i 3i 4i 5i 6i 7i 8i 9i
-              )
-        )
         (zone (name rank-1-zone) (players South North)
               (positions 1a 1b 1c 1d 1e 1f 1g 1h 1i)
         )
@@ -535,18 +428,6 @@
         (zone (name rank-9-zone) (players West East)
               (positions 1i 2i 3i 4i 5i 6i 7i 8i 9i)
         )
-        (zone (name hand-zone) (players South)
-              (positions 1y 2y 3y 4y 5y 6y 7y 8y 9y 1z 2z 3z 4z 5z 6z 7z 8z 9z)
-        )
-        (zone (name hand-zone) (players North)
-              (positions 1l 2l 3l 4l 5l 6l 7l 8l 9l 1m 2m 3m 4m 5m 6m 7m 8m 9m)
-        )
-        (zone (name hand-zone) (players West)
-              (positions Ia Ib Ic Id Ie If Ig Ih Ii IIa IIb IIc IId IIe IIf IIg IIh IIi)
-        )
-        (zone (name hand-zone) (players East)
-              (positions IIIa IIIb IIIc IIId IIIe IIIf IIIg IIIh IIIi IVa IVb IVc IVd IVe IVf IVg IVh IVi)
-        )
         (zone (name stop-zone) (players South)
               (positions 1a 2a 3a 4a 5a 6a 7a 8a 9a)
         )
@@ -583,11 +464,11 @@
                          7a 7b 7c 7d 7e 7f 7g 7h 7i
               )
         )
-        (symmetry North (n s) (s n) (e w) (w e) 
+        (symmetry North (n s) (s n) (e w) (w e)
                         (ne sw) (sw ne) (nw se) (se nw)
                         (to-hand n-hand)
         )
-        (symmetry West  (n e) (s w) (e s) (w n) 
+        (symmetry West  (n e) (s w) (e s) (w n)
                         (nw ne) (sw nw) (ne se) (se sw)
                         (to-hand w-hand)
                         (to-rank-1 w-rank-1)
@@ -600,7 +481,7 @@
                         (to-rank-8 w-rank-8)
                         (to-rank-9 w-rank-9)
         )
-        (symmetry East  (n w) (s e) (e n) (w s) 
+        (symmetry East  (n w) (s e) (e n) (w s)
                         (nw sw) (sw se) (ne nw) (se ne)
                         (to-hand e-hand)
                         (to-rank-1 w-rank-1)
@@ -649,8 +530,7 @@
                North "../Images/YoninShogi/Kanji/NPawn.bmp" "../Images/YoninShogi/Old/NPawn.bmp" "../Images/YoninShogi/Chess/NPawn.bmp" "../Images/YoninShogi/Alpha/NPawn.bmp" "../Images/YoninShogi/Draw/NPawn.bmp"
                East  "../Images/YoninShogi/Kanji/EPawn.bmp" "../Images/YoninShogi/Old/EPawn.bmp" "../Images/YoninShogi/Chess/EPawn.bmp" "../Images/YoninShogi/Alpha/EPawn.bmp" "../Images/YoninShogi/Draw/EPawn.bmp"
         )
-        (moves
-               (pawn-leap) 
+        (moves (pawn-leap)
                (pawn-drop)
         )
   )
@@ -661,8 +541,7 @@
                North "../Images/YoninShogi/Kanji/NPawn+.bmp" "../Images/YoninShogi/Old/NPawn+.bmp" "../Images/YoninShogi/Chess/NPawn+.bmp" "../Images/YoninShogi/Alpha/NPawn+.bmp" "../Images/YoninShogi/Draw/NPawn+.bmp"
                East  "../Images/YoninShogi/Kanji/EPawn+.bmp" "../Images/YoninShogi/Old/EPawn+.bmp" "../Images/YoninShogi/Chess/EPawn+.bmp" "../Images/YoninShogi/Alpha/EPawn+.bmp" "../Images/YoninShogi/Draw/EPawn+.bmp"
         )
-        (moves
-               (leap n) 
+        (moves (leap n)
                (leap s)
                (leap w)
                (leap e)
@@ -677,12 +556,11 @@
                North "../Images/YoninShogi/Kanji/NSilver.bmp" "../Images/YoninShogi/Old/NSilver.bmp" "../Images/YoninShogi/Chess/NSilver.bmp" "../Images/YoninShogi/Alpha/NSilver.bmp" "../Images/YoninShogi/Draw/NSilver.bmp"
                East  "../Images/YoninShogi/Kanji/ESilver.bmp" "../Images/YoninShogi/Old/ESilver.bmp" "../Images/YoninShogi/Chess/ESilver.bmp" "../Images/YoninShogi/Alpha/ESilver.bmp" "../Images/YoninShogi/Draw/ESilver.bmp"
         )
-        (moves
-               (piece-leap n  Silver SilverP) 
-               (piece-leap nw Silver SilverP)
-               (piece-leap ne Silver SilverP)
-               (piece-leap sw Silver SilverP)
-               (piece-leap se Silver SilverP)
+        (moves (silver-leap n)
+               (silver-leap nw)
+               (silver-leap ne)
+               (silver-leap sw)
+               (silver-leap se)
                (piece-drop)
         )
   )
@@ -693,8 +571,7 @@
                North "../Images/YoninShogi/Kanji/NSilver+.bmp" "../Images/YoninShogi/Old/NSilver+.bmp" "../Images/YoninShogi/Chess/NSilver+.bmp" "../Images/YoninShogi/Alpha/NSilver+.bmp" "../Images/YoninShogi/Draw/NSilver+.bmp"
                East  "../Images/YoninShogi/Kanji/ESilver+.bmp" "../Images/YoninShogi/Old/ESilver+.bmp" "../Images/YoninShogi/Chess/ESilver+.bmp" "../Images/YoninShogi/Alpha/ESilver+.bmp" "../Images/YoninShogi/Draw/ESilver+.bmp"
         )
-        (moves
-               (leap n) 
+        (moves (leap n)
                (leap s)
                (leap w)
                (leap e)
@@ -709,8 +586,7 @@
                North "../Images/YoninShogi/Kanji/NGold.bmp" "../Images/YoninShogi/Old/NGold.bmp" "../Images/YoninShogi/Chess/NGold.bmp" "../Images/YoninShogi/Alpha/NGold.bmp" "../Images/YoninShogi/Draw/NGold.bmp"
                East  "../Images/YoninShogi/Kanji/EGold.bmp" "../Images/YoninShogi/Old/EGold.bmp" "../Images/YoninShogi/Chess/EGold.bmp" "../Images/YoninShogi/Alpha/EGold.bmp" "../Images/YoninShogi/Draw/EGold.bmp"
         )
-        (moves
-               (leap n) 
+        (moves (leap n)
                (leap s)
                (leap w)
                (leap e)
@@ -726,8 +602,7 @@
                North "../Images/YoninShogi/Kanji/NKnight.bmp" "../Images/YoninShogi/Old/NKnight.bmp" "../Images/YoninShogi/Chess/NKnight.bmp" "../Images/YoninShogi/Alpha/NKnight.bmp" "../Images/YoninShogi/Draw/NKnight.bmp"
                East  "../Images/YoninShogi/Kanji/EKnight.bmp" "../Images/YoninShogi/Old/EKnight.bmp" "../Images/YoninShogi/Chess/EKnight.bmp" "../Images/YoninShogi/Alpha/EKnight.bmp" "../Images/YoninShogi/Draw/EKnight.bmp"
         )
-        (moves
-               (knight-leap nw)
+        (moves (knight-leap nw)
                (knight-leap ne)
                (knight-drop)
         )
@@ -739,8 +614,7 @@
                North "../Images/YoninShogi/Kanji/NKnight+.bmp" "../Images/YoninShogi/Old/NKnight+.bmp" "../Images/YoninShogi/Chess/NKnight+.bmp" "../Images/YoninShogi/Alpha/NKnight+.bmp" "../Images/YoninShogi/Draw/NKnight+.bmp"
                East  "../Images/YoninShogi/Kanji/EKnight+.bmp" "../Images/YoninShogi/Old/EKnight+.bmp" "../Images/YoninShogi/Chess/EKnight+.bmp" "../Images/YoninShogi/Alpha/EKnight+.bmp" "../Images/YoninShogi/Draw/EKnight+.bmp"
         )
-        (moves
-               (leap n) 
+        (moves (leap n)
                (leap s)
                (leap w)
                (leap e)
@@ -755,8 +629,7 @@
                North "../Images/YoninShogi/Kanji/NLance.bmp" "../Images/YoninShogi/Old/NLance.bmp" "../Images/YoninShogi/Chess/NLance.bmp" "../Images/YoninShogi/Alpha/NLance.bmp" "../Images/YoninShogi/Draw/NLance.bmp"
                East  "../Images/YoninShogi/Kanji/ELance.bmp" "../Images/YoninShogi/Old/ELance.bmp" "../Images/YoninShogi/Chess/ELance.bmp" "../Images/YoninShogi/Alpha/ELance.bmp" "../Images/YoninShogi/Draw/ELance.bmp"
         )
-        (moves
-               (lance-slide) 
+        (moves (lance-slide)
                (lance-drop)
         )
   )
@@ -767,8 +640,7 @@
                North "../Images/YoninShogi/Kanji/NLance+.bmp" "../Images/YoninShogi/Old/NLance+.bmp" "../Images/YoninShogi/Chess/NLance+.bmp" "../Images/YoninShogi/Alpha/NLance+.bmp" "../Images/YoninShogi/Draw/NLance+.bmp"
                East  "../Images/YoninShogi/Kanji/ELance+.bmp" "../Images/YoninShogi/Old/ELance+.bmp" "../Images/YoninShogi/Chess/ELance+.bmp" "../Images/YoninShogi/Alpha/ELance+.bmp" "../Images/YoninShogi/Draw/ELance+.bmp"
         )
-        (moves
-               (leap n) 
+        (moves (leap n)
                (leap s)
                (leap w)
                (leap e)
@@ -783,11 +655,10 @@
                North "../Images/YoninShogi/Kanji/NBishop.bmp" "../Images/YoninShogi/Old/NBishop.bmp" "../Images/YoninShogi/Chess/NBishop.bmp" "../Images/YoninShogi/Alpha/NBishop.bmp" "../Images/YoninShogi/Draw/NBishop.bmp"
                East  "../Images/YoninShogi/Kanji/EBishop.bmp" "../Images/YoninShogi/Old/EBishop.bmp" "../Images/YoninShogi/Chess/EBishop.bmp" "../Images/YoninShogi/Alpha/EBishop.bmp" "../Images/YoninShogi/Draw/EBishop.bmp"
         )
-        (moves
-               (piece-slide nw Bishop BishopP) 
-               (piece-slide sw Bishop BishopP)
-               (piece-slide ne Bishop BishopP)
-               (piece-slide se Bishop BishopP)
+        (moves (piece-slide nw Bishop)
+               (piece-slide sw Bishop)
+               (piece-slide ne Bishop)
+               (piece-slide se Bishop)
                (piece-drop)
         )
   )
@@ -798,8 +669,7 @@
                North "../Images/YoninShogi/Kanji/NBishop+.bmp" "../Images/YoninShogi/Old/NBishop+.bmp" "../Images/YoninShogi/Chess/NBishop+.bmp" "../Images/YoninShogi/Alpha/NBishop+.bmp" "../Images/YoninShogi/Draw/NBishop+.bmp"
                East  "../Images/YoninShogi/Kanji/EBishop+.bmp" "../Images/YoninShogi/Old/EBishop+.bmp" "../Images/YoninShogi/Chess/EBishop+.bmp" "../Images/YoninShogi/Alpha/EBishop+.bmp" "../Images/YoninShogi/Draw/EBishop+.bmp"
         )
-        (moves
-               (slide nw) 
+        (moves (slide nw)
                (slide sw)
                (slide ne)
                (slide se)
@@ -816,11 +686,10 @@
                North "../Images/YoninShogi/Kanji/NRook.bmp" "../Images/YoninShogi/Old/NRook.bmp" "../Images/YoninShogi/Chess/NRook.bmp" "../Images/YoninShogi/Alpha/NRook.bmp" "../Images/YoninShogi/Draw/NRook.bmp"
                East  "../Images/YoninShogi/Kanji/ERook.bmp" "../Images/YoninShogi/Old/ERook.bmp" "../Images/YoninShogi/Chess/ERook.bmp" "../Images/YoninShogi/Alpha/ERook.bmp" "../Images/YoninShogi/Draw/ERook.bmp"
         )
-        (moves
-               (piece-slide n Rook RookP) 
-               (piece-slide s Rook RookP)
-               (piece-slide w Rook RookP)
-               (piece-slide e Rook RookP)
+        (moves (piece-slide n Rook)
+               (piece-slide s Rook)
+               (piece-slide w Rook)
+               (piece-slide e Rook)
                (piece-drop)
         )
   )
@@ -831,8 +700,7 @@
                North "../Images/YoninShogi/Kanji/NRook+.bmp" "../Images/YoninShogi/Old/NRook+.bmp" "../Images/YoninShogi/Chess/NRook+.bmp" "../Images/YoninShogi/Alpha/NRook+.bmp" "../Images/YoninShogi/Draw/NRook+.bmp"
                East  "../Images/YoninShogi/Kanji/ERook+.bmp" "../Images/YoninShogi/Old/ERook+.bmp" "../Images/YoninShogi/Chess/ERook+.bmp" "../Images/YoninShogi/Alpha/ERook+.bmp" "../Images/YoninShogi/Draw/ERook+.bmp"
         )
-        (moves
-               (slide n) 
+        (moves (slide n)
                (slide s)
                (slide w)
                (slide e)
@@ -849,8 +717,7 @@
                North "../Images/YoninShogi/Kanji/NKing.bmp" "../Images/YoninShogi/Old/NKing.bmp" "../Images/YoninShogi/Chess/NKing.bmp" "../Images/YoninShogi/Alpha/NKing.bmp" "../Images/YoninShogi/Draw/NKing.bmp"
                East  "../Images/YoninShogi/Kanji/EKing.bmp" "../Images/YoninShogi/Old/EKing.bmp" "../Images/YoninShogi/Chess/EKing.bmp" "../Images/YoninShogi/Alpha/EKing.bmp" "../Images/YoninShogi/Draw/EKing.bmp"
         )
-        (moves
-               (leap n) 
+        (moves (leap n)
                (leap s)
                (leap w)
                (leap e)
@@ -858,17 +725,19 @@
                (leap ne)
                (leap sw)
                (leap se)
+               (piece-drop)
         )
   )
 
-; (loss-condition (South North West East) (checkmated King))
-  (loss-condition (South North West East) (pieces-remaining 0 King))
+ ;(loss-condition (South North West East) (captured   King))
+ ;(loss-condition (South North West East) (checkmated King))
+ ;(loss-condition (South North West East) (pieces-remaining 0 King))
+  (win-condition  (South North West East) (pieces-remaining 4 King))
+  (pass-turn forced)
 )
 
 (variant
-  (title "Yonin Shogi [variant]")
-
-  (history "")
+  (title "Yonin Shogi 0.0.2 fifteen men")
 
   (board-setup
         ( South (King 5i)
