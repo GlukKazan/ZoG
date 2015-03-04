@@ -66,15 +66,31 @@ turn-order}
 	ENDIF
 ;
 
+: here-not-from? ( -- ? )
+	here from <>
+	0 BEGIN
+		1+
+		DUP set-size @ < IF
+			DUP set[] @ here = IF
+				2DROP FALSE 0 
+				TRUE
+			ELSE
+				FALSE
+			ENDIF
+		ELSE
+			TRUE
+		ENDIF
+	UNTIL DROP
+;
+
 : check-dir ( 'dir -- )
-	EXECUTE here from <> AND friend? AND IF
+	EXECUTE here-not-from? AND friend? AND IF
 		add-position 
 	ENDIF
 ;
 
 : check-coherence ( -- ? )
-	0 list-size !
-	here DUP list-size @ list[] ! list-size ++
+	0 list[] @
 	0 BEGIN
 		DUP list[] @
 		DUP to ['] n  check-dir
@@ -102,6 +118,8 @@ turn-order}
 : slide ( 'dir -- )
 	BEGIN
 		DUP EXECUTE empty? AND IF
+			1 list-size !
+			here 0 list[] !
 			check-coherence IF
 				from here move
 				add-move
@@ -112,6 +130,8 @@ turn-order}
 		ENDIF
 	UNTIL DROP
 	enemy? IF
+		1 list-size !
+		here 0 list[] !
 		check-coherence IF
 			from here move
 			add-move
@@ -119,15 +139,31 @@ turn-order}
 	ENDIF
 ;
 
+: ordo-slide-check ( -- ? )
+	here from-pos !
+	FALSE step-cnt @ BEGIN
+		1- DUP 0 >= IF
+			step-dir @ EXECUTE empty? AND NOT IF
+				DROP -1
+			ENDIF
+		ENDIF
+		DUP 0= IF
+			2DROP TRUE 0
+		ENDIF
+		DUP 0> NOT
+	UNTIL DROP
+;
+
 : ordo-slide-n ( -- ? )
 	here from-pos !
 	FALSE step-cnt @ BEGIN
 		1- DUP 0 >= IF
 			step-dir @ EXECUTE empty? AND NOT IF
-				DROP 0
+				DROP -1
 			ENDIF
 		ENDIF
 		DUP 0= IF
+			here list-size @ list[] ! list-size ++
 			from-pos @ here move
 			2DROP TRUE 0
 		ENDIF
@@ -135,11 +171,11 @@ turn-order}
 	UNTIL DROP
 ;
 
-: ordo-slide-set ( -- ? )
+: ordo-slide-set ( -- )
 	FALSE 0 BEGIN
 		DUP set-size @ < IF
 			DUP set[] @ to
-			ordo-slide-n IF
+			ordo-slide-check IF
 				1+
 				FALSE
 			ELSE
@@ -150,8 +186,24 @@ turn-order}
 			TRUE
 		ENDIF
 	UNTIL DROP
-	DUP ( check-coherence AND ) IF
-		add-move
+	0 list-size !
+	IF
+		0 BEGIN
+			DUP set-size @ < IF
+				DUP set[] @ to
+				ordo-slide-n IF
+					1+
+					FALSE
+				ELSE
+					TRUE
+				ENDIF
+			ELSE
+				TRUE
+			ENDIF
+		UNTIL DROP
+(		check-coherence IF )
+			add-move
+(		ENDIF )
 	ENDIF
 ;
 
@@ -159,7 +211,8 @@ turn-order}
 	0 step-cnt !
 	here BEGIN
 		step-cnt ++
-		ordo-slide-set NOT
+		ordo-slide-set
+		step-cnt @ 9 >
 	UNTIL to
 ;
 
@@ -192,6 +245,10 @@ turn-order}
 : ordo-se	( -- ) ['] s ['] e ordo ;
 : ordo-sw	( -- ) ['] s ['] w ordo ;
 : ordo-es	( -- ) ['] e ['] s ordo ;
+: ordo-sn	( -- ) ['] s ['] n ordo ;
+: ordo-ew	( -- ) ['] e ['] w ordo ;
+: ordo-we	( -- ) ['] w ['] e ordo ;
+: ordo-ns	( -- ) ['] n ['] s ordo ;
 
 {moves man-moves
 	{move} slide-n	{move-type} normal-type
@@ -206,7 +263,11 @@ turn-order}
 (	{move} ordo-en	{move-type} normal-type
 	{move} ordo-se	{move-type} normal-type
 	{move} ordo-sw	{move-type} normal-type
-	{move} ordo-es	{move-type} repair-type )
+	{move} ordo-es	{move-type} repair-type
+	{move} ordo-sn	{move-type} normal-type
+	{move} ordo-ew	{move-type} normal-type
+	{move} ordo-we	{move-type} normal-type
+	{move} ordo-ns	{move-type} repair-type )
 moves}
 
 
