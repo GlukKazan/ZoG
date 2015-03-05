@@ -57,6 +57,19 @@ turn-order}
 	UNTIL DROP
 ;
 
+: not-in-set? ( pos - ? )
+	curr-pos !
+	TRUE set-size @
+	BEGIN
+		1- DUP 0 >= IF
+			DUP set[] @ curr-pos @ = IF
+				2DROP FALSE 0
+			ENDIF
+		ENDIF
+		DUP 0> NOT
+	UNTIL DROP
+;
+
 : add-position ( -- )
 	list-size @ LS < IF
 		here not-in-list? IF
@@ -66,31 +79,19 @@ turn-order}
 	ENDIF
 ;
 
-: here-not-from? ( -- ? )
-	here from <>
-	0 BEGIN
-		1+
-		DUP set-size @ < IF
-			DUP set[] @ here = IF
-				2DROP FALSE 0 
-				TRUE
-			ELSE
-				FALSE
-			ENDIF
-		ELSE
-			TRUE
-		ENDIF
-	UNTIL DROP
+: not-from? ( pos -- ? )
+	DUP from <>
+	SWAP not-in-set? AND
 ;
 
 : check-dir ( 'dir -- )
-	EXECUTE here-not-from? AND friend? AND IF
+	EXECUTE here not-from? AND friend? AND IF
 		add-position 
 	ENDIF
 ;
 
 : check-coherence ( -- ? )
-	0 list[] @
+	here 0 list[] @
 	0 BEGIN
 		DUP list[] @
 		DUP to ['] n  check-dir
@@ -102,17 +103,20 @@ turn-order}
 		DUP to ['] ne check-dir
 		to ['] se check-dir
 		1+ DUP list-size @ >=
-	UNTIL DROP to
+	UNTIL 2DROP to
 	TRUE SIZE BEGIN
 		1- DUP 0 >= IF
-			DUP from <> OVER friend-at? AND IF
-				DUP not-in-list? IF
-					2DROP FALSE 0
+			DUP not-from? IF
+				DUP from <> OVER friend-at? AND IF
+					DUP not-in-list? IF
+						2DROP FALSE 0
+					ENDIF
 				ENDIF
 			ENDIF
 		ENDIF
 		DUP 0> NOT
 	UNTIL DROP
+	0 list-size !
 ;
 
 : slide ( 'dir -- )
@@ -148,6 +152,7 @@ turn-order}
 			ENDIF
 		ENDIF
 		DUP 0= IF
+			here list-size @ list[] ! list-size ++
 			2DROP TRUE 0
 		ENDIF
 		DUP 0> NOT
@@ -163,7 +168,6 @@ turn-order}
 			ENDIF
 		ENDIF
 		DUP 0= IF
-			here list-size @ list[] ! list-size ++
 			from-pos @ here move
 			2DROP TRUE 0
 		ENDIF
@@ -172,6 +176,7 @@ turn-order}
 ;
 
 : ordo-slide-set ( -- )
+	0 list-size !
 	FALSE 0 BEGIN
 		DUP set-size @ < IF
 			DUP set[] @ to
@@ -186,24 +191,23 @@ turn-order}
 			TRUE
 		ENDIF
 	UNTIL DROP
-	0 list-size !
 	IF
-		0 BEGIN
-			DUP set-size @ < IF
-				DUP set[] @ to
-				ordo-slide-n IF
-					1+
-					FALSE
+		check-coherence IF
+			0 BEGIN
+				DUP set-size @ < IF
+					DUP set[] @ to
+					ordo-slide-n IF
+						1+
+						FALSE
+					ELSE
+						TRUE
+					ENDIF
 				ELSE
 					TRUE
 				ENDIF
-			ELSE
-				TRUE
-			ENDIF
-		UNTIL DROP
-(		check-coherence IF )
+			UNTIL DROP
 			add-move
-(		ENDIF )
+		ENDIF
 	ENDIF
 ;
 
@@ -229,6 +233,7 @@ turn-order}
 			TRUE
 		ENDIF
 	UNTIL DROP
+	0 set-size !
 ;
 
 : slide-n	( -- ) ['] n slide ;
@@ -260,11 +265,11 @@ turn-order}
 	{move} slide-sw	{move-type} repair-type
 	{move} slide-se	{move-type} repair-type
 
-(	{move} ordo-en	{move-type} normal-type
+	{move} ordo-en	{move-type} normal-type
 	{move} ordo-se	{move-type} normal-type
 	{move} ordo-sw	{move-type} normal-type
 	{move} ordo-es	{move-type} repair-type
-	{move} ordo-sn	{move-type} normal-type
+(	{move} ordo-sn	{move-type} normal-type
 	{move} ordo-ew	{move-type} normal-type
 	{move} ordo-we	{move-type} normal-type
 	{move} ordo-ns	{move-type} repair-type )
