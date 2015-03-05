@@ -37,3 +37,11 @@
    ; in the zrf in order for it to be happy and thus allow "moves" to work correctly.
    (piece (name Dummy) (dummy) (moves (from)))
 )
+
+(variant
+   (title "Ordo (simple)")
+)
+
+(variant
+   (title "Ordo (advanced)")
+)

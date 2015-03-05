@@ -19,6 +19,16 @@ LOAD	Common.4th
 : ordo-we	( -- ) ['] w ['] e ordo ;
 : ordo-ns	( -- ) ['] n ['] s ordo ;
 
+: ordo-snw	( -- ) ['] s ['] nw ordo ;
+: ordo-sne	( -- ) ['] s ['] ne ordo ;
+: ordo-ssw	( -- ) ['] s ['] sw ordo ;
+: ordo-sse	( -- ) ['] s ['] se ordo ;
+
+: ordo-enw	( -- ) ['] e ['] nw ordo ;
+: ordo-ene	( -- ) ['] e ['] ne ordo ;
+: ordo-esw	( -- ) ['] e ['] sw ordo ;
+: ordo-ese	( -- ) ['] e ['] se ordo ;
+
 {moves man-moves
 	{move} slide-n	{move-type} normal-type
 	{move} slide-w	{move-type} normal-type
@@ -36,6 +46,14 @@ LOAD	Common.4th
 	{move} ordo-ew	{move-type} normal-type
 	{move} ordo-we	{move-type} normal-type
 	{move} ordo-ns	{move-type} repair-type
+	{move} ordo-snw	{move-type} normal-type
+	{move} ordo-sne	{move-type} normal-type
+	{move} ordo-ssw	{move-type} repair-type
+	{move} ordo-sse	{move-type} repair-type
+	{move} ordo-enw	{move-type} normal-type
+	{move} ordo-ene	{move-type} normal-type
+	{move} ordo-esw	{move-type} repair-type
+	{move} ordo-ese	{move-type} repair-type
 moves}
 
 
