@@ -33,16 +33,16 @@ directions}
 	{player}	Dark
 players}
 
+{turn-order
+	{turn}		Light
+	{turn}		Dark
+turn-order}
+
 {symmetries 
 	Dark		{symmetry} n	s
 	Dark		{symmetry} nw	sw
 	Dark		{symmetry} ne	se
 symmetries}
-
-{turn-order
-	{turn}		Light
-	{turn}		Dark
-turn-order}
 
 : not-in-list? ( pos - ? )
 	curr-pos !

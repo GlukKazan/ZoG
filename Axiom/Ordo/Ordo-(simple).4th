@@ -31,4 +31,6 @@ move-priorities}
 	{piece}		Man		{moves} man-moves
 pieces}
 
-' Man IS MAN
+' Man	IS MAN
+
+LOAD	AI.4th
