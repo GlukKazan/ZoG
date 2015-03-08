@@ -56,3 +56,19 @@
 (variant
    (title "Ordo (crazy)")
 )
+
+(variant
+   (title "-")
+)
+
+(variant
+   (title "Test (random)")
+)
+
+(variant
+   (title "Test (simple)")
+)
+
+(variant
+   (title "Test (rise)")
+)
