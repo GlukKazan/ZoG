@@ -1,4 +1,4 @@
-10		CONSTANT	MK
+1		CONSTANT	MK
 1		CONSTANT	BK
 
 : OnNewGame ( -- )
