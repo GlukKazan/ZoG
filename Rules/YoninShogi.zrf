@@ -7,7 +7,9 @@
 )
 
 (define piece-drop
-  ( (verify-king-on-board)
+  ( (if (not-piece? King)
+        (verify-king-on-board)
+    )
     (verify (not-in-zone? board-zone))
     START next
     (while (not-position? END)
