@@ -1,0 +1,11570 @@
+
+C:\in\games\my\Ordo\Axiom\Ordo>AutoPlay Test-(random) Test-(rise) 100 
+Player 1 variant = "Test-(random)"
+Player 2 variant = "Test-(rise)"
+Game 1 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man b2 - d4
+1. Man c7 - c5 Man d7 - d5
+2. Man g1 - f1 Man h1 x g1
+2. Man f6 x d4
+3. Man c2 - b2 Man d2 x c2 Man e2 x d2 Man f2 x e2 Man g2 x f2 Man h2 x g2 Man i2 x h2 Man j2 x i2
+3. Man i7 x e3
+4. Man g2 - g3
+4. Man c8 - c7 Man d8 - d7
+5. Man b3 - d3
+5. Man a6 x d3
+6. Man f3 - f4
+6. Man e3 x e2
+7. Man d1 x e2
+7. Man e6 x e2
+8. Man f1 - e1 Man g1 x f1
+8. Man e2 x d2
+9. Man e1 - d1 Man f1 x e1
+9. Man c7 - c6 Man d7 - d6 Man e7 - e6 Man f7 - f6 Man g7 - g6
+10. Man i2 - g4
+10. Man c5 x c2
+11. Man g4 - j4
+11. Man c2 x c1
+Player 1 - I lose!
+
+Cumulative results following game 1 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 1.
+Draws = 0
+
+Game 2 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man j3 - i4
+1. Man c7 - c5 Man d7 - d5
+2. Man d2 - d4
+2. Man f6 x d4
+3. Man c2 - c3
+3. Man i7 x e3
+4. Man h2 - h3 Man h1 x h2
+4. Man a6 x e2
+5. Man g1 - e1
+5. Man j6 x f2
+using first move = Man j6 x f2
+6. Man e1 x e2
+6. Man f2 x e2
+Player 1 - I lose!
+
+Cumulative results following game 2 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 2.
+Draws = 0
+
+Game 3 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man f3 - h3 Man e3 - g3
+1. Man g7 - g5 Man h7 - h5
+2. Man b3 - b4 Man b2 x b3
+2. Man c7 - c5 Man d7 - d5
+3. Man c2 - c3 Man d2 - d3
+3. Man e6 - e4 Man f6 - f4
+4. Man d3 - e3 Man c3 x d3 Man b3 x c3 Man a3 x b3
+4. Man a6 x d3
+5. Man a2 - d2
+5. Man j6 x g3
+6. Man d1 - e1 Man c1 x d1
+6. Man h8 x c3
+7. Man d2 - b2 Man e2 - c2
+7. Man g8 - g6
+8. Man h1 - j1
+8. Man c3 x c2
+using first move = Man c3 x c2
+9. Man b2 x c2
+9. Man c5 x c2
+Player 1 - I lose!
+
+Cumulative results following game 3 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 3.
+Draws = 0
+
+Game 4 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man b3 - c3
+1. Man c7 - c5 Man d7 - d5
+2. Man i3 - h3
+2. Man j6 - j4 Man j7 - j5
+3. Man c2 - e4
+3. Man h7 x e4
+4. Man e2 - c4
+4. Man c5 x e3
+5. Man f2 - e2 Man g2 x f2 Man h2 x g2 Man i2 x h2 Man j2 x i2
+5. Man a6 x c4
+6. Man c3 - b3
+6. Man c8 - c7
+7. Man a3 - a5 Man a2 - a4
+7. Man a7 x a5
+8. Man b2 - c2
+8. Man f6 x f3
+9. Man g1 - f1 Man h1 x g1
+9. Man c4 x e2
+10. Man f1 - e1
+10. Man a5 x d2
+11. Man e1 x e2
+11. Man e3 x e2
+12. Man g1 - e1
+12. Man d2 x d1
+Player 1 - I lose!
+
+Cumulative results following game 4 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 4.
+Draws = 0
+
+Game 5 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man g2 - g3 Man h2 - h3
+1. Man c7 - c5 Man d7 - d5
+2. Man c2 - e4
+2. Man h7 x e4
+3. Man g1 - e1
+3. Man i6 x f3
+4. Man e3 - f4
+4. Man j6 x g3
+using first move = Man j6 x g3
+5. Man f4 x g3
+5. Man g7 x g3
+6. Man e1 - g1 Man d1 - f1
+6. Man a6 x e2
+7. Man f2 x e2
+7. Man c8 - c6 Man d8 - d6
+8. Man b3 - d3
+8. Man e6 x h3
+9. Man g1 - g2
+9. Man i7 - i4 Man j7 - j4
+10. Man d3 x f3
+10. Man g8 - g5 Man h8 - h5
+11. Man j3 x j4
+11. Man f6 x f3
+12. Man h1 - h2
+12. Man g3 x g2
+Player 1 - I lose!
+
+Cumulative results following game 5 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 5.
+Draws = 0
+
+Game 6 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man h2 - h4 Man h1 - h3
+1. Man g7 - g5 Man h7 - h5
+2. Man i3 - i5
+2. Man g5 x h4
+3. Man i2 - i4
+3. Man e6 x h3
+4. Man f3 x h3
+4. Man d7 x h3
+5. Man e3 x h3
+5. Man c8 x h3
+6. Man g2 - i2 Man f2 - h2 Man e2 x g2 Man d2 x f2 Man c2 x e2 Man b2 x d2 Man a2 x c2
+6. Man h4 x i4
+using first move = Man h4 x i4
+7. Man j3 - j4 Man j2 x j3
+7. Man h3 x j3
+8. Man h2 - h3 Man i2 - i3
+8. Man f6 x i3
+9. Man g1 x i3
+9. Man j6 x j4
+10. Man i3 - h4
+10. Man j3 x h3
+11. Man e2 - e3 Man f2 - f3 Man g2 - g3
+11. Man h5 x i5
+12. Man d2 - d3
+12. Man i4 x h4
+13. Man d1 - d2
+13. Man g8 - g6 Man h8 - h6
+14. Man c2 - b2
+14. Man j7 - j5
+15. Man b3 - c4
+15. Man h3 x g3
+16. Man c4 - g4
+16. Man b7 x f3
+17. Man g4 - a4
+17. Man i5 - i3 Man i6 - i4 Man i7 x i5
+18. Man e3 - d4
+18. Man j4 - j1 Man j5 - j2
+Player 1 - I lose!
+
+Cumulative results following game 6 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 6.
+Draws = 0
+
+Game 7 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man h1 - j1 Man g1 - i1
+1. Man g7 - g5 Man h7 - h5
+2. Man d1 - e1
+2. Man a6 - a4 Man a7 - a5
+3. Man f3 - f4
+3. Man e6 x b3
+4. Man i1 - g1 Man j1 - h1
+4. Man f6 x b2
+5. Man a3 x b3
+5. Man b2 x b3
+6. Man c2 - b2
+6. Man g8 - g6 Man h8 - h6
+7. Man i3 - g3 Man j3 - h3
+7. Man c7 - c5 Man d7 - d5 Man e7 - e5 Man f7 - f5
+8. Man j2 x g5
+8. Man d8 x g5
+9. Man e3 - f3
+9. Man f5 x f4
+10. Man d2 - c2 Man e2 x d2 Man f2 x e2
+10. Man h5 x f3
+11. Man g2 x f3
+11. Man j6 x g3
+12. Man e1 x g3
+12. Man i6 x f3
+13. Man c1 - f1
+13. Man g6 x c2
+Player 1 - I lose!
+
+Cumulative results following game 7 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 7.
+Draws = 0
+
+Game 8 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man g2 - i4
+1. Man c7 - c5 Man d7 - d5
+2. Man f3 - h5
+2. Man h7 x h5
+3. Man c2 - e4
+3. Man c8 - c7
+4. Man j3 - j4 Man j2 x j3
+4. Man d8 - d7
+5. Man h1 - i1
+5. Man e6 x e4
+6. Man i3 - h3 Man j3 x i3
+6. Man e4 x i4
+7. Man f2 - g2 Man e2 x f2
+7. Man g8 - h7
+8. Man b2 - c2
+8. Man b7 - c6
+9. Man d2 - d3 Man d1 x d2
+9. Man h8 - b8
+10. Man i1 - j2
+10. Man b8 - b7
+11. Man c2 - c4
+11. Man a6 x c4
+12. Man d3 - c3
+12. Man b6 x b3
+13. Man a3 x b3
+13. Man a7 - a4 Man b7 - b4
+14. Man i3 - j3 Man h3 x i3
+14. Man f6 x c3
+15. Man a2 - c2
+15. Man d7 - d6 Man e7 - e6 Man f7 - f6 Man g7 - g6 Man h7 - h6
+16. Man g1 - i1
+16. Man e6 - e4 Man f6 - f4 Man g6 - g4
+17. Man i2 - h3
+17. Man c5 x e3
+18. Man c1 - e1
+18. Man c3 x d2
+Player 1 - I lose!
+
+Cumulative results following game 8 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 8.
+Draws = 0
+
+Game 9 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man h2 - f4
+1. Man c7 - c5 Man d7 - d5
+2. Man f2 - h4
+2. Man g7 - g5 Man h7 - h5
+3. Man i2 - g4
+3. Man j6 x h4
+4. Man f3 - h3
+4. Man i6 x i3
+5. Man j3 x i3
+5. Man g8 - g7 Man h8 - h7
+6. Man h1 - i2
+6. Man h5 x g4
+7. Man e2 x g4
+7. Man j7 x g4
+8. Man h3 - g3 Man i3 x h3
+8. Man g4 x f4
+9. Man g3 - f3
+9. Man e6 x h3
+10. Man i2 - h2 Man j2 x i2
+10. Man c8 - c6 Man d8 - d6
+11. Man c1 - b1
+11. Man d5 x f3
+12. Man g2 - f2
+12. Man c5 x e3
+13. Man b3 x e3
+13. Man b6 x e3
+14. Man d1 - e2
+14. Man e3 x f2
+using first move = Man e3 x f2
+15. Man b1 - f1
+15. Man a6 x e2
+Player 1 - I lose!
+
+Cumulative results following game 9 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 9.
+Draws = 0
+
+Game 10 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man i3 - i4
+1. Man c7 - c5 Man d7 - d5
+2. Man f3 - g3 Man e3 x f3
+2. Man g7 - g5 Man h7 - h5
+3. Man f3 - c3
+3. Man e6 - e4 Man f6 - f4
+4. Man g3 - h4
+4. Man j6 x h4
+5. Man d2 - d3 Man e2 - e3
+5. Man a6 x d3
+6. Man g1 - e1
+6. Man d3 x e3
+7. Man h2 - h3 Man i2 - i3
+7. Man h4 x f2
+8. Man h1 - f1
+8. Man c8 - c6 Man d8 - d6
+9. Man j2 - h2
+9. Man g5 x g2
+10. Man h2 x g2
+10. Man g8 - g6 Man h8 - h6
+11. Man c2 - d2 Man b2 x c2
+11. Man e7 - e5 Man f7 - f5
+12. Man i4 - h4
+12. Man e4 x g2
+Player 1 - I lose!
+
+Cumulative results following game 10 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 10.
+Draws = 0
+
+Game 11 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man e3 - f4
+1. Man c7 - c5 Man d7 - d5
+2. Man j3 - j4 Man j2 x j3
+2. Man g7 - g5 Man h7 - h5
+3. Man j4 - i4
+3. Man f6 x f4
+4. Man g1 - f1 Man h1 x g1
+4. Man e6 - e4
+5. Man g1 - j1
+5. Man a6 - d3
+6. Man c1 - b1
+6. Man d3 x f3
+7. Man i4 - h4
+7. Man j6 x h4
+8. Man d2 - d3 Man e2 - e3
+8. Man c8 - c7
+9. Man j3 - j4
+9. Man d8 - d7
+10. Man b3 - a4
+10. Man g8 - g6
+11. Man i2 - j2
+11. Man h8 - h6
+12. Man a3 - b3
+12. Man i6 x i3
+using first move = Man i6 x i3
+13. Man j4 x i3
+13. Man c7 - c6 Man d7 - d6 Man e7 - e6
+14. Man f2 x f3
+14. Man i7 - i4 Man j7 - j4
+15. Man j1 - i1
+15. Man c5 x e3
+16. Man d1 - e2
+16. Man d5 x d3
+17. Man f1 - d1
+17. Man d3 x e2
+Player 1 - I lose!
+
+Cumulative results following game 11 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 11.
+Draws = 0
+
+Game 12 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man e2 - d3
+1. Man c7 - c5 Man d7 - d5
+2. Man j3 - j4 Man j2 x j3
+2. Man g7 - g5 Man h7 - h5
+3. Man j4 - e4
+3. Man e6 x e4
+4. Man c1 - b1 Man d1 x c1
+4. Man g5 x e3
+5. Man c1 - e1 Man b1 - d1
+5. Man j6 x f2
+6. Man g1 - f1
+6. Man a6 x d3
+7. Man i2 - g4
+7. Man d3 x f1
+Player 1 - I lose!
+
+Cumulative results following game 12 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 12.
+Draws = 0
+
+Game 13 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man c2 - c4
+1. Man c7 - c5 Man d7 - d5
+2. Man i3 - i4 Man i2 x i3
+2. Man a6 x c4
+3. Man e3 - c3 Man f3 - d3
+3. Man h7 x d3
+4. Man h1 - i1
+4. Man i6 x e2
+5. Man g1 - e1
+5. Man j6 x f2
+6. Man i1 - f1
+6. Man f2 x f1
+Player 1 - I lose!
+
+Cumulative results following game 13 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 13.
+Draws = 0
+
+Game 14 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man d1 - e1 Man c1 x d1
+1. Man c7 - c5 Man d7 - d5
+2. Man h2 - h4
+2. Man g7 - g5 Man h7 - h5
+3. Man e1 - f1 Man d1 x e1
+3. Man e6 - e4 Man f6 - f4
+4. Man a3 - b4
+4. Man j6 x h4
+5. Man g2 - h3
+5. Man g8 - g6 Man h8 - h6
+6. Man f2 - g3
+6. Man g5 x g3
+7. Man h3 x h4
+7. Man c8 - e6
+8. Man e1 - f2
+8. Man h5 x f3
+9. Man f2 - h2 Man e2 - g2 Man d2 x f2 Man c2 x e2 Man b2 x d2 Man a2 x c2
+9. Man a6 x e2
+10. Man b4 - d4
+10. Man f4 x e3
+using first move = Man f4 x e3
+11. Man b3 x e3
+11. Man g3 x f2
+12. Man f1 - e1 Man g1 x f1 Man h1 x g1
+12. Man e2 x e1
+Player 1 - I lose!
+
+Cumulative results following game 14 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 14.
+Draws = 0
+
+Game 15 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man g2 - h3
+1. Man g7 - g5 Man h7 - h5
+2. Man d1 - f1 Man c1 - e1
+2. Man a6 - a4 Man a7 - a5
+3. Man e1 - d1 Man f1 x e1 Man g1 x f1 Man h1 x g1
+3. Man e6 x b3
+4. Man c2 - c3
+4. Man c7 x c3
+5. Man d2 - c2 Man e2 x d2 Man f2 x e2
+5. Man c3 x c2
+6. Man d1 - b1 Man e1 - c1
+6. Man d7 x d2
+7. Man e3 - c3 Man f3 - d3
+7. Man j6 - e1
+Player 1 - I lose!
+
+Cumulative results following game 15 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 15.
+Draws = 0
+
+Game 16 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man g1 - f1
+1. Man g7 - g5 Man h7 - h5
+2. Man i3 - h3
+2. Man a6 - a4 Man a7 - a5
+3. Man f3 - f4 Man f2 x f3 Man f1 x f2
+3. Man e6 x b3
+4. Man c2 - f5
+4. Man c7 x f4
+5. Man f3 - e4
+5. Man b3 x e3
+6. Man h3 - f3
+6. Man a4 x e4
+using first move = Man a4 x e4
+7. Man h2 x f4
+7. Man e4 x f4
+8. Man f5 - d3
+8. Man c8 - c6
+9. Man f2 x e3
+9. Man d8 - c7
+10. Man j3 - j4 Man j2 x j3
+10. Man c6 x f3
+11. Man e2 - f2 Man d2 x e2
+11. Man i6 - i4 Man i7 - i5
+12. Man c1 - c3
+12. Man i4 x g2
+using first move = Man i4 x g2
+13. Man d1 - g1
+13. Man g2 x f2
+using first move = Man g2 x f2
+14. Man e2 x f2
+14. Man f3 x e3
+Player 1 - I lose!
+
+Cumulative results following game 16 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 16.
+Draws = 0
+
+Game 17 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man d2 - d4 Man d1 - d3
+1. Man c7 - c5 Man d7 - d5
+2. Man a3 x c5
+2. Man f6 x d4
+3. Man b3 - c4
+3. Man h7 x d3
+4. Man e3 x d3
+4. Man a6 x c4
+5. Man f2 x d4
+5. Man c8 x c5
+6. Man g1 - d1
+6. Man c4 x d4
+7. Man h2 - f4
+7. Man j6 - j4 Man j7 - j5
+8. Man f4 - e4
+8. Man j4 x e4
+9. Man c2 - c3 Man c1 x c2
+9. Man d4 - a4 Man e4 - b4
+10. Man j3 - i4
+10. Man g7 x c3
+11. Man i4 - h4 Man i3 - h3
+11. Man g8 - g6 Man h8 - h6
+12. Man d1 - c1
+12. Man a4 x c2
+13. Man h1 - d1
+13. Man c2 x b2
+14. Man a2 x b2
+14. Man a7 - a3
+15. Man h4 - g4
+15. Man i6 - i4 Man i7 - i5
+16. Man d3 x c3
+16. Man a3 x c3
+17. Man g2 - f2
+17. Man d8 - d6
+18. Man f2 - h4
+18. Man e7 x h4
+19. Man b2 - c2
+19. Man i4 x h3
+20. Man i2 - g2 Man j2 - h2
+20. Man h3 - i3 Man h4 - i4
+21. Man c2 - d2
+21. Man d6 x h2
+22. Man d2 - e3
+22. Man j5 - j2
+23. Man g2 - h3
+23. Man h2 - i1
+Player 1 - I lose!
+
+Cumulative results following game 17 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 17.
+Draws = 0
+
+Game 18 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man e3 - e4
+1. Man g7 - g5 Man h7 - h5
+2. Man i3 - h3
+2. Man c7 - c5 Man d7 - d5
+3. Man h3 - i3
+3. Man e6 x e4
+4. Man b3 - d3
+4. Man f6 - f4
+5. Man d1 - e1 Man c1 x d1
+5. Man a6 x d3
+6. Man i3 - h3
+6. Man d3 x f3
+7. Man j3 - i4
+7. Man c8 - c7
+8. Man d2 - d3 Man d1 x d2
+8. Man d8 - d6
+9. Man j2 - i3
+9. Man g8 - g7
+10. Man d3 x f3
+10. Man j6 - j4 Man j7 - j5
+11. Man f3 - g4
+11. Man g5 x g4
+12. Man b2 - b3 Man c2 - c3 Man d2 - d3 Man e2 - e3
+12. Man c5 x e3
+13. Man a2 - d2
+13. Man h8 - h6
+14. Man a3 - a4 Man b3 - b4 Man c3 - c4
+14. Man e3 x d3
+using first move = Man e3 x d3
+15. Man h3 x d3
+15. Man e7 - e5 Man f7 - f5 Man g7 - g5
+16. Man e1 - e3
+16. Man e4 x c4
+17. Man d3 - c3
+17. Man b6 x e3
+18. Man f2 - e2 Man g2 x f2
+18. Man c4 x e2
+Player 1 - I lose!
+
+Cumulative results following game 18 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 18.
+Draws = 0
+
+Game 19 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man d2 - d4
+1. Man c7 - c5 Man d7 - d5
+2. Man a3 - a5 Man a2 - a4
+2. Man f6 x d4
+3. Man b2 - a2 Man c2 x b2
+3. Man i7 x e3
+4. Man i3 - j4
+4. Man a6 x e2
+5. Man g1 - e1 Man h1 - f1
+5. Man j6 x f2
+6. Man j4 - g4 Man j3 - g3
+6. Man e2 x e1
+Player 1 - I lose!
+
+Cumulative results following game 19 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 19.
+Draws = 0
+
+Game 20 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man e3 - e4
+1. Man g7 - g5 Man h7 - h5
+2. Man d2 - d5
+2. Man d7 x d5
+3. Man e4 - a4
+3. Man c7 - c4 Man c8 - c5
+4. Man g2 - g3
+4. Man b6 - b4 Man b7 - b5
+5. Man j3 - j4
+5. Man d8 - d6
+6. Man h2 - h3 Man h1 x h2
+6. Man e6 - e4 Man f6 - f4
+7. Man f3 x f4
+7. Man g8 - g6
+8. Man c2 - d3
+8. Man f7 x f4
+9. Man h3 - g4
+9. Man j6 x g3
+10. Man g4 - h4
+10. Man c5 x f2
+Player 1 - I lose!
+
+Cumulative results following game 20 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 20.
+Draws = 0
+
+Game 21 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man c1 - a1 Man d1 - b1
+1. Man c7 - c5 Man d7 - d5
+2. Man e3 - e4 Man e2 x e3
+2. Man h7 x e4
+3. Man f3 - g3
+3. Man c5 x e3
+4. Man g3 x e3
+4. Man b6 x e3
+5. Man b3 x e3
+5. Man a7 x e3
+6. Man f2 - e2 Man g2 x f2 Man h2 x g2 Man i2 x h2 Man j2 x i2
+6. Man c8 - c7 Man d8 - d7
+7. Man b1 - f1
+7. Man h8 - h7
+8. Man b2 - b3
+8. Man b7 - b6 Man c7 - c6
+9. Man i3 - g3 Man j3 - h3
+9. Man d7 - d6
+10. Man h1 - i1 Man g1 x h1 Man f1 x g1
+10. Man a6 x e2
+11. Man g3 x e3
+11. Man i7 x e3
+12. Man g1 - e1 Man h1 - f1 Man i1 x g1
+12. Man j6 x f2
+13. Man g1 x f2
+13. Man f6 x f2
+14. Man a1 - d1
+14. Man e2 x e1
+Player 1 - I lose!
+
+Cumulative results following game 21 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 21.
+Draws = 0
+
+Game 22 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man j3 - i4
+1. Man c7 - c5 Man d7 - d5
+2. Man i4 - j4 Man i3 - j3
+2. Man g7 - g5 Man h7 - h5
+3. Man e3 - e4
+3. Man e6 x e4
+4. Man f3 - e3
+4. Man f6 - f4
+5. Man j4 - i4 Man j3 - i3
+5. Man a6 - a4 Man a7 - a5
+6. Man b3 - c3
+6. Man c8 - c6 Man d8 - d6
+7. Man c2 - d3
+7. Man c5 x e3
+8. Man b2 - c2 Man a2 x b2
+8. Man j6 x f2
+9. Man g1 - f1
+9. Man f2 x e2
+10. Man d1 - e1
+10. Man f4 x f1
+Player 1 - I lose!
+
+Cumulative results following game 22 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 22.
+Draws = 0
+
+Game 23 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man b3 - d3 Man a3 - c3
+1. Man c7 - c5 Man d7 - d5
+2. Man i2 - g4
+2. Man g7 - g5 Man h7 - h5
+3. Man f3 - h3 Man e3 - g3
+3. Man e6 - e4 Man f6 - f4
+4. Man d1 - e1
+4. Man g5 x g4
+5. Man a2 - b3
+5. Man a6 x d3
+6. Man b3 - b4 Man b2 x b3
+6. Man j6 x g3
+7. Man b3 - a4
+7. Man h8 x c3
+using first move = Man h8 x c3
+8. Man c2 x c3
+8. Man g8 - g5
+9. Man h1 - i1 Man g1 x h1
+9. Man i7 - g7 Man j7 - h7
+10. Man h2 - i2
+10. Man g4 x e2
+11. Man h3 x g3
+11. Man e2 x d2
+using first move = Man e2 x d2
+12. Man c1 x d2
+12. Man g7 x c3
+Player 1 - I lose!
+
+Cumulative results following game 23 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 23.
+Draws = 0
+
+Game 24 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man d2 - d4
+1. Man c7 - c5 Man d7 - d5
+2. Man i2 - g4
+2. Man f6 x d4
+3. Man h2 - i2 Man g2 x h2
+3. Man i7 x e3
+4. Man c1 - a1
+4. Man a6 x e2
+Player 1 - I lose!
+
+Cumulative results following game 24 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 24.
+Draws = 0
+
+Game 25 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man f2 - h4
+1. Man g7 - g5 Man h7 - h5
+2. Man j3 - j5 Man j2 - j4
+2. Man j6 x h4
+3. Man j4 - i4
+3. Man h4 x i4
+4. Man j5 - j1
+4. Man c7 - c5 Man d7 - d5
+5. Man c1 - a1
+5. Man c8 - c7
+6. Man j1 - j4
+6. Man g5 x i3
+7. Man h2 x i3
+7. Man j7 x j4
+8. Man b3 - b4 Man b2 x b3
+8. Man g8 - g6 Man h8 - h6
+9. Man e2 - f2 Man d2 x e2
+9. Man f6 x i3
+10. Man a3 - a4 Man a2 x a3 Man a1 x a2
+10. Man b6 x b4
+11. Man g1 - f1
+11. Man a7 - b6
+12. Man e3 - f4
+12. Man b7 - c6
+13. Man f4 - g4 Man f3 - g3
+13. Man e7 - h4
+14. Man d1 - d2
+14. Man i3 x g3
+15. Man d2 - d3 Man e2 - e3 Man f2 - f3
+15. Man b4 x g4
+16. Man f1 - d1
+16. Man g4 x f3
+using first move = Man g4 x f3
+17. Man d1 x f3
+17. Man d8 - g5
+18. Man i2 - g4
+18. Man g5 x g4
+19. Man a4 - f4
+19. Man c7 x f4
+20. Man a3 - a4
+20. Man f4 x f3
+Player 1 - I lose!
+
+Cumulative results following game 25 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 25.
+Draws = 0
+
+Game 26 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man d2 - d3 Man d1 x d2
+1. Man c7 - c5 Man d7 - d5
+2. Man d3 - d4 Man d2 x d3
+2. Man f6 x d4
+3. Man f3 - f4 Man f2 x f3
+3. Man a6 x d3
+4. Man g1 - d1 Man h1 - e1
+4. Man e6 x e3
+5. Man c1 - b1
+5. Man i6 x f3
+using first move = Man i6 x f3
+6. Man i3 x f3
+6. Man j7 x f3
+using first move = Man j7 x f3
+7. Man j3 x f3
+7. Man d5 x f3
+using first move = Man d5 x f3
+8. Man f4 x f3
+8. Man c8 - c6 Man d8 - d6
+9. Man i2 - i3
+9. Man c6 x f3
+10. Man e2 - f2
+10. Man g7 x g2
+Player 1 - I lose!
+
+Cumulative results following game 26 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 26.
+Draws = 0
+
+Game 27 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man c2 - c3
+1. Man c7 - c5 Man d7 - d5
+2. Man b3 - b4 Man b2 x b3
+2. Man j6 - j4 Man j7 - j5
+3. Man g1 - f1
+3. Man f6 x i3
+4. Man e3 - d4
+4. Man e6 x i2
+5. Man h1 - i1
+5. Man h7 x h2
+using first move = Man h7 x h2
+6. Man f1 - h1
+6. Man h2 x h1
+Player 1 - I lose!
+
+Cumulative results following game 27 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 27.
+Draws = 0
+
+Game 28 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man c1 - b1 Man d1 x c1
+1. Man c7 - c5 Man d7 - d5
+2. Man i3 - j4
+2. Man g7 - g5 Man h7 - h5
+3. Man b3 - b4 Man b2 x b3
+3. Man e6 - e4 Man f6 - f4
+4. Man c2 x e4
+4. Man e7 x e4
+5. Man b3 - a4
+5. Man g8 - g6 Man h8 - h6
+6. Man h2 - h3
+6. Man h5 x f3
+7. Man b1 - b2
+7. Man j6 x f2
+8. Man h3 x f3
+using first move = Man h3 x f3
+8. Man i6 x f3
+9. Man e2 x f2
+9. Man f3 x e3
+10. Man g1 - e1
+10. Man j7 - e2
+11. Man e1 x e2
+11. Man a6 x e2
+Player 1 - I lose!
+
+Cumulative results following game 28 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 28.
+Draws = 0
+
+Game 29 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man i3 - i4
+1. Man c7 - c5 Man d7 - d5
+2. Man h2 - g3
+2. Man g7 - g5 Man h7 - h5
+3. Man i4 - c4
+3. Man e6 - e4 Man f6 - f4
+4. Man a3 - a4
+4. Man a6 x c4
+5. Man g3 - g4 Man g2 x g3 Man g1 x g2
+5. Man g5 x g4
+6. Man e3 - c3
+6. Man j6 x g3
+7. Man d2 x f4
+7. Man e4 x f3
+8. Man c3 - e3
+8. Man f3 x g2
+Player 1 - I lose!
+
+Cumulative results following game 29 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 29.
+Draws = 0
+
+Game 30 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man b3 - c3
+1. Man c7 - c5 Man d7 - d5
+2. Man e2 - d3
+2. Man j6 - j4 Man j7 - j5
+3. Man g2 - g3
+3. Man f6 x i3
+4. Man h2 - h3
+4. Man h7 x h3
+5. Man h1 - h2
+5. Man h3 x i2
+6. Man j2 x i3
+using first move = Man j2 x i3
+6. Man e7 x i3
+7. Man j3 x i3
+using first move = Man j3 x i3
+7. Man d8 x i3
+8. Man c2 - a4
+8. Man g7 - d4
+9. Man f3 - f5 Man f2 - f4
+9. Man g8 - g6 Man h8 - h6
+10. Man g1 - e1
+10. Man i6 - i4 Man i7 - i5
+11. Man e1 - i1
+11. Man j4 - j1
+Player 1 - I lose!
+
+Cumulative results following game 30 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 30.
+Draws = 0
+
+Game 31 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man h2 - h3 Man h1 x h2
+1. Man g7 - g5 Man h7 - h5
+2. Man e3 - e4
+2. Man c7 - c5 Man d7 - d5
+3. Man b2 - e5
+3. Man e6 x e5
+4. Man d2 - b4
+4. Man f6 - f4
+5. Man h3 - g4
+5. Man e5 x e4
+6. Man a3 - a5
+6. Man g5 x g4
+7. Man d1 - e1 Man c1 x d1
+7. Man a6 x a5
+8. Man e1 - f1
+8. Man a5 x b4
+9. Man e2 - d2 Man f2 x e2 Man g2 x f2 Man h2 x g2 Man i2 x h2
+9. Man f4 x f3
+10. Man d2 - d3
+10. Man c8 - f5
+11. Man d1 - d2
+11. Man d8 - d6
+12. Man f1 - d1 Man g1 - e1
+12. Man g8 - g6
+13. Man d2 - c3
+13. Man h8 - h6
+14. Man j3 - j4 Man j2 x j3
+14. Man a7 - a5
+15. Man c2 - d2
+15. Man b7 - a6
+16. Man d1 - b1 Man e1 - c1
+16. Man e7 - e5
+17. Man c1 - h1
+17. Man f7 - f6
+18. Man j4 - j5 Man j3 x j4
+18. Man i7 - c7
+19. Man g2 - g3
+19. Man j6 x g3
+20. Man h1 - g2
+20. Man j7 x j5
+21. Man b3 - a3 Man c3 x b3 Man d3 x c3
+21. Man h5 x h2
+Player 1 - I lose!
+
+Cumulative results following game 31 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 31.
+Draws = 0
+
+Game 32 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man i3 - i4 Man i2 x i3
+1. Man c7 - c5 Man d7 - d5
+2. Man h2 - h3 Man h1 x h2
+2. Man g7 - g5 Man h7 - h5
+3. Man h2 - i2 Man g2 x h2 Man f2 x g2 Man e2 x f2 Man d2 x e2
+3. Man e6 - e4 Man f6 - f4
+4. Man b2 - d4
+4. Man d5 x d4
+5. Man g2 - g4 Man g1 - g3
+5. Man g5 x g4
+6. Man f2 - g2
+6. Man c8 - c6 Man d8 - d6
+7. Man c1 - b1
+7. Man f4 x f3
+8. Man g2 - f2 Man h2 x g2 Man i2 x h2 Man j2 x i2
+8. Man a6 x e2
+9. Man b3 - d3
+9. Man i7 x e3
+using first move = Man i7 x e3
+10. Man d1 x e2
+10. Man e3 x e2
+Player 1 - I lose!
+
+Cumulative results following game 32 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 32.
+Draws = 0
+
+Game 33 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man g2 - h3
+1. Man g7 - g5 Man h7 - h5
+2. Man f3 - g3 Man e3 x f3
+2. Man a6 - a4 Man a7 - a5
+3. Man i3 - j4
+3. Man e6 x b3
+4. Man d2 - d3
+4. Man f6 x b2
+5. Man a2 x b2
+5. Man c8 - b8
+6. Man c1 - b1 Man d1 x c1
+6. Man b6 - b4 Man b7 - b5 Man b8 x b6
+7. Man c1 - f1
+7. Man g8 - g6 Man h8 - h6
+8. Man f3 - f4
+8. Man i6 - i4 Man i7 - i5
+9. Man j2 - h4
+9. Man d7 x h3
+10. Man j3 x i4
+10. Man g5 x h4
+11. Man f1 x h3
+11. Man h5 x i4
+12. Man j4 x i4
+12. Man a4 x a3
+13. Man e2 - e4
+13. Man j6 - j4 Man j7 - j5
+14. Man g1 - f1 Man h1 x g1
+14. Man j5 x i4
+15. Man f1 - e2
+15. Man i4 x h3
+16. Man g3 - g4
+16. Man a3 x b2
+17. Man i2 x h3
+17. Man a5 - a1
+Player 1 - I lose!
+
+Cumulative results following game 33 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 33.
+Draws = 0
+
+Game 34 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man i3 - i4
+1. Man c7 - c5 Man d7 - d5
+2. Man h2 - h5
+2. Man h7 x h5
+3. Man f3 - g3
+3. Man g7 - g4 Man g8 - g5
+4. Man c2 - d3
+4. Man j6 x g3
+5. Man a3 - b4
+5. Man f6 - f4 Man f7 - f5
+6. Man d3 - e4
+6. Man g3 x e3
+7. Man d2 x e3
+7. Man c5 x e3
+8. Man e4 - c4
+8. Man g4 x e2
+using first move = Man g4 x e2
+9. Man g1 - e1
+9. Man d5 x d1
+Player 1 - I lose!
+
+Cumulative results following game 34 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 34.
+Draws = 0
+
+Game 35 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man a3 - a4
+1. Man g7 - g5 Man h7 - h5
+2. Man g1 - e1
+2. Man c7 - c5 Man d7 - d5
+3. Man h2 - h4 Man h1 - h3
+3. Man e6 - e4 Man f6 - f4
+4. Man e1 - g1
+4. Man j6 x h4
+5. Man d2 - d3
+5. Man c8 x h3
+6. Man g2 - h2 Man f2 x g2 Man e2 x f2
+6. Man a6 x d3
+7. Man d1 - e1 Man c1 x d1
+7. Man g8 - g6 Man h8 - h6
+8. Man j3 - j5 Man j2 - j4
+8. Man i6 x i3
+using first move = Man i6 x i3
+9. Man i2 x i3
+9. Man h3 x i3
+using first move = Man h3 x i3
+10. Man f3 x i3
+10. Man d8 - d6
+11. Man b2 - a3
+11. Man d3 x e3
+12. Man j5 - i5
+12. Man e7 - e5 Man f7 - f5
+13. Man a4 - b4
+13. Man h4 x f2
+14. Man g1 - f1
+14. Man g5 x g2
+Player 1 - I lose!
+
+Cumulative results following game 35 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 35.
+Draws = 0
+
+Game 36 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man d2 - d4 Man d1 - d3
+1. Man c7 - c5 Man d7 - d5
+2. Man h2 - h3 Man h1 x h2
+2. Man f6 x d4
+3. Man c2 - c4 Man c1 - c3
+3. Man h7 x d3
+4. Man e2 - c2 Man f2 - d2 Man g2 x e2 Man h2 x f2 Man i2 x g2
+4. Man a6 x c4
+5. Man c2 x d3
+5. Man d4 x c3
+6. Man b2 - c2
+6. Man c3 x b3
+7. Man a2 - b2
+7. Man c8 - c6 Man d8 - d6
+8. Man d2 - c3
+8. Man g7 x c3
+9. Man j3 - i4
+9. Man d5 x d3
+10. Man e2 - d2 Man f2 x e2
+10. Man b3 x c2
+11. Man a3 x c3
+11. Man e6 x e3
+12. Man g1 - h1
+12. Man e3 x e2
+Player 1 - I lose!
+
+Cumulative results following game 36 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 36.
+Draws = 0
+
+Game 37 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man d2 - b4
+1. Man g7 - g5 Man h7 - h5
+2. Man e3 - f4
+2. Man c7 x f4
+3. Man e2 - d2 Man f2 x e2 Man g2 x f2 Man h2 x g2 Man i2 x h2
+3. Man h5 x f3
+4. Man d2 - c3
+4. Man a6 x e2
+5. Man c3 - e3 Man b3 - d3
+5. Man b6 x e3
+6. Man g1 - e1
+6. Man j6 x f2
+7. Man e1 - f1 Man d1 x e1 Man c1 x d1
+7. Man e2 x e1
+Player 1 - I lose!
+
+Cumulative results following game 37 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 37.
+Draws = 0
+
+Game 38 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man i3 - g3
+1. Man g7 - g5 Man h7 - h5
+2. Man j3 - i3
+2. Man a6 - a4 Man a7 - a5
+3. Man f3 - f4 Man f2 x f3
+3. Man c7 x f4
+4. Man h2 - h3
+4. Man h5 x f3
+5. Man g1 - f2
+5. Man j6 x g3
+6. Man b2 - d4
+6. Man e6 x e3
+7. Man d2 - d3 Man d1 x d2
+7. Man f3 x f2
+8. Man c1 - f1
+8. Man i6 x e2
+using first move = Man i6 x e2
+9. Man d2 x e2
+9. Man j7 x e2
+Player 1 - I lose!
+
+Cumulative results following game 38 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 38.
+Draws = 0
+
+Game 39 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man e3 - d3 Man f3 x e3
+1. Man c7 - c5 Man d7 - d5
+2. Man a3 - b4
+2. Man j6 - j4 Man j7 - j5
+3. Man f2 - f3
+3. Man f6 x i3
+4. Man j2 x i3
+4. Man j4 x b4
+5. Man b2 - a3
+5. Man d5 x b3
+6. Man a2 x b3
+6. Man e6 x b3
+7. Man c2 - b2 Man d2 x c2
+7. Man c8 - c6 Man d8 - d6
+8. Man g2 - f2
+8. Man g8 - f8 Man h8 x g8
+9. Man i2 - j2
+9. Man b7 - d7
+10. Man d3 - c3
+10. Man a6 x a3
+11. Man j2 - i2
+11. Man g7 x c3
+12. Man f2 - g3
+12. Man f8 - g7
+13. Man c2 x b3
+13. Man a3 x b2
+14. Man c1 - c2
+14. Man a7 - a1
+Player 1 - I lose!
+
+Cumulative results following game 39 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 39.
+Draws = 0
+
+Game 40 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man h2 - h4
+1. Man g7 - g5 Man h7 - h5
+2. Man e3 - c3
+2. Man j6 x h4
+3. Man d2 - d3
+3. Man c7 - c5 Man d7 - d5
+4. Man a3 - a4 Man b3 - b4 Man c3 - c4
+4. Man a6 x c4
+5. Man c2 x c4
+5. Man c8 - c6 Man d8 - d6
+6. Man g2 - h3
+6. Man b6 x b4
+7. Man b2 - b3
+7. Man a7 x a4
+8. Man i2 - g2
+8. Man h4 x c4
+9. Man a2 - c2
+9. Man d5 x d3
+10. Man i3 - i4
+10. Man i6 x i4
+11. Man j3 - i3
+11. Man e6 x e2
+12. Man d1 - e1 Man c1 x d1
+12. Man e2 x c2
+using first move = Man e2 x c2
+13. Man b3 x c2
+13. Man a4 x c2
+14. Man d1 - d2 Man e1 - e2
+14. Man b4 - b1
+Player 1 - I lose!
+
+Cumulative results following game 40 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 40.
+Draws = 0
+
+Game 41 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man d1 - f1 Man c1 - e1
+1. Man c7 - c5 Man d7 - d5
+2. Man e3 - e4 Man e2 x e3 Man e1 x e2
+2. Man h7 x e4
+3. Man e3 - f4
+3. Man i6 x f3
+4. Man i3 - g3 Man j3 - h3
+4. Man c8 - c7
+5. Man h1 - i1
+5. Man d8 - d6
+6. Man g1 - h1
+6. Man a6 x e2
+7. Man f2 x e2
+7. Man j6 x g3
+8. Man b3 - e3
+8. Man d6 x f4
+9. Man g2 - f2 Man h2 x g2 Man i2 x h2 Man j2 x i2
+9. Man g3 x g2
+10. Man h2 - g3
+10. Man g7 x g3
+11. Man h1 - g1 Man i1 x h1
+11. Man g8 - g6 Man h8 - h6
+12. Man c2 - c3
+12. Man i7 - i5 Man j7 - j5
+13. Man f1 - c1
+13. Man g3 x f2
+14. Man c1 - f1
+14. Man f2 x f1
+Player 1 - I lose!
+
+Cumulative results following game 41 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 41.
+Draws = 0
+
+Game 42 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man f3 - f4 Man f2 x f3
+1. Man c7 - c5 Man d7 - d5
+2. Man j3 - i4
+2. Man g7 - g5 Man h7 - h5
+3. Man j2 - j3
+3. Man f6 x f4
+4. Man b3 - d3
+4. Man d5 x f3
+5. Man i3 x f3
+5. Man c8 - c6 Man d8 - d6
+6. Man e2 - f2 Man d2 x e2
+6. Man c6 x f3
+7. Man c2 - b3
+7. Man e6 x e3
+8. Man i2 - i3
+8. Man j6 x f2
+9. Man g1 - f1 Man h1 x g1
+9. Man f3 x e2
+using first move = Man f3 x e2
+10. Man d3 x e2
+10. Man a6 x e2
+using first move = Man a6 x e2
+11. Man f1 - e1 Man g1 x f1
+11. Man e2 x e1
+Player 1 - I lose!
+
+Cumulative results following game 42 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 42.
+Draws = 0
+
+Game 43 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man c2 - c4 Man d2 - d4
+1. Man g7 - g5 Man h7 - h5
+2. Man b3 - b4
+2. Man c7 - c5 Man d7 - d5
+3. Man h2 - g3
+3. Man a6 x c4
+4. Man g3 - f4
+4. Man c4 x d4
+5. Man a3 - b3
+5. Man d4 x f4
+6. Man b4 - e4
+6. Man e6 x e4
+7. Man c1 - c3 Man d1 - d3
+7. Man d5 x d3
+8. Man b2 - d2 Man a2 - c2
+8. Man f6 - d4
+9. Man e3 x d3
+9. Man c8 - c6 Man d8 - d6
+10. Man j3 - i4
+10. Man j6 - j4 Man j7 - j5
+11. Man d3 - e3 Man c3 x d3
+11. Man g8 - g7
+12. Man h1 - h3
+12. Man h8 - h7
+13. Man f2 - i5
+13. Man e7 - e6 Man f7 - f6 Man g7 - g6 Man h7 - h6
+14. Man i5 x h5
+14. Man j4 x i4
+15. Man i3 - h4
+15. Man e6 x h3
+Player 1 - I lose!
+
+Cumulative results following game 43 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 43.
+Draws = 0
+
+Game 44 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man f2 - g3
+1. Man g7 - g5 Man h7 - h5
+2. Man i3 - i4
+2. Man a6 - a4 Man a7 - a5
+3. Man i4 - j4
+3. Man e6 x b3
+4. Man c1 - b1 Man d1 x c1
+4. Man c7 x c2
+5. Man e3 - f4
+5. Man d7 x d2
+6. Man g1 - d1 Man h1 - e1
+6. Man d2 x d1
+Player 1 - I lose!
+
+Cumulative results following game 44 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 44.
+Draws = 0
+
+Game 45 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man g2 - h3
+1. Man g7 - g5 Man h7 - h5
+2. Man c2 - c4 Man c1 - c3
+2. Man c7 - c5 Man d7 - d5
+3. Man h1 - j1
+3. Man a6 x c4
+4. Man a3 - a4 Man a2 x a3
+4. Man f6 x c3
+5. Man d2 - c2 Man e2 x d2
+5. Man b6 x b3
+6. Man j3 - j4 Man j2 x j3 Man j1 x j2
+6. Man c8 - c6 Man d8 - d6
+7. Man i3 - i5
+7. Man g8 - g6 Man h8 - h6
+8. Man d1 - c1
+8. Man a7 - a5 Man b7 - b5
+9. Man h2 - g2
+9. Man f7 - f5
+10. Man g1 - d1
+10. Man e7 - h7
+11. Man d1 - i1
+11. Man h7 - c7
+12. Man d2 - d3
+12. Man d5 x d3
+13. Man c2 - d2
+13. Man b3 x b2
+Player 1 - I lose!
+
+Cumulative results following game 45 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 45.
+Draws = 0
+
+Game 46 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man d1 - e1 Man c1 x d1
+1. Man c7 - c5 Man d7 - d5
+2. Man a3 - a4 Man a2 x a3
+2. Man j6 - j4 Man j7 - j5
+3. Man a4 - i4
+3. Man f7 x i4
+4. Man b2 - c3
+4. Man g7 - g5 Man g8 - g6
+5. Man e3 - f4
+5. Man h7 - h3 Man h8 - h4
+6. Man f4 - e4
+6. Man g6 x e4
+7. Man d2 - d3
+7. Man a6 x d3
+8. Man c2 x d3
+8. Man j4 x i3
+9. Man j2 x i3
+9. Man c8 - c6 Man d8 - d6
+10. Man g1 - f1 Man h1 x g1
+10. Man d6 x h2
+11. Man g1 - h1 Man f1 x g1 Man e1 x f1
+11. Man b6 - b4
+12. Man f3 - e3
+12. Man a7 x a3
+13. Man j3 - j4
+13. Man h3 x i3
+using first move = Man h3 x i3
+14. Man e3 x i3
+14. Man h2 x i3
+using first move = Man h2 x i3
+15. Man g1 x i3
+15. Man i7 - j6
+16. Man h1 - h2
+16. Man b7 - b6
+17. Man f2 - d4
+17. Man e4 x d4
+18. Man h2 - h3
+18. Man e6 - e4 Man e7 - e5
+19. Man j4 x i4
+19. Man i6 x i4
+20. Man d3 - f3 Man c3 - e3 Man b3 x d3
+20. Man j5 - j2 Man j6 - j3
+21. Man h3 - g3 Man i3 x h3
+21. Man e4 x e3
+22. Man g3 - f4
+22. Man f6 x f4
+23. Man g2 - g4
+23. Man g5 x g4
+24. Man i2 - g2
+24. Man d5 x f3
+25. Man f1 - f2
+25. Man f4 - i1
+Player 1 - I lose!
+
+Cumulative results following game 46 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 46.
+Draws = 0
+
+Game 47 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man c2 - e4
+1. Man g7 - g5 Man h7 - h5
+2. Man g2 - g4
+2. Man e6 x g4
+3. Man h2 - g2
+3. Man f6 x f3
+4. Man e4 - d4 Man e3 - d3
+4. Man c8 - b8 Man d8 x c8
+5. Man i2 - h2 Man j2 x i2
+5. Man j6 x f2
+6. Man g1 x f2
+6. Man c7 - c5 Man d7 - d5 Man e7 - e5 Man f7 - f5
+7. Man j3 - j4
+7. Man d5 x d4
+8. Man b2 - c2
+8. Man g8 - g6 Man h8 - h6
+9. Man i2 - j2 Man h2 x i2
+9. Man a6 x d3
+10. Man d2 x d3
+10. Man f3 x d3
+11. Man a3 - a4 Man a2 x a3
+11. Man g4 x e2
+using first move = Man g4 x e2
+12. Man d1 - e1 Man c1 x d1
+12. Man e2 x c2
+Player 1 - I lose!
+
+Cumulative results following game 47 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 47.
+Draws = 0
+
+Game 48 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man b3 - b4 Man b2 x b3
+1. Man g7 - g5 Man h7 - h5
+2. Man e3 - e4 Man e2 x e3
+2. Man c7 - c5 Man d7 - d5
+3. Man e4 - j4
+3. Man e6 - e4 Man f6 - f4
+4. Man f2 - e2
+4. Man h5 x f3
+5. Man i3 x f3
+5. Man i6 x f3
+6. Man g2 - f2 Man h2 x g2 Man i2 x h2 Man j2 x i2
+6. Man g8 - g6 Man h8 - h6
+7. Man i2 - j2 Man h2 x i2 Man g2 x h2 Man f2 x g2 Man e2 x f2
+7. Man c8 - e6
+8. Man d1 x f3
+8. Man j7 x f3
+9. Man h2 - h4 Man h1 - h3
+9. Man f3 x e3
+10. Man c1 - e1
+10. Man j6 x h4
+11. Man j2 x h4
+11. Man f4 x f2
+12. Man g1 - f1
+12. Man a6 x f1
+Player 1 - I lose!
+
+Cumulative results following game 48 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 48.
+Draws = 0
+
+Game 49 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man d1 - e1
+1. Man c7 - c5 Man d7 - d5
+2. Man g2 - g4
+2. Man g7 - g5 Man h7 - h5
+3. Man e3 - e5 Man e2 - e4 Man e1 x e3
+3. Man e6 x e5
+4. Man c2 - c4 Man c1 - c3
+4. Man a6 x c4
+5. Man h2 - h3
+5. Man c8 x g4
+6. Man b3 x c4
+6. Man g4 x e4
+7. Man a3 x c5
+7. Man b7 - d7 Man a7 - c7
+8. Man h3 - g3 Man i3 x h3
+8. Man c7 x c5
+9. Man f3 x e4
+9. Man d8 - c7
+10. Man h1 - j1
+10. Man e5 x e4
+11. Man b2 - b3
+11. Man c7 - c6 Man d7 - d6 Man e7 - e6
+12. Man a2 - b2
+12. Man c5 x e3
+using first move = Man c5 x e3
+13. Man g1 - e1
+13. Man f6 x f2
+Player 1 - I lose!
+
+Cumulative results following game 49 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 49.
+Draws = 0
+
+Game 50 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man g2 - g4
+1. Man g7 - g5 Man h7 - h5
+2. Man e3 - f4
+2. Man e6 x g4
+3. Man b3 - d3
+3. Man b7 x f3
+4. Man f4 - c4
+4. Man j6 x f2
+5. Man h2 x f2
+5. Man a6 - a4 Man a7 - a5
+6. Man f2 - h2 Man e2 - g2 Man d2 x f2 Man c2 x e2
+6. Man g8 - g6 Man h8 - h6
+7. Man h1 - i1
+7. Man c7 - c5 Man c8 - c6
+8. Man d1 - d2
+8. Man d8 - c7
+9. Man d3 - c3
+9. Man c7 - e5
+10. Man g1 - d1
+10. Man f7 x c4
+11. Man i3 - i5 Man i2 - i4
+11. Man i6 x i5
+12. Man i1 - i2
+12. Man e5 x e2
+13. Man d1 - e1
+13. Man i5 x f2
+Player 1 - I lose!
+
+Cumulative results following game 50 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 50.
+Draws = 0
+
+Game 51 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man j3 - i4
+1. Man c7 - c5 Man d7 - d5
+2. Man c1 - a1
+2. Man g7 - g5 Man h7 - h5
+3. Man b3 - b4
+3. Man e6 - e4 Man f6 - f4
+4. Man i2 - g4
+4. Man g5 x g4
+5. Man j2 - j5
+5. Man f4 x f3
+6. Man d2 - d3 Man d1 x d2
+6. Man j6 x f2
+7. Man e2 x f3
+7. Man f7 x f3
+8. Man g1 x f2
+8. Man c8 - c7 Man d8 - d7
+9. Man d3 - d4 Man d2 x d3
+9. Man a6 x d3
+10. Man a2 - c4
+10. Man d3 x e3
+Player 1 - I lose!
+
+Cumulative results following game 51 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 51.
+Draws = 0
+
+Game 52 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man b3 - b4 Man b2 x b3
+1. Man g7 - g5 Man h7 - h5
+2. Man b4 - c4
+2. Man c7 - c5 Man d7 - d5
+3. Man e3 - e4
+3. Man a6 x c4
+4. Man f3 - d3
+4. Man b6 x b3
+5. Man c2 - b2 Man d2 x c2 Man e2 x d2 Man f2 x e2 Man g2 x f2 Man h2 x g2 Man i2 x h2
+5. Man a7 - a4 Man b7 - b4
+6. Man h1 - i1
+6. Man c8 - c6
+7. Man d2 - f4
+7. Man d8 - d6
+8. Man c1 - a1
+8. Man c4 x c2
+9. Man a1 - c1
+9. Man d5 x d3
+10. Man i3 - g3
+10. Man d3 x d1
+Player 1 - I lose!
+
+Cumulative results following game 52 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 52.
+Draws = 0
+
+Game 53 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man c1 - a1
+1. Man c7 - c5 Man d7 - d5
+2. Man e3 - f4
+2. Man g7 - g5 Man h7 - h5
+3. Man b3 - e3 Man a3 - d3
+3. Man f6 x f4
+4. Man g1 - e1 Man h1 - f1
+4. Man e6 - e4
+5. Man f1 - i1 Man e1 - h1 Man d1 - g1
+5. Man a6 x d3
+6. Man i3 - i4
+6. Man c5 x c2
+7. Man a1 - c1
+7. Man b6 x b2
+using first move = Man b6 x b2
+8. Man a2 x b2
+8. Man a7 x e3
+9. Man i4 x f4
+9. Man c8 - c6 Man d8 - d6
+10. Man g2 - i4
+10. Man d3 x d2
+Player 1 - I lose!
+
+Cumulative results following game 53 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 53.
+Draws = 0
+
+Game 54 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man j3 - j4 Man j2 x j3
+1. Man c7 - c5 Man d7 - d5
+2. Man f3 - g3
+2. Man g7 - g5 Man h7 - h5
+3. Man f2 - f3
+3. Man e6 - e4 Man f6 - f4
+4. Man c2 x e4
+4. Man c8 - c6 Man d8 - d6
+5. Man i2 - j2 Man h2 x i2 Man g2 x h2
+5. Man j6 x g3
+6. Man h2 - g2 Man i2 x h2 Man j2 x i2
+6. Man g3 x f3
+7. Man e2 - f2
+7. Man c5 x e3
+using first move = Man c5 x e3
+8. Man b3 x e3
+8. Man b6 x e3
+using first move = Man b6 x e3
+9. Man a3 x e3
+9. Man a7 x e3
+using first move = Man a7 x e3
+10. Man e4 x e3
+10. Man f3 x e3
+11. Man d1 - e1
+11. Man d5 x d2
+Player 1 - I lose!
+
+Cumulative results following game 54 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 54.
+Draws = 0
+
+Game 55 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man i2 - g4
+1. Man g7 - g5 Man h7 - h5
+2. Man j3 - j4
+2. Man e6 x g4
+3. Man e3 - d3
+3. Man b7 x f3
+4. Man d2 - b4
+4. Man c8 - b8
+5. Man c2 - d2
+5. Man b8 - b7
+6. Man c1 - b1 Man d1 x c1
+6. Man d8 - c8
+7. Man c1 - c3
+7. Man c8 - a8
+8. Man d3 - e3
+8. Man a8 - c8
+9. Man c3 - d3 Man b3 x c3 Man a3 x b3
+9. Man c8 - b8
+10. Man e3 - e4 Man e2 x e3
+10. Man b8 - a8
+11. Man a2 - a5
+11. Man a8 - c8
+12. Man h2 - h4 Man h1 - h3
+12. Man b6 x e3
+13. Man b1 - e1
+13. Man a6 x d3
+14. Man e4 x g4
+14. Man h5 x g4
+15. Man b4 - a4
+15. Man c7 x c3
+16. Man b2 x c3
+16. Man d3 x d2
+Player 1 - I lose!
+
+Cumulative results following game 55 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 55.
+Draws = 0
+
+Game 56 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man g2 - g3 Man h2 - h3
+1. Man c7 - c5 Man d7 - d5
+2. Man h3 - h4 Man i3 - i4
+2. Man g7 - g5 Man h7 - h5
+3. Man e3 - e4 Man e2 x e3
+3. Man j6 x h4
+4. Man f3 - f4
+4. Man h4 x f4
+5. Man g3 - i5
+5. Man f4 x i4
+6. Man e4 x i4
+6. Man e6 - e4 Man f6 - f4
+7. Man j3 - i3
+7. Man g8 - g6 Man h8 - h6
+8. Man b2 - d4
+8. Man d5 x d4
+9. Man d1 - f1
+9. Man e4 x e3
+10. Man f2 - e2
+10. Man a6 x e2
+using first move = Man a6 x e2
+11. Man c1 - e1
+11. Man d4 x d2
+Player 1 - I lose!
+
+Cumulative results following game 56 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 56.
+Draws = 0
+
+Game 57 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man b3 - b4
+1. Man g7 - g5 Man h7 - h5
+2. Man a3 - a4 Man a2 x a3
+2. Man c7 - c5 Man d7 - d5
+3. Man e2 - b5
+3. Man e6 - e4 Man f6 - f4
+4. Man i3 - i4 Man i2 x i3
+4. Man b6 x b5
+5. Man h2 - h4 Man h1 - h3
+5. Man j6 x h4
+6. Man i4 x h4
+6. Man g8 - g6 Man h8 - h6
+7. Man a3 - c3
+7. Man h5 x h4
+8. Man g1 - e1
+8. Man i6 x i3
+9. Man e1 - j1 Man d1 - i1 Man c1 - h1
+9. Man j7 x f3
+10. Man a4 x b5
+10. Man c5 x e3
+11. Man d2 - e2 Man c2 x d2
+11. Man f3 x f2
+using first move = Man f3 x f2
+12. Man h3 - f3
+12. Man e3 x f3
+Player 1 - I lose!
+
+Cumulative results following game 57 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 57.
+Draws = 0
+
+Game 58 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man g2 - i4
+1. Man c7 - c5 Man d7 - d5
+2. Man e3 - c3 Man f3 - d3
+2. Man g7 - g5 Man h7 - h5
+3. Man j3 - j5
+3. Man i6 x i4
+using first move = Man i6 x i4
+4. Man j2 - j4
+4. Man c8 - c7
+5. Man d3 - e3 Man c3 x d3 Man b3 x c3
+5. Man d8 - d7
+6. Man c3 - b3 Man d3 x c3
+6. Man g8 x j5
+7. Man b3 - c4
+7. Man h8 - h6
+8. Man h2 - h3
+8. Man a6 x c4
+9. Man g1 - g2 Man h1 - h2
+9. Man a7 - a5
+10. Man h2 - f4
+10. Man h5 x h3
+11. Man d1 - h1 Man c1 - g1
+11. Man h3 x i3
+using first move = Man h3 x i3
+12. Man g1 x i3
+12. Man a5 x c3
+13. Man g2 - h2 Man f2 x g2 Man e2 x f2 Man d2 x e2 Man c2 x d2 Man b2 x c2 Man a2 x b2
+13. Man c7 x f4
+14. Man f2 - f3 Man g2 - g3 Man h2 - h3
+14. Man j7 x f3
+15. Man e3 x f3
+15. Man f4 x d2
+using first move = Man f4 x d2
+16. Man h1 - d1
+16. Man d2 x c2
+Player 1 - I lose!
+
+Cumulative results following game 58 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 58.
+Draws = 0
+
+Game 59 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man c2 - e4
+1. Man g7 - g5 Man h7 - h5
+2. Man j3 - i4
+2. Man c7 - c5 Man d7 - d5
+3. Man b3 - c3 Man a3 x b3
+3. Man e6 x e4
+4. Man i3 - j3
+4. Man f6 - f4
+5. Man g2 - g4 Man h2 - h4
+5. Man j6 x h4
+6. Man f3 - h3
+6. Man c8 x g4
+7. Man i2 - h2 Man j2 x i2
+7. Man d8 - d6
+8. Man c1 - a1 Man d1 - b1
+8. Man h4 x h3
+9. Man a2 - a4
+9. Man h3 x e3
+10. Man h2 - g2
+10. Man a6 x e2
+11. Man b1 - e1 Man a1 - d1
+11. Man e2 x d2
+12. Man d1 x d2
+12. Man g4 x i4
+13. Man b3 - b5 Man b2 - b4
+13. Man d5 x d2
+Player 1 - I lose!
+
+Cumulative results following game 59 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 59.
+Draws = 0
+
+Game 60 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man g2 - g4 Man h2 - h4
+1. Man c7 - c5 Man d7 - d5
+2. Man h4 - g5
+2. Man g7 x g5
+3. Man b3 - c3
+3. Man i6 x g4
+4. Man c2 - d3
+4. Man c8 - c7
+5. Man a2 - c4
+5. Man a6 x c4
+6. Man j3 - j5 Man j2 - j4
+6. Man h7 x d3
+7. Man f3 - g3
+7. Man j6 x g3
+8. Man d1 - e1
+8. Man g8 - g6 Man h8 - h6
+9. Man e3 - f3
+9. Man f6 x c3
+10. Man j5 - i5 Man j4 - i4
+10. Man d8 - d6
+11. Man i2 - h2
+11. Man a7 - a5
+12. Man i5 - h5
+12. Man j7 x h5
+13. Man e2 - e4
+13. Man c5 x f2
+Player 1 - I lose!
+
+Cumulative results following game 60 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 60.
+Draws = 0
+
+Game 61 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man g2 - g4
+1. Man g7 - g5 Man h7 - h5
+2. Man e3 x g5
+2. Man e6 x g4
+3. Man h2 - f4
+3. Man b7 x f3
+4. Man b3 - e3
+4. Man f6 x f4
+5. Man g5 x f4
+5. Man j6 x f2
+6. Man d1 - f1
+6. Man a6 x e2
+7. Man c1 - e1
+7. Man d7 x d2
+Player 1 - I lose!
+
+Cumulative results following game 61 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 61.
+Draws = 0
+
+Game 62 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man i2 - h3
+1. Man g7 - g5 Man h7 - h5
+2. Man h1 - i1
+2. Man a6 - a4 Man a7 - a5
+3. Man i3 - i4 Man j3 - j4
+3. Man a4 x i4
+4. Man i1 - i3
+4. Man g5 x i3
+5. Man h2 x i3
+5. Man e6 x h3
+6. Man g2 - h2 Man f2 x g2 Man e2 x f2
+6. Man j6 x j4
+7. Man c2 - c3
+7. Man c7 x h2
+8. Man g2 x h2
+8. Man g8 - g6 Man h8 - h6
+9. Man d1 - c2
+9. Man f6 x i3
+10. Man j2 - i2
+10. Man h3 x h2
+11. Man i2 - g4
+11. Man d7 x g4
+12. Man c1 - a1
+12. Man g4 x g1
+Player 1 - I lose!
+
+Cumulative results following game 62 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 62.
+Draws = 0
+
+Game 63 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man a3 - a5 Man a2 - a4
+1. Man c7 - c5 Man d7 - d5
+2. Man f3 - f4
+2. Man a6 x a5
+3. Man b2 - a2 Man c2 x b2
+3. Man g7 - g5 Man h7 - h5
+4. Man f4 - h4
+4. Man j6 x h4
+5. Man e3 - e4 Man e2 x e3
+5. Man h4 x e4
+6. Man f2 - e2 Man g2 x f2 Man h2 x g2 Man i2 x h2
+6. Man e4 x a4
+7. Man d2 - c2 Man e2 x d2 Man f2 x e2 Man g2 x f2
+7. Man c8 - c7
+8. Man c1 - b1 Man d1 x c1
+8. Man d8 - d6
+9. Man c2 - d3
+9. Man g8 - g7
+10. Man e3 - f3 Man d3 x e3
+10. Man h8 - h6
+11. Man f2 - g2 Man e2 x f2
+11. Man e6 - e4 Man f6 - f4
+12. Man h2 - h3
+12. Man c5 x e3
+13. Man g1 - e1 Man h1 - f1
+13. Man d5 x d2
+14. Man f2 x d2
+14. Man h5 x f3
+15. Man a2 - a3
+15. Man b7 - d5
+16. Man j2 - h2
+16. Man d5 x d2
+using first move = Man d5 x d2
+17. Man c1 - d1 Man b1 x c1
+17. Man f3 x d1
+Player 1 - I lose!
+
+Cumulative results following game 63 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 63.
+Draws = 0
+
+Game 64 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man g1 - e1
+1. Man c7 - c5 Man d7 - d5
+2. Man e2 - d3
+2. Man j6 - j4 Man j7 - j5
+3. Man d2 - e2 Man c2 x d2 Man b2 x c2
+3. Man f6 x i3
+4. Man a2 - b2
+4. Man e6 x i2
+5. Man h1 x i2
+5. Man h7 x h2
+6. Man e1 - h1
+6. Man g7 x g2
+7. Man f3 - h3 Man e3 - g3
+7. Man g2 - g1
+Player 1 - I lose!
+
+Cumulative results following game 64 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 64.
+Draws = 0
+
+Game 65 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man e3 - e4
+1. Man c7 - c5 Man d7 - d5
+2. Man b2 - e5
+2. Man h7 x e4
+3. Man d2 - f4
+3. Man f6 x f4
+4. Man h2 x f4
+4. Man i6 x f3
+5. Man g2 - g3 Man g1 x g2
+5. Man c8 - c6 Man d8 - d6
+6. Man i2 - h3
+6. Man g8 - h7
+7. Man j3 - j4
+7. Man h8 - f8
+8. Man d1 - d3
+8. Man a6 x d3
+9. Man h1 - d1
+9. Man j6 x g3
+10. Man f2 x f3
+10. Man j7 x f3
+Player 1 - I lose!
+
+Cumulative results following game 65 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 65.
+Draws = 0
+
+Game 66 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man e3 - c3
+1. Man c7 - c5 Man d7 - d5
+2. Man i2 - g4
+2. Man g7 - g5 Man h7 - h5
+3. Man c1 - a1 Man d1 - b1
+3. Man e6 - e4 Man f6 - f4
+4. Man b1 - d1
+4. Man g5 x g4
+5. Man h2 - i2 Man g2 x h2 Man f2 x g2 Man e2 x f2 Man d2 x e2 Man c2 x d2
+5. Man f4 x f3
+6. Man d1 - e1
+6. Man j6 x f2
+7. Man g1 x f2
+7. Man a6 x e2
+8. Man a3 - a4 Man a2 x a3 Man a1 x a2
+8. Man e2 x f2
+using first move = Man e2 x f2
+9. Man h1 - f1
+9. Man e4 x e1
+Player 1 - I lose!
+
+Cumulative results following game 66 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 66.
+Draws = 0
+
+Game 67 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man i3 - g3
+1. Man g7 - g5 Man h7 - h5
+2. Man g3 - g4
+2. Man e6 x g4
+3. Man f3 - h3
+3. Man a6 - a4 Man a7 - a5
+4. Man c2 - d3
+4. Man f7 x b3
+5. Man d2 - c2 Man e2 x d2
+5. Man g8 - g6 Man h8 - h6
+6. Man f2 - f3
+6. Man b7 x f3
+7. Man d1 x f3
+7. Man h5 x h3
+8. Man h1 - j1
+8. Man h3 x f3
+9. Man d2 - f2
+9. Man d7 - d5 Man d8 - d6
+10. Man g2 - h3
+10. Man j6 x f2
+Player 1 - I lose!
+
+Cumulative results following game 67 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 67.
+Draws = 0
+
+Game 68 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man f3 - h3
+1. Man g7 - g5 Man h7 - h5
+2. Man e3 - g3
+2. Man a6 - a4 Man a7 - a5
+3. Man g3 - h4
+3. Man j6 x h4
+4. Man b3 - f3
+4. Man e6 x h3
+5. Man c2 - e4
+5. Man c7 x h2
+6. Man j3 - j4 Man j2 x j3
+6. Man g8 - g6
+7. Man i3 - i4
+7. Man h8 - h6
+8. Man d2 - c3
+8. Man c8 - c6
+9. Man b2 - c2 Man a2 x b2
+9. Man h2 x i2
+10. Man h1 x h3
+10. Man i2 x h3
+using first move = Man i2 x h3
+11. Man j3 x h3
+11. Man i6 x i4
+12. Man g1 - i3
+12. Man i4 x h3
+using first move = Man i4 x h3
+13. Man g2 - h2 Man f2 x g2
+13. Man g5 x g2
+Player 1 - I lose!
+
+Cumulative results following game 68 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 68.
+Draws = 0
+
+Game 69 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man b3 - a4
+1. Man g7 - g5 Man h7 - h5
+2. Man g2 - g4 Man g1 - g3
+2. Man e6 x g4
+3. Man i3 - j4
+3. Man j6 x g3
+4. Man d1 - g1
+4. Man b7 x f3
+5. Man g1 - g2
+5. Man c8 - b8
+6. Man c1 - g1
+6. Man f3 x f2
+7. Man e2 - f3
+7. Man a6 - f1
+Player 1 - I lose!
+
+Cumulative results following game 69 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 69.
+Draws = 0
+
+Game 70 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man f3 - f4 Man f2 x f3
+1. Man c7 - c5 Man d7 - d5
+2. Man h2 - h3
+2. Man g7 - g5 Man h7 - h5
+3. Man g1 - f2
+3. Man f6 x f4
+4. Man h3 - h4
+4. Man e6 - e4
+5. Man g2 - h2 Man f2 x g2 Man e2 x f2 Man d2 x e2
+5. Man j6 x h4
+6. Man b3 - a4
+6. Man g8 - g6 Man h8 - h6
+7. Man f2 x h4
+7. Man h5 x f3
+8. Man g2 - f2 Man h2 x g2 Man i2 x h2 Man j2 x i2
+8. Man a6 x e2
+9. Man d1 - e1 Man c1 x d1
+9. Man d5 x d1
+Player 1 - I lose!
+
+Cumulative results following game 70 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 70.
+Draws = 0
+
+Game 71 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man a3 - a4
+1. Man g7 - g5 Man h7 - h5
+2. Man e2 - d3
+2. Man c7 - c5 Man d7 - d5
+3. Man i3 - g3 Man j3 - h3
+3. Man e6 - e4 Man f6 - f4
+4. Man h3 - h4 Man h2 x h3
+4. Man a6 x d3
+5. Man h4 - g4
+5. Man d3 x e3
+6. Man f2 - e2
+6. Man e3 x f3
+7. Man g1 - f1
+7. Man g5 x g4
+8. Man d2 - d3 Man d1 x d2
+8. Man j6 x g3
+9. Man d3 x f3
+9. Man c8 - c7 Man d8 - d7
+10. Man a4 - b4
+10. Man g8 - g6
+11. Man c1 - d1
+11. Man f4 x f3
+12. Man h3 - j3
+12. Man f3 x g2
+Player 1 - I lose!
+
+Cumulative results following game 71 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 71.
+Draws = 0
+
+Game 72 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man b3 - b4
+1. Man g7 - g5 Man h7 - h5
+2. Man c2 - d3
+2. Man c7 - c5 Man d7 - d5
+3. Man d3 - d4 Man d2 x d3
+3. Man e6 - e4 Man f6 - f4
+4. Man h2 - h4 Man h1 - h3
+4. Man a6 x d3
+5. Man c1 x c5
+5. Man c8 x c5
+6. Man b2 - c3
+6. Man d3 x e3
+7. Man a2 - d2
+7. Man b7 - d7 Man a7 - c7
+8. Man d4 - c4
+8. Man j6 x h4
+9. Man i2 - h2 Man j2 x i2
+9. Man d7 x h3
+10. Man i3 - j4
+10. Man g8 - g6 Man h8 - h6
+11. Man c4 x e4
+11. Man i6 x i2
+12. Man j3 - i3
+12. Man h5 x f3
+13. Man d2 - d3
+13. Man e7 x e4
+14. Man d1 - e1
+14. Man e3 x d3
+15. Man e2 - d2 Man f2 x e2 Man g2 x f2
+15. Man f3 - h1
+Player 1 - I lose!
+
+Cumulative results following game 72 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 72.
+Draws = 0
+
+Game 73 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man i3 - g3
+1. Man g7 - g5 Man h7 - h5
+2. Man a3 - a5 Man a2 - a4
+2. Man b6 x a5
+3. Man d2 - d3 Man d1 x d2
+3. Man d7 x a4
+4. Man b3 - a3
+4. Man j6 - j4 Man j7 - j5
+5. Man g1 - d1
+5. Man g8 - g6 Man h8 - h6
+6. Man e3 - e5 Man e2 - e4
+6. Man c7 x e5
+7. Man d2 - c3
+7. Man g6 x e4
+8. Man f2 - e3
+8. Man a7 x e3
+9. Man d1 - e2
+9. Man h5 x f3
+10. Man g2 - f2 Man h2 x g2
+10. Man c8 - c6 Man d8 - d6
+11. Man h1 - h3
+11. Man b7 - b5
+12. Man c1 - g1
+12. Man e7 - b7 Man f7 - c7
+13. Man i2 - i4
+13. Man b5 x d3
+14. Man g1 - d1
+14. Man f3 x e2
+using first move = Man f3 x e2
+15. Man c3 - e1
+15. Man c6 x c2
+Player 1 - I lose!
+
+Cumulative results following game 73 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 73.
+Draws = 0
+
+Game 74 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man b3 - c3
+1. Man c7 - c5 Man d7 - d5
+2. Man c3 - d4
+2. Man f6 x d4
+3. Man i2 - h3
+3. Man i7 x e3
+4. Man c1 - b1
+4. Man c8 - c7 Man d8 - d7
+5. Man h3 - i4
+5. Man g8 - f8
+6. Man f3 x e3
+6. Man e6 x e3
+7. Man b2 - b3 Man c2 - c3 Man d2 - d3
+7. Man f7 x f2
+8. Man g2 x f2
+8. Man j6 x f2
+9. Man d1 - f1
+9. Man f2 x e2
+Player 1 - I lose!
+
+Cumulative results following game 74 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 74.
+Draws = 0
+
+Game 75 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man c2 - c4
+1. Man c7 - c5 Man d7 - d5
+2. Man g2 - g4
+2. Man a6 x c4
+3. Man d1 - c2
+3. Man g7 - g5 Man h7 - h5
+4. Man b3 - d3 Man a3 - c3
+4. Man e6 - e4 Man f6 - f4
+5. Man e3 x e4
+5. Man c4 x e4
+6. Man g4 - j4
+6. Man c8 - c6 Man d8 - d6
+7. Man c2 - b3
+7. Man b6 - b5 Man b7 x b6
+8. Man a2 - a3
+8. Man b5 x d3
+9. Man c3 - c4
+9. Man d5 x c4
+10. Man h1 - g2
+10. Man g8 - g7
+11. Man b2 - c2
+11. Man h8 - h7
+12. Man g2 - g3 Man h2 - h3
+12. Man j6 x g3
+13. Man f3 x g3
+13. Man e7 - e6 Man f7 - f6 Man g7 - g6 Man h7 - h6
+14. Man i2 - h2 Man j2 x i2
+14. Man h5 x e2
+15. Man c1 - e1
+15. Man f4 x d2
+Player 1 - I lose!
+
+Cumulative results following game 75 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 75.
+Draws = 0
+
+Game 76 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man b3 - b4
+1. Man g7 - g5 Man h7 - h5
+2. Man g2 - i4
+2. Man c7 - c5 Man d7 - d5
+3. Man b4 - h4
+3. Man e6 - e4 Man f6 - f4
+4. Man j3 - j5
+4. Man j6 x h4
+5. Man d2 - d3
+5. Man h4 x i4
+using first move = Man h4 x i4
+6. Man j2 - j4
+6. Man j7 x j5
+7. Man c2 - a4
+7. Man a6 x d3
+8. Man a4 - c4 Man a3 - c3
+8. Man d5 x c4
+9. Man a2 x c4
+9. Man e4 x c4
+10. Man c1 - c2
+10. Man c8 - c6 Man d8 - d6
+11. Man f3 x f4
+11. Man g5 x i3
+12. Man h2 x i3
+12. Man d3 x c3
+13. Man i3 - j3
+13. Man b6 x b2
+14. Man d1 - d3
+14. Man a7 - a1
+Player 1 - I lose!
+
+Cumulative results following game 76 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 76.
+Draws = 0
+
+Game 77 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man g2 - g3 Man g1 x g2
+1. Man g7 - g5 Man h7 - h5
+2. Man e3 - e4 Man f3 - f4
+2. Man c7 x f4
+3. Man b3 - f3 Man a3 - e3
+3. Man c8 - c7
+4. Man d1 - e1 Man c1 x d1
+4. Man b7 x e4
+5. Man g3 - h4
+5. Man j6 x h4
+6. Man i3 - h3
+6. Man e6 x h3
+7. Man a2 - a3 Man b2 - b3 Man c2 - c3 Man d2 - d3
+7. Man a6 x d3
+8. Man e2 - c2
+8. Man i6 x i2
+9. Man j3 - i3
+9. Man j7 x j2
+10. Man e3 - d4
+10. Man j2 - j1
+Player 1 - I lose!
+
+Cumulative results following game 77 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 77.
+Draws = 0
+
+Game 78 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man f2 - h4
+1. Man g7 - g5 Man h7 - h5
+2. Man c2 - c4 Man d2 - d4
+2. Man j6 x h4
+3. Man g2 - f2 Man h2 x g2 Man i2 x h2 Man j2 x i2
+3. Man c7 - c5 Man d7 - d5
+4. Man h1 - i1
+4. Man a6 x c4
+5. Man a3 - a4
+5. Man b6 x b3
+6. Man a4 x c4
+6. Man a7 - a4 Man b7 - b4
+7. Man i3 - i4 Man i2 x i3 Man i1 x i2
+7. Man h4 x d4
+8. Man e3 - d3
+8. Man c8 - c6
+9. Man f2 - g3
+9. Man d8 - d6
+10. Man c4 x d4
+10. Man d5 x d4
+11. Man g2 - h3
+11. Man d4 x b2
+using first move = Man d4 x b2
+12. Man a2 x b2
+12. Man g8 - g6 Man h8 - h6
+13. Man h3 - h4
+13. Man i6 x i4
+14. Man i3 - h3 Man j3 x i3
+14. Man i7 - i6 Man j7 - j6
+15. Man f3 - e3 Man g3 x f3 Man h3 x g3 Man i3 x h3
+15. Man j6 x h4
+16. Man e2 - c2
+16. Man g5 x g3
+17. Man g1 x g3
+17. Man e6 x h3
+18. Man h2 x h3
+18. Man i4 x h3
+19. Man i2 - d2
+19. Man f6 x b2
+20. Man c2 - c3 Man c1 x c2
+20. Man a4 - a1
+Player 1 - I lose!
+
+Cumulative results following game 78 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 78.
+Draws = 0
+
+Game 79 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man e2 - c4
+1. Man c7 - c5 Man d7 - d5
+2. Man g1 - e1 Man h1 - f1
+2. Man a6 x c4
+3. Man e3 - c3
+3. Man f6 x c3
+4. Man c1 - a1 Man d1 - b1
+4. Man i7 x d2
+5. Man e1 - d1 Man f1 x e1
+5. Man e6 x e1
+Player 1 - I lose!
+
+Cumulative results following game 79 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 79.
+Draws = 0
+
+Game 80 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man g1 - e1 Man h1 - f1
+1. Man c7 - c5 Man d7 - d5
+2. Man c2 - c3
+2. Man j6 - j4 Man j7 - j5
+3. Man b2 - c2
+3. Man f6 x i3
+4. Man c1 - b1 Man d1 x c1 Man e1 x d1 Man f1 x e1
+4. Man h7 x h2
+5. Man e1 - j1 Man d1 - i1 Man c1 - h1 Man b1 - g1
+5. Man g7 x g2
+6. Man c2 - b2
+6. Man g2 x g1
+Player 1 - I lose!
+
+Cumulative results following game 80 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 80.
+Draws = 0
+
+Game 81 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man h2 - f4
+1. Man c7 - c5 Man d7 - d5
+2. Man f4 - h4 Man f3 - h3
+2. Man g7 - g5 Man h7 - h5
+3. Man h3 - g3
+3. Man j6 x h4
+4. Man a3 - a4 Man a2 x a3
+4. Man e6 - e4 Man f6 - f4
+5. Man c2 x e4
+5. Man c8 - c7
+6. Man b3 - c3 Man a3 x b3
+6. Man e7 x e4
+7. Man i3 x h4
+7. Man c7 - e7 Man b7 - d7 Man a7 x c7
+8. Man g1 - i3
+8. Man a6 - d3
+9. Man j3 - j5 Man j2 - j4
+9. Man j7 x j5
+10. Man e3 - d4
+10. Man d5 x d4
+11. Man h4 x f4
+11. Man c7 x f4
+12. Man g2 - h2 Man f2 x g2 Man e2 x f2 Man d2 x e2
+12. Man d7 - d5 Man d8 - d6
+13. Man i2 - j2 Man h2 x i2
+13. Man g8 - g6 Man h8 - h6
+14. Man c1 - c2
+14. Man h5 x e2
+using first move = Man h5 x e2
+15. Man c3 - e1
+15. Man d4 x f2
+using first move = Man d4 x f2
+16. Man g3 x f2
+16. Man f4 x f2
+Player 1 - I lose!
+
+Cumulative results following game 81 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 81.
+Draws = 0
+
+Game 82 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man g1 - e1 Man h1 - f1
+1. Man g7 - g5 Man h7 - h5
+2. Man a3 - a4 Man a2 x a3
+2. Man c7 - c5 Man d7 - d5
+3. Man c2 - c3 Man d2 - d3
+3. Man e6 - e4 Man f6 - f4
+4. Man e2 - d2 Man f2 x e2 Man g2 x f2 Man h2 x g2 Man i2 x h2 Man j2 x i2
+4. Man a6 x d3
+5. Man f1 - h1
+5. Man c8 - c6 Man d8 - d6
+6. Man i2 - j2 Man h2 x i2 Man g2 x h2 Man f2 x g2 Man e2 x f2 Man d2 x e2
+6. Man c5 x c3
+7. Man i3 - i4
+7. Man b6 x e3
+8. Man j2 - i3
+8. Man j6 x f2
+9. Man g2 - g3
+9. Man c3 x e1
+Player 1 - I lose!
+
+Cumulative results following game 82 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 82.
+Draws = 0
+
+Game 83 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man b3 - c3 Man a3 x b3
+1. Man c7 - c5 Man d7 - d5
+2. Man c3 - d3 Man b3 x c3
+2. Man j6 - j4 Man j7 - j5
+3. Man f3 - h3 Man e3 - g3
+3. Man f6 x i3
+4. Man d3 - d4 Man d2 x d3 Man d1 x d2
+4. Man g7 x d4
+5. Man g3 - e3
+5. Man c8 - c7
+6. Man h3 - h4 Man h2 x h3 Man h1 x h2
+6. Man e6 x h3
+7. Man h4 x j4
+7. Man d4 - h4 Man d5 - h5
+8. Man f2 - f3
+8. Man i3 x h2
+9. Man g1 x h2
+9. Man a6 - a4 Man a7 - a5
+10. Man a2 - b3
+10. Man h8 - d4
+11. Man e2 - f2 Man d2 x e2 Man c2 x d2
+11. Man i7 x e3
+12. Man f3 - g3
+12. Man b7 x g2
+13. Man c1 - a1
+13. Man f7 x f2
+Player 1 - I lose!
+
+Cumulative results following game 83 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 83.
+Draws = 0
+
+Game 84 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man h2 - h3 Man h1 x h2
+1. Man g7 - g5 Man h7 - h5
+2. Man j3 - j4 Man j2 x j3
+2. Man a6 - a4 Man a7 - a5
+3. Man g1 - h1
+3. Man e6 x b3
+4. Man d2 - d4
+4. Man c7 x c2
+5. Man g2 - g4
+5. Man d7 x g4
+6. Man f2 - g2
+6. Man f6 x f3
+7. Man g2 - f2 Man h2 x g2
+7. Man c2 x e2
+8. Man h1 - e1
+8. Man j6 x f2
+Player 1 - I lose!
+
+Cumulative results following game 84 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 84.
+Draws = 0
+
+Game 85 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man g2 - h3
+1. Man g7 - g5 Man h7 - h5
+2. Man h2 - g2 Man i2 x h2
+2. Man a6 - a4 Man a7 - a5
+3. Man a3 x a4
+3. Man d7 x a4
+4. Man c2 - e4
+4. Man e6 x b3
+5. Man h1 - j1 Man g1 - i1
+5. Man f6 x b2
+6. Man c1 - b1 Man d1 x c1
+6. Man c7 x c1
+Player 1 - I lose!
+
+Cumulative results following game 85 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 85.
+Draws = 0
+
+Game 86 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man c1 - a1 Man d1 - b1
+1. Man c7 - c5 Man d7 - d5
+2. Man h2 - f4
+2. Man g7 - g5 Man h7 - h5
+3. Man a3 - a4
+3. Man f6 x f4
+4. Man c2 - c3 Man d2 - d3
+4. Man c8 - c7
+5. Man a4 - e4
+5. Man e6 x e4
+6. Man i2 - h2
+6. Man a6 x d3
+7. Man e2 - d2 Man f2 x e2
+7. Man h8 x c3
+8. Man b2 - c2 Man a2 x b2
+8. Man c3 x d2
+9. Man e3 x d3
+9. Man d2 x d3
+10. Man g1 - c1 Man h1 - d1
+10. Man g8 - g6
+11. Man b3 - b4 Man b2 x b3 Man b1 x b2
+11. Man f4 x f3
+Player 1 - I lose!
+
+Cumulative results following game 86 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 86.
+Draws = 0
+
+Game 87 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man i3 - i4
+1. Man c7 - c5 Man d7 - d5
+2. Man g2 - h3
+2. Man g7 - g5 Man h7 - h5
+3. Man e2 - c4
+3. Man e6 - e4 Man f6 - f4
+4. Man c1 - b1 Man d1 x c1
+4. Man a6 x c4
+5. Man c1 - d1 Man b1 x c1
+5. Man c5 x e3
+6. Man d2 - e2 Man c2 x d2
+6. Man c8 - c6 Man d8 - d6
+7. Man b3 - b4
+7. Man j6 x f2
+8. Man h3 - g3
+8. Man c4 x e2
+9. Man d1 x e2
+9. Man g8 - g6 Man h8 - h6
+10. Man j3 - j4 Man j2 x j3
+10. Man d5 x d2
+11. Man g1 - d1 Man h1 - e1
+11. Man d2 x e1
+Player 1 - I lose!
+
+Cumulative results following game 87 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 87.
+Draws = 0
+
+Game 88 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man d1 - f1
+1. Man c7 - c5 Man d7 - d5
+2. Man h1 - i1 Man g1 x h1
+2. Man j6 - j4 Man j7 - j5
+3. Man e3 - c3
+3. Man f6 x i3
+4. Man b3 - b4 Man c3 - c4
+4. Man a6 x c4
+5. Man a3 - a4 Man a2 x a3
+5. Man c8 - c6
+6. Man b2 - a2 Man c2 x b2 Man d2 x c2 Man e2 x d2 Man f2 x e2
+6. Man b6 x b4
+7. Man b2 - b3 Man c2 - c3
+7. Man g7 x c3
+8. Man a2 - c2
+8. Man i7 x d2
+9. Man c1 - d1
+9. Man d2 x c2
+Player 1 - I lose!
+
+Cumulative results following game 88 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 88.
+Draws = 0
+
+Game 89 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man c2 - e4
+1. Man g7 - g5 Man h7 - h5
+2. Man f3 - g3 Man e3 x f3
+2. Man c7 - c5 Man d7 - d5
+3. Man e4 - b4
+3. Man e6 - e4 Man f6 - f4
+4. Man b3 - c3
+4. Man j6 x g3
+5. Man b2 - b3
+5. Man g3 x f3
+6. Man a3 - a4
+6. Man a6 x e2
+7. Man d1 x e2
+7. Man g8 - g6 Man h8 - h6
+8. Man j3 - j4 Man j2 x j3
+8. Man c8 - c7
+9. Man c1 - d1
+9. Man d8 - d7
+10. Man b3 - a3
+10. Man b6 x b4
+11. Man a3 - b3 Man a2 - b2
+11. Man a7 - a6 Man b7 - b6 Man c7 - c6 Man d7 - d6 Man e7 - e6 Man f7 - f6
+12. Man i3 x f3
+12. Man i7 - g7
+13. Man j4 - g4
+13. Man g5 x g4
+14. Man h2 - h4 Man h1 - h3
+14. Man f6 x c3
+15. Man b2 - c2
+15. Man c3 x b3
+using first move = Man c3 x b3
+16. Man f3 x b3
+16. Man g6 - g5 Man g7 x g6
+17. Man i2 - i3
+17. Man a6 - c4
+18. Man g2 - h2
+18. Man b4 x b3
+using first move = Man b4 x b3
+19. Man h3 x b3
+19. Man b6 x b3
+using first move = Man b6 x b3
+20. Man a4 x b3
+20. Man e6 - f6 Man d6 x e6 Man c6 x d6
+21. Man g1 - g3
+21. Man g5 x h4
+22. Man c2 - c3 Man d2 - d3
+22. Man g4 x g3
+using first move = Man g4 x g3
+23. Man d1 - g1
+23. Man c5 x f2
+Player 1 - I lose!
+
+Cumulative results following game 89 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 89.
+Draws = 0
+
+Game 90 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man b3 - d3
+1. Man c7 - c5 Man d7 - d5
+2. Man g1 - f1 Man h1 x g1
+2. Man j6 - j4 Man j7 - j5
+3. Man c2 - a4
+3. Man f6 x i3
+4. Man d2 - b4
+4. Man h7 x h2
+5. Man f3 - h3 Man e3 - g3 Man d3 x f3
+5. Man e6 x h3
+6. Man g2 x h3
+6. Man g7 x g3
+7. Man b4 - h4 Man a4 - g4
+7. Man g3 x g1
+Player 1 - I lose!
+
+Cumulative results following game 90 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 90.
+Draws = 0
+
+Game 91 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man j3 - j5 Man j2 - j4
+1. Man g7 - g5 Man h7 - h5
+2. Man h2 - h3 Man h1 x h2
+2. Man j6 x j5
+3. Man b3 - c3 Man a3 x b3
+3. Man c7 - c5 Man d7 - d5
+4. Man i3 - i5 Man i2 - i4
+4. Man j5 x i4
+5. Man j4 x i4
+5. Man c8 - c7
+6. Man h3 - i3
+6. Man d8 - d7
+7. Man c3 - d3 Man b3 x c3
+7. Man e6 - e4 Man f6 - f4
+8. Man g1 - f1
+8. Man a6 x d3
+9. Man i5 - j5
+9. Man j7 x j5
+10. Man c1 - a1 Man d1 - b1
+10. Man j5 x i4
+11. Man b1 - c1
+11. Man d3 x e3
+12. Man f1 - i1
+12. Man e3 x f3
+13. Man c3 - d3
+13. Man i4 x g2
+14. Man i3 - g3
+14. Man f3 x g3
+15. Man d3 x g3
+15. Man g5 x g3
+16. Man i1 - g1
+16. Man g8 - g6 Man h8 - h6
+17. Man c2 - c4 Man c1 - c3
+17. Man e7 - e5 Man f7 - f5
+18. Man b2 - b3
+18. Man i6 - i3 Man i7 - i4
+19. Man h2 x g3
+19. Man i3 x g3
+20. Man d2 - d3 Man e2 - e3
+20. Man e4 x e3
+using first move = Man e4 x e3
+21. Man a2 - e2 Man a1 - e1
+21. Man h5 - h2 Man h6 - h3
+22. Man c4 - d4
+22. Man i4 - i1
+Player 1 - I lose!
+
+Cumulative results following game 91 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 91.
+Draws = 0
+
+Game 92 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man b3 - d3 Man a3 - c3
+1. Man c7 - c5 Man d7 - d5
+2. Man d3 - e4
+2. Man h7 x e4
+3. Man c3 - a3
+3. Man i6 x f3
+4. Man e3 - b3
+4. Man c8 - c7
+5. Man i3 - i4 Man i2 x i3
+5. Man d8 - d6
+6. Man b3 - d3
+6. Man a6 x d3
+7. Man j3 - j5
+7. Man g8 x j5
+8. Man h2 - i2
+8. Man f7 x i4
+9. Man c2 - c3 Man c1 x c2
+9. Man h8 - h6
+10. Man d1 - e1
+10. Man g7 - g5
+11. Man c3 - c4 Man c2 x c3
+11. Man i7 - i5
+12. Man g1 - f1
+12. Man i4 x g2
+13. Man f1 - g1
+13. Man c5 x f2
+14. Man e1 - f1
+14. Man f3 x e2
+Player 1 - I lose!
+
+Cumulative results following game 92 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 92.
+Draws = 0
+
+Game 93 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man i3 - i4 Man i2 x i3
+1. Man c7 - c5 Man d7 - d5
+2. Man c1 - a1 Man d1 - b1
+2. Man g7 - g5 Man h7 - h5
+3. Man h1 - j1 Man g1 - i1
+3. Man e6 - e4 Man f6 - f4
+4. Man h2 - i2 Man g2 x h2 Man f2 x g2 Man e2 x f2
+4. Man c5 x e3
+5. Man f3 x e3
+5. Man b6 x e3
+6. Man i1 - d1 Man j1 - e1
+6. Man c8 - c6 Man d8 - d6
+7. Man i3 - g3 Man j3 - h3
+7. Man g8 - g6 Man h8 - h6
+8. Man d2 - c3
+8. Man e7 - e5 Man f7 - f5
+9. Man g3 - g4
+9. Man j6 x f2
+Player 1 - I lose!
+
+Cumulative results following game 93 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 93.
+Draws = 0
+
+Game 94 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man c2 - c4 Man c1 - c3
+1. Man c7 - c5 Man d7 - d5
+2. Man i3 - i4 Man i2 x i3
+2. Man a6 x c4
+3. Man a3 - b4
+3. Man f6 x c3
+4. Man d2 - c2 Man e2 x d2
+4. Man h7 x c2
+5. Man d1 - c1
+5. Man c8 - c6 Man d8 - d6
+6. Man i4 - h4
+6. Man d5 x d2
+7. Man g1 - d1 Man h1 - e1
+7. Man c2 x c1
+Player 1 - I lose!
+
+Cumulative results following game 94 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 94.
+Draws = 0
+
+Game 95 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man h1 - i1 Man g1 x h1
+1. Man g7 - g5 Man h7 - h5
+2. Man g2 - g4 Man h2 - h4
+2. Man e6 x g4
+3. Man i1 - g3
+3. Man j6 x h4
+4. Man f2 - g2 Man e2 x f2 Man d2 x e2
+4. Man c7 x g3
+5. Man j3 - j4
+5. Man g8 - g6 Man h8 - h6
+6. Man b3 - a4
+6. Man i6 x i3
+7. Man j2 x i3
+7. Man g3 x i3
+using first move = Man g3 x i3
+8. Man f3 x i3
+8. Man i7 - i5 Man j7 - j5
+9. Man i2 - h2
+9. Man j5 x j4
+10. Man a4 - d4 Man a3 - d3
+10. Man c8 - c6
+11. Man d1 - g1 Man c1 - f1
+11. Man i5 x i3
+12. Man f1 - d1 Man g1 - e1 Man h1 x f1
+12. Man d7 - d5 Man d8 - d6
+13. Man d4 - a4 Man d3 - a3
+13. Man b6 - b4 Man b7 - b5
+14. Man e2 - d2 Man f2 x e2
+14. Man b4 x a4
+15. Man g2 - f2 Man h2 x g2
+15. Man h4 - h1 Man h5 - h2 Man h6 - h3
+Player 1 - I lose!
+
+Cumulative results following game 95 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 95.
+Draws = 0
+
+Game 96 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man h1 - i1 Man g1 x h1
+1. Man g7 - g5 Man h7 - h5
+2. Man b2 - c3
+2. Man a6 - a4 Man a7 - a5
+3. Man c3 - d3 Man b3 x c3 Man a3 x b3
+3. Man e6 x b3
+4. Man c1 - a1 Man d1 - b1
+4. Man c8 - b8
+5. Man c2 - b2 Man d2 x c2 Man e2 x d2 Man f2 x e2 Man g2 x f2 Man h2 x g2 Man i2 x h2 Man j2 x i2
+5. Man b6 - b4 Man b7 - b5 Man b8 x b6
+6. Man c3 - c4 Man c2 x c3
+6. Man b4 x c3
+7. Man b1 - c1 Man a1 x b1
+7. Man d7 x d3
+8. Man c4 - e4
+8. Man d3 x d2
+9. Man c1 - d1 Man b1 x c1
+9. Man b5 x e2
+10. Man d1 x d2
+using first move = Man d1 x d2
+10. Man e2 x d2
+11. Man f2 x d2
+11. Man c3 x b2
+using first move = Man c3 x b2
+12. Man a2 x b2
+12. Man d8 - d6
+13. Man g2 - g4 Man h2 - h4
+13. Man j6 x h4
+14. Man h1 - h3
+14. Man h4 x g4
+15. Man e4 x g4
+15. Man g5 x g4
+16. Man i1 - g3
+16. Man f6 x f3
+using first move = Man f6 x f3
+17. Man i2 - f2
+17. Man b3 x e3
+Player 1 - I lose!
+
+Cumulative results following game 96 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 96.
+Draws = 0
+
+Game 97 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man f3 - g3
+1. Man g7 - g5 Man h7 - h5
+2. Man g3 - g4 Man g2 x g3 Man g1 x g2
+2. Man e6 x g4
+3. Man c2 - e4
+3. Man j6 x g3
+4. Man j3 - j5 Man j2 - j4
+4. Man f6 x f2
+5. Man d1 - f1
+5. Man a6 x e2
+using first move = Man a6 x e2
+6. Man f1 x f2
+6. Man e2 x f2
+using first move = Man e2 x f2
+7. Man e4 - f3
+7. Man b7 x f3
+Player 1 - I lose!
+
+Cumulative results following game 97 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 97.
+Draws = 0
+
+Game 98 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man e2 - d3
+1. Man c7 - c5 Man d7 - d5
+2. Man d3 - e4
+2. Man h7 x e4
+3. Man d2 - e2 Man c2 x d2 Man b2 x c2
+3. Man i6 x f3
+4. Man g2 x f3
+4. Man j7 x f3
+5. Man d2 - d4 Man d1 - d3
+5. Man j6 x f2
+6. Man g1 - f1 Man h1 x g1
+6. Man g7 x g1
+Player 1 - I lose!
+
+Cumulative results following game 98 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 98.
+Draws = 0
+
+Game 99 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man i3 - g3 Man j3 - h3
+1. Man g7 - g5 Man h7 - h5
+2. Man e3 - d3 Man f3 x e3 Man g3 x f3 Man h3 x g3
+2. Man a6 - a4 Man a7 - a5
+3. Man g3 - j3 Man f3 - i3
+3. Man e6 x b3
+4. Man g2 - g4 Man g1 - g3
+4. Man f6 x b2
+5. Man a2 x b2
+5. Man c8 - b8
+6. Man i3 - h3 Man j3 x i3
+6. Man d7 x g4
+7. Man c2 - c4 Man c1 - c3
+7. Man j6 x g3
+8. Man f2 - g2 Man e2 x f2
+8. Man b7 x g2
+9. Man h2 x g2
+9. Man g8 - g6 Man h8 - h6
+10. Man j2 - j4
+10. Man h5 x h3
+11. Man d2 - e2 Man d1 - e1
+11. Man h3 x g2
+using first move = Man h3 x g2
+12. Man e1 - g1
+12. Man g2 x f2
+using first move = Man g2 x f2
+13. Man e2 x f2
+13. Man b3 x a3
+14. Man b2 - b5
+14. Man a5 x b5
+15. Man j4 - i4
+15. Man d8 - d6
+16. Man g1 - g2
+16. Man e7 - e5 Man f7 - f5
+17. Man i2 - h2
+17. Man i7 - e7 Man j7 - f7
+18. Man c4 - b4
+18. Man f5 x f2
+Player 1 - I lose!
+
+Cumulative results following game 99 of 100:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 99.
+Draws = 0
+
+Game 100 of 100
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+(Light MAN a2)
+(Light MAN a3)
+(Light MAN b2)
+(Light MAN b3)
+(Light MAN c1)
+(Light MAN c2)
+(Light MAN d1)
+(Light MAN d2)
+(Light MAN e2)
+(Light MAN e3)
+(Light MAN f2)
+(Light MAN f3)
+(Light MAN g1)
+(Light MAN g2)
+(Light MAN h1)
+(Light MAN h2)
+(Light MAN i2)
+(Light MAN i3)
+(Light MAN j2)
+(Light MAN j3)
+(Dark MAN a7)
+(Dark MAN a6)
+(Dark MAN b7)
+(Dark MAN b6)
+(Dark MAN c8)
+(Dark MAN c7)
+(Dark MAN d8)
+(Dark MAN d7)
+(Dark MAN e7)
+(Dark MAN e6)
+(Dark MAN f7)
+(Dark MAN f6)
+(Dark MAN g8)
+(Dark MAN g7)
+(Dark MAN h8)
+(Dark MAN h7)
+(Dark MAN i7)
+(Dark MAN i6)
+(Dark MAN j7)
+(Dark MAN j6)
+
+1. Man c1 - b1 Man d1 x c1
+1. Man g7 - g5 Man h7 - h5
+2. Man b1 - a1
+2. Man a6 - a4 Man a7 - a5
+3. Man g2 - g4
+3. Man e6 x g4
+4. Man i3 - h3 Man j3 x i3
+4. Man b7 x f3
+5. Man a3 x a4
+5. Man j6 x f2
+6. Man h2 x f2
+6. Man d7 x a4
+7. Man i3 - h4
+7. Man f3 x h3
+8. Man e3 - g3
+8. Man h3 x g3
+9. Man b3 x g3
+9. Man g4 x h4
+10. Man e2 - e3
+10. Man c8 - g4
+11. Man i2 - g2 Man j2 - h2
+11. Man h4 x g3
+12. Man h2 x g3
+12. Man d8 - d6
+13. Man h1 - h2
+13. Man j7 - j5
+14. Man c2 - d3
+14. Man g8 - g6 Man h8 - h6
+15. Man g2 - h3
+15. Man j5 x h3
+16. Man d3 - e4
+16. Man i6 - i1 Man i7 - i2
+Player 1 - I lose!
+
+Final results:
+Player 1 "Test-(random)", wins = 0.
+Player 2 "Test-(rise)", wins = 100.
+Draws = 0
+100 game(s) played
