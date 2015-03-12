@@ -197,7 +197,7 @@
         )
   )
   (piece
-        (name  Sand)
+        (name  Sang)
         (help  "Elephant: steps 1 square on any diagonal")
         (image Green "../Images/DoubutsuShogi/sang-green.BMP"
                Red   "../Images/DoubutsuShogi/sang-red.BMP"
@@ -241,12 +241,12 @@
   )
 
   (board-setup
-        ( Green (Sand a1)
+        ( Green (Sang a1)
                 (King b1)
                 (Jang c1)
                 (Za   b2)
         )
-        ( Red   (Sand c4)
+        ( Red   (Sang c4)
                 (King b4)
                 (Jang a4)
                 (Za   b3)
