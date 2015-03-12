@@ -1,98 +1,55 @@
 Zillions Save Game File Version 0.02 CC
 RulesFile=DoubutsuShogi.zrf
-VariantName=Doubutsu Shogi
-1. Jang c1 - c2
-1. Jang a4 - a3
-2. King b1 - c1
-2. Jang a3 - a2
-3. King c1 - b1
-3. King b4 - a3
-4. Za b2 x b3 Green Za g1
-4. Sand c4 x b3 Red Za r4
-5. Sand a1 - b2
-5. King a3 - b4
-6. Sand b2 - c3
-6. King b4 - a3
-7. Jang c2 - b2
-7. Jang a2 x b2 Red Jang r3
-8. Sand c3 x b2 Green Jang g2
-8. King a3 - b4
-9. Za g1 - a2
-9. King b4 - c4
-10. Sand b2 - a3
-10. Jang r3 - c2
-11. Sand a3 - b2
-11. King c4 - b4
-12. Jang g2 - a3
-12. King b4 - c4
-13. Jang a3 x b3 Green Sand g1
-13. King c4 x b3 Red Jang r3
-14. Sand g1 - a4
-14. King b3 x a4 Red Sand r2
-15. King b1 x c2 Green Jang g1
-15. Sand r2 - b3
-16. King c2 - b1
-16. King a4 - b4
-17. Sand b2 - a3
-17. King b4 - c3
-18. Sand a3 - b2
-18. King c3 - c4
+VariantName=Doubutsu Shogi (original)
+1. Za b2 x b3 Za b3 - g1 = Green = Za on g1
+1. Sang c4 x b3 Za b3 - r4 = Red = Za on r4
+2. King b1 - b2
+2. Jang a4 - a3
+3. King b2 - b1
+3. King b4 - a4
+4. Sang a1 - b2
+4. Sang b3 - a2
+5. King b1 - a1
+5. Sang a2 - b3
+6. Sang b2 - c3
+6. Jang a3 - a2
+7. King a1 - b1
+7. King a4 - a3
+8. Za g1 - b2
+8. Za r4 - c4
+9. Za b2 x b3 Sang b3 - g1 = Green
+9. Za c4 x c3 Sang c3 - r4 = Red
+10. Jang c1 - c2
+10. Za c3 x c2 Jang c2 - r3 = Red
+11. King b1 x c2 Za c2 - g2 = Green = Za on g2
+11. Sang r4 - b2
+12. Sang g1 - b4
+12. King a3 - a4
+13. Za g2 - a3
+13. Jang a2 x a3 Za a3 - r4 = Red = Za on r4
+14. Sang b4 - c3
+14. Jang a3 x b3 Za b3 - r2 = Red = Za on r2
+15. Sang c3 x b2 Sang b2 - g1 = Green
+15. King a4 - b4
+16. Sang g1 - a2
+16. Jang b3 x b2 Sang b2 - r1 = Red
+17. King c2 x b2 Jang b2 - g1 = Green
+17. Sang r1 - a3
+18. King b2 - b1
+18. Jang r3 - b2
 19. King b1 - a1
-19. Sand b3 - a4
-20. King a1 - b1
-20. King c4 - b4
-21. King b1 - c2
-21. Sand a4 - b3
-22. King c2 - b1
-22. Za r4 - a4
-23. Sand b2 - c1
-23. Jang r3 - c2
-24. Sand c1 - b2
-24. King b4 - c4
-25. Jang g1 - c1
-25. Jang c2 x c1 Red Jang r4
-26. Sand b2 x c1 Green Jang g1
-26. Jang r4 - c3
-27. Sand c1 - b2
-27. Sand b3 - c2
-28. King b1 - c1
-28. Sand c2 - b3
-29. Sand b2 x c3 Green Jang g2
-29. King c4 x c3 Red Sand r4
-30. Jang g1 - b2
-30. King c3 - b4
-31. King c1 - b1
-31. King b4 - c4
-32. Jang b2 x b3 Green Sand g1
-32. King c4 x b3 Red Jang r3
-33. Sand g1 - c2
-33. King b3 - c4
-34. Za a2 - a3
-34. Sand r4 - c3
-35. Za a3 x a4 Green Za g1 = Hu on a4
-35. Jang r3 - b2
-36. King b1 - c1
-36. Jang b2 x c2 Red Sand r4
-37. King c1 x c2 Green Jang g3
-37. Sand r4 - b3
-38. King c2 - b1
-38. Sand b3 x a4 Red Za r4
-39. Jang g3 - a3
-39. Sand a4 - b3
-40. Za g1 - b2
-40. Za r4 - b4
-41. Za b2 x b3 Green Sand g1
-41. Za b4 x b3 Red Za r4
-42. King b1 - c2
-42. Za r4 - b4
-43. Jang a3 - a4
-43. Za b3 - b2
-44. Jang a4 x b4 Green Za g3
-44. King c4 x b4 Red Jang r4
-45. Jang g2 - b3
-45. King b4 - c4
-46. Jang b3 x c3 Green Sand g2
-46. King c4 - b4
-47. Jang c3 - b3
-47. King b4 - c4
-48. Za g3 - c3
+19. King b4 - a4
+20. Sang a2 - b1
+20. King a4 - b3
+21. Jang g1 - a2
+21. Za r4 - a4
+22. Jang a2 x a3 Sang a3 - g1 = Green
+22. Za a4 x a3 Jang a3 - r4 = Red
+23. Sang g1 - c4
+23. King b3 - c3
+24. Sang c4 - b3
+24. King c3 x b3 Sang b3 - r3 = Red
+25. Sang b1 - a2
+25. Za a3 x a2 Sang a2 - r1 = Red
+26. King a1 x b2 Jang b2 - g1 = Green
+26. King b3 x b2

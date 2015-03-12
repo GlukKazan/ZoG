@@ -15,11 +15,7 @@
     START za-next
     (while (not-position? END)
        (if empty?
-           (if (in-zone? promotion-zone)
-               (add Hu)
-            else
-               add
-           )
+           add
        )
        za-next
     )
@@ -68,6 +64,22 @@
   )
 )
 
+(define king-leap
+  (  (verify (in-zone? board-zone))
+     $1
+     (if (in-zone? promotion-zone)
+         (verify not-attacked?)
+     )
+     (verify (in-zone? board-zone))
+     (verify not-friend?)
+     (if empty?
+         add
+      else
+         (eat-enemy)
+     )
+  )
+)
+
 (define za-leap
   (  (verify (in-zone? board-zone))
      $1
@@ -85,7 +97,7 @@
 )
 
 (game
-  (title "Doubutsu Shogi")
+  (title "Doubutsu Shogi (original)")
 
   (description "Object: Checkmate your opponent's King.\\
                 When a piece is captured it is added to the capturer's `reserve`, an
@@ -140,10 +152,10 @@
                (a4 b4) (b4 c4) (c4 END)
         )
         (links to-hand
-               (START g1) (g1 g2) (g2 g3) (g3 g4) (g4 r1) (r1 r2) (r2 r3) (r3 r4) (r4 END)
+               (START g1) (g1 g2) (g2 g3) (g3 g4) (g4 END)
         )
         (links r-hand
-               (START r4) (r4 r3) (r3 r2) (r2 r1) (r1 g4) (g4 g3) (g3 g2) (g2 g1) (g1 END)
+               (START r4) (r4 r3) (r3 r2) (r2 r1) (r1 END)
         )
         (zone (name board-zone) (players Green Red)
               (positions a1 b1 c1
@@ -175,14 +187,14 @@
                Red   "../Images/DoubutsuShogi/king-red.BMP"
         )
         (moves
-               (leap n) 
-               (leap s)
-               (leap w)
-               (leap e)
-               (leap nw)
-               (leap ne)
-               (leap sw)
-               (leap se)
+               (king-leap n) 
+               (king-leap s)
+               (king-leap w)
+               (king-leap e)
+               (king-leap nw)
+               (king-leap ne)
+               (king-leap sw)
+               (king-leap se)
         )
   )
   (piece
@@ -193,7 +205,7 @@
         )
         (moves
                (za-leap n) 
-               (za-drop)
+               (piece-drop)
         )
   )
   (piece
@@ -253,14 +265,87 @@
         )
   )
 
-  (loss-condition (Green Red) (checkmated King))
+  (loss-condition (Green Red) (pieces-remaining 0 King))
   (win-condition  (Green Red) (absolute-config King (promotion-zone)))
   (loss-condition (Green Red) repetition)
 )
 
 (variant
-  (title "Doubutsu Shogi (no checks)")
-  (loss-condition (Green Red) (pieces-remaining 0 King))
+  (title "Doubutsu Shogi (with checks)")
+
+  (board
+        (image "../Images/DoubutsuShogi/board.BMP")
+        (grid
+               (start-rectangle 24 24 230 210)
+               (dimensions ("r/a/b/c/g" (185 0))
+                           ("4/3/2/1" (0 188))
+               )
+               (directions (n 0 -1) (e 1 0) (s 0 1) (w -1 0) 
+                           (ne 1 -1) (nw -1 -1) (se 1 1) (sw -1 1)
+               )
+        )
+        (dummy START END)
+	(links next
+               (START a1)
+               (a1 b1) (b1 c1) (c1 a2)
+               (a2 b2) (b2 c2) (c2 a3)
+               (a3 b3) (b3 c3) (c3 a4)
+               (a4 b4) (b4 c4) (c4 END)
+        )
+	(links za-next
+               (START a1)
+               (a1 b1) (b1 c1) (c1 a2)
+               (a2 b2) (b2 c2) (c2 a3)
+               (a3 b3) (b3 c3) (c3 END)
+        )
+	(links r-next
+               (START a2)
+               (a2 b2) (b2 c2) (c2 a3)
+               (a3 b3) (b3 c3) (c3 a4)
+               (a4 b4) (b4 c4) (c4 END)
+        )
+        (links to-hand
+               (START g1) (g1 g2) (g2 g3) (g3 g4) (g4 END)
+        )
+        (links r-hand
+               (START r4) (r4 r3) (r3 r2) (r2 r1) (r1 END)
+        )
+        (zone (name board-zone) (players Green Red)
+              (positions a1 b1 c1
+                         a2 b2 c2
+                         a3 b3 c3
+                         a4 b4 c4
+              )
+        )
+        (zone (name hand-zone) (players Green)
+              (positions g1 g2 g3 g4)
+        )
+        (zone (name hand-zone) (players Red)
+              (positions r1 r2 r3 r4)
+        )
+        (zone (name promotion-zone) (players Green)
+              (positions a4 b4 c4)
+        )
+        (zone (name promotion-zone) (players Red)
+              (positions a1 b1 c1)
+        )
+        (symmetry Red (n s) (s n) (nw sw) (sw nw) (ne se) (se ne) 
+                  (to-hand r-hand) (za-next r-next))
+  )
+
+  (piece
+        (name  Za)
+        (help  "Chick: steps 1 square to forward, promote on last row")
+        (image Green "../Images/DoubutsuShogi/za-green.BMP"
+               Red   "../Images/DoubutsuShogi/za-red.BMP"
+        )
+        (moves
+               (za-leap n) 
+               (za-drop)
+        )
+  )
+
+  (loss-condition (Green Red) (checkmated King))
   (win-condition  (Green Red) (absolute-config King (promotion-zone)))
   (loss-condition (Green Red) repetition)
 )
