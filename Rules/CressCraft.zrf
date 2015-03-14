@@ -1,0 +1,1017 @@
+(version "2.0")
+
+(game
+   (title "ChessCraft")
+   (engine "../Axiom/ChessCraft/axiom.dll")
+
+   (players White Black)
+   (turn-order White Black)
+
+   (option "animate captures" false)
+   (option "animate drops" false)
+   (option "show moves list" false)
+
+   (move-sound "Audio/Pickup.wav")
+   (release-sound "Audio/Pickup.wav")
+   (capture-sound "")
+   (drop-sound "")
+
+   (board
+      (image "../Images/ChessCraft/board.bmp")
+      (grid
+         (start-rectangle 0 0 50 50)
+         (dimensions
+             ("a/b/c/d/e/f/g/h/i/j/k/l/m/n/o/p/q/r" (50 0)) ; files
+             ("12/11/10/9/8/7/6/5/4/3/2/1" (0 50)) ; ranks
+         )
+      )
+   )
+
+   (board-setup
+      (White
+         (Base q12)
+         (Mobile q11)
+      )
+      (Black
+         (Base b1)
+         (Mobile b2)
+      )
+   )
+
+   (piece
+      (name  B)
+      (image White "../Images/ChessCraft/wbishop.bmp" 
+             Black "../Images/ChessCraft/bbishop.bmp")
+   )
+   (piece
+      (name  R)
+      (image White "../Images/ChessCraft/wrook.bmp" 
+             Black "../Images/ChessCraft/brook.bmp")
+   )
+   (piece
+      (name  K)
+      (image White "../Images/ChessCraft/wknight.bmp" 
+             Black "../Images/ChessCraft/bknight.bmp")
+   )
+   (piece
+      (name  BR)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  BK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  RK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  BRK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+
+   (piece
+      (name  bB)
+      (image White "../Images/ChessCraft/wbishop.bmp" 
+             Black "../Images/ChessCraft/bbishop.bmp")
+   )
+   (piece
+      (name  bR)
+      (image White "../Images/ChessCraft/wrook.bmp" 
+             Black "../Images/ChessCraft/brook.bmp")
+   )
+   (piece
+      (name  bK)
+      (image White "../Images/ChessCraft/wknight.bmp" 
+             Black "../Images/ChessCraft/bknight.bmp")
+   )
+   (piece
+      (name  bBR)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  bBK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  bRK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  bBRK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+
+   (piece
+      (name  wB)
+      (image White "../Images/ChessCraft/wbishop.bmp" 
+             Black "../Images/ChessCraft/bbishop.bmp")
+   )
+   (piece
+      (name  wR)
+      (image White "../Images/ChessCraft/wrook.bmp" 
+             Black "../Images/ChessCraft/brook.bmp")
+   )
+   (piece
+      (name  wK)
+      (image White "../Images/ChessCraft/wknight.bmp" 
+             Black "../Images/ChessCraft/bknight.bmp")
+   )
+   (piece
+      (name  wBR)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  wBK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  wRK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  wBRK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+
+   (piece
+      (name  zB)
+      (image White "../Images/ChessCraft/wbishop.bmp" 
+             Black "../Images/ChessCraft/bbishop.bmp")
+   )
+   (piece
+      (name  zR)
+      (image White "../Images/ChessCraft/wrook.bmp" 
+             Black "../Images/ChessCraft/brook.bmp")
+   )
+   (piece
+      (name  zK)
+      (image White "../Images/ChessCraft/wknight.bmp" 
+             Black "../Images/ChessCraft/bknight.bmp")
+   )
+   (piece
+      (name  zBR)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  zBK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  zRK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  zBRK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+
+   (piece
+      (name  rB)
+      (image White "../Images/ChessCraft/wbishop.bmp" 
+             Black "../Images/ChessCraft/bbishop.bmp")
+   )
+   (piece
+      (name  rR)
+      (image White "../Images/ChessCraft/wrook.bmp" 
+             Black "../Images/ChessCraft/brook.bmp")
+   )
+   (piece
+      (name  rK)
+      (image White "../Images/ChessCraft/wknight.bmp" 
+             Black "../Images/ChessCraft/bknight.bmp")
+   )
+   (piece
+      (name  rBR)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  rBK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  rRK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  rBRK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+
+   (piece
+      (name  rbB)
+      (image White "../Images/ChessCraft/wbishop.bmp" 
+             Black "../Images/ChessCraft/bbishop.bmp")
+   )
+   (piece
+      (name  rbR)
+      (image White "../Images/ChessCraft/wrook.bmp" 
+             Black "../Images/ChessCraft/brook.bmp")
+   )
+   (piece
+      (name  rbK)
+      (image White "../Images/ChessCraft/wknight.bmp" 
+             Black "../Images/ChessCraft/bknight.bmp")
+   )
+   (piece
+      (name  rbBR)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  rbBK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  rbRK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  rbBRK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+
+   (piece
+      (name  rwB)
+      (image White "../Images/ChessCraft/wbishop.bmp" 
+             Black "../Images/ChessCraft/bbishop.bmp")
+   )
+   (piece
+      (name  rwR)
+      (image White "../Images/ChessCraft/wrook.bmp" 
+             Black "../Images/ChessCraft/brook.bmp")
+   )
+   (piece
+      (name  rwK)
+      (image White "../Images/ChessCraft/wknight.bmp" 
+             Black "../Images/ChessCraft/bknight.bmp")
+   )
+   (piece
+      (name  rwBR)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  rwBK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  rwRK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  rwBRK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+
+   (piece
+      (name  rzB)
+      (image White "../Images/ChessCraft/wbishop.bmp" 
+             Black "../Images/ChessCraft/bbishop.bmp")
+   )
+   (piece
+      (name  rzR)
+      (image White "../Images/ChessCraft/wrook.bmp" 
+             Black "../Images/ChessCraft/brook.bmp")
+   )
+   (piece
+      (name  rzK)
+      (image White "../Images/ChessCraft/wknight.bmp" 
+             Black "../Images/ChessCraft/bknight.bmp")
+   )
+   (piece
+      (name  rzBR)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  rzBK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  rzRK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  rzBRK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+
+   (piece
+      (name  aB)
+      (image White "../Images/ChessCraft/wbishop.bmp" 
+             Black "../Images/ChessCraft/bbishop.bmp")
+   )
+   (piece
+      (name  aR)
+      (image White "../Images/ChessCraft/wrook.bmp" 
+             Black "../Images/ChessCraft/brook.bmp")
+   )
+   (piece
+      (name  aK)
+      (image White "../Images/ChessCraft/wknight.bmp" 
+             Black "../Images/ChessCraft/bknight.bmp")
+   )
+   (piece
+      (name  aBR)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  aBK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  aRK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  aBRK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+
+   (piece
+      (name  abB)
+      (image White "../Images/ChessCraft/wbishop.bmp" 
+             Black "../Images/ChessCraft/bbishop.bmp")
+   )
+   (piece
+      (name  abR)
+      (image White "../Images/ChessCraft/wrook.bmp" 
+             Black "../Images/ChessCraft/brook.bmp")
+   )
+   (piece
+      (name  abK)
+      (image White "../Images/ChessCraft/wknight.bmp" 
+             Black "../Images/ChessCraft/bknight.bmp")
+   )
+   (piece
+      (name  abBR)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  abBK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  abRK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  abBRK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+
+   (piece
+      (name  awB)
+      (image White "../Images/ChessCraft/wbishop.bmp" 
+             Black "../Images/ChessCraft/bbishop.bmp")
+   )
+   (piece
+      (name  awR)
+      (image White "../Images/ChessCraft/wrook.bmp" 
+             Black "../Images/ChessCraft/brook.bmp")
+   )
+   (piece
+      (name  awK)
+      (image White "../Images/ChessCraft/wknight.bmp" 
+             Black "../Images/ChessCraft/bknight.bmp")
+   )
+   (piece
+      (name  awBR)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  awBK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  awRK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  awBRK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+
+   (piece
+      (name  azB)
+      (image White "../Images/ChessCraft/wbishop.bmp" 
+             Black "../Images/ChessCraft/bbishop.bmp")
+   )
+   (piece
+      (name  azR)
+      (image White "../Images/ChessCraft/wrook.bmp" 
+             Black "../Images/ChessCraft/brook.bmp")
+   )
+   (piece
+      (name  azK)
+      (image White "../Images/ChessCraft/wknight.bmp" 
+             Black "../Images/ChessCraft/bknight.bmp")
+   )
+   (piece
+      (name  azBR)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  azBK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  azRK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  azBRK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+
+   (piece
+      (name  W)
+      (image White "../Images/ChessCraft/wpawn.bmp" 
+             Black "../Images/ChessCraft/bpawn.bmp")
+   )
+   (piece
+      (name  S)
+      (image White "../Images/ChessCraft/wpawn.bmp" 
+             Black "../Images/ChessCraft/bpawn.bmp")
+   )
+   (piece
+      (name  X)
+      (image White "../Images/ChessCraft/wpawn.bmp" 
+             Black "../Images/ChessCraft/bpawn.bmp")
+   )
+   (piece
+      (name  WX)
+      (image White "../Images/ChessCraft/wpawn.bmp" 
+             Black "../Images/ChessCraft/bpawn.bmp")
+   )
+   (piece
+      (name  SX)
+      (image White "../Images/ChessCraft/wpawn.bmp" 
+             Black "../Images/ChessCraft/bpawn.bmp")
+   )
+
+   (piece
+      (name  fB)
+      (image White "../Images/ChessCraft/wbishop.bmp" 
+             Black "../Images/ChessCraft/bbishop.bmp")
+   )
+   (piece
+      (name  fR)
+      (image White "../Images/ChessCraft/wrook.bmp" 
+             Black "../Images/ChessCraft/brook.bmp")
+   )
+   (piece
+      (name  fK)
+      (image White "../Images/ChessCraft/wknight.bmp" 
+             Black "../Images/ChessCraft/bknight.bmp")
+   )
+   (piece
+      (name  fBR)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  fBK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  fRK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  fBRK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+
+   (piece
+      (name  fbB)
+      (image White "../Images/ChessCraft/wbishop.bmp" 
+             Black "../Images/ChessCraft/bbishop.bmp")
+   )
+   (piece
+      (name  fbR)
+      (image White "../Images/ChessCraft/wrook.bmp" 
+             Black "../Images/ChessCraft/brook.bmp")
+   )
+   (piece
+      (name  fbK)
+      (image White "../Images/ChessCraft/wknight.bmp" 
+             Black "../Images/ChessCraft/bknight.bmp")
+   )
+   (piece
+      (name  fbBR)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  fbBK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  fbRK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  fbBRK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+
+   (piece
+      (name  fwB)
+      (image White "../Images/ChessCraft/wbishop.bmp" 
+             Black "../Images/ChessCraft/bbishop.bmp")
+   )
+   (piece
+      (name  fwR)
+      (image White "../Images/ChessCraft/wrook.bmp" 
+             Black "../Images/ChessCraft/brook.bmp")
+   )
+   (piece
+      (name  fwK)
+      (image White "../Images/ChessCraft/wknight.bmp" 
+             Black "../Images/ChessCraft/bknight.bmp")
+   )
+   (piece
+      (name  fwBR)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  fwBK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  fwRK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  fwBRK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+
+   (piece
+      (name  fzB)
+      (image White "../Images/ChessCraft/wbishop.bmp" 
+             Black "../Images/ChessCraft/bbishop.bmp")
+   )
+   (piece
+      (name  fzR)
+      (image White "../Images/ChessCraft/wrook.bmp" 
+             Black "../Images/ChessCraft/brook.bmp")
+   )
+   (piece
+      (name  fzK)
+      (image White "../Images/ChessCraft/wknight.bmp" 
+             Black "../Images/ChessCraft/bknight.bmp")
+   )
+   (piece
+      (name  fzBR)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  fzBK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  fzRK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  fzBRK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+
+   (piece
+      (name  frB)
+      (image White "../Images/ChessCraft/wbishop.bmp" 
+             Black "../Images/ChessCraft/bbishop.bmp")
+   )
+   (piece
+      (name  frR)
+      (image White "../Images/ChessCraft/wrook.bmp" 
+             Black "../Images/ChessCraft/brook.bmp")
+   )
+   (piece
+      (name  frK)
+      (image White "../Images/ChessCraft/wknight.bmp" 
+             Black "../Images/ChessCraft/bknight.bmp")
+   )
+   (piece
+      (name  frBR)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  frBK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  frRK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  frBRK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+
+   (piece
+      (name  frbB)
+      (image White "../Images/ChessCraft/wbishop.bmp" 
+             Black "../Images/ChessCraft/bbishop.bmp")
+   )
+   (piece
+      (name  frbR)
+      (image White "../Images/ChessCraft/wrook.bmp" 
+             Black "../Images/ChessCraft/brook.bmp")
+   )
+   (piece
+      (name  frbK)
+      (image White "../Images/ChessCraft/wknight.bmp" 
+             Black "../Images/ChessCraft/bknight.bmp")
+   )
+   (piece
+      (name  frbBR)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  frbBK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  frbRK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  frbBRK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+
+   (piece
+      (name  frwB)
+      (image White "../Images/ChessCraft/wbishop.bmp" 
+             Black "../Images/ChessCraft/bbishop.bmp")
+   )
+   (piece
+      (name  frwR)
+      (image White "../Images/ChessCraft/wrook.bmp" 
+             Black "../Images/ChessCraft/brook.bmp")
+   )
+   (piece
+      (name  frwK)
+      (image White "../Images/ChessCraft/wknight.bmp" 
+             Black "../Images/ChessCraft/bknight.bmp")
+   )
+   (piece
+      (name  frwBR)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  frwBK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  frwRK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  frwBRK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+
+   (piece
+      (name  frzB)
+      (image White "../Images/ChessCraft/wbishop.bmp" 
+             Black "../Images/ChessCraft/bbishop.bmp")
+   )
+   (piece
+      (name  frzR)
+      (image White "../Images/ChessCraft/wrook.bmp" 
+             Black "../Images/ChessCraft/brook.bmp")
+   )
+   (piece
+      (name  frzK)
+      (image White "../Images/ChessCraft/wknight.bmp" 
+             Black "../Images/ChessCraft/bknight.bmp")
+   )
+   (piece
+      (name  frzBR)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  frzBK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  frzRK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  frzBRK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+
+   (piece
+      (name  faB)
+      (image White "../Images/ChessCraft/wbishop.bmp" 
+             Black "../Images/ChessCraft/bbishop.bmp")
+   )
+   (piece
+      (name  faR)
+      (image White "../Images/ChessCraft/wrook.bmp" 
+             Black "../Images/ChessCraft/brook.bmp")
+   )
+   (piece
+      (name  faK)
+      (image White "../Images/ChessCraft/wknight.bmp" 
+             Black "../Images/ChessCraft/bknight.bmp")
+   )
+   (piece
+      (name  faBR)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  faBK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  faRK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  faBRK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+
+   (piece
+      (name  fabB)
+      (image White "../Images/ChessCraft/wbishop.bmp" 
+             Black "../Images/ChessCraft/bbishop.bmp")
+   )
+   (piece
+      (name  fabR)
+      (image White "../Images/ChessCraft/wrook.bmp" 
+             Black "../Images/ChessCraft/brook.bmp")
+   )
+   (piece
+      (name  fabK)
+      (image White "../Images/ChessCraft/wknight.bmp" 
+             Black "../Images/ChessCraft/bknight.bmp")
+   )
+   (piece
+      (name  fabBR)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  fabBK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  fabRK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  fabBRK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+
+   (piece
+      (name  fawB)
+      (image White "../Images/ChessCraft/wbishop.bmp" 
+             Black "../Images/ChessCraft/bbishop.bmp")
+   )
+   (piece
+      (name  fawR)
+      (image White "../Images/ChessCraft/wrook.bmp" 
+             Black "../Images/ChessCraft/brook.bmp")
+   )
+   (piece
+      (name  fawK)
+      (image White "../Images/ChessCraft/wknight.bmp" 
+             Black "../Images/ChessCraft/bknight.bmp")
+   )
+   (piece
+      (name  fawBR)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  fawBK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  fawRK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  fawBRK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+
+   (piece
+      (name  fazB)
+      (image White "../Images/ChessCraft/wbishop.bmp" 
+             Black "../Images/ChessCraft/bbishop.bmp")
+   )
+   (piece
+      (name  fazR)
+      (image White "../Images/ChessCraft/wrook.bmp" 
+             Black "../Images/ChessCraft/brook.bmp")
+   )
+   (piece
+      (name  fazK)
+      (image White "../Images/ChessCraft/wknight.bmp" 
+             Black "../Images/ChessCraft/bknight.bmp")
+   )
+   (piece
+      (name  fazBR)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  fazBK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  fazRK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+   (piece
+      (name  fazBRK)
+      (image White "../Images/ChessCraft/wqueen.bmp" 
+             Black "../Images/ChessCraft/bqueen.bmp")
+   )
+
+   (piece
+      (name  fW)
+      (image White "../Images/ChessCraft/wpawn.bmp" 
+             Black "../Images/ChessCraft/bpawn.bmp")
+   )
+   (piece
+      (name  fS)
+      (image White "../Images/ChessCraft/wpawn.bmp" 
+             Black "../Images/ChessCraft/bpawn.bmp")
+   )
+
+   (piece
+      (name  Base)
+      (image White "../Images/ChessCraft/wking.bmp" 
+             Black "../Images/ChessCraft/bking.bmp")
+   )
+   (piece
+      (name  Mobile)
+      (image White "../Images/ChessCraft/wpawn.bmp" 
+             Black "../Images/ChessCraft/bpawn.bmp")
+   )
+   (piece
+      (name  Clear)
+      (image White "../Images/ChessCraft/wpawn.bmp" 
+             Black "../Images/ChessCraft/bpawn.bmp")
+   )
+   (piece
+      (name  Boost)
+      (image White "../Images/ChessCraft/wpawn.bmp" 
+             Black "../Images/ChessCraft/bpawn.bmp")
+   )
+   (piece
+      (name  Weak)
+      (image White "../Images/ChessCraft/wpawn.bmp" 
+             Black "../Images/ChessCraft/bpawn.bmp")
+   )
+   (piece
+      (name  Freeze)
+      (image White "../Images/ChessCraft/wpawn.bmp" 
+             Black "../Images/ChessCraft/bpawn.bmp")
+   )
+   (piece
+      (name  Kill)
+      (image White "../Images/ChessCraft/wpawn.bmp" 
+             Black "../Images/ChessCraft/bpawn.bmp")
+   )
+   (piece
+      (name  Ricochet)
+      (image White "../Images/ChessCraft/wpawn.bmp" 
+             Black "../Images/ChessCraft/bpawn.bmp")
+   )
+   (piece
+      (name  Around)
+      (image White "../Images/ChessCraft/wpawn.bmp" 
+             Black "../Images/ChessCraft/bpawn.bmp")
+   )
+   (piece
+      (name  MassClear)
+      (image White "../Images/ChessCraft/wpawn.bmp" 
+             Black "../Images/ChessCraft/bpawn.bmp")
+   )
+   (piece
+      (name  MassBoost)
+      (image White "../Images/ChessCraft/wpawn.bmp" 
+             Black "../Images/ChessCraft/bpawn.bmp")
+   )
+   (piece
+      (name  MassWeak)
+      (image White "../Images/ChessCraft/wpawn.bmp" 
+             Black "../Images/ChessCraft/bpawn.bmp")
+   )
+   (piece
+      (name  MassFreeze)
+      (image White "../Images/ChessCraft/wpawn.bmp" 
+             Black "../Images/ChessCraft/bpawn.bmp")
+   )
+   (piece
+      (name  Fix)
+      (image White "../Images/ChessCraft/wpawn.bmp" 
+             Black "../Images/ChessCraft/bpawn.bmp")
+   )
+
+   ; The following dummy piece is required in order to placate the Zillions engine.
+   ; It appears as though Zillions must find at least one "moves" keyword somewhere
+   ; in the zrf in order for it to be happy and thus allow "moves" to work correctly.
+   (piece (name Dummy) (dummy) (moves (from)))
+)
