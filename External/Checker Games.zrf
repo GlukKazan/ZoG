@@ -130,9 +130,15 @@
    (set-flag more-captures-found? false)              
    (set-flag short-jump? true)              
    $1                                   
-   (international-checker-jump-find $1)
-   (international-checker-jump-find $2)
-   (international-checker-jump-find $3)           
+   (if (in-zone? promotion-zone)
+       (shashki-checker-jump-find $1)
+       (shashki-checker-jump-find $2)
+       (shashki-checker-jump-find $3)           
+    else
+       (international-checker-jump-find $1)
+       (international-checker-jump-find $2)
+       (international-checker-jump-find $3)           
+   )
    (opposite $1)               
    (if (flag? more-captures-found?)                    
        (set-attribute captured? true)     
@@ -883,6 +889,20 @@
 
 (define international-checker-jump-find
    mark
+   (if (on-board? $1)  
+     $1    
+     (if (and enemy? (empty? $1)(not captured?) ) 
+        (set-flag more-captures-found? true)
+     )
+   )
+   back
+)
+
+(define shashki-checker-jump-find
+   mark
+   (while (and (on-board? $1) (empty? $1))
+     $1
+   )
    (if (on-board? $1)  
      $1    
      (if (and enemy? (empty? $1)(not captured?) ) 
