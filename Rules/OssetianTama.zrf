@@ -18,7 +18,7 @@
    mark
    a1
    (while (not-position? offboard) 
-      (if enemy?
+      (if not-empty?
           (set-attribute visited? false)
       )
       next
@@ -53,6 +53,18 @@
     $1 
     (verify empty?) 
     (ken-jump-add)
+))
+
+(define ken-jump-single (
+    (clear-visited)
+    $1 
+    (verify friend?)
+    (verify (piece? Ken))
+    (verify (not visited?))
+    (set-attribute visited? true)
+    $1 
+    (verify empty?) 
+    (ken-add)
 ))
 
 (define perez-shift (
@@ -173,18 +185,22 @@
 ))
 
 (game
-   (title "Ossetian Tama")
-   (description "")
-   (history "")
+   (title "Ossetian Kena")
+;  (description "")
+;  (history "")
    (strategy "Plan ahead and try not to leave your opponent with multiple jumps.")
 
-   (option "pass partial" true)
-   (option "maximal captures" false)
+   (option "pass partial" true)                         ; <-- Jump cycles
+   (option "maximal captures" false)                    ; <-- Not Working
    (option "prevent flipping" 2)
+   (option "animate captures" false)
+
+;  (move-priorities capturetype (jumptype nonjumptype)) ; <-- Not supported
 
    (click-sound "Audio/WoodClick.wav")
    (release-sound "Audio/WoodClick.wav")
    (move-sound "Audio/WoodClick.wav")
+   (capture-sound "")
 
    (players Black White)
    (turn-order Black White)
@@ -263,4 +279,39 @@
 
    (loss-condition (White Black) (pieces-remaining 0))
    (loss-condition (White Black) stalemated)
+)
+
+(variant
+   (title "Ossetian Kens")
+   (strategy "")
+
+   (option "pass partial" false)
+   (option "maximal captures" true)
+
+   (click-sound "Audio/WoodClick.wav")
+   (release-sound "Audio/WoodClick.wav")
+   (move-sound "Audio/WoodClick.wav")
+   (capture-sound "")
+
+   (move-priorities jumptype nonjumptype)
+
+   (piece
+      (name Ken)
+      (image White "images/Checkers/Shaag/Turkish_chkrRM.bmp"
+             Black "images/Checkers/Shaag/Turkish_chkrBM.bmp"
+      )
+      (description "Checkers move forward, left, right or diagonally forward to empty squares.  They may
+	      also capture an enemy piece (or a series of them) by jumping over it, but not diagonally.
+	      A Checker landing on the far side may promote to a Perez.")
+      (help "Ken: moves or jumps to capture forward, left, right. Moves forward diagonally.")
+      (attribute visited? false)
+      (moves
+         (move-type jumptype)
+         (ken-capture n) (ken-capture s) (ken-capture e) (ken-capture w)
+
+         (move-type nonjumptype)
+         (ken-shift n) (ken-shift e) (ken-shift w)
+         (ken-jump-single n) (ken-jump-single e) (ken-jump-single w)
+      )
+   )
 )
