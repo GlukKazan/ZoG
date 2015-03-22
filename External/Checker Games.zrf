@@ -1,0 +1,3606 @@
+; **********************************************************************************
+; International Checkers (= International Draughts, Polish Draughts, French Draughts)
+; Shashki (Russian Draughts)
+; Dame (German Draughts)
+; English Draughts (= Anglo-American Checkers)
+; Pool Checkers (= Spanish Pool Draughts)
+; Dammspiel (Old German Draughts)
+; Turkish Draughts
+; Grand jeu de dames (Canadian Draughts)
+; Choko
+; A Liberian variant
+; Cheskers
+; Byelorussian Cheskers
+; Knightsbridge
+; Schachdame (Chess Draughts)
+; Crowded English Draughts
+; Losing International Checkers
+; Schlagdame (Losing German Draugths)
+; Double-Back Checkers
+; **********************************************************************************
+; Implemented by Uwe Wiedemann;
+; Copyright (c) 2001, Uwe Wiedemann
+; **********************************************************************************
+; You need to purchase Zillions of Games to load this rules file
+; When opened by Zillions of Games, you can play this game against
+; the computer or over the Internet.  For more information visit
+; the Zillions web site at http://www.zillions-of-games.com or 
+; email info@zillions-of-games.com
+; **********************************************************************************
+
+(define checker-shift  
+ (
+   $1 
+   (verify empty?) 
+   (if (in-zone? promotion-zone) (change-type King) )
+   add
+ ) 
+)
+
+(define king-shift   ($1    (verify not-friend?) (set-attribute never-moved? false) add) )
+
+(define rook-slide (
+  $1
+  (while empty? (set-attribute never-moved? false) add $1)
+  (verify not-friend?)
+  (set-attribute never-moved? false)
+  add
+))
+
+(define international-checker-jump   
+ (
+   $1 
+   (verify enemy?) 
+   (verify (not captured?))    
+   (set-attribute captured? true)
+   (set-flag more-captures-found? false)              
+   (set-flag short-jump? true)              
+   $1                                   
+   (international-checker-jump-find $1)
+   (international-checker-jump-find $2)
+   (international-checker-jump-find $3)           
+   (opposite $1)               
+   (if (flag? more-captures-found?)                    
+       (set-attribute captured? true)     
+    else  
+       mark  
+       capture                            
+       a0 
+       (while (on-board? nxt) 
+         nxt
+         (if captured? capture (set-flag short-jump? false))           
+       )
+       back  
+     )
+
+   $1 to
+   (verify empty?) 
+   (verify (or (not-flag? short-jump?) (flag? more-captures-found?)))
+   (international-checker-add) 
+ ) 
+)
+
+; is used to deactive 3-times-repetition in the Liberian variant
+(define count-move
+      (if (piece? dummy0 move-counter-1) (change-type dummy1 move-counter-1)
+         else (change-type dummy0 move-counter-1)
+         (if (piece? dummy0 move-counter-2) (change-type dummy1 move-counter-2)
+                else (change-type dummy0 move-counter-2)
+         (if (piece? dummy0 move-counter-4) (change-type dummy1 move-counter-4)
+                else (change-type dummy0 move-counter-4)
+         (if (piece? dummy0 move-counter-8) (change-type dummy1 move-counter-8)
+                else (change-type dummy0 move-counter-8)
+         (if (piece? dummy0 move-counter-16) (change-type dummy1 move-counter-16)
+                else (change-type dummy0 move-counter-16)
+         (if (piece? dummy0 move-counter-32) (change-type dummy1 move-counter-32)
+                else (change-type dummy0 move-counter-32)
+         (if (piece? dummy0 move-counter-64) (change-type dummy1 move-counter-64)
+                else (change-type dummy0 move-counter-64)
+         (if (piece? dummy0 move-counter-128) (change-type dummy1 move-counter-128)
+                else (change-type dummy0 move-counter-128)
+         (if (piece? dummy0 move-counter-256) (change-type dummy1 move-counter-256)
+                else (change-type dummy0 move-counter-256)
+         (if (piece? dummy0 move-counter-512) (change-type dummy1 move-counter-512)
+                else (change-type dummy0 move-counter-512)
+         (if (piece? dummy0 move-counter-1024) (change-type dummy1 move-counter-1024)
+                else (change-type dummy0 move-counter-1024)
+         (if (piece? dummy0 move-counter-2048) (change-type dummy1 move-counter-2048)
+                else (change-type dummy0 move-counter-2048)  ; restart counting
+                     (change-type dummy0 move-counter-1024)
+                     (change-type dummy0 move-counter-512)
+                     (change-type dummy0 move-counter-256)
+                     (change-type dummy0 move-counter-128)
+                     (change-type dummy0 move-counter-64)
+                     (change-type dummy0 move-counter-32)
+                     (change-type dummy0 move-counter-16)
+                     (change-type dummy0 move-counter-8)
+                     (change-type dummy0 move-counter-4)
+                     (change-type dummy0 move-counter-2)
+                     (change-type dummy0 move-counter-1)
+          ))))))))))))
+)
+
+
+(define shashki-jump   
+ (
+   $1 
+   (verify enemy?) 
+   (verify (not captured?))    
+   (set-attribute captured? true)
+   (set-flag more-captures-found? false)              
+   (set-flag short-jump? true)              
+   $1                                   
+   (international-checker-jump-find $1)
+   (international-checker-jump-find $2)
+   (international-checker-jump-find $3)           
+   (opposite $1)               
+   (if (flag? more-captures-found?)                    
+       (set-attribute captured? true)     
+    else  
+       mark  
+       capture                            
+       a0 
+       (while (on-board? nxt) 
+         nxt
+         (if captured? capture (set-flag short-jump? false))           
+       )
+       back  
+     )
+
+   $1 to
+   (verify empty?) 
+   (verify (or (not-flag? short-jump?) (flag? more-captures-found?)))
+   (if (in-zone? promotion-zone) (change-type King))
+   (international-checker-add) 
+ ) 
+)
+
+(define shashki-shortjump   
+ (
+   $1 
+   (verify enemy?) 
+   (verify (not captured?))    
+   (set-attribute captured? true)
+   (set-flag more-captures-found? false)              
+   (set-flag short-jump? true)              
+   $1                                   
+   (international-checker-jump-find $1)
+   (international-checker-jump-find $2)
+   (international-checker-jump-find $3)           
+   (opposite $1)               
+   (if (flag? more-captures-found?)                    
+       (set-attribute captured? true)     
+    else  
+       mark  
+       capture                            
+       a0 
+       (while (on-board? nxt) 
+         nxt
+         (if captured? capture (set-flag short-jump? false))           
+       )
+       back  
+     )
+
+   $1 to
+   (verify empty?) 
+   (verify (and (flag? short-jump?) (not-flag? more-captures-found?)))
+   (if (in-zone? promotion-zone) (change-type King))
+   (international-checker-add) 
+ ) 
+)
+
+
+(define international-checker-shortjump   
+ (
+   $1 
+   (verify enemy?) 
+   (verify (not captured?))    
+   (set-attribute captured? true)
+   (set-flag more-captures-found? false)              
+   (set-flag short-jump? true)              
+   $1                                   
+   (international-checker-jump-find $1)
+   (international-checker-jump-find $2)
+   (international-checker-jump-find $3)           
+   (opposite $1)               
+   (if (flag? more-captures-found?)                    
+       (set-attribute captured? true)     
+    else  
+       mark  
+       capture                            
+       a0 
+       (while (on-board? nxt) 
+         nxt
+         (if captured? capture (set-flag short-jump? false))           
+       )
+       back  
+     )
+
+   $1 to
+   (verify empty?) 
+   (verify (and (flag? short-jump?) (not-flag? more-captures-found?)))
+   (international-checker-add) 
+ ) 
+)
+
+(define dammspiel-jump7
+ (
+   $1 
+   (verify enemy?) 
+   (verify (not captured?))    
+   (set-attribute captured? true)
+   (set-flag more-captures-found? false)              
+   (set-flag short-jump? true)              
+   $1                                   
+   (if (not-in-zone? promotion-zone)
+       (international-checker-jump-find $1)
+       (international-checker-jump-find $2)
+       (international-checker-jump-find $3)           
+       (international-checker-jump-find $4)
+       (international-checker-jump-find $5)           
+       (international-checker-jump-find $6)
+       (international-checker-jump-find $7)           
+   )
+   (opposite $1)               
+   (if (flag? more-captures-found?)                    
+       (set-attribute captured? true)     
+    else  
+       mark  
+       capture                            
+       a0 
+       (while (on-board? nxt) 
+         nxt
+         (if captured? capture (set-flag short-jump? false))           
+       )
+       back  
+     )
+
+   $1 to
+   (verify empty?) 
+   (verify (or (not-flag? short-jump?) (flag? more-captures-found?)))
+   (international-checker-add) 
+ ) 
+)
+
+
+(define dammspiel-jump5   
+ (
+   $1 
+   (verify enemy?) 
+   (verify (not captured?))    
+   (set-attribute captured? true)
+   (set-flag more-captures-found? false)              
+   (set-flag short-jump? true)              
+   $1                                   
+   (if (not-in-zone? promotion-zone)
+       (international-checker-jump-find $1)
+       (international-checker-jump-find $2)
+       (international-checker-jump-find $3)           
+       (international-checker-jump-find $4)
+       (international-checker-jump-find $5)           
+   )
+   (opposite $1)               
+   (if (flag? more-captures-found?)                    
+       (set-attribute captured? true)     
+    else  
+       mark  
+       capture                            
+       a0 
+       (while (on-board? nxt) 
+         nxt
+         (if captured? capture (set-flag short-jump? false))           
+       )
+       back  
+     )
+
+   $1 to
+   (verify empty?) 
+   (verify (or (not-flag? short-jump?) (flag? more-captures-found?)))
+   (international-checker-add) 
+ ) 
+)
+
+(define dammspiel-jump4   
+ (
+   $1 
+   (verify enemy?) 
+   (verify (not captured?))    
+   (set-attribute captured? true)
+   (set-flag more-captures-found? false)              
+   (set-flag short-jump? true)              
+   $1                                   
+  (if (not-in-zone? promotion-zone)
+       (international-checker-jump-find $1)
+       (international-checker-jump-find $2)
+       (international-checker-jump-find $3)           
+       (international-checker-jump-find $4)
+  )
+   (opposite $1)               
+   (if (flag? more-captures-found?)                    
+       (set-attribute captured? true)     
+    else  
+       mark  
+       capture                            
+       a0 
+       (while (on-board? nxt) 
+         nxt
+         (if captured? capture (set-flag short-jump? false))           
+       )
+       back  
+     )
+
+   $1 to
+   (verify empty?) 
+   (verify (or (not-flag? short-jump?) (flag? more-captures-found?)))
+   (international-checker-add) 
+ ) 
+)
+
+(define turkish-checker-jump
+ (
+   $1 
+   (verify enemy?) 
+   (verify (not captured?))    
+   (set-attribute captured? true)
+   (set-flag more-captures-found? false)              
+   (set-flag short-jump? true)              
+   $1                                   
+  (if (not-in-zone? promotion-zone)
+       (international-checker-jump-find $1)
+       (international-checker-jump-find $2)
+       (international-checker-jump-find $3)           
+  )
+   (opposite $1)               
+   (if (flag? more-captures-found?)                    
+       (set-attribute captured? true)     
+    else  
+       mark  
+       capture                            
+       a0 
+       (while (on-board? nxt) 
+         nxt
+         (if captured? capture (set-flag short-jump? false))           
+       )
+       back  
+     )
+
+   $1 to
+   (verify empty?) 
+   (verify (or (not-flag? short-jump?) (flag? more-captures-found?)))
+   (international-checker-add) 
+ ) 
+)
+
+
+(define turkish-checker-shortjump
+ (
+   $1 
+   (verify enemy?) 
+   (verify (not captured?))    
+   (set-attribute captured? true)
+   (set-flag more-captures-found? false)              
+   (set-flag short-jump? true)              
+   $1                                   
+   (if (not-in-zone? promotion-zone)
+       (international-checker-jump-find $1)
+       (international-checker-jump-find $2)
+       (international-checker-jump-find $3)           
+   )
+   (opposite $1)               
+   (if (flag? more-captures-found?)                    
+       (set-attribute captured? true)     
+    else  
+       mark  
+       capture 
+       a0 
+       (while (on-board? nxt) 
+         nxt
+         (if captured? capture (set-flag short-jump? false))           
+       )
+       back  
+     )
+
+   $1 to
+   (verify empty?) 
+   (verify (and (flag? short-jump?) (not-flag? more-captures-found?)))
+   (international-checker-add) 
+ ) 
+)
+
+
+(define dammspiel-shortjump7  
+ (
+   $1 
+   (verify enemy?) 
+   (verify (not captured?))    
+   (set-attribute captured? true)
+   (set-flag more-captures-found? false)              
+   (set-flag short-jump? true)              
+   $1                                   
+   (if (not-in-zone? promotion-zone)
+       (international-checker-jump-find $1)
+       (international-checker-jump-find $2)
+       (international-checker-jump-find $3)           
+       (international-checker-jump-find $4)
+       (international-checker-jump-find $5)           
+       (international-checker-jump-find $6)
+       (international-checker-jump-find $7)           
+   )
+   (opposite $1)               
+   (if (flag? more-captures-found?)                    
+       (set-attribute captured? true)     
+    else  
+       mark  
+       capture                            
+       a0 
+       (while (on-board? nxt) 
+         nxt
+         (if captured? capture (set-flag short-jump? false))           
+       )
+       back  
+     )
+
+   $1 to
+   (verify empty?) 
+   (verify (and (flag? short-jump?) (not-flag? more-captures-found?)))
+   (international-checker-add) 
+ ) 
+)
+
+(define dammspiel-shortjump5   
+ (
+   $1 
+   (verify enemy?) 
+   (verify (not captured?))    
+   (set-attribute captured? true)
+   (set-flag more-captures-found? false)              
+   (set-flag short-jump? true)              
+   $1                                   
+   (if (not-in-zone? promotion-zone)
+       (international-checker-jump-find $1)
+       (international-checker-jump-find $2)
+       (international-checker-jump-find $3)           
+       (international-checker-jump-find $4)
+       (international-checker-jump-find $5)           
+   )
+   (opposite $1)               
+   (if (flag? more-captures-found?)                    
+       (set-attribute captured? true)     
+    else  
+       mark  
+       capture                            
+       a0 
+       (while (on-board? nxt) 
+         nxt
+         (if captured? capture (set-flag short-jump? false))           
+       )
+       back  
+     )
+
+   $1 to
+   (verify empty?) 
+   (verify (and (flag? short-jump?) (not-flag? more-captures-found?)))
+   (international-checker-add) 
+ ) 
+)
+
+(define dammspiel-shortjump4   
+ (
+   $1 
+   (verify enemy?) 
+   (verify (not captured?))    
+   (set-attribute captured? true)
+   (set-flag more-captures-found? false)              
+   (set-flag short-jump? true)              
+   $1                                   
+   (if (not-in-zone? promotion-zone)
+       (international-checker-jump-find $1)
+       (international-checker-jump-find $2)
+       (international-checker-jump-find $3)           
+       (international-checker-jump-find $4)
+   )
+   (opposite $1)               
+   (if (flag? more-captures-found?)                    
+       (set-attribute captured? true)     
+    else  
+       mark  
+       capture                            
+       a0 
+       (while (on-board? nxt) 
+         nxt
+         (if captured? capture (set-flag short-jump? false))           
+       )
+       back  
+     )
+
+   $1 to
+   (verify empty?) 
+   (verify (and (flag? short-jump?) (not-flag? more-captures-found?)))
+   (international-checker-add) 
+ ) 
+)
+
+(define german-checker-jump   
+ (
+   $1 
+   (verify enemy?) 
+   (verify (not captured?))    
+   (set-attribute captured? true)
+   (set-flag more-captures-found? false)              
+   (set-flag short-jump? true)              
+   $1                                   
+   (if (not-in-zone? promotion-zone)
+       (international-checker-jump-find $1)
+       (international-checker-jump-find $2)
+   )
+   (opposite $1)               
+   (if (flag? more-captures-found?)                    
+       (set-attribute captured? true)     
+    else  
+       mark  
+       capture                            
+       a0 
+       (while (on-board? nxt) 
+         nxt
+         (if captured? capture (set-flag short-jump? false))           
+       )
+       back  
+     )
+
+   $1 to
+   (verify empty?) 
+   (verify (or (not-flag? short-jump?) (flag? more-captures-found?)))
+   (international-checker-add) 
+ ) 
+)
+
+(define chesker-jump   
+ (
+   $1 
+   (verify enemy?) 
+   (verify (not captured?))    
+   (set-attribute captured? true)
+   (set-flag more-captures-found? false)              
+   (set-flag short-jump? true)              
+   $1                                   
+   (if (not-in-zone? promotion-zone)
+       (international-checker-jump-find $1)
+       (international-checker-jump-find $2)
+   )
+   (opposite $1)               
+   (if (flag? more-captures-found?)                    
+       (set-attribute captured? true)     
+    else  
+       mark  
+       capture                            
+       a0 
+       (while (on-board? nxt) 
+         nxt
+         (if captured? capture (set-flag short-jump? false))           
+       )
+       back  
+     )
+
+   $1 to
+   (verify empty?) 
+   (verify (or (not-flag? short-jump?) (flag? more-captures-found?)))
+   (chesker-add) 
+ ) 
+)
+
+(define chesker-add
+   (if (not-flag? more-captures-found?)
+       (if (in-zone? promotion-zone) (add King Camel Bishop) else add)
+      else  
+         (add-partial jumptype)    
+   ) 
+)
+
+(define chesker-shortjump   
+ (
+   $1 
+   (verify enemy?) 
+   (verify (not captured?))    
+   (set-attribute captured? true)
+   (set-flag more-captures-found? false)              
+   (set-flag short-jump? true)              
+   $1                                   
+   (if (not-in-zone? promotion-zone)
+       (international-checker-jump-find $1)
+       (international-checker-jump-find $2)
+   )
+   (opposite $1)               
+   (if (flag? more-captures-found?)                    
+       (set-attribute captured? true)     
+    else  
+       mark  
+       capture                            
+       a0 
+       (while (on-board? nxt) 
+         nxt
+         (if captured? capture (set-flag short-jump? false))           
+       )
+       back  
+     )
+
+   $1 to
+   (verify empty?) 
+   (verify (and (flag? short-jump?) (not-flag? more-captures-found?)))
+   (chesker-add) 
+ ) 
+)
+
+
+(define german-checker-shortjump   
+ (
+   $1 
+   (verify enemy?) 
+   (verify (not captured?))    
+   (set-attribute captured? true)
+   (set-flag more-captures-found? false)              
+   (set-flag short-jump? true)              
+   $1                                   
+   (if (not-in-zone? promotion-zone)
+       (international-checker-jump-find $1)
+       (international-checker-jump-find $2)
+   )
+   (opposite $1)               
+   (if (flag? more-captures-found?)                    
+       (set-attribute captured? true)     
+    else  
+       mark  
+       capture                            
+       a0 
+       (while (on-board? nxt) 
+         nxt
+         (if captured? capture (set-flag short-jump? false))           
+       )
+       back  
+     )
+
+   $1 to
+   (verify empty?) 
+   (verify (and (flag? short-jump?) (not-flag? more-captures-found?)))
+   (international-checker-add) 
+ ) 
+)
+
+
+(define king-slide ($1 (while empty? add $1)))
+
+(define international-king-jump1      
+ ( 
+   (international-king-work) 
+   to
+   (verify (position-flag? allowed?)) 
+   (verify (or (not-flag? short-jump?) (flag? more-captures-found?)))
+   (international-checker-add)
+ )  
+)
+
+(define international-king-jump2      
+ ( 
+   (international-king-work)
+    $1 (verify empty?) to
+   (verify (position-flag? allowed?)) 
+   (verify (or (not-flag? short-jump?) (flag? more-captures-found?)))
+   (international-checker-add)
+ )  
+)
+
+(define international-king-jump3      
+ ( 
+   (international-king-work)
+    $1 (verify empty?) $1 (verify empty?) to
+   (verify (position-flag? allowed?)) 
+   (verify (or (not-flag? short-jump?) (flag? more-captures-found?)))
+   (international-checker-add)
+ )  
+)
+
+(define international-king-jump4      
+ ( 
+   (international-king-work)
+   $1 (verify empty?) $1 (verify empty?) $1 (verify empty?) to
+   (verify (position-flag? allowed?)) 
+   (verify (or (not-flag? short-jump?) (flag? more-captures-found?)))
+   (international-checker-add)
+ )  
+)
+
+(define international-king-jump5      
+ ( 
+   (international-king-work)
+   $1 (verify empty?) $1 (verify empty?) $1 (verify empty?) $1 (verify empty?) to
+   (verify (position-flag? allowed?)) 
+   (verify (or (not-flag? short-jump?) (flag? more-captures-found?)))
+   (international-checker-add)
+ )  
+)
+
+(define international-king-jump6      
+ ( 
+   (international-king-work)
+   $1 (verify empty?) $1 (verify empty?) $1 (verify empty?) $1 (verify empty?) $1 (verify empty?) to
+   (verify (position-flag? allowed?)) 
+   (verify (or (not-flag? short-jump?) (flag? more-captures-found?)))
+   (international-checker-add)
+ )  
+)
+
+
+
+(define international-king-jump7
+ ( 
+   (international-king-work)
+   $1 (verify empty?) $1 (verify empty?) $1 (verify empty?) $1 (verify empty?) $1 (verify empty?) $1 (verify empty?) to
+   (verify (position-flag? allowed?)) 
+   (verify (or (not-flag? short-jump?) (flag? more-captures-found?)))
+   (international-checker-add)
+ )  
+)
+
+(define international-king-jump8
+ ( 
+   (international-king-work)
+   $1 (verify empty?) $1 (verify empty?) $1 (verify empty?) $1 (verify empty?) 
+             $1 (verify empty?) $1 (verify empty?) $1 (verify empty?) to
+   (verify (position-flag? allowed?)) 
+   (verify (or (not-flag? short-jump?) (flag? more-captures-found?)))
+   (international-checker-add)
+ )  
+)
+
+(define international-king-shortjump1      
+ ( 
+   (international-king-work) 
+   to
+   (verify (position-flag? allowed?)) 
+   (verify (and (flag? short-jump?) (not-flag? more-captures-found?)))
+   (international-checker-add)
+ )  
+)
+
+(define international-king-shortjump2      
+ ( 
+   (international-king-work)
+    $1 (verify empty?) to
+   (verify (position-flag? allowed?)) 
+   (verify (and (flag? short-jump?) (not-flag? more-captures-found?)))
+   (international-checker-add)
+ )  
+)
+
+(define international-king-shortjump3      
+ ( 
+   (international-king-work)
+    $1 (verify empty?) $1 (verify empty?) to
+   (verify (position-flag? allowed?)) 
+   (verify (and (flag? short-jump?) (not-flag? more-captures-found?)))
+   (international-checker-add)
+ )  
+)
+
+(define international-king-shortjump4      
+ ( 
+   (international-king-work)
+   $1 (verify empty?) $1 (verify empty?) $1 (verify empty?) to
+   (verify (position-flag? allowed?)) 
+   (verify (and (flag? short-jump?) (not-flag? more-captures-found?)))
+   (international-checker-add)
+ )  
+)
+
+(define international-king-shortjump5      
+ ( 
+   (international-king-work)
+   $1 (verify empty?) $1 (verify empty?) $1 (verify empty?) $1 (verify empty?) to
+   (verify (position-flag? allowed?)) 
+   (verify (and (flag? short-jump?) (not-flag? more-captures-found?)))
+   (international-checker-add)
+ )  
+)
+
+(define international-king-shortjump6      
+ ( 
+   (international-king-work)
+   $1 (verify empty?) $1 (verify empty?) $1 (verify empty?) $1 (verify empty?) $1 (verify empty?) to
+   (verify (position-flag? allowed?)) 
+   (verify (and (flag? short-jump?) (not-flag? more-captures-found?)))
+   (international-checker-add)
+ )  
+)
+
+
+(define international-king-shortjump7
+ ( 
+   (international-king-work)
+   $1 (verify empty?) $1 (verify empty?) $1 (verify empty?) $1 (verify empty?) $1 (verify empty?) $1 (verify empty?) to
+   (verify (position-flag? allowed?)) 
+   (verify (and (flag? short-jump?) (not-flag? more-captures-found?)))
+   (international-checker-add)
+ )  
+)
+
+(define international-king-shortjump8
+ ( 
+   (international-king-work)
+   $1 (verify empty?) $1 (verify empty?) $1 (verify empty?) $1 (verify empty?) 
+             $1 (verify empty?) $1 (verify empty?) $1 (verify empty?) to
+   (verify (position-flag? allowed?)) 
+   (verify (and (flag? short-jump?) (not-flag? more-captures-found?)))
+   (international-checker-add)
+ )  
+)
+
+(define international-checker-add
+   (if (not-flag? more-captures-found?)
+       (if (in-zone? promotion-zone) (change-type King) )
+       add
+      else  
+         (add-partial jumptype)    
+   ) 
+)
+
+(define international-king-work
+   $1 
+   (while empty? $1)    
+   (verify enemy?)      
+   (verify (empty? $1)) 
+
+   (verify (not captured?))    
+   (set-attribute captured? true)
+   
+  (set-flag more-captures-found? false)  
+  (set-flag short-jump? true)
+
+   (while (empty? $1) 
+     $1  (set-position-flag allowed? false)
+     (international-checker-king-find $1)
+     (international-checker-king-find $3)
+     (international-checker-king-find $4) 
+   ) 
+
+   (while empty? 
+     (if (not-flag? more-captures-found?)
+        (set-position-flag allowed? true)
+     )
+     $2
+   ) 
+
+   (if (not-flag? more-captures-found?)  
+      mark  
+      capture   
+      a0 
+      (while (on-board? nxt) 
+        nxt
+        (if captured? capture (set-flag short-jump? false))  
+      )
+      back
+   )
+   $1
+)
+
+(define international-checker-jump-find
+   mark
+   (if (on-board? $1)  
+     $1    
+     (if (and enemy? (empty? $1)(not captured?) ) 
+        (set-flag more-captures-found? true)
+     )
+   )
+   back
+)
+
+(define international-checker-king-find
+   mark
+   (while (and empty? (on-board? $1))  $1)    
+   (if (and enemy? (empty? $1)(not captured?) ) 
+        (set-flag more-captures-found? true)
+        back  (set-position-flag allowed? true)
+   else
+      back
+   )
+)
+
+(define leap1 ($1 (verify not-friend?) add) )
+(define leap2 ($1 $2 (verify not-friend?) add) )
+(define leap3 ($1 $2 $3 (verify not-friend?) add) )
+
+(define slide        ($1 (while empty? add $1) (verify not-friend?) add))
+
+(define Pawn-add (if (in-zone? promotion-zone) (add Knight Bishop Rook Queen) else add))
+
+(define Pawn-move
+   (
+      n
+      (verify empty?)
+      (Pawn-add)
+      (verify (in-zone? third-rank))
+      n
+      (verify empty?)
+      add
+   )
+)
+
+(define Pawn-capture ($1 (verify enemy?) (Pawn-add)))
+
+(define En-Passant
+   (
+      $1
+      (verify enemy?)
+      (verify last-to?)
+      (verify (piece? Pawn))
+      capture
+      n
+      to
+      n
+      (verify last-from?)
+      add
+   )
+)
+
+
+(define board7x7
+  (image "images\wiedem\chess7x7.bmp")
+  (grid
+     (start-rectangle 5 5 55 55)
+     (dimensions
+         ("a/b/c/d/e/f/g" (49 0)) ; files
+         ("7/6/5/4/3/2/1" (0 49)) ; ranks
+     )
+     (directions (n 0 -1) (e 1 0) (s 0 1) (w -1 0)
+			     (ne 1 -1) (nw -1 -1) (se 1 1) (sw -1 1)
+                 (nxt 0 -1)
+
+      )
+   )
+  (dummy a0)
+  (links nxt (a0 a1)(a7 b1)(b7 c1)(c7 d1)(d7 e1)(e7 f1)(f7 g1))
+  (zone  (name promotion-zone)(players White)(positions a7 b7 c7 d7 e7 f7 g7) )
+  (zone  (name promotion-zone)(players Black)  (positions a1 b1 c1 d1 e1 f1 g1) )
+  (symmetry Black (n s)(s n) (nw sw)(sw nw) (ne se)(se ne))
+)
+
+(define board8x8
+  (image "images\wiedem\chess8x8.bmp")
+  (grid
+     (start-rectangle 5 5 55 55)
+     (dimensions
+         ("a/b/c/d/e/f/g/h" (49 0)) ; files
+         ("8/7/6/5/4/3/2/1" (0 49)) ; ranks
+     )
+     (directions (ne 1 -1) (nw -1 -1) (se 1 1) (sw -1 1)
+                 (n 0 -1) (e 1 0) (s 0 1) (w -1 0)
+                 (nene 2 -2) (nwnw -2 -2) (sese 2 2) (swsw -2 2)
+                 (nxt 0 -2)
+     )
+  )
+  (dummy a0)
+  (links nxt (a0 a1)(a7 b2)(b8 c1)(c7 d2)(d8 e1)(e7 f2)(f8 g1)(g7 h2))
+  (zone  (name promotion-zone)(players White)(positions a8 b8 c8 d8 e8 f8 g8 h8) )
+  (zone  (name promotion-zone)(players Black)  (positions a1 b1 c1 d1 e1 f1 g1 h1) )
+)
+
+(define dammspielboard
+  (image "images\wiedem\chess8x8.bmp")
+  (grid
+     (start-rectangle 5 5 55 55)
+     (dimensions
+         ("a/b/c/d/e/f/g/h" (49 0)) ; files
+         ("8/7/6/5/4/3/2/1" (0 49)) ; ranks
+     )
+     (directions (ne 1 -1) (nw -1 -1) (se 1 1) (sw -1 1)
+                 (n 0 -1) (e 1 0) (s 0 1) (w -1 0)
+                 (nxt 0 -1)
+     )
+  )
+  (dummy a0)
+  (links nxt (a0 a1)(a8 b1)(b8 c1)(c8 d1)(d8 e1)(e8 f1)(f8 g1)(g8 h1))
+)
+
+(define board12x12
+  (image "images\wiedem\chess12x12.bmp")
+  (grid
+     (start-rectangle 5 5 55 55)
+     (dimensions
+         ("a/b/c/d/e/f/g/h/i/j/k/l" (49 0)) ; files
+         ("12/11/10/9/8/7/6/5/4/3/2/1" (0 49)) ; ranks
+     )
+     (directions (ne 1 -1) (nw -1 -1) (se 1 1) (sw -1 1)
+          (nxt 0 -2)
+     )
+  )
+  (dummy a0)
+  (links nxt (a0 a1)(a11 b2)(b12 c1)(c11 d2)(d12 e1)(e11 f2)(f12 g1)(g11 h2)(h12 i1)(i11 j2)(j12 k1)(k11 l2))
+  (zone  (name promotion-zone)(players White)(positions b12 d12 f12 h12 j12 l12) )
+  (zone  (name promotion-zone)(players Black)  (positions a1 c1 e1 g1 i1 k1) )
+)
+
+(define board10x10
+  (image "images\wiedem\chess10x10.bmp")
+  (grid
+     (start-rectangle 5 5 55 55)
+     (dimensions
+         ("a/b/c/d/e/f/g/h/i/j" (49 0)) ; files
+         ("10/9/8/7/6/5/4/3/2/1" (0 49)) ; ranks
+     )
+     (directions (ne 1 -1) (nw -1 -1) (se 1 1) (sw -1 1)
+          (nxt 0 -2)
+     )
+  )
+  (dummy a0)
+  (links nxt (a0 a1)(a9 b2)(b10 c1)(c9 d2)(d10 e1)(e9 f2)(f10 g1)(g9 h2)(h10 i1)(i9 j2))
+  (zone  (name promotion-zone)(players White)(positions b10 d10 f10 h10 j10) )
+  (zone  (name promotion-zone)(players Black)  (positions a1 c1 e1 g1 i1) )
+)
+
+(define chokoboard
+  (image "images\wiedem\choko.bmp")
+  (grid
+     (start-rectangle 5 5 55 55)
+     (dimensions
+         ("a/b/c/d/e" (49 0)) ; files
+         ("5/4/3/2/1" (0 49)) ; ranks
+     )
+     (directions (n 0 -1) (e 1 0) (s 0 1) (w -1 0)
+			     (ne 1 -1) (nw -1 -1) (se 1 1) (sw -1 1)(nxt 0 -2))
+  )
+  (dummy a0)
+  (symmetry White (n s) (s n) (w e) (e w)(nw sw)(sw nw) (ne se)(se ne))
+  (zone  (name promotion-zone)(players White)(positions a0) )
+  (zone  (name promotion-zone)(players Black)  (positions a0))
+)
+
+(define LiberianBoard
+  (image "images\wiedem\LiberianCheckers.bmp")
+  (grid
+     (start-rectangle 5 5 55 55)
+     (dimensions
+         ("z/a/b/c/d/e" (49 0)) ; files
+         ("6/5/4/3/2/1" (0 49)) ; ranks
+     )
+
+     (directions (n 0 -1) (e 1 0) (s 0 1) (w -1 0)
+			     (ne 1 -1) (nw -1 -1) (se 1 1) (sw -1 1))
+  )
+  (kill-positions z1 z2 z3 z4 z5 z6 a2 a4 a6 b1 b3 b5 b6 c2 c4 c6 d1 d3 d5 d6 e2 e4 e6)
+  (symmetry Woman (n s) (s n) (w e) (e w)(nw sw)(sw nw) (ne se)(se ne))
+  (zone  (name promotion-zone)(players Man)(positions e1))
+  (zone  (name promotion-zone)(players Woman)  (positions e1))
+)
+
+
+(game
+   (title "International Checkers")
+   (description "International checkers is the checker variant  which is played on international tournaments.
+   It is also called International Draughts, Polish Draughts or French Draughts.\\
+International Checkers is played on the dark squares only of a checkerboard of 100
+alternating dark and light squares, (ten rows, ten files) by two opponents having 20 checker, one opponent white ones and the other black ones.\\
+The board is positioned squarely between the players and turned so that a dark square is at each player's near left side. Each player places 
+his checkers on the dark squares of the four rows nearest him. The player with the white pieces makes the first move of the game, 
+and the players take turns thereafter, making one move at a time.\\
+The object of the game is to prevent the opponent from being able to move when it is his turn to do so. 
+This may come about by either being eliminated completely or being blocked completely. If neither player can accomplish this, the game is a draw.
+Repetetion of moves is also a draw.\\
+A checker moves forward only, one square at a time in a diagonal direction, to an unoccupied square. A checker captures by jumping over an opposing 
+piece on a diagonally adjacent square to the square immediately beyond, but may do so only if this square is unoccupied. 
+Checker may jump forward or backward, and may continue jumping as long as they encounter opposing pieces with unoccupied squares immediately 
+beyond them. Checker may never jump over checkers of the same color.\\
+A checker which reaches the far side of the board becomes a king. However, if it reaches the far side by means of a jump, and is able to jump 
+backward away from the far side over another man or king, it must do so, and does not become a king. A checker reaching the far side by 
+jumping becomes a king only if its jump, or series of jumps, terminates there.\\
+A king moves forward or backward any number of squares on a diagonal line to an unoccupied square. A king captures from any distance along a 
+diagonal line by jumping, forward or backward, over an opposing piece with at least one unoccupied square immediately beyond it. 
+The capturing king then lands on any one of these unoccupied squares and continues jumping, if possible, either on the same line, or by making 
+a right angle turn onto another diagonal line. A king may never jump over pieces of the same color.\\
+Capture takes precedence over a non-capturing move. It must do so, taking care beforehand to establish 
+the route that brings the maximum number of captured pieces. A King counts as one piece. 
+If there's more than one way to meet this criterion, the player is free to choose.\\
+Captured pieces are not removed from the board until all jumps made on the move are completed, and the hand is removed from the capturing 
+piece. In the course of a multiple capture a piece may visit the same square more 
+than once, but it may not capture the same piece more than once. In rare instances this rule can have the effect of reducing the number of 
+captures possible on a move.\\
+Whenever a situation arises in which one player has three kings and the other one king, no other checkers remaining on 
+the board, a count is begun of the moves made by the stronger side. If the lone king is not captured by the end of the fifteenth move by the 
+stronger side, the game is a draw. This last rule is not implemented here because it is currently not implementable with the repetition rule together 
+in Zillions.")
+   (history "")
+   (strategy "")
+   (click-sound "Audio\\WoodClick.wav")
+   (release-sound "Audio\\WoodClick.wav")
+   (move-sound "Audio\\WoodClick.wav")
+   (capture-sound "Audio\\WoodClick.wav")
+   (players White Black)
+   (turn-order White Black)
+   (pass-turn false)
+   (pass-partial false)
+   (move-priorities jumptype shortjumptype nonjumptype)
+   (maximal-captures true)
+   (board  (board10x10)
+       (symmetry Black (nw sw)(sw nw) (ne se)(se ne))
+
+   )
+
+   (board-setup
+      (White (Checker a1 c1 e1 g1 i1 b2 d2 f2 h2 j2 a3 c3 e3 g3 i3 b4 d4 f4 h4 j4))
+      (Black   (Checker b8 d8 f8 h8 j8 a7 c7 e7 g7 i7 b10 d10 f10 h10 j10 a9 c9 e9 g9 i9))
+   )
+
+   (piece
+      (name Checker)
+      (image Black "images\wiedem\CheckerBlack.bmp" White "images\wiedem\CheckerWhite.bmp")
+	  (description "A checker moves forward only, one square at a time in a diagonal direction, to an unoccupied square. A 
+checker captures by jumping over an opposing piece on a diagonally adjacent square to the square immediately beyond, but may do so only 
+if this square is unoccupied. Checker may jump forward or backward, and may continue jumping as long as they encounter opposing pieces 
+with unoccupied squares immediately beyond them. Checker may never jump over checkers of the same color.\\
+A checker which reaches the far side of the board becomes a king. However, if it reaches the far side by means of a jump, and is able to jump 
+backward away from the far side over another man or king, it must do so, and does not become a king. A checker reaching the far side by 
+jumping becomes a king only if its jump, or series of jumps, terminates there.")
+      (help "Checker: moves diagonally forward, jumps forward or backward to capture")
+      (attribute captured? false)
+      (moves
+         (move-type jumptype)
+		 (international-checker-jump nw ne sw)
+             (international-checker-jump ne nw se)
+             (international-checker-jump sw nw se)
+             (international-checker-jump se sw ne)
+         (move-type shortjumptype)
+		 (international-checker-shortjump nw ne sw)
+             (international-checker-shortjump ne nw se)
+             (international-checker-shortjump sw nw se)
+             (international-checker-shortjump se sw ne)
+         (move-type nonjumptype)
+             (checker-shift nw)
+             (checker-shift ne)
+      )
+   )
+
+   (piece
+      (name King)
+      (image Black "images\wiedem\CheckerKingBlack.bmp" White "images\wiedem\CheckerKingWhite.bmp")
+	  (description "A king moves forward or backward any number of squares on a diagonal line to an unoccupied square. 
+A king captures from any distance along a diagonal line by jumping, forward or backward, over an opposing piece with at least 
+one unoccupied square immediately beyond it. The capturing king then lands on any one of these unoccupied squares and continues 
+jumping, if possible, either on the same line, or by making a right angle turn onto another diagonal line. 
+A king may never jump over pieces of the same color.")
+      (help "King: slides diagonally, jumps to capture")
+      (attribute captured? false)
+      (moves
+         (move-type jumptype)
+           (international-king-jump1 nw se ne sw)
+           (international-king-jump1 ne sw se nw)
+           (international-king-jump1 sw ne nw se)
+           (international-king-jump1 se nw sw ne)
+           (international-king-jump2 nw se ne sw)
+           (international-king-jump2 ne sw se nw)
+           (international-king-jump2 sw ne nw se)
+           (international-king-jump2 se nw sw ne)
+           (international-king-jump3 nw se ne sw)
+           (international-king-jump3 ne sw se nw)
+           (international-king-jump3 sw ne nw se)
+           (international-king-jump3 se nw sw ne)
+           (international-king-jump4 nw se ne sw)
+           (international-king-jump4 ne sw se nw)
+           (international-king-jump4 sw ne nw se)
+           (international-king-jump4 se nw sw ne)
+           (international-king-jump5 nw se ne sw)
+           (international-king-jump5 ne sw se nw)
+           (international-king-jump5 sw ne nw se)
+           (international-king-jump5 se nw sw ne)
+           (international-king-jump6 nw se ne sw)
+           (international-king-jump6 ne sw se nw)
+           (international-king-jump6 sw ne nw se)
+           (international-king-jump6 se nw sw ne)
+           (international-king-jump7 nw se ne sw)
+           (international-king-jump7 ne sw se nw)
+           (international-king-jump7 sw ne nw se)
+           (international-king-jump7 se nw sw ne)
+           (international-king-jump8 nw se ne sw)
+           (international-king-jump8 ne sw se nw)
+           (international-king-jump8 sw ne nw se)
+           (international-king-jump8 se nw sw ne)
+
+         (move-type shortjumptype)
+           (international-king-shortjump1 nw se ne sw)
+           (international-king-shortjump1 ne sw se nw)
+           (international-king-shortjump1 sw ne nw se)
+           (international-king-shortjump1 se nw sw ne)
+           (international-king-shortjump2 nw se ne sw)
+           (international-king-shortjump2 ne sw se nw)
+           (international-king-shortjump2 sw ne nw se)
+           (international-king-shortjump2 se nw sw ne)
+           (international-king-shortjump3 nw se ne sw)
+           (international-king-shortjump3 ne sw se nw)
+           (international-king-shortjump3 sw ne nw se)
+           (international-king-shortjump3 se nw sw ne)
+           (international-king-shortjump4 nw se ne sw)
+           (international-king-shortjump4 ne sw se nw)
+           (international-king-shortjump4 sw ne nw se)
+           (international-king-shortjump4 se nw sw ne)
+           (international-king-shortjump5 nw se ne sw)
+           (international-king-shortjump5 ne sw se nw)
+           (international-king-shortjump5 sw ne nw se)
+           (international-king-shortjump5 se nw sw ne)
+           (international-king-shortjump6 nw se ne sw)
+           (international-king-shortjump6 ne sw se nw)
+           (international-king-shortjump6 sw ne nw se)
+           (international-king-shortjump6 se nw sw ne)
+           (international-king-shortjump7 nw se ne sw)
+           (international-king-shortjump7 ne sw se nw)
+           (international-king-shortjump7 sw ne nw se)
+           (international-king-shortjump7 se nw sw ne)
+           (international-king-shortjump8 nw se ne sw)
+           (international-king-shortjump8 ne sw se nw)
+           (international-king-shortjump8 sw ne nw se)
+           (international-king-shortjump8 se nw sw ne)
+         (move-type nonjumptype)
+           (king-slide nw)
+           (king-slide ne)
+           (king-slide sw)
+           (king-slide se)
+      )
+   )
+
+   (loss-condition (White Black) (pieces-remaining 0) )
+   (loss-condition (White Black) stalemated )
+)
+
+(variant
+   (title "Shashki (Russian Draughts)")
+   (description "Shashki is the Russian checker variant.\\ 
+Shashki is played on the dark squares only of a standard checkerboard of 64 
+alternating dark and light squares, (eight rows, eight files) by two opponents having 12 shashki, one opponent white ones and the other black ones.\\
+The board is positioned squarely between the players and turned so that a dark square is at each player's near left side. Each player places 
+his shashki on the dark squares of the three rows nearest him. The player with the white pieces makes the first move of the game, 
+and the players take turns thereafter, making one move at a time.\\
+The object of the game is to prevent the opponent from being able to move when it is his turn to do so. 
+This may come about by either being eliminated completely or being blocked completely. If neither player can accomplish this, the game is a draw.
+Repetetion of moves is also a draw.\\
+A shashka moves forward only, one square at a time in a diagonal direction, to an unoccupied square. A shashka captures by jumping over an opposing 
+piece on a diagonally adjacent square to the square immediately beyond, but may do so only if this square is unoccupied. 
+Shashki may jump forward or backward, and may continue jumping as long as they encounter opposing pieces with unoccupied squares immediately 
+beyond them. Shashki may never jump over pieces of the same color.\\
+A shashka which reaches the far side of the board becomes a damka. If it reaches the far side by means of a jump, it continues jumping as a damka on the 
+same move, if possible, and remains a damka at the end of the jumping sequence.\\
+A damka moves forward or backward any number of squares on a diagonal line to an unoccupied square. A damka captures from any distance along a 
+diagonal line by jumping, forward or backward, over an opposing shashka or damka with at least one unoccupied square immediately beyond it. 
+The capturing damka then lands on any one of these unoccupied squares and continues jumping, if possible, either on the same line, or by making 
+a right angle turn onto another diagonal line. A damka may never jump over pieces of the same color.\\
+Capture takes precedence over a non-capturing move. When there is more than one way to jump, a player may choose any way he wishes, 
+not necessarily the one which results in the capture of the greatest number of opposing units. When a damka jumps over an opposing piece
+with more than one unoccupied square immediately beyond it, it must land on a square from which it is possible to continue jumping, if there is 
+such a square. If there is more than one such square, any may be chosen. However, once a player chooses a sequence of captures, he must make all 
+the captures possible in that sequence. He may not leave one or more pieces uncaptured that he could capture simply by continuing to jump.\\
+Captured pieces are not removed from the board until all jumps made on the move are completed, and the hand is removed from the capturing 
+piece. In the course of a multiple capture a piece may visit the same square more 
+than once, but it may not capture the same piece more than once. In rare instances this rule can have the effect of reducing the 
+number of  captures possible on a move.\\
+Whenever a situation arises in which one player has three damki and the other one damka, no other pieces remaining on 
+the board, a count is begun of the moves made by the stronger side. If the lone damka is not captured by the end of the fifteenth move by the 
+stronger side, the game is a draw. This last rule is not implemented here because it is currently not implementable with the repetition rule together 
+in Zillions.")
+   (history "")
+   (strategy "")
+   (board  (board8x8)
+       (symmetry Black (nw sw)(sw nw) (ne se)(se ne))
+   )
+
+   (board-setup
+      (White (Checker a1 c1 e1 g1 b2 d2 f2 h2 a3 c3 e3 g3))
+      (Black (Checker b8 d8 f8 h8 a7 c7 e7 g7 b6 d6 f6 h6))
+   )
+   (maximal-captures false)
+   (piece
+      (name Checker)
+      (notation "Shashka")
+      (image Black "images\wiedem\CheckerBlack.bmp" White "images\wiedem\CheckerWhite.bmp")
+	  (description "A shashka moves forward only, one square at a time in a diagonal direction, to an unoccupied square. A 
+shashka captures by jumping over an opposing piece on a diagonally adjacent square to the square immediately beyond, but may do so only 
+if this square is unoccupied. Shashki may jump forward or backward, and may continue jumping as long as they encounter opposing pieces 
+with unoccupied squares immediately beyond them. Shashki may never jump over shashki of the same color.\\
+A shashka which reaches the far side of the board becomes a damka. If it reaches the far side by means of a jump, it continues jumping as a damka on the 
+same move, if possible, and remains a damka at the end of the jumping sequence.")
+      (help "Shashka: moves diagonally forward, jumps backward and forward to capture")
+      (attribute captured? false)
+      (moves
+         (move-type jumptype)
+		 (shashki-jump nw ne sw)
+             (shashki-jump ne nw se)
+             (shashki-jump sw nw se)
+             (shashki-jump se sw ne)
+         (move-type shortjumptype)
+		 (shashki-shortjump nw ne sw)
+             (shashki-shortjump ne nw se)
+             (shashki-shortjump sw nw se)
+             (shashki-shortjump se sw ne)
+         (move-type nonjumptype)
+             (checker-shift nw)
+             (checker-shift ne)
+      )
+   )
+
+   (piece
+      (name King)
+      (notation "Damka")
+      (image Black "images\wiedem\CheckerKingBlack.bmp" White "images\wiedem\CheckerKingWhite.bmp")
+	  (description "A damka moves forward or backward any number of squares on a diagonal line to an unoccupied square. 
+A damka captures from any distance along a diagonal line by jumping, forward or backward, over an opposing piece with at least 
+one unoccupied square immediately beyond it. The capturing damka then lands on any one of these unoccupied squares and continues 
+jumping, if possible, either on the same line, or by making a right angle turn onto another diagonal line. 
+A damka may never jump over pieces of the same color.\\
+When a damka jumps over an opposing piece with more than one unoccupied square immediately beyond it, it must land on a square 
+from which it is possible to continue jumping, if there is such a square. If there is more than one such square, any may be chosen. ")
+      (help "King: slides diagonally, jumps to capture")
+      (attribute captured? false)
+      (moves
+         (move-type jumptype)
+           (international-king-jump1 nw se ne sw)
+           (international-king-jump1 ne sw se nw)
+           (international-king-jump1 sw ne nw se)
+           (international-king-jump1 se nw sw ne)
+           (international-king-jump2 nw se ne sw)
+           (international-king-jump2 ne sw se nw)
+           (international-king-jump2 sw ne nw se)
+           (international-king-jump2 se nw sw ne)
+           (international-king-jump3 nw se ne sw)
+           (international-king-jump3 ne sw se nw)
+           (international-king-jump3 sw ne nw se)
+           (international-king-jump3 se nw sw ne)
+           (international-king-jump4 nw se ne sw)
+           (international-king-jump4 ne sw se nw)
+           (international-king-jump4 sw ne nw se)
+           (international-king-jump4 se nw sw ne)
+           (international-king-jump5 nw se ne sw)
+           (international-king-jump5 ne sw se nw)
+           (international-king-jump5 sw ne nw se)
+           (international-king-jump5 se nw sw ne)
+           (international-king-jump6 nw se ne sw)
+           (international-king-jump6 ne sw se nw)
+           (international-king-jump6 sw ne nw se)
+           (international-king-jump6 se nw sw ne)
+
+         (move-type shortjumptype)
+           (international-king-shortjump1 nw se ne sw)
+           (international-king-shortjump1 ne sw se nw)
+           (international-king-shortjump1 sw ne nw se)
+           (international-king-shortjump1 se nw sw ne)
+           (international-king-shortjump2 nw se ne sw)
+           (international-king-shortjump2 ne sw se nw)
+           (international-king-shortjump2 sw ne nw se)
+           (international-king-shortjump2 se nw sw ne)
+           (international-king-shortjump3 nw se ne sw)
+           (international-king-shortjump3 ne sw se nw)
+           (international-king-shortjump3 sw ne nw se)
+           (international-king-shortjump3 se nw sw ne)
+           (international-king-shortjump4 nw se ne sw)
+           (international-king-shortjump4 ne sw se nw)
+           (international-king-shortjump4 sw ne nw se)
+           (international-king-shortjump4 se nw sw ne)
+           (international-king-shortjump5 nw se ne sw)
+           (international-king-shortjump5 ne sw se nw)
+           (international-king-shortjump5 sw ne nw se)
+           (international-king-shortjump5 se nw sw ne)
+           (international-king-shortjump6 nw se ne sw)
+           (international-king-shortjump6 ne sw se nw)
+           (international-king-shortjump6 sw ne nw se)
+           (international-king-shortjump6 se nw sw ne)
+         (move-type nonjumptype)
+           (king-slide nw)
+           (king-slide ne)
+           (king-slide sw)
+           (king-slide se)
+      )
+   )
+
+   (loss-condition (White Black) (pieces-remaining 0) )
+   (loss-condition (White Black) stalemated )
+)
+
+(variant
+   (title "Dame (German Draughts)")
+   (description "Dame is the German checker variant.\\
+Dame (in English 'lady', also the German name of the queen in chess) is played on the dark squares only of a standard 
+checkerboard of 64 alternating dark and light squares, (eight rows, eight files) by two opponents having 12 checkers, one 
+opponent white ones and the other black ones.\\
+The board is positioned squarely between the players and turned so that a dark square is at each player's near left side. 
+Each player places his checkers on the dark squares of the three rows nearest him. The player with the white pieces makes 
+the first move of the game, and the players take turns thereafter, making one move at a time.\\
+The object of the game is to prevent the opponent from being able to move when it is his turn to do so. 
+This may come about by either being eliminated completely or being blocked completely. 
+If neither player can accomplish this, the game is a draw. Repetetion of moves is also a draw.\\
+A checker moves forward only, one square at a time in a diagonal direction, to an unoccupied square. A 
+checker captures by jumping over an opposing 
+piece on a diagonally adjacent square to the square immediately beyond, but may do so only if this square is unoccupied. 
+Checker may jump only forward, and may continue jumping as long as they encounter opposing pieces with unoccupied 
+squares immediately beyond them. Checker may never jump over checkers of the same color.\\
+A checker which reaches the far side of the board becomes a king (in German Dame = lady).\\
+A king moves forward or backward any number of squares on a diagonal line to an unoccupied square. A king captures from 
+any distance along a diagonal line by jumping, forward or backward, over an opposing piece with at least one unoccupied 
+square immediately beyond it. The capturing king then lands on any one of these unoccupied squares and continues 
+jumping, if possible, either on the same line, or by making a right angle turn onto another diagonal line. A 
+king may never jump over pieces of the same color.\\
+Capture takes precedence over a non-capturing move. It must do so, taking care beforehand to establish 
+the route that brings the maximum number of captured pieces. A King counts as one piece. 
+If there's more than one way to meet this criterion, the player is free to choose.\\
+Captured pieces are not removed from the board until all jumps made on the move are completed, and the hand 
+is removed from the capturing piece. In the course of a multiple capture a piece may visit the same square more 
+than once, but it may not capture the same piece more than once. In rare instances this rule can have the effect 
+of reducing the number of captures possible on a move.\\
+Whenever a situation arises in which one player has three kings and the other one king, no other checkers remaining on 
+the board, a count is begun of the moves made by the stronger side. If the lone king is not captured by the end of the fifteenth move by the 
+stronger side, the game is a draw. This last rule is not implemented here because it is currently not implementable with the repetition rule together 
+in Zillions.")
+
+   (history "")
+   (strategy "")
+   (board  (board8x8)
+       (symmetry Black (nw sw)(sw nw) (ne se)(se ne))
+   )
+
+   (board-setup
+      (White (Checker a1 c1 e1 g1 b2 d2 f2 h2 a3 c3 e3 g3))
+      (Black (Checker b8 d8 f8 h8 a7 c7 e7 g7 b6 d6 f6 h6))
+   )
+
+   (piece
+      (name Checker)
+      (image Black "images\wiedem\CheckerBlack.bmp" White "images\wiedem\CheckerWhite.bmp")
+	  (description "A checker moves forward only, one square at a time in a diagonal direction, to an unoccupied square. A 
+checker captures by jumping over an opposing piece on a diagonally adjacent square to the square immediately beyond, but may do so only 
+if this square is unoccupied. Checker may jump only forward, and may continue jumping as long as they encounter opposing pieces 
+with unoccupied squares immediately beyond them. Checker may never jump over checkers of the same color.\\
+A checker which reaches the far side of the board becomes a king.")
+      (help "Checker: moves diagonally forward, jumps forward forward to capture")
+      (attribute captured? false)
+      (moves
+         (move-type jumptype)
+		 (german-checker-jump nw ne)
+             (german-checker-jump ne nw)
+         (move-type shortjumptype)
+		 (german-checker-shortjump nw ne)
+             (german-checker-shortjump ne nw)
+         (move-type nonjumptype)
+             (checker-shift nw)
+             (checker-shift ne)
+      )
+   )
+
+   (piece
+      (name King)
+      (image Black "images\wiedem\CheckerKingBlack.bmp" White "images\wiedem\CheckerKingWhite.bmp")
+	  (description "A king (in German Dame = lady) moves forward or backward any number of squares on a diagonal 
+line to an unoccupied square. A king captures from any distance along a diagonal line by jumping, forward or backward, 
+over an opposing piece with at least one unoccupied square immediately beyond it. The capturing king then lands on any 
+one of these unoccupied squares and continues jumping, if possible, either on the same line, or by making a 
+right angle turn onto another diagonal line. A king may never jump over pieces of the same color.")
+      (help "King: slides diagonally, jumps to capture")
+      (attribute captured? false)
+      (moves
+         (move-type jumptype)
+           (international-king-jump1 nw se ne sw)
+           (international-king-jump1 ne sw se nw)
+           (international-king-jump1 sw ne nw se)
+           (international-king-jump1 se nw sw ne)
+           (international-king-jump2 nw se ne sw)
+           (international-king-jump2 ne sw se nw)
+           (international-king-jump2 sw ne nw se)
+           (international-king-jump2 se nw sw ne)
+           (international-king-jump3 nw se ne sw)
+           (international-king-jump3 ne sw se nw)
+           (international-king-jump3 sw ne nw se)
+           (international-king-jump3 se nw sw ne)
+           (international-king-jump4 nw se ne sw)
+           (international-king-jump4 ne sw se nw)
+           (international-king-jump4 sw ne nw se)
+           (international-king-jump4 se nw sw ne)
+           (international-king-jump5 nw se ne sw)
+           (international-king-jump5 ne sw se nw)
+           (international-king-jump5 sw ne nw se)
+           (international-king-jump5 se nw sw ne)
+           (international-king-jump6 nw se ne sw)
+           (international-king-jump6 ne sw se nw)
+           (international-king-jump6 sw ne nw se)
+           (international-king-jump6 se nw sw ne)
+
+         (move-type shortjumptype)
+           (international-king-shortjump1 nw se ne sw)
+           (international-king-shortjump1 ne sw se nw)
+           (international-king-shortjump1 sw ne nw se)
+           (international-king-shortjump1 se nw sw ne)
+           (international-king-shortjump2 nw se ne sw)
+           (international-king-shortjump2 ne sw se nw)
+           (international-king-shortjump2 sw ne nw se)
+           (international-king-shortjump2 se nw sw ne)
+           (international-king-shortjump3 nw se ne sw)
+           (international-king-shortjump3 ne sw se nw)
+           (international-king-shortjump3 sw ne nw se)
+           (international-king-shortjump3 se nw sw ne)
+           (international-king-shortjump4 nw se ne sw)
+           (international-king-shortjump4 ne sw se nw)
+           (international-king-shortjump4 sw ne nw se)
+           (international-king-shortjump4 se nw sw ne)
+           (international-king-shortjump5 nw se ne sw)
+           (international-king-shortjump5 ne sw se nw)
+           (international-king-shortjump5 sw ne nw se)
+           (international-king-shortjump5 se nw sw ne)
+           (international-king-shortjump6 nw se ne sw)
+           (international-king-shortjump6 ne sw se nw)
+           (international-king-shortjump6 sw ne nw se)
+           (international-king-shortjump6 se nw sw ne)
+         (move-type nonjumptype)
+           (king-slide nw)
+           (king-slide ne)
+           (king-slide sw)
+           (king-slide se)
+      )
+   )
+
+   (loss-condition (White Black) (pieces-remaining 0) )
+   (loss-condition (White Black) stalemated )
+)
+
+(variant
+   (title "Grand jeu de dames (Canadian Draughts)")
+   (description "Grand jeu de dames  is the Canadian variant of checkers. This game is played as International checkers, but on a larger board.\\
+Grand jeu de dames is played on the dark squares only of a checkerboard of 144
+alternating dark and light squares, (twelve rows, twelve files) by two opponents having 30 checker, one opponent white 
+ones and the other black ones.\\
+The board is positioned squarely between the players and turned so that a dark square is at each player's near left side. Each player places 
+his checkers on the dark squares of the five rows nearest him. The player with the white pieces makes the first move of the game, 
+and the players take turns thereafter, making one move at a time.\\
+The object of the game is to prevent the opponent from being able to move when it is his turn to do so. 
+This may come about by either being eliminated completely or being blocked completely. Repetetion of moves is a draw.\\
+A checker moves forward only, one square at a time in a diagonal direction, to an unoccupied square. A checker captures by jumping over an opposing 
+piece on a diagonally adjacent square to the square immediately beyond, but may do so only if this square is unoccupied. 
+Checker may jump forward or backward, and may continue jumping as long as they encounter opposing pieces with unoccupied squares immediately 
+beyond them. Checker may never jump over checkers of the same color.\\
+A checker which reaches the far side of the board becomes a king. However, if it reaches the far side by means of a jump, and is able to jump 
+backward away from the far side over another man or king, it must do so, and does not become a king. A checker reaching the far side by 
+jumping becomes a king only if its jump, or series of jumps, terminates there.\\
+A king moves forward or backward any number of squares on a diagonal line to an unoccupied square. A king captures from any distance along a 
+diagonal line by jumping, forward or backward, over an opposing piece with at least one unoccupied square immediately beyond it. 
+The capturing king then lands on any one of these unoccupied squares and continues jumping, if possible, either on the same line, or by making 
+a right angle turn onto another diagonal line. A king may never jump over pieces of the same color.\\
+Capture takes precedence over a non-capturing move. It must do so, taking care beforehand to establish 
+the route that brings the maximum number of captured pieces. A King counts as one piece. 
+If there's more than one way to meet this criterion, the player is free to choose.\\
+Captured pieces are not removed from the board until all jumps made on the move are completed, and the hand is removed from the capturing 
+piece. In the course of a multiple capture a piece may visit the same square more 
+than once, but it may not capture the same piece more than once. In rare instances this rule can have the effect of reducing the number of 
+captures possible on a move.\\
+Whenever a situation arises in which one player has three kings and the other one king, no other checkers remaining on 
+the board, a count is begun of the moves made by the stronger side. If the lone king is not captured by the end of the fifteenth move by the 
+stronger side, the game is a draw. This last rule is not implemented here because it is currently not implementable with the repetition rule together 
+in Zillions.")
+   (history "")
+   (strategy "")
+   (players White Black)
+   (turn-order White Black)
+   (pass-turn false)
+   (pass-partial false)
+   (move-priorities jumptype shortjumptype nonjumptype)
+   (maximal-captures true)
+   (board  (board12x12)
+      (symmetry Black (nw sw)(sw nw) (ne se)(se ne))
+   )
+
+   (board-setup
+      (White (Checker a1 c1 e1 g1 i1 k1 b2 d2 f2 h2 j2 l2 a3 c3 e3 g3 i3 k3 b4 d4 f4 h4 j4 l4 a5 c5 e5 g5 i5 k5 ))
+      (Black   (Checker b8 d8 f8 h8 j8 l8 a9 c9 e9 g9 i9 k9 b10 d10 f10 h10 j10 l10 a11 c11 e11 g11 i11 k11 b12 d12 f12 h12 j12 l12 ))
+   )
+
+   (piece
+      (name Checker)
+      (image Black "images\wiedem\CheckerBlack.bmp" White "images\wiedem\CheckerWhite.bmp")
+	  (description "A checker moves forward only, one square at a time in a diagonal direction, to an unoccupied square. A 
+checker captures by jumping over an opposing piece on a diagonally adjacent square to the square immediately beyond, but may do so only 
+if this square is unoccupied. Checker may jump forward or backward, and may continue jumping as long as they encounter opposing pieces 
+with unoccupied squares immediately beyond them. Checker may never jump over checkers of the same color.\\
+A checker which reaches the far side of the board becomes a king. However, if it reaches the far side by means of a jump, and is able to jump 
+backward away from the far side over another man or king, it must do so, and does not become a king. A checker reaching the far side by 
+jumping becomes a king only if its jump, or series of jumps, terminates there.")
+      (help "Checker: moves diagonally forward, jumps forward or backward to capture")
+      (attribute captured? false)
+      (moves
+         (move-type jumptype)
+		 (international-checker-jump nw ne sw)
+             (international-checker-jump ne nw se)
+             (international-checker-jump sw nw se)
+             (international-checker-jump se sw ne)
+         (move-type shortjumptype)
+		 (international-checker-shortjump nw ne sw)
+             (international-checker-shortjump ne nw se)
+             (international-checker-shortjump sw nw se)
+             (international-checker-shortjump se sw ne)
+         (move-type nonjumptype)
+             (checker-shift nw)
+             (checker-shift ne)
+      )
+   )
+
+   (piece
+      (name King)
+      (image Black "images\wiedem\CheckerKingBlack.bmp" White "images\wiedem\CheckerKingWhite.bmp")
+	  (description "A king moves forward or backward any number of squares on a diagonal line to an unoccupied square. 
+A king captures from any distance along a diagonal line by jumping, forward or backward, over an opposing piece with at least 
+one unoccupied square immediately beyond it. The capturing king then lands on any one of these unoccupied squares and continues 
+jumping, if possible, either on the same line, or by making a right angle turn onto another diagonal line. 
+A king may never jump over pieces of the same color.")
+      (help "King: slides diagonally, jumps to capture")
+      (attribute captured? false)
+      (moves
+         (move-type jumptype)
+           (international-king-jump1 nw se ne sw)
+           (international-king-jump1 ne sw se nw)
+           (international-king-jump1 sw ne nw se)
+           (international-king-jump1 se nw sw ne)
+           (international-king-jump2 nw se ne sw)
+           (international-king-jump2 ne sw se nw)
+           (international-king-jump2 sw ne nw se)
+           (international-king-jump2 se nw sw ne)
+           (international-king-jump3 nw se ne sw)
+           (international-king-jump3 ne sw se nw)
+           (international-king-jump3 sw ne nw se)
+           (international-king-jump3 se nw sw ne)
+           (international-king-jump4 nw se ne sw)
+           (international-king-jump4 ne sw se nw)
+           (international-king-jump4 sw ne nw se)
+           (international-king-jump4 se nw sw ne)
+           (international-king-jump5 nw se ne sw)
+           (international-king-jump5 ne sw se nw)
+           (international-king-jump5 sw ne nw se)
+           (international-king-jump5 se nw sw ne)
+           (international-king-jump6 nw se ne sw)
+           (international-king-jump6 ne sw se nw)
+           (international-king-jump6 sw ne nw se)
+           (international-king-jump6 se nw sw ne)
+           (international-king-jump7 nw se ne sw)
+           (international-king-jump7 ne sw se nw)
+           (international-king-jump7 sw ne nw se)
+           (international-king-jump7 se nw sw ne)
+           (international-king-jump8 nw se ne sw)
+           (international-king-jump8 ne sw se nw)
+           (international-king-jump8 sw ne nw se)
+           (international-king-jump8 se nw sw ne)
+
+         (move-type shortjumptype)
+           (international-king-shortjump1 nw se ne sw)
+           (international-king-shortjump1 ne sw se nw)
+           (international-king-shortjump1 sw ne nw se)
+           (international-king-shortjump1 se nw sw ne)
+           (international-king-shortjump2 nw se ne sw)
+           (international-king-shortjump2 ne sw se nw)
+           (international-king-shortjump2 sw ne nw se)
+           (international-king-shortjump2 se nw sw ne)
+           (international-king-shortjump3 nw se ne sw)
+           (international-king-shortjump3 ne sw se nw)
+           (international-king-shortjump3 sw ne nw se)
+           (international-king-shortjump3 se nw sw ne)
+           (international-king-shortjump4 nw se ne sw)
+           (international-king-shortjump4 ne sw se nw)
+           (international-king-shortjump4 sw ne nw se)
+           (international-king-shortjump4 se nw sw ne)
+           (international-king-shortjump5 nw se ne sw)
+           (international-king-shortjump5 ne sw se nw)
+           (international-king-shortjump5 sw ne nw se)
+           (international-king-shortjump5 se nw sw ne)
+           (international-king-shortjump6 nw se ne sw)
+           (international-king-shortjump6 ne sw se nw)
+           (international-king-shortjump6 sw ne nw se)
+           (international-king-shortjump6 se nw sw ne)
+           (international-king-shortjump7 nw se ne sw)
+           (international-king-shortjump7 ne sw se nw)
+           (international-king-shortjump7 sw ne nw se)
+           (international-king-shortjump7 se nw sw ne)
+           (international-king-shortjump8 nw se ne sw)
+           (international-king-shortjump8 ne sw se nw)
+           (international-king-shortjump8 sw ne nw se)
+           (international-king-shortjump8 se nw sw ne)
+         (move-type nonjumptype)
+           (king-slide nw)
+           (king-slide ne)
+           (king-slide sw)
+           (king-slide se)
+      )
+   )
+
+   (loss-condition (White Black) (pieces-remaining 0) )
+   (loss-condition (White Black) stalemated )
+)
+
+(variant
+   (title "English Draughts")
+   (description "English Draughts is played on the dark squares only of a standard 
+checkerboard of 64 alternating dark and light squares, (eight rows, eight files) by two opponents having 12 checkers, one 
+opponent white ones and the other black ones.\\
+The board is positioned squarely between the players and turned so that a dark square is at each player's near left side. 
+Each player places his checkers on the dark squares of the three rows nearest him. The player with the black pieces makes 
+the first move of the game, and the players take turns thereafter, making one move at a time.\\
+The object of the game is to prevent the opponent from being able to move when it is his turn to do so. 
+This may come about by either being eliminated completely or being blocked completely. 
+If neither player can accomplish this, the game is a draw. Repetetion of moves is also a draw.\\
+A checker moves forward only, one square at a time in a diagonal direction, to an unoccupied square. A 
+checker captures by jumping over an opposing 
+piece on a diagonally adjacent square to the square immediately beyond, but may do so only if this square is unoccupied. 
+Checker may jump only forward, and may continue jumping as long as they encounter opposing pieces with unoccupied 
+squares immediately beyond them. Checker may never jump over checkers of the same color.\\
+A checker which reaches the far side of the board becomes a king.\\
+A king moves forward and backward, one square at a time in a diagonal direction, to an 
+unoccupied square. A king captures by jumping over an opposing piece on a diagonally adjacent square to the square 
+immediately beyond, but may do so only if this square is unoccupied. King may jump forward and backward, and may continue 
+jumping as long as they encounter opposing pieces with unoccupied squares immediately beyond them. King 
+may never jump over pieces of the same color.\\
+Capture takes precedence over a non-capturing move. When there is more than one way to jump, a player may choose any way he wishes, 
+not necessarily the one which results in the capture of the greatest number of opposing units. 
+However, once a player chooses a sequence of captures, he must make all 
+the captures possible in that sequence. He may not leave one or more pieces uncaptured that he 
+could capture simply by continuing to jump.\\
+Captured pieces are not removed from the board until all jumps made on the move are completed, and the hand 
+is removed from the capturing piece. In the course of a multiple capture a piece may visit the same square more 
+than once, but it may not capture the same piece more than once. In rare instances this rule can have the effect 
+of reducing the number of captures possible on a move.")
+   (history "")
+   (strategy "")
+   (players Black White)
+   (turn-order White Black)
+   (board  (board8x8)
+       (symmetry Black (nw sw)(sw nw) (ne se)(se ne))
+   )
+
+   (board-setup
+      (White (Checker a1 c1 e1 g1 b2 d2 f2 h2 a3 c3 e3 g3))
+      (Black (Checker b8 d8 f8 h8 a7 c7 e7 g7 b6 d6 f6 h6))
+   )
+   (maximal-captures false)
+   (piece
+      (name Checker)
+      (image White "images\wiedem\CheckerWhite.bmp" Black "images\wiedem\CheckerBlack.bmp")
+	  (description "A checker moves forward only, one square at a time in a diagonal direction, to an unoccupied square. A 
+checker captures by jumping over an opposing piece on a diagonally adjacent square to the square immediately beyond, but may do so only 
+if this square is unoccupied. Checker may jump only forward, and may continue jumping as long as they encounter opposing pieces 
+with unoccupied squares immediately beyond them. Checker may never jump over checkers of the same color.\\
+A checker which reaches the far side of the board becomes a king.")
+      (help "Checker: moves diagonally forward, jumps forward forward to capture")
+      (attribute captured? false)
+      (moves
+         (move-type jumptype)
+		 (german-checker-jump nw ne)
+             (german-checker-jump ne nw)
+         (move-type shortjumptype)
+		 (german-checker-shortjump nw ne)
+             (german-checker-shortjump ne nw)
+         (move-type nonjumptype)
+             (checker-shift nw)
+             (checker-shift ne)
+      )
+   )
+
+   (piece
+      (name King)
+      (image White "images\wiedem\CheckerKingWhite.bmp" Black "images\wiedem\CheckerKingBlack.bmp")
+	  (description "A king moves forward and backward, one square at a time in a diagonal direction, to an 
+unoccupied square. A king captures by jumping over an opposing piece on a diagonally adjacent square to the square 
+immediately beyond, but may do so only if this square is unoccupied. King may jump forward and backward, and may continue 
+jumping as long as they encounter opposing pieces with unoccupied squares immediately beyond them. King 
+may never jump over pieces of the same color.")
+
+      (help "King: slides diagonally, jumps to capture")
+      (attribute captured? false)
+      (moves
+         (move-type jumptype)
+		 (shashki-jump nw ne sw)
+             (shashki-jump ne nw se)
+             (shashki-jump sw nw se)
+             (shashki-jump se sw ne)
+         (move-type shortjumptype)
+		 (shashki-shortjump nw ne sw)
+             (shashki-shortjump ne nw se)
+             (shashki-shortjump sw nw se)
+             (shashki-shortjump se sw ne)
+         (move-type nonjumptype)
+             (checker-shift nw)
+             (checker-shift ne)
+             (checker-shift sw)
+             (checker-shift se)
+      )
+   )
+
+   (loss-condition (White Black) (pieces-remaining 0) )
+   (loss-condition (White Black) stalemated )
+)
+
+
+(variant
+   (title "Pool Checkers")
+   (description "Pool checkers is also known as Spanish Pool draughts.\\
+Pool Checkers is played on the dark squares only of a standard 
+checkerboard of 64 alternating dark and light squares, (eight rows, eight files) by two opponents having 12 checkers, one 
+opponent white ones and the other black ones.\\
+The board is positioned squarely between the players and turned so that a dark square is at each player's near left side. Each player places 
+his checkers on the dark squares of the three rows nearest him. The player with the white pieces makes the first move of the game, 
+and the players take turns thereafter, making one move at a time.\\
+The object of the game is to prevent the opponent from being able to move when it is his turn to do so. 
+This may come about by either being eliminated completely or being blocked completely. If neither player can accomplish this, the game is a draw.
+Repetetion of moves is also a draw.\\
+A checker moves forward only, one square at a time in a diagonal direction, to an unoccupied square. A checker captures by jumping over an opposing 
+piece on a diagonally adjacent square to the square immediately beyond, but may do so only if this square is unoccupied. 
+Checker may jump forward or backward, and may continue jumping as long as they encounter opposing pieces with unoccupied squares immediately 
+beyond them. Checker may never jump over checkers of the same color.\\
+A checker which reaches the far side of the board becomes a king. However, if it reaches the far side by means of a jump, and is able to jump 
+backward away from the far side over another man or king, it must do so, and does not become a king. A checker reaching the far side by 
+jumping becomes a king only if its jump, or series of jumps, terminates there.\\
+A king moves forward or backward any number of squares on a diagonal line to an unoccupied square. A king captures from any distance along a 
+diagonal line by jumping, forward or backward, over an opposing piece with at least one unoccupied square immediately beyond it. 
+The capturing king then lands on any one of these unoccupied squares and continues jumping, if possible, either on the same line, or by making 
+a right angle turn onto another diagonal line. A king may never jump over pieces of the same color.\\
+Capture takes precedence over a non-capturing move. When there is more than one way to jump, a player may choose any way he wishes, 
+not necessarily the one which results in the capture of the greatest number of opposing units. When a king jumps over an opposing piece
+with more than one unoccupied square immediately beyond it, it must land on a square from which it is possible to continue jumping, if there is 
+such a square. If there is more than one such square, any may be chosen. However, once a player chooses a sequence of captures, he must make all 
+the captures possible in that sequence. He may not leave one or more pieces uncaptured that he could capture simply by continuing to jump.\\
+Captured pieces are not removed from the board until all jumps made on the move are completed, and the hand is removed from the capturing 
+piece. In the course of a multiple capture a piece may visit the same square more 
+than once, but it may not capture the same piece more than once. In rare instances this rule can have the effect of reducing the number of 
+captures possible on a move.\\
+Whenever a situation arises in which one player has three kings and the other one king, no other checkers remaining on 
+the board, a count is begun of the moves made by the stronger side. If the lone king is not captured by the end of the fifteenth move by the 
+stronger side, the game is a draw. This last rule is not implemented here because it is currently not implementable with the repetition rule together 
+in Zillions.")
+   (history "")
+   (strategy "")
+   (players White Black)
+   (turn-order White Black)
+   (pass-turn false)
+   (pass-partial false)
+   (move-priorities jumptype shortjumptype nonjumptype)
+   (maximal-captures false)
+   (board  (board8x8)
+       (symmetry Black (nw sw)(sw nw) (ne se)(se ne))
+
+   )
+   (board-setup
+      (White (Checker a1 c1 e1 g1 b2 d2 f2 h2 a3 c3 e3 g3))
+      (Black (Checker b8 d8 f8 h8 a7 c7 e7 g7 b6 d6 f6 h6))
+   )
+   (piece
+      (name Checker)
+      (image Black "images\wiedem\CheckerBlack.bmp" White "images\wiedem\CheckerWhite.bmp")
+	  (description "A checker moves forward only, one square at a time in a diagonal direction, to an unoccupied square. A 
+checker captures by jumping over an opposing piece on a diagonally adjacent square to the square immediately beyond, but may do so only 
+if this square is unoccupied. Checker may jump forward or backward, and may continue jumping as long as they encounter opposing pieces 
+with unoccupied squares immediately beyond them. Checker may never jump over checkers of the same color.\\
+A checker which reaches the far side of the board becomes a king. However, if it reaches the far side by means of a jump, and is able to jump 
+backward away from the far side over another man or king, it must do so, and does not become a king. A checker reaching the far side by 
+jumping becomes a king only if its jump, or series of jumps, terminates there.")
+      (help "Checker: moves diagonally forward, jumps forward or backward to capture")
+      (attribute captured? false)
+      (moves
+         (move-type jumptype)
+		 (international-checker-jump nw ne sw)
+             (international-checker-jump ne nw se)
+             (international-checker-jump sw nw se)
+             (international-checker-jump se sw ne)
+         (move-type shortjumptype)
+		 (international-checker-shortjump nw ne sw)
+             (international-checker-shortjump ne nw se)
+             (international-checker-shortjump sw nw se)
+             (international-checker-shortjump se sw ne)
+         (move-type nonjumptype)
+             (checker-shift nw)
+             (checker-shift ne)
+      )
+   )
+
+   (piece
+      (name King)
+      (image Black "images\wiedem\CheckerKingBlack.bmp" White "images\wiedem\CheckerKingWhite.bmp")
+	  (description "A king moves forward or backward any number of squares on a diagonal line to an unoccupied square. 
+A king captures from any distance along a diagonal line by jumping, forward or backward, over an opposing piece with at least 
+one unoccupied square immediately beyond it. The capturing king then lands on any one of these unoccupied squares and continues 
+jumping, if possible, either on the same line, or by making a right angle turn onto another diagonal line. 
+A king may never jump over pieces of the same color.")
+      (help "King: slides diagonally, jumps to capture")
+      (attribute captured? false)
+      (moves
+         (move-type jumptype)
+           (international-king-jump1 nw se ne sw)
+           (international-king-jump1 ne sw se nw)
+           (international-king-jump1 sw ne nw se)
+           (international-king-jump1 se nw sw ne)
+           (international-king-jump2 nw se ne sw)
+           (international-king-jump2 ne sw se nw)
+           (international-king-jump2 sw ne nw se)
+           (international-king-jump2 se nw sw ne)
+           (international-king-jump3 nw se ne sw)
+           (international-king-jump3 ne sw se nw)
+           (international-king-jump3 sw ne nw se)
+           (international-king-jump3 se nw sw ne)
+           (international-king-jump4 nw se ne sw)
+           (international-king-jump4 ne sw se nw)
+           (international-king-jump4 sw ne nw se)
+           (international-king-jump4 se nw sw ne)
+           (international-king-jump5 nw se ne sw)
+           (international-king-jump5 ne sw se nw)
+           (international-king-jump5 sw ne nw se)
+           (international-king-jump5 se nw sw ne)
+           (international-king-jump6 nw se ne sw)
+           (international-king-jump6 ne sw se nw)
+           (international-king-jump6 sw ne nw se)
+           (international-king-jump6 se nw sw ne)
+           (international-king-jump7 nw se ne sw)
+           (international-king-jump7 ne sw se nw)
+           (international-king-jump7 sw ne nw se)
+           (international-king-jump7 se nw sw ne)
+           (international-king-jump8 nw se ne sw)
+           (international-king-jump8 ne sw se nw)
+           (international-king-jump8 sw ne nw se)
+           (international-king-jump8 se nw sw ne)
+
+         (move-type shortjumptype)
+           (international-king-shortjump1 nw se ne sw)
+           (international-king-shortjump1 ne sw se nw)
+           (international-king-shortjump1 sw ne nw se)
+           (international-king-shortjump1 se nw sw ne)
+           (international-king-shortjump2 nw se ne sw)
+           (international-king-shortjump2 ne sw se nw)
+           (international-king-shortjump2 sw ne nw se)
+           (international-king-shortjump2 se nw sw ne)
+           (international-king-shortjump3 nw se ne sw)
+           (international-king-shortjump3 ne sw se nw)
+           (international-king-shortjump3 sw ne nw se)
+           (international-king-shortjump3 se nw sw ne)
+           (international-king-shortjump4 nw se ne sw)
+           (international-king-shortjump4 ne sw se nw)
+           (international-king-shortjump4 sw ne nw se)
+           (international-king-shortjump4 se nw sw ne)
+           (international-king-shortjump5 nw se ne sw)
+           (international-king-shortjump5 ne sw se nw)
+           (international-king-shortjump5 sw ne nw se)
+           (international-king-shortjump5 se nw sw ne)
+           (international-king-shortjump6 nw se ne sw)
+           (international-king-shortjump6 ne sw se nw)
+           (international-king-shortjump6 sw ne nw se)
+           (international-king-shortjump6 se nw sw ne)
+           (international-king-shortjump7 nw se ne sw)
+           (international-king-shortjump7 ne sw se nw)
+           (international-king-shortjump7 sw ne nw se)
+           (international-king-shortjump7 se nw sw ne)
+           (international-king-shortjump8 nw se ne sw)
+           (international-king-shortjump8 ne sw se nw)
+           (international-king-shortjump8 sw ne nw se)
+           (international-king-shortjump8 se nw sw ne)
+         (move-type nonjumptype)
+           (king-slide nw)
+           (king-slide ne)
+           (king-slide sw)
+           (king-slide se)
+      )
+   )
+
+   (loss-condition (White Black) (pieces-remaining 0) )
+   (loss-condition (White Black) stalemated )
+)
+
+
+(variant
+   (title "Dammspiel (Old German Checkers)")
+   (description "Dammspiel is an very old German checker variant, which is in the whole forgotten.\\
+Dammspiel is played on all squares of a standard checkerboard of 64 alternating dark and light squares, 
+(eight rows, eight files) by two opponents having 16 checkers, one opponent white ones and the other black ones.\\
+The board is positioned squarely between the players and turned so that a dark square is at each player's near left side. 
+Each player places his checkers on the squares of the two rows nearest him. The player with the white pieces makes 
+the first move of the game, and the players take turns thereafter, making one move at a time.\\
+The object of the game is to prevent the opponent from being able to move when it is his turn to do so. 
+This may come about by either being eliminated completely or being blocked completely. 
+If neither player can accomplish this, the game is a draw. Repetetion of moves is also a draw.\\
+A checker moves forward only, one square at a time in a diagonal direction, to an unoccupied square. A 
+checker captures by jumping over an opposing piece  on a adjacent square to the square immediately beyond, but may do so only if this square is unoccupied. 
+Checker may jump in one of five directions (forward vertically, forward diagonally,
+or horizontally), and may continue jumping as long as they encounter opposing pieces with unoccupied 
+squares immediately beyond them. Only if a checker reaches the far side of the board it can not capture again. 
+The move ends if the checker comes firstly at the far side. Checker may never jump over checkers of the same color.\\
+A checker which reaches the far side of the board becomes a king (in German Dame = lady).\\
+A king moves, one square at a time in a any direction, to an unoccupied square. A 
+king captures by jumping over an opposing piece  on a adjacent square to the square immediately beyond, but may 
+do so only if this square is unoccupied. King may jump in all directions, and may continue jumping as long as they 
+encounter opposing pieces with unoccupied squares immediately beyond them. King may never jump over checkers 
+of the same color.\\
+Capture takes precedence over a non-capturing move. It must do so, taking care beforehand to establish 
+the route that brings the maximum number of captured pieces. A King counts as one piece. 
+If there's more than one way to meet this criterion, the player is free to choose.\\
+Captured pieces are not removed from the board until all jumps made on the move are completed, and the hand 
+is removed from the capturing piece. In the course of a multiple capture a piece may visit the same square more 
+than once, but it may not capture the same piece more than once. In rare instances this rule can have the effect 
+of reducing the number of captures possible on a move.")
+   (history "")
+   (strategy "")
+
+   (board  (dammspielboard) 
+      (zone
+         (name promotion-zone)
+         (players Black)
+         (positions a1 b1 c1 d1 e1 f1 g1 h1)
+      )
+      (zone
+         (name promotion-zone)
+         (players White)
+         (positions a8 b8 c8 d8 e8 f8 g8 h8)
+      )
+     (symmetry Black (nw sw)(sw nw) (ne se)(se ne) (n s)(s n)(w e)(e w))
+   )
+
+   (board-setup
+      (White (Checker a1 a2 b1 b2 c1 c2 d1 d2 e1 e2 f1 f2 g1 g2 h1 h2))
+      (Black (Checker a7 a8 b7 b8 c7 c8 d7 d8 e7 e8 f7 f8 g7 g8 h7 h8))
+   )
+
+   (piece
+      (name Checker)
+      (image Black "images\wiedem\CheckerBlack.bmp" White "images\wiedem\CheckerWhite.bmp")
+	  (description "A checker moves forward only, one square at a time in a diagonal direction, to an unoccupied square. A 
+checker captures by jumping over an opposing piece  on a adjacent square to the square immediately beyond, but may do so only if this square is unoccupied. 
+Checker may jump in one of five directions (forward vertically, forward diagonally,
+or horizontally), and may continue jumping as long as they encounter opposing pieces with unoccupied 
+squares immediately beyond them. Only if a checker reaches the far side of the board it can not capture again. 
+The move ends if the checker comes firstly at the far side. Checker may never jump over checkers of the same color.\\
+A checker which reaches the far side of the board becomes a king (in German Dame = lady).")
+      (help "Checker: moves diagonally forward, jumps in five directions to capture")
+      (attribute captured? false)
+      (moves
+         (move-type jumptype)
+             (dammspiel-jump5 n e ne w nw)
+             (dammspiel-jump5 ne n e w nw)
+             (dammspiel-jump5 nw ne n e w)
+             (dammspiel-jump4 w ne n nw)
+             (dammspiel-jump4 e n ne nw)
+         (move-type shortjumptype)
+             (dammspiel-shortjump5 n e ne w nw)
+             (dammspiel-shortjump5 nw ne n e w)
+             (dammspiel-shortjump5 ne n e w nw)
+             (dammspiel-shortjump4 w ne n nw)
+             (dammspiel-shortjump4 e n ne nw)
+         (move-type nonjumptype)
+             (checker-shift nw)
+             (checker-shift ne)
+      )
+   )
+
+   (piece
+      (name King)
+      (image Black "images\wiedem\CheckerKingBlack.bmp" White "images\wiedem\CheckerKingWhite.bmp")
+	(description "A king moves, one square at a time in a any direction, to an unoccupied square. A 
+king captures by jumping over an opposing piece  on a adjacent square to the square immediately beyond, but may 
+do so only if this square is unoccupied. King may jump in all directions, and may continue jumping as long as they 
+encounter opposing pieces with unoccupied squares immediately beyond them. King may never jump over checkers 
+of the same color.")
+      (help "King: moves in all directions, jumps to capture")
+      (attribute captured? false)
+      (moves
+         (move-type jumptype)
+             (dammspiel-jump7 n ne e se sw w nw)
+             (dammspiel-jump7 ne n e se s w nw)
+             (dammspiel-jump7 e n ne se s sw nw)
+             (dammspiel-jump7 se n ne e s sw w)
+             (dammspiel-jump7 s ne e se sw w nw)
+             (dammspiel-jump7 sw n e se s w nw)
+             (dammspiel-jump7 w n ne se s sw nw)
+             (dammspiel-jump7 nw n ne e s sw w)
+         (move-type shortjumptype)
+             (dammspiel-shortjump7 n ne e se sw w nw)
+             (dammspiel-shortjump7 ne n e se s w nw)
+             (dammspiel-shortjump7 e n ne se s sw nw)
+             (dammspiel-shortjump7 se n ne e s sw w)
+             (dammspiel-shortjump7 s ne e se sw w nw)
+             (dammspiel-shortjump7 sw n e se s w nw)
+             (dammspiel-shortjump7 w n ne se s sw nw)
+             (dammspiel-shortjump7 nw n ne e s sw w)
+         (move-type nonjumptype)
+             (checker-shift nw)
+             (checker-shift ne)
+             (checker-shift se)
+             (checker-shift sw)
+             (checker-shift n)
+             (checker-shift e)
+             (checker-shift s)
+             (checker-shift w)
+       )
+   )
+
+   (loss-condition (White Black) (pieces-remaining 0) )
+   (loss-condition (White Black) stalemated )
+)
+
+(define add-to-empty ((verify empty?) (verify (piece? dummypiece a0)) add))
+(define choko-shift   (from $1 to (verify empty?) (if (piece? dummypiece a0) (capture a0)) add))
+
+(define choko-jump   
+                     (from $1 (verify enemy?)(verify (empty? $1)) $1 to (verify (enemy? a1)) (capture a1) 
+                                (if (piece? dummypiece a0) (capture a0)) add)
+                     (from $1 (verify enemy?)(verify (empty? $1)) $1 to (verify (enemy? a2)) (capture a2) (if (piece? dummypiece a0) (capture a0)) add)
+                     (from $1 (verify enemy?)(verify (empty? $1)) $1 to (verify (enemy? a3)) (capture a3) (if (piece? dummypiece a0) (capture a0)) add)
+                     (from $1 (verify enemy?)(verify (empty? $1)) $1 to (verify (enemy? a4)) (capture a4) (if (piece? dummypiece a0) (capture a0)) add)
+                     (from $1 (verify enemy?)(verify (empty? $1)) $1 to (verify (enemy? a5)) (capture a5) (if (piece? dummypiece a0) (capture a0)) add)
+                     (from $1 (verify enemy?)(verify (empty? $1)) $1 to (verify (enemy? b1)) (capture b1) (if (piece? dummypiece a0) (capture a0)) add)
+                     (from $1 (verify enemy?)(verify (empty? $1)) $1 to (verify (enemy? b2)) (capture b2) (if (piece? dummypiece a0) (capture a0)) add)
+                     (from $1 (verify enemy?)(verify (empty? $1)) $1 to (verify (enemy? b3)) (capture b3) (if (piece? dummypiece a0) (capture a0)) add)
+                     (from $1 (verify enemy?)(verify (empty? $1)) $1 to (verify (enemy? b4)) (capture b4) (if (piece? dummypiece a0) (capture a0)) add)
+                     (from $1 (verify enemy?)(verify (empty? $1)) $1 to (verify (enemy? b5)) (capture b5) (if (piece? dummypiece a0) (capture a0)) add)
+                     (from $1 (verify enemy?)(verify (empty? $1)) $1 to (verify (enemy? c1)) (capture c1) (if (piece? dummypiece a0) (capture a0)) add)
+                     (from $1 (verify enemy?)(verify (empty? $1)) $1 to (verify (enemy? c2)) (capture c2) (if (piece? dummypiece a0) (capture a0)) add)
+                     (from $1 (verify enemy?)(verify (empty? $1)) $1 to (verify (enemy? c3)) (capture c3) (if (piece? dummypiece a0) (capture a0)) add)
+                     (from $1 (verify enemy?)(verify (empty? $1)) $1 to (verify (enemy? c4)) (capture c4) (if (piece? dummypiece a0) (capture a0)) add)
+                     (from $1 (verify enemy?)(verify (empty? $1)) $1 to (verify (enemy? c5)) (capture c5) (if (piece? dummypiece a0) (capture a0)) add)
+                     (from $1 (verify enemy?)(verify (empty? $1)) $1 to (verify (enemy? d1)) (capture d1) (if (piece? dummypiece a0) (capture a0)) add)
+                     (from $1 (verify enemy?)(verify (empty? $1)) $1 to (verify (enemy? d2)) (capture d2) (if (piece? dummypiece a0) (capture a0)) add)
+                     (from $1 (verify enemy?)(verify (empty? $1)) $1 to (verify (enemy? d3)) (capture d3) (if (piece? dummypiece a0) (capture a0)) add)
+                     (from $1 (verify enemy?)(verify (empty? $1)) $1 to (verify (enemy? d4)) (capture d4) (if (piece? dummypiece a0) (capture a0)) add)
+                     (from $1 (verify enemy?)(verify (empty? $1)) $1 to (verify (enemy? d5)) (capture d5) (if (piece? dummypiece a0) (capture a0)) add)
+                     (from $1 (verify enemy?)(verify (empty? $1)) $1 to (verify (enemy? e1)) (capture e1) (if (piece? dummypiece a0) (capture a0)) add)
+                     (from $1 (verify enemy?)(verify (empty? $1)) $1 to (verify (enemy? e2)) (capture e2) (if (piece? dummypiece a0) (capture a0)) add)
+                     (from $1 (verify enemy?)(verify (empty? $1)) $1 to (verify (enemy? e3)) (capture e3) (if (piece? dummypiece a0) (capture a0)) add)
+                     (from $1 (verify enemy?)(verify (empty? $1)) $1 to (verify (enemy? e4)) (capture e4) (if (piece? dummypiece a0) (capture a0)) add)
+                     (from $1 (verify enemy?)(verify (empty? $1)) $1 to (verify (enemy? e5)) (capture e5) (if (piece? dummypiece a0) (capture a0)) add)
+)
+
+
+(variant
+   (title "Turkish Draughts")
+   (description "Turkish Draughts is played on all squares of a standard 
+checkerboard of 64 alternating dark and light squares, (eight rows, eight files) by two opponents having 16 checkers, one 
+opponent black ones and the other whiteones.\\
+The board is positioned squarely between the players and turned so that a dark square is at each player's near left side. Each player places 
+his checkers on the dark squares of the second and third row nearest him. The player with the black pieces makes the 
+first move of the game, and the players take turns thereafter, making one move at a time.\\
+The object of the game is to prevent the opponent from being able to move when it is his turn to do so. 
+This may come about by either being eliminated completely or being blocked completely. If neither player can accomplish this, the game is a draw.
+Repetetion of moves is also a draw. A player has won if he has a king and the other player has only one checker.\\
+A checker moves forward vertically and horizontally, one square at a time, to an unoccupied square. A checker 
+captures by jumping over an opposing piece on a adjacent square to the square immediately beyond, but may do so 
+only if this square is unoccupied. 
+Checker may jump forward vertically and horizontally, and may continue jumping as long as they encounter opposing pieces 
+with unoccupied squares immediately beyond them. Only if a checker reaches the far side of the board it can not 
+capture again. The move ends if the checker comes firstly at the far side. Checker may never jump over checkers of 
+the same color.\\
+A checker which reaches the far side of the board becomes a king. \\
+A king moves horizontally and vertically any number of squares to an unoccupied square. A king captures 
+from any distance along a horizontal or vertical line by jumping over an opposing piece with at least one unoccupied 
+square immediately beyond it. The capturing king then lands on any one of these unoccupied squares and continues jumping, 
+if possible, either on the same line, or by making a right angle turn onto another diagonal line. 
+A king may never jump over pieces of the same color.\\
+Capture takes precedence over a non-capturing move. It must do so, taking care beforehand to establish 
+the route that brings the maximum number of captured pieces. A King counts as one piece. 
+If there's more than one way to meet this criterion, the player is free to choose.\\
+Captured pieces are not removed from the board until all jumps made on the move are completed, and the hand 
+is removed from the capturing piece. In the course of a multiple capture a piece may visit the same square more 
+than once, but it may not capture the same piece more than once. In rare instances this rule can have the effect 
+of reducing the number of captures possible on a move.")
+
+
+   (history "")
+   (strategy "")
+   (players Black White)
+   (turn-order Black White)
+   (pass-turn false)
+   (pass-partial false)
+
+   (board  (dammspielboard) 
+      (zone
+         (name promotion-zone)
+         (players White)
+         (positions a1 b1 c1 d1 e1 f1 g1 h1)
+      )
+      (zone
+         (name promotion-zone)
+         (players Black)
+         (positions a8 b8 c8 d8 e8 f8 g8 h8)
+      )
+      (zone
+         (name board-zone)
+         (players Black White)
+         (positions a1 a2 a3 a4 a5 a6 a7 a8 b1 b2 b3 b4 b5 b6 b7 b8 c1 c2 c3 c4 c5 c6 c7 c8 d1 d2 d3 d4 d5 d6 d7 d8
+                    e1 e2 e3 e4 e5 e6 e7 e8 f1 f2 f3 f4 f5 f6 f7 f8 g1 g2 g3 g4 g5 g6 g7 g8 h1 h2 h3 h4 h5 h6 h7 h8)
+      )
+     (symmetry White (nw sw)(sw nw) (ne se)(se ne) (n s)(s n)(w e)(e w))
+     (dummy a0)
+   )
+
+   (board-setup
+      (Black (Checker a2 a3 b2 b3 c2 c3 d2 d3 e2 e3 f2 f3 g2 g3 h2 h3))
+      (White (Checker a6 a7 b6 b7 c6 c7 d6 d7 e6 e7 f6 f7 g6 g7 h6 h7))
+   )
+
+   (piece
+      (name Checker)
+      (image Black "images\wiedem\CheckerBlack.bmp" White "images\wiedem\CheckerWhite.bmp")
+	  (description "A checker moves forward vertically and horizontally, one square at a time, to an unoccupied square. A checker 
+captures by jumping over an opposing piece on a adjacent square to the square immediately beyond, but may do so 
+only if this square is unoccupied. Checker may jump forward vertically and horizontally, and may continue jumping as long as they encounter opposing pieces 
+with unoccupied squares immediately beyond them. Only if a checker reaches the far side of the board it can not 
+capture again. The move ends if the checker comes firstly at the far side. Checker may never jump over checkers of 
+the same color. A checker which reaches the far side of the board becomes a king.")
+	  (help "Checker: moves orthogonally forward or horizontally, jumps to capture")
+      (attribute captured? false)
+      (moves
+         (move-type jumptype)
+              (turkish-checker-jump n e w)
+              (turkish-checker-jump e n w)
+              (turkish-checker-jump w e n)
+         (move-type shortjumptype)
+              (turkish-checker-shortjump n e w)
+              (turkish-checker-shortjump e n w)
+              (turkish-checker-shortjump w e n)
+         (move-type nonjumptype)
+             (checker-shift n)
+             (checker-shift e)
+             (checker-shift w)
+      )
+   )
+
+   (piece
+      (name King)
+      (image Black "images\wiedem\CheckerKingBlack.bmp" White "images\wiedem\CheckerKingWhite.bmp")
+	  (description "A king moves horizontally and vertically any number of squares to an unoccupied square. A king captures 
+from any distance along a horizontal or vertical line by jumping over an opposing piece with at least one unoccupied 
+square immediately beyond it. The capturing king then lands on any one of these unoccupied squares and continues jumping, 
+if possible, either on the same line, or by making a right angle turn onto another diagonal line. 
+A king may never jump over pieces of the same color.")
+      (help "King: slides horizontally or vertically, jumps to capture")
+      (attribute captured? false)
+      (moves
+         (move-type jumptype)
+           (international-king-jump1 n s w e)
+           (international-king-jump1 s n w e)
+           (international-king-jump1 e w n s)
+           (international-king-jump1 w e n s)
+           (international-king-jump2 n s w e)
+           (international-king-jump2 s n w e)
+           (international-king-jump2 e w n s)
+           (international-king-jump2 w e n s)
+           (international-king-jump3 n s w e)
+           (international-king-jump3 s n w e)
+           (international-king-jump3 e w n s)
+           (international-king-jump3 w e n s)
+           (international-king-jump4 n s w e)
+           (international-king-jump4 s n w e)
+           (international-king-jump4 e w n s)
+           (international-king-jump4 w e n s)
+           (international-king-jump5 n s w e)
+           (international-king-jump5 s n w e)
+           (international-king-jump5 e w n s)
+           (international-king-jump5 w e n s)
+           (international-king-jump6 n s w e)
+           (international-king-jump6 s n w e)
+           (international-king-jump6 e w n s)
+           (international-king-jump6 w e n s)
+         (move-type shortjumptype)
+           (international-king-shortjump1 n s w e)
+           (international-king-shortjump1 s n w e)
+           (international-king-shortjump1 e w n s)
+           (international-king-shortjump1 w e n s)
+           (international-king-shortjump2 n s w e)
+           (international-king-shortjump2 s n w e)
+           (international-king-shortjump2 e w n s)
+           (international-king-shortjump2 w e n s)
+           (international-king-shortjump3 n s w e)
+           (international-king-shortjump3 s n w e)
+           (international-king-shortjump3 e w n s)
+           (international-king-shortjump3 w e n s)
+           (international-king-shortjump4 n s w e)
+           (international-king-shortjump4 s n w e)
+           (international-king-shortjump4 e w n s)
+           (international-king-shortjump4 w e n s)
+           (international-king-shortjump5 n s w e)
+           (international-king-shortjump5 s n w e)
+           (international-king-shortjump5 e w n s)
+           (international-king-shortjump5 w e n s)
+           (international-king-shortjump6 n s w e)
+           (international-king-shortjump6 s n w e)
+           (international-king-shortjump6 e w n s)
+           (international-king-shortjump6 w e n s)
+         (move-type nonjumptype)
+           (king-slide n)
+           (king-slide e)
+           (king-slide s)
+           (king-slide w)
+      )
+   )
+
+   (loss-condition (White Black) (pieces-remaining 0) )
+   (loss-condition (White Black) stalemated )
+
+   (loss-condition (White Black) 
+         (and 
+              (pieces-remaining 1) 
+              (absolute-config (opponent King) (board-zone))
+              (absolute-config (not King) (board-zone))
+         )
+    )
+
+; (win-condition (White Black) (and (total-piece-count 2) (absolute-config King (board-zone)) 
+;        (absolute-config (any-owner Checker) (board-zone))))
+)
+
+(variant
+  (title "-")
+)
+
+(variant
+   (title "Choko")
+   (description "Choko is a West African mini checker game.\\
+Choko is played on the squares of a uncheckerd board of 25 squares, (five rows, five files) by two opponents having 
+12 pieces of different color or shape. In our implementation one opponent has white pieces and the other black pieces.\\
+The board is positioned squarely between the players. The game starts with an empty board.
+In our implementation the player with the white pieces makes the first move of the game, 
+and the players take turns thereafter, making one move at a time.\\
+The object of the game is to prevent the opponent from being able to move when it is his turn to do so. 
+This may come about by either being eliminated completely or being blocked completely. 
+If neither player can accomplish this, the game is a draw. Repetetion of moves is also a draw.\\
+At first the player drop pieces on the board. But not all pieces are to drop. If one player moves 
+for both players is no drop possible.\\
+A piece moves horizontally or vertically, one square at a time, to an unoccupied square. A piece captures by jumping 
+over an opposing piece on a adjacent square to the square immediately beyond, but may do so only if this square 
+is unoccupied. Pieces may jump in any direction horizontally or vertically. They can not continue jumping.
+In one move there is only one capture possible. If a player captures the player can take anyone piece, not necessarily the piece over
+which was jumping.")
+   (history "Choko is an Western African checkers variant. Played for example in Gambia.")
+   (board
+      (chokoboard)
+   )
+   (board-setup
+      (Black (dummypiece a0)(Checker off 12))
+      (White (Checker off 12))
+   )
+   (players Black White)
+   (turn-order Black White)
+   (pass-turn false)
+   (pass-partial false)
+   (piece
+      (name Checker)
+      (notation "")
+      (image White "images\wiedem\CheckerWhite.bmp" Black "images\wiedem\CheckerBlack.bmp")
+      (description "The checker move streight in any direction. They jump to capture. But in one move there is only one capture possible.
+                 If a players captures the player can take anyone piece.")
+	(help "Checker: moves straigt in any direction, jumps to capture, captures anyone piece.")
+      (drops (add-to-empty))
+      (moves (choko-shift n)(choko-shift e)(choko-shift s)(choko-shift w)
+             (choko-jump n)(choko-jump e)(choko-jump s)(choko-jump w))
+   )
+
+   (piece
+      (name dummypiece)
+      (dummy)
+   )
+  (loss-condition (Black White) stalemated)
+)
+
+(define Man-Liberian-shift  ((verify (piece? dummypiece0 Man-off-board)) $1 (verify empty?) add))
+(define Woman-Liberian-shift  ((verify (piece? dummypiece0 Woman-off-board)) $1 (verify empty?) add))
+(define Woman-Liberian-jump  ((verify (piece? dummypiece0 Woman-off-board)) $1 (verify enemy?) 
+       (verify (empty? $1)) capture $1 (change-type dummypiece1 Man-off-board) add))
+(define Man-Liberian-jump  ((verify (piece? dummypiece0 Man-off-board)) $1 (verify enemy?) 
+       (verify (empty? $1)) capture $1 (change-type dummypiece1 Woman-off-board) add))
+
+(variant
+   (title "A Liberian variant")
+   (description "This is a Liberian checkers variant. This variant is played on a special board with 13 squares (holes). 
+The board is positioned squarely between the players by two opponents having 
+10 sticks. The sticks of one player are tapering, called men, the other sticks, called the woman, are untreated. 
+In our implementation the men are the white pieces and the women the black pieces. The Woman begin.\\
+Four pieces of every colour are 
+on the board on certain squares, the other pieces are off-board. A piece moves to a unoccupied neioghboured square, 
+one square at a time. A piece captures by jumping over an opposing piece on a adjacent square to the square 
+immediately beyond, but may do so only if this square is unoccupied. Pieces can not continue jumping. In 
+one move there is only one capture possible.\\
+If a piece is captured and a player has less then four pieces on the board he must drop a new piece from 
+his off-board pieces.\\
+The object of the game is to prevent the opponent from being able to move when it is his turn to do so. 
+This may come about by either he can not drop a new piece, bewcause all off-board pieces are used,
+or being eliminated completely or being blocked completely.")
+   (history "")
+   (board
+      (LiberianBoard)
+      (dummy Woman-off-board Man-off-board move-counter-1 move-counter-2 move-counter-4 move-counter-8 
+         move-counter-16 move-counter-32 
+         move-counter-64 move-counter-128 move-counter-256  move-counter-512 move-counter-1024 move-counter-2048)
+
+      (zone
+         (name promotion-zone)
+         (players Man)
+         (positions a1 c1)
+      )
+      (zone
+         (name promotion-zone)
+         (players Woman)
+         (positions a5 c5)
+      )
+
+    )
+   (players Man Woman Neutral)
+   (turn-order Woman Man)
+
+   (board-setup
+      (Man (Man-Checker off 6 a1 a3 b2 b4 ) (dummypiece0 Man-off-board))
+      (Woman (Woman-Checker off 6 d2 d4 e3 e5) (dummypiece0 Woman-off-board))
+      (Neutral
+        (dummy0 move-counter-1 move-counter-2 move-counter-4 move-counter-8 move-counter-16 move-counter-32 
+         move-counter-64 move-counter-128 move-counter-256  move-counter-512 move-counter-1024 move-counter-2048)
+      )
+   )
+
+   (piece (name dummy0) (dummy))
+   (piece (name dummy1) (dummy))
+
+   (piece
+      (name Woman-Checker)
+      (notation " ")
+      (image Woman "images\wiedem\CheckerBlack.bmp")
+      (description "A woman moves to a unoccupied neioghboured square, 
+one square at a time. A woman captures by jumping over an man on a adjacent square to the square 
+immediately beyond, but may do so only if this square is unoccupied. Woman can not continue jumping. In 
+one move there is only one capture possible.")
+	(help "Woman: moves to neightboured squares, jumps to capture")
+      (drops (move-type droping) 
+           ((verify empty?) (verify (piece? dummypiece4 Woman-off-board)) (change-type dummypiece3 Woman-off-board) (count-move) add)
+           ((verify empty?) (verify (piece? dummypiece3 Woman-off-board)) (change-type dummypiece2 Woman-off-board) (count-move) add)
+           ((verify empty?) (verify (piece? dummypiece2 Woman-off-board)) (change-type dummypiece1 Woman-off-board) (count-move) add)
+           ((verify empty?) (verify (piece? dummypiece1 Woman-off-board)) (change-type dummypiece0 Woman-off-board) (count-move) add)
+      )
+      (moves (Woman-Liberian-shift ne) (Woman-Liberian-shift nw)(Woman-Liberian-shift se)(Woman-Liberian-shift sw)
+             (Woman-Liberian-jump ne) (Woman-Liberian-jump nw)(Woman-Liberian-jump se)(Woman-Liberian-jump sw))
+   )
+
+   (piece
+      (name Man-Checker)
+      (notation " ")
+      (image Man "images\wiedem\CheckerWhite.bmp")
+      (description "A man moves to a unoccupied neioghboured square, 
+one square at a time. A man captures by jumping over an woman on a adjacent square to the square 
+immediately beyond, but may do so only if this square is unoccupied. Man can not continue jumping. In 
+one move there is only one capture possible.")
+	(help "Man: moves to neightboured squares, jumps to capture")
+      (description "")
+	(help "")
+      (drops (move-type droping) 
+          ((verify empty?) (verify (piece? dummypiece4 Man-off-board)) (change-type dummypiece3 Man-off-board) (count-move) add)
+          ((verify empty?) (verify (piece? dummypiece3 Man-off-board)) (change-type dummypiece2 Man-off-board) (count-move) add)
+          ((verify empty?) (verify (piece? dummypiece2 Man-off-board)) (change-type dummypiece1 Man-off-board) (count-move) add)
+          ((verify empty?) (verify (piece? dummypiece1 Man-off-board)) (change-type dummypiece0 Man-off-board) (count-move) add)
+      )
+      (moves (Man-Liberian-shift ne) (Man-Liberian-shift nw)(Man-Liberian-shift se)(Man-Liberian-shift sw)
+             (Man-Liberian-jump ne) (Man-Liberian-jump nw)(Man-Liberian-jump se)(Man-Liberian-jump sw))
+   )
+
+   (piece (name dummypiece0)(dummy))
+   (piece (name dummypiece1)(dummy))
+   (piece (name dummypiece2)(dummy))
+   (piece (name dummypiece3)(dummy))
+   (piece (name dummypiece4)(dummy))
+
+   ; deactivate King and Checker with dummy functions
+   (piece
+      (name King)
+      (image Woman "images\wiedem\CheckerKingWhite.bmp" Man "images\wiedem\CheckerKingBlack.bmp")
+      (moves (Man-Liberian-jump ne) 
+      )
+   )
+   (piece
+      (name Checker)
+      (image Woman "images\wiedem\CheckerKingWhite.bmp" Man "images\wiedem\CheckerKingBlack.bmp")
+      (moves (Man-Liberian-jump ne) 
+      )
+   )
+
+  (loss-condition (Man Woman) stalemated)
+)
+
+(variant
+  (title "-")
+)
+
+(variant
+   (title "Cheskers")
+   (description "Cheskers is a well-known crossover between chess and checkers.
+It is played on the dark squares only of a standard checkerboard of 64 alternating dark and light squares, 
+(eight rows, eight files) by two opponents having 12 pieces (pawns, kings, bishops, and camels), one 
+opponent black ones and the other white ones.\\
+The board is positioned squarely between the players and turned so that a dark square is at each player's near left side. 
+Each player places his pieces on the dark squares of the three rows nearest him. 
+(Black: Kings c1, e1; Bishop a1; Camel g1; Pawns a3, b2, c3, d2, e3, f2, g3, h2; White: Kings d8, f8, Bishop h8; Camel b8; 
+Pawns a7, b6, c7, d6, e7, f6, g7, h6).\\
+The player with the black pieces makes 
+the first move of the game, and the players take turns thereafter, making one move at a time.\\
+The object of the game is to capture all kings of the opponent or to bloack the opponent  completely. 
+If neither player can accomplish this, the game is a draw. Repetetion of moves is also a draw.\\
+A pawn moves forward only, one square at a time in a diagonal direction, to an unoccupied square. A 
+checker captures by jumping over an opposing 
+piece on a diagonally adjacent square to the square immediately beyond, but may do so only if this square is unoccupied. 
+Checker may jump only forward, and may continue jumping as long as they encounter opposing pieces with unoccupied 
+squares immediately beyond them. Checker may never jump over checkers of the same color.\\
+A checker which reaches the far side of the board it promotes to king, bishop or camel.\\
+A king moves forward and backward, one square at a time in a diagonal direction, to an 
+unoccupied square. A king captures by jumping over an opposing piece on a diagonally adjacent square to the square 
+immediately beyond, but may do so only if this square is unoccupied. King may jump forward and backward, and may continue 
+jumping as long as they encounter opposing pieces with unoccupied squares immediately beyond them. King 
+may never jump over pieces of the same color.\\
+The bishop moves and takes exactly as in normal chess. The bishop moves to any square along a diagonal on which it stands. 
+When making these moves the bishop cannot move over any intervening pieces.\\
+The camel is a (1,3)-jumper. This means that it reaches its destination square 
+by moving either three squares horizontally and one vertically, or one square horizontally and three 
+vertically. The camel is a jumping piece, meaning it can move to its destination square whether 
+the intervening squares are occupied or not. If the destination square is occupied by an enemy piece, then 
+it captures that piece.\\
+When a pawn or king can take, it is obligatory to make a capture with any piece. It must do 
+so, taking care beforehand to establish the route that brings the maximum number of captured pieces. 
+All pieces count as one piece. If there's more than one way to meet this criterion, the player is free to choose.
+When a player can only capture with a bishop or a camel, it is not obligatory to capture. \\
+Captured pieces are not removed from the board until all jumps made on the move are completed, and the hand 
+is removed from the capturing piece. In the course of a multiple capture a piece may visit the same square more 
+than once, but it may not capture the same piece more than once. In rare instances this rule can have the effect 
+of reducing the number of captures possible on a move.")
+   (history "Chesker was  invented in 1948 by Solomon W. Golomb.")
+   (strategy "")
+   (players Black White)
+   (turn-order Black White)
+   (pass-turn false)
+   (maximal-captures true)
+   (move-priorities jumptype nonjumptype)
+
+   (board 
+      (image "images\wiedem\chess8x8.bmp")
+      (grid
+         (start-rectangle 5 5 55 55)
+         (dimensions
+            ("a/b/c/d/e/f/g/h" (49 0)) ; files
+            ("8/7/6/5/4/3/2/1" (0 49)) ; ranks
+         )
+         (directions (ne 1 -1) (nw -1 -1) (se 1 1) (sw -1 1)
+               (n 0 -1) (e 1 0) (s 0 1) (w -1 0)
+               (nene 2 -2) (nwnw -2 -2) (sese 2 2) (swsw -2 2)
+               (nxt 0 -2)
+         )
+      )
+      (dummy a0)
+      (links nxt (a0 a1)(a7 b2)(b8 c1)(c7 d2)(d8 e1)(e7 f2)(f8 g1)(g7 h2))
+      (zone  (name promotion-zone)(players Black)(positions a8 b8 c8 d8 e8 f8 g8 h8) )
+      (zone  (name promotion-zone)(players White)  (positions a1 b1 c1 d1 e1 f1 g1 h1) )
+      (symmetry White (nw se)(se nw) (ne sw)(sw ne)(n s)(s n)(w e)(e w)
+                     (nwnw sese)(sese nwnw) (nene swsw)(swsw nene))
+    )
+
+
+   (board-setup
+      (Black (Pawn a3 b2 c3 d2 e3 f2 g3 h2)
+             (Bishop a1)
+             (King c1 e1)
+             (Camel g1)
+      )
+      (White (Pawn a7 b6 c7 d6 e7 f6 g7 h6)
+             (Bishop h8)
+             (King d8 f8)
+             (Camel b8)
+      )
+   )
+
+   (piece
+      (name Pawn)
+	  (description "A pawn moves forward only, one square at a time in a diagonal direction, to an unoccupied square. A 
+pawn captures by jumping over an opposing piece on a diagonally adjacent square to the square immediately beyond, but may 
+do so only if this square is unoccupied. Pawns may jump only forward, and may continue jumping as long as they encounter 
+opposing pieces with unoccupied squares immediately beyond them. Pawns may never jump over pieces of the same color.\\
+A pawn which reaches the far side of the board becomes a king, a bishop or a knight.")
+      (help "Checker: moves diagonally forward, jumps forward forward to capture")
+      (image White "images\wiedem\wpawn.bmp" Black "images\wiedem\bpawn.bmp")
+      (attribute captured? false)
+      (moves
+
+         (move-type jumptype)
+		 (chesker-jump nw ne)
+             (chesker-jump ne nw)
+
+         (move-type nonjumptype)
+            ; short jumps
+		 (chesker-shortjump nw ne)
+             (chesker-shortjump ne nw)
+            ; no jump
+             (from nw (verify empty?) (chesker-nojump-possible?) (if (in-zone? promotion-zone) 
+                                    (add King Camel Bishop) else add) ) 
+             (from ne (verify empty?) (chesker-nojump-possible?) (if (in-zone? promotion-zone) 
+                                    (add King Camel Bishop) else add) ) 
+      )
+   )
+
+   (piece
+      (name King)
+	  (description "A king moves forward and backward, one square at a time in a diagonal direction, to an 
+unoccupied square. A king captures by jumping over an opposing piece on a diagonally adjacent square to the square 
+immediately beyond, but may do so only if this square is unoccupied. King may jump forward and backward, and may continue 
+jumping as long as they encounter opposing pieces with unoccupied squares immediately beyond them. King 
+may never jump over pieces of the same color.")
+      (help "King: slides diagonally, jumps to capture")
+      (attribute captured? false)
+      (image White "images\wiedem\wking.bmp" Black "images\wiedem\bking.bmp")
+      (moves
+         (move-type jumptype)
+		 (shashki-jump nw ne sw)
+             (shashki-jump ne nw se)
+             (shashki-jump sw nw se)
+             (shashki-jump se sw ne)
+         (move-type nonjumptype)
+             ; short jump
+		 (shashki-shortjump nw ne sw)
+             (shashki-shortjump ne nw se)
+             (shashki-shortjump sw nw se)
+             (shashki-shortjump se sw ne)
+            ; no jump
+             (from nw (verify empty?) (chesker-nojump-possible?) add ) 
+             (from ne (verify empty?) (chesker-nojump-possible?) add ) 
+             (from sw (verify empty?) (chesker-nojump-possible?) add ) 
+             (from se (verify empty?) (chesker-nojump-possible?) add ) 
+       )
+   )
+
+
+
+   (piece
+      (name Bishop)
+	  (help "Bishop: moves to any square along a diagonal on which it stands. ")
+      (description "The bishop moves to any square along a diagonal on which it stands. 
+When making these moves the bishop cannot move over any intervening pieces.")
+      (image White "images\wiedem\wbishop.bmp" Black "images\wiedem\bbishop.bmp")
+      (attribute captured? false)
+      (moves
+         (move-type nonjumptype)
+         ; capture
+           (ne (while empty? ne) (verify enemy?) add)
+           (nw (while empty? nw) (verify enemy?) add)
+           (se (while empty? se) (verify enemy?) add)
+           (sw (while empty? sw) (verify enemy?) add)
+
+         ; no capture
+           (ne (chesker-nojump-possible?) (while empty? add ne))
+           (nw (chesker-nojump-possible?) (while empty? add nw))
+           (se (chesker-nojump-possible?) (while empty? add se))
+           (sw (chesker-nojump-possible?) (while empty? add sw))
+      )
+   )
+
+  (piece
+      (name Camel)
+	  (help "Camel: moves like an `L`, 3 squares one way and one the other")
+      (description "The Camel is used in modern chess variants. The piece is still known under this name by composers of 
+         fairy chess problems. The camel is a (1,3)-jumper. This means that it reaches its destination square 
+         by moving either three squares horizontally and one vertically, or one square horizontally and three 
+         vertically. The camel is a jumping piece, meaning it can move to its destination square whether 
+         the intervening squares are occupied or not. If the destination square is occupied by an enemy piece, then 
+         it captures that piece. ")
+      (attribute captured? false)
+      (image White "images\wiedem\WCamel.bmp" Black "images\wiedem\BCamel.bmp")
+
+      (moves 
+         (move-type nonjumptype)
+
+          ; capture
+          (n n nw (verify enemy?) add)
+          (n n ne (verify enemy?) add)
+          (e e ne (verify enemy?) add)
+          (e e se (verify enemy?) add)
+          (s s se (verify enemy?) add)
+          (s s sw (verify enemy?) add)
+          (w w sw (verify enemy?) add)
+          (w w nw (verify enemy?) add)
+          ; no capture
+          (n n nw (verify empty?) (chesker-nojump-possible?) add)
+          (n n ne (verify empty?) (chesker-nojump-possible?) add)
+          (e e ne (verify empty?) (chesker-nojump-possible?) add)
+          (e e se (verify empty?) (chesker-nojump-possible?) add)
+          (s s se (verify empty?) (chesker-nojump-possible?) add)
+          (s s sw (verify empty?) (chesker-nojump-possible?) add)
+          (w w sw (verify empty?) (chesker-nojump-possible?) add)
+          (w w nw (verify empty?) (chesker-nojump-possible?) add)
+      )
+   )
+
+
+   (loss-condition (White Black) (absolute-config (not King) (a1 a2 a3 a4 a5 a6 a7 a8 b1 b2 b3 b4 b5 
+                    b6 b7 b8 c1 c2 c3 c4 c5 c6 c7 c8 d1 d2 d3 d4 d5 d6 d7 d8
+                    e1 e2 e3 e4 e5 e6 e7 e8 f1 f2 f3 f4 f5 f6 f7 f8 g1 g2 g3 g4 g5 g6 g7 g8 h1 h2 h3 h4 h5 h6 h7 h8)))
+   (loss-condition (White Black) stalemated)
+)
+
+(variant
+(title "Byelorussian Cheskers")
+(description "The game of Byelorussioan Cheskers is a crossover between chess and shashki (Russian draughts).\\
+Byelorussian Chesker is played on all squares of a standard checkerboard of 64 alternating dark and light squares, 
+(eight rows, eight files) by two opponents having different pieces, one opponent white ones and the other black ones.\\
+The board is positioned squarely between the players and turned so that a dark square is at each player's near left side. 
+Each player places his pieces on the squares of the three rows nearest him. The player with the white pieces makes the first move of the game, 
+and the players take turns thereafter, making one move at a time.\\
+The objective of each player is to place the opponent's king 'under attack' in such a way 
+that the opponent has no legal move which would avoid the 'capture' of the king on the following move. The player 
+who achieves this is said to have 'checkmated' the opponent and to have won the game. 
+The opponent who has been checkmated has lost the game. Because of some problems in the Zillions language
+in combining checkmate and partial-adds with maximal-captures I have also implemented a win, if the enemy king is captured.
+If the position is such that neither player can possibly checkmate, the game is drawn. 
+The game is drawn when the player to move has no legal move and his king is not in check. The game is said to end in 'stalemate'. 
+The game may be drawn if the identical position is about to appear or has appeared on the chessboard three times or
+if the last 50 consecutive moves have been made by each player without the movement of any pawn or shashka and 
+without the capture of any piece. The 50-move-rule is not implemented here. The rule that a game is drawn when a 
+position is reached from which a checkmate cannot occur by any possible series of 
+legal moves, even with the most unskilled play, is also not implemented.\\
+The chess pieces move like in usual chess. They can not promote to damkas. Shashki and damki move as in the game
+Shashki (Russian draughts). A shashka can only promote to a damka.\\
+Capture with shashkas or damkas takes precedence over any other move. Capturing by a shashka or damka has 
+precedence over lifting check. Hence, when the king of a player is checked, but he also has a capturing move with 
+a shashkas or damka and no such capturing move lifts the check, the king is considered checkmated. 
+When there is more than one way to jump with a shashka or damka, a player may choose any way he wishes, 
+not necessarily the one which results in the capture of the greatest number of opposing units. When a damka jumps over an opposing piece
+with more than one unoccupied square immediately beyond it, it must land on a square from which it is possible to continue jumping, if there is 
+such a square. If there is more than one such square, any may be chosen. However, once a player chooses a sequence of captures, he must make all 
+the captures possible in that sequence. He may not leave one or more pieces uncaptured that he could capture simply by continuing to jump.\\
+Captured pieces are not removed from the board until all jumps made on the move are completed, and the hand is removed from the capturing 
+piece. In the course of a multiple capture a piece may visit the same square more 
+than once, but it may not capture the same piece more than once. In rare instances this rule can have the effect of reducing the 
+number of  captures possible on a move.")
+(history "The game Byelorussian Cheskers was invented by N. N. Grushevsky and P. A. Shkludov in 1984. The second author has published some 
+problems for the game in newspapers in Minsk in the mid-eighties.")
+
+   (history "")
+   (strategy "")
+   (win-sound "Audio\Orchestra_CF.wav")
+   (loss-sound "Audio\Orchestra_FC.wav")
+   (click-sound "Audio\Pickup.wav")
+   (release-sound "Audio\WoodThunk.wav")
+   (players White Black Neutral)
+   (turn-order White Black)
+   (pass-turn false)
+   (board
+      (image "images\wiedem\Chess8x8.bmp")
+      (grid
+         (start-rectangle 5 5 53 53)
+         (dimensions
+            ("a/b/c/d/e/f/g/h" (49 0)) ; files
+            ("8/7/6/5/4/3/2/1" (0 49)) ; ranks
+         )
+         (directions (ne 1 -1) (nw -1 -1) (se 1 1) (sw -1 1)
+                 (n 0 -1) (e 1 0) (s 0 1) (w -1 0)
+                 (nxt 0 -1)
+         )
+       )
+       (dummy a0)
+       (links nxt (a0 a1)(a8 b1)(b8 c1)(c8 d1)(d8 e1)(e8 f1)(f8 g1)(g8 h1))
+
+      (symmetry Black (n s)(s n) (w e)(e w)(nw se)(se nw) (ne sw)(sw ne))
+      (zone
+         (name promotion-zone)
+         (players White)
+         (positions a8 b8 c8 d8 e8 f8 g8 h8)
+      )
+      (zone
+         (name promotion-zone)
+         (players Black)
+         (positions a1 b1 c1 d1 e1 f1 g1 h1)
+      )
+      (zone
+         (name third-rank)
+         (players White)
+         (positions a3 b3 c3 d3 e3 f3 g3 h3)
+      )
+      (zone
+         (name third-rank)
+         (players Black)
+         (positions a6 b6 c6 d6 e6 f6 g6 h6)
+      )
+   )
+
+   
+   (move-priorities jumptype shortjumptype)
+   (maximal-captures false)
+
+   (board-setup
+      (White
+         (Pawn a2 b3 c2 d3 e2 f3 g2 h3)
+         (Checker a1 a3 b2 c1 c3 d2 e3 f2 g1 g3 h2)
+         (Knight b1)
+         (Queen d1)
+         (ChessKing e1)
+         (Bishop f1)
+         (Rook h1)
+      )
+      (Black
+         (Pawn a6 b7 c6 d7 e6 f7 g6 h7)
+         (Checker a7 b6 b8 c7 d6 e7 f6 f8 g7 h6 h8)
+         (Rook a8)
+         (Bishop c8)
+         (Queen d8)
+         (ChessKing e8)
+         (Knight g8)
+      )
+   )
+
+   (piece
+      (name Pawn)
+	  (help "Pawn: moves forward, captures diagonally, can promote on 8th row")
+      (description "The pawn moves forward to the unoccupied square immediately in front of it on the same file, or 
+on its first move the pawn may advance two squares along the same file provided both squares are unoccupied, or 
+the pawn moves to a square occupied by an opponent's piece which is diagonally in front of it on an adjacent file, 
+capturing that piece. \\
+ 
+A pawn attacking a square crossed by an opponent's pawn which has advanced two squares in one move from its original
+square may capture this opponent's pawn as though the latter had been moved only one square. This capture can be made 
+only on the move following this advance and is called an 'en passant' capture. \\
+ 
+When a pawn reaches the rank furthest from its starting position it must be exchanged as part of the same move for a queen, 
+rook, bishop or knight of the same colour. The player's choice is not restricted to pieces that have been captured
+previously. This exchange of a pawn for another piece is called 'promotion' and the effect of the new piece is 
+immediate. ")
+(image White "images\wiedem\wpawn.bmp" Black "images\wiedem\bpawn.bmp")
+      (moves
+         (Pawn-capture nw)
+         (Pawn-capture ne)
+         (Pawn-move)
+         (En-Passant e)
+         (En-Passant w)
+      )
+   )
+
+(piece
+      (name Knight)
+	  (help "Knight: moves like an `L`, 2 squares one way and one the other")
+      (description "The knight moves to one of the squares nearest to that on which it stands but not on the same rank, file or diagonal, i. e.,
+a knight moves like an `L`, two squares vertically plus one horizontally, or two squares horizontally 
+plus one vertically. It does not pass directly over any intervening square. Therefore it jumps over any pieces on the way.")
+      (image White "images\wiedem\wknight.bmp" Black "images\wiedem\bknight.bmp")
+      (moves
+	     (leap2 n ne)
+	     (leap2 n nw)
+	     (leap2 s se)
+	     (leap2 s sw)
+	     (leap2 e ne)
+	     (leap2 e se)
+	     (leap2 w nw)
+	     (leap2 w sw)
+      )
+   )
+
+   (piece
+      (name Bishop)
+	  (help "Bishop: moves to any square along a diagonal on which it stands. ")
+      (description "The bishop moves to any square along a diagonal on which it stands. 
+When making these moves the bishop cannot move over any intervening pieces.")
+      (image White "images\wiedem\wbishop.bmp" Black "images\wiedem\bbishop.bmp")
+      (moves
+         (slide ne)
+         (slide nw)
+         (slide se)
+         (slide sw)
+      )
+   )
+
+   (piece
+      (name Rook)
+	  (help "Rook: moves to any square along the file or the rank on which it stands.")
+      (description "The rook moves to any square along the file or the rank on which it stands. 
+When making these moves the rook cannot move over any intervening pieces.")
+      (image White "images\wiedem\wrook.bmp" Black "images\wiedem\brook.bmp")
+      (moves
+         (slide n)
+         (slide e)
+         (slide s)
+         (slide w)
+      )
+   )
+
+   (piece
+      (name Queen)
+	  (help "Queen: moves to any square along the file, the rank or a diagonal on which it stands.")
+      (description "The queen moves to any square along the file, the rank or a diagonal on which it stands. 
+When making these moves the queen cannot move over any intervening pieces.")
+      (image White "images\wiedem\wqueen.bmp" Black "images\wiedem\bqueen.bmp")
+      (moves
+         (slide n)
+         (slide e)
+         (slide s)
+         (slide w)
+         (slide ne)
+         (slide nw)
+         (slide se)
+         (slide sw)
+      )
+   )
+
+   (piece
+      (name ChessKing)
+      (notation "King")
+	  (help "King: steps 1 square in any direction to a safe square")
+      (description "The king can move to any adjoining square that is not attacked by one or more of the opponent's pieces.\\
+The king is said to be 'in check', if it is under attack by one or more of the opponent's pieces, even if such pieces cannot themselves move. 
+A player must not make a move which places or leaves his own king in check.")
+      (image White "images\wiedem\wking.bmp" Black "images\wiedem\bking.bmp")
+      (moves
+         (leap1 n)
+         (leap1 e)
+         (leap1 s)
+         (leap1 w)
+         (leap1 ne)
+         (leap1 nw)
+         (leap1 se)
+         (leap1 sw)
+      )
+   )
+
+   (piece
+      (name Checker)
+      (notation "Shashka")
+      (image Black "images\wiedem\CheckerBlack.bmp" White "images\wiedem\CheckerWhite.bmp")
+	  (description "A shashka moves diagonally forward to an empty square, and
+	      captures an enemy piece (or a series of them) by jumping over it backwards or forward.
+	      A shashka reaching the back rank may promote to a damka.")
+      (help "Shashka: moves diagonally forward, jumps to capture")
+      (attribute captured? false)
+      (moves
+         (move-type jumptype)
+		 (shashki-jump nw ne sw)
+             (shashki-jump ne nw se)
+             (shashki-jump sw nw se)
+             (shashki-jump se sw ne)
+         (move-type shortjumptype)
+		 (shashki-shortjump nw ne sw)
+             (shashki-shortjump ne nw se)
+             (shashki-shortjump sw nw se)
+             (shashki-shortjump se sw ne)
+         (move-type nonjumptype)
+             (checker-shift nw)
+             (checker-shift ne)
+      )
+   )
+
+   (piece
+      (name King)
+      (notation "Damka")
+      (image Black "images\wiedem\CheckerKingBlack.bmp" White "images\wiedem\CheckerKingWhite.bmp")
+	  (description "A Damka can slide any number of empty squares along a diagonal. It captures 
+by sliding a number of empty squares, jumping over a single enemy piece and then landing 
+on any empty square behind it.")
+      (help "Damka: slides diagonally, jumps to capture")
+      (attribute captured? false)
+      (moves
+         (move-type jumptype)
+           (international-king-jump1 nw se ne sw)
+           (international-king-jump1 ne sw se nw)
+           (international-king-jump1 sw ne nw se)
+           (international-king-jump1 se nw sw ne)
+           (international-king-jump2 nw se ne sw)
+           (international-king-jump2 ne sw se nw)
+           (international-king-jump2 sw ne nw se)
+           (international-king-jump2 se nw sw ne)
+           (international-king-jump3 nw se ne sw)
+           (international-king-jump3 ne sw se nw)
+           (international-king-jump3 sw ne nw se)
+           (international-king-jump3 se nw sw ne)
+           (international-king-jump4 nw se ne sw)
+           (international-king-jump4 ne sw se nw)
+           (international-king-jump4 sw ne nw se)
+           (international-king-jump4 se nw sw ne)
+           (international-king-jump5 nw se ne sw)
+           (international-king-jump5 ne sw se nw)
+           (international-king-jump5 sw ne nw se)
+           (international-king-jump5 se nw sw ne)
+           (international-king-jump6 nw se ne sw)
+           (international-king-jump6 ne sw se nw)
+           (international-king-jump6 sw ne nw se)
+           (international-king-jump6 se nw sw ne)
+         (move-type shortjumptype)
+           (international-king-shortjump1 nw se ne sw)
+           (international-king-shortjump1 ne sw se nw)
+           (international-king-shortjump1 sw ne nw se)
+           (international-king-shortjump1 se nw sw ne)
+           (international-king-shortjump2 nw se ne sw)
+           (international-king-shortjump2 ne sw se nw)
+           (international-king-shortjump2 sw ne nw se)
+           (international-king-shortjump2 se nw sw ne)
+           (international-king-shortjump3 nw se ne sw)
+           (international-king-shortjump3 ne sw se nw)
+           (international-king-shortjump3 sw ne nw se)
+           (international-king-shortjump3 se nw sw ne)
+           (international-king-shortjump4 nw se ne sw)
+           (international-king-shortjump4 ne sw se nw)
+           (international-king-shortjump4 sw ne nw se)
+           (international-king-shortjump4 se nw sw ne)
+           (international-king-shortjump5 nw se ne sw)
+           (international-king-shortjump5 ne sw se nw)
+           (international-king-shortjump5 sw ne nw se)
+           (international-king-shortjump5 se nw sw ne)
+           (international-king-shortjump6 nw se ne sw)
+           (international-king-shortjump6 ne sw se nw)
+           (international-king-shortjump6 sw ne nw se)
+           (international-king-shortjump6 se nw sw ne)
+         (move-type nonjumptype)
+           (king-slide nw)
+           (king-slide ne)
+           (king-slide sw)
+           (king-slide se)
+      )
+   )
+
+   (loss-condition (White Black) (checkmated ChessKing))
+   (draw-condition (White Black) stalemated)
+)
+
+
+
+(variant
+   (title "Knightsbridge")
+
+   (description "Knightsbirdge is a cross over betweeen chess and checkers.\\
+Knightsbridge is played on all squares of a checkerboard of 49 alternating dark and light squares, 
+(seven rows, seven files) by two opponents having 14 knights, one opponent white ones and the other black ones.\\
+The board is positioned squarely between the players and turned so that a dark square is at each player's near left 
+side. Each player places his knights on the squares of the two rows nearest him. The player 
+with the white knights makes the first move of the game, and the players take turns thereafter, making one move at a time.\\
+The object of the game is to prevent the opponent from being able to move when it is his turn to do so. 
+This may come about by either being eliminated completely or being blocked completely. If neither player can accomplish this, the game is a draw.\\
+The game may be drawn if the identical position is about to appear or has appeared on the chessboard three times or 
+if the last 50 consecutive moves have been made by each player without the capture of any knight.
+The 50-move-rule is not implemented here because it is currently not implementable with the repetition rule together 
+in Zillions.\\
+The knight moves to one of the squares nearest to that on which it stands but not on the same rank, file or 
+diagonal, i.e., a knight moves like an `L`, two squares vertically plus one horizontally, or two squares 
+horizontally plus one vertically. It does not pass directly over any intervening square. 
+If a knight moves to a square occupied by an opponent's piece the latter is captured and removed from the board 
+as part of the same move.\\
+Capture takes not precedence over a non-capturing move.")
+   (history "")
+   (strategy "")
+   (players White Black Neutral)
+   (turn-order White Black)
+   (pass-turn false)
+   (board (board7x7))
+   (board-setup
+      (White (Knight a1 b1 c1 d1 e1 f1 g1 a2 b2 c2 d2 e2 f2 g2) )
+      (Black (Knight a6 b6 c6 d6 e6 f6 g6 a7 b7 c7 d7 e7 f7 g7) )
+   )
+
+(piece
+      (name Knight)
+	  (help "Knight: moves like an `L`, 2 squares one way and one the other")
+      (description "The knight moves to one of the squares nearest to that on which it stands but not on 
+                    the same rank, file or diagonal, i.e., a knight moves like an `L`, two squares vertically 
+                    plus one horizontally, or two squares horizontally plus one vertically. It does not pass 
+                    directly over any intervening square. Therefore it jumps over any pieces on the way.")
+      (image White "images\wiedem\wknight.bmp" Black "images\wiedem\bknight.bmp")
+      (moves
+	     (leap2 n ne)
+	     (leap2 n nw)
+	     (leap2 s se)
+	     (leap2 s sw)
+	     (leap2 e ne)
+	     (leap2 e se)
+	     (leap2 w nw)
+	     (leap2 w sw)
+      )
+   )
+  (loss-condition (Black White) (pieces-remaining 0))
+  (loss-condition (Black White) stalemated)
+)
+
+(variant
+   (title "Schachdame (Chess Draughts)")
+   (description "The game of Schachdame is a crossover between chess and checkers.
+The king moves one square diagonally. The Ritter moves 
+as a normal bishop. The pawns move one square diagonally forward, and promote to Ritter. Pieces take in the 
+same way as they move.\\
+The objective of each player is to place the opponent's king 'under attack' in such a way 
+that the opponent has no legal move which would avoid the 'capture' of the king on the following move. The player 
+who achieves this is said to have 'checkmated' the opponent and to have won the game. The opponent who has been checkmated has lost the game. 
+If the position is such that neither player can possibly checkmate, the game is drawn. \\
+The chessboard is composed of an 8 x 8 grid of 64 equal squares alternately light (the 'white' squares) and dark (the 'black' squares). 
+The chessboard is placed between the players in such a way that the near corner square to the right of the player is white. 
+The eight vertical columns of squares are called 'files'. The eight horizontal rows of squares are called 'ranks'. A straight line of 
+squares of the same colour, touching corner to corner, is called a 'diagonal'. \\
+The player with the white pieces commences the game.
+No piece can be moved to a square occupied by a piece of the same colour. If a piece moves to a square occupied by an opponent's 
+piece the latter is captured and removed from the chessboard as part of the same move.\\
+The game is won by the player who has checkmated his opponent's king. 
+The game is drawn when the player to move has no legal move and his king is not in check. The game is said to end in 'stalemate'. 
+The game may be drawn if the identical position is about to appear or has appeared on the chessboard three times or
+if the last 50 consecutive moves have been made by each player without the movement of any pawn and without the capture of any piece.
+The 50-move-rule is not implemented here.\\
+The rule that a game is drawn when a position is reached from which a checkmate cannot occur by any possible series of 
+legal moves, even with the most unskilled play, also is not implemented.")
+
+(history "Schachdame is an old crossover between chess and checkers, invented in 
+      1883 by Heinrich Richter from Germany. The original German name for the Kings piece is 'Dame', which is the term used 
+      for the chess queen, but can also mean: `Lady'.  The Bishop is actually called 'Ritter', which translates 
+      to knight and is also the name of the inventor.")
+   (strategy "")
+   (players White Black)
+   
+   (turn-order White Black)
+   (pass-turn false)
+   (maximal-captures false)
+
+   (board (board8x8)
+     (zone
+       (name promotion-zone)
+       (players White)
+       (positions a8 b8 c8 d8 e8 f8 g8 h8)
+    )
+    (zone
+       (name promotion-zone)
+       (players Black)
+       (positions a1 b1 c1 d1 e1 f1 g1 h1)
+    )
+    (zone
+       (name third-rank)
+       (players White)
+       (positions a3 b3 c3 d3 e3 f3 g3 h3)
+    )
+    (zone
+       (name third-rank)
+       (players Black)
+       (positions a6 b6 c6 d6 e6 f6 g6 h6)
+    )
+       (symmetry Black (nw se)(se nw) (ne sw)(sw ne)(n s)(s n)(w e)(e w))
+   )
+
+
+   (board-setup
+      (White (Pawn a1 b2 d2 f2 g1 h2)
+             (Bishop c1)
+             (ChessKing e1)
+      )
+      (Black (Pawn a7 b8 c7 e7 g7 h8)
+             (Bishop f8)
+             (ChessKing d8)
+      )
+   )
+
+   (piece
+      (name Pawn)
+	  (help "Pawn: moves and captures forward diagonally, can promote on 8th row")
+      (description "The pawn moves and captures to a square which is diagonally in front of it on an adjacent file. \\
+When a pawn reaches the rank furthest from its starting position it must be exchanged as part of the same move for a 
+bishop of the same colour. This exchange of a pawn for another piece is called 'promotion' and the effect of the bishop
+is immediate. ")
+(image White "images\wiedem\wpawn.bmp" Black "images\wiedem\bpawn.bmp")
+      (moves
+        (ne (verify not-friend?)(if (in-zone? promotion-zone) (add Bishop) else add))
+        (nw (verify not-friend?)(if (in-zone? promotion-zone) (add Bishop) else add))
+      )
+   )
+
+   (piece
+      (name Bishop)
+      (notation "Ritter")
+	  (help "Ritter: moves to any square along a diagonal on which it stands. ")
+      (description "The Ritter moves to any square along a diagonal on which it stands. 
+When making these moves the Ritter cannot move over any intervening pieces.")
+      (image White "images\wiedem\wbishop.bmp" Black "images\wiedem\bbishop.bmp")
+      (moves
+         (slide ne)
+         (slide nw)
+         (slide se)
+         (slide sw)
+      )
+   )
+
+   (piece
+      (name ChessKing)
+      (notation "King")
+	  (help "King: steps 1 square diagonally in any direction to a safe square")
+      (description "The king can move diagonally to any adjoining square that is not attacked by one or more of the opponent's pieces.\\
+The king is said to be 'in check', if it is under attack by one or more of the opponent's pieces, even if such pieces cannot themselves move. 
+A player must not make a move which places or leaves his own king in check.")
+      (image White "images\wiedem\wking.bmp" Black "images\wiedem\bking.bmp")
+      (moves
+         (leap1 ne)
+         (leap1 nw)
+         (leap1 se)
+         (leap1 sw)
+      )
+   )
+
+   (loss-condition (White Black) (checkmated ChessKing))
+   (draw-condition (White Black) stalemated)
+)
+
+(variant 
+   (title "-")
+)
+
+(variant
+   (title "Crowded English Draughts")
+   (description "Crowded English Draughts, also named as Crowded Checkers, is the large variant of English Draughts.\\
+It is played on the dark squares only of a checkerboard of 100 alternating dark and light squares, 
+(ten rows, ten files) by two opponents having 20 checker, one opponent white ones and the other black ones.\\
+The board is positioned squarely between the players and turned so that a dark square is at each player's near left side. 
+Each player places his checkers on the dark squares of the four rows nearest him. The player with the black pieces makes 
+the first move of the game, and the players take turns thereafter, making one move at a time.\\
+The object of the game is to prevent the opponent from being able to move when it is his turn to do so. 
+This may come about by either being eliminated completely or being blocked completely. 
+If neither player can accomplish this, the game is a draw. Repetetion of moves is also a draw.\\
+A checker moves forward only, one square at a time in a diagonal direction, to an unoccupied square. A 
+checker captures by jumping over an opposing 
+piece on a diagonally adjacent square to the square immediately beyond, but may do so only if this square is unoccupied. 
+Checker may jump only forward, and may continue jumping as long as they encounter opposing pieces with unoccupied 
+squares immediately beyond them. Checker may never jump over checkers of the same color.\\
+A checker which reaches the far side of the board becomes a king.\\
+A king moves forward and backward, one square at a time in a diagonal direction, to an 
+unoccupied square. A king captures by jumping over an opposing piece on a diagonally adjacent square to the square 
+immediately beyond, but may do so only if this square is unoccupied. King may jump forward and backward, and may continue 
+jumping as long as they encounter opposing pieces with unoccupied squares immediately beyond them. King 
+may never jump over pieces of the same color.\\
+Capture takes precedence over a non-capturing move. When there is more than one way to jump, a player may choose any way he wishes, 
+not necessarily the one which results in the capture of the greatest number of opposing units. 
+However, once a player chooses a sequence of captures, he must make all 
+the captures possible in that sequence. He may not leave one or more pieces uncaptured that he 
+could capture simply by continuing to jump.\\
+Captured pieces are not removed from the board until all jumps made on the move are completed, and the hand 
+is removed from the capturing piece. In the course of a multiple capture a piece may visit the same square more 
+than once, but it may not capture the same piece more than once. In rare instances this rule can have the effect 
+of reducing the number of captures possible on a move.")
+   (history "")
+   (strategy "")
+   (players Black White)
+   (turn-order White Black)
+   (board  (board10x10)
+       (symmetry Black (nw sw)(sw nw) (ne se)(se ne))
+   )
+   (board-setup
+      (White (Checker a1 c1 e1 g1 i1 b2 d2 f2 h2 j2 a3 c3 e3 g3 i3 b4 d4 f4 h4 j4))
+      (Black   (Checker b8 d8 f8 h8 j8 a7 c7 e7 g7 i7 b10 d10 f10 h10 j10 a9 c9 e9 g9 i9))
+   )
+
+   (maximal-captures false)
+   (piece
+      (name Checker)
+      (image White "images\wiedem\CheckerWhite.bmp" Black "images\wiedem\CheckerBlack.bmp")
+	  (description "A checker moves forward only, one square at a time in a diagonal direction, to an unoccupied square. A 
+checker captures by jumping over an opposing piece on a diagonally adjacent square to the square immediately beyond, but may do so only 
+if this square is unoccupied. Checker may jump only forward, and may continue jumping as long as they encounter opposing pieces 
+with unoccupied squares immediately beyond them. Checker may never jump over checkers of the same color.\\
+A checker which reaches the far side of the board becomes a king.")
+      (help "Checker: moves diagonally forward, jumps forward forward to capture")
+      (attribute captured? false)
+      (moves
+         (move-type jumptype)
+		 (german-checker-jump nw ne)
+             (german-checker-jump ne nw)
+         (move-type shortjumptype)
+		 (german-checker-shortjump nw ne)
+             (german-checker-shortjump ne nw)
+         (move-type nonjumptype)
+             (checker-shift nw)
+             (checker-shift ne)
+      )
+   )
+
+   (piece
+      (name King)
+      (image White "images\wiedem\CheckerKingWhite.bmp" Black "images\wiedem\CheckerKingBlack.bmp")
+	  (description "A king moves forward and backward, one square at a time in a diagonal direction, to an 
+unoccupied square. A king captures by jumping over an opposing piece on a diagonally adjacent square to the square 
+immediately beyond, but may do so only if this square is unoccupied. King may jump forward and backward, and may continue 
+jumping as long as they encounter opposing pieces with unoccupied squares immediately beyond them. King 
+may never jump over pieces of the same color.")
+
+      (help "King: slides diagonally, jumps to capture")
+      (attribute captured? false)
+      (moves
+         (move-type jumptype)
+		 (shashki-jump nw ne sw)
+             (shashki-jump ne nw se)
+             (shashki-jump sw nw se)
+             (shashki-jump se sw ne)
+         (move-type shortjumptype)
+		 (shashki-shortjump nw ne sw)
+             (shashki-shortjump ne nw se)
+             (shashki-shortjump sw nw se)
+             (shashki-shortjump se sw ne)
+         (move-type nonjumptype)
+             (checker-shift nw)
+             (checker-shift ne)
+             (checker-shift sw)
+             (checker-shift se)
+      )
+   )
+
+   (loss-condition (White Black) (pieces-remaining 0) )
+   (loss-condition (White Black) stalemated )
+)
+
+
+(variant 
+   (title "Losing International Checkers")
+   (description "Losing International checkers is a variant of International checker.\\
+Losing International Checkers is played on the dark squares only of a checkerboard of 100
+alternating dark and light squares, (ten rows, ten files) by two opponents having 20 checker, one opponent white ones and the other black ones.\\
+The board is positioned squarely between the players and turned so that a dark square is at each player's near left side. Each player places 
+his checkers on the dark squares of the four rows nearest him. The player with the white pieces makes the first move of the game, 
+and the players take turns thereafter, making one move at a time.\\
+The object of the game is to prevent the own pieces from being able to move when it is his turn to do so. 
+This may come about by either being eliminated completely or being blocked completely. 
+If neither player can accomplish this, the game is a draw. Repetetion of moves is also a draw.\\
+A checker moves forward only, one square at a time in a diagonal direction, to an unoccupied square. A checker captures by jumping over an opposing 
+piece on a diagonally adjacent square to the square immediately beyond, but may do so only if this square is unoccupied. 
+Checker may jump forward or backward, and may continue jumping as long as they encounter opposing pieces with unoccupied squares immediately 
+beyond them. Checker may never jump over checkers of the same color.\\
+A checker which reaches the far side of the board becomes a king. However, if it reaches the far side by means of a jump, and is able to jump 
+backward away from the far side over another man or king, it must do so, and does not become a king. A checker reaching the far side by 
+jumping becomes a king only if its jump, or series of jumps, terminates there.\\
+A king moves forward or backward any number of squares on a diagonal line to an unoccupied square. A king captures from any distance along a 
+diagonal line by jumping, forward or backward, over an opposing piece with at least one unoccupied square immediately beyond it. 
+The capturing king then lands on any one of these unoccupied squares and continues jumping, if possible, either on the same line, or by making 
+a right angle turn onto another diagonal line. A king may never jump over pieces of the same color.\\
+Capture takes precedence over a non-capturing move. It must do so, taking care beforehand to establish 
+the route that brings the maximum number of captured pieces. A King counts as one piece. 
+If there's more than one way to meet this criterion, the player is free to choose.\\
+Captured pieces are not removed from the board until all jumps made on the move are completed, and the hand is removed from the capturing 
+piece. In the course of a multiple capture a piece may visit the same square more 
+than once, but it may not capture the same piece more than once. In rare instances this rule can have the effect of reducing the number of 
+captures possible on a move.")
+
+(history "")
+   (win-condition (White Black) (pieces-remaining 0) )
+   (win-condition (White Black) stalemated)
+)
+
+(variant
+   (title "Schlagdame (Losing German Draughts)")
+   (description "Schlagdame is a variant of Dame (German draughts).\\
+Schlagdame is played on the dark squares only of a standard 
+checkerboard of 64 alternating dark and light squares, (eight rows, eight files) by two opponents having 12 checkers, one 
+opponent white ones and the other black ones.\\
+The board is positioned squarely between the players and turned so that a dark square is at each player's near left side. 
+Each player places his checkers on the dark squares of the three rows nearest him. The player with the white pieces makes 
+the first move of the game, and the players take turns thereafter, making one move at a time.\\
+The object of the game is to prevent the own pieces from being able to move when it is his turn to do so. 
+This may come about by either being eliminated completely or being blocked completely. 
+If neither player can accomplish this, the game is a draw. Repetetion of moves is also a draw.\\
+A checker moves forward only, one square at a time in a diagonal direction, to an unoccupied square. A 
+checker captures by jumping over an opposing 
+piece on a diagonally adjacent square to the square immediately beyond, but may do so only if this square is unoccupied. 
+Checker may jump only forward, and may continue jumping as long as they encounter opposing pieces with unoccupied 
+squares immediately beyond them. Checker may never jump over checkers of the same color.\\
+A checker which reaches the far side of the board becomes a king (in German Dame = lady).\\
+A king moves forward or backward any number of squares on a diagonal line to an unoccupied square. A king captures from 
+any distance along a diagonal line by jumping, forward or backward, over an opposing piece with at least one unoccupied 
+square immediately beyond it. The capturing king then lands on any one of these unoccupied squares and continues 
+jumping, if possible, either on the same line, or by making a right angle turn onto another diagonal line. A 
+king may never jump over pieces of the same color.\\
+Capture takes precedence over a non-capturing move. It must do so, taking care beforehand to establish 
+the route that brings the maximum number of captured pieces. A King counts as one piece. 
+If there's more than one way to meet this criterion, the player is free to choose.\\
+Captured pieces are not removed from the board until all jumps made on the move are completed, and the hand 
+is removed from the capturing piece. In the course of a multiple capture a piece may visit the same square more 
+than once, but it may not capture the same piece more than once. In rare instances this rule can have the effect 
+of reducing the number of captures possible on a move.")
+
+   (history "")
+   (strategy "")
+   (board  (board8x8)
+       (symmetry Black (nw sw)(sw nw) (ne se)(se ne))
+   )
+
+   (board-setup
+      (White (Checker a1 c1 e1 g1 b2 d2 f2 h2 a3 c3 e3 g3))
+      (Black (Checker b8 d8 f8 h8 a7 c7 e7 g7 b6 d6 f6 h6))
+   )
+
+   (piece
+      (name Checker)
+      (image Black "images\wiedem\CheckerBlack.bmp" White "images\wiedem\CheckerWhite.bmp")
+	  (description "A Checker moves diagonally forward to an empty square, and
+	      captures an enemy piece (or a series of them) by jumping over it forward.
+	      A Checker reaching the back rank may promote to a King.")
+      (help "Checker: moves diagonally forward, jumps to capture")
+      (attribute captured? false)
+      (moves
+         (move-type jumptype)
+		 (german-checker-jump nw ne)
+             (german-checker-jump ne nw)
+         (move-type shortjumptype)
+		 (german-checker-shortjump nw ne)
+             (german-checker-shortjump ne nw)
+         (move-type nonjumptype)
+             (checker-shift nw)
+             (checker-shift ne)
+      )
+   )
+
+   (piece
+      (name King)
+      (image Black "images\wiedem\CheckerKingBlack.bmp" White "images\wiedem\CheckerKingWhite.bmp")
+	  (description "A King can slide any number of empty squares along a diagonal. It captures 
+by sliding a number of empty squares, jumping over a single enemy piece and then landing 
+on any empty square behind it.")
+      (help "King: slides diagonally, jumps to capture")
+      (attribute captured? false)
+      (moves
+         (move-type jumptype)
+           (international-king-jump1 nw se ne sw)
+           (international-king-jump1 ne sw se nw)
+           (international-king-jump1 sw ne nw se)
+           (international-king-jump1 se nw sw ne)
+           (international-king-jump2 nw se ne sw)
+           (international-king-jump2 ne sw se nw)
+           (international-king-jump2 sw ne nw se)
+           (international-king-jump2 se nw sw ne)
+           (international-king-jump3 nw se ne sw)
+           (international-king-jump3 ne sw se nw)
+           (international-king-jump3 sw ne nw se)
+           (international-king-jump3 se nw sw ne)
+           (international-king-jump4 nw se ne sw)
+           (international-king-jump4 ne sw se nw)
+           (international-king-jump4 sw ne nw se)
+           (international-king-jump4 se nw sw ne)
+           (international-king-jump5 nw se ne sw)
+           (international-king-jump5 ne sw se nw)
+           (international-king-jump5 sw ne nw se)
+           (international-king-jump5 se nw sw ne)
+           (international-king-jump6 nw se ne sw)
+           (international-king-jump6 ne sw se nw)
+           (international-king-jump6 sw ne nw se)
+           (international-king-jump6 se nw sw ne)
+
+         (move-type shortjumptype)
+           (international-king-shortjump1 nw se ne sw)
+           (international-king-shortjump1 ne sw se nw)
+           (international-king-shortjump1 sw ne nw se)
+           (international-king-shortjump1 se nw sw ne)
+           (international-king-shortjump2 nw se ne sw)
+           (international-king-shortjump2 ne sw se nw)
+           (international-king-shortjump2 sw ne nw se)
+           (international-king-shortjump2 se nw sw ne)
+           (international-king-shortjump3 nw se ne sw)
+           (international-king-shortjump3 ne sw se nw)
+           (international-king-shortjump3 sw ne nw se)
+           (international-king-shortjump3 se nw sw ne)
+           (international-king-shortjump4 nw se ne sw)
+           (international-king-shortjump4 ne sw se nw)
+           (international-king-shortjump4 sw ne nw se)
+           (international-king-shortjump4 se nw sw ne)
+           (international-king-shortjump5 nw se ne sw)
+           (international-king-shortjump5 ne sw se nw)
+           (international-king-shortjump5 sw ne nw se)
+           (international-king-shortjump5 se nw sw ne)
+           (international-king-shortjump6 nw se ne sw)
+           (international-king-shortjump6 ne sw se nw)
+           (international-king-shortjump6 sw ne nw se)
+           (international-king-shortjump6 se nw sw ne)
+         (move-type nonjumptype)
+           (king-slide nw)
+           (king-slide ne)
+           (king-slide sw)
+           (king-slide se)
+      )
+   )
+
+   (win-condition (White Black) (pieces-remaining 0) )
+   (win-condition (White Black) stalemated )
+)
+
+(variant
+   (title "Double-Back Checkers")
+
+   (description "Double-Back checkers is a variant of English Draughts with an additional object.\\
+Double-Back Checkers is played on the dark squares only of a standard 
+checkerboard of 64 alternating dark and light squares, (eight rows, eight files) by two opponents having 12 checkers, one 
+opponent white ones and the other black ones.\\
+The board is positioned squarely between the players and turned so that a dark square is at each player's near left side. 
+Each player places his checkers on the dark squares of the three rows nearest him. The player with the black pieces makes 
+the first move of the game, and the players take turns thereafter, making one move at a time.\\
+A player loses the game if the opponent comes with a king on the first rank nearest him.
+A player wins also if he prevents the opponent from being able to move when it is his turn to do so. 
+This may come about by either being eliminated completely or being blocked completely. If neither player 
+can accomplish this, the game is a draw. Repetetion of moves is also a draw.\\
+A checker moves forward only, one square at a time in a diagonal direction, to an unoccupied square. A 
+checker captures by jumping over an opposing 
+piece on a diagonally adjacent square to the square immediately beyond, but may do so only if this square is unoccupied. 
+Checker may jump only forward, and may continue jumping as long as they encounter opposing pieces with unoccupied 
+squares immediately beyond them. Checker may never jump over checkers of the same color.\\
+A checker which reaches the far side of the board becomes a king.\\
+A king moves forward and backward, one square at a time in a diagonal direction, to an 
+unoccupied square. A king captures by jumping over an opposing piece on a diagonally adjacent square to the square 
+immediately beyond, but may do so only if this square is unoccupied. King may jump forward and backward, and may continue 
+jumping as long as they encounter opposing pieces with unoccupied squares immediately beyond them. King 
+may never jump over pieces of the same color.\\
+Capture takes precedence over a non-capturing move. When there is more than one way to jump, a player may choose any way he wishes, 
+not necessarily the one which results in the capture of the greatest number of opposing units. 
+However, once a player chooses a sequence of captures, he must make all 
+the captures possible in that sequence. He may not leave one or more pieces uncaptured that he 
+could capture simply by continuing to jump.\\
+Captured pieces are not removed from the board until all jumps made on the move are completed, and the hand 
+is removed from the capturing piece. In the course of a multiple capture a piece may visit the same square more 
+than once, but it may not capture the same piece more than once. In rare instances this rule can have the effect 
+of reducing the number of captures possible on a move.")
+   (history "")
+   (strategy "")
+   (players White Black)
+   (turn-order White Black)
+   (board  (board8x8)
+       (symmetry Black (nw sw)(sw nw) (ne se)(se ne)
+                       (nwnw swsw)(swsw nwnw) (nene sese)(sese nene))
+       (zone  (name first-rank)(players White)(positions a1 c1 e1 g1) )
+       (zone  (name first-rank)(players Black)(positions b8 d8 f8 h8) )
+   )
+
+   (board-setup
+      (White (Checker a1 c1 e1 g1 b2 d2 f2 h2 a3 c3 e3 g3))
+      (Black (Checker b8 d8 f8 h8 a7 c7 e7 g7 b6 d6 f6 h6))
+   )
+   (maximal-captures false)
+   (piece
+      (name Checker)
+      (image White "images\wiedem\CheckerWhite.bmp" Black "images\wiedem\CheckerBlack.bmp")
+	  (description "A checker moves forward only, one square at a time in a diagonal direction, to an unoccupied square. A 
+checker captures by jumping over an opposing piece on a diagonally adjacent square to the square immediately beyond, but may do so only 
+if this square is unoccupied. Checker may jump only forward, and may continue jumping as long as they encounter opposing pieces 
+with unoccupied squares immediately beyond them. Checker may never jump over checkers of the same color.\\
+A checker which reaches the far side of the board becomes a king.")
+      (help "Checker: moves diagonally forward, jumps forward forward to capture")
+      (attribute captured? false)
+      (moves
+         (move-type jumptype)
+		 (german-checker-jump nw ne)
+             (german-checker-jump ne nw)
+         (move-type shortjumptype)
+		 (german-checker-shortjump nw ne)
+             (german-checker-shortjump ne nw)
+         (move-type nonjumptype)
+             (checker-shift nw)
+             (checker-shift ne)
+      )
+   )
+
+   (piece
+      (name King)
+      (image White "images\wiedem\CheckerKingWhite.bmp" Black "images\wiedem\CheckerKingBlack.bmp")
+	  (description "A king moves forward and backward, one square at a time in a diagonal direction, to an 
+unoccupied square. A king captures by jumping over an opposing piece on a diagonally adjacent square to the square 
+immediately beyond, but may do so only if this square is unoccupied. King may jump forward and backward, and may continue 
+jumping as long as they encounter opposing pieces with unoccupied squares immediately beyond them. King 
+may never jump over pieces of the same color.")
+
+      (help "King: slides diagonally, jumps to capture")
+      (attribute captured? false)
+      (moves
+         (move-type jumptype)
+		 (shashki-jump nw ne sw)
+             (shashki-jump ne nw se)
+             (shashki-jump sw nw se)
+             (shashki-jump se sw ne)
+         (move-type shortjumptype)
+		 (shashki-shortjump nw ne sw)
+             (shashki-shortjump ne nw se)
+             (shashki-shortjump sw nw se)
+             (shashki-shortjump se sw ne)
+         (move-type nonjumptype)
+             (checker-shift nw)
+             (checker-shift ne)
+             (checker-shift sw)
+             (checker-shift se)
+      )
+   )
+
+   (loss-condition (White Black) (pieces-remaining 0) )
+   (loss-condition (White Black) stalemated )
+   (win-condition (White Black) (absolute-config King (first-rank)) )
+)
+
+(define chesker-nojump-possible?
+   mark
+   a0 
+   (while (on-board? nxt) 
+      nxt
+      (if (on-board? nene)(verify (not (and friend? (piece? Pawn) (enemy? ne)(empty? nene)))) )          
+      (if (on-board? nwnw)(verify (not (and friend? (piece? Pawn) (enemy? nw)(empty? nwnw)))))          
+      (if (on-board? nene)(verify (not (and friend? (piece? King) (enemy? ne)(empty? nene)))) )          
+      (if (on-board? nwnw)(verify (not (and friend? (piece? King) (enemy? nw)(empty? nwnw)))))          
+      (if (on-board? sese)(verify (not (and friend? (piece? King) (enemy? se)(empty? sese)))))          
+      (if (on-board? swsw)(verify (not (and friend? (piece? King) (enemy? sw)(empty? swsw)))))          
+   )
+   back
+)
+
