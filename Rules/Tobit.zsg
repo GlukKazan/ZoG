@@ -1,0 +1,89 @@
+Zillions Save Game File Version 0.02 CC
+RulesFile=CheckersCollection.zrf
+VariantName=Khakass Tobit
+1. Checker c2 - c3
+1. Checker c5 - c4
+2. partial 2 Checker c3 - c5 x c4
+2. partial 2 Checker c6 - c4 x c5
+3. Checker b2 - c2
+3. Checker e5 - e4
+4. Checker c2 - c3
+4. partial 2 Checker c4 - c2 x c3
+5. partial 2 Checker c1 - c3 x c2
+5. Checker b5 - b4
+6. Checker d2 - c2
+6. Checker d5 - d4
+7. Checker e2 - e3
+7. partial 2 Checker e4 - e2 x e3
+8. partial 2 Checker f2 - d2 x e2
+8. Checker d4 - e4
+9. Checker d2 - d3
+9. Checker d6 - d5
+10. Checker f1 - f2
+10. Checker f5 - f4
+11. Checker d3 - e3
+11. partial 2 Checker e4 - e2 x e3
+12. partial 2 Checker e1 - e3 x e2
+12. Checker g5 - f5
+13. Checker c2 - b2
+13. Checker a5 - b5
+14. Checker b2 - b3
+14. partial 2 Checker b4 - b2 x b3
+15. partial 2 Checker a2 - c2 x b2
+15. Checker b5 - c5
+16. Checker b1 - b2
+16. Checker e6 - e5
+17. Checker c2 - d2
+17. Checker b6 - b5
+18. Checker b2 - b3
+18. Checker f4 - e4
+19. Checker d2 - d3
+19. partial 2 Checker e4 - e2 x e3
+20. partial 2 Checker f2 - d2 x e2
+20. Checker e5 - e4
+21. Checker d2 - c2
+21. Checker d5 - d4
+22. partial 2 Checker d3 - d5 x d4
+22. partial 2 Checker c5 - e5 x d5
+23. Checker c3 - d3
+23. Checker b5 - b4
+24. partial 2 Checker b3 - b5 x b4
+24. Checker e4 - d4
+25. partial 2 Checker d3 - d5 x d4
+25. partial 2 Checker e5 - c5 x d5
+25. partial 2 Checker c5 - a5 x b5
+26. Checker d1 - d2
+26. Checker a5 - b5
+27. Checker d2 - d3
+27. Checker f5 - e5
+28. Checker d3 - d4
+28. Checker f6 - f5
+29. Checker c2 - c3
+29. Checker f5 - f4
+30. Checker g2 - f2
+30. Checker b5 - a5
+31. Checker c3 - d3
+31. Checker a5 - b5
+32. Checker d3 - e3
+32. Checker b5 - b4
+33. Checker f2 - g2
+33. Checker b4 - b3
+34. Checker e3 - f3
+34. partial 2 Checker f4 - f2 x f3
+35. partial 2 Checker g2 - e2 x f2
+35. Checker b3 - c3
+36. Checker e2 - e3
+36. Checker c3 - c2
+37. Checker e3 - d3
+37. Checker c2 - b2
+38. Checker d3 - c3
+38. Checker b2 - b1 = King
+39. Checker c3 - b3
+39. Checker e5 - f5
+40. Checker d4 - e4
+40. Checker f5 - g5
+41. Checker e4 - e5
+41. Checker g5 - f5
+42. partial 2 Checker e5 - g5 x f5
+42. King b1 - b2
+43. partial 2 Checker b3 - b1 x b2
