@@ -1,0 +1,14 @@
+Zillions Save Game File Version 0.02 CC
+RulesFile=CheckersCollection.zrf
+VariantName=Armenian Tama
+1. Checker c3 - d4
+1. Checker b6 - c5
+2. Checker e3 - f4
+2. Checker g6 - f5
+3. Checker g3 - g4
+3. Checker f5 - e4
+4. Checker d4 - d5
+4. Checker c5 - e5 x d5
+5. Checker f4 - d4 x e4
+5. Checker d6 - c5
+6. Checker b3 - c4
