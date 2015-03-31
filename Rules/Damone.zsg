@@ -1,0 +1,21 @@
+Zillions Save Game File Version 0.02 CC
+RulesFile=D:\temp\CheckersCollection\CheckersCollection.zrf
+VariantName=Italian Damone
+1. Checker h5 - g6
+1. Checker c6 - d5
+2. Damone h1 - g2
+2. Checker a4 - b3
+3. Checker e2 - d3
+3. Damone a8 - b7
+4. Checker g6 - f7
+4. partial 2 Checker e8 - g6 x f7
+5. Checker d1 - c2
+5. partial 2 Checker b3 - d1 x c2
+6. Checker g4 - f5
+6. partial 2 Checker g6 - e4 x f5
+6. partial 2 Checker e4 - c2 x d3
+7. Checker f3 - e2
+7. partial 2 Checker d1 - f3 x e2
+8. partial 2 Damone g2 - e4 x f3
+8. partial 2 Damone e4 - c6 x d5
+8. partial 2 Damone c6 - a8 x b7
