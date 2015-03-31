@@ -1,0 +1,121 @@
+Zillions Save Game File Version 0.02 CC
+RulesFile=CheckersCollection.zrf
+VariantName=Thai Checkers
+1. Checker b2 - a3
+1. Checker a7 - b6
+2. Checker f2 - e3
+2. Checker e7 - f6
+3. Checker h2 - g3
+3. Checker c7 - d6
+4. Checker e3 - f4
+4. Checker b6 - c5
+5. Checker d2 - c3
+5. Checker g7 - h6
+6. Checker c1 - d2
+6. Checker f6 - e5
+7. Checker a1 - b2
+7. Checker f8 - g7
+8. Checker c3 - b4
+8. Checker g7 - f6
+9. Checker d2 - e3
+9. Checker e5 - d4
+10. Checker g3 - h4
+10. partial 2 Checker d4 - f2 x e3
+11. partial 2 Checker e1 - g3 x f2
+11. Checker f6 - e5
+12. Checker h4 - g5
+12. Checker c5 - d4
+13. Checker g5 - f6
+13. Checker d4 - c3
+14. partial 2 Checker b2 - d4 x c3
+14. partial 2 Checker e5 - c3 x d4
+15. Checker b4 - c5
+15. partial 2 Checker d6 - b4 x c5
+16. partial 2 Checker a3 - c5 x b4
+16. Checker c3 - b2
+17. Checker c5 - d6
+17. Checker b2 - a1 = King
+18. Checker d6 - e7
+18. partial 3 King a1 - g7 x f6
+19. Checker e7 - f8 = King
+19. King g7 - f6
+20. King f8 - c5
+20. Checker d8 - c7
+21. King c5 - b4
+21. King f6 - d4
+22. King b4 - a3
+22. King d4 - c3
+23. King a3 - f8
+23. King c3 - e1
+24. Checker g3 - h4
+24. Checker c7 - b6
+25. King f8 - a3
+25. King e1 - c3
+26. King a3 - e7
+26. King c3 - b2
+27. King e7 - a3
+27. King b2 - g7
+28. King a3 - b4
+28. Checker b8 - a7
+29. Checker h4 - g5
+29. King g7 - a1
+30. King b4 - f8
+30. King a1 - c3
+31. King f8 - a3
+31. King c3 - b4
+32. partial 3 King a3 - c5 x b4
+32. partial 2 Checker b6 - d4 x c5
+33. Checker g5 - f6
+33. Checker d4 - c3
+34. Checker f6 - e7
+34. Checker c3 - d2
+35. Checker e7 - d8 = King
+35. Checker d2 - e1 = King
+36. King d8 - h4
+36. King e1 - a5
+37. King h4 - g3
+37. King a5 - c3
+38. King g3 - f2
+38. Checker h8 - g7
+39. King f2 - h4
+39. Checker a7 - b6
+40. King h4 - f2
+40. King c3 - d2
+41. partial 3 King f2 - a7 x b6
+41. partial 3 King d2 - g5 x f4
+42. Checker g1 - f2
+42. King g5 - d2
+43. King a7 - b8
+43. King d2 - a5
+44. King b8 - e5
+44. King a5 - e1
+45. partial 3 King e5 - h8 x g7
+45. partial 3 King e1 - g3 x f2
+46. King h8 - f6
+46. King g3 - h4
+47. King f6 - g7
+47. King h4 - d8
+48. King g7 - c3
+48. Checker h6 - g5
+49. King c3 - e5
+49. Checker g5 - h4
+50. King e5 - f4
+50. King d8 - f6
+51. King f4 - g5
+51. King f6 - e5
+52. King g5 - d2
+52. King e5 - d6
+53. King d2 - e3
+53. King d6 - b8
+54. King e3 - c5
+54. Checker h4 - g3
+55. King c5 - d4
+55. Checker g3 - h2
+56. King d4 - c5
+56. Checker h2 - g1 = King
+57. King c5 - a7
+57. King b8 - e5
+58. King a7 - b8
+58. King g1 - h2
+59. partial 3 King b8 - f4 x e5
+59. partial 3 King h2 - e5 x f4
