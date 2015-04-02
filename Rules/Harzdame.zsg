@@ -1,0 +1,151 @@
+Zillions Save Game File Version 0.02 CC
+RulesFile=CheckersCollection.zrf
+VariantName=Harzdame
+1. Checker b5 - b6
+1. Checker g4 - g3
+2. Checker f1 - g1
+2. Checker c8 - b8
+3. Checker a6 - a7
+3. Checker e6 - d6
+4. Checker b4 - b5
+4. Checker f5 - f4
+5. Checker e2 - f2
+5. Checker g3 - g2
+6. Checker f2 - h2 x g2
+6. partial 2 Checker h3 - h1 @ h2 0 1
+6. Checker h1 - f1 x g1 x h2 = King on f1
+7. Checker e1 - g1 x f1
+7. Checker h4 - h3
+8. Checker d1 - e1
+8. Checker d8 - c8
+9. Checker b3 - b4
+9. Checker f4 - f3
+10. Checker d2 - e2
+10. Checker f6 - f5
+11. Checker b6 - b7
+11. Checker b8 - b6 x b7
+12. Checker b5 - b7 x b6
+12. Checker h3 - h2
+13. Checker e2 - e3
+13. Checker h2 - g2
+14. Checker e3 - g3 x f3
+14. Checker g2 - g4 x g3
+15. Checker c4 - d4
+15. Checker g4 - g3
+16. Checker d3 - e3
+16. Checker f5 - f4
+17. Checker a5 - a6
+17. Checker f4 - e4
+18. Checker d4 - f4 x e4
+18. Checker g3 - g2
+19. Checker g1 - g3 x g2
+19. Checker g5 - g4
+20. Checker g3 - g5 x g4
+20. partial 2 Checker h5 - f5 @ g5 0 1
+20. partial 2 Checker f5 - f3 @ f4 0 1
+20. partial 2 Checker f3 - d3 @ e3 0 1
+20. partial 2 Checker d3 - b3 @ c3 0 1
+20. Checker b3 - b5 x b4 x c3 x e3 x f4 x g5
+21. Checker a4 - a5
+21. Checker b5 - b4
+22. Checker a3 - a4
+22. Checker d6 - c6
+23. Checker a4 - c4 x b4
+23. Checker c8 - b8
+24. Checker b2 - b3
+24. Checker b8 - b6 x b7
+25. Checker c4 - c5
+25. Checker c6 - c4 x c5
+26. Checker a6 - c6 x b6
+26. Checker d7 - d6
+27. Checker c6 - e6 x d6
+27. Checker e7 - e5 x e6
+28. Checker a5 - a6
+28. Checker e8 - d8
+29. Checker b3 - c3
+29. Checker c4 - b4
+30. Checker a2 - a3
+30. Checker h6 - h5
+31. Checker a3 - a4
+31. Checker f7 - e7
+32. Checker a4 - c4 x b4
+32. Checker f8 - e8
+33. Checker c3 - d3
+33. Checker d8 - c8
+34. Checker c1 - d1
+34. Checker e7 - d7
+35. Checker a6 - b6
+35. Checker d7 - d6
+36. Checker a7 - b7
+36. Checker g7 - f7
+37. Checker a1 - a2
+37. Checker c8 - b8
+38. Checker b7 - c7
+38. Checker f7 - e7
+39. Checker d3 - d4
+39. Checker e7 - d7
+40. Checker c7 - e7 x d7
+40. Checker e8 - e6 x e7
+41. Checker c2 - c3
+41. Checker g8 - f8
+42. Checker e1 - f1
+42. Checker f8 - e8
+43. Checker a2 - a3
+43. Checker h8 - g8
+44. Checker f1 - g1
+44. Checker h5 - h4
+45. Checker b6 - c6
+45. Checker d6 - b6 x c6
+46. Checker d4 - d5
+46. Checker e5 - c5 x d5
+47. partial 2 Checker c4 - c6 @ c5 0 1
+47. Checker c6 - a6 x b6 x c5
+47. Checker e6 - d6
+48. Checker c3 - c4
+48. Checker d6 - c6
+49. Checker a3 - a4
+49. Checker e8 - d8
+50. Checker d1 - e1
+50. Checker h4 - h3
+51. Checker e1 - f1
+51. Checker d8 - c8
+52. Checker f1 - f2
+52. Checker b8 - b7
+53. Checker f2 - g2
+53. Checker g8 - f8
+54. Checker a4 - a5
+54. Checker b7 - b6
+55. Checker g1 - h1
+55. Checker f8 - e8
+56. Checker g2 - h2
+56. Checker c6 - c5
+57. partial 2 Checker h2 - h4 @ h3 0 1
+57. Checker c5 - c3 x c4 x h3
+58. Checker a6 - c6 x b6
+58. Checker c3 - b3
+59. Checker c6 - c7
+59. Checker c8 - c6 x c7
+60. Checker h4 - h5 = King
+60. Checker e8 - e7
+61. King h5 - h8 x h7
+61. Checker c6 - b6
+62. Checker a5 - b5
+62. Checker b6 - b4 x b5
+63. King h8 - a8
+63. Checker b3 - a3 = King
+64. King a8 - a2 x a3
+64. Checker e7 - e6
+65. Checker h1 - h2
+65. Checker b4 - b3
+66. Checker h2 - h3 = King
+66. Checker e6 - d6
+67. King h3 - a3 x b3
+67. Checker d6 - c6
+68. King a3 - a7
+68. Checker g6 - f6
+69. King a2 - a6
+69. Checker c6 - c5
+70. King a6 - c6
+70. Checker c5 - c7 x c6
+71. partial 2 King a7 - f7 @ c7 0 1
+71. King f7 - f5 x f6 x c7

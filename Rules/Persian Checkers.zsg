@@ -1,0 +1,66 @@
+Zillions Save Game File Version 0.02 CC
+RulesFile=CheckersCollection.zrf
+VariantName=Persian Checkers
+1. Checker b2 - b4
+1. Checker b6 - a5
+2. Checker f2 - f4
+2. Checker c7 - c5
+3. Checker g3 - h4
+3. Checker g7 - g5
+4. Checker b4 - b6
+4. partial 2 Checker a5 - c7 x b6
+5. Checker a3 - a5
+5. Checker a7 - b6
+6. Checker a5 - a7
+6. Checker g5 - g3
+7. partial 2 Checker h4 - f2 x g3
+7. Checker h8 - g7
+8. Checker g1 - g3
+8. Checker d6 - d4
+9. partial 2 Checker c3 - e5 x d4
+9. partial 2 Checker f6 - d4 x e5
+10. Checker f4 - f6
+10. partial 2 Checker g7 - e5 x f6
+11. Checker g3 - g5
+11. partial 2 Checker h6 - f4 x g5
+12. partial 2 Checker e3 - g5 x f4
+12. Checker b6 - a5
+13. Checker g5 - h6
+13. Checker f8 - f6
+14. Checker h6 - h8 = King
+14. Checker a5 - a3
+15. Checker e1 - e3
+15. Checker f6 - f4
+16. partial 2 Checker e3 - g5 x f4
+16. Checker e5 - e3
+17. partial 3 King h8 - c3 x d4
+17. partial 2 Checker e3 - g1 x f2 = King on g1
+18. Checker g5 - h6
+18. Checker b8 - b6
+19. Checker a7 - b8 = King
+19. Checker d8 - d6
+20. Checker h6 - h8 = King
+20. King g1 - g5
+21. King b8 - a7
+21. King g5 - g1
+22. King a7 - a5
+22. King g1 - g5
+23. King h8 - h6
+23. King g5 - h4
+24. King a5 - a7
+24. Checker e7 - e5
+25. partial 3 King c3 - h8 x e5
+25. Checker b6 - b4
+26. partial 3 King a7 - g1 x c5
+26. Checker b4 - b2
+27. partial 2 Checker a1 - c3 x b2
+27. Checker c7 - c5
+28. partial 3 King g1 - a7 x c5
+28. Checker d6 - d4
+29. partial 2 Checker c3 - e5 x d4
+29. Checker a3 - a1 = King
+30. King a7 - a3
+30. partial 3 King a1 - f6 x e5
+31. partial 3 King h8 - e5 x f6
+31. King h4 - g5
+32. partial 3 King h6 - f4 x g5
