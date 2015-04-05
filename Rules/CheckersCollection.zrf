@@ -107,7 +107,7 @@
 (game
   (title "Turkish Dama")
   (description "")
-  (history  "")
+  (history  "Traditional game.")
 
   (move-sound "Audio/Pickup.wav")
   (release-sound "Audio/Pickup.wav")
@@ -291,6 +291,8 @@
 
 (variant
   (title "Greek Checkers")
+  (description "")
+  (history  "Traditional game.")
 
   (option "maximal captures" false)
 
@@ -323,6 +325,8 @@
 
 (variant
   (title "Greek Checkers (variant)")
+  (description "")
+  (history  "Variant of the traditional game.")
 
   (option "maximal captures" false)
 
@@ -392,6 +396,8 @@
 
 (variant
   (title "Ossetian Kena")
+  (description "")
+  (history  "Traditional game.")
 
   (piece
      (name Checker)
@@ -431,6 +437,8 @@
 
 (variant
   (title "Ossetian Kena (variant)")
+  (description "")
+  (history  "Variant of the traditional game.")
 
 ; (option "pass partial" true)
 
@@ -512,6 +520,8 @@
 
 (variant
   (title "Harzdame")
+  (description "")
+  (history  "Invented by Benedikt Rosenau in 2009.")
 
   (option "maximal captures" false) ; bugfix (true)
 
@@ -752,7 +762,7 @@
 (variant
   (title "Senegalese Checkers")
   (description "")
-  (history  "")
+  (history  "Traditional game.")
 
   (option "maximal captures" false)
 
@@ -803,7 +813,7 @@
 (variant
   (title "Khakass Tobit")
   (description "")
-  (history  "")
+  (history  "Traditional game.")
 
   (option "maximal captures" false)
 
@@ -881,6 +891,8 @@
 
 (variant
   (title "Armenian Tama")
+  (description "")
+  (history  "Traditional game.")
 
   (option "maximal captures" false) ; bugfix (true)
 
@@ -931,6 +943,8 @@
 
 (variant
   (title "Armenian Tama (variant)")
+  (description "")
+  (history  "Variant of the traditional game.")
 
   (piece
      (name Checker)
@@ -998,6 +1012,8 @@
 
 (variant
   (title "Ossetian Checkers")
+  (description "")
+  (history  "Traditional game.")
 
   (board
     (image "../images/wiedem/ossetian7x7.bmp")
@@ -1059,6 +1075,8 @@
 
 (variant
   (title "Gothic Checkers")
+  (description "")
+  (history  "Traditional game.")
 
   (piece
      (name Checker)
@@ -1125,6 +1143,9 @@
 
 (variant
   (title "Croda")
+  (description "")
+  (history  "Croda was invented by the Croation mathematics professor and Draughts master Ljuban Dedic \
+             in order to create a draughts game with a smaller margin of draws.")
 
   (piece
      (name Checker)
@@ -1162,6 +1183,8 @@
 
 (variant
   (title "Dameo")
+  (description "")
+  (history  "Invented by Christian Freeling in 2000.")
 
   (piece
      (name Checker)
@@ -1213,6 +1236,8 @@
 
 (variant
   (title "Persian Checkers")
+  (description "")
+  (history  "Traditional game.")
 
   (board
     (image "../images/wiedem/chess8x8.bmp")
@@ -1296,7 +1321,7 @@
 (variant
   (title "Checkers (English draughts)")
   (description "")
-  (history  "")
+  (history  "Traditional game.")
 
   (option "maximal captures" false)
 
@@ -1367,7 +1392,7 @@
 (variant
   (title "Italian Checkers")
   (description "")
-  (history  "")
+  (history  "Traditional game.")
 
   (option "maximal captures" 2)
 
@@ -1459,7 +1484,7 @@
 (variant
   (title "Italian Damone")
   (description "")
-  (history  "")
+  (history  "Traditional game.")
 
   (option "maximal captures" false)
 
@@ -1625,6 +1650,8 @@
 
 (variant
   (title "International Checkers")
+  (description "")
+  (history  "Traditional game.")
 
   (option "maximal captures" false) ; bugfix (true)
 
@@ -1697,6 +1724,8 @@
 
 (variant
   (title "Pool Checkers")
+  (description "")
+  (history  "Traditional game.")
 
   (option "maximal captures" false)
 
@@ -1746,6 +1775,8 @@
 
 (variant
   (title "Russian Checkers")
+  (description "")
+  (history  "Traditional game.")
 
   (option "maximal captures" false)
 
@@ -1793,59 +1824,10 @@
   )
 )
 
-;(variant
-;  (title "Russian Checkers (variant)")
-;
-;  (piece
-;     (name Checker)
-;     (image First "../images/wiedem/CheckerWhite.bmp"
-;            Second "../images/wiedem/CheckerBlack.bmp")
-;     (moves
-;        (move-type jumptype)
-;           (long-jump nw)
-;           (long-jump ne)
-;           (long-jump sw)
-;           (long-jump se)
-;
-;        (move-type normaltype)
-;           (checker-shift nw)
-;           (checker-shift ne)
-;     )
-;  )
-;
-;  (piece
-;     (name King)
-;     (image First "../images/wiedem/CheckerKingWhite.bmp"
-;            Second "../images/wiedem/CheckerKingBlack.bmp")
-;     (moves
-;        (move-type jumptype)
-;           (king-jump nw)
-;           (king-jump ne)
-;           (king-jump sw)
-;           (king-jump se)
-;
-;        (move-type continuetype)
-;           (king-jump nw)
-;           (king-jump ne)
-;           (king-jump sw)
-;           (king-jump se)
-;
-;        (move-type normaltype)
-;           (king-shift ne)
-;           (king-shift nw)
-;           (king-shift se)
-;           (king-shift sw)
-;     )
-;  )
-;
-;  (board-setup
-;    (First (Checker a1 c1 e1 g1  b2 d2 f2 h2  a3 c3 e3 g3) )
-;    (Second (Checker b8 d8 f8 h8  a7 c7 e7 g7  b6 d6 f6 h6) )
-;  )
-;)
-
 (variant
   (title "Brazilian Checkers")
+  (description "")
+  (history  "Traditional game.")
 
   (option "maximal captures" false) ; bugfix (true)
 
@@ -1895,6 +1877,8 @@
 
 (variant
   (title "80 Cells Checkers")
+  (description "")
+  (history  "Invented by Nikolay Spancireti (1916-1991).")
 
   (option "maximal captures" false)
 
@@ -1967,6 +1951,8 @@
 
 (variant
   (title "Canadian Checkers")
+  (description "")
+  (history  "Traditional game.")
 
   (option "maximal captures" false) ; bugfix (true)
 
@@ -2138,6 +2124,8 @@
 
 (variant
   (title "Frisian Checkers")
+  (description "")
+  (history  "Traditional game.")
 
   (option "maximal captures" 2) ; bugfix (2)
 
@@ -2229,6 +2217,8 @@
 
 (variant
   (title "Thai Checkers")
+  (description "")
+  (history  "Traditional game.")
 
   (piece
      (name Checker)
@@ -2283,7 +2273,7 @@
 (variant
   (title "Losing Checkers")
   (description "")
-  (history  "")
+  (history  "Traditional game.")
 
   (option "maximal captures" false)
 
@@ -2418,6 +2408,8 @@
 
 (variant
   (title "Stavropol Checkers")
+  (description "")
+  (history  "Unknown Inventor.")
 
   (option "maximal captures" false)
 
@@ -2544,7 +2536,6 @@
 )
 
 (define north-jump (
-  (clear-all)
   $1
   (verify enemy?)
   (if (piece? King)
@@ -2555,9 +2546,11 @@
   )
   $1
   (verify empty?)
+  (clear-all)
   (if (in-zone? promotion)
       (add-partial King jumptype)
    else
+      (set-attribute captured? false)
       (add-partial continuetype)
   )
 ))
@@ -2582,7 +2575,6 @@
 ))
 
 (define north-king-jump (
-  (clear-all)
   (while (empty? $1)
       $1
   )
@@ -2602,6 +2594,7 @@
           capture
       )
       back
+      (clear-all)
       (add-partial continuetype)
       $1
   )
@@ -2610,6 +2603,7 @@
 (define north-king-continue (
   (while (empty? $1)
       $1
+      (verify not-last-from?)
   )
   (verify (enemy? $1))
   $1
@@ -2633,8 +2627,30 @@
   )
 ))
 
+(define north-shift (
+  (clear-all)
+  $1
+  (verify empty?)
+  (if (in-zone? promotion)
+      (add King)
+   else
+      (set-attribute captured? false)
+      add
+  )
+))
+
+(define north-king-shift (
+  (clear-all)
+  (while (empty? $1)
+      $1
+      add
+  )
+))
+
 (variant
   (title "Northern Checkers")
+  (description "")
+  (history  "Unknown Inventor.")
 
   (piece
      (name Checker)
@@ -2655,8 +2671,8 @@
            (north-jump-continue se)
 
         (move-type normaltype)
-           (checker-shift nw)
-           (checker-shift ne)
+           (north-shift nw)
+           (north-shift ne)
      )
   )
 
@@ -2679,10 +2695,10 @@
            (north-king-continue se)
 
         (move-type normaltype)
-           (king-shift ne)
-           (king-shift nw)
-           (king-shift se)
-           (king-shift sw)
+           (north-king-shift ne)
+           (north-king-shift nw)
+           (north-king-shift se)
+           (north-king-shift sw)
      )
   )
 
@@ -2694,6 +2710,8 @@
 
 (variant
   (title "Northern Kings")
+  (description "")
+  (history  "Variant of the Northern Checkers.")
 
   (piece
      (name Checker)
@@ -2714,8 +2732,8 @@
            (north-jump-continue se)
 
         (move-type normaltype)
-           (checker-shift nw)
-           (checker-shift ne)
+           (north-shift nw)
+           (north-shift ne)
      )
   )
 
@@ -2738,10 +2756,10 @@
            (north-king-continue se)
 
         (move-type normaltype)
-           (king-shift ne)
-           (king-shift nw)
-           (king-shift se)
-           (king-shift sw)
+           (north-king-shift ne)
+           (north-king-shift nw)
+           (north-king-shift se)
+           (north-king-shift sw)
      )
   )
 
@@ -2761,7 +2779,7 @@
 (variant
   (title "North American Checkers")
   (description "")
-  (history  "")
+  (history  "Unknown Inventor.")
 
   (option "maximal captures" false)
 
