@@ -1,7 +1,28 @@
 (version "2.0")
 
+(define add-mark
+  (verify not-friend?)
+  mark
+  z0 s-marks
+  (while (and not-empty? (on-board? s-marks))
+      s-marks
+  )
+  (if empty?
+      (create mark-piece)
+  )
+  z0
+  (while (on-board? s-umark)
+      s-umark
+      (if not-empty?
+          (create mark-piece)
+      )
+  )
+  back
+)
+
 (define check-wizard
   (if (piece? $1-wizard)
+      (add-mark)
       mark
       z0
       (while (on-board? next)
@@ -134,6 +155,17 @@
       (kill-positions d9 f9 c8 g8 b7 h7 a6 i6 a4 i4 b3 h3 c2 g2 d1 f1 e0)
       (dummy z0)
       (links next (z0 a5) (a5 b4) (b6 c3) (c7 d2) (d8 e1) (e9 f2) (f8 g3) (g7 h4) (h6 i5))
+      (links s-marks  (z0 a1) (a1 b1) (b1 c1))
+      (links w-marks  (z0 a9) (a9 a8) (a8 a7))
+      (links n-marks  (z0 i9) (i9 h9) (h9 g9))
+      (links e-marks  (z0 i1) (i1 i2) (i2 i3))
+      (links s-umark  (z0 a9) (a9 a8) (a8 a7) (a7 i9) (i9 h9) (h9 g9) (a9 i1) (i1 i2) (i2 i3))
+      (links w-umark  (z0 a1) (a1 b1) (b1 c1) (c1 i9) (i9 h9) (h9 g9) (g9 i1) (i1 i2) (i2 i3))
+      (links n-umark  (z0 a1) (a1 b1) (b1 c1) (c1 a9) (a9 a8) (a8 a7) (a7 i1) (i1 i2) (i2 i3))
+      (links e-umark  (z0 a1) (a1 b1) (b1 c1) (c1 a9) (a9 a8) (a8 a7) (a7 i9) (i9 h9) (h9 g9))
+      (symmetry West  (s-marks w-marks) (s-umark w-umark))
+      (symmetry North (s-marks n-marks) (s-umark n-umark))
+      (symmetry East  (s-marks e-marks) (s-umark e-umark))
    )
 
    (board-setup
@@ -283,4 +315,13 @@
 	  (name  west-stone)
           (image West  "../images/splut/stone.bmp")
    )
+   (piece
+	  (name  mark-piece)
+          (image North "../images/splut/invisible.bmp"
+                 South "../images/splut/invisible.bmp"
+                 East  "../images/splut/invisible.bmp"
+                 West  "../images/splut/invisible.bmp")
+   )
+
+   (win-condition  (South North West East) (pieces-remaining 3 mark-piece))
 )
