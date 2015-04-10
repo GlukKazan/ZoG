@@ -1,5 +1,91 @@
 (version "2.0")
 
+(define check-fly
+  (if (piece? south-stone)
+      (verify (empty? b8))
+      (verify (empty? h8))
+      (verify (empty? h2))
+      (create control-piece b2)
+  )
+  (if (piece? west-stone)
+      (verify (empty? h8))
+      (verify (empty? h2))
+      (verify (empty? b2))
+      (create control-piece b8)
+  )
+  (if (piece? north-stone)
+      (verify (empty? h2))
+      (verify (empty? b2))
+      (verify (empty? b8))
+      (create control-piece h8)
+  )
+  (if (piece? east-stone)
+      (verify (empty? b2))
+      (verify (empty? b8))
+      (verify (empty? h8))
+      (create control-piece h2)
+  )
+)
+
+(define set-moved
+  (if  (or (piece? north-stone)
+           (piece? south-stone)
+           (piece? west-stone)
+           (piece? east-stone))
+       (set-attribute $1-moved? true)
+  )
+)
+
+(define clear-moved
+  (if  (or (piece? north-stone)
+           (piece? south-stone)
+           (piece? west-stone)
+           (piece? east-stone))
+       (if $1-moved?
+           (set-attribute $1-moved? false)
+       )
+  )
+)
+
+(define clean (
+  (verify (in-zone? control))
+  mark
+  z0
+  (while (on-board? next)
+     next
+     (clear-moved $1)
+  )
+  back
+  (if (not-empty? h8)
+      (capture h8)
+  )
+  (if (not-empty? h2)
+      (capture h2)
+  )
+  (if (not-empty? b2)
+      (capture b2)
+  )
+  (if (not-empty? b8)
+      (capture b8)
+  )
+  add
+))
+
+(define set-pass
+  (create control-piece a2)
+)
+
+(define check-pass
+  (verify (not-friend? a2))
+)
+
+(define clear-pass
+  (check-pass)
+  (if (not-empty? a2)
+      (capture a2)
+  )
+)
+
 (define add-mark
   (verify not-friend?)
   mark
@@ -37,12 +123,14 @@
 )
 
 (define move (
+  (clear-pass)
   $1
   (verify empty?)
   add
 ))
 
 (define push (
+  (clear-pass)
   $1
   (verify not-empty?)
   (while not-empty?
@@ -50,11 +138,13 @@
       from
       $1
       to
+      (set-moved $2)
   )
   add
 ))
 
 (define pull (
+  (clear-pass)
   $1
   (verify empty?)
   cascade
@@ -64,10 +154,12 @@
   from
   $1
   to
+  (set-attribute $2-moved? true)
   add
 ))
 
 (define take (
+  (check-pass)
   $1
   (verify (or (piece? north-stone) (piece? south-stone) (piece? east-stone) (piece? west-stone)))
   cascade
@@ -103,10 +195,13 @@
       (check-wizard east)
       to
   )
+  (set-attribute $3-moved? true)
+  (set-pass)
   add
 ))
 
 (define fly (
+  (clear-pass)
   $1
   (verify (or empty? (piece? $2)))
   cascade
@@ -115,31 +210,51 @@
      next
   )
   (verify (piece? $2))
+  (verify (not $4-moved?))
+  (verify (not $5-moved?))
+  (verify (not $6-moved?))
+  (check-fly)
   from
   $1
   (verify (or empty? (and friend? (or (piece? south-wizard) (piece? north-wizard) (piece? west-wizard) (piece? east-wizard)))))
   to
+  (set-attribute $3-moved? true)
   add
 ))
 
 (game
    (title "Splut")
+   (description "The object of the game is to kill all opposing Sorcerers by throwing a Rock\
+                 on their heads. Once a Sorcerer dies, his entire team is removed from the board.\\
+                 A Stonetroll may pull a Rock that was located on the square right behind\
+                 the Stonetroll, i.e. on the horizontally or vertically adjacent square on the\
+                 same line as the Stonetroll's movement.\
+                 The thrown Rock flies over empty squares and Dwarves until it hits an obstacle:\
+                 edge of the board, a Stonetroll, a Sorcerer or another Rock.\\
+                 A Dwarf can push any number of consecutive pieces of any color (including Rocks)\
+                 standing on his path in a straight line if there is an empty square after the last piece.\
+                 All these pieces move one square in the direction of the Dwarf's movement.\\
+                 A Sorcerer can levitate any Rock that wasn't moved (i.e. pushed, pulled, thrown or\
+                 levitated) on the previous player's turn.")
+   (history  "Splut! is a 2-4 players abstract board game that was invented by Tommy De Coninck in 2009.")
 
    (move-sound "Audio\Pickup.wav")
    (release-sound "Audio\Pickup.wav")
    (capture-sound "")
+   (drop-sound "")
 
    (option "pass turn" forced)
+   (option "recycle captures" true)
 
-   (players South West North East)
+   (players South West North East ?C)
 
-   (turn-order South 
-               West West 
+   (turn-order (South normal)
+               (West normal) (West normal)
                repeat
-               North North North 
-               East East East 
-               South South South
-               West West West 
+               (?C North n-clean) (North normal) (North normal) (North normal)
+               (?C East  e-clean) (East  normal) (East  normal) (East  normal)
+               (?C South s-clean) (South normal) (South normal) (South normal)
+               (?C West  w-clean) (West  normal) (West  normal) (West  normal)
    )
 
    (board 
@@ -166,154 +281,185 @@
       (symmetry West  (s-marks w-marks) (s-umark w-umark))
       (symmetry North (s-marks n-marks) (s-umark n-umark))
       (symmetry East  (s-marks e-marks) (s-umark e-umark))
+      (zone (name control) (players South North West East) (positions a3))
    )
 
    (board-setup
-	(South (south-stone e1) (south-wizard d2) (south-dwarf e2) (south-troll f2))
-	(North (north-stone e9) (north-wizard f8) (north-dwarf e8) (north-troll d8))
-	(West  (west-stone a5) (west-wizard b6) (west-dwarf b5) (west-troll b4))
-	(East  (east-stone i5) (east-wizard h4) (east-dwarf h5) (east-troll h6))
+	(South (control-piece off 1) (south-stone e1) (south-wizard d2) (south-dwarf e2) (south-troll f2))
+	(North (control-piece off 1) (north-stone e9) (north-wizard f8) (north-dwarf e8) (north-troll d8))
+	(West  (control-piece off 1) (west-stone a5) (west-wizard b6) (west-dwarf b5) (west-troll b4))
+	(East  (control-piece off 1) (east-stone i5) (east-wizard h4) (east-dwarf h5) (east-troll h6))
    )
 
    (piece
 	  (name  south-wizard)
           (image South "../images/splut/swizard.bmp")
       (moves
+          (move-type normal)
           (move n) (move s) (move w) (move e)
-          (fly n north-stone) (fly s north-stone) (fly w north-stone) (fly e north-stone)
-          (fly n south-stone) (fly s south-stone) (fly w south-stone) (fly e south-stone)
-          (fly n west-stone)  (fly s west-stone)  (fly w west-stone)  (fly e west-stone)
-          (fly n east-stone)  (fly s east-stone)  (fly w east-stone)  (fly e east-stone)
+          (fly n north-stone s n w e) (fly s north-stone s n w e) (fly w north-stone s n w e) (fly e north-stone s n w e)
+          (fly n south-stone s n w e) (fly s south-stone s n w e) (fly w south-stone s n w e) (fly e south-stone s n w e)
+          (fly n west-stone  s n w e) (fly s west-stone  s n w e) (fly w west-stone  s n w e) (fly e west-stone  s n w e)
+          (fly n east-stone  s n w e) (fly s east-stone  s n w e) (fly w east-stone  s n w e) (fly e east-stone  s n w e)
       )
    )
    (piece
 	  (name  north-wizard)
           (image North "../images/splut/nwizard.bmp")
       (moves
+          (move-type normal)
           (move n) (move s) (move w) (move e)
-          (fly n north-stone) (fly s north-stone) (fly w north-stone) (fly e north-stone)
-          (fly n south-stone) (fly s south-stone) (fly w south-stone) (fly e south-stone)
-          (fly n west-stone)  (fly s west-stone)  (fly w west-stone)  (fly e west-stone)
-          (fly n east-stone)  (fly s east-stone)  (fly w east-stone)  (fly e east-stone)
+          (fly n north-stone n w e s) (fly s north-stone n w e s) (fly w north-stone n w e s) (fly e north-stone n w e s)
+          (fly n south-stone n w e s) (fly s south-stone n w e s) (fly w south-stone n w e s) (fly e south-stone n w e s)
+          (fly n west-stone  n w e s) (fly s west-stone  n w e s) (fly w west-stone  n w e s) (fly e west-stone  n w e s)
+          (fly n east-stone  n w e s) (fly s east-stone  n w e s) (fly w east-stone  n w e s) (fly e east-stone  n w e s)
       )
    )
    (piece
 	  (name  west-wizard)
           (image West  "../images/splut/wwizard.bmp")
       (moves
+          (move-type normal)
           (move n) (move s) (move w) (move e)
-          (fly n north-stone) (fly s north-stone) (fly w north-stone) (fly e north-stone)
-          (fly n south-stone) (fly s south-stone) (fly w south-stone) (fly e south-stone)
-          (fly n west-stone)  (fly s west-stone)  (fly w west-stone)  (fly e west-stone)
-          (fly n east-stone)  (fly s east-stone)  (fly w east-stone)  (fly e east-stone)
+          (fly n north-stone w e s n) (fly s north-stone w e s n) (fly w north-stone w e s n) (fly e north-stone w e s n)
+          (fly n south-stone w e s n) (fly s south-stone w e s n) (fly w south-stone w e s n) (fly e south-stone w e s n)
+          (fly n west-stone  w e s n) (fly s west-stone  w e s n) (fly w west-stone  w e s n) (fly e west-stone  w e s n)
+          (fly n east-stone  w e s n) (fly s east-stone  w e s n) (fly w east-stone  w e s n) (fly e east-stone  w e s n)
       )
    )
    (piece
 	  (name  east-wizard)
           (image East  "../images/splut/ewizard.bmp")
       (moves
+          (move-type normal)
           (move n) (move s) (move w) (move e)
-          (fly n north-stone) (fly s north-stone) (fly w north-stone) (fly e north-stone)
-          (fly n south-stone) (fly s south-stone) (fly w south-stone) (fly e south-stone)
-          (fly n west-stone)  (fly s west-stone)  (fly w west-stone)  (fly e west-stone)
-          (fly n east-stone)  (fly s east-stone)  (fly w east-stone)  (fly e east-stone)
+          (fly n north-stone e s n w) (fly s north-stone e s n w) (fly w north-stone e s n w) (fly e north-stone e s n w)
+          (fly n south-stone e s n w) (fly s south-stone e s n w) (fly w south-stone e s n w) (fly e south-stone e s n w)
+          (fly n west-stone  e s n w) (fly s west-stone  e s n w) (fly w west-stone  e s n w) (fly e west-stone  e s n w)
+          (fly n east-stone  e s n w) (fly s east-stone  e s n w) (fly w east-stone  e s n w) (fly e east-stone  e s n w)
       )
    )
    (piece
 	  (name  north-dwarf)
           (image North "../images/splut/ndwarf.bmp")
       (moves
+          (move-type normal)
           (move n) (move s) (move w) (move e)
-          (push n) (push s) (push w) (push e)
+          (push n n) (push s n) (push w n) (push e n)
       )
    )
    (piece
 	  (name  south-dwarf)
           (image South "../images/splut/sdwarf.bmp")
       (moves
+          (move-type normal)
           (move n) (move s) (move w) (move e)
-          (push n) (push s) (push w) (push e)
+          (push n s) (push s s) (push w s) (push e s)
       )
    )
    (piece
 	  (name  west-dwarf)
           (image West  "../images/splut/wdwarf.bmp")
       (moves
+          (move-type normal)
           (move n) (move s) (move w) (move e)
-          (push n) (push s) (push w) (push e)
+          (push n w) (push s w) (push w w) (push e w)
       )
    )
    (piece
 	  (name  east-dwarf)
           (image East  "../images/splut/edwarf.bmp")
       (moves
+          (move-type normal)
           (move n) (move s) (move w) (move e)
-          (push n) (push s) (push w) (push e)
+          (push n e) (push s e) (push w e) (push e e)
       )
    )
    (piece
 	  (name  north-troll)
           (image North "../images/splut/ntroll.bmp")
       (moves
+          (move-type normal)
           (move n) (move s) (move w) (move e)
-          (pull n) (pull s) (pull w) (pull e)
-          (take n n) (take n s) (take n w) (take n e)
-          (take s n) (take s s) (take s w) (take s e)
-          (take w n) (take w s) (take w w) (take w e)
-          (take e n) (take e s) (take e w) (take e e)
+          (pull n n) (pull s n) (pull w n) (pull e n)
+          (take n n n) (take n s n) (take n w n) (take n e n)
+          (take s n n) (take s s n) (take s w n) (take s e n)
+          (take w n n) (take w s n) (take w w n) (take w e n)
+          (take e n n) (take e s n) (take e w n) (take e e n)
       )
    )
    (piece
 	  (name  south-troll)
           (image South "../images/splut/stroll.bmp")
       (moves
+          (move-type normal)
           (move n) (move s) (move w) (move e)
-          (pull n) (pull s) (pull w) (pull e)
-          (take n n) (take n s) (take n w) (take n e)
-          (take s n) (take s s) (take s w) (take s e)
-          (take w n) (take w s) (take w w) (take w e)
-          (take e n) (take e s) (take e w) (take e e)
+          (pull n s) (pull s s) (pull w s) (pull e s)
+          (take n n s) (take n s s) (take n w s) (take n e s)
+          (take s n s) (take s s s) (take s w s) (take s e s)
+          (take w n s) (take w s s) (take w w s) (take w e s)
+          (take e n s) (take e s s) (take e w s) (take e e s)
       )
    )
    (piece
 	  (name  west-troll)
           (image West  "../images/splut/wtroll.bmp")
       (moves
+          (move-type normal)
           (move n) (move s) (move w) (move e)
-          (pull n) (pull s) (pull w) (pull e)
-          (take n n) (take n s) (take n w) (take n e)
-          (take s n) (take s s) (take s w) (take s e)
-          (take w n) (take w s) (take w w) (take w e)
-          (take e n) (take e s) (take e w) (take e e)
+          (pull n w) (pull s w) (pull w w) (pull e w)
+          (take n n w) (take n s w) (take n w w) (take n e w)
+          (take s n w) (take s s w) (take s w w) (take s e w)
+          (take w n w) (take w s w) (take w w w) (take w e w)
+          (take e n w) (take e s w) (take e w w) (take e e w)
       )
    )
    (piece
 	  (name  east-troll)
           (image East  "../images/splut/etroll.bmp")
       (moves
+          (move-type normal)
           (move n) (move s) (move w) (move e)
-          (pull n) (pull s) (pull w) (pull e)
-          (take n n) (take n s) (take n w) (take n e)
-          (take s n) (take s s) (take s w) (take s e)
-          (take w n) (take w s) (take w w) (take w e)
-          (take e n) (take e s) (take e w) (take e e)
+          (pull n e) (pull s e) (pull w e) (pull e e)
+          (take n n e) (take n s e) (take n w e) (take n e e)
+          (take s n e) (take s s e) (take s w e) (take s e e)
+          (take w n e) (take w s e) (take w w e) (take w e e)
+          (take e n e) (take e s e) (take e w e) (take e e e)
       )
    )
    (piece
 	  (name  north-stone)
           (image North "../images/splut/stone.bmp")
+          (attribute n-moved? false)
+          (attribute s-moved? false)
+          (attribute w-moved? false)
+          (attribute e-moved? false)
    )
    (piece
 	  (name  south-stone)
           (image South "../images/splut/stone.bmp")
+          (attribute n-moved? false)
+          (attribute s-moved? false)
+          (attribute w-moved? false)
+          (attribute e-moved? false)
    )
    (piece
 	  (name  east-stone)
-          (image East  "../images/splut/stone.bmp")
+          (image East  "../images/splut/stone.bmp"
+                 North "../images/splut/stone.bmp")
+          (attribute n-moved? false)
+          (attribute s-moved? false)
+          (attribute w-moved? false)
+          (attribute e-moved? false)
    )
    (piece
 	  (name  west-stone)
-          (image West  "../images/splut/stone.bmp")
+          (image West  "../images/splut/stone.bmp"
+                 South "../images/splut/stone.bmp")
+          (attribute n-moved? false)
+          (attribute s-moved? false)
+          (attribute w-moved? false)
+          (attribute e-moved? false)
    )
    (piece
 	  (name  mark-piece)
@@ -322,6 +468,37 @@
                  East  "../images/splut/invisible.bmp"
                  West  "../images/splut/invisible.bmp")
    )
+   (piece
+	  (name  control-piece)
+          (image North "../images/splut/invisible.bmp"
+                 South "../images/splut/invisible.bmp"
+                 East  "../images/splut/invisible.bmp"
+                 West  "../images/splut/invisible.bmp")
+          (drops
+             (move-type n-clean) (clean n)
+             (move-type s-clean) (clean s)
+             (move-type w-clean) (clean w)
+             (move-type e-clean) (clean e)
+          )
+   )
 
    (win-condition  (South North West East) (pieces-remaining 3 mark-piece))
+)
+
+(variant
+   (title "Splut (duel)")
+
+   (turn-order (South normal)
+               (North normal) (North normal)
+               repeat
+               (?C South s-clean) (South normal) (South normal) (South normal)
+               (?C North n-clean) (North normal) (North normal) (North  normal)
+   )
+
+   (board-setup
+	(South (control-piece off 1) (south-stone e1) (west-stone a5) (south-wizard d2) (south-dwarf e2) (south-troll f2))
+	(North (control-piece off 1) (north-stone e9) (east-stone i5) (north-wizard f8) (north-dwarf e8) (north-troll d8))
+   )
+
+   (win-condition  (South North West East) (pieces-remaining 1 mark-piece))
 )
