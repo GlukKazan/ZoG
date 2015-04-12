@@ -1,0 +1,1477 @@
+(define r
+  ; TODO:
+)
+
+(define merge-w
+  (if (piece? w)    (add $1w)    else
+  (if (piece? b)    (add $1b)    else
+
+  (if (piece? ww)   (add $1ww)   else
+  (if (piece? wb)   (add $1wb)   else
+  (if (piece? bw)   (add $1bw)   else
+  (if (piece? bb)   (add $1bb)   else
+
+  (if (piece? www)  (add $1www)  else
+  (if (piece? wwb)  (add $1wwb)  else
+  (if (piece? wbw)  (add $1wbw)  else
+  (if (piece? wbb)  (add $1wbb)  else
+  (if (piece? bww)  (add $1bww)  else
+  (if (piece? bwb)  (add $1bwb)  else
+  (if (piece? bbw)  (add $1bbw)  else
+  (if (piece? bbb)  (add $1bbb)  else
+
+  (if (piece? wwww) (add $1wwww) else
+  (if (piece? wwwb) (add $1wwwb) else
+  (if (piece? wwbw) (add $1wwbw) else
+  (if (piece? wwbb) (add $1wwbb) else
+  (if (piece? wbww) (add $1wbww) else
+  (if (piece? wbwb) (add $1wbwb) else
+  (if (piece? wbbw) (add $1wbbw) else
+  (if (piece? wbbb) (add $1wbbb) else
+  (if (piece? bwww) (add $1bwww) else
+  (if (piece? bwwb) (add $1bwwb) else
+  (if (piece? bwbw) (add $1bwbw) else
+  (if (piece? bwbb) (add $1bwbb) else
+  (if (piece? bbww) (add $1bbww) else
+  (if (piece? bbwb) (add $1bbwb) else
+  (if (piece? bbbw) (add $1bbbw) else
+  (if (piece? bbbb) (add $1bbbb) else
+
+  (if (piece? wwwww) (r w) (add $1wwww) else
+  (if (piece? wwwwb)       (add $1wwww) else
+  (if (piece? wwwbw) (r w) (add $1wwwb) else
+  (if (piece? wwwbb)       (add $1wwwb) else
+  (if (piece? wwbww) (r w) (add $1wwbw) else
+  (if (piece? wwbwb)       (add $1wwbw) else
+  (if (piece? wwbbw) (r w) (add $1wwbb) else
+  (if (piece? wwbbb)       (add $1wwbb) else
+  (if (piece? wbwww) (r w) (add $1wbww) else
+  (if (piece? wbwwb)       (add $1wbww) else
+  (if (piece? wbwbw) (r w) (add $1wbwb) else
+  (if (piece? wbwbb)       (add $1wbwb) else
+  (if (piece? wbbww) (r w) (add $1wbbw) else
+  (if (piece? wbbwb)       (add $1wbbw) else
+  (if (piece? wbbbw) (r w) (add $1wbbb) else
+  (if (piece? wbbbb)       (add $1wbbb) else
+  (if (piece? bwwww) (r w) (add $1bwww) else
+  (if (piece? bwwwb)       (add $1bwww) else
+  (if (piece? bwwbw) (r w) (add $1bwwb) else
+  (if (piece? bwwbb)       (add $1bwwb) else
+  (if (piece? bwbww) (r w) (add $1bwbw) else
+  (if (piece? bwbwb)       (add $1bwbw) else
+  (if (piece? bwbbw) (r w) (add $1bwbb) else
+  (if (piece? bwbbb)       (add $1bwbb) else
+  (if (piece? bbwww) (r w) (add $1bbww) else
+  (if (piece? bbwwb)       (add $1bbww) else
+  (if (piece? bbwbw) (r w) (add $1bbwb) else
+  (if (piece? bbwbb)       (add $1bbwb) else
+  (if (piece? bbbww) (r w) (add $1bbbw) else
+  (if (piece? bbbwb)       (add $1bbbw) else
+  (if (piece? bbbbw) (r w) (add $1bbbb) else
+  (if (piece? bbbbb)       (add $1bbbb)
+
+  )))))))))))))))) ))))))))))))))))
+  ))))))))))))))))
+  ))))))))
+  ))))
+  ))
+)
+
+(define merge-b
+  (if (piece? w)    (add $1w)    else
+  (if (piece? b)    (add $1b)    else
+
+  (if (piece? ww)   (add $1ww)   else
+  (if (piece? wb)   (add $1wb)   else
+  (if (piece? bw)   (add $1bw)   else
+  (if (piece? bb)   (add $1bb)   else
+
+  (if (piece? www)  (add $1www)  else
+  (if (piece? wwb)  (add $1wwb)  else
+  (if (piece? wbw)  (add $1wbw)  else
+  (if (piece? wbb)  (add $1wbb)  else
+  (if (piece? bww)  (add $1bww)  else
+  (if (piece? bwb)  (add $1bwb)  else
+  (if (piece? bbw)  (add $1bbw)  else
+  (if (piece? bbb)  (add $1bbb)  else
+
+  (if (piece? wwww) (add $1wwww) else
+  (if (piece? wwwb) (add $1wwwb) else
+  (if (piece? wwbw) (add $1wwbw) else
+  (if (piece? wwbb) (add $1wwbb) else
+  (if (piece? wbww) (add $1wbww) else
+  (if (piece? wbwb) (add $1wbwb) else
+  (if (piece? wbbw) (add $1wbbw) else
+  (if (piece? wbbb) (add $1wbbb) else
+  (if (piece? bwww) (add $1bwww) else
+  (if (piece? bwwb) (add $1bwwb) else
+  (if (piece? bwbw) (add $1bwbw) else
+  (if (piece? bwbb) (add $1bwbb) else
+  (if (piece? bbww) (add $1bbww) else
+  (if (piece? bbwb) (add $1bbwb) else
+  (if (piece? bbbw) (add $1bbbw) else
+  (if (piece? bbbb) (add $1bbbb) else
+
+  (if (piece? wwwww)       (add $1wwww) else
+  (if (piece? wwwwb) (r b) (add $1wwww) else
+  (if (piece? wwwbw)       (add $1wwwb) else
+  (if (piece? wwwbb) (r b) (add $1wwwb) else
+  (if (piece? wwbww)       (add $1wwbw) else
+  (if (piece? wwbwb) (r b) (add $1wwbw) else
+  (if (piece? wwbbw)       (add $1wwbb) else
+  (if (piece? wwbbb) (r b) (add $1wwbb) else
+  (if (piece? wbwww)       (add $1wbww) else
+  (if (piece? wbwwb) (r b) (add $1wbww) else
+  (if (piece? wbwbw)       (add $1wbwb) else
+  (if (piece? wbwbb) (r b) (add $1wbwb) else
+  (if (piece? wbbww)       (add $1wbbw) else
+  (if (piece? wbbwb) (r b) (add $1wbbw) else
+  (if (piece? wbbbw)       (add $1wbbb) else
+  (if (piece? wbbbb) (r b) (add $1wbbb) else
+  (if (piece? bwwww)       (add $1bwww) else
+  (if (piece? bwwwb) (r b) (add $1bwww) else
+  (if (piece? bwwbw)       (add $1bwwb) else
+  (if (piece? bwwbb) (r b) (add $1bwwb) else
+  (if (piece? bwbww)       (add $1bwbw) else
+  (if (piece? bwbwb) (r b) (add $1bwbw) else
+  (if (piece? bwbbw)       (add $1bwbb) else
+  (if (piece? bwbbb) (r b) (add $1bwbb) else
+  (if (piece? bbwww)       (add $1bbww) else
+  (if (piece? bbwwb) (r b) (add $1bbww) else
+  (if (piece? bbwbw)       (add $1bbwb) else
+  (if (piece? bbwbb) (r b) (add $1bbwb) else
+  (if (piece? bbbww)       (add $1bbbw) else
+  (if (piece? bbbwb) (r b) (add $1bbbw) else
+  (if (piece? bbbbw)       (add $1bbbb) else
+  (if (piece? bbbbb) (r b) (add $1bbbb)
+
+  )))))))))))))))) ))))))))))))))))
+  ))))))))))))))))
+  ))))))))
+  ))))
+  ))
+)
+
+(define merge-w2
+  (if (piece? w)    (add $1w)    else
+  (if (piece? b)    (add $1b)    else
+
+  (if (piece? ww)   (add $1ww)   else
+  (if (piece? wb)   (add $1wb)   else
+  (if (piece? bw)   (add $1bw)   else
+  (if (piece? bb)   (add $1bb)   else
+
+  (if (piece? www)  (add $1www)  else
+  (if (piece? wwb)  (add $1wwb)  else
+  (if (piece? wbw)  (add $1wbw)  else
+  (if (piece? wbb)  (add $1wbb)  else
+  (if (piece? bww)  (add $1bww)  else
+  (if (piece? bwb)  (add $1bwb)  else
+  (if (piece? bbw)  (add $1bbw)  else
+  (if (piece? bbb)  (add $1bbb)  else
+
+  (if (piece? wwww) (r w) (add $1www) else
+  (if (piece? wwwb) (add $1www) else
+  (if (piece? wwbw) (r w) (add $1wwb) else
+  (if (piece? wwbb) (add $1wwb) else
+  (if (piece? wbww) (r w) (add $1wbw) else
+  (if (piece? wbwb) (add $1wbw) else
+  (if (piece? wbbw) (r w) (add $1wbb) else
+  (if (piece? wbbb) (add $1wbb) else
+  (if (piece? bwww) (r w) (add $1bww) else
+  (if (piece? bwwb) (add $1bww) else
+  (if (piece? bwbw) (r w) (add $1bwb) else
+  (if (piece? bwbb) (add $1bwb) else
+  (if (piece? bbww) (r w) (add $1bbw) else
+  (if (piece? bbwb) (add $1bbw) else
+  (if (piece? bbbw) (r w) (add $1bbb) else
+  (if (piece? bbbb) (add $1bbb) else
+
+  (if (piece? wwwww) (r w) (r w) (add $1www) else
+  (if (piece? wwwwb) (r w) (add $1www) else
+  (if (piece? wwwbw) (r w) (add $1www) else
+  (if (piece? wwwbb) (add $1www) else
+  (if (piece? wwbww) (r w) (r w) (add $1wwb) else
+  (if (piece? wwbwb) (r w) (add $1wwb) else
+  (if (piece? wwbbw) (r w) (add $1wwb) else
+  (if (piece? wwbbb) (add $1wwb) else
+  (if (piece? wbwww) (r w) (r w) (add $1wbw) else
+  (if (piece? wbwwb) (r w) (add $1wbw) else
+  (if (piece? wbwbw) (r w) (add $1wbw) else
+  (if (piece? wbwbb) (add $1wbw) else
+  (if (piece? wbbww) (r w) (r w) (add $1wbb) else
+  (if (piece? wbbwb) (r w) (add $1wbb) else
+  (if (piece? wbbbw) (r w) (add $1wbb) else
+  (if (piece? wbbbb) (add $1wbb) else
+  (if (piece? bwwww) (r w) (r w) (add $1bww) else
+  (if (piece? bwwwb) (r w) (add $1bww) else
+  (if (piece? bwwbw) (r w) (add $1bww) else
+  (if (piece? bwwbb) (add $1bww) else
+  (if (piece? bwbww) (r w) (r w) (add $1bwb) else
+  (if (piece? bwbwb) (r w) (add $1bwb) else
+  (if (piece? bwbbw) (r w) (add $1bwb) else
+  (if (piece? bwbbb) (add $1bwb) else
+  (if (piece? bbwww) (r w) (r w) (add $1bbw) else
+  (if (piece? bbwwb) (r w) (add $1bbw) else
+  (if (piece? bbwbw) (r w) (add $1bbw) else
+  (if (piece? bbwbb) (add $1bbw) else
+  (if (piece? bbbww) (r w) (r w) (add $1bbb) else
+  (if (piece? bbbwb) (r w) (add $1bbb) else
+  (if (piece? bbbbw) (r w) (add $1bbb) else
+  (if (piece? bbbbb) (add $1bbb)
+
+  )))))))))))))))) ))))))))))))))))
+  ))))))))))))))))
+  ))))))))
+  ))))
+  ))
+)
+
+(define merge-b2
+  (if (piece? w)    (add $1w)    else
+  (if (piece? b)    (add $1b)    else
+
+  (if (piece? ww)   (add $1ww)   else
+  (if (piece? wb)   (add $1wb)   else
+  (if (piece? bw)   (add $1bw)   else
+  (if (piece? bb)   (add $1bb)   else
+
+  (if (piece? www)  (add $1www)  else
+  (if (piece? wwb)  (add $1wwb)  else
+  (if (piece? wbw)  (add $1wbw)  else
+  (if (piece? wbb)  (add $1wbb)  else
+  (if (piece? bww)  (add $1bww)  else
+  (if (piece? bwb)  (add $1bwb)  else
+  (if (piece? bbw)  (add $1bbw)  else
+  (if (piece? bbb)  (add $1bbb)  else
+
+  (if (piece? wwww) (add $1www) else
+  (if (piece? wwwb) (r b) (add $1www) else
+  (if (piece? wwbw) (add $1wwb) else
+  (if (piece? wwbb) (r b) (add $1wwb) else
+  (if (piece? wbww) (add $1wbw) else
+  (if (piece? wbwb) (r b) (add $1wbw) else
+  (if (piece? wbbw) (add $1wbb) else
+  (if (piece? wbbb) (r b) (add $1wbb) else
+  (if (piece? bwww) (add $1bww) else
+  (if (piece? bwwb) (r b) (add $1bww) else
+  (if (piece? bwbw) (add $1bwb) else
+  (if (piece? bwbb) (r b) (add $1bwb) else
+  (if (piece? bbww) (add $1bbw) else
+  (if (piece? bbwb) (r b) (add $1bbw) else
+  (if (piece? bbbw) (add $1bbb) else
+  (if (piece? bbbb) (r b) (add $1bbb) else
+
+  (if (piece? wwwww) (add $1www) else
+  (if (piece? wwwwb) (r b) (add $1www) else
+  (if (piece? wwwbw) (r b) (add $1www) else
+  (if (piece? wwwbb) (r b) (r b) (add $1www) else
+  (if (piece? wwbww) (add $1wwb) else
+  (if (piece? wwbwb) (r b) (add $1wwb) else
+  (if (piece? wwbbw) (r b) (add $1wwb) else
+  (if (piece? wwbbb) (r b) (r b) (add $1wwb) else
+  (if (piece? wbwww) (add $1wbw) else
+  (if (piece? wbwwb) (r b) (add $1wbw) else
+  (if (piece? wbwbw) (r b) (add $1wbw) else
+  (if (piece? wbwbb) (r b) (r b) (add $1wbw) else
+  (if (piece? wbbww) (add $1wbb) else
+  (if (piece? wbbwb) (r b) (add $1wbb) else
+  (if (piece? wbbbw) (r b) (add $1wbb) else
+  (if (piece? wbbbb) (r b) (r b) (add $1wbb) else
+  (if (piece? bwwww) (add $1bww) else
+  (if (piece? bwwwb) (r b) (add $1bww) else
+  (if (piece? bwwbw) (r b) (add $1bww) else
+  (if (piece? bwwbb) (r b) (r b) (add $1bww) else
+  (if (piece? bwbww) (add $1bwb) else
+  (if (piece? bwbwb) (r b) (add $1bwb) else
+  (if (piece? bwbbw) (r b) (add $1bwb) else
+  (if (piece? bwbbb) (r b) (r b) (add $1bwb) else
+  (if (piece? bbwww) (add $1bbw) else
+  (if (piece? bbwwb) (r b) (add $1bbw) else
+  (if (piece? bbwbw) (r b) (add $1bbw) else
+  (if (piece? bbwbb) (r b) (r b) (add $1bbw) else
+  (if (piece? bbbww) (add $1bbb) else
+  (if (piece? bbbwb) (r b) (add $1bbb) else
+  (if (piece? bbbbw) (r b) (add $1bbb) else
+  (if (piece? bbbbb) (r b) (r b) (add $1bbb)
+
+  )))))))))))))))) ))))))))))))))))
+  ))))))))))))))))
+  ))))))))
+  ))))
+  ))
+)
+
+(define merge-w3
+  (if (piece? w)    (add $1w)    else
+  (if (piece? b)    (add $1b)    else
+
+  (if (piece? ww)   (add $1ww)   else
+  (if (piece? wb)   (add $1wb)   else
+  (if (piece? bw)   (add $1bw)   else
+  (if (piece? bb)   (add $1bb)   else
+
+  (if (piece? www)  (r w) (add $1ww) else
+  (if (piece? wwb)  (add $1ww) else
+  (if (piece? wbw)  (r w) (add $1wb) else
+  (if (piece? wbb)  (add $1wb) else
+  (if (piece? bww)  (r w) (add $1bw) else
+  (if (piece? bwb)  (add $1bw)  else
+  (if (piece? bbw)  (r w) (add $1bb) else
+  (if (piece? bbb)  (add $1bb) else
+
+  (if (piece? wwww) (r w) (r w) (add $1ww) else
+  (if (piece? wwwb) (r w) (add $1ww) else
+  (if (piece? wwbw) (r w) (add $1ww) else
+  (if (piece? wwbb) (add $1ww) else
+  (if (piece? wbww) (r w) (r w) (add $1wb) else
+  (if (piece? wbwb) (r w) (add $1wb) else
+  (if (piece? wbbw) (r w) (add $1wb) else
+  (if (piece? wbbb) (add $1wb) else
+  (if (piece? bwww) (r w) (r w) (add $1bw) else
+  (if (piece? bwwb) (r w) (add $1bw) else
+  (if (piece? bwbw) (r w) (add $1bw) else
+  (if (piece? bwbb) (add $1bw) else
+  (if (piece? bbww) (r w) (r w) (add $1bb) else
+  (if (piece? bbwb) (r w) (add $1bb) else
+  (if (piece? bbbw) (r w) (add $1bb) else
+  (if (piece? bbbb) (add $1bb) else
+
+  (if (piece? wwwww) (r w) (r w) (r w) (add $1ww) else
+  (if (piece? wwwwb) (r w) (r w) (add $1ww) else
+  (if (piece? wwwbw) (r w) (r w) (add $1ww) else
+  (if (piece? wwwbb) (r w) (add $1ww) else
+  (if (piece? wwbww) (r w) (r w) (add $1ww) else
+  (if (piece? wwbwb) (r w) (add $1ww) else
+  (if (piece? wwbbw) (r w) (add $1ww) else
+  (if (piece? wwbbb) (add $1ww) else
+  (if (piece? wbwww) (r w) (r w) (r w) (add $1wb) else
+  (if (piece? wbwwb) (r w) (r w) (add $1wb) else
+  (if (piece? wbwbw) (r w) (r w) (add $1wb) else
+  (if (piece? wbwbb) (r w) (add $1wbw) else
+  (if (piece? wbbww) (r w) (r w) (add $1wb) else
+  (if (piece? wbbwb) (r w) (add $1wb) else
+  (if (piece? wbbbw) (r w) (add $1wb) else
+  (if (piece? wbbbb) (add $1wb) else
+  (if (piece? bwwww) (r w) (r w) (r w) (add $1bw) else
+  (if (piece? bwwwb) (r w) (r w) (add $1bw) else
+  (if (piece? bwwbw) (r w) (r w) (add $1bw) else
+  (if (piece? bwwbb) (r w) (add $1bw) else
+  (if (piece? bwbww) (r w) (r w) (add $1bw) else
+  (if (piece? bwbwb) (r w) (add $1bw) else
+  (if (piece? bwbbw) (r w) (add $1bw) else
+  (if (piece? bwbbb) (add $1bw) else
+  (if (piece? bbwww) (r w) (r w) (r w) (add $1bb) else
+  (if (piece? bbwwb) (r w) (r w) (add $1bb) else
+  (if (piece? bbwbw) (r w) (r w) (add $1bb) else
+  (if (piece? bbwbb) (r w) (add $1bb) else
+  (if (piece? bbbww) (r w) (r w) (add $1bb) else
+  (if (piece? bbbwb) (r w) (add $1bb) else
+  (if (piece? bbbbw) (r w) (add $1bb) else
+  (if (piece? bbbbb) (add $1bb)
+
+  )))))))))))))))) ))))))))))))))))
+  ))))))))))))))))
+  ))))))))
+  ))))
+  ))
+)
+
+(define merge-b3
+  (if (piece? w)    (add $1w)    else
+  (if (piece? b)    (add $1b)    else
+
+  (if (piece? ww)   (add $1ww)   else
+  (if (piece? wb)   (add $1wb)   else
+  (if (piece? bw)   (add $1bw)   else
+  (if (piece? bb)   (add $1bb)   else
+
+  (if (piece? www)  (add $1ww) else
+  (if (piece? wwb)  (r b) (add $1ww) else
+  (if (piece? wbw)  (add $1wb) else
+  (if (piece? wbb)  (r b) (add $1wb) else
+  (if (piece? bww)  (add $1bw) else
+  (if (piece? bwb)  (r b) (add $1bw) else
+  (if (piece? bbw)  (add $1bb) else
+  (if (piece? bbb)  (r b) (add $1bb) else
+
+  (if (piece? wwww) (add $1ww) else
+  (if (piece? wwwb) (r b) (add $1ww) else
+  (if (piece? wwbw) (r b) (add $1ww) else
+  (if (piece? wwbb) (r b) (r b) (add $1ww) else
+  (if (piece? wbww) (add $1wb) else
+  (if (piece? wbwb) (r b) (add $1wb) else
+  (if (piece? wbbw) (r b) (add $1wb) else
+  (if (piece? wbbb) (r b) (r b) (add $1wb) else
+  (if (piece? bwww) (add $1bw) else
+  (if (piece? bwwb) (r b) (add $1bw) else
+  (if (piece? bwbw) (r b) (add $1bw) else
+  (if (piece? bwbb) (r b) (r b) (add $1bw) else
+  (if (piece? bbww) (add $1bb) else
+  (if (piece? bbwb) (r b) (add $1bb) else
+  (if (piece? bbbw) (r b) (add $1bb) else
+  (if (piece? bbbb) (r b) (r b) (add $1bb) else
+
+  (if (piece? wwwww) (add $1ww) else
+  (if (piece? wwwwb) (r b) (add $1ww) else
+  (if (piece? wwwbw) (r b) (add $1ww) else
+  (if (piece? wwwbb) (r b) (r b) (add $1ww) else
+  (if (piece? wwbww) (r b) (add $1ww) else
+  (if (piece? wwbwb) (r b) (r b) (add $1ww) else
+  (if (piece? wwbbw) (r b) (r b) (add $1ww) else
+  (if (piece? wwbbb) (r b) (r b) (r b) (add $1ww) else
+  (if (piece? wbwww) (add $1wb) else
+  (if (piece? wbwwb) (r b) (add $1wb) else
+  (if (piece? wbwbw) (r b) (add $1wb) else
+  (if (piece? wbwbb) (r b) (r b) (add $1wb) else
+  (if (piece? wbbww) (r b) (add $1wb) else
+  (if (piece? wbbwb) (r b) (r b) (add $1wb) else
+  (if (piece? wbbbw) (r b) (r b) (add $1wb) else
+  (if (piece? wbbbb) (r b) (r b) (r b) (add $1wb) else
+  (if (piece? bwwww) (add $1bw) else
+  (if (piece? bwwwb) (r b) (add $1bw) else
+  (if (piece? bwwbw) (r b) (add $1bw) else
+  (if (piece? bwwbb) (r b) (r b) (add $1bw) else
+  (if (piece? bwbww) (r b) (add $1bw) else
+  (if (piece? bwbwb) (r b) (r b) (add $1bw) else
+  (if (piece? bwbbw) (r b) (r b) (add $1bw) else
+  (if (piece? bwbbb) (r b) (r b) (r b) (add $1bw) else
+  (if (piece? bbwww) (add $1bb) else
+  (if (piece? bbwwb) (r b) (add $1bb) else
+  (if (piece? bbwbw) (r b) (add $1bb) else
+  (if (piece? bbwbb) (r b) (r b) (add $1bb) else
+  (if (piece? bbbww) (r b) (add $1bb) else
+  (if (piece? bbbwb) (r b) (r b) (add $1bb) else
+  (if (piece? bbbbw) (r b) (r b) (add $1bb) else
+  (if (piece? bbbbb) (r b) (r b) (r b) (add $1bb)
+
+  )))))))))))))))) ))))))))))))))))
+  ))))))))))))))))
+  ))))))))
+  ))))
+  ))
+)
+
+(define merge-w4
+  (if (piece? w)    (add $1w)    else
+  (if (piece? b)    (add $1b)    else
+
+  (if (piece? ww)   (r w) (add $1w) else
+  (if (piece? wb)   (add $1w) else
+  (if (piece? bw)   (r w) (add $1b) else
+  (if (piece? bb)   (add $1b) else
+
+  (if (piece? www)  (r w) (r w) (add $1w) else
+  (if (piece? wwb)  (r w) (add $1w) else
+  (if (piece? wbw)  (r w) (add $1w) else
+  (if (piece? wbb)  (add $1w) else
+  (if (piece? bww)  (r w) (r w) (add $1b) else
+  (if (piece? bwb)  (r w) (add $1b)  else
+  (if (piece? bbw)  (r w) (add $1b) else
+  (if (piece? bbb)  (add $1b) else
+
+  (if (piece? wwww) (r w) (r w) (r w) (add $1w) else
+  (if (piece? wwwb) (r w) (r w) (add $1w) else
+  (if (piece? wwbw) (r w) (r w) (add $1w) else
+  (if (piece? wwbb) (r w) (add $1w) else
+  (if (piece? wbww) (r w) (r w) (add $1w) else
+  (if (piece? wbwb) (r w) (add $1w) else
+  (if (piece? wbbw) (r w) (add $1w) else
+  (if (piece? wbbb) (add $1w) else
+  (if (piece? bwww) (r w) (r w) (r w) (add $1b) else
+  (if (piece? bwwb) (r w) (r w) (add $1b) else
+  (if (piece? bwbw) (r w) (r w) (add $1b) else
+  (if (piece? bwbb) (r w) (add $1b) else
+  (if (piece? bbww) (r w) (r w) (add $1b) else
+  (if (piece? bbwb) (r w) (add $1b) else
+  (if (piece? bbbw) (r w) (add $1b) else
+  (if (piece? bbbb) (add $1b) else
+
+  (if (piece? wwwww) (r w) (r w) (r w) (r w) (add $1w) else
+  (if (piece? wwwwb) (r w) (r w) (r w) (add $1w) else
+  (if (piece? wwwbw) (r w) (r w) (r w) (add $1w) else
+  (if (piece? wwwbb) (r w) (r w) (add $1w) else
+  (if (piece? wwbww) (r w) (r w) (r w) (add $1w) else
+  (if (piece? wwbwb) (r w) (r w) (add $1w) else
+  (if (piece? wwbbw) (r w) (r w) (add $1w) else
+  (if (piece? wwbbb) (r w) (add $1w) else
+  (if (piece? wbwww) (r w) (r w) (r w) (add $1w) else
+  (if (piece? wbwwb) (r w) (r w) (add $1w) else
+  (if (piece? wbwbw) (r w) (r w) (add $1w) else
+  (if (piece? wbwbb) (r w) (add $1w) else
+  (if (piece? wbbww) (r w) (r w) (add $1w) else
+  (if (piece? wbbwb) (r w) (add $1w) else
+  (if (piece? wbbbw) (r w) (add $1w) else
+  (if (piece? wbbbb) (add $1w) else
+  (if (piece? bwwww) (r w) (r w) (r w) (r w) (add $1b) else
+  (if (piece? bwwwb) (r w) (r w) (r w) (add $1b) else
+  (if (piece? bwwbw) (r w) (r w) (r w) (add $1b) else
+  (if (piece? bwwbb) (r w) (r w) (add $1b) else
+  (if (piece? bwbww) (r w) (r w) (r w) (add $1b) else
+  (if (piece? bwbwb) (r w) (r w) (add $1b) else
+  (if (piece? bwbbw) (r w) (r w) (add $1b) else
+  (if (piece? bwbbb) (r w) (add $1b) else
+  (if (piece? bbwww) (r w) (r w) (r w) (add $1b) else
+  (if (piece? bbwwb) (r w) (r w) (add $1b) else
+  (if (piece? bbwbw) (r w) (r w) (add $1b) else
+  (if (piece? bbwbb) (r w) (add $1b) else
+  (if (piece? bbbww) (r w) (r w) (add $1b) else
+  (if (piece? bbbwb) (r w) (add $1b) else
+  (if (piece? bbbbw) (r w) (add $1b) else
+  (if (piece? bbbbb) (add $1b)
+
+  )))))))))))))))) ))))))))))))))))
+  ))))))))))))))))
+  ))))))))
+  ))))
+  ))
+)
+
+(define merge-b4
+  (if (piece? w)    (add $1w)    else
+  (if (piece? b)    (add $1b)    else
+
+  (if (piece? ww)   (add $1w) else
+  (if (piece? wb)   (r b) (add $1w) else
+  (if (piece? bw)   (add $1b) else
+  (if (piece? bb)   (r b) (add $1b) else
+
+  (if (piece? www)  (add $1w) else
+  (if (piece? wwb)  (r b) (add $1w) else
+  (if (piece? wbw)  (r b) (add $1w) else
+  (if (piece? wbb)  (r b) (r b) (add $1w) else
+  (if (piece? bww)  (add $1b) else
+  (if (piece? bwb)  (r b) (add $1b) else
+  (if (piece? bbw)  (r b) (add $1b) else
+  (if (piece? bbb)  (r b) (r b) (add $1b) else
+
+  (if (piece? wwww) (add $1w) else
+  (if (piece? wwwb) (r b) (add $1w) else
+  (if (piece? wwbw) (r b) (add $1w) else
+  (if (piece? wwbb) (r b) (r b) (add $1w) else
+  (if (piece? wbww) (r b) (add $1w) else
+  (if (piece? wbwb) (r b) (r b) (add $1w) else
+  (if (piece? wbbw) (r b) (r b) (add $1w) else
+  (if (piece? wbbb) (r b) (r b) (r b) (add $1w) else
+  (if (piece? bwww) (add $1b) else
+  (if (piece? bwwb) (r b) (add $1b) else
+  (if (piece? bwbw) (r b) (add $1b) else
+  (if (piece? bwbb) (r b) (r b) (add $1b) else
+  (if (piece? bbww) (r b) (add $1b) else
+  (if (piece? bbwb) (r b) (r b) (add $1b) else
+  (if (piece? bbbw) (r b) (r b) (add $1b) else
+  (if (piece? bbbb) (r b) (r b) (r b) (add $1b) else
+
+  (if (piece? wwwww) (add $1w) else
+  (if (piece? wwwwb) (r b) (add $1w) else
+  (if (piece? wwwbw) (r b) (add $1w) else
+  (if (piece? wwwbb) (r b) (r b) (add $1w) else
+  (if (piece? wwbww) (r b) (add $1w) else
+  (if (piece? wwbwb) (r b) (r b) (add $1w) else
+  (if (piece? wwbbw) (r b) (r b) (add $1w) else
+  (if (piece? wwbbb) (r b) (r b) (r b) (add $1w) else
+  (if (piece? wbwww) (r b) (add $1w) else
+  (if (piece? wbwwb) (r b) (r b) (add $1w) else
+  (if (piece? wbwbw) (r b) (r b) (add $1w) else
+  (if (piece? wbwbb) (r b) (r b) (r b) (add $1w) else
+  (if (piece? wbbww) (r b) (r b) (add $1w) else
+  (if (piece? wbbwb) (r b) (r b) (r b) (add $1w) else
+  (if (piece? wbbbw) (r b) (r b) (r b) (add $1w) else
+  (if (piece? wbbbb) (r b) (r b) (r b) (r b) (add $1w) else
+  (if (piece? bwwww) (add $1b) else
+  (if (piece? bwwwb) (r b) (add $1b) else
+  (if (piece? bwwbw) (r b) (add $1b) else
+  (if (piece? bwwbb) (r b) (r b) (add $1b) else
+  (if (piece? bwbww) (r b) (add $1b) else
+  (if (piece? bwbwb) (r b) (r b) (add $1b) else
+  (if (piece? bwbbw) (r b) (r b) (add $1b) else
+  (if (piece? bwbbb) (r b) (r b) (r b) (add $1b) else
+  (if (piece? bbwww) (r b) (add $1b) else
+  (if (piece? bbwwb) (r b) (r b) (add $1b) else
+  (if (piece? bbwbw) (r b) (r b) (add $1b) else
+  (if (piece? bbwbb) (r b) (r b) (r b) (add $1b) else
+  (if (piece? bbbww) (r b) (r b) (add $1b) else
+  (if (piece? bbbwb) (r b) (r b) (r b) (add $1b) else
+  (if (piece? bbbbw) (r b) (r b) (r b) (add $1b) else
+  (if (piece? bbbbb) (r b) (r b) (r b) (r b) (add $1b)
+
+  )))))))))))))))) ))))))))))))))))
+  ))))))))))))))))
+  ))))))))
+  ))))
+  ))
+)
+
+(define merge-w5
+  (if (piece? w)    (r w) (add $1) else
+  (if (piece? b)    (add $1) else
+
+  (if (piece? ww)   (r w) (r w) (add $1) else
+  (if (piece? wb)   (r w) (add $1) else
+  (if (piece? bw)   (r w) (add $1) else
+  (if (piece? bb)   (add $1) else
+
+  (if (piece? www)  (r w) (r w) (r w) (add $1) else
+  (if (piece? wwb)  (r w) (r w) (add $1) else
+  (if (piece? wbw)  (r w) (r w) (add $1) else
+  (if (piece? wbb)  (r w) (add $1) else
+  (if (piece? bww)  (r w) (r w) (add $1) else
+  (if (piece? bwb)  (r w) (add $1)  else
+  (if (piece? bbw)  (r w) (add $1) else
+  (if (piece? bbb)  (add $1) else
+
+  (if (piece? wwww) (r w) (r w) (r w) (r w) (add $1) else
+  (if (piece? wwwb) (r w) (r w) (r w) (add $1) else
+  (if (piece? wwbw) (r w) (r w) (r w) (add $1) else
+  (if (piece? wwbb) (r w) (r w) (add $1) else
+  (if (piece? wbww) (r w) (r w) (r w) (add $1) else
+  (if (piece? wbwb) (r w) (r w) (add $1) else
+  (if (piece? wbbw) (r w) (r w) (add $1) else
+  (if (piece? wbbb) (r w) (add $1) else
+  (if (piece? bwww) (r w) (r w) (r w) (add $1) else
+  (if (piece? bwwb) (r w) (r w) (add $1) else
+  (if (piece? bwbw) (r w) (r w) (add $1) else
+  (if (piece? bwbb) (r w) (add $1) else
+  (if (piece? bbww) (r w) (r w) (add $1) else
+  (if (piece? bbwb) (r w) (add $1) else
+  (if (piece? bbbw) (r w) (add $1) else
+  (if (piece? bbbb) (add $1) else
+
+  (if (piece? wwwww) (r w) (r w) (r w) (r w) (r w) (add $1) else
+  (if (piece? wwwwb) (r w) (r w) (r w) (r w) (add $1) else
+  (if (piece? wwwbw) (r w) (r w) (r w) (r w) (add $1) else
+  (if (piece? wwwbb) (r w) (r w) (r w) (add $1) else
+  (if (piece? wwbww) (r w) (r w) (r w) (r w) (add $1) else
+  (if (piece? wwbwb) (r w) (r w) (r w) (add $1) else
+  (if (piece? wwbbw) (r w) (r w) (r w) (add $1) else
+  (if (piece? wwbbb) (r w) (r w) (add $1) else
+  (if (piece? wbwww) (r w) (r w) (r w) (r w) (add $1) else
+  (if (piece? wbwwb) (r w) (r w) (r w) (add $1) else
+  (if (piece? wbwbw) (r w) (r w) (r w) (add $1) else
+  (if (piece? wbwbb) (r w) (r w) (add $1) else
+  (if (piece? wbbww) (r w) (r w) (r w) (add $1) else
+  (if (piece? wbbwb) (r w) (r w) (add $1) else
+  (if (piece? wbbbw) (r w) (r w) (add $1) else
+  (if (piece? wbbbb) (r w) (add $1) else
+  (if (piece? bwwww) (r w) (r w) (r w) (r w) (add $1) else
+  (if (piece? bwwwb) (r w) (r w) (r w) (add $1) else
+  (if (piece? bwwbw) (r w) (r w) (r w) (add $1) else
+  (if (piece? bwwbb) (r w) (r w) (add $1) else
+  (if (piece? bwbww) (r w) (r w) (r w) (add $1) else
+  (if (piece? bwbwb) (r w) (r w) (add $1) else
+  (if (piece? bwbbw) (r w) (r w) (add $1) else
+  (if (piece? bwbbb) (r w) (add $1) else
+  (if (piece? bbwww) (r w) (r w) (r w) (add $1) else
+  (if (piece? bbwwb) (r w) (r w) (add $1) else
+  (if (piece? bbwbw) (r w) (r w) (add $1) else
+  (if (piece? bbwbb) (r w) (add $1) else
+  (if (piece? bbbww) (r w) (r w) (add $1) else
+  (if (piece? bbbwb) (r w) (add $1) else
+  (if (piece? bbbbw) (r w) (add $1) else
+  (if (piece? bbbbb) (add $1)
+
+  )))))))))))))))) ))))))))))))))))
+  ))))))))))))))))
+  ))))))))
+  ))))
+  ))
+)
+
+(define merge-b5
+  (if (piece? w)    (add $1) else
+  (if (piece? b)    (r b) (add $1) else
+
+  (if (piece? ww)   (add $1) else
+  (if (piece? wb)   (r b) (add $1) else
+  (if (piece? bw)   (r b) (add $1) else
+  (if (piece? bb)   (r b) (r b) (add $1) else
+
+  (if (piece? www)  (add $1) else
+  (if (piece? wwb)  (r b) (add $1) else
+  (if (piece? wbw)  (r b) (add $1) else
+  (if (piece? wbb)  (r b) (r b) (add $1) else
+  (if (piece? bww)  (r b) (add $1) else
+  (if (piece? bwb)  (r b) (r b) (add $1) else
+  (if (piece? bbw)  (r b) (r b) (add $1) else
+  (if (piece? bbb)  (r b) (r b) (r b) (add $1) else
+
+  (if (piece? wwww) (add $1) else
+  (if (piece? wwwb) (r b) (add $1) else
+  (if (piece? wwbw) (r b) (add $1) else
+  (if (piece? wwbb) (r b) (r b) (add $1) else
+  (if (piece? wbww) (r b) (add $1) else
+  (if (piece? wbwb) (r b) (r b) (add $1) else
+  (if (piece? wbbw) (r b) (r b) (add $1) else
+  (if (piece? wbbb) (r b) (r b) (r b) (add $1) else
+  (if (piece? bwww) (r b) (add $1) else
+  (if (piece? bwwb) (r b) (r b) (add $1) else
+  (if (piece? bwbw) (r b) (r b) (add $1) else
+  (if (piece? bwbb) (r b) (r b) (r b) (add $1) else
+  (if (piece? bbww) (r b) (r b) (add $1) else
+  (if (piece? bbwb) (r b) (r b) (r b) (add $1) else
+  (if (piece? bbbw) (r b) (r b) (r b) (add $1) else
+  (if (piece? bbbb) (r b) (r b) (r b) (r b) (add $1) else
+
+  (if (piece? wwwww) (add $1) else
+  (if (piece? wwwwb) (r b) (add $1) else
+  (if (piece? wwwbw) (r b) (add $1) else
+  (if (piece? wwwbb) (r b) (r b) (add $1) else
+  (if (piece? wwbww) (r b) (add $1) else
+  (if (piece? wwbwb) (r b) (r b) (add $1) else
+  (if (piece? wwbbw) (r b) (r b) (add $1) else
+  (if (piece? wwbbb) (r b) (r b) (r b) (add $1) else
+  (if (piece? wbwww) (r b) (add $1) else
+  (if (piece? wbwwb) (r b) (r b) (add $1) else
+  (if (piece? wbwbw) (r b) (r b) (add $1) else
+  (if (piece? wbwbb) (r b) (r b) (r b) (add $1) else
+  (if (piece? wbbww) (r b) (r b) (add $1) else
+  (if (piece? wbbwb) (r b) (r b) (r b) (add $1) else
+  (if (piece? wbbbw) (r b) (r b) (r b) (add $1) else
+  (if (piece? wbbbb) (r b) (r b) (r b) (r b) (add $1) else
+  (if (piece? bwwww) (r b) (add $1) else
+  (if (piece? bwwwb) (r b) (r b) (add $1) else
+  (if (piece? bwwbw) (r b) (r b) (add $1) else
+  (if (piece? bwwbb) (r b) (r b) (r b) (add $1) else
+  (if (piece? bwbww) (r b) (r b) (add $1) else
+  (if (piece? bwbwb) (r b) (r b) (r b) (add $1) else
+  (if (piece? bwbbw) (r b) (r b) (r b) (add $1) else
+  (if (piece? bwbbb) (r b) (r b) (r b) (r b) (add $1) else
+  (if (piece? bbwww) (r b) (r b) (add $1) else
+  (if (piece? bbwwb) (r b) (r b) (r b) (add $1) else
+  (if (piece? bbwbw) (r b) (r b) (r b) (add $1) else
+  (if (piece? bbwbb) (r b) (r b) (r b) (r b) (add $1) else
+  (if (piece? bbbww) (r b) (r b) (r b) (add $1) else
+  (if (piece? bbbwb) (r b) (r b) (r b) (r b) (add $1) else
+  (if (piece? bbbbw) (r b) (r b) (r b) (r b) (add $1) else
+  (if (piece? bbbbb) (r b) (r b) (r b) (r b) (r b) (add $1)
+
+  )))))))))))))))) ))))))))))))))))
+  ))))))))))))))))
+  ))))))))
+  ))))
+  ))
+)
+
+(define add-piece
+  (if empty?
+      add
+   else
+      (merge-$1 $2)
+  )
+)
+
+(define move-1 (
+  $1
+  (add-piece $2 $3)
+))
+
+(define move-2 (
+  $1 $1
+  (add-piece $2 $3)
+))
+
+(define move-3 (
+  $1 $1 $1
+  (add-piece $2 $3)
+))
+
+(define move-4 (
+  $1 $1 $1 $1
+  (add-piece $2 $3)
+))
+
+(define move-5 (
+  $1 $1 $1 $1 $1
+  (add-piece $2 $3)
+))
+
+(define split-1 (
+  (create $4)
+  $1
+  (add-piece $2  $3)
+))
+
+(define split-2 (
+  (create $4)
+  $1 $1
+  (add-piece $2 $3)
+))
+
+(define split-3 (
+  (create $4)
+  $1 $1 $1
+  (add-piece $2 $3)
+))
+
+(define split-4 (
+  (create $4)
+  $1 $1 $1 $1
+  (add-piece $2 $3)
+))
+
+(game
+  (title "Focus")
+  (description "")
+  (history  "")
+
+  (move-sound "Audio/Pickup.wav")
+  (release-sound "Audio/Pickup.wav")
+  (capture-sound "")
+
+  (option "prevent flipping" 2)
+  (option "animate captures" false)
+
+  (players    White Black)
+  (turn-order White Black)
+
+  (board
+    (image "../images/wiedem/chess8x8.bmp")
+    (grid
+      (start-rectangle 5 5 54 54)
+      (dimensions
+        ("x/y/I/a/b/c/d/e/f/g/h/J/z/t" (49 0)) ; files
+        ("8/7/6/5/4/3/2/1" (0 49)) ; ranks
+      )
+      (directions (north 0 -1) (south 0 1) (east 1 0) (west -1 0)) 
+    )
+    (kill-positions a1 a2 a7 a8 b1 b8 g1 g8 h1 h2 h7 h8 I3 I4 I5 I6 J3 J4 J5 J6)
+  )
+
+  (board-setup
+    (White (w b2 c2 b4 c4 b6 c6 d3 e3 d5 e5 d7 e7 f2 g2 f4 g4 f6 g6))
+    (Black (b b3 c3 b5 c5 b7 c7 d2 e2 d4 e4 d6 e6 f3 g3 f5 g5 f7 g7))
+  )
+
+  (piece
+     (name w)
+     (image White "../images/wiedem/CheckerWhite.bmp")
+     (moves
+        (move-1 north w w) (move-1 south w w) (move-1 east w w) (move-1 west w w)
+     )
+  )
+  (piece
+     (name b)
+     (image Black "../images/wiedem/CheckerBlack.bmp")
+     (moves
+        (move-1 north b b) (move-1 south b b) (move-1 east b b) (move-1 west b b)
+     )
+  )
+  (piece
+     (name ww)
+     (image White "../images/wiedem/CheckerWhite.bmp")
+     (moves
+        (move-2 north w2 ww) (move-2 south w2 ww) (move-2 east w2 ww) (move-2 west w2 ww)
+        (split-1 north w w w) (split-1 south w w w) (split-1 east w w w) (split-1 west w w w)
+     )
+  )
+  (piece
+     (name wb)
+     (image White "../images/wiedem/CheckerWhite.bmp")
+     (moves
+        (move-2 north w2 wb) (move-2 south w2 wb) (move-2 east w2 wb) (move-2 west w2 wb)
+        (split-1 north w w b) (split-1 south w w b) (split-1 east w w b) (split-1 west w w b)
+     )
+  )
+  (piece
+     (name bw)
+     (image Black "../images/wiedem/CheckerBlack.bmp")
+     (moves
+        (move-2 north b2 bw) (move-2 south b2 bw) (move-2 east b2 bw) (move-2 west b2 bw)
+        (split-1 north b b w) (split-1 south b b w) (split-1 east b b w) (split-1 west b b w)
+     )
+  )
+  (piece
+     (name bb)
+     (image Black "../images/wiedem/CheckerBlack.bmp")
+     (moves
+        (move-2 north b2 bb) (move-2 south b2 bb) (move-2 east b2 bb) (move-2 west b2 bb)
+        (split-1 north b b b) (split-1 south b b b) (split-1 east b b b) (split-1 west b b b)
+     )
+  )
+  (piece
+     (name www)
+     (image White "../images/wiedem/CheckerWhite.bmp")
+     (moves
+        (move-3 north w3 www) (move-3 south w3 www) (move-3 east w3 www) (move-3 west w3 www)
+        (split-2 north w2 ww w) (split-2 south w2 ww w) (split-2 east w2 ww w) (split-2 west w2 ww w)
+        (split-1 north w w ww) (split-1 south w w ww) (split-1 east w w ww) (split-1 west w w ww)
+     )
+  )
+  (piece
+     (name wwb)
+     (image White "../images/wiedem/CheckerWhite.bmp")
+     (moves
+        (move-3 north w3 wwb) (move-3 south w3 wwb) (move-3 east w3 wwb) (move-3 west w3 wwb)
+        (split-2 north w2 ww b) (split-2 south w2 ww b) (split-2 east w2 ww b) (split-2 west w2 ww b)
+        (split-1 north w w wb) (split-1 south w w wb) (split-1 east w w wb) (split-1 west w w wb)
+     )
+  )
+  (piece
+     (name wbw)
+     (image White "../images/wiedem/CheckerWhite.bmp")
+     (moves
+        (move-3 north w3 wbw) (move-3 south w3 wbw) (move-3 east w3 wbw) (move-3 west w3 wbw)
+        (split-2 north w2 wb w) (split-2 south w2 wb w) (split-2 east w2 wb w) (split-2 west w2 wb w)
+        (split-1 north w w bw) (split-1 south w w bw) (split-1 east w w bw) (split-1 west w w bw)
+     )
+  )
+  (piece
+     (name wbb)
+     (image White "../images/wiedem/CheckerWhite.bmp")
+     (moves
+        (move-3 north w3 wbb) (move-3 south w3 wbb) (move-3 east w3 wbb) (move-3 west w3 wbb)
+        (split-2 north w2 wb b) (split-2 south w2 wb b) (split-2 east w2 wb b) (split-2 west w2 wb b)
+        (split-1 north w w bb) (split-1 south w w bb) (split-1 east w w bb) (split-1 west w w bb)
+     )
+  )
+  (piece
+     (name bww)
+     (image Black "../images/wiedem/CheckerBlack.bmp")
+     (moves
+        (move-3 north b3 bww) (move-3 south b3 bww) (move-3 east b3 bww) (move-3 west b3 bww)
+        (split-2 north b2 bw w) (split-2 south b2 bw w) (split-2 east b2 bw w) (split-2 west b2 bw w)
+        (split-1 north b b ww) (split-1 south b b ww) (split-1 east b b ww) (split-1 west b b ww)
+     )
+  )
+  (piece
+     (name bwb)
+     (image Black "../images/wiedem/CheckerBlack.bmp")
+     (moves
+        (move-3 north b3 bwb) (move-3 south b3 bwb) (move-3 east b3 bwb) (move-3 west b3 bwb)
+        (split-2 north b2 bw b) (split-2 south b2 bw b) (split-2 east b2 bw b) (split-2 west b2 bw b)
+        (split-1 north b b wb) (split-1 south b b wb) (split-1 east b b wb) (split-1 west b b wb)
+     )
+  )
+  (piece
+     (name bbw)
+     (image Black "../images/wiedem/CheckerBlack.bmp")
+     (moves
+        (move-3 north b3 bbw) (move-3 south b3 bbw) (move-3 east b3 bbw) (move-3 west b3 bbw)
+        (split-2 north b2 bb w) (split-2 south b2 bb w) (split-2 east b2 bb w) (split-2 west b2 bb w)
+        (split-1 north b b bw) (split-1 south b b bw) (split-1 east b b bw) (split-1 west b b bw)
+     )
+  )
+  (piece
+     (name bbb)
+     (image Black "../images/wiedem/CheckerBlack.bmp")
+     (moves
+        (move-3 north b3 bbb) (move-3 south b3 bbb) (move-3 east b3 bbb) (move-3 west b3 bbb)
+        (split-2 north b2 bb b) (split-2 south b2 bb b) (split-2 east b2 bb b) (split-2 west b2 bb b)
+        (split-1 north b b bb) (split-1 south b b bb) (split-1 east b b bb) (split-1 west b b bb)
+     )
+  )
+  (piece
+     (name wwww)
+     (image White "../images/wiedem/CheckerWhite.bmp")
+     (moves
+        (move-4 north w4 wwww) (move-4 south w4 wwww) (move-4 east w4 wwww) (move-4 west w4 wwww)
+        (split-3 north w3 www w) (split-3 south w3 www w) (split-3 east w3 www w) (split-3 west w3 www w)
+        (split-2 north w2 ww ww) (split-2 south w2 ww ww) (split-2 east w2 ww ww) (split-2 west w2 ww ww)
+        (split-1 north w w www) (split-1 south w w www) (split-1 east w w www) (split-1 west w w www)
+     )
+  )
+  (piece
+     (name wwwb)
+     (image White "../images/wiedem/CheckerWhite.bmp")
+     (moves
+        (move-4 north w4 wwwb) (move-4 south w4 wwwb) (move-4 east w4 wwwb) (move-4 west w4 wwwb)
+        (split-3 north w3 www b) (split-3 south w3 www b) (split-3 east w3 www b) (split-3 west w3 www b)
+        (split-2 north w2 ww wb) (split-2 south w2 ww wb) (split-2 east w2 ww wb) (split-2 west w2 ww wb)
+        (split-1 north w w wwb) (split-1 south w w wwb) (split-1 east w w wwb) (split-1 west w w wwb)
+     )
+  )
+  (piece
+     (name wwbw)
+     (image White "../images/wiedem/CheckerWhite.bmp")
+     (moves
+        (move-4 north w4 wwbw) (move-4 south w4 wwbw) (move-4 east w4 wwbw) (move-4 west w4 wwbw)
+        (split-3 north w3 wwb w) (split-3 south w3 wwb w) (split-3 east w3 wwb w) (split-3 west w3 wwb w)
+        (split-2 north w2 ww bw) (split-2 south w2 ww bw) (split-2 east w2 ww bw) (split-2 west w2 ww bw)
+        (split-1 north w w wbw) (split-1 south w w wbw) (split-1 east w w wbw) (split-1 west w w wbw)
+     )
+  )
+  (piece
+     (name wwbb)
+     (image White "../images/wiedem/CheckerWhite.bmp")
+     (moves
+        (move-4 north w4 wwbb) (move-4 south w4 wwbb) (move-4 east w4 wwbb) (move-4 west w4 wwbb)
+        (split-3 north w3 wwb b) (split-3 south w3 wwb b) (split-3 east w3 wwb b) (split-3 west w3 wwb b)
+        (split-2 north w2 ww bb) (split-2 south w2 ww bb) (split-2 east w2 ww bb) (split-2 west w2 ww bb)
+        (split-1 north w w wbb) (split-1 south w w wbb) (split-1 east w w wbb) (split-1 west w w wbb)
+     )
+  )
+  (piece
+     (name wbww)
+     (image White "../images/wiedem/CheckerWhite.bmp")
+     (moves
+        (move-4 north w4 wbww) (move-4 south w4 wbww) (move-4 east w4 wbww) (move-4 west w4 wbww)
+        (split-3 north w3 wbw w) (split-3 south w3 wbw w) (split-3 east w3 wbw w) (split-3 west w3 wbw w)
+        (split-2 north w2 wb ww) (split-2 south w2 wb ww) (split-2 east w2 wb ww) (split-2 west w2 wb ww)
+        (split-1 north w w bww) (split-1 south w w bww) (split-1 east w w bww) (split-1 west w w bww)
+     )
+  )
+  (piece
+     (name wbwb)
+     (image White "../images/wiedem/CheckerWhite.bmp")
+     (moves
+        (move-4 north w4 wbwb) (move-4 south w4 wbwb) (move-4 east w4 wbwb) (move-4 west w4 wbwb)
+        (split-3 north w3 wbw b) (split-3 south w3 wbw b) (split-3 east w3 wbw b) (split-3 west w3 wbw b)
+        (split-2 north w2 wb wb) (split-2 south w2 wb wb) (split-2 east w2 wb wb) (split-2 west w2 wb wb)
+        (split-1 north w w bwb) (split-1 south w w bwb) (split-1 east w w bwb) (split-1 west w w bwb)
+     )
+  )
+  (piece
+     (name wbbw)
+     (image White "../images/wiedem/CheckerWhite.bmp")
+     (moves
+        (move-4 north w4 wbbw) (move-4 south w4 wbbw) (move-4 east w4 wbbw) (move-4 west w4 wbbw)
+        (split-3 north w3 wbb w) (split-3 south w3 wbb w) (split-3 east w3 wbb w) (split-3 west w3 wbb w)
+        (split-2 north w2 wb bw) (split-2 south w2 wb bw) (split-2 east w2 wb bw) (split-2 west w2 wb bw)
+        (split-1 north w w bbw) (split-1 south w w bbw) (split-1 east w w bbw) (split-1 west w w bbw)
+     )
+  )
+  (piece
+     (name wbbb)
+     (image White "../images/wiedem/CheckerWhite.bmp")
+     (moves
+        (move-4 north w4 wbbb) (move-4 south w4 wbbb) (move-4 east w4 wbbb) (move-4 west w4 wbbb)
+        (split-3 north w3 wbb b) (split-3 south w3 wbb b) (split-3 east w3 wbb b) (split-3 west w3 wbb b)
+        (split-2 north w2 wb bb) (split-2 south w2 wb bb) (split-2 east w2 wb bb) (split-2 west w2 wb bb)
+        (split-1 north w w bbb) (split-1 south w w bbb) (split-1 east w w bbb) (split-1 west w w bbb)
+     )
+  )
+  (piece
+     (name bwww)
+     (image Black "../images/wiedem/CheckerBlack.bmp")
+     (moves
+        (move-4 north b4 bwww) (move-4 south b4 bwww) (move-4 east b4 bwww) (move-4 west b4 bwww)
+        (split-3 north b3 bww w) (split-3 south b3 bww w) (split-3 east b3 bww w) (split-3 west b3 bww w)
+        (split-2 north b2 bw ww) (split-2 south b2 bw ww) (split-2 east b2 bw ww) (split-2 west b2 bw ww)
+        (split-1 north b b www) (split-1 south b b www) (split-1 east b b www) (split-1 west b b www)
+     )
+  )
+  (piece
+     (name bwwb)
+     (image Black "../images/wiedem/CheckerBlack.bmp")
+     (moves
+        (move-4 north b4 bwwb) (move-4 south b4 bwwb) (move-4 east b4 bwwb) (move-4 west b4 bwwb)
+        (split-3 north b3 bww b) (split-3 south b3 bww b) (split-3 east b3 bww b) (split-3 west b3 bww b)
+        (split-2 north b2 bw wb) (split-2 south b2 bw wb) (split-2 east b2 bw wb) (split-2 west b2 bw wb)
+        (split-1 north b b wwb) (split-1 south b b wwb) (split-1 east b b wwb) (split-1 west b b wwb)
+     )
+  )
+  (piece
+     (name bwbw)
+     (image Black "../images/wiedem/CheckerBlack.bmp")
+     (moves
+        (move-4 north b4 bwbw) (move-4 south b4 bwbw) (move-4 east b4 bwbw) (move-4 west b4 bwbw)
+        (split-3 north b3 bwb w) (split-3 south b3 bwb w) (split-3 east b3 bwb w) (split-3 west b3 bwb w)
+        (split-2 north b2 bw bw) (split-2 south b2 bw bw) (split-2 east b2 bw bw) (split-2 west b2 bw bw)
+        (split-1 north b b wbw) (split-1 south b b wbw) (split-1 east b b wbw) (split-1 west b b wbw)
+     )
+  )
+  (piece
+     (name bwbb)
+     (image Black "../images/wiedem/CheckerBlack.bmp")
+     (moves
+        (move-4 north b4 bwbb) (move-4 south b4 bwbb) (move-4 east b4 bwbb) (move-4 west b4 bwbb)
+        (split-3 north b3 bwb b) (split-3 south b3 bwb b) (split-3 east b3 bwb b) (split-3 west b3 bwb b)
+        (split-2 north b2 bw bb) (split-2 south b2 bw bb) (split-2 east b2 bw bb) (split-2 west b2 bw bb)
+        (split-1 north b b wbb) (split-1 south b b wbb) (split-1 east b b wbb) (split-1 west b b wbb)
+     )
+  )
+  (piece
+     (name bbww)
+     (image Black "../images/wiedem/CheckerBlack.bmp")
+     (moves
+        (move-4 north b4 bbww) (move-4 south b4 bbww) (move-4 east b4 bbww) (move-4 west b4 bbww)
+        (split-3 north b3 bbw w) (split-3 south b3 bbw w) (split-3 east b3 bbw w) (split-3 west b3 bbw w)
+        (split-2 north b2 bb ww) (split-2 south b2 bb ww) (split-2 east b2 bb ww) (split-2 west b2 bb ww)
+        (split-1 north b b bww) (split-1 south b b bww) (split-1 east b b bww) (split-1 west b b bww)
+     )
+  )
+  (piece
+     (name bbwb)
+     (image Black "../images/wiedem/CheckerBlack.bmp")
+     (moves
+        (move-4 north b4 bbwb) (move-4 south b4 bbwb) (move-4 east b4 bbwb) (move-4 west b4 bbwb)
+        (split-3 north b3 bbw b) (split-3 south b3 bbw b) (split-3 east b3 bbw b) (split-3 west b3 bbw b)
+        (split-2 north b2 bb wb) (split-2 south b2 bb wb) (split-2 east b2 bb wb) (split-2 west b2 bb wb)
+        (split-1 north b b bwb) (split-1 south b b bwb) (split-1 east b b bwb) (split-1 west b b bwb)
+     )
+  )
+  (piece
+     (name bbbw)
+     (image Black "../images/wiedem/CheckerBlack.bmp")
+     (moves
+        (move-4 north b4 bbbw) (move-4 south b4 bbbw) (move-4 east b4 bbbw) (move-4 west b4 bbbw)
+        (split-3 north b3 bbb w) (split-3 south b3 bbb w) (split-3 east b3 bbb w) (split-3 west b3 bbb w)
+        (split-2 north b2 bb bw) (split-2 south b2 bb bw) (split-2 east b2 bb bw) (split-2 west b2 bb bw)
+        (split-1 north b b bbw) (split-1 south b b bbw) (split-1 east b b bbw) (split-1 west b b bbw)
+     )
+  )
+  (piece
+     (name bbbb)
+     (image Black "../images/wiedem/CheckerBlack.bmp")
+     (moves
+        (move-4 north b4 bbbb) (move-4 south b4 bbbb) (move-4 east b4 bbbb) (move-4 west b4 bbbb)
+        (split-3 north b3 bbb b) (split-3 south b3 bbb b) (split-3 east b3 bbb b) (split-3 west b3 bbb b)
+        (split-2 north b2 bb bb) (split-2 south b2 bb bb) (split-2 east b2 bb bb) (split-2 west b2 bb bb)
+        (split-1 north b b bbb) (split-1 south b b bbb) (split-1 east b b bbb) (split-1 west b b bbb)
+     )
+  )
+  (piece
+     (name wwwww)
+     (image White "../images/wiedem/CheckerWhite.bmp")
+     (moves
+        (move-5 north w5 wwwww) (move-5 south w5 wwwww) (move-5 east w5 wwwww) (move-4 west w5 wwwww)
+        (split-4 north w4 wwww w) (split-4 south w4 wwww w) (split-4 east w4 wwww w) (split-4 west w4 wwww w)
+        (split-3 north w3 www ww) (split-3 south w3 www ww) (split-3 east w3 www ww) (split-3 west w3 www ww)
+        (split-2 north w2 ww www) (split-2 south w2 ww www) (split-2 east w2 ww www) (split-2 west w2 ww www)
+        (split-1 north w w wwww) (split-1 south w w wwww) (split-1 east w w wwww) (split-1 west w w wwww)
+     )
+  )
+  (piece
+     (name wwwwb)
+     (image White "../images/wiedem/CheckerWhite.bmp")
+     (moves
+        (move-5 north w5 wwwwb) (move-5 south w5 wwwwb) (move-5 east w5 wwwwb) (move-4 west w5 wwwwb)
+        (split-4 north w4 wwww b) (split-4 south w4 wwww b) (split-4 east w4 wwww b) (split-4 west w4 wwww b)
+        (split-3 north w3 www wb) (split-3 south w3 www wb) (split-3 east w3 www wb) (split-3 west w3 www wb)
+        (split-2 north w2 ww wwb) (split-2 south w2 ww wwb) (split-2 east w2 ww wwb) (split-2 west w2 ww wwb)
+        (split-1 north w w wwwb) (split-1 south w w wwwb) (split-1 east w w wwwb) (split-1 west w w wwwb)
+     )
+  )
+  (piece
+     (name wwwbw)
+     (image White "../images/wiedem/CheckerWhite.bmp")
+     (moves
+        (move-5 north w5 wwwbw) (move-5 south w5 wwwbw) (move-5 east w5 wwwbw) (move-4 west w5 wwwbw)
+        (split-4 north w4 wwwb w) (split-4 south w4 wwwb w) (split-4 east w4 wwwb w) (split-4 west w4 wwwb w)
+        (split-3 north w3 www bw) (split-3 south w3 www bw) (split-3 east w3 www bw) (split-3 west w3 www bw)
+        (split-2 north w2 ww wbw) (split-2 south w2 ww wbw) (split-2 east w2 ww wbw) (split-2 west w2 ww wbw)
+        (split-1 north w w wwbw) (split-1 south w w wwbw) (split-1 east w w wwbw) (split-1 west w w wwbw)
+     )
+  )
+  (piece
+     (name wwwbb)
+     (image White "../images/wiedem/CheckerWhite.bmp")
+     (moves
+        (move-5 north w5 wwwbb) (move-5 south w5 wwwbb) (move-5 east w5 wwwbb) (move-4 west w5 wwwbb)
+        (split-4 north w4 wwwb b) (split-4 south w4 wwwb b) (split-4 east w4 wwwb b) (split-4 west w4 wwwb b)
+        (split-3 north w3 www bb) (split-3 south w3 www bb) (split-3 east w3 www bb) (split-3 west w3 www bb)
+        (split-2 north w2 ww wbb) (split-2 south w2 ww wbb) (split-2 east w2 ww wbb) (split-2 west w2 ww wbb)
+        (split-1 north w w wwbb) (split-1 south w w wwbb) (split-1 east w w wwbb) (split-1 west w w wwbb)
+     )
+  )
+  (piece
+     (name wwbww)
+     (image White "../images/wiedem/CheckerWhite.bmp")
+     (moves
+        (move-5 north w5 wwbww) (move-5 south w5 wwbww) (move-5 east w5 wwbww) (move-4 west w5 wwbww)
+        (split-4 north w4 wwbw w) (split-4 south w4 wwbw w) (split-4 east w4 wwbw w) (split-4 west w4 wwbw w)
+        (split-3 north w3 wwb ww) (split-3 south w3 wwb ww) (split-3 east w3 wwb ww) (split-3 west w3 wwb ww)
+        (split-2 north w2 ww bww) (split-2 south w2 ww bww) (split-2 east w2 ww bww) (split-2 west w2 ww bww)
+        (split-1 north w w wbww) (split-1 south w w wbww) (split-1 east w w wbww) (split-1 west w w wbww)
+     )
+  )
+  (piece
+     (name wwbwb)
+     (image White "../images/wiedem/CheckerWhite.bmp")
+     (moves
+        (move-5 north w5 wwbwb) (move-5 south w5 wwbwb) (move-5 east w5 wwbwb) (move-4 west w5 wwbwb)
+        (split-4 north w4 wwbw b) (split-4 south w4 wwbw b) (split-4 east w4 wwbw b) (split-4 west w4 wwbw b)
+        (split-3 north w3 wwb wb) (split-3 south w3 wwb wb) (split-3 east w3 wwb wb) (split-3 west w3 wwb wb)
+        (split-2 north w2 ww bwb) (split-2 south w2 ww bwb) (split-2 east w2 ww bwb) (split-2 west w2 ww bwb)
+        (split-1 north w w wbwb) (split-1 south w w wbwb) (split-1 east w w wbwb) (split-1 west w w wbwb)
+     )
+  )
+  (piece
+     (name wwbbw)
+     (image White "../images/wiedem/CheckerWhite.bmp")
+     (moves
+        (move-5 north w5 wwbbw) (move-5 south w5 wwbbw) (move-5 east w5 wwbbw) (move-4 west w5 wwbbw)
+        (split-4 north w4 wwbb w) (split-4 south w4 wwbb w) (split-4 east w4 wwbb w) (split-4 west w4 wwbb w)
+        (split-3 north w3 wwb bw) (split-3 south w3 wwb bw) (split-3 east w3 wwb bw) (split-3 west w3 wwb bw)
+        (split-2 north w2 ww bbw) (split-2 south w2 ww bbw) (split-2 east w2 ww bbw) (split-2 west w2 ww bbw)
+        (split-1 north w w wbbw) (split-1 south w w wbbw) (split-1 east w w wbbw) (split-1 west w w wbbw)
+     )
+  )
+  (piece
+     (name wwbbb)
+     (image White "../images/wiedem/CheckerWhite.bmp")
+     (moves
+        (move-5 north w5 wwbbb) (move-5 south w5 wwbbb) (move-5 east w5 wwbbb) (move-4 west w5 wwbbb)
+        (split-4 north w4 wwbb b) (split-4 south w4 wwbb b) (split-4 east w4 wwbb b) (split-4 west w4 wwbb b)
+        (split-3 north w3 wwb bb) (split-3 south w3 wwb bb) (split-3 east w3 wwb bb) (split-3 west w3 wwb bb)
+        (split-2 north w2 ww bbb) (split-2 south w2 ww bbb) (split-2 east w2 ww bbb) (split-2 west w2 ww bbb)
+        (split-1 north w w wbbb) (split-1 south w w wbbb) (split-1 east w w wbbb) (split-1 west w w wbbb)
+     )
+  )
+  (piece
+     (name wbwww)
+     (image White "../images/wiedem/CheckerWhite.bmp")
+     (moves
+        (move-5 north w5 wbwww) (move-5 south w5 wbwww) (move-5 east w5 wbwww) (move-4 west w5 wbwww)
+        (split-4 north w4 wbww w) (split-4 south w4 wbww w) (split-4 east w4 wbww w) (split-4 west w4 wbww w)
+        (split-3 north w3 wbw ww) (split-3 south w3 wbw ww) (split-3 east w3 wbw ww) (split-3 west w3 wbw ww)
+        (split-2 north w2 wb www) (split-2 south w2 wb www) (split-2 east w2 wb www) (split-2 west w2 wb www)
+        (split-1 north w w bwww) (split-1 south w w bwww) (split-1 east w w bwww) (split-1 west w w bwww)
+     )
+  )
+  (piece
+     (name wbwwb)
+     (image White "../images/wiedem/CheckerWhite.bmp")
+     (moves
+        (move-5 north w5 wbwwb) (move-5 south w5 wbwwb) (move-5 east w5 wbwwb) (move-4 west w5 wbwwb)
+        (split-4 north w4 wbww b) (split-4 south w4 wbww b) (split-4 east w4 wbww b) (split-4 west w4 wbww b)
+        (split-3 north w3 wbw wb) (split-3 south w3 wbw wb) (split-3 east w3 wbw wb) (split-3 west w3 wbw wb)
+        (split-2 north w2 wb wwb) (split-2 south w2 wb wwb) (split-2 east w2 wb wwb) (split-2 west w2 wb wwb)
+        (split-1 north w w bwwb) (split-1 south w w bwwb) (split-1 east w w bwwb) (split-1 west w w bwwb)
+     )
+  )
+  (piece
+     (name wbwbw)
+     (image White "../images/wiedem/CheckerWhite.bmp")
+     (moves
+        (move-5 north w5 wbwbw) (move-5 south w5 wbwbw) (move-5 east w5 wbwbw) (move-4 west w5 wbwbw)
+        (split-4 north w4 wbwb w) (split-4 south w4 wbwb w) (split-4 east w4 wbwb w) (split-4 west w4 wbwb w)
+        (split-3 north w3 wbw bw) (split-3 south w3 wbw bw) (split-3 east w3 wbw bw) (split-3 west w3 wbw bw)
+        (split-2 north w2 wb wbw) (split-2 south w2 wb wbw) (split-2 east w2 wb wbw) (split-2 west w2 wb wbw)
+        (split-1 north w w bwbw) (split-1 south w w bwbw) (split-1 east w w bwbw) (split-1 west w w bwbw)
+     )
+  )
+  (piece
+     (name wbwbb)
+     (image White "../images/wiedem/CheckerWhite.bmp")
+     (moves
+        (move-5 north w5 wbwbb) (move-5 south w5 wbwbb) (move-5 east w5 wbwbb) (move-4 west w5 wbwbb)
+        (split-4 north w4 wbwb b) (split-4 south w4 wbwb b) (split-4 east w4 wbwb b) (split-4 west w4 wbwb b)
+        (split-3 north w3 wbw bb) (split-3 south w3 wbw bb) (split-3 east w3 wbw bb) (split-3 west w3 wbw bb)
+        (split-2 north w2 wb wbb) (split-2 south w2 wb wbb) (split-2 east w2 wb wbb) (split-2 west w2 wb wbb)
+        (split-1 north w w bwbb) (split-1 south w w bwbb) (split-1 east w w bwbb) (split-1 west w w bwbb)
+     )
+  )
+  (piece
+     (name wbbww)
+     (image White "../images/wiedem/CheckerWhite.bmp")
+     (moves
+        (move-5 north w5 wbbww) (move-5 south w5 wbbww) (move-5 east w5 wbbww) (move-4 west w5 wbbww)
+        (split-4 north w4 wbbw w) (split-4 south w4 wbbw w) (split-4 east w4 wbbw w) (split-4 west w4 wbbw w)
+        (split-3 north w3 wbb ww) (split-3 south w3 wbb ww) (split-3 east w3 wbb ww) (split-3 west w3 wbb ww)
+        (split-2 north w2 wb bww) (split-2 south w2 wb bww) (split-2 east w2 wb bww) (split-2 west w2 wb bww)
+        (split-1 north w w bbww) (split-1 south w w bbww) (split-1 east w w bbww) (split-1 west w w bbww)
+     )
+  )
+  (piece
+     (name wbbwb)
+     (image White "../images/wiedem/CheckerWhite.bmp")
+     (moves
+        (move-5 north w5 wbbwb) (move-5 south w5 wbbwb) (move-5 east w5 wbbwb) (move-4 west w5 wbbwb)
+        (split-4 north w4 wbbw b) (split-4 south w4 wbbw b) (split-4 east w4 wbbw b) (split-4 west w4 wbbw b)
+        (split-3 north w3 wbb wb) (split-3 south w3 wbb wb) (split-3 east w3 wbb wb) (split-3 west w3 wbb wb)
+        (split-2 north w2 wb bwb) (split-2 south w2 wb bwb) (split-2 east w2 wb bwb) (split-2 west w2 wb bwb)
+        (split-1 north w w bbwb) (split-1 south w w bbwb) (split-1 east w w bbwb) (split-1 west w w bbwb)
+     )
+  )
+  (piece
+     (name wbbbw)
+     (image White "../images/wiedem/CheckerWhite.bmp")
+     (moves
+        (move-5 north w5 wbbbw) (move-5 south w5 wbbbw) (move-5 east w5 wbbbw) (move-4 west w5 wbbbw)
+        (split-4 north w4 wbbb w) (split-4 south w4 wbbb w) (split-4 east w4 wbbb w) (split-4 west w4 wbbb w)
+        (split-3 north w3 wbb bw) (split-3 south w3 wbb bw) (split-3 east w3 wbb bw) (split-3 west w3 wbb bw)
+        (split-2 north w2 wb bbw) (split-2 south w2 wb bbw) (split-2 east w2 wb bbw) (split-2 west w2 wb bbw)
+        (split-1 north w w bbbw) (split-1 south w w bbbw) (split-1 east w w bbbw) (split-1 west w w bbbw)
+     )
+  )
+  (piece
+     (name wbbbb)
+     (image White "../images/wiedem/CheckerWhite.bmp")
+     (moves
+        (move-5 north w5 wbbbb) (move-5 south w5 wbbbb) (move-5 east w5 wbbbb) (move-4 west w5 wbbbb)
+        (split-4 north w4 wbbb b) (split-4 south w4 wbbb b) (split-4 east w4 wbbb b) (split-4 west w4 wbbb b)
+        (split-3 north w3 wbb bb) (split-3 south w3 wbb bb) (split-3 east w3 wbb bb) (split-3 west w3 wbb bb)
+        (split-2 north w2 wb bbb) (split-2 south w2 wb bbb) (split-2 east w2 wb bbb) (split-2 west w2 wb bbb)
+        (split-1 north w w bbbb) (split-1 south w w bbbb) (split-1 east w w bbbb) (split-1 west w w bbbb)
+     )
+  )
+  (piece
+     (name bwwww)
+     (image Black "../images/wiedem/CheckerBlack.bmp")
+     (moves
+        (move-5 north b5 bwwww) (move-5 south b5 bwwww) (move-5 east b5 bwwww) (move-5 west b5 bwwww)
+        (split-4 north b4 bwww w) (split-4 south b4 bwww w) (split-4 east b4 bwww w) (split-4 west b4 bwww w)
+        (split-3 north b3 bww ww) (split-3 south b3 bww ww) (split-3 east b3 bww ww) (split-3 west b3 bww ww)
+        (split-2 north b2 bw www) (split-2 south b2 bw www) (split-2 east b2 bw www) (split-2 west b2 bw www)
+        (split-1 north b b wwww) (split-1 south b b wwww) (split-1 east b b wwww) (split-1 west b b wwww)
+     )
+  )
+  (piece
+     (name bwwwb)
+     (image Black "../images/wiedem/CheckerBlack.bmp")
+     (moves
+        (move-5 north b5 bwwwb) (move-5 south b5 bwwwb) (move-5 east b5 bwwwb) (move-5 west b5 bwwwb)
+        (split-4 north b4 bwww b) (split-4 south b4 bwww b) (split-4 east b4 bwww b) (split-4 west b4 bwww b)
+        (split-3 north b3 bww wb) (split-3 south b3 bww wb) (split-3 east b3 bww wb) (split-3 west b3 bww wb)
+        (split-2 north b2 bw wwb) (split-2 south b2 bw wwb) (split-2 east b2 bw wwb) (split-2 west b2 bw wwb)
+        (split-1 north b b wwwb) (split-1 south b b wwwb) (split-1 east b b wwwb) (split-1 west b b wwwb)
+     )
+  )
+  (piece
+     (name bwwbw)
+     (image Black "../images/wiedem/CheckerBlack.bmp")
+     (moves
+        (move-5 north b5 bwwbw) (move-5 south b5 bwwbw) (move-5 east b5 bwwbw) (move-5 west b5 bwwbw)
+        (split-4 north b4 bwwb w) (split-4 south b4 bwwb w) (split-4 east b4 bwwb w) (split-4 west b4 bwwb w)
+        (split-3 north b3 bww bw) (split-3 south b3 bww bw) (split-3 east b3 bww bw) (split-3 west b3 bww bw)
+        (split-2 north b2 bw wbw) (split-2 south b2 bw wbw) (split-2 east b2 bw wbw) (split-2 west b2 bw wbw)
+        (split-1 north b b wwbw) (split-1 south b b wwbw) (split-1 east b b wwbw) (split-1 west b b wwbw)
+     )
+  )
+  (piece
+     (name bwwbb)
+     (image Black "../images/wiedem/CheckerBlack.bmp")
+     (moves
+        (move-5 north b5 bwwbb) (move-5 south b5 bwwbb) (move-5 east b5 bwwbb) (move-5 west b5 bwwbb)
+        (split-4 north b4 bwwb b) (split-4 south b4 bwwb b) (split-4 east b4 bwwb b) (split-4 west b4 bwwb b)
+        (split-3 north b3 bww bb) (split-3 south b3 bww bb) (split-3 east b3 bww bb) (split-3 west b3 bww bb)
+        (split-2 north b2 bw wbb) (split-2 south b2 bw wbb) (split-2 east b2 bw wbb) (split-2 west b2 bw wbb)
+        (split-1 north b b wwbb) (split-1 south b b wwbb) (split-1 east b b wwbb) (split-1 west b b wwbb)
+     )
+  )
+  (piece
+     (name bwbww)
+     (image Black "../images/wiedem/CheckerBlack.bmp")
+     (moves
+        (move-5 north b5 bwbww) (move-5 south b5 bwbww) (move-5 east b5 bwbww) (move-5 west b5 bwbww)
+        (split-4 north b4 bwbw w) (split-4 south b4 bwbw w) (split-4 east b4 bwbw w) (split-4 west b4 bwbw w)
+        (split-3 north b3 bwb ww) (split-3 south b3 bwb ww) (split-3 east b3 bwb ww) (split-3 west b3 bwb ww)
+        (split-2 north b2 bw bww) (split-2 south b2 bw bww) (split-2 east b2 bw bww) (split-2 west b2 bw bww)
+        (split-1 north b b wbww) (split-1 south b b wbww) (split-1 east b b wbww) (split-1 west b b wbww)
+     )
+  )
+  (piece
+     (name bwbwb)
+     (image Black "../images/wiedem/CheckerBlack.bmp")
+     (moves
+        (move-5 north b5 bwbwb) (move-5 south b5 bwbwb) (move-5 east b5 bwbwb) (move-5 west b5 bwbwb)
+        (split-4 north b4 bwbw b) (split-4 south b4 bwbw b) (split-4 east b4 bwbw b) (split-4 west b4 bwbw b)
+        (split-3 north b3 bwb wb) (split-3 south b3 bwb wb) (split-3 east b3 bwb wb) (split-3 west b3 bwb wb)
+        (split-2 north b2 bw bwb) (split-2 south b2 bw bwb) (split-2 east b2 bw bwb) (split-2 west b2 bw bwb)
+        (split-1 north b b wbwb) (split-1 south b b wbwb) (split-1 east b b wbwb) (split-1 west b b wbwb)
+     )
+  )
+  (piece
+     (name bwbbw)
+     (image Black "../images/wiedem/CheckerBlack.bmp")
+     (moves
+        (move-5 north b5 bwbbw) (move-5 south b5 bwbbw) (move-5 east b5 bwbbw) (move-5 west b5 bwbbw)
+        (split-4 north b4 bwbb w) (split-4 south b4 bwbb w) (split-4 east b4 bwbb w) (split-4 west b4 bwbb w)
+        (split-3 north b3 bwb bw) (split-3 south b3 bwb bw) (split-3 east b3 bwb bw) (split-3 west b3 bwb bw)
+        (split-2 north b2 bw bbw) (split-2 south b2 bw bbw) (split-2 east b2 bw bbw) (split-2 west b2 bw bbw)
+        (split-1 north b b wbbw) (split-1 south b b wbbw) (split-1 east b b wbbw) (split-1 west b b wbbw)
+     )
+  )
+  (piece
+     (name bwbbb)
+     (image Black "../images/wiedem/CheckerBlack.bmp")
+     (moves
+        (move-5 north b5 bwbbb) (move-5 south b5 bwbbb) (move-5 east b5 bwbbb) (move-5 west b5 bwbbb)
+        (split-4 north b4 bwbb b) (split-4 south b4 bwbb b) (split-4 east b4 bwbb b) (split-4 west b4 bwbb b)
+        (split-3 north b3 bwb bb) (split-3 south b3 bwb bb) (split-3 east b3 bwb bb) (split-3 west b3 bwb bb)
+        (split-2 north b2 bw bbb) (split-2 south b2 bw bbb) (split-2 east b2 bw bbb) (split-2 west b2 bw bbb)
+        (split-1 north b b wbbb) (split-1 south b b wbbb) (split-1 east b b wbbb) (split-1 west b b wbbb)
+     )
+  )
+  (piece
+     (name bbwww)
+     (image Black "../images/wiedem/CheckerBlack.bmp")
+     (moves
+        (move-5 north b5 bbwww) (move-5 south b5 bbwww) (move-5 east b5 bbwww) (move-5 west b5 bbwww)
+        (split-4 north b4 bbww w) (split-4 south b4 bbww w) (split-4 east b4 bbww w) (split-4 west b4 bbww w)
+        (split-3 north b3 bbw ww) (split-3 south b3 bbw ww) (split-3 east b3 bbw ww) (split-3 west b3 bbw ww)
+        (split-2 north b2 bb www) (split-2 south b2 bb www) (split-2 east b2 bb www) (split-2 west b2 bb www)
+        (split-1 north b b bwww) (split-1 south b b bwww) (split-1 east b b bwww) (split-1 west b b bwww)
+     )
+  )
+  (piece
+     (name bbwwb)
+     (image Black "../images/wiedem/CheckerBlack.bmp")
+     (moves
+        (move-5 north b5 bbwwb) (move-5 south b5 bbwwb) (move-5 east b5 bbwwb) (move-5 west b5 bbwwb)
+        (split-4 north b4 bbww b) (split-4 south b4 bbww b) (split-4 east b4 bbww b) (split-4 west b4 bbww b)
+        (split-3 north b3 bbw wb) (split-3 south b3 bbw wb) (split-3 east b3 bbw wb) (split-3 west b3 bbw wb)
+        (split-2 north b2 bb wwb) (split-2 south b2 bb wwb) (split-2 east b2 bb wwb) (split-2 west b2 bb wwb)
+        (split-1 north b b bwwb) (split-1 south b b bwwb) (split-1 east b b bwwb) (split-1 west b b bwwb)
+     )
+  )
+  (piece
+     (name bbwbw)
+     (image Black "../images/wiedem/CheckerBlack.bmp")
+     (moves
+        (move-5 north b5 bbwbw) (move-5 south b5 bbwbw) (move-5 east b5 bbwbw) (move-5 west b5 bbwbw)
+        (split-4 north b4 bbwb w) (split-4 south b4 bbwb w) (split-4 east b4 bbwb w) (split-4 west b4 bbwb w)
+        (split-3 north b3 bbw bw) (split-3 south b3 bbw bw) (split-3 east b3 bbw bw) (split-3 west b3 bbw bw)
+        (split-2 north b2 bb wbw) (split-2 south b2 bb wbw) (split-2 east b2 bb wbw) (split-2 west b2 bb wbw)
+        (split-1 north b b bwbw) (split-1 south b b bwbw) (split-1 east b b bwbw) (split-1 west b b bwbw)
+     )
+  )
+  (piece
+     (name bbwbb)
+     (image Black "../images/wiedem/CheckerBlack.bmp")
+     (moves
+        (move-5 north b5 bbwbb) (move-5 south b5 bbwbb) (move-5 east b5 bbwbb) (move-5 west b5 bbwbb)
+        (split-4 north b4 bbwb b) (split-4 south b4 bbwb b) (split-4 east b4 bbwb b) (split-4 west b4 bbwb b)
+        (split-3 north b3 bbw bb) (split-3 south b3 bbw bb) (split-3 east b3 bbw bb) (split-3 west b3 bbw bb)
+        (split-2 north b2 bb wbb) (split-2 south b2 bb wbb) (split-2 east b2 bb wbb) (split-2 west b2 bb wbb)
+        (split-1 north b b bwbb) (split-1 south b b bwbb) (split-1 east b b bwbb) (split-1 west b b bwbb)
+     )
+  )
+  (piece
+     (name bbbww)
+     (image Black "../images/wiedem/CheckerBlack.bmp")
+     (moves
+        (move-5 north b5 bbbww) (move-5 south b5 bbbww) (move-5 east b5 bbbww) (move-5 west b5 bbbww)
+        (split-4 north b4 bbbw w) (split-4 south b4 bbbw w) (split-4 east b4 bbbw w) (split-4 west b4 bbbw w)
+        (split-3 north b3 bbb ww) (split-3 south b3 bbb ww) (split-3 east b3 bbb ww) (split-3 west b3 bbb ww)
+        (split-2 north b2 bb bww) (split-2 south b2 bb bww) (split-2 east b2 bb bww) (split-2 west b2 bb bww)
+        (split-1 north b b bbww) (split-1 south b b bbww) (split-1 east b b bbww) (split-1 west b b bbww)
+     )
+  )
+  (piece
+     (name bbbwb)
+     (image Black "../images/wiedem/CheckerBlack.bmp")
+     (moves
+        (move-5 north b5 bbbwb) (move-5 south b5 bbbwb) (move-5 east b5 bbbwb) (move-5 west b5 bbbwb)
+        (split-4 north b4 bbbw b) (split-4 south b4 bbbw b) (split-4 east b4 bbbw b) (split-4 west b4 bbbw b)
+        (split-3 north b3 bbb wb) (split-3 south b3 bbb wb) (split-3 east b3 bbb wb) (split-3 west b3 bbb wb)
+        (split-2 north b2 bb bwb) (split-2 south b2 bb bwb) (split-2 east b2 bb bwb) (split-2 west b2 bb bwb)
+        (split-1 north b b bbwb) (split-1 south b b bbwb) (split-1 east b b bbwb) (split-1 west b b bbwb)
+     )
+  )
+  (piece
+     (name bbbbw)
+     (image Black "../images/wiedem/CheckerBlack.bmp")
+     (moves
+        (move-5 north b5 bbbbw) (move-5 south b5 bbbbw) (move-5 east b5 bbbbw) (move-5 west b5 bbbbw)
+        (split-4 north b4 bbbb w) (split-4 south b4 bbbb w) (split-4 east b4 bbbb w) (split-4 west b4 bbbb w)
+        (split-3 north b3 bbb bw) (split-3 south b3 bbb bw) (split-3 east b3 bbb bw) (split-3 west b3 bbb bw)
+        (split-2 north b2 bb bbw) (split-2 south b2 bb bbw) (split-2 east b2 bb bbw) (split-2 west b2 bb bbw)
+        (split-1 north b b bbbw) (split-1 south b b bbbw) (split-1 east b b bbbw) (split-1 west b b bbbw)
+     )
+  )
+  (piece
+     (name bbbbb)
+     (image Black "../images/wiedem/CheckerBlack.bmp")
+     (moves
+        (move-5 north b5 bbbbb) (move-5 south b5 bbbbb) (move-5 east b5 bbbbb) (move-5 west b5 bbbbb)
+        (split-4 north b4 bbbb b) (split-4 south b4 bbbb b) (split-4 east b4 bbbb b) (split-4 west b4 bbbb b)
+        (split-3 north b3 bbb bb) (split-3 south b3 bbb bb) (split-3 east b3 bbb bb) (split-3 west b3 bbb bb)
+        (split-2 north b2 bb bbb) (split-2 south b2 bb bbb) (split-2 east b2 bb bbb) (split-2 west b2 bb bbb)
+        (split-1 north b b bbbb) (split-1 south b b bbbb) (split-1 east b b bbbb) (split-1 west b b bbbb)
+     )
+  )
+
+  (loss-condition (White Black) stalemated)
+)
