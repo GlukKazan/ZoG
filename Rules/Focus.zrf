@@ -845,9 +845,23 @@
   (if empty? add else (merge-w $2))
 ))
 
+(define split-1-f (
+  (verify (not (in-zone? res)))
+  (create Black $3)
+  $1
+  (if empty? add else (merge-w $2))
+))
+
 (define split-1-b (
   (verify (not (in-zone? res)))
   (create $3)
+  $1
+  (if empty? add else (merge-b $2))
+))
+
+(define split-1-s (
+  (verify (not (in-zone? res)))
+  (create White $3)
   $1
   (if empty? add else (merge-b $2))
 ))
@@ -859,9 +873,23 @@
   (if empty? add else (merge-w2 $2))
 ))
 
+(define split-2-f (
+  (verify (not (in-zone? res)))
+  (create Black $3)
+  $1 $1
+  (if empty? add else (merge-w2 $2))
+))
+
 (define split-2-b (
   (verify (not (in-zone? res)))
   (create $3)
+  $1 $1
+  (if empty? add else (merge-b2 $2))
+))
+
+(define split-2-s (
+  (verify (not (in-zone? res)))
+  (create White $3)
   $1 $1
   (if empty? add else (merge-b2 $2))
 ))
@@ -873,9 +901,23 @@
   (if empty? add else (merge-w3 $2))
 ))
 
+(define split-3-f (
+  (verify (not (in-zone? res)))
+  (create Black $3)
+  $1 $1 $1
+  (if empty? add else (merge-w3 $2))
+))
+
 (define split-3-b (
   (verify (not (in-zone? res)))
   (create $3)
+  $1 $1 $1
+  (if empty? add else (merge-b3 $2))
+))
+
+(define split-3-s (
+  (verify (not (in-zone? res)))
+  (create White $3)
   $1 $1 $1
   (if empty? add else (merge-b3 $2))
 ))
@@ -887,9 +929,23 @@
   (if empty? add else (merge-w4 $2))
 ))
 
+(define split-4-f (
+  (verify (not (in-zone? res)))
+  (create Black $3)
+  $1 $1 $1 $1
+  (if empty? add else (merge-w4 $2))
+))
+
 (define split-4-b (
   (verify (not (in-zone? res)))
   (create $3)
+  $1 $1 $1 $1
+  (if empty? add else (merge-b4 $2))
+))
+
+(define split-4-s (
+  (verify (not (in-zone? res)))
+  (create White $3)
   $1 $1 $1 $1
   (if empty? add else (merge-b4 $2))
 ))
