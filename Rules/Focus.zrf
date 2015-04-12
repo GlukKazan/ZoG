@@ -856,98 +856,98 @@
   (verify (not (in-zone? res)))
   (create $3)
   $1
-  (if empty? add else (merge-b $2))
+  (if empty? (add $2) else (merge-b $2))
 ))
 
 (define split-1-s (
   (verify (not (in-zone? res)))
   (create White $3)
   $1
-  (if empty? add else (merge-b $2))
+  (if empty? (add $2) else (merge-b $2))
 ))
 
 (define split-2-w (
   (verify (not (in-zone? res)))
   (create $3)
   $1 $1
-  (if empty? add else (merge-w2 $2))
+  (if empty? (add $2) else (merge-w2 $2))
 ))
 
 (define split-2-f (
   (verify (not (in-zone? res)))
   (create Black $3)
   $1 $1
-  (if empty? add else (merge-w2 $2))
+  (if empty? (add $2) else (merge-w2 $2))
 ))
 
 (define split-2-b (
   (verify (not (in-zone? res)))
   (create $3)
   $1 $1
-  (if empty? add else (merge-b2 $2))
+  (if empty? (add $2) else (merge-b2 $2))
 ))
 
 (define split-2-s (
   (verify (not (in-zone? res)))
   (create White $3)
   $1 $1
-  (if empty? add else (merge-b2 $2))
+  (if empty? (add $2) else (merge-b2 $2))
 ))
 
 (define split-3-w (
   (verify (not (in-zone? res)))
   (create $3)
   $1 $1 $1
-  (if empty? add else (merge-w3 $2))
+  (if empty? (add $2) else (merge-w3 $2))
 ))
 
 (define split-3-f (
   (verify (not (in-zone? res)))
   (create Black $3)
   $1 $1 $1
-  (if empty? add else (merge-w3 $2))
+  (if empty? (add $2) else (merge-w3 $2))
 ))
 
 (define split-3-b (
   (verify (not (in-zone? res)))
   (create $3)
   $1 $1 $1
-  (if empty? add else (merge-b3 $2))
+  (if empty? (add $2) else (merge-b3 $2))
 ))
 
 (define split-3-s (
   (verify (not (in-zone? res)))
   (create White $3)
   $1 $1 $1
-  (if empty? add else (merge-b3 $2))
+  (if empty? (add $2) else (merge-b3 $2))
 ))
 
 (define split-4-w (
   (verify (not (in-zone? res)))
   (create $3)
   $1 $1 $1 $1
-  (if empty? add else (merge-w4 $2))
+  (if empty? (add $2) else (merge-w4 $2))
 ))
 
 (define split-4-f (
   (verify (not (in-zone? res)))
   (create Black $3)
   $1 $1 $1 $1
-  (if empty? add else (merge-w4 $2))
+  (if empty? (add $2) else (merge-w4 $2))
 ))
 
 (define split-4-b (
   (verify (not (in-zone? res)))
   (create $3)
   $1 $1 $1 $1
-  (if empty? add else (merge-b4 $2))
+  (if empty? (add $2) else (merge-b4 $2))
 ))
 
 (define split-4-s (
   (verify (not (in-zone? res)))
   (create White $3)
   $1 $1 $1 $1
-  (if empty? add else (merge-b4 $2))
+  (if empty? (add $2) else (merge-b4 $2))
 ))
 
 (game
@@ -981,7 +981,7 @@
     (zone (name res) (players White)
           (positions z1 z2 z3 z4 z5 z6 z7 z8 t1 t2 t3 t4 t5 t6 t7 t8)
     )
-    (zone (name res) (players White)
+    (zone (name res) (players Black)
           (positions x1 x2 x3 x4 x5 x6 x7 x8 y1 y2 y3 y4 y5 y6 y7 y8)
     )
     (dummy start)
