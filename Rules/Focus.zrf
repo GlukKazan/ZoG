@@ -1,5 +1,4 @@
 (define r
-  ; TODO:
 )
 
 (define merge-w
@@ -348,7 +347,7 @@
   (if (piece? wbwww) (r w) (r w) (r w) (add $1wb) else
   (if (piece? wbwwb) (r w) (r w) (add $1wb) else
   (if (piece? wbwbw) (r w) (r w) (add $1wb) else
-  (if (piece? wbwbb) (r w) (add $1wbw) else
+  (if (piece? wbwbb) (r w) (add $1wb) else
   (if (piece? wbbww) (r w) (r w) (add $1wb) else
   (if (piece? wbbwb) (r w) (add $1wb) else
   (if (piece? wbbbw) (r w) (add $1wb) else
@@ -752,61 +751,102 @@
   ))
 )
 
-(define add-piece
-  (if empty?
-      add
-   else
-      (merge-$1 $2)
-  )
-)
-
-(define move-1 (
+(define move-1-w (
   $1
-  (add-piece $2 $3)
+  (if empty? add else (merge-w $2))
 ))
 
-(define move-2 (
+(define move-1-b (
+  $1
+  (if empty? add else (merge-b $2))
+))
+
+(define move-2-w (
   $1 $1
-  (add-piece $2 $3)
+  (if empty? add else (merge-w2 $2))
 ))
 
-(define move-3 (
+(define move-2-b (
+  $1 $1
+  (if empty? add else (merge-b2 $2))
+))
+
+(define move-3-w (
   $1 $1 $1
-  (add-piece $2 $3)
+  (if empty? add else (merge-w3 $2))
 ))
 
-(define move-4 (
+(define move-3-b (
+  $1 $1 $1
+  (if empty? add else (merge-b3 $2))
+))
+
+(define move-4-w (
   $1 $1 $1 $1
-  (add-piece $2 $3)
+  (if empty? add else (merge-w4 $2))
 ))
 
-(define move-5 (
+(define move-4-b (
+  $1 $1 $1 $1
+  (if empty? add else (merge-b4 $2))
+))
+
+(define move-5-w (
   $1 $1 $1 $1 $1
-  (add-piece $2 $3)
+  (if empty? add else (merge-w5 $2))
 ))
 
-(define split-1 (
-  (create $4)
+(define move-5-b (
+  $1 $1 $1 $1 $1
+  (if empty? add else (merge-b5 $2))
+))
+
+(define split-1-w (
+  (create $3)
   $1
-  (add-piece $2  $3)
+  (if empty? add else (merge-w $2))
 ))
 
-(define split-2 (
-  (create $4)
+(define split-1-b (
+  (create $3)
+  $1
+  (if empty? add else (merge-b $2))
+))
+
+(define split-2-w (
+  (create $3)
   $1 $1
-  (add-piece $2 $3)
+  (if empty? add else (merge-w2 $2))
 ))
 
-(define split-3 (
-  (create $4)
+(define split-2-b (
+  (create $3)
+  $1 $1
+  (if empty? add else (merge-b2 $2))
+))
+
+(define split-3-w (
+  (create $3)
   $1 $1 $1
-  (add-piece $2 $3)
+  (if empty? add else (merge-w3 $2))
 ))
 
-(define split-4 (
-  (create $4)
+(define split-3-b (
+  (create $3)
+  $1 $1 $1
+  (if empty? add else (merge-b3 $2))
+))
+
+(define split-4-w (
+  (create $3)
   $1 $1 $1 $1
-  (add-piece $2 $3)
+  (if empty? add else (merge-w4 $2))
+))
+
+(define split-4-b (
+  (create $3)
+  $1 $1 $1 $1
+  (if empty? add else (merge-b4 $2))
 ))
 
 (game
@@ -846,630 +886,630 @@
      (name w)
      (image White "../images/wiedem/CheckerWhite.bmp")
      (moves
-        (move-1 north w w) (move-1 south w w) (move-1 east w w) (move-1 west w w)
+        (move-1-w north w) (move-1-w south w) (move-1-w east w) (move-1-w west w)
      )
   )
   (piece
      (name b)
      (image Black "../images/wiedem/CheckerBlack.bmp")
      (moves
-        (move-1 north b b) (move-1 south b b) (move-1 east b b) (move-1 west b b)
+        (move-1-b north b) (move-1-b south b) (move-1-b east b) (move-1-b west b)
      )
   )
   (piece
      (name ww)
      (image White "../images/wiedem/CheckerWhite.bmp")
      (moves
-        (move-2 north w2 ww) (move-2 south w2 ww) (move-2 east w2 ww) (move-2 west w2 ww)
-        (split-1 north w w w) (split-1 south w w w) (split-1 east w w w) (split-1 west w w w)
+        (move-2-w north ww) (move-2-w south ww) (move-2-w east ww) (move-2-w west ww)
+        (split-1-w north w w) (split-1-w south w w) (split-1-w east w w) (split-1-w west w w)
      )
   )
   (piece
      (name wb)
      (image White "../images/wiedem/CheckerWhite.bmp")
      (moves
-        (move-2 north w2 wb) (move-2 south w2 wb) (move-2 east w2 wb) (move-2 west w2 wb)
-        (split-1 north w w b) (split-1 south w w b) (split-1 east w w b) (split-1 west w w b)
+        (move-2-w north wb) (move-2-w south wb) (move-2-w east wb) (move-2-w west wb)
+        (split-1-w north w b) (split-1-w south w b) (split-1-w east w b) (split-1-w west w b)
      )
   )
   (piece
      (name bw)
      (image Black "../images/wiedem/CheckerBlack.bmp")
      (moves
-        (move-2 north b2 bw) (move-2 south b2 bw) (move-2 east b2 bw) (move-2 west b2 bw)
-        (split-1 north b b w) (split-1 south b b w) (split-1 east b b w) (split-1 west b b w)
+        (move-2-b north bw) (move-2-b south bw) (move-2-b east bw) (move-2-b west bw)
+        (split-1-b north b w) (split-1-b south b w) (split-1-b east b w) (split-1-b west b w)
      )
   )
   (piece
      (name bb)
      (image Black "../images/wiedem/CheckerBlack.bmp")
      (moves
-        (move-2 north b2 bb) (move-2 south b2 bb) (move-2 east b2 bb) (move-2 west b2 bb)
-        (split-1 north b b b) (split-1 south b b b) (split-1 east b b b) (split-1 west b b b)
+        (move-2-b north bb) (move-2-b south bb) (move-2-b east bb) (move-2-b west bb)
+        (split-1-b north b b) (split-1-b south b b) (split-1-b east b b) (split-1-b west b b)
      )
   )
   (piece
      (name www)
      (image White "../images/wiedem/CheckerWhite.bmp")
      (moves
-        (move-3 north w3 www) (move-3 south w3 www) (move-3 east w3 www) (move-3 west w3 www)
-        (split-2 north w2 ww w) (split-2 south w2 ww w) (split-2 east w2 ww w) (split-2 west w2 ww w)
-        (split-1 north w w ww) (split-1 south w w ww) (split-1 east w w ww) (split-1 west w w ww)
+        (move-3-w north www) (move-3-w south www) (move-3-w east www) (move-3-w west www)
+        (split-2-w north ww w) (split-2-w south ww w) (split-2-w east ww w) (split-2-w west ww w)
+        (split-1-w north w ww) (split-1-w south w ww) (split-1-w east w ww) (split-1-w west w ww)
      )
   )
   (piece
      (name wwb)
      (image White "../images/wiedem/CheckerWhite.bmp")
      (moves
-        (move-3 north w3 wwb) (move-3 south w3 wwb) (move-3 east w3 wwb) (move-3 west w3 wwb)
-        (split-2 north w2 ww b) (split-2 south w2 ww b) (split-2 east w2 ww b) (split-2 west w2 ww b)
-        (split-1 north w w wb) (split-1 south w w wb) (split-1 east w w wb) (split-1 west w w wb)
+        (move-3-w north wwb) (move-3-w south wwb) (move-3-w east wwb) (move-3-w west wwb)
+        (split-2-w north ww b) (split-2-w south ww b) (split-2-w east ww b) (split-2-w west ww b)
+        (split-1-w north w wb) (split-1-w south w wb) (split-1-w east w wb) (split-1-w west w wb)
      )
   )
   (piece
      (name wbw)
      (image White "../images/wiedem/CheckerWhite.bmp")
      (moves
-        (move-3 north w3 wbw) (move-3 south w3 wbw) (move-3 east w3 wbw) (move-3 west w3 wbw)
-        (split-2 north w2 wb w) (split-2 south w2 wb w) (split-2 east w2 wb w) (split-2 west w2 wb w)
-        (split-1 north w w bw) (split-1 south w w bw) (split-1 east w w bw) (split-1 west w w bw)
+        (move-3-w north wbw) (move-3-w south wbw) (move-3-w east wbw) (move-3-w west wbw)
+        (split-2-w north wb w) (split-2-w south wb w) (split-2-w east wb w) (split-2-w west wb w)
+        (split-1-w north w bw) (split-1-w south w bw) (split-1-w east w bw) (split-1-w west w bw)
      )
   )
   (piece
      (name wbb)
      (image White "../images/wiedem/CheckerWhite.bmp")
      (moves
-        (move-3 north w3 wbb) (move-3 south w3 wbb) (move-3 east w3 wbb) (move-3 west w3 wbb)
-        (split-2 north w2 wb b) (split-2 south w2 wb b) (split-2 east w2 wb b) (split-2 west w2 wb b)
-        (split-1 north w w bb) (split-1 south w w bb) (split-1 east w w bb) (split-1 west w w bb)
+        (move-3-w north wbb) (move-3-w south wbb) (move-3-w east wbb) (move-3-w west wbb)
+        (split-2-w north wb b) (split-2-w south wb b) (split-2-w east wb b) (split-2-w west wb b)
+        (split-1-w north w bb) (split-1-w south w bb) (split-1-w east w bb) (split-1-w west w bb)
      )
   )
   (piece
      (name bww)
      (image Black "../images/wiedem/CheckerBlack.bmp")
      (moves
-        (move-3 north b3 bww) (move-3 south b3 bww) (move-3 east b3 bww) (move-3 west b3 bww)
-        (split-2 north b2 bw w) (split-2 south b2 bw w) (split-2 east b2 bw w) (split-2 west b2 bw w)
-        (split-1 north b b ww) (split-1 south b b ww) (split-1 east b b ww) (split-1 west b b ww)
+        (move-3-b north bww) (move-3-b south bww) (move-3-b east bww) (move-3-b west bww)
+        (split-2-b north bw w) (split-2-b south bw w) (split-2-b east bw w) (split-2-b west bw w)
+        (split-1-b north b ww) (split-1-b south b ww) (split-1-b east b ww) (split-1-b west b ww)
      )
   )
   (piece
      (name bwb)
      (image Black "../images/wiedem/CheckerBlack.bmp")
      (moves
-        (move-3 north b3 bwb) (move-3 south b3 bwb) (move-3 east b3 bwb) (move-3 west b3 bwb)
-        (split-2 north b2 bw b) (split-2 south b2 bw b) (split-2 east b2 bw b) (split-2 west b2 bw b)
-        (split-1 north b b wb) (split-1 south b b wb) (split-1 east b b wb) (split-1 west b b wb)
+        (move-3-b north bwb) (move-3-b south bwb) (move-3-b east bwb) (move-3-b west bwb)
+        (split-2-b north bw b) (split-2-b south bw b) (split-2-b east bw b) (split-2-b west bw b)
+        (split-1-b north b wb) (split-1-b south b wb) (split-1-b east b wb) (split-1-b west b wb)
      )
   )
   (piece
      (name bbw)
      (image Black "../images/wiedem/CheckerBlack.bmp")
      (moves
-        (move-3 north b3 bbw) (move-3 south b3 bbw) (move-3 east b3 bbw) (move-3 west b3 bbw)
-        (split-2 north b2 bb w) (split-2 south b2 bb w) (split-2 east b2 bb w) (split-2 west b2 bb w)
-        (split-1 north b b bw) (split-1 south b b bw) (split-1 east b b bw) (split-1 west b b bw)
+        (move-3-b north bbw) (move-3-b south bbw) (move-3-b east bbw) (move-3-b west bbw)
+        (split-2-b north bb w) (split-2-b south bb w) (split-2-b east bb w) (split-2-b west bb w)
+        (split-1-b north b bw) (split-1-b south b bw) (split-1-b east b bw) (split-1-b west b bw)
      )
   )
   (piece
      (name bbb)
      (image Black "../images/wiedem/CheckerBlack.bmp")
      (moves
-        (move-3 north b3 bbb) (move-3 south b3 bbb) (move-3 east b3 bbb) (move-3 west b3 bbb)
-        (split-2 north b2 bb b) (split-2 south b2 bb b) (split-2 east b2 bb b) (split-2 west b2 bb b)
-        (split-1 north b b bb) (split-1 south b b bb) (split-1 east b b bb) (split-1 west b b bb)
+        (move-3-b north bbb) (move-3-b south bbb) (move-3-b east bbb) (move-3-b west bbb)
+        (split-2-b north bb b) (split-2-b south bb b) (split-2-b east bb b) (split-2-b west bb b)
+        (split-1-b north b bb) (split-1-b south b bb) (split-1-b east b bb) (split-1-b west b bb)
      )
   )
   (piece
      (name wwww)
      (image White "../images/wiedem/CheckerWhite.bmp")
      (moves
-        (move-4 north w4 wwww) (move-4 south w4 wwww) (move-4 east w4 wwww) (move-4 west w4 wwww)
-        (split-3 north w3 www w) (split-3 south w3 www w) (split-3 east w3 www w) (split-3 west w3 www w)
-        (split-2 north w2 ww ww) (split-2 south w2 ww ww) (split-2 east w2 ww ww) (split-2 west w2 ww ww)
-        (split-1 north w w www) (split-1 south w w www) (split-1 east w w www) (split-1 west w w www)
+        (move-4-w north wwww) (move-4-w south wwww) (move-4-w east wwww) (move-4-w west wwww)
+        (split-3-w north www w) (split-3-w south www w) (split-3-w east www w) (split-3-w west www w)
+        (split-2-w north ww ww) (split-2-w south ww ww) (split-2-w east ww ww) (split-2-w west ww ww)
+        (split-1-w north w www) (split-1-w south w www) (split-1-w east w www) (split-1-w west w www)
      )
   )
   (piece
      (name wwwb)
      (image White "../images/wiedem/CheckerWhite.bmp")
      (moves
-        (move-4 north w4 wwwb) (move-4 south w4 wwwb) (move-4 east w4 wwwb) (move-4 west w4 wwwb)
-        (split-3 north w3 www b) (split-3 south w3 www b) (split-3 east w3 www b) (split-3 west w3 www b)
-        (split-2 north w2 ww wb) (split-2 south w2 ww wb) (split-2 east w2 ww wb) (split-2 west w2 ww wb)
-        (split-1 north w w wwb) (split-1 south w w wwb) (split-1 east w w wwb) (split-1 west w w wwb)
+        (move-4-w north wwwb) (move-4-w south wwwb) (move-4-w east wwwb) (move-4-w west wwwb)
+        (split-3-w north www b) (split-3-w south www b) (split-3-w east www b) (split-3-w west www b)
+        (split-2-w north ww wb) (split-2-w south ww wb) (split-2-w east ww wb) (split-2-w west ww wb)
+        (split-1-w north w wwb) (split-1-w south w wwb) (split-1-w east w wwb) (split-1-w west w wwb)
      )
   )
   (piece
      (name wwbw)
      (image White "../images/wiedem/CheckerWhite.bmp")
      (moves
-        (move-4 north w4 wwbw) (move-4 south w4 wwbw) (move-4 east w4 wwbw) (move-4 west w4 wwbw)
-        (split-3 north w3 wwb w) (split-3 south w3 wwb w) (split-3 east w3 wwb w) (split-3 west w3 wwb w)
-        (split-2 north w2 ww bw) (split-2 south w2 ww bw) (split-2 east w2 ww bw) (split-2 west w2 ww bw)
-        (split-1 north w w wbw) (split-1 south w w wbw) (split-1 east w w wbw) (split-1 west w w wbw)
+        (move-4-w north wwbw) (move-4-w south wwbw) (move-4-w east wwbw) (move-4-w west wwbw)
+        (split-3-w north wwb w) (split-3-w south wwb w) (split-3-w east wwb w) (split-3-w west wwb w)
+        (split-2-w north ww bw) (split-2-w south ww bw) (split-2-w east ww bw) (split-2-w west ww bw)
+        (split-1-w north w wbw) (split-1-w south w wbw) (split-1-w east w wbw) (split-1-w west w wbw)
      )
   )
   (piece
      (name wwbb)
      (image White "../images/wiedem/CheckerWhite.bmp")
      (moves
-        (move-4 north w4 wwbb) (move-4 south w4 wwbb) (move-4 east w4 wwbb) (move-4 west w4 wwbb)
-        (split-3 north w3 wwb b) (split-3 south w3 wwb b) (split-3 east w3 wwb b) (split-3 west w3 wwb b)
-        (split-2 north w2 ww bb) (split-2 south w2 ww bb) (split-2 east w2 ww bb) (split-2 west w2 ww bb)
-        (split-1 north w w wbb) (split-1 south w w wbb) (split-1 east w w wbb) (split-1 west w w wbb)
+        (move-4-w north wwbb) (move-4-w south wwbb) (move-4-w east wwbb) (move-4-w west wwbb)
+        (split-3-w north wwb b) (split-3-w south wwb b) (split-3-w east wwb b) (split-3-w west wwb b)
+        (split-2-w north ww bb) (split-2-w south ww bb) (split-2-w east ww bb) (split-2-w west ww bb)
+        (split-1-w north w wbb) (split-1-w south w wbb) (split-1-w east w wbb) (split-1-w west w wbb)
      )
   )
   (piece
      (name wbww)
      (image White "../images/wiedem/CheckerWhite.bmp")
      (moves
-        (move-4 north w4 wbww) (move-4 south w4 wbww) (move-4 east w4 wbww) (move-4 west w4 wbww)
-        (split-3 north w3 wbw w) (split-3 south w3 wbw w) (split-3 east w3 wbw w) (split-3 west w3 wbw w)
-        (split-2 north w2 wb ww) (split-2 south w2 wb ww) (split-2 east w2 wb ww) (split-2 west w2 wb ww)
-        (split-1 north w w bww) (split-1 south w w bww) (split-1 east w w bww) (split-1 west w w bww)
+        (move-4-w north wbww) (move-4-w south wbww) (move-4-w east wbww) (move-4-w west wbww)
+        (split-3-w north wbw w) (split-3-w south wbw w) (split-3-w east wbw w) (split-3-w west wbw w)
+        (split-2-w north wb ww) (split-2-w south wb ww) (split-2-w east wb ww) (split-2-w west wb ww)
+        (split-1-w north w bww) (split-1-w south w bww) (split-1-w east w bww) (split-1-w west w bww)
      )
   )
   (piece
      (name wbwb)
      (image White "../images/wiedem/CheckerWhite.bmp")
      (moves
-        (move-4 north w4 wbwb) (move-4 south w4 wbwb) (move-4 east w4 wbwb) (move-4 west w4 wbwb)
-        (split-3 north w3 wbw b) (split-3 south w3 wbw b) (split-3 east w3 wbw b) (split-3 west w3 wbw b)
-        (split-2 north w2 wb wb) (split-2 south w2 wb wb) (split-2 east w2 wb wb) (split-2 west w2 wb wb)
-        (split-1 north w w bwb) (split-1 south w w bwb) (split-1 east w w bwb) (split-1 west w w bwb)
+        (move-4-w north wbwb) (move-4-w south wbwb) (move-4-w east wbwb) (move-4-w west wbwb)
+        (split-3-w north wbw b) (split-3-w south wbw b) (split-3-w east wbw b) (split-3-w west wbw b)
+        (split-2-w north wb wb) (split-2-w south wb wb) (split-2-w east wb wb) (split-2-w west wb wb)
+        (split-1-w north w bwb) (split-1-w south w bwb) (split-1-w east w bwb) (split-1-w west w bwb)
      )
   )
   (piece
      (name wbbw)
      (image White "../images/wiedem/CheckerWhite.bmp")
      (moves
-        (move-4 north w4 wbbw) (move-4 south w4 wbbw) (move-4 east w4 wbbw) (move-4 west w4 wbbw)
-        (split-3 north w3 wbb w) (split-3 south w3 wbb w) (split-3 east w3 wbb w) (split-3 west w3 wbb w)
-        (split-2 north w2 wb bw) (split-2 south w2 wb bw) (split-2 east w2 wb bw) (split-2 west w2 wb bw)
-        (split-1 north w w bbw) (split-1 south w w bbw) (split-1 east w w bbw) (split-1 west w w bbw)
+        (move-4-w north wbbw) (move-4-w south wbbw) (move-4-w east wbbw) (move-4-w west wbbw)
+        (split-3-w north wbb w) (split-3-w south wbb w) (split-3-w east wbb w) (split-3-w west wbb w)
+        (split-2-w north wb bw) (split-2-w south wb bw) (split-2-w east wb bw) (split-2-w west wb bw)
+        (split-1-w north w bbw) (split-1-w south w bbw) (split-1-w east w bbw) (split-1-w west w bbw)
      )
   )
   (piece
      (name wbbb)
      (image White "../images/wiedem/CheckerWhite.bmp")
      (moves
-        (move-4 north w4 wbbb) (move-4 south w4 wbbb) (move-4 east w4 wbbb) (move-4 west w4 wbbb)
-        (split-3 north w3 wbb b) (split-3 south w3 wbb b) (split-3 east w3 wbb b) (split-3 west w3 wbb b)
-        (split-2 north w2 wb bb) (split-2 south w2 wb bb) (split-2 east w2 wb bb) (split-2 west w2 wb bb)
-        (split-1 north w w bbb) (split-1 south w w bbb) (split-1 east w w bbb) (split-1 west w w bbb)
+        (move-4-w north wbbb) (move-4-w south wbbb) (move-4-w east wbbb) (move-4-w west wbbb)
+        (split-3-w north wbb b) (split-3-w south wbb b) (split-3-w east wbb b) (split-3-w west wbb b)
+        (split-2-w north wb bb) (split-2-w south wb bb) (split-2-w east wb bb) (split-2-w west wb bb)
+        (split-1-w north w bbb) (split-1-w south w bbb) (split-1-w east w bbb) (split-1-w west w bbb)
      )
   )
   (piece
      (name bwww)
      (image Black "../images/wiedem/CheckerBlack.bmp")
      (moves
-        (move-4 north b4 bwww) (move-4 south b4 bwww) (move-4 east b4 bwww) (move-4 west b4 bwww)
-        (split-3 north b3 bww w) (split-3 south b3 bww w) (split-3 east b3 bww w) (split-3 west b3 bww w)
-        (split-2 north b2 bw ww) (split-2 south b2 bw ww) (split-2 east b2 bw ww) (split-2 west b2 bw ww)
-        (split-1 north b b www) (split-1 south b b www) (split-1 east b b www) (split-1 west b b www)
+        (move-4-b north bwww) (move-4-b south bwww) (move-4-b east bwww) (move-4-b west bwww)
+        (split-3-b north bww w) (split-3-b south bww w) (split-3-b east bww w) (split-3-b west bww w)
+        (split-2-b north bw ww) (split-2-b south bw ww) (split-2-b east bw ww) (split-2-b west bw ww)
+        (split-1-b north b www) (split-1-b south b www) (split-1-b east b www) (split-1-b west b www)
      )
   )
   (piece
      (name bwwb)
      (image Black "../images/wiedem/CheckerBlack.bmp")
      (moves
-        (move-4 north b4 bwwb) (move-4 south b4 bwwb) (move-4 east b4 bwwb) (move-4 west b4 bwwb)
-        (split-3 north b3 bww b) (split-3 south b3 bww b) (split-3 east b3 bww b) (split-3 west b3 bww b)
-        (split-2 north b2 bw wb) (split-2 south b2 bw wb) (split-2 east b2 bw wb) (split-2 west b2 bw wb)
-        (split-1 north b b wwb) (split-1 south b b wwb) (split-1 east b b wwb) (split-1 west b b wwb)
+        (move-4-b north bwwb) (move-4-b south bwwb) (move-4-b east bwwb) (move-4-b west bwwb)
+        (split-3-b north bww b) (split-3-b south bww b) (split-3-b east bww b) (split-3-b west bww b)
+        (split-2-b north bw wb) (split-2-b south bw wb) (split-2-b east bw wb) (split-2-b west bw wb)
+        (split-1-b north b wwb) (split-1-b south b wwb) (split-1-b east b wwb) (split-1-b west b wwb)
      )
   )
   (piece
      (name bwbw)
      (image Black "../images/wiedem/CheckerBlack.bmp")
      (moves
-        (move-4 north b4 bwbw) (move-4 south b4 bwbw) (move-4 east b4 bwbw) (move-4 west b4 bwbw)
-        (split-3 north b3 bwb w) (split-3 south b3 bwb w) (split-3 east b3 bwb w) (split-3 west b3 bwb w)
-        (split-2 north b2 bw bw) (split-2 south b2 bw bw) (split-2 east b2 bw bw) (split-2 west b2 bw bw)
-        (split-1 north b b wbw) (split-1 south b b wbw) (split-1 east b b wbw) (split-1 west b b wbw)
+        (move-4-b north bwbw) (move-4-b south bwbw) (move-4-b east bwbw) (move-4-b west bwbw)
+        (split-3-b north bwb w) (split-3-b south bwb w) (split-3-b east bwb w) (split-3-b west bwb w)
+        (split-2-b north bw bw) (split-2-b south bw bw) (split-2-b east bw bw) (split-2-b west bw bw)
+        (split-1-b north b wbw) (split-1-b south b wbw) (split-1-b east b wbw) (split-1-b west b wbw)
      )
   )
   (piece
      (name bwbb)
      (image Black "../images/wiedem/CheckerBlack.bmp")
      (moves
-        (move-4 north b4 bwbb) (move-4 south b4 bwbb) (move-4 east b4 bwbb) (move-4 west b4 bwbb)
-        (split-3 north b3 bwb b) (split-3 south b3 bwb b) (split-3 east b3 bwb b) (split-3 west b3 bwb b)
-        (split-2 north b2 bw bb) (split-2 south b2 bw bb) (split-2 east b2 bw bb) (split-2 west b2 bw bb)
-        (split-1 north b b wbb) (split-1 south b b wbb) (split-1 east b b wbb) (split-1 west b b wbb)
+        (move-4-b north bwbb) (move-4-b south bwbb) (move-4-b east bwbb) (move-4-b west bwbb)
+        (split-3-b north bwb b) (split-3-b south bwb b) (split-3-b east bwb b) (split-3-b west bwb b)
+        (split-2-b north bw bb) (split-2-b south bw bb) (split-2-b east bw bb) (split-2-b west bw bb)
+        (split-1-b north b wbb) (split-1-b south b wbb) (split-1-b east b wbb) (split-1-b west b wbb)
      )
   )
   (piece
      (name bbww)
      (image Black "../images/wiedem/CheckerBlack.bmp")
      (moves
-        (move-4 north b4 bbww) (move-4 south b4 bbww) (move-4 east b4 bbww) (move-4 west b4 bbww)
-        (split-3 north b3 bbw w) (split-3 south b3 bbw w) (split-3 east b3 bbw w) (split-3 west b3 bbw w)
-        (split-2 north b2 bb ww) (split-2 south b2 bb ww) (split-2 east b2 bb ww) (split-2 west b2 bb ww)
-        (split-1 north b b bww) (split-1 south b b bww) (split-1 east b b bww) (split-1 west b b bww)
+        (move-4-b north bbww) (move-4-b south bbww) (move-4-b east bbww) (move-4-b west bbww)
+        (split-3-b north bbw w) (split-3-b south bbw w) (split-3-b east bbw w) (split-3-b west bbw w)
+        (split-2-b north bb ww) (split-2-b south bb ww) (split-2-b east bb ww) (split-2-b west bb ww)
+        (split-1-b north b bww) (split-1-b south b bww) (split-1-b east b bww) (split-1-b west b bww)
      )
   )
   (piece
      (name bbwb)
      (image Black "../images/wiedem/CheckerBlack.bmp")
      (moves
-        (move-4 north b4 bbwb) (move-4 south b4 bbwb) (move-4 east b4 bbwb) (move-4 west b4 bbwb)
-        (split-3 north b3 bbw b) (split-3 south b3 bbw b) (split-3 east b3 bbw b) (split-3 west b3 bbw b)
-        (split-2 north b2 bb wb) (split-2 south b2 bb wb) (split-2 east b2 bb wb) (split-2 west b2 bb wb)
-        (split-1 north b b bwb) (split-1 south b b bwb) (split-1 east b b bwb) (split-1 west b b bwb)
+        (move-4-b north bbwb) (move-4-b south bbwb) (move-4-b east bbwb) (move-4-b west bbwb)
+        (split-3-b north bbw b) (split-3-b south bbw b) (split-3-b east bbw b) (split-3-b west bbw b)
+        (split-2-b north bb wb) (split-2-b south bb wb) (split-2-b east bb wb) (split-2-b west bb wb)
+        (split-1-b north b bwb) (split-1-b south b bwb) (split-1-b east b bwb) (split-1-b west b bwb)
      )
   )
   (piece
      (name bbbw)
      (image Black "../images/wiedem/CheckerBlack.bmp")
      (moves
-        (move-4 north b4 bbbw) (move-4 south b4 bbbw) (move-4 east b4 bbbw) (move-4 west b4 bbbw)
-        (split-3 north b3 bbb w) (split-3 south b3 bbb w) (split-3 east b3 bbb w) (split-3 west b3 bbb w)
-        (split-2 north b2 bb bw) (split-2 south b2 bb bw) (split-2 east b2 bb bw) (split-2 west b2 bb bw)
-        (split-1 north b b bbw) (split-1 south b b bbw) (split-1 east b b bbw) (split-1 west b b bbw)
+        (move-4-b north bbbw) (move-4-b south bbbw) (move-4-b east bbbw) (move-4-b west bbbw)
+        (split-3-b north bbb w) (split-3-b south bbb w) (split-3-b east bbb w) (split-3-b west bbb w)
+        (split-2-b north bb bw) (split-2-b south bb bw) (split-2-b east bb bw) (split-2-b west bb bw)
+        (split-1-b north b bbw) (split-1-b south b bbw) (split-1-b east b bbw) (split-1-b west b bbw)
      )
   )
   (piece
      (name bbbb)
      (image Black "../images/wiedem/CheckerBlack.bmp")
      (moves
-        (move-4 north b4 bbbb) (move-4 south b4 bbbb) (move-4 east b4 bbbb) (move-4 west b4 bbbb)
-        (split-3 north b3 bbb b) (split-3 south b3 bbb b) (split-3 east b3 bbb b) (split-3 west b3 bbb b)
-        (split-2 north b2 bb bb) (split-2 south b2 bb bb) (split-2 east b2 bb bb) (split-2 west b2 bb bb)
-        (split-1 north b b bbb) (split-1 south b b bbb) (split-1 east b b bbb) (split-1 west b b bbb)
+        (move-4-b north bbbb) (move-4-b south bbbb) (move-4-b east bbbb) (move-4-b west bbbb)
+        (split-3-b north bbb b) (split-3-b south bbb b) (split-3-b east bbb b) (split-3-b west bbb b)
+        (split-2-b north bb bb) (split-2-b south bb bb) (split-2-b east bb bb) (split-2-b west bb bb)
+        (split-1-b north b bbb) (split-1-b south b bbb) (split-1-b east b bbb) (split-1-b west b bbb)
      )
   )
   (piece
      (name wwwww)
      (image White "../images/wiedem/CheckerWhite.bmp")
      (moves
-        (move-5 north w5 wwwww) (move-5 south w5 wwwww) (move-5 east w5 wwwww) (move-4 west w5 wwwww)
-        (split-4 north w4 wwww w) (split-4 south w4 wwww w) (split-4 east w4 wwww w) (split-4 west w4 wwww w)
-        (split-3 north w3 www ww) (split-3 south w3 www ww) (split-3 east w3 www ww) (split-3 west w3 www ww)
-        (split-2 north w2 ww www) (split-2 south w2 ww www) (split-2 east w2 ww www) (split-2 west w2 ww www)
-        (split-1 north w w wwww) (split-1 south w w wwww) (split-1 east w w wwww) (split-1 west w w wwww)
+        (move-5-w north wwwww) (move-5-w south wwwww) (move-5-w east wwwww) (move-5-w west wwwww)
+        (split-4-w north wwww w) (split-4-w south wwww w) (split-4-w east wwww w) (split-4-w west wwww w)
+        (split-3-w north www ww) (split-3-w south www ww) (split-3-w east www ww) (split-3-w west www ww)
+        (split-2-w north ww www) (split-2-w south ww www) (split-2-w east ww www) (split-2-w west ww www)
+        (split-1-w north w wwww) (split-1-w south w wwww) (split-1-w east w wwww) (split-1-w west w wwww)
      )
   )
   (piece
      (name wwwwb)
      (image White "../images/wiedem/CheckerWhite.bmp")
      (moves
-        (move-5 north w5 wwwwb) (move-5 south w5 wwwwb) (move-5 east w5 wwwwb) (move-4 west w5 wwwwb)
-        (split-4 north w4 wwww b) (split-4 south w4 wwww b) (split-4 east w4 wwww b) (split-4 west w4 wwww b)
-        (split-3 north w3 www wb) (split-3 south w3 www wb) (split-3 east w3 www wb) (split-3 west w3 www wb)
-        (split-2 north w2 ww wwb) (split-2 south w2 ww wwb) (split-2 east w2 ww wwb) (split-2 west w2 ww wwb)
-        (split-1 north w w wwwb) (split-1 south w w wwwb) (split-1 east w w wwwb) (split-1 west w w wwwb)
+        (move-5-w north wwwwb) (move-5-w south wwwwb) (move-5-w east wwwwb) (move-5-w west wwwwb)
+        (split-4-w north wwww b) (split-4-w south wwww b) (split-4-w east wwww b) (split-4-w west wwww b)
+        (split-3-w north www wb) (split-3-w south www wb) (split-3-w east www wb) (split-3-w west www wb)
+        (split-2-w north ww wwb) (split-2-w south ww wwb) (split-2-w east ww wwb) (split-2-w west ww wwb)
+        (split-1-w north w wwwb) (split-1-w south w wwwb) (split-1-w east w wwwb) (split-1-w west w wwwb)
      )
   )
   (piece
      (name wwwbw)
      (image White "../images/wiedem/CheckerWhite.bmp")
      (moves
-        (move-5 north w5 wwwbw) (move-5 south w5 wwwbw) (move-5 east w5 wwwbw) (move-4 west w5 wwwbw)
-        (split-4 north w4 wwwb w) (split-4 south w4 wwwb w) (split-4 east w4 wwwb w) (split-4 west w4 wwwb w)
-        (split-3 north w3 www bw) (split-3 south w3 www bw) (split-3 east w3 www bw) (split-3 west w3 www bw)
-        (split-2 north w2 ww wbw) (split-2 south w2 ww wbw) (split-2 east w2 ww wbw) (split-2 west w2 ww wbw)
-        (split-1 north w w wwbw) (split-1 south w w wwbw) (split-1 east w w wwbw) (split-1 west w w wwbw)
+        (move-5-w north wwwbw) (move-5-w south wwwbw) (move-5-w east wwwbw) (move-5-w west wwwbw)
+        (split-4-w north wwwb w) (split-4-w south wwwb w) (split-4-w east wwwb w) (split-4-w west wwwb w)
+        (split-3-w north www bw) (split-3-w south www bw) (split-3-w east www bw) (split-3-w west www bw)
+        (split-2-w north ww wbw) (split-2-w south ww wbw) (split-2-w east ww wbw) (split-2-w west ww wbw)
+        (split-1-w north w wwbw) (split-1-w south w wwbw) (split-1-w east w wwbw) (split-1-w west w wwbw)
      )
   )
   (piece
      (name wwwbb)
      (image White "../images/wiedem/CheckerWhite.bmp")
      (moves
-        (move-5 north w5 wwwbb) (move-5 south w5 wwwbb) (move-5 east w5 wwwbb) (move-4 west w5 wwwbb)
-        (split-4 north w4 wwwb b) (split-4 south w4 wwwb b) (split-4 east w4 wwwb b) (split-4 west w4 wwwb b)
-        (split-3 north w3 www bb) (split-3 south w3 www bb) (split-3 east w3 www bb) (split-3 west w3 www bb)
-        (split-2 north w2 ww wbb) (split-2 south w2 ww wbb) (split-2 east w2 ww wbb) (split-2 west w2 ww wbb)
-        (split-1 north w w wwbb) (split-1 south w w wwbb) (split-1 east w w wwbb) (split-1 west w w wwbb)
+        (move-5-w north wwwbb) (move-5-w south wwwbb) (move-5-w east wwwbb) (move-5-w west wwwbb)
+        (split-4-w north wwwb b) (split-4-w south wwwb b) (split-4-w east wwwb b) (split-4-w west wwwb b)
+        (split-3-w north www bb) (split-3-w south www bb) (split-3-w east www bb) (split-3-w west www bb)
+        (split-2-w north ww wbb) (split-2-w south ww wbb) (split-2-w east ww wbb) (split-2-w west ww wbb)
+        (split-1-w north w wwbb) (split-1-w south w wwbb) (split-1-w east w wwbb) (split-1-w west w wwbb)
      )
   )
   (piece
      (name wwbww)
      (image White "../images/wiedem/CheckerWhite.bmp")
      (moves
-        (move-5 north w5 wwbww) (move-5 south w5 wwbww) (move-5 east w5 wwbww) (move-4 west w5 wwbww)
-        (split-4 north w4 wwbw w) (split-4 south w4 wwbw w) (split-4 east w4 wwbw w) (split-4 west w4 wwbw w)
-        (split-3 north w3 wwb ww) (split-3 south w3 wwb ww) (split-3 east w3 wwb ww) (split-3 west w3 wwb ww)
-        (split-2 north w2 ww bww) (split-2 south w2 ww bww) (split-2 east w2 ww bww) (split-2 west w2 ww bww)
-        (split-1 north w w wbww) (split-1 south w w wbww) (split-1 east w w wbww) (split-1 west w w wbww)
+        (move-5-w north wwbww) (move-5-w south wwbww) (move-5-w east wwbww) (move-5-w west wwbww)
+        (split-4-w north wwbw w) (split-4-w south wwbw w) (split-4-w east wwbw w) (split-4-w west wwbw w)
+        (split-3-w north wwb ww) (split-3-w south wwb ww) (split-3-w east wwb ww) (split-3-w west wwb ww)
+        (split-2-w north ww bww) (split-2-w south ww bww) (split-2-w east ww bww) (split-2-w west ww bww)
+        (split-1-w north w wbww) (split-1-w south w wbww) (split-1-w east w wbww) (split-1-w west w wbww)
      )
   )
   (piece
      (name wwbwb)
      (image White "../images/wiedem/CheckerWhite.bmp")
      (moves
-        (move-5 north w5 wwbwb) (move-5 south w5 wwbwb) (move-5 east w5 wwbwb) (move-4 west w5 wwbwb)
-        (split-4 north w4 wwbw b) (split-4 south w4 wwbw b) (split-4 east w4 wwbw b) (split-4 west w4 wwbw b)
-        (split-3 north w3 wwb wb) (split-3 south w3 wwb wb) (split-3 east w3 wwb wb) (split-3 west w3 wwb wb)
-        (split-2 north w2 ww bwb) (split-2 south w2 ww bwb) (split-2 east w2 ww bwb) (split-2 west w2 ww bwb)
-        (split-1 north w w wbwb) (split-1 south w w wbwb) (split-1 east w w wbwb) (split-1 west w w wbwb)
+        (move-5-w north wwbwb) (move-5-w south wwbwb) (move-5-w east wwbwb) (move-5-w west wwbwb)
+        (split-4-w north wwbw b) (split-4-w south wwbw b) (split-4-w east wwbw b) (split-4-w west wwbw b)
+        (split-3-w north wwb wb) (split-3-w south wwb wb) (split-3-w east wwb wb) (split-3-w west wwb wb)
+        (split-2-w north ww bwb) (split-2-w south ww bwb) (split-2-w east ww bwb) (split-2-w west ww bwb)
+        (split-1-w north w wbwb) (split-1-w south w wbwb) (split-1-w east w wbwb) (split-1-w west w wbwb)
      )
   )
   (piece
      (name wwbbw)
      (image White "../images/wiedem/CheckerWhite.bmp")
      (moves
-        (move-5 north w5 wwbbw) (move-5 south w5 wwbbw) (move-5 east w5 wwbbw) (move-4 west w5 wwbbw)
-        (split-4 north w4 wwbb w) (split-4 south w4 wwbb w) (split-4 east w4 wwbb w) (split-4 west w4 wwbb w)
-        (split-3 north w3 wwb bw) (split-3 south w3 wwb bw) (split-3 east w3 wwb bw) (split-3 west w3 wwb bw)
-        (split-2 north w2 ww bbw) (split-2 south w2 ww bbw) (split-2 east w2 ww bbw) (split-2 west w2 ww bbw)
-        (split-1 north w w wbbw) (split-1 south w w wbbw) (split-1 east w w wbbw) (split-1 west w w wbbw)
+        (move-5-w north wwbbw) (move-5-w south wwbbw) (move-5-w east wwbbw) (move-5-w west wwbbw)
+        (split-4-w north wwbb w) (split-4-w south wwbb w) (split-4-w east wwbb w) (split-4-w west wwbb w)
+        (split-3-w north wwb bw) (split-3-w south wwb bw) (split-3-w east wwb bw) (split-3-w west wwb bw)
+        (split-2-w north ww bbw) (split-2-w south ww bbw) (split-2-w east ww bbw) (split-2-w west ww bbw)
+        (split-1-w north w wbbw) (split-1-w south w wbbw) (split-1-w east w wbbw) (split-1-w west w wbbw)
      )
   )
   (piece
      (name wwbbb)
      (image White "../images/wiedem/CheckerWhite.bmp")
      (moves
-        (move-5 north w5 wwbbb) (move-5 south w5 wwbbb) (move-5 east w5 wwbbb) (move-4 west w5 wwbbb)
-        (split-4 north w4 wwbb b) (split-4 south w4 wwbb b) (split-4 east w4 wwbb b) (split-4 west w4 wwbb b)
-        (split-3 north w3 wwb bb) (split-3 south w3 wwb bb) (split-3 east w3 wwb bb) (split-3 west w3 wwb bb)
-        (split-2 north w2 ww bbb) (split-2 south w2 ww bbb) (split-2 east w2 ww bbb) (split-2 west w2 ww bbb)
-        (split-1 north w w wbbb) (split-1 south w w wbbb) (split-1 east w w wbbb) (split-1 west w w wbbb)
+        (move-5-w north wwbbb) (move-5-w south wwbbb) (move-5-w east wwbbb) (move-5-w west wwbbb)
+        (split-4-w north wwbb b) (split-4-w south wwbb b) (split-4-w east wwbb b) (split-4-w west wwbb b)
+        (split-3-w north wwb bb) (split-3-w south wwb bb) (split-3-w east wwb bb) (split-3-w west wwb bb)
+        (split-2-w north ww bbb) (split-2-w south ww bbb) (split-2-w east ww bbb) (split-2-w west ww bbb)
+        (split-1-w north w wbbb) (split-1-w south w wbbb) (split-1-w east w wbbb) (split-1-w west w wbbb)
      )
   )
   (piece
      (name wbwww)
      (image White "../images/wiedem/CheckerWhite.bmp")
      (moves
-        (move-5 north w5 wbwww) (move-5 south w5 wbwww) (move-5 east w5 wbwww) (move-4 west w5 wbwww)
-        (split-4 north w4 wbww w) (split-4 south w4 wbww w) (split-4 east w4 wbww w) (split-4 west w4 wbww w)
-        (split-3 north w3 wbw ww) (split-3 south w3 wbw ww) (split-3 east w3 wbw ww) (split-3 west w3 wbw ww)
-        (split-2 north w2 wb www) (split-2 south w2 wb www) (split-2 east w2 wb www) (split-2 west w2 wb www)
-        (split-1 north w w bwww) (split-1 south w w bwww) (split-1 east w w bwww) (split-1 west w w bwww)
+        (move-5-w north wbwww) (move-5-w south wbwww) (move-5-w east wbwww) (move-5-w west wbwww)
+        (split-4-w north wbww w) (split-4-w south wbww w) (split-4-w east wbww w) (split-4-w west wbww w)
+        (split-3-w north wbw ww) (split-3-w south wbw ww) (split-3-w east wbw ww) (split-3-w west wbw ww)
+        (split-2-w north wb www) (split-2-w south wb www) (split-2-w east wb www) (split-2-w west wb www)
+        (split-1-w north w bwww) (split-1-w south w bwww) (split-1-w east w bwww) (split-1-w west w bwww)
      )
   )
   (piece
      (name wbwwb)
      (image White "../images/wiedem/CheckerWhite.bmp")
      (moves
-        (move-5 north w5 wbwwb) (move-5 south w5 wbwwb) (move-5 east w5 wbwwb) (move-4 west w5 wbwwb)
-        (split-4 north w4 wbww b) (split-4 south w4 wbww b) (split-4 east w4 wbww b) (split-4 west w4 wbww b)
-        (split-3 north w3 wbw wb) (split-3 south w3 wbw wb) (split-3 east w3 wbw wb) (split-3 west w3 wbw wb)
-        (split-2 north w2 wb wwb) (split-2 south w2 wb wwb) (split-2 east w2 wb wwb) (split-2 west w2 wb wwb)
-        (split-1 north w w bwwb) (split-1 south w w bwwb) (split-1 east w w bwwb) (split-1 west w w bwwb)
+        (move-5-w north wbwwb) (move-5-w south wbwwb) (move-5-w east wbwwb) (move-5-w west wbwwb)
+        (split-4-w north wbww b) (split-4-w south wbww b) (split-4-w east wbww b) (split-4-w west wbww b)
+        (split-3-w north wbw wb) (split-3-w south wbw wb) (split-3-w east wbw wb) (split-3-w west wbw wb)
+        (split-2-w north wb wwb) (split-2-w south wb wwb) (split-2-w east wb wwb) (split-2-w west wb wwb)
+        (split-1-w north w bwwb) (split-1-w south w bwwb) (split-1-w east w bwwb) (split-1-w west w bwwb)
      )
   )
   (piece
      (name wbwbw)
      (image White "../images/wiedem/CheckerWhite.bmp")
      (moves
-        (move-5 north w5 wbwbw) (move-5 south w5 wbwbw) (move-5 east w5 wbwbw) (move-4 west w5 wbwbw)
-        (split-4 north w4 wbwb w) (split-4 south w4 wbwb w) (split-4 east w4 wbwb w) (split-4 west w4 wbwb w)
-        (split-3 north w3 wbw bw) (split-3 south w3 wbw bw) (split-3 east w3 wbw bw) (split-3 west w3 wbw bw)
-        (split-2 north w2 wb wbw) (split-2 south w2 wb wbw) (split-2 east w2 wb wbw) (split-2 west w2 wb wbw)
-        (split-1 north w w bwbw) (split-1 south w w bwbw) (split-1 east w w bwbw) (split-1 west w w bwbw)
+        (move-5-w north wbwbw) (move-5-w south wbwbw) (move-5-w east wbwbw) (move-5-w west wbwbw)
+        (split-4-w north wbwb w) (split-4-w south wbwb w) (split-4-w east wbwb w) (split-4-w west wbwb w)
+        (split-3-w north wbw bw) (split-3-w south wbw bw) (split-3-w east wbw bw) (split-3-w west wbw bw)
+        (split-2-w north wb wbw) (split-2-w south wb wbw) (split-2-w east wb wbw) (split-2-w west wb wbw)
+        (split-1-w north w bwbw) (split-1-w south w bwbw) (split-1-w east w bwbw) (split-1-w west w bwbw)
      )
   )
   (piece
      (name wbwbb)
      (image White "../images/wiedem/CheckerWhite.bmp")
      (moves
-        (move-5 north w5 wbwbb) (move-5 south w5 wbwbb) (move-5 east w5 wbwbb) (move-4 west w5 wbwbb)
-        (split-4 north w4 wbwb b) (split-4 south w4 wbwb b) (split-4 east w4 wbwb b) (split-4 west w4 wbwb b)
-        (split-3 north w3 wbw bb) (split-3 south w3 wbw bb) (split-3 east w3 wbw bb) (split-3 west w3 wbw bb)
-        (split-2 north w2 wb wbb) (split-2 south w2 wb wbb) (split-2 east w2 wb wbb) (split-2 west w2 wb wbb)
-        (split-1 north w w bwbb) (split-1 south w w bwbb) (split-1 east w w bwbb) (split-1 west w w bwbb)
+        (move-5-w north wbwbb) (move-5-w south wbwbb) (move-5-w east wbwbb) (move-5-w west wbwbb)
+        (split-4-w north wbwb b) (split-4-w south wbwb b) (split-4-w east wbwb b) (split-4-w west wbwb b)
+        (split-3-w north wbw bb) (split-3-w south wbw bb) (split-3-w east wbw bb) (split-3-w west wbw bb)
+        (split-2-w north wb wbb) (split-2-w south wb wbb) (split-2-w east wb wbb) (split-2-w west wb wbb)
+        (split-1-w north w bwbb) (split-1-w south w bwbb) (split-1-w east w bwbb) (split-1-w west w bwbb)
      )
   )
   (piece
      (name wbbww)
      (image White "../images/wiedem/CheckerWhite.bmp")
      (moves
-        (move-5 north w5 wbbww) (move-5 south w5 wbbww) (move-5 east w5 wbbww) (move-4 west w5 wbbww)
-        (split-4 north w4 wbbw w) (split-4 south w4 wbbw w) (split-4 east w4 wbbw w) (split-4 west w4 wbbw w)
-        (split-3 north w3 wbb ww) (split-3 south w3 wbb ww) (split-3 east w3 wbb ww) (split-3 west w3 wbb ww)
-        (split-2 north w2 wb bww) (split-2 south w2 wb bww) (split-2 east w2 wb bww) (split-2 west w2 wb bww)
-        (split-1 north w w bbww) (split-1 south w w bbww) (split-1 east w w bbww) (split-1 west w w bbww)
+        (move-5-w north wbbww) (move-5-w south wbbww) (move-5-w east wbbww) (move-5-w west wbbww)
+        (split-4-w north wbbw w) (split-4-w south wbbw w) (split-4-w east wbbw w) (split-4-w west wbbw w)
+        (split-3-w north wbb ww) (split-3-w south wbb ww) (split-3-w east wbb ww) (split-3-w west wbb ww)
+        (split-2-w north wb bww) (split-2-w south wb bww) (split-2-w east wb bww) (split-2-w west wb bww)
+        (split-1-w north w bbww) (split-1-w south w bbww) (split-1-w east w bbww) (split-1-w west w bbww)
      )
   )
   (piece
      (name wbbwb)
      (image White "../images/wiedem/CheckerWhite.bmp")
      (moves
-        (move-5 north w5 wbbwb) (move-5 south w5 wbbwb) (move-5 east w5 wbbwb) (move-4 west w5 wbbwb)
-        (split-4 north w4 wbbw b) (split-4 south w4 wbbw b) (split-4 east w4 wbbw b) (split-4 west w4 wbbw b)
-        (split-3 north w3 wbb wb) (split-3 south w3 wbb wb) (split-3 east w3 wbb wb) (split-3 west w3 wbb wb)
-        (split-2 north w2 wb bwb) (split-2 south w2 wb bwb) (split-2 east w2 wb bwb) (split-2 west w2 wb bwb)
-        (split-1 north w w bbwb) (split-1 south w w bbwb) (split-1 east w w bbwb) (split-1 west w w bbwb)
+        (move-5-w north wbbwb) (move-5-w south wbbwb) (move-5-w east wbbwb) (move-5-w west wbbwb)
+        (split-4-w north wbbw b) (split-4-w south wbbw b) (split-4-w east wbbw b) (split-4-w west wbbw b)
+        (split-3-w north wbb wb) (split-3-w south wbb wb) (split-3-w east wbb wb) (split-3-w west wbb wb)
+        (split-2-w north wb bwb) (split-2-w south wb bwb) (split-2-w east wb bwb) (split-2-w west wb bwb)
+        (split-1-w north w bbwb) (split-1-w south w bbwb) (split-1-w east w bbwb) (split-1-w west w bbwb)
      )
   )
   (piece
      (name wbbbw)
      (image White "../images/wiedem/CheckerWhite.bmp")
      (moves
-        (move-5 north w5 wbbbw) (move-5 south w5 wbbbw) (move-5 east w5 wbbbw) (move-4 west w5 wbbbw)
-        (split-4 north w4 wbbb w) (split-4 south w4 wbbb w) (split-4 east w4 wbbb w) (split-4 west w4 wbbb w)
-        (split-3 north w3 wbb bw) (split-3 south w3 wbb bw) (split-3 east w3 wbb bw) (split-3 west w3 wbb bw)
-        (split-2 north w2 wb bbw) (split-2 south w2 wb bbw) (split-2 east w2 wb bbw) (split-2 west w2 wb bbw)
-        (split-1 north w w bbbw) (split-1 south w w bbbw) (split-1 east w w bbbw) (split-1 west w w bbbw)
+        (move-5-w north wbbbw) (move-5-w south wbbbw) (move-5-w east wbbbw) (move-5-w west wbbbw)
+        (split-4-w north wbbb w) (split-4-w south wbbb w) (split-4-w east wbbb w) (split-4-w west wbbb w)
+        (split-3-w north wbb bw) (split-3-w south wbb bw) (split-3-w east wbb bw) (split-3-w west wbb bw)
+        (split-2-w north wb bbw) (split-2-w south wb bbw) (split-2-w east wb bbw) (split-2-w west wb bbw)
+        (split-1-w north w bbbw) (split-1-w south w bbbw) (split-1-w east w bbbw) (split-1-w west w bbbw)
      )
   )
   (piece
      (name wbbbb)
      (image White "../images/wiedem/CheckerWhite.bmp")
      (moves
-        (move-5 north w5 wbbbb) (move-5 south w5 wbbbb) (move-5 east w5 wbbbb) (move-4 west w5 wbbbb)
-        (split-4 north w4 wbbb b) (split-4 south w4 wbbb b) (split-4 east w4 wbbb b) (split-4 west w4 wbbb b)
-        (split-3 north w3 wbb bb) (split-3 south w3 wbb bb) (split-3 east w3 wbb bb) (split-3 west w3 wbb bb)
-        (split-2 north w2 wb bbb) (split-2 south w2 wb bbb) (split-2 east w2 wb bbb) (split-2 west w2 wb bbb)
-        (split-1 north w w bbbb) (split-1 south w w bbbb) (split-1 east w w bbbb) (split-1 west w w bbbb)
+        (move-5-w north wbbbb) (move-5-w south wbbbb) (move-5-w east wbbbb) (move-5-w west wbbbb)
+        (split-4-w north wbbb b) (split-4-w south wbbb b) (split-4-w east wbbb b) (split-4-w west wbbb b)
+        (split-3-w north wbb bb) (split-3-w south wbb bb) (split-3-w east wbb bb) (split-3-w west wbb bb)
+        (split-2-w north wb bbb) (split-2-w south wb bbb) (split-2-w east wb bbb) (split-2-w west wb bbb)
+        (split-1-w north w bbbb) (split-1-w south w bbbb) (split-1-w east w bbbb) (split-1-w west w bbbb)
      )
   )
   (piece
      (name bwwww)
      (image Black "../images/wiedem/CheckerBlack.bmp")
      (moves
-        (move-5 north b5 bwwww) (move-5 south b5 bwwww) (move-5 east b5 bwwww) (move-5 west b5 bwwww)
-        (split-4 north b4 bwww w) (split-4 south b4 bwww w) (split-4 east b4 bwww w) (split-4 west b4 bwww w)
-        (split-3 north b3 bww ww) (split-3 south b3 bww ww) (split-3 east b3 bww ww) (split-3 west b3 bww ww)
-        (split-2 north b2 bw www) (split-2 south b2 bw www) (split-2 east b2 bw www) (split-2 west b2 bw www)
-        (split-1 north b b wwww) (split-1 south b b wwww) (split-1 east b b wwww) (split-1 west b b wwww)
+        (move-5-b north bwwww) (move-5-b south bwwww) (move-5-b east bwwww) (move-5-b west bwwww)
+        (split-4-b north bwww w) (split-4-b south bwww w) (split-4-b east bwww w) (split-4-b west bwww w)
+        (split-3-b north bww ww) (split-3-b south bww ww) (split-3-b east bww ww) (split-3-b west bww ww)
+        (split-2-b north bw www) (split-2-b south bw www) (split-2-b east bw www) (split-2-b west bw www)
+        (split-1-b north b wwww) (split-1-b south b wwww) (split-1-b east b wwww) (split-1-b west b wwww)
      )
   )
   (piece
      (name bwwwb)
      (image Black "../images/wiedem/CheckerBlack.bmp")
      (moves
-        (move-5 north b5 bwwwb) (move-5 south b5 bwwwb) (move-5 east b5 bwwwb) (move-5 west b5 bwwwb)
-        (split-4 north b4 bwww b) (split-4 south b4 bwww b) (split-4 east b4 bwww b) (split-4 west b4 bwww b)
-        (split-3 north b3 bww wb) (split-3 south b3 bww wb) (split-3 east b3 bww wb) (split-3 west b3 bww wb)
-        (split-2 north b2 bw wwb) (split-2 south b2 bw wwb) (split-2 east b2 bw wwb) (split-2 west b2 bw wwb)
-        (split-1 north b b wwwb) (split-1 south b b wwwb) (split-1 east b b wwwb) (split-1 west b b wwwb)
+        (move-5-b north bwwwb) (move-5-b south bwwwb) (move-5-b east bwwwb) (move-5-b west bwwwb)
+        (split-4-b north bwww b) (split-4-b south bwww b) (split-4-b east bwww b) (split-4-b west bwww b)
+        (split-3-b north bww wb) (split-3-b south bww wb) (split-3-b east bww wb) (split-3-b west bww wb)
+        (split-2-b north bw wwb) (split-2-b south bw wwb) (split-2-b east bw wwb) (split-2-b west bw wwb)
+        (split-1-b north b wwwb) (split-1-b south b wwwb) (split-1-b east b wwwb) (split-1-b west b wwwb)
      )
   )
   (piece
      (name bwwbw)
      (image Black "../images/wiedem/CheckerBlack.bmp")
      (moves
-        (move-5 north b5 bwwbw) (move-5 south b5 bwwbw) (move-5 east b5 bwwbw) (move-5 west b5 bwwbw)
-        (split-4 north b4 bwwb w) (split-4 south b4 bwwb w) (split-4 east b4 bwwb w) (split-4 west b4 bwwb w)
-        (split-3 north b3 bww bw) (split-3 south b3 bww bw) (split-3 east b3 bww bw) (split-3 west b3 bww bw)
-        (split-2 north b2 bw wbw) (split-2 south b2 bw wbw) (split-2 east b2 bw wbw) (split-2 west b2 bw wbw)
-        (split-1 north b b wwbw) (split-1 south b b wwbw) (split-1 east b b wwbw) (split-1 west b b wwbw)
+        (move-5-b north bwwbw) (move-5-b south bwwbw) (move-5-b east bwwbw) (move-5-b west bwwbw)
+        (split-4-b north bwwb w) (split-4-b south bwwb w) (split-4-b east bwwb w) (split-4-b west bwwb w)
+        (split-3-b north bww bw) (split-3-b south bww bw) (split-3-b east bww bw) (split-3-b west bww bw)
+        (split-2-b north bw wbw) (split-2-b south bw wbw) (split-2-b east bw wbw) (split-2-b west bw wbw)
+        (split-1-b north b wwbw) (split-1-b south b wwbw) (split-1-b east b wwbw) (split-1-b west b wwbw)
      )
   )
   (piece
      (name bwwbb)
      (image Black "../images/wiedem/CheckerBlack.bmp")
      (moves
-        (move-5 north b5 bwwbb) (move-5 south b5 bwwbb) (move-5 east b5 bwwbb) (move-5 west b5 bwwbb)
-        (split-4 north b4 bwwb b) (split-4 south b4 bwwb b) (split-4 east b4 bwwb b) (split-4 west b4 bwwb b)
-        (split-3 north b3 bww bb) (split-3 south b3 bww bb) (split-3 east b3 bww bb) (split-3 west b3 bww bb)
-        (split-2 north b2 bw wbb) (split-2 south b2 bw wbb) (split-2 east b2 bw wbb) (split-2 west b2 bw wbb)
-        (split-1 north b b wwbb) (split-1 south b b wwbb) (split-1 east b b wwbb) (split-1 west b b wwbb)
+        (move-5-b north bwwbb) (move-5-b south bwwbb) (move-5-b east bwwbb) (move-5-b west bwwbb)
+        (split-4-b north bwwb b) (split-4-b south bwwb b) (split-4-b east bwwb b) (split-4-b west bwwb b)
+        (split-3-b north bww bb) (split-3-b south bww bb) (split-3-b east bww bb) (split-3-b west bww bb)
+        (split-2-b north bw wbb) (split-2-b south bw wbb) (split-2-b east bw wbb) (split-2-b west bw wbb)
+        (split-1-b north b wwbb) (split-1-b south b wwbb) (split-1-b east b wwbb) (split-1-b west b wwbb)
      )
   )
   (piece
      (name bwbww)
      (image Black "../images/wiedem/CheckerBlack.bmp")
      (moves
-        (move-5 north b5 bwbww) (move-5 south b5 bwbww) (move-5 east b5 bwbww) (move-5 west b5 bwbww)
-        (split-4 north b4 bwbw w) (split-4 south b4 bwbw w) (split-4 east b4 bwbw w) (split-4 west b4 bwbw w)
-        (split-3 north b3 bwb ww) (split-3 south b3 bwb ww) (split-3 east b3 bwb ww) (split-3 west b3 bwb ww)
-        (split-2 north b2 bw bww) (split-2 south b2 bw bww) (split-2 east b2 bw bww) (split-2 west b2 bw bww)
-        (split-1 north b b wbww) (split-1 south b b wbww) (split-1 east b b wbww) (split-1 west b b wbww)
+        (move-5-b north bwbww) (move-5-b south bwbww) (move-5-b east bwbww) (move-5-b west bwbww)
+        (split-4-b north bwbw w) (split-4-b south bwbw w) (split-4-b east bwbw w) (split-4-b west bwbw w)
+        (split-3-b north bwb ww) (split-3-b south bwb ww) (split-3-b east bwb ww) (split-3-b west bwb ww)
+        (split-2-b north bw bww) (split-2-b south bw bww) (split-2-b east bw bww) (split-2-b west bw bww)
+        (split-1-b north b wbww) (split-1-b south b wbww) (split-1-b east b wbww) (split-1-b west b wbww)
      )
   )
   (piece
      (name bwbwb)
      (image Black "../images/wiedem/CheckerBlack.bmp")
      (moves
-        (move-5 north b5 bwbwb) (move-5 south b5 bwbwb) (move-5 east b5 bwbwb) (move-5 west b5 bwbwb)
-        (split-4 north b4 bwbw b) (split-4 south b4 bwbw b) (split-4 east b4 bwbw b) (split-4 west b4 bwbw b)
-        (split-3 north b3 bwb wb) (split-3 south b3 bwb wb) (split-3 east b3 bwb wb) (split-3 west b3 bwb wb)
-        (split-2 north b2 bw bwb) (split-2 south b2 bw bwb) (split-2 east b2 bw bwb) (split-2 west b2 bw bwb)
-        (split-1 north b b wbwb) (split-1 south b b wbwb) (split-1 east b b wbwb) (split-1 west b b wbwb)
+        (move-5-b north bwbwb) (move-5-b south bwbwb) (move-5-b east bwbwb) (move-5-b west bwbwb)
+        (split-4-b north bwbw b) (split-4-b south bwbw b) (split-4-b east bwbw b) (split-4-b west bwbw b)
+        (split-3-b north bwb wb) (split-3-b south bwb wb) (split-3-b east bwb wb) (split-3-b west bwb wb)
+        (split-2-b north bw bwb) (split-2-b south bw bwb) (split-2-b east bw bwb) (split-2-b west bw bwb)
+        (split-1-b north b wbwb) (split-1-b south b wbwb) (split-1-b east b wbwb) (split-1-b west b wbwb)
      )
   )
   (piece
      (name bwbbw)
      (image Black "../images/wiedem/CheckerBlack.bmp")
      (moves
-        (move-5 north b5 bwbbw) (move-5 south b5 bwbbw) (move-5 east b5 bwbbw) (move-5 west b5 bwbbw)
-        (split-4 north b4 bwbb w) (split-4 south b4 bwbb w) (split-4 east b4 bwbb w) (split-4 west b4 bwbb w)
-        (split-3 north b3 bwb bw) (split-3 south b3 bwb bw) (split-3 east b3 bwb bw) (split-3 west b3 bwb bw)
-        (split-2 north b2 bw bbw) (split-2 south b2 bw bbw) (split-2 east b2 bw bbw) (split-2 west b2 bw bbw)
-        (split-1 north b b wbbw) (split-1 south b b wbbw) (split-1 east b b wbbw) (split-1 west b b wbbw)
+        (move-5-b north bwbbw) (move-5-b south bwbbw) (move-5-b east bwbbw) (move-5-b west bwbbw)
+        (split-4-b north bwbb w) (split-4-b south bwbb w) (split-4-b east bwbb w) (split-4-b west bwbb w)
+        (split-3-b north bwb bw) (split-3-b south bwb bw) (split-3-b east bwb bw) (split-3-b west bwb bw)
+        (split-2-b north bw bbw) (split-2-b south bw bbw) (split-2-b east bw bbw) (split-2-b west bw bbw)
+        (split-1-b north b wbbw) (split-1-b south b wbbw) (split-1-b east b wbbw) (split-1-b west b wbbw)
      )
   )
   (piece
      (name bwbbb)
      (image Black "../images/wiedem/CheckerBlack.bmp")
      (moves
-        (move-5 north b5 bwbbb) (move-5 south b5 bwbbb) (move-5 east b5 bwbbb) (move-5 west b5 bwbbb)
-        (split-4 north b4 bwbb b) (split-4 south b4 bwbb b) (split-4 east b4 bwbb b) (split-4 west b4 bwbb b)
-        (split-3 north b3 bwb bb) (split-3 south b3 bwb bb) (split-3 east b3 bwb bb) (split-3 west b3 bwb bb)
-        (split-2 north b2 bw bbb) (split-2 south b2 bw bbb) (split-2 east b2 bw bbb) (split-2 west b2 bw bbb)
-        (split-1 north b b wbbb) (split-1 south b b wbbb) (split-1 east b b wbbb) (split-1 west b b wbbb)
+        (move-5-b north bwbbb) (move-5-b south bwbbb) (move-5-b east bwbbb) (move-5-b west bwbbb)
+        (split-4-b north bwbb b) (split-4-b south bwbb b) (split-4-b east bwbb b) (split-4-b west bwbb b)
+        (split-3-b north bwb bb) (split-3-b south bwb bb) (split-3-b east bwb bb) (split-3-b west bwb bb)
+        (split-2-b north bw bbb) (split-2-b south bw bbb) (split-2-b east bw bbb) (split-2-b west bw bbb)
+        (split-1-b north b wbbb) (split-1-b south b wbbb) (split-1-b east b wbbb) (split-1-b west b wbbb)
      )
   )
   (piece
      (name bbwww)
      (image Black "../images/wiedem/CheckerBlack.bmp")
      (moves
-        (move-5 north b5 bbwww) (move-5 south b5 bbwww) (move-5 east b5 bbwww) (move-5 west b5 bbwww)
-        (split-4 north b4 bbww w) (split-4 south b4 bbww w) (split-4 east b4 bbww w) (split-4 west b4 bbww w)
-        (split-3 north b3 bbw ww) (split-3 south b3 bbw ww) (split-3 east b3 bbw ww) (split-3 west b3 bbw ww)
-        (split-2 north b2 bb www) (split-2 south b2 bb www) (split-2 east b2 bb www) (split-2 west b2 bb www)
-        (split-1 north b b bwww) (split-1 south b b bwww) (split-1 east b b bwww) (split-1 west b b bwww)
+        (move-5-b north bbwww) (move-5-b south bbwww) (move-5-b east bbwww) (move-5-b west bbwww)
+        (split-4-b north bbww w) (split-4-b south bbww w) (split-4-b east bbww w) (split-4-b west bbww w)
+        (split-3-b north bbw ww) (split-3-b south bbw ww) (split-3-b east bbw ww) (split-3-b west bbw ww)
+        (split-2-b north bb www) (split-2-b south bb www) (split-2-b east bb www) (split-2-b west bb www)
+        (split-1-b north b bwww) (split-1-b south b bwww) (split-1-b east b bwww) (split-1-b west b bwww)
      )
   )
   (piece
      (name bbwwb)
      (image Black "../images/wiedem/CheckerBlack.bmp")
      (moves
-        (move-5 north b5 bbwwb) (move-5 south b5 bbwwb) (move-5 east b5 bbwwb) (move-5 west b5 bbwwb)
-        (split-4 north b4 bbww b) (split-4 south b4 bbww b) (split-4 east b4 bbww b) (split-4 west b4 bbww b)
-        (split-3 north b3 bbw wb) (split-3 south b3 bbw wb) (split-3 east b3 bbw wb) (split-3 west b3 bbw wb)
-        (split-2 north b2 bb wwb) (split-2 south b2 bb wwb) (split-2 east b2 bb wwb) (split-2 west b2 bb wwb)
-        (split-1 north b b bwwb) (split-1 south b b bwwb) (split-1 east b b bwwb) (split-1 west b b bwwb)
+        (move-5-b north bbwwb) (move-5-b south bbwwb) (move-5-b east bbwwb) (move-5-b west bbwwb)
+        (split-4-b north bbww b) (split-4-b south bbww b) (split-4-b east bbww b) (split-4-b west bbww b)
+        (split-3-b north bbw wb) (split-3-b south bbw wb) (split-3-b east bbw wb) (split-3-b west bbw wb)
+        (split-2-b north bb wwb) (split-2-b south bb wwb) (split-2-b east bb wwb) (split-2-b west bb wwb)
+        (split-1-b north b bwwb) (split-1-b south b bwwb) (split-1-b east b bwwb) (split-1-b west b bwwb)
      )
   )
   (piece
      (name bbwbw)
      (image Black "../images/wiedem/CheckerBlack.bmp")
      (moves
-        (move-5 north b5 bbwbw) (move-5 south b5 bbwbw) (move-5 east b5 bbwbw) (move-5 west b5 bbwbw)
-        (split-4 north b4 bbwb w) (split-4 south b4 bbwb w) (split-4 east b4 bbwb w) (split-4 west b4 bbwb w)
-        (split-3 north b3 bbw bw) (split-3 south b3 bbw bw) (split-3 east b3 bbw bw) (split-3 west b3 bbw bw)
-        (split-2 north b2 bb wbw) (split-2 south b2 bb wbw) (split-2 east b2 bb wbw) (split-2 west b2 bb wbw)
-        (split-1 north b b bwbw) (split-1 south b b bwbw) (split-1 east b b bwbw) (split-1 west b b bwbw)
+        (move-5-b north bbwbw) (move-5-b south bbwbw) (move-5-b east bbwbw) (move-5-b west bbwbw)
+        (split-4-b north bbwb w) (split-4-b south bbwb w) (split-4-b east bbwb w) (split-4-b west bbwb w)
+        (split-3-b north bbw bw) (split-3-b south bbw bw) (split-3-b east bbw bw) (split-3-b west bbw bw)
+        (split-2-b north bb wbw) (split-2-b south bb wbw) (split-2-b east bb wbw) (split-2-b west bb wbw)
+        (split-1-b north b bwbw) (split-1-b south b bwbw) (split-1-b east b bwbw) (split-1-b west b bwbw)
      )
   )
   (piece
      (name bbwbb)
      (image Black "../images/wiedem/CheckerBlack.bmp")
      (moves
-        (move-5 north b5 bbwbb) (move-5 south b5 bbwbb) (move-5 east b5 bbwbb) (move-5 west b5 bbwbb)
-        (split-4 north b4 bbwb b) (split-4 south b4 bbwb b) (split-4 east b4 bbwb b) (split-4 west b4 bbwb b)
-        (split-3 north b3 bbw bb) (split-3 south b3 bbw bb) (split-3 east b3 bbw bb) (split-3 west b3 bbw bb)
-        (split-2 north b2 bb wbb) (split-2 south b2 bb wbb) (split-2 east b2 bb wbb) (split-2 west b2 bb wbb)
-        (split-1 north b b bwbb) (split-1 south b b bwbb) (split-1 east b b bwbb) (split-1 west b b bwbb)
+        (move-5-b north bbwbb) (move-5-b south bbwbb) (move-5-b east bbwbb) (move-5-b west bbwbb)
+        (split-4-b north bbwb b) (split-4-b south bbwb b) (split-4-b east bbwb b) (split-4-b west bbwb b)
+        (split-3-b north bbw bb) (split-3-b south bbw bb) (split-3-b east bbw bb) (split-3-b west bbw bb)
+        (split-2-b north bb wbb) (split-2-b south bb wbb) (split-2-b east bb wbb) (split-2-b west bb wbb)
+        (split-1-b north b bwbb) (split-1-b south b bwbb) (split-1-b east b bwbb) (split-1-b west b bwbb)
      )
   )
   (piece
      (name bbbww)
      (image Black "../images/wiedem/CheckerBlack.bmp")
      (moves
-        (move-5 north b5 bbbww) (move-5 south b5 bbbww) (move-5 east b5 bbbww) (move-5 west b5 bbbww)
-        (split-4 north b4 bbbw w) (split-4 south b4 bbbw w) (split-4 east b4 bbbw w) (split-4 west b4 bbbw w)
-        (split-3 north b3 bbb ww) (split-3 south b3 bbb ww) (split-3 east b3 bbb ww) (split-3 west b3 bbb ww)
-        (split-2 north b2 bb bww) (split-2 south b2 bb bww) (split-2 east b2 bb bww) (split-2 west b2 bb bww)
-        (split-1 north b b bbww) (split-1 south b b bbww) (split-1 east b b bbww) (split-1 west b b bbww)
+        (move-5-b north bbbww) (move-5-b south bbbww) (move-5-b east bbbww) (move-5-b west bbbww)
+        (split-4-b north bbbw w) (split-4-b south bbbw w) (split-4-b east bbbw w) (split-4-b west bbbw w)
+        (split-3-b north bbb ww) (split-3-b south bbb ww) (split-3-b east bbb ww) (split-3-b west bbb ww)
+        (split-2-b north bb bww) (split-2-b south bb bww) (split-2-b east bb bww) (split-2-b west bb bww)
+        (split-1-b north b bbww) (split-1-b south b bbww) (split-1-b east b bbww) (split-1-b west b bbww)
      )
   )
   (piece
      (name bbbwb)
      (image Black "../images/wiedem/CheckerBlack.bmp")
      (moves
-        (move-5 north b5 bbbwb) (move-5 south b5 bbbwb) (move-5 east b5 bbbwb) (move-5 west b5 bbbwb)
-        (split-4 north b4 bbbw b) (split-4 south b4 bbbw b) (split-4 east b4 bbbw b) (split-4 west b4 bbbw b)
-        (split-3 north b3 bbb wb) (split-3 south b3 bbb wb) (split-3 east b3 bbb wb) (split-3 west b3 bbb wb)
-        (split-2 north b2 bb bwb) (split-2 south b2 bb bwb) (split-2 east b2 bb bwb) (split-2 west b2 bb bwb)
-        (split-1 north b b bbwb) (split-1 south b b bbwb) (split-1 east b b bbwb) (split-1 west b b bbwb)
+        (move-5-b north bbbwb) (move-5-b south bbbwb) (move-5-b east bbbwb) (move-5-b west bbbwb)
+        (split-4-b north bbbw b) (split-4-b south bbbw b) (split-4-b east bbbw b) (split-4-b west bbbw b)
+        (split-3-b north bbb wb) (split-3-b south bbb wb) (split-3-b east bbb wb) (split-3-b west bbb wb)
+        (split-2-b north bb bwb) (split-2-b south bb bwb) (split-2-b east bb bwb) (split-2-b west bb bwb)
+        (split-1-b north b bbwb) (split-1-b south b bbwb) (split-1-b east b bbwb) (split-1-b west b bbwb)
      )
   )
   (piece
      (name bbbbw)
      (image Black "../images/wiedem/CheckerBlack.bmp")
      (moves
-        (move-5 north b5 bbbbw) (move-5 south b5 bbbbw) (move-5 east b5 bbbbw) (move-5 west b5 bbbbw)
-        (split-4 north b4 bbbb w) (split-4 south b4 bbbb w) (split-4 east b4 bbbb w) (split-4 west b4 bbbb w)
-        (split-3 north b3 bbb bw) (split-3 south b3 bbb bw) (split-3 east b3 bbb bw) (split-3 west b3 bbb bw)
-        (split-2 north b2 bb bbw) (split-2 south b2 bb bbw) (split-2 east b2 bb bbw) (split-2 west b2 bb bbw)
-        (split-1 north b b bbbw) (split-1 south b b bbbw) (split-1 east b b bbbw) (split-1 west b b bbbw)
+        (move-5-b north bbbbw) (move-5-b south bbbbw) (move-5-b east bbbbw) (move-5-b west bbbbw)
+        (split-4-b north bbbb w) (split-4-b south bbbb w) (split-4-b east bbbb w) (split-4-b west bbbb w)
+        (split-3-b north bbb bw) (split-3-b south bbb bw) (split-3-b east bbb bw) (split-3-b west bbb bw)
+        (split-2-b north bb bbw) (split-2-b south bb bbw) (split-2-b east bb bbw) (split-2-b west bb bbw)
+        (split-1-b north b bbbw) (split-1-b south b bbbw) (split-1-b east b bbbw) (split-1-b west b bbbw)
      )
   )
   (piece
      (name bbbbb)
      (image Black "../images/wiedem/CheckerBlack.bmp")
      (moves
-        (move-5 north b5 bbbbb) (move-5 south b5 bbbbb) (move-5 east b5 bbbbb) (move-5 west b5 bbbbb)
-        (split-4 north b4 bbbb b) (split-4 south b4 bbbb b) (split-4 east b4 bbbb b) (split-4 west b4 bbbb b)
-        (split-3 north b3 bbb bb) (split-3 south b3 bbb bb) (split-3 east b3 bbb bb) (split-3 west b3 bbb bb)
-        (split-2 north b2 bb bbb) (split-2 south b2 bb bbb) (split-2 east b2 bb bbb) (split-2 west b2 bb bbb)
-        (split-1 north b b bbbb) (split-1 south b b bbbb) (split-1 east b b bbbb) (split-1 west b b bbbb)
+        (move-5-b north bbbbb) (move-5-b south bbbbb) (move-5-b east bbbbb) (move-5-b west bbbbb)
+        (split-4-b north bbbb b) (split-4-b south bbbb b) (split-4-b east bbbb b) (split-4-b west bbbb b)
+        (split-3-b north bbb bb) (split-3-b south bbb bb) (split-3-b east bbb bb) (split-3-b west bbb bb)
+        (split-2-b north bb bbb) (split-2-b south bb bbb) (split-2-b east bb bbb) (split-2-b west bb bbb)
+        (split-1-b north b bbbb) (split-1-b south b bbbb) (split-1-b east b bbbb) (split-1-b west b bbbb)
      )
   )
 
