@@ -1,4 +1,13 @@
 (define r
+   mark
+   start w-res
+   (while (and not-empty? (on-board? w-res))
+       w-res
+   )
+   (if empty?
+       (create $1)
+   )
+   back
 )
 
 (define merge-w
@@ -751,99 +760,135 @@
   ))
 )
 
+(define drop-w (
+  (verify (in-zone? res))
+  start
+  (while (on-board? next)
+     next
+     (if empty? add else (merge-w w))
+  )
+))
+
+(define drop-b (
+  (verify (in-zone? res))
+  start
+  (while (on-board? next)
+     next
+     (if empty? add else (merge-b b))
+  )
+))
+
 (define move-1-w (
+  (verify (not (in-zone? res)))
   $1
   (if empty? add else (merge-w $2))
 ))
 
 (define move-1-b (
+  (verify (not (in-zone? res)))
   $1
   (if empty? add else (merge-b $2))
 ))
 
 (define move-2-w (
+  (verify (not (in-zone? res)))
   $1 $1
   (if empty? add else (merge-w2 $2))
 ))
 
 (define move-2-b (
+  (verify (not (in-zone? res)))
   $1 $1
   (if empty? add else (merge-b2 $2))
 ))
 
 (define move-3-w (
+  (verify (not (in-zone? res)))
   $1 $1 $1
   (if empty? add else (merge-w3 $2))
 ))
 
 (define move-3-b (
+  (verify (not (in-zone? res)))
   $1 $1 $1
   (if empty? add else (merge-b3 $2))
 ))
 
 (define move-4-w (
+  (verify (not (in-zone? res)))
   $1 $1 $1 $1
   (if empty? add else (merge-w4 $2))
 ))
 
 (define move-4-b (
+  (verify (not (in-zone? res)))
   $1 $1 $1 $1
   (if empty? add else (merge-b4 $2))
 ))
 
 (define move-5-w (
+  (verify (not (in-zone? res)))
   $1 $1 $1 $1 $1
   (if empty? add else (merge-w5 $2))
 ))
 
 (define move-5-b (
+  (verify (not (in-zone? res)))
   $1 $1 $1 $1 $1
   (if empty? add else (merge-b5 $2))
 ))
 
 (define split-1-w (
+  (verify (not (in-zone? res)))
   (create $3)
   $1
   (if empty? add else (merge-w $2))
 ))
 
 (define split-1-b (
+  (verify (not (in-zone? res)))
   (create $3)
   $1
   (if empty? add else (merge-b $2))
 ))
 
 (define split-2-w (
+  (verify (not (in-zone? res)))
   (create $3)
   $1 $1
   (if empty? add else (merge-w2 $2))
 ))
 
 (define split-2-b (
+  (verify (not (in-zone? res)))
   (create $3)
   $1 $1
   (if empty? add else (merge-b2 $2))
 ))
 
 (define split-3-w (
+  (verify (not (in-zone? res)))
   (create $3)
   $1 $1 $1
   (if empty? add else (merge-w3 $2))
 ))
 
 (define split-3-b (
+  (verify (not (in-zone? res)))
   (create $3)
   $1 $1 $1
   (if empty? add else (merge-b3 $2))
 ))
 
 (define split-4-w (
+  (verify (not (in-zone? res)))
   (create $3)
   $1 $1 $1 $1
   (if empty? add else (merge-w4 $2))
 ))
 
 (define split-4-b (
+  (verify (not (in-zone? res)))
   (create $3)
   $1 $1 $1 $1
   (if empty? add else (merge-b4 $2))
@@ -865,16 +910,29 @@
   (turn-order White Black)
 
   (board
-    (image "../images/wiedem/chess8x8.bmp")
+    (image "../images/focus/board.bmp")
     (grid
       (start-rectangle 5 5 54 54)
       (dimensions
         ("x/y/I/a/b/c/d/e/f/g/h/J/z/t" (49 0)) ; files
         ("8/7/6/5/4/3/2/1" (0 49)) ; ranks
       )
-      (directions (north 0 -1) (south 0 1) (east 1 0) (west -1 0)) 
+      (directions (north 0 -1) (south 0 1) (east 1 0) (west -1 0)
+                  (w-res 0 1) (b-res 0 1) (next 0 1)
+      ) 
     )
     (kill-positions a1 a2 a7 a8 b1 b8 g1 g8 h1 h2 h7 h8 I3 I4 I5 I6 J3 J4 J5 J6)
+    (zone (name res) (players White)
+          (positions z1 z2 z3 z4 z5 z6 z7 z8 t1 t2 t3 t4 t5 t6 t7 t8)
+    )
+    (zone (name res) (players White)
+          (positions x1 x2 x3 x4 x5 x6 x7 x8 y1 y2 y3 y4 y5 y6 y7 y8)
+    )
+    (dummy start)
+    (links w-res (start z8) (z1 t8))
+    (links b-res (start x8) (x1 y8))
+    (links next (start a6) (a3 b7) (b2 c8) (c1 d8) (d1 e8) (e1 f8) (f1 g7) (g2 h6))
+    (symmetry Black (w-res b-res))
   )
 
   (board-setup
@@ -884,21 +942,23 @@
 
   (piece
      (name w)
-     (image White "../images/wiedem/CheckerWhite.bmp")
+     (image White "../images/focus/CheckerWhite.bmp")
      (moves
         (move-1-w north w) (move-1-w south w) (move-1-w east w) (move-1-w west w)
+        (drop-w)
      )
   )
   (piece
      (name b)
-     (image Black "../images/wiedem/CheckerBlack.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp")
      (moves
         (move-1-b north b) (move-1-b south b) (move-1-b east b) (move-1-b west b)
+        (drop-b)
      )
   )
   (piece
      (name ww)
-     (image White "../images/wiedem/CheckerWhite.bmp")
+     (image White "../images/focus/CheckerWhite.bmp")
      (moves
         (move-2-w north ww) (move-2-w south ww) (move-2-w east ww) (move-2-w west ww)
         (split-1-w north w w) (split-1-w south w w) (split-1-w east w w) (split-1-w west w w)
@@ -906,7 +966,7 @@
   )
   (piece
      (name wb)
-     (image White "../images/wiedem/CheckerWhite.bmp")
+     (image White "../images/focus/CheckerWhite.bmp")
      (moves
         (move-2-w north wb) (move-2-w south wb) (move-2-w east wb) (move-2-w west wb)
 ;       (split-1-w north w b) (split-1-w south w b) (split-1-w east w b) (split-1-w west w b)
@@ -914,7 +974,7 @@
   )
   (piece
      (name bw)
-     (image Black "../images/wiedem/CheckerBlack.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp")
      (moves
         (move-2-b north bw) (move-2-b south bw) (move-2-b east bw) (move-2-b west bw)
 ;       (split-1-b north b w) (split-1-b south b w) (split-1-b east b w) (split-1-b west b w)
@@ -922,7 +982,7 @@
   )
   (piece
      (name bb)
-     (image Black "../images/wiedem/CheckerBlack.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp")
      (moves
         (move-2-b north bb) (move-2-b south bb) (move-2-b east bb) (move-2-b west bb)
         (split-1-b north b b) (split-1-b south b b) (split-1-b east b b) (split-1-b west b b)
@@ -930,7 +990,7 @@
   )
   (piece
      (name www)
-     (image White "../images/wiedem/CheckerWhite.bmp")
+     (image White "../images/focus/CheckerWhite.bmp")
      (moves
         (move-3-w north www) (move-3-w south www) (move-3-w east www) (move-3-w west www)
         (split-2-w north ww w) (split-2-w south ww w) (split-2-w east ww w) (split-2-w west ww w)
@@ -939,7 +999,7 @@
   )
   (piece
      (name wwb)
-     (image White "../images/wiedem/CheckerWhite.bmp")
+     (image White "../images/focus/CheckerWhite.bmp")
      (moves
         (move-3-w north wwb) (move-3-w south wwb) (move-3-w east wwb) (move-3-w west wwb)
 ;       (split-2-w north ww b) (split-2-w south ww b) (split-2-w east ww b) (split-2-w west ww b)
@@ -948,7 +1008,7 @@
   )
   (piece
      (name wbw)
-     (image White "../images/wiedem/CheckerWhite.bmp")
+     (image White "../images/focus/CheckerWhite.bmp")
      (moves
         (move-3-w north wbw) (move-3-w south wbw) (move-3-w east wbw) (move-3-w west wbw)
         (split-2-w north wb w) (split-2-w south wb w) (split-2-w east wb w) (split-2-w west wb w)
@@ -957,7 +1017,7 @@
   )
   (piece
      (name wbb)
-     (image White "../images/wiedem/CheckerWhite.bmp")
+     (image White "../images/focus/CheckerWhite.bmp")
      (moves
         (move-3-w north wbb) (move-3-w south wbb) (move-3-w east wbb) (move-3-w west wbb)
 ;       (split-2-w north wb b) (split-2-w south wb b) (split-2-w east wb b) (split-2-w west wb b)
@@ -966,7 +1026,7 @@
   )
   (piece
      (name bww)
-     (image Black "../images/wiedem/CheckerBlack.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp")
      (moves
         (move-3-b north bww) (move-3-b south bww) (move-3-b east bww) (move-3-b west bww)
 ;       (split-2-b north bw w) (split-2-b south bw w) (split-2-b east bw w) (split-2-b west bw w)
@@ -975,7 +1035,7 @@
   )
   (piece
      (name bwb)
-     (image Black "../images/wiedem/CheckerBlack.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp")
      (moves
         (move-3-b north bwb) (move-3-b south bwb) (move-3-b east bwb) (move-3-b west bwb)
         (split-2-b north bw b) (split-2-b south bw b) (split-2-b east bw b) (split-2-b west bw b)
@@ -984,7 +1044,7 @@
   )
   (piece
      (name bbw)
-     (image Black "../images/wiedem/CheckerBlack.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp")
      (moves
         (move-3-b north bbw) (move-3-b south bbw) (move-3-b east bbw) (move-3-b west bbw)
 ;       (split-2-b north bb w) (split-2-b south bb w) (split-2-b east bb w) (split-2-b west bb w)
@@ -993,7 +1053,7 @@
   )
   (piece
      (name bbb)
-     (image Black "../images/wiedem/CheckerBlack.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp")
      (moves
         (move-3-b north bbb) (move-3-b south bbb) (move-3-b east bbb) (move-3-b west bbb)
         (split-2-b north bb b) (split-2-b south bb b) (split-2-b east bb b) (split-2-b west bb b)
@@ -1002,7 +1062,7 @@
   )
   (piece
      (name wwww)
-     (image White "../images/wiedem/CheckerWhite.bmp")
+     (image White "../images/focus/CheckerWhite.bmp")
      (moves
         (move-4-w north wwww) (move-4-w south wwww) (move-4-w east wwww) (move-4-w west wwww)
         (split-3-w north www w) (split-3-w south www w) (split-3-w east www w) (split-3-w west www w)
@@ -1012,7 +1072,7 @@
   )
   (piece
      (name wwwb)
-     (image White "../images/wiedem/CheckerWhite.bmp")
+     (image White "../images/focus/CheckerWhite.bmp")
      (moves
         (move-4-w north wwwb) (move-4-w south wwwb) (move-4-w east wwwb) (move-4-w west wwwb)
 ;       (split-3-w north www b) (split-3-w south www b) (split-3-w east www b) (split-3-w west www b)
@@ -1022,7 +1082,7 @@
   )
   (piece
      (name wwbw)
-     (image White "../images/wiedem/CheckerWhite.bmp")
+     (image White "../images/focus/CheckerWhite.bmp")
      (moves
         (move-4-w north wwbw) (move-4-w south wwbw) (move-4-w east wwbw) (move-4-w west wwbw)
         (split-3-w north wwb w) (split-3-w south wwb w) (split-3-w east wwb w) (split-3-w west wwb w)
@@ -1032,7 +1092,7 @@
   )
   (piece
      (name wwbb)
-     (image White "../images/wiedem/CheckerWhite.bmp")
+     (image White "../images/focus/CheckerWhite.bmp")
      (moves
         (move-4-w north wwbb) (move-4-w south wwbb) (move-4-w east wwbb) (move-4-w west wwbb)
 ;       (split-3-w north wwb b) (split-3-w south wwb b) (split-3-w east wwb b) (split-3-w west wwb b)
@@ -1042,7 +1102,7 @@
   )
   (piece
      (name wbww)
-     (image White "../images/wiedem/CheckerWhite.bmp")
+     (image White "../images/focus/CheckerWhite.bmp")
      (moves
         (move-4-w north wbww) (move-4-w south wbww) (move-4-w east wbww) (move-4-w west wbww)
         (split-3-w north wbw w) (split-3-w south wbw w) (split-3-w east wbw w) (split-3-w west wbw w)
@@ -1052,7 +1112,7 @@
   )
   (piece
      (name wbwb)
-     (image White "../images/wiedem/CheckerWhite.bmp")
+     (image White "../images/focus/CheckerWhite.bmp")
      (moves
         (move-4-w north wbwb) (move-4-w south wbwb) (move-4-w east wbwb) (move-4-w west wbwb)
 ;       (split-3-w north wbw b) (split-3-w south wbw b) (split-3-w east wbw b) (split-3-w west wbw b)
@@ -1062,7 +1122,7 @@
   )
   (piece
      (name wbbw)
-     (image White "../images/wiedem/CheckerWhite.bmp")
+     (image White "../images/focus/CheckerWhite.bmp")
      (moves
         (move-4-w north wbbw) (move-4-w south wbbw) (move-4-w east wbbw) (move-4-w west wbbw)
         (split-3-w north wbb w) (split-3-w south wbb w) (split-3-w east wbb w) (split-3-w west wbb w)
@@ -1072,7 +1132,7 @@
   )
   (piece
      (name wbbb)
-     (image White "../images/wiedem/CheckerWhite.bmp")
+     (image White "../images/focus/CheckerWhite.bmp")
      (moves
         (move-4-w north wbbb) (move-4-w south wbbb) (move-4-w east wbbb) (move-4-w west wbbb)
 ;       (split-3-w north wbb b) (split-3-w south wbb b) (split-3-w east wbb b) (split-3-w west wbb b)
@@ -1082,7 +1142,7 @@
   )
   (piece
      (name bwww)
-     (image Black "../images/wiedem/CheckerBlack.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp")
      (moves
         (move-4-b north bwww) (move-4-b south bwww) (move-4-b east bwww) (move-4-b west bwww)
 ;       (split-3-b north bww w) (split-3-b south bww w) (split-3-b east bww w) (split-3-b west bww w)
@@ -1092,7 +1152,7 @@
   )
   (piece
      (name bwwb)
-     (image Black "../images/wiedem/CheckerBlack.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp")
      (moves
         (move-4-b north bwwb) (move-4-b south bwwb) (move-4-b east bwwb) (move-4-b west bwwb)
         (split-3-b north bww b) (split-3-b south bww b) (split-3-b east bww b) (split-3-b west bww b)
@@ -1102,7 +1162,7 @@
   )
   (piece
      (name bwbw)
-     (image Black "../images/wiedem/CheckerBlack.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp")
      (moves
         (move-4-b north bwbw) (move-4-b south bwbw) (move-4-b east bwbw) (move-4-b west bwbw)
 ;       (split-3-b north bwb w) (split-3-b south bwb w) (split-3-b east bwb w) (split-3-b west bwb w)
@@ -1112,7 +1172,7 @@
   )
   (piece
      (name bwbb)
-     (image Black "../images/wiedem/CheckerBlack.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp")
      (moves
         (move-4-b north bwbb) (move-4-b south bwbb) (move-4-b east bwbb) (move-4-b west bwbb)
         (split-3-b north bwb b) (split-3-b south bwb b) (split-3-b east bwb b) (split-3-b west bwb b)
@@ -1122,7 +1182,7 @@
   )
   (piece
      (name bbww)
-     (image Black "../images/wiedem/CheckerBlack.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp")
      (moves
         (move-4-b north bbww) (move-4-b south bbww) (move-4-b east bbww) (move-4-b west bbww)
 ;       (split-3-b north bbw w) (split-3-b south bbw w) (split-3-b east bbw w) (split-3-b west bbw w)
@@ -1132,7 +1192,7 @@
   )
   (piece
      (name bbwb)
-     (image Black "../images/wiedem/CheckerBlack.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp")
      (moves
         (move-4-b north bbwb) (move-4-b south bbwb) (move-4-b east bbwb) (move-4-b west bbwb)
         (split-3-b north bbw b) (split-3-b south bbw b) (split-3-b east bbw b) (split-3-b west bbw b)
@@ -1142,7 +1202,7 @@
   )
   (piece
      (name bbbw)
-     (image Black "../images/wiedem/CheckerBlack.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp")
      (moves
         (move-4-b north bbbw) (move-4-b south bbbw) (move-4-b east bbbw) (move-4-b west bbbw)
 ;       (split-3-b north bbb w) (split-3-b south bbb w) (split-3-b east bbb w) (split-3-b west bbb w)
@@ -1152,7 +1212,7 @@
   )
   (piece
      (name bbbb)
-     (image Black "../images/wiedem/CheckerBlack.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp")
      (moves
         (move-4-b north bbbb) (move-4-b south bbbb) (move-4-b east bbbb) (move-4-b west bbbb)
         (split-3-b north bbb b) (split-3-b south bbb b) (split-3-b east bbb b) (split-3-b west bbb b)
@@ -1162,7 +1222,7 @@
   )
   (piece
      (name wwwww)
-     (image White "../images/wiedem/CheckerWhite.bmp")
+     (image White "../images/focus/CheckerWhite.bmp")
      (moves
         (move-5-w north wwwww) (move-5-w south wwwww) (move-5-w east wwwww) (move-5-w west wwwww)
         (split-4-w north wwww w) (split-4-w south wwww w) (split-4-w east wwww w) (split-4-w west wwww w)
@@ -1173,7 +1233,7 @@
   )
   (piece
      (name wwwwb)
-     (image White "../images/wiedem/CheckerWhite.bmp")
+     (image White "../images/focus/CheckerWhite.bmp")
      (moves
         (move-5-w north wwwwb) (move-5-w south wwwwb) (move-5-w east wwwwb) (move-5-w west wwwwb)
 ;       (split-4-w north wwww b) (split-4-w south wwww b) (split-4-w east wwww b) (split-4-w west wwww b)
@@ -1184,7 +1244,7 @@
   )
   (piece
      (name wwwbw)
-     (image White "../images/wiedem/CheckerWhite.bmp")
+     (image White "../images/focus/CheckerWhite.bmp")
      (moves
         (move-5-w north wwwbw) (move-5-w south wwwbw) (move-5-w east wwwbw) (move-5-w west wwwbw)
         (split-4-w north wwwb w) (split-4-w south wwwb w) (split-4-w east wwwb w) (split-4-w west wwwb w)
@@ -1195,7 +1255,7 @@
   )
   (piece
      (name wwwbb)
-     (image White "../images/wiedem/CheckerWhite.bmp")
+     (image White "../images/focus/CheckerWhite.bmp")
      (moves
         (move-5-w north wwwbb) (move-5-w south wwwbb) (move-5-w east wwwbb) (move-5-w west wwwbb)
 ;       (split-4-w north wwwb b) (split-4-w south wwwb b) (split-4-w east wwwb b) (split-4-w west wwwb b)
@@ -1206,7 +1266,7 @@
   )
   (piece
      (name wwbww)
-     (image White "../images/wiedem/CheckerWhite.bmp")
+     (image White "../images/focus/CheckerWhite.bmp")
      (moves
         (move-5-w north wwbww) (move-5-w south wwbww) (move-5-w east wwbww) (move-5-w west wwbww)
         (split-4-w north wwbw w) (split-4-w south wwbw w) (split-4-w east wwbw w) (split-4-w west wwbw w)
@@ -1217,7 +1277,7 @@
   )
   (piece
      (name wwbwb)
-     (image White "../images/wiedem/CheckerWhite.bmp")
+     (image White "../images/focus/CheckerWhite.bmp")
      (moves
         (move-5-w north wwbwb) (move-5-w south wwbwb) (move-5-w east wwbwb) (move-5-w west wwbwb)
 ;       (split-4-w north wwbw b) (split-4-w south wwbw b) (split-4-w east wwbw b) (split-4-w west wwbw b)
@@ -1228,7 +1288,7 @@
   )
   (piece
      (name wwbbw)
-     (image White "../images/wiedem/CheckerWhite.bmp")
+     (image White "../images/focus/CheckerWhite.bmp")
      (moves
         (move-5-w north wwbbw) (move-5-w south wwbbw) (move-5-w east wwbbw) (move-5-w west wwbbw)
         (split-4-w north wwbb w) (split-4-w south wwbb w) (split-4-w east wwbb w) (split-4-w west wwbb w)
@@ -1239,7 +1299,7 @@
   )
   (piece
      (name wwbbb)
-     (image White "../images/wiedem/CheckerWhite.bmp")
+     (image White "../images/focus/CheckerWhite.bmp")
      (moves
         (move-5-w north wwbbb) (move-5-w south wwbbb) (move-5-w east wwbbb) (move-5-w west wwbbb)
 ;       (split-4-w north wwbb b) (split-4-w south wwbb b) (split-4-w east wwbb b) (split-4-w west wwbb b)
@@ -1250,7 +1310,7 @@
   )
   (piece
      (name wbwww)
-     (image White "../images/wiedem/CheckerWhite.bmp")
+     (image White "../images/focus/CheckerWhite.bmp")
      (moves
         (move-5-w north wbwww) (move-5-w south wbwww) (move-5-w east wbwww) (move-5-w west wbwww)
         (split-4-w north wbww w) (split-4-w south wbww w) (split-4-w east wbww w) (split-4-w west wbww w)
@@ -1261,7 +1321,7 @@
   )
   (piece
      (name wbwwb)
-     (image White "../images/wiedem/CheckerWhite.bmp")
+     (image White "../images/focus/CheckerWhite.bmp")
      (moves
         (move-5-w north wbwwb) (move-5-w south wbwwb) (move-5-w east wbwwb) (move-5-w west wbwwb)
 ;       (split-4-w north wbww b) (split-4-w south wbww b) (split-4-w east wbww b) (split-4-w west wbww b)
@@ -1272,7 +1332,7 @@
   )
   (piece
      (name wbwbw)
-     (image White "../images/wiedem/CheckerWhite.bmp")
+     (image White "../images/focus/CheckerWhite.bmp")
      (moves
         (move-5-w north wbwbw) (move-5-w south wbwbw) (move-5-w east wbwbw) (move-5-w west wbwbw)
         (split-4-w north wbwb w) (split-4-w south wbwb w) (split-4-w east wbwb w) (split-4-w west wbwb w)
@@ -1283,7 +1343,7 @@
   )
   (piece
      (name wbwbb)
-     (image White "../images/wiedem/CheckerWhite.bmp")
+     (image White "../images/focus/CheckerWhite.bmp")
      (moves
         (move-5-w north wbwbb) (move-5-w south wbwbb) (move-5-w east wbwbb) (move-5-w west wbwbb)
 ;       (split-4-w north wbwb b) (split-4-w south wbwb b) (split-4-w east wbwb b) (split-4-w west wbwb b)
@@ -1294,7 +1354,7 @@
   )
   (piece
      (name wbbww)
-     (image White "../images/wiedem/CheckerWhite.bmp")
+     (image White "../images/focus/CheckerWhite.bmp")
      (moves
         (move-5-w north wbbww) (move-5-w south wbbww) (move-5-w east wbbww) (move-5-w west wbbww)
         (split-4-w north wbbw w) (split-4-w south wbbw w) (split-4-w east wbbw w) (split-4-w west wbbw w)
@@ -1305,7 +1365,7 @@
   )
   (piece
      (name wbbwb)
-     (image White "../images/wiedem/CheckerWhite.bmp")
+     (image White "../images/focus/CheckerWhite.bmp")
      (moves
         (move-5-w north wbbwb) (move-5-w south wbbwb) (move-5-w east wbbwb) (move-5-w west wbbwb)
 ;       (split-4-w north wbbw b) (split-4-w south wbbw b) (split-4-w east wbbw b) (split-4-w west wbbw b)
@@ -1316,7 +1376,7 @@
   )
   (piece
      (name wbbbw)
-     (image White "../images/wiedem/CheckerWhite.bmp")
+     (image White "../images/focus/CheckerWhite.bmp")
      (moves
         (move-5-w north wbbbw) (move-5-w south wbbbw) (move-5-w east wbbbw) (move-5-w west wbbbw)
         (split-4-w north wbbb w) (split-4-w south wbbb w) (split-4-w east wbbb w) (split-4-w west wbbb w)
@@ -1327,7 +1387,7 @@
   )
   (piece
      (name wbbbb)
-     (image White "../images/wiedem/CheckerWhite.bmp")
+     (image White "../images/focus/CheckerWhite.bmp")
      (moves
         (move-5-w north wbbbb) (move-5-w south wbbbb) (move-5-w east wbbbb) (move-5-w west wbbbb)
 ;       (split-4-w north wbbb b) (split-4-w south wbbb b) (split-4-w east wbbb b) (split-4-w west wbbb b)
@@ -1338,7 +1398,7 @@
   )
   (piece
      (name bwwww)
-     (image Black "../images/wiedem/CheckerBlack.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp")
      (moves
         (move-5-b north bwwww) (move-5-b south bwwww) (move-5-b east bwwww) (move-5-b west bwwww)
 ;       (split-4-b north bwww w) (split-4-b south bwww w) (split-4-b east bwww w) (split-4-b west bwww w)
@@ -1349,7 +1409,7 @@
   )
   (piece
      (name bwwwb)
-     (image Black "../images/wiedem/CheckerBlack.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp")
      (moves
         (move-5-b north bwwwb) (move-5-b south bwwwb) (move-5-b east bwwwb) (move-5-b west bwwwb)
         (split-4-b north bwww b) (split-4-b south bwww b) (split-4-b east bwww b) (split-4-b west bwww b)
@@ -1360,7 +1420,7 @@
   )
   (piece
      (name bwwbw)
-     (image Black "../images/wiedem/CheckerBlack.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp")
      (moves
         (move-5-b north bwwbw) (move-5-b south bwwbw) (move-5-b east bwwbw) (move-5-b west bwwbw)
 ;       (split-4-b north bwwb w) (split-4-b south bwwb w) (split-4-b east bwwb w) (split-4-b west bwwb w)
@@ -1371,7 +1431,7 @@
   )
   (piece
      (name bwwbb)
-     (image Black "../images/wiedem/CheckerBlack.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp")
      (moves
         (move-5-b north bwwbb) (move-5-b south bwwbb) (move-5-b east bwwbb) (move-5-b west bwwbb)
         (split-4-b north bwwb b) (split-4-b south bwwb b) (split-4-b east bwwb b) (split-4-b west bwwb b)
@@ -1382,7 +1442,7 @@
   )
   (piece
      (name bwbww)
-     (image Black "../images/wiedem/CheckerBlack.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp")
      (moves
         (move-5-b north bwbww) (move-5-b south bwbww) (move-5-b east bwbww) (move-5-b west bwbww)
 ;       (split-4-b north bwbw w) (split-4-b south bwbw w) (split-4-b east bwbw w) (split-4-b west bwbw w)
@@ -1393,7 +1453,7 @@
   )
   (piece
      (name bwbwb)
-     (image Black "../images/wiedem/CheckerBlack.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp")
      (moves
         (move-5-b north bwbwb) (move-5-b south bwbwb) (move-5-b east bwbwb) (move-5-b west bwbwb)
         (split-4-b north bwbw b) (split-4-b south bwbw b) (split-4-b east bwbw b) (split-4-b west bwbw b)
@@ -1404,7 +1464,7 @@
   )
   (piece
      (name bwbbw)
-     (image Black "../images/wiedem/CheckerBlack.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp")
      (moves
         (move-5-b north bwbbw) (move-5-b south bwbbw) (move-5-b east bwbbw) (move-5-b west bwbbw)
 ;       (split-4-b north bwbb w) (split-4-b south bwbb w) (split-4-b east bwbb w) (split-4-b west bwbb w)
@@ -1415,7 +1475,7 @@
   )
   (piece
      (name bwbbb)
-     (image Black "../images/wiedem/CheckerBlack.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp")
      (moves
         (move-5-b north bwbbb) (move-5-b south bwbbb) (move-5-b east bwbbb) (move-5-b west bwbbb)
         (split-4-b north bwbb b) (split-4-b south bwbb b) (split-4-b east bwbb b) (split-4-b west bwbb b)
@@ -1426,7 +1486,7 @@
   )
   (piece
      (name bbwww)
-     (image Black "../images/wiedem/CheckerBlack.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp")
      (moves
         (move-5-b north bbwww) (move-5-b south bbwww) (move-5-b east bbwww) (move-5-b west bbwww)
 ;       (split-4-b north bbww w) (split-4-b south bbww w) (split-4-b east bbww w) (split-4-b west bbww w)
@@ -1437,7 +1497,7 @@
   )
   (piece
      (name bbwwb)
-     (image Black "../images/wiedem/CheckerBlack.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp")
      (moves
         (move-5-b north bbwwb) (move-5-b south bbwwb) (move-5-b east bbwwb) (move-5-b west bbwwb)
         (split-4-b north bbww b) (split-4-b south bbww b) (split-4-b east bbww b) (split-4-b west bbww b)
@@ -1448,7 +1508,7 @@
   )
   (piece
      (name bbwbw)
-     (image Black "../images/wiedem/CheckerBlack.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp")
      (moves
         (move-5-b north bbwbw) (move-5-b south bbwbw) (move-5-b east bbwbw) (move-5-b west bbwbw)
 ;       (split-4-b north bbwb w) (split-4-b south bbwb w) (split-4-b east bbwb w) (split-4-b west bbwb w)
@@ -1459,7 +1519,7 @@
   )
   (piece
      (name bbwbb)
-     (image Black "../images/wiedem/CheckerBlack.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp")
      (moves
         (move-5-b north bbwbb) (move-5-b south bbwbb) (move-5-b east bbwbb) (move-5-b west bbwbb)
         (split-4-b north bbwb b) (split-4-b south bbwb b) (split-4-b east bbwb b) (split-4-b west bbwb b)
@@ -1470,7 +1530,7 @@
   )
   (piece
      (name bbbww)
-     (image Black "../images/wiedem/CheckerBlack.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp")
      (moves
         (move-5-b north bbbww) (move-5-b south bbbww) (move-5-b east bbbww) (move-5-b west bbbww)
 ;       (split-4-b north bbbw w) (split-4-b south bbbw w) (split-4-b east bbbw w) (split-4-b west bbbw w)
@@ -1481,7 +1541,7 @@
   )
   (piece
      (name bbbwb)
-     (image Black "../images/wiedem/CheckerBlack.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp")
      (moves
         (move-5-b north bbbwb) (move-5-b south bbbwb) (move-5-b east bbbwb) (move-5-b west bbbwb)
         (split-4-b north bbbw b) (split-4-b south bbbw b) (split-4-b east bbbw b) (split-4-b west bbbw b)
@@ -1492,7 +1552,7 @@
   )
   (piece
      (name bbbbw)
-     (image Black "../images/wiedem/CheckerBlack.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp")
      (moves
         (move-5-b north bbbbw) (move-5-b south bbbbw) (move-5-b east bbbbw) (move-5-b west bbbbw)
 ;       (split-4-b north bbbb w) (split-4-b south bbbb w) (split-4-b east bbbb w) (split-4-b west bbbb w)
@@ -1503,7 +1563,7 @@
   )
   (piece
      (name bbbbb)
-     (image Black "../images/wiedem/CheckerBlack.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp")
      (moves
         (move-5-b north bbbbb) (move-5-b south bbbbb) (move-5-b east bbbbb) (move-5-b west bbbbb)
         (split-4-b north bbbb b) (split-4-b south bbbb b) (split-4-b east bbbb b) (split-4-b west bbbb b)
