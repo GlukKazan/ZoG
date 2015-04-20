@@ -1,5 +1,7 @@
 LOAD	Board.4th
 
+VARIABLE prev-enemy
+
 {players
 	{player}	White	{random}
 	{player}	Black	{random}
@@ -38,17 +40,50 @@ turn-order}
 ;
 
 : next-move ( 'dir n -- )
+	FALSE prev-enemy !
+	BEGIN
+		1-
+		enemy? DUP IF
+			prev-enemy @ NOT verify
+		ENDIF prev-enemy !
+		OVER EXECUTE OVER 0> AND NOT
+	UNTIL 2DROP
+	here f2 = empty? NOT AND IF
+		f3 to
+		BEGIN
+			empty? IF
+				from here move
+				TRUE
+			ELSE
+				prev NOT
+			ENDIF
+		UNTIL
+
+	ELSE
+		friend? NOT verify
+		check-enemy
+		from here move
+		IF from create-player-at ELSE DROP ENDIF
+	ENDIF
+	add-move
+;
+
+: priv-move ( 'dir n -- )
 	BEGIN
 		1-
 		OVER EXECUTE OVER 0> AND NOT
 	UNTIL 2DROP
-	friend? NOT verify
-	check-enemy
+	empty? verify
 	from here move
-	IF from create-player-at ELSE DROP ENDIF
 	check-finis
 	add-move
 ;
+
+: priv-1 ( -- ) ['] priv 1 priv-move ;
+: priv-2 ( -- ) ['] priv 2 priv-move ;
+: priv-3 ( -- ) ['] priv 3 priv-move ;
+: priv-4 ( -- ) ['] priv 4 priv-move ;
+: priv-5 ( -- ) ['] priv 5 priv-move ;
 
 : next-1 ( -- ) ['] next 1 next-move ;
 : next-2 ( -- ) ['] next 2 next-move ;
@@ -63,6 +98,11 @@ turn-order}
 : back-5 ( -- ) ['] prev 5 next-move ;
 
 {moves man-moves
+	{move} priv-1   {move-type} priority-type
+	{move} priv-2   {move-type} priority-type
+	{move} priv-3   {move-type} priority-type
+	{move} priv-4   {move-type} priority-type
+	{move} priv-5   {move-type} priority-type
 	{move} next-1   {move-type} normal-type
 	{move} next-2   {move-type} normal-type
 	{move} next-3   {move-type} normal-type

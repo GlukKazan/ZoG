@@ -32,11 +32,13 @@ board}
 	{link}		next c2 d2
 	{link}		next d2 e2
 	{link}		next e2 f2
-	{link}		next f2 g2
-	{link}		next g2 h2
-	{link}		next h2 i2
-	{link}		next i2 j2
-	{link}		next j2 k2
+
+	( priv )
+	{link}		priv f2 g2
+	{link}		priv g2 h2
+	{link}		priv h2 i2
+	{link}		priv i2 j2
+	{link}		priv j2 k2
 
 	( prev )
 	{link}		prev b4 a4
