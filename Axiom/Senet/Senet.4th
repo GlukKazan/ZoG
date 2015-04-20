@@ -49,15 +49,19 @@ turn-order}
 		OVER EXECUTE OVER 0> AND NOT
 	UNTIL 2DROP
 	here f2 = empty? NOT AND IF
-		f3 to
-		BEGIN
-			empty? IF
-				from here move
-				TRUE
-			ELSE
-				prev NOT
-			ENDIF
-		UNTIL
+		g2 to empty? IF
+			from here move
+		ELSE
+			f3 to
+			BEGIN
+				empty? IF
+					from here move
+					TRUE
+				ELSE
+					prev NOT
+				ENDIF
+			UNTIL
+		ENDIF
 
 	ELSE
 		friend? NOT verify
