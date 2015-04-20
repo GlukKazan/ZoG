@@ -39,7 +39,24 @@ turn-order}
 	enemy?
 ;
 
+: to-water ( -- )
+	g2 to empty? IF
+		from here move
+	ELSE
+		f3 to
+		BEGIN
+			empty? IF
+				from here move
+				TRUE
+			ELSE
+				prev NOT
+			ENDIF
+		UNTIL
+	ENDIF
+;
+
 : next-move ( 'dir n -- )
+	( TODO: Check Dices )
 	FALSE prev-enemy !
 	BEGIN
 		1-
@@ -49,20 +66,7 @@ turn-order}
 		OVER EXECUTE OVER 0> AND NOT
 	UNTIL 2DROP
 	here f2 = empty? NOT AND IF
-		g2 to empty? IF
-			from here move
-		ELSE
-			f3 to
-			BEGIN
-				empty? IF
-					from here move
-					TRUE
-				ELSE
-					prev NOT
-				ENDIF
-			UNTIL
-		ENDIF
-
+		to-water
 	ELSE
 		friend? NOT verify
 		check-enemy
@@ -73,13 +77,35 @@ turn-order}
 ;
 
 : priv-move ( 'dir n -- )
-	BEGIN
-		1-
-		OVER EXECUTE OVER 0> AND NOT
-	UNTIL 2DROP
-	empty? verify
-	from here move
-	check-finis
+	j2 here = IF
+		DROP 1
+	ENDIF
+	( TODO: Check Dices )
+	here f2 >= verify
+	h2 here = IF
+		DUP 3 = verify
+	ENDIF
+	i2 here = IF
+		DUP 2 = verify
+	ENDIF
+	g2 here = IF
+		DUP 4 <= verify
+		DUP 4 < IF
+			DROP 0
+		ENDIF
+	ENDIF
+	DUP 0> IF
+		BEGIN
+			1-
+			OVER EXECUTE OVER 0> AND NOT
+		UNTIL 2DROP
+	ENDIF
+	empty? IF
+		from here move
+		check-finis
+	ELSE
+		to-water
+	ENDIF
 	add-move
 ;
 
