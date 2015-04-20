@@ -1,5 +1,10 @@
 (game
    (title "Senet")
+   (description "")
+   (history "")
+   (strategy "")
+
+   (engine "../Axiom/Senet/axiom.dll")
 
    (option "animate captures" false)
    (option "animate drops" false)
@@ -22,15 +27,15 @@
       (grid
          (start-rectangle 5 5 54 54)
          (dimensions
-             ("a/b/c/d/e/f/g/h/i/j" (60	0)) ; files
-             ("3/2/1/0" (0 60)) ; ranks
+             ("a/b/c/d/e/f/g/h/i/j/k" (60 0)) ; files
+             ("4/3/2/1" (0 60)) ; ranks
          )    
       )
    )
 
    (board-setup
-          (White (Man a3 c3 e3 g3 i3))
-          (Black (Man b3 d3 f3 h3 j3))
+          (White (Man a4 c4 e4 g4 i4))
+          (Black (Man b4 d4 f4 h4 j4))
    )
 
    (piece
