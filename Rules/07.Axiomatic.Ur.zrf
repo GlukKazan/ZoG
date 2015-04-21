@@ -49,7 +49,7 @@
    (turn-order White ?Dice ?Dice ?Dice ?Dice Black ?Dice ?Dice ?Dice ?Dice)
 
    (board 
-      (image "Images/Ur/ur.bmp")
+      (image "../images/Ur/ur.bmp")
       (grid
          (start-rectangle -483 27 -422 99)
          (dimensions
@@ -66,28 +66,28 @@
    )
 
    (piece
-	  (name lock)
-          (image ?Dice "Images/Ur/invisible.bmp"
-                 Black "Images/Ur/invisible.bmp"
-                 White "Images/Ur/invisible.bmp")
+	  (name lock) (dummy)
+          (image ?Dice "../images/Ur/invisible.bmp"
+                 Black "../images/Ur/invisible.bmp"
+                 White "../images/Ur/invisible.bmp")
    )
    (piece
 	  (name  init)
-          (image Black "Images/Ur/binit.bmp"
-                 White "Images/Ur/winit.bmp")
+          (image Black "../images/Ur/binit.bmp"
+                 White "../images/Ur/winit.bmp")
    )
    (piece
 	  (name  prom)
-          (image Black "Images/Ur/bprom.bmp"
-                 White "Images/Ur/wprom.bmp")
+          (image Black "../images/Ur/bprom.bmp"
+                 White "../images/Ur/wprom.bmp")
    )
    (piece
 	  (name wdice)
-          (image ?Dice "Images/Ur/wdice.bmp")
+          (image ?Dice "../images/Ur/wdice.bmp")
    )
    (piece
 	  (name bdice)
-          (image ?Dice "Images/Ur/bdice.bmp")
+          (image ?Dice "../images/Ur/bdice.bmp")
    )
 
    ; The following dummy piece is required in order to placate the Zillions engine.

@@ -1,3 +1,5 @@
+$passTurnForced ON
+
 {board
 	5 18 		{grid}
 	{variable}	WhitePieces
@@ -156,12 +158,16 @@ board}
 	{link}		Down g4 g3
 	{link}		Down g3 g2
 
+	{link}		cntr q1 q2
+	{link}		cntr q2 q3
+	{link}		cntr q3 q4
+	{link}		cntr q4 q5
 directions}
 
 {players
 	{player}	White
 	{player}	Black
-	{player}	?Dice	{random}
+	{player}	?Dice	 {random}
 players}
 
 {symmetries 
@@ -182,6 +188,8 @@ symmetries}
 	{turn}	?Dice
 	{turn}	?Dice
 turn-order}
+
+DEFER			LOCK
 
 VARIABLE		isPromouted
 VARIABLE		isCaptured
@@ -378,6 +386,19 @@ VARIABLE		blackScored
 	ENDIF
 ;
 
+: count-locks ( -- )
+	q1 to
+	BEGIN
+		empty? IF
+			LOCK create-piece-type
+			TRUE
+		ELSE
+			capture
+			cntr NOT
+		ENDIF
+	UNTIL
+;
+
 : clear-dices ( -- )
 	r1 here = verify
 	r2 not-empty-at? r3 not-empty-at? r4 not-empty-at?
@@ -386,6 +407,7 @@ VARIABLE		blackScored
 		r2 capture-at
 		r3 capture-at
 		r4 capture-at
+		count-locks
 		add-move
 	ENDIF
 ;
@@ -473,6 +495,8 @@ move-priorities}
 	{piece}		bdice	{drops} drops 
 					0 {value}
 pieces}
+
+' lock	IS LOCK
 
 {board-setup
 	{setup}	?Dice wdice r4
