@@ -65,5 +65,11 @@ board}
 	{link}		prev c2 b2
 	{link}		prev d2 c2
 	{link}		prev e2 d2
+
+	( cnt )
+	{link}		cnt a1 b1
+	{link}		cnt b1 c1
+	{link}		cnt c1 d1
+	{link}		cnt d1 e1
 directions}
 

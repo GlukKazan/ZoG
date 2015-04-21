@@ -17,9 +17,13 @@
    (move-sound "Audio/Clack.wav")
    (capture-sound "")
 
-   (players White Black)
+   (players White Black ?White ?Black ?Counter)
 
-   (turn-order Black White)
+   (turn-order ?Black ?Black ?Black ?Black
+               Black 
+               ?White ?White ?White ?White 
+               White
+               ?Counter)
 
    (board
       (image "../images/senet/board.bmp")
@@ -42,6 +46,22 @@
 	  (name  Man)
           (image White "../images/senet/w.bmp"
                  Black "../images/senet/b.bmp")
+   )
+   (piece
+	  (name  Mark)
+          (image White "../images/senet/invisible.bmp"
+                 Black "../images/senet/invisible.bmp"
+                 ?Counter "../images/senet/invisible.bmp")
+   )
+   (piece
+	  (name  Zero)
+          (image ?White "../images/senet/b.bmp"
+                 ?Black "../images/senet/b.bmp")
+   )
+   (piece
+	  (name  One)
+          (image ?White "../images/senet/w.bmp"
+                 ?Black "../images/senet/w.bmp")
    )
 
    ; The following dummy piece is required in order to placate the Zillions engine.
