@@ -1,5 +1,5 @@
 (game
-   (title "Senet")
+   (title "Senet (Kendall's variant)")
    (description "")
    (history "")
    (strategy "")
@@ -38,8 +38,8 @@
    )
 
    (board-setup
-          (White (Man a4 c4 e4 g4 i4))
-          (Black (Man b4 d4 f4 h4 j4))
+          (White (Man a4 c4 e4 g4 i4 j3 h3))
+          (Black (Man b4 d4 f4 h4 j4 i3 g3))
    )
 
    (piece
@@ -70,3 +70,18 @@
    (piece (name Dummy) (dummy) (moves (from)))
 )
 
+(variant
+   (title "Senet (Skiryuk's variant)")
+   (board-setup
+          (White (Man a4 c4 e4 g4 i4))
+          (Black (Man b4 d4 f4 h4 j4))
+   )
+)
+
+(variant
+   (title "Senet (my variant)")
+   (board-setup
+          (White (Man a4 c4 e4 g4 i4))
+          (Black (Man b4 d4 f4 h4 j4))
+   )
+)

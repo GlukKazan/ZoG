@@ -1,7 +1,85 @@
-LOAD	Board.4th
+4	CONSTANT	ROWS
+11	CONSTANT	COLS
 
-VARIABLE prev-enemy
-VARIABLE piece-counter
+VARIABLE		piece-counter
+DEFER			MARK
+
+{board
+	ROWS 	COLS	{grid}
+board}
+
+{directions
+	( next )
+	{link}		next a4 b4
+	{link}		next b4 c4
+	{link}		next c4 d4
+	{link}		next d4 e4
+	{link}		next e4 f4
+	{link}		next f4 g4
+	{link}		next g4 h4
+	{link}		next h4 i4
+	{link}		next i4 j4
+	{link}		next j4 j3
+	{link}		next j3 i3
+	{link}		next i3 h3
+	{link}		next h3 g3
+	{link}		next g3 f3
+	{link}		next f3 e3
+	{link}		next e3 d3
+	{link}		next d3 c3
+	{link}		next c3 b3
+	{link}		next b3 a3
+	{link}		next a3 a2
+	{link}		next a2 b2
+	{link}		next b2 c2
+	{link}		next c2 d2
+	{link}		next d2 e2
+	{link}		next e2 f2
+	{link}		next h2 i2
+	{link}		next i2 j2
+
+	( priv )
+	{link}		priv f2 g2
+	{link}		priv g2 h2
+	{link}		priv h2 i2
+	{link}		priv i2 j2
+	{link}		priv j2 k2
+
+	( prev )
+	{link}		prev b4 a4
+	{link}		prev c4 b4
+	{link}		prev d4 c4
+	{link}		prev e4 d4
+	{link}		prev f4 e4
+	{link}		prev g4 f4
+	{link}		prev h4 g4
+	{link}		prev i4 h4
+	{link}		prev j4 i4
+	{link}		prev j3 j4
+	{link}		prev i3 j3
+	{link}		prev h3 i3
+	{link}		prev g3 h3
+	{link}		prev f3 g3
+	{link}		prev e3 f3
+	{link}		prev d3 e3
+	{link}		prev c3 d3
+	{link}		prev b3 c3
+	{link}		prev a3 b3
+	{link}		prev a2 a3
+	{link}		prev b2 a2
+	{link}		prev c2 b2
+	{link}		prev d2 c2
+	{link}		prev e2 d2
+	{link}		prev f2 e2
+	{link}		prev i2 h2
+	{link}		prev j2 i2
+
+	( cnt )
+	{link}		cnt a1 b1
+	{link}		cnt b1 c1
+	{link}		cnt c1 d1
+	{link}		cnt d1 e1
+directions}
 
 {players
 	{player}	White	 {random}
@@ -24,222 +102,6 @@ players}
 	{turn}	White
 	{turn}	?Counter {of-type} counter-type
 turn-order}
-
-: check-finis ( -- )
-	k2 here = IF
-		k2 capture-at
-	ENDIF
-;
-
-: check-neighbor ( 'dir -- ? )
-	here SWAP
-	EXECUTE IF
-		enemy?
-	ELSE
-		FALSE
-	ENDIF
-	SWAP to
-;
-
-: check-neighbors ( -- ? )
-	['] prev check-neighbor
-	['] next check-neighbor XOR NOT
-;
-
-: check-enemy ( -- player ? )
-	player
-	enemy? check-neighbors AND empty? OR verify
-	enemy?
-;
-
-: to-water ( -- )
-	g2 to empty? IF
-		from here move
-	ELSE
-		f3 to
-		BEGIN
-			empty? IF
-				from here move
-				TRUE
-			ELSE
-				prev NOT
-			ENDIF
-		UNTIL
-	ENDIF
-;
-
-DEFER		MARK
-
-: check-dices ( n -- )
-	k1 enemy-at? IF
-		DROP 0
-	ENDIF
-	g1 piece-at piece-value
-	h1 piece-at piece-value +
-	i1 piece-at piece-value +
-	j1 piece-at piece-value +
-	DUP 0= IF
-		DROP 5
-	ENDIF
-	= verify
-;
-
-: check-repeat ( -- )
-	g1 piece-at piece-value
-	h1 piece-at piece-value +
-	i1 piece-at piece-value +
-	j1 piece-at piece-value +
-	DUP 2 = SWAP 3 = OR IF
-		k1 empty-at? NOT IF
-			k1 capture-at
-		ENDIF
-	ELSE
-		k1 empty-at? IF
-			MARK k1 create-piece-type-at
-		ENDIF
-	ENDIF
-;
-
-: next-move ( 'dir n -- )
-	DUP check-dices
-	FALSE prev-enemy !
-	BEGIN
-		1-
-		enemy? DUP IF
-			prev-enemy @ NOT verify
-		ENDIF prev-enemy !
-		OVER EXECUTE OVER 0> AND NOT
-	UNTIL 2DROP
-	here f2 = empty? NOT AND IF
-		to-water
-	ELSE
-		friend? NOT verify
-		check-enemy
-		from here move
-		IF from create-player-at ELSE DROP ENDIF
-	ENDIF
-	check-repeat
-	add-move
-;
-
-: priv-move ( 'dir n -- )
-	j2 here = IF
-		DROP 1
-	ENDIF
-	DUP check-dices
-	here f2 >= verify
-	h2 here = IF
-		DUP 3 = verify
-	ENDIF
-	i2 here = IF
-		DUP 2 = verify
-	ENDIF
-	g2 here = IF
-		DUP 4 <= verify
-		DUP 4 < IF
-			DROP 0
-		ENDIF
-	ENDIF
-	DUP 0> IF
-		BEGIN
-			1-
-			OVER EXECUTE OVER 0> AND NOT
-		UNTIL 2DROP
-	ENDIF
-	empty? IF
-		from here move
-		check-finis
-	ELSE
-		to-water
-	ENDIF
-	check-repeat
-	add-move
-;
-
-: drop-dice ( -- )
-	here g1 >=  verify
-	here k1 <   verify
-	friend? NOT verify
-	drop
-	add-move
-;
-
-: drop-mark ( -- )
-	here f1 = verify
-	drop
-	a1 to
-	BEGIN
-		empty? IF
-			MARK create-piece-type
-			TRUE
-		ELSE
-			capture
-			cnt NOT
-		ENDIF
-	UNTIL
-	add-move
-;
-
-: priv-1 ( -- ) ['] priv 1 priv-move ;
-: priv-2 ( -- ) ['] priv 2 priv-move ;
-: priv-3 ( -- ) ['] priv 3 priv-move ;
-: priv-4 ( -- ) ['] priv 4 priv-move ;
-: priv-5 ( -- ) ['] priv 5 priv-move ;
-
-: next-1 ( -- ) ['] next 1 next-move ;
-: next-2 ( -- ) ['] next 2 next-move ;
-: next-3 ( -- ) ['] next 3 next-move ;
-: next-4 ( -- ) ['] next 4 next-move ;
-: next-5 ( -- ) ['] next 5 next-move ;
-
-: back-1 ( -- ) ['] prev 1 next-move ;
-: back-2 ( -- ) ['] prev 2 next-move ;
-: back-3 ( -- ) ['] prev 3 next-move ;
-: back-4 ( -- ) ['] prev 4 next-move ;
-: back-5 ( -- ) ['] prev 5 next-move ;
-
-{moves man-moves
-	{move} priv-1    {move-type} priority-type
-	{move} priv-2    {move-type} priority-type
-	{move} priv-3    {move-type} priority-type
-	{move} priv-4    {move-type} priority-type
-	{move} priv-5    {move-type} priority-type
-	{move} next-1    {move-type} normal-type
-	{move} next-2    {move-type} normal-type
-	{move} next-3    {move-type} normal-type
-	{move} next-4    {move-type} normal-type
-	{move} next-5    {move-type} normal-type
-	{move} back-1    {move-type} back-type
-	{move} back-2    {move-type} back-type
-	{move} back-3    {move-type} back-type
-	{move} back-4    {move-type} back-type
-	{move} back-5    {move-type} back-type
-	{move} Pass	 {move-type} pass-type
-moves}
-
-{moves dice-drops
-	{move} drop-dice {move-type} dice-type
-moves}
-
-{moves counter-drops
-	{move} drop-mark {move-type} counter-type
-moves}
-
-{move-priorities
-	{move-priority} priority-type
-	{move-priority} normal-type
-	{move-priority} back-type
-	{move-priority} pass-type
-move-priorities}
-
-{pieces
-	{piece}		Man	{moves} man-moves
-	{piece}		Mark	{drops} counter-drops
-	{piece}		Zero	{drops} dice-drops	0 {value}
-	{piece}		One	{drops} dice-drops	1 {value}
-pieces}
-
-' Mark	IS MARK
 
 : OnNewGame ( -- )
 	RANDOMIZE
@@ -281,16 +143,80 @@ pieces}
 	ENDIF
 ;
 
-{board-setup
-	{setup}	White 	Man a4
-	{setup}	White 	Man c4
-	{setup}	White 	Man e4
-	{setup}	White 	Man g4
-	{setup}	White 	Man i4
+: check-finis ( -- )
+	k2 here = IF
+		k2 capture-at
+	ENDIF
+;
 
-	{setup}	Black 	Man b4
-	{setup}	Black 	Man d4
-	{setup}	Black 	Man f4
-	{setup}	Black 	Man h4
-	{setup}	Black 	Man j4
-board-setup}
+: check-neighbor ( 'dir -- ? )
+	here SWAP
+	EXECUTE IF
+		enemy?
+	ELSE
+		FALSE
+	ENDIF
+	SWAP to
+;
+
+: check-dices ( n -- )
+	k1 enemy-at? IF
+		DROP 0
+	ENDIF
+	g1 piece-at piece-value
+	h1 piece-at piece-value +
+	i1 piece-at piece-value +
+	j1 piece-at piece-value +
+	DUP 0= IF
+		DROP 5
+	ENDIF
+	= verify
+;
+
+: check-repeat ( -- )
+	g1 piece-at piece-value
+	h1 piece-at piece-value +
+	i1 piece-at piece-value +
+	j1 piece-at piece-value +
+	DUP 2 = SWAP 3 = OR IF
+		k1 empty-at? NOT IF
+			k1 capture-at
+		ENDIF
+	ELSE
+		k1 empty-at? IF
+			MARK k1 create-piece-type-at
+		ENDIF
+	ENDIF
+;
+
+: drop-dice ( -- )
+	here g1 >=  verify
+	here k1 <   verify
+	friend? NOT verify
+	drop
+	add-move
+;
+
+: drop-mark ( -- )
+	here f1 = verify
+	drop
+	a1 to
+	BEGIN
+		empty? IF
+			MARK create-piece-type
+			TRUE
+		ELSE
+			capture
+			cnt NOT
+		ENDIF
+	UNTIL
+	add-move
+;
+
+{moves dice-drops
+	{move} drop-dice {move-type} dice-type
+moves}
+
+{moves counter-drops
+	{move} drop-mark {move-type} counter-type
+moves}
