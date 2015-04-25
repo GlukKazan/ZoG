@@ -1648,6 +1648,27 @@
   )
 ))
 
+(define int-checker-jump (
+  $1
+  (verify enemy?)
+  capture
+  $1
+  (verify empty?)
+  (set-flag more-captures false)
+  (checker-captured-find $1)
+  (checker-captured-find $2)
+  (checker-captured-find $3)
+  (if (flag? more-captures)
+      (add-partial jumptype)
+   else
+      (if (in-zone? promotion)
+          (add King)
+       else
+          add
+      )
+  )
+))
+
 (variant
   (title "International Checkers")
   (description "")
@@ -1689,6 +1710,10 @@
            (international-checker-jump ne se nw)
            (international-checker-jump sw se nw)
            (international-checker-jump se ne sw)
+;          (int-checker-jump nw sw ne)
+;          (int-checker-jump ne se nw)
+;          (int-checker-jump sw se nw)
+;          (int-checker-jump se ne sw)
 
         (move-type normaltype)
            (checker-shift nw)
@@ -1707,6 +1732,16 @@
            (long-king-jump ne se nw)
            (long-king-jump sw se nw)
            (long-king-jump se ne sw)
+;          (king-jump nw)
+;          (king-jump ne)
+;          (king-jump sw)
+;          (king-jump se)
+
+;       (move-type continuetype)
+;          (king-jump nw)
+;          (king-jump ne)
+;          (king-jump sw)
+;          (king-jump se)
 
         (move-type normaltype)
            (king-shift ne)
@@ -2212,6 +2247,59 @@
   (board-setup
     (First (Checker a1 c1 e1 g1 i1  b2 d2 f2 h2 j2  a3 c3 e3 g3 i3  b4 d4 f4 h4 j4) )
     (Second (Checker b10 d10 f10 h10 j10  a9 c9 e9 g9 i9  b8 d8 f8 h8 j8  a7 c7 e7 g7 i7) )
+  )
+)
+
+(variant
+  (title "Czech Checkers")
+  (description "")
+  (history  "Traditional game.")
+
+  (option "maximal captures" 2)
+
+  (piece
+     (name Checker)
+     (image First "../images/wiedem/CheckerWhite.bmp"
+            Second "../images/wiedem/CheckerBlack.bmp")
+     (moves
+        (move-type jumptype)
+           (checker-jump nw)
+           (checker-jump ne)
+
+        (move-type normaltype)
+           (checker-shift nw)
+           (checker-shift ne)
+     )
+  )
+
+  (piece
+     (name King)
+     (image First "../images/wiedem/CheckerKingWhite.bmp"
+            Second "../images/wiedem/CheckerKingBlack.bmp")
+     (moves
+        (move-type jumptype)
+           (king-jump nw)
+           (king-jump ne)
+           (king-jump sw)
+           (king-jump se)
+
+        (move-type continuetype)
+           (king-jump nw)
+           (king-jump ne)
+           (king-jump sw)
+           (king-jump se)
+
+        (move-type normaltype)
+           (king-shift nw)
+           (king-shift ne)
+           (king-shift sw)
+           (king-shift se)
+     )
+  )
+
+  (board-setup
+    (First (Checker a1 c1 e1 g1  b2 d2 f2 h2  a3 c3 e3 g3) )
+    (Second (Checker b8 d8 f8 h8  a7 c7 e7 g7  b6 d6 f6 h6) )
   )
 )
 
