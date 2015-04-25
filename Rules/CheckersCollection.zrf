@@ -2058,6 +2058,86 @@
   )
 )
 
+(variant
+  (title "South African Checkers")
+  (description "")
+  (history  "Traditional game.")
+
+  (option "maximal captures" false) ; bugfix (true)
+
+  (board
+    (image "../images/wiedem/chess14x14.bmp")
+    (grid
+      (start-rectangle 5 5 54 54)
+      (dimensions
+        ("a/b/c/d/e/f/g/h/i/j/k/l/m/n" (49 0)) ; files
+        ("14/13/12/11/10/9/8/7/6/5/4/3/2/1" (0 49)) ; ranks
+      )
+      (directions (ne 1 -1) (nw -1 -1) (se 1 1) (sw -1 1)
+                  (next 0 -1)
+      ) 
+    )
+    (dummy a0)
+    (links next (a0 a1) (a14 b1) (b14 c1) (c14 d1) (d14 e1) (e14 f1) (f14 g1) (g14 h1) (h14 i1) (i14 j1) (j14 k1) (k14 l1) (l14 m1) (m14 n1))
+    (symmetry Second (nw sw) (sw nw) (ne se) (se ne))
+    (zone (name promotion) (players First)
+          (positions a14 b14 c14 d14 e14 f14 g14 h14 i14 j14 k14 l14 m14 n14)
+    )
+    (zone (name promotion) (players Second)
+          (positions a1 b1 c1 d1 e1 f1 g1 h1 i1 j1 k1 l1 m1 n1)
+    )
+  )
+
+  (piece
+     (name Checker)
+     (image First "../images/wiedem/CheckerWhite.bmp"
+            Second "../images/wiedem/CheckerBlack.bmp")
+     (attribute captured? false)
+     (moves
+        (move-type jumptype)
+           (int-checker-jump nw sw ne)
+           (int-checker-jump ne se nw)
+           (int-checker-jump sw se nw)
+           (int-checker-jump se ne sw)
+
+        (move-type normaltype)
+           (checker-shift nw)
+           (checker-shift ne)
+     )
+  )
+
+  (piece
+     (name King)
+     (image First "../images/wiedem/CheckerKingWhite.bmp"
+            Second "../images/wiedem/CheckerKingBlack.bmp")
+     (attribute captured? false)
+     (moves
+        (move-type jumptype)
+           (king-jump nw)
+           (king-jump ne)
+           (king-jump sw)
+           (king-jump se)
+
+        (move-type continuetype)
+           (king-jump nw)
+           (king-jump ne)
+           (king-jump sw)
+           (king-jump se)
+
+        (move-type normaltype)
+           (king-shift ne)
+           (king-shift nw)
+           (king-shift se)
+           (king-shift sw)
+     )
+  )
+
+  (board-setup
+    (First (Checker a1 c1 e1 g1 i1 k1 m1  b2 d2 f2 h2 j2 l2 n2  a3 c3 e3 g3 i3 k3 m3  b4 d4 f4 h4 j4 l4 n4  a5 c5 e5 g5 i5 k5 m5 b6 d6 f6 h6 j6 l6 n6) )
+    (Second (Checker b14 d14 f14 h14 j14 l14 n14  a13 c13 e13 g13 i13 k13 m13  b12 d12 f12 h12 j12 l12 n12  a11 c11 e11 g11 i11 k11 m11  b10 d10 f10 h10 j10 l10 n10 a9 c9 e9 g9 i9 k9 m9) )
+  )
+)
+
 (define frisian-checker-jump (
   (verify (not captured?))    
   $1
@@ -2162,7 +2242,7 @@
   (description "")
   (history  "Traditional game.")
 
-  (option "maximal captures" 2) ; bugfix (2)
+  (option "maximal captures" 2)
 
   (board
     (image "../images/wiedem/chess10x10.bmp")
