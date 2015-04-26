@@ -1,240 +1,291 @@
 Zillions Save Game File Version 0.02 CC
 RulesFile=CheckersCollection.zrf
 VariantName=South African Checkers
-1. Checker l6 - m7
-1. Checker m9 - l8
-2. Checker m5 - l6
-2. Checker l10 - m9
-3. Checker d6 - c7
-3. Checker e9 - d8
-4. Checker c7 - e9 x d8
-4. Checker f10 - d8 x e9
-5. Checker j6 - i7
-5. Checker g9 - h8
-6. Checker i7 - g9 x h8
-6. Checker h10 - f8 x g9
-7. Checker b6 - c7
-7. Checker d8 - b6 x c7
-8. Checker a5 - c7 x b6
-8. Checker i11 - h10
-9. Checker e5 - d6
-9. Checker i9 - j8
-10. Checker h6 - i7
-10. Checker j8 - h6 x i7
-11. Checker g5 - i7 x h6
-11. Checker j10 - i9
-12. Checker m7 - n8
-12. Checker m11 - l10
-13. Checker i5 - h6
-13. Checker k11 - j10
-14. Checker l4 - m5
-14. Checker g11 - f10
-15. Checker b4 - a5
-15. Checker d10 - e9
-16. Checker j4 - i5
-16. Checker f10 - g9
-17. Checker c3 - b4
-17. Checker f12 - g11
-18. Checker m3 - l4
-18. Checker c11 - d10
-19. Checker l6 - m7
-19. Checker b12 - c11
-20. Checker c5 - b6
-20. Checker e11 - f10
-21. Checker b4 - c5
-21. Checker d12 - e11
-22. Checker f6 - e7
-22. Checker c9 - d8
-23. Checker e7 - c9 x d8
-23. Checker b10 - d8 x c9
-24. Checker b6 - a7
-24. Checker d8 - b6 x c7
-25. Checker a5 - c7 x b6
-25. Checker i9 - j8
-26. Checker k3 - j4
-26. Checker d10 - c9
-27. Checker h4 - g5
-27. Checker c9 - d8
-28. Checker c5 - b6
-28. Checker e11 - d10
-29. Checker d4 - e5
-29. Checker g13 - f12
-30. Checker e5 - f6
-30. Checker g9 - h8
-31. partial 2 Checker i7 - g9 x h8
-31. partial 2 Checker g9 - e7 x f8
-31. partial 2 Checker e7 - c9 x d8
-31. partial 2 Checker c9 - e11 x d10
-31. partial 2 Checker e11 - g9 x f10
-31. partial 2 Checker g9 - i11 x h10
-31. partial 2 Checker i11 - g13 x h12
-31. Checker g13 - e11 x f12
-31. Checker e13 - d12
-32. Checker e3 - d4
-32. Checker d12 - f10 x e11
-33. Checker h6 - i7
-33. Checker j8 - h6 x i7
-34. Checker g5 - i7 x h6
-34. Checker j10 - i9
-35. Checker k5 - l6
-35. Checker l12 - m11
-36. Checker a3 - b4
-36. Checker f10 - g9
-37. Checker f6 - e7
-37. Checker c13 - d12
-38. Checker i3 - h4
-38. Checker j12 - i11
-39. Checker f4 - g5
-39. Checker m13 - l12
-40. Checker i5 - h6
-40. Checker i9 - j8
-41. Checker e7 - d8
-41. Checker e9 - f8
-42. Checker d8 - c9
-42. Checker d12 - e11
-43. Checker g3 - f4
-43. Checker l8 - k7
-44. Checker b2 - a3
-44. Checker l12 - k11
-45. Checker j4 - i5
-45. Checker m9 - l8
-46. Checker g5 - f6
-46. Checker k11 - j10
-47. Checker l4 - k5
-47. Checker j10 - i9
-48. Checker h6 - g7
-48. partial 2 Checker j8 - h6 x i7
-48. Checker h6 - j4 x i5
-49. Checker k5 - i3 x j4
-49. Checker f8 - h6 x g7
-50. partial 2 Checker l6 - j8 x k7
-50. partial 2 Checker j8 - h10 x i9
-50. partial 2 Checker h10 - f12 x g11
-50. partial 2 Checker f12 - d10 x e11
-50. Checker d10 - b12 x c11
-50. Checker a13 - c11 x b12
-51. Checker i3 - j4
-51. Checker b14 - c13
-52. Checker a1 - b2
-52. Checker d14 - e13
-53. Checker d4 - e5
-53. Checker l8 - k7
-54. Checker f2 - g3
-54. Checker k9 - j8
-55. Checker m5 - l6
-55. Checker k7 - m5 x l6
-56. Checker n6 - l4 x m5
-56. Checker n10 - m9
-57. Checker d2 - e3
-57. Checker n14 - m13
-58. Checker b2 - c3
-58. Checker i11 - j10
-59. Checker h4 - i5
-59. Checker j10 - k9
-60. Checker i5 - g7 x h6
-60. Checker m9 - l8
-61. Checker b4 - a5
-61. Checker l8 - n6 x m7
-62. Checker c9 - b10
-62. Checker a11 - c9 x b10
-63. Checker c7 - b8
-63. Checker a9 - c7 x b8
-64. partial 2 Checker b6 - d8 x c7
-64. partial 2 Checker d8 - b10 x c9
-64. partial 2 Checker b10 - d12 x c11
-64. Checker d12 - b14 x c13 = King on b14
-64. Checker k13 - l12
-65. partial 3 King b14 - k5 x g9
-65. Checker k9 - l8
-66. Checker g3 - h4
-66. Checker l10 - k9
-67. King k5 - h8
-67. Checker l8 - k7
-68. Checker g7 - f8
-68. Checker i13 - h12
-69. Checker a7 - b8
-69. Checker e13 - f12
-70. Checker a5 - b6
-70. Checker m11 - l10
-71. Checker b8 - c9
-71. Checker k9 - l8
-72. Checker n4 - m5
-72. Checker h12 - i11
-73. King h8 - f10
-73. Checker h14 - g13
-74. King f10 - d12
-74. Checker n12 - m11
-75. Checker f4 - g5
-75. Checker g13 - h12
-76. Checker g5 - h6
-76. Checker m11 - n10
-77. Checker c9 - d10
-77. Checker l12 - k11
-78. Checker d10 - c11
-78. Checker f14 - e13
-79. partial 3 King d12 - f14 x e13
-79. Checker l10 - m9
-80. partial 2 Checker n8 - l10 x m9
-80. partial 2 Checker l10 - j12 x k11
-80. Checker j12 - h10 x i11
-80. Checker h12 - g11
-81. partial 3 King f14 - m7 x l8
-81. Checker n6 - l8 x m7
-82. Checker c11 - b12
-82. Checker g11 - i9 x h10
-83. Checker b12 - c13
-83. Checker l8 - m7
-84. Checker c13 - b14 = King
-84. Checker m7 - l6
-85. Checker m5 - n6
-85. Checker n10 - m9
-86. Checker l4 - k5
-86. Checker m9 - n8
-87. Checker k5 - m7 x l6
-87. Checker n8 - l6 x m7
-88. King b14 - i7
-88. Checker m13 - l12
-89. partial 3 King i7 - k9 x j8
-89. Checker f12 - e11
-90. King k9 - i7
-90. Checker e11 - d10
-91. King i7 - k5
-91. Checker d10 - c9
-92. partial 3 King k5 - m7 x l6
-92. Checker i9 - j8
-93. King m7 - g13
-93. Checker c9 - d8
-94. Checker d6 - c7
-94. Checker j14 - i13
-95. Checker c7 - e9 x d8
-95. Checker l12 - k11
-96. Checker n6 - m7
-96. Checker l14 - m13
-97. King g13 - f12
-97. Checker k11 - j10
-98. Checker m7 - l8
-98. Checker k7 - m9 x l8
-99. partial 3 King f12 - k7 x j8
-99. partial 3 King k7 - n10 x m9
-99. Checker i13 - j12
-100. King n10 - j14
-100. Checker m13 - n12
-101. Checker h6 - i7
-101. Checker j10 - k9
-102. King j14 - h12
-102. Checker k9 - l8
-103. partial 3 King h12 - m7 x l8
-103. Checker n12 - m11
-104. King m7 - n8
-104. Checker j12 - i11
-105. Checker i7 - j8
-105. Checker i11 - j10
-106. King n8 - m7
-106. Checker m11 - l10
-107. partial 3 King m7 - g13 x j10
-107. Checker l10 - m9
-108. King g13 - m7
-108. Checker m9 - n8
-109. King m7 - l8
-109. Checker n8 - m7
-110. partial 3 King l8 - n6 x m7
+1. Checker g5 - h6
+1. Checker l10 - k9
+2. Checker a5 - b6
+2. Checker j10 - i9
+3. Checker e5 - f6
+3. Checker h10 - g9
+4. Checker i5 - j6
+4. Checker f10 - e9
+5. Checker k5 - l6
+5. Checker n10 - m9
+6. Checker c5 - d6
+6. Checker b10 - a9
+7. Checker l4 - k5
+7. Checker k11 - l10
+8. Checker j6 - i7
+8. Checker d10 - c9
+9. Checker j4 - i5
+9. Checker j12 - k11
+10. Checker m5 - n6
+10. Checker k11 - j10
+11. Checker m3 - l4
+11. Checker l12 - k11
+12. Checker k5 - j6
+12. Checker k9 - j8
+13. Checker i7 - k9 x j8
+13. Checker j10 - l8 x k9
+14. Checker k3 - j4
+14. Checker a9 - b8
+15. Checker j4 - k5
+15. Checker a11 - b10
+16. Checker h6 - g7
+16. Checker e9 - d8
+17. Checker d6 - e7
+17. Checker g11 - f10
+18. Checker b6 - a7
+18. Checker i9 - h8
+19. Checker g7 - i9 x h8
+19. Checker g9 - f8
+20. Checker e7 - g9 x f8
+20. partial 2 Checker f10 - h8 x g9
+20. Checker h8 - j10 x i9
+21. Checker f6 - e7
+21. Checker d8 - f6 x e7
+22. Checker f4 - e5
+22. Checker l10 - k9
+23. Checker e5 - g7 x f6
+23. Checker f12 - g11
+24. Checker d4 - e5
+24. Checker j10 - i9
+25. Checker h4 - g5
+25. Checker c11 - d10
+26. Checker b4 - c5
+26. Checker d10 - e9
+27. Checker j2 - k3
+27. Checker d12 - c11
+28. Checker a3 - b4
+28. Checker b10 - a9
+29. Checker c5 - d6
+29. Checker b12 - a11
+30. Checker c3 - d4
+30. Checker i11 - h10
+31. Checker g3 - h4
+31. Checker h10 - g9
+32. Checker e5 - f6
+32. Checker h12 - i11
+33. Checker e3 - f4
+33. Checker e11 - d10
+34. Checker f4 - e5
+34. Checker g9 - f8
+35. Checker g5 - h6
+35. Checker b8 - c7
+36. Checker d6 - b8 x c7
+36. Checker a9 - c7 x b8
+37. Checker b4 - c5
+37. Checker a11 - b10
+38. Checker b2 - a3
+38. Checker b10 - a9
+39. Checker g7 - h8
+39. Checker i9 - g7 x h8
+40. Checker f6 - h8 x g7
+40. Checker c9 - d8
+41. Checker h2 - g3
+41. Checker f8 - e7
+42. Checker a3 - b4
+42. Checker d10 - c9
+43. Checker h6 - g7
+43. Checker g11 - h10
+44. Checker b4 - a5
+44. Checker h10 - g9
+45. Checker h8 - f10 x g9
+45. Checker e9 - g11 x f10
+46. Checker e5 - f6
+46. Checker e7 - g5 x f6
+47. Checker h4 - f6 x g5
+47. Checker e13 - d12
+48. Checker g7 - f8
+48. Checker d12 - e11
+49. Checker j6 - i7
+49. Checker i11 - h10
+50. Checker i7 - h8
+50. Checker k11 - j10
+51. Checker d4 - e5
+51. Checker m13 - l12
+52. Checker f2 - e3
+52. Checker k13 - j12
+53. Checker d2 - c3
+53. Checker k9 - j8
+54. Checker c5 - d6
+54. Checker c11 - d10
+55. Checker d6 - b8 x c7
+55. Checker a9 - c7 x b8
+56. Checker h8 - g9
+56. Checker j12 - i11
+57. Checker a1 - b2
+57. Checker j8 - i7
+58. Checker c3 - d4
+58. Checker c9 - b8
+59. partial 2 Checker a7 - c9 x b8
+59. Checker c9 - e7 x d8
+59. Checker d10 - e9
+60. partial 2 Checker f8 - d10 x e9
+60. Checker d10 - f12 x e11
+60. partial 2 Checker h10 - f8 x g9
+60. partial 2 Checker f8 - d6 x e7
+60. partial 2 Checker d6 - f4 x e5
+60. partial 2 Checker f4 - h2 x g3
+60. partial 2 Checker h2 - j4 x i3
+60. Checker j4 - h6 x i5
+61. partial 2 Checker f12 - h10 x g11
+61. Checker h10 - j12 x i11
+61. Checker i13 - k11 x j12
+62. Checker l6 - m7
+62. Checker j10 - k9
+63. Checker e3 - f4
+63. Checker g13 - h12
+64. Checker k3 - j4
+64. Checker k9 - j8
+65. Checker m7 - k9 x l8
+65. Checker j8 - l10 x k9
+66. Checker d4 - c5
+66. Checker c13 - d12
+67. Checker f4 - e5
+67. Checker l10 - k9
+68. Checker f6 - e7
+68. Checker h6 - g5
+69. Checker c5 - b6
+69. Checker a13 - b12
+70. Checker b6 - d8 x c7
+70. Checker i7 - h6
+71. Checker a5 - b6
+71. Checker g5 - h4
+72. Checker k5 - j6
+72. Checker k11 - j10
+73. Checker d8 - e9
+73. Checker j10 - i9
+74. Checker i1 - h2
+74. Checker i9 - j8
+75. Checker e1 - f2
+75. Checker m9 - l8
+76. Checker h2 - g3
+76. Checker j8 - k7
+77. partial 2 Checker g3 - i5 x h4
+77. Checker i5 - g7 x h6
+77. partial 2 Checker k7 - i5 x j6
+77. partial 2 Checker i5 - k3 x j4
+77. Checker k3 - m5 x l4
+78. Checker n4 - l6 x m5
+78. Checker m11 - l10
+79. Checker e9 - f10
+79. Checker k9 - j8
+80. Checker l2 - k3
+80. Checker n12 - m11
+81. Checker n2 - m3
+81. Checker l12 - k11
+82. Checker b2 - c3
+82. Checker n14 - m13
+83. Checker e7 - d8
+83. Checker j8 - i7
+84. Checker d8 - c9
+84. Checker l10 - k9
+85. Checker c9 - d10
+85. Checker b12 - a11
+86. Checker f2 - e3
+86. Checker h12 - i11
+87. Checker b6 - c7
+87. Checker a11 - b10
+88. Checker d10 - e11
+88. Checker i11 - h10
+89. Checker e11 - c13 x d12
+89. Checker b14 - d12 x c13
+90. Checker c7 - b8
+90. Checker k9 - j8
+91. Checker e5 - d6
+91. Checker f14 - g13
+92. Checker d6 - c7
+92. Checker i7 - j6
+93. Checker c7 - d8
+93. Checker b10 - a9
+94. Checker b8 - c9
+94. Checker j6 - i5
+95. Checker l6 - m7
+95. Checker l8 - k7
+96. Checker m7 - n8
+96. Checker j8 - i7
+97. Checker n6 - m7
+97. Checker m11 - l10
+98. Checker e3 - f4
+98. Checker i7 - h6
+99. Checker g7 - f8
+99. Checker k11 - j10
+100. Checker f8 - e9
+100. Checker j10 - i9
+101. Checker e9 - d10
+101. Checker i9 - h8
+102. Checker d10 - c11
+102. Checker d12 - b10 x c11
+103. Checker c9 - a11 x b10
+103. Checker d14 - c13
+104. Checker d8 - c9
+104. Checker h8 - g7
+105. Checker c9 - d10
+105. Checker i5 - j4
+106. Checker k3 - i5 x j4
+106. Checker h6 - j4 x i5
+107. Checker d10 - c11
+107. Checker l10 - k9
+108. Checker m7 - l8
+108. Checker k7 - m9 x l8
+109. partial 2 Checker n8 - l10 x m9
+109. Checker l10 - j8 x k9
+109. Checker g13 - f12
+110. Checker c11 - b12
+110. Checker c13 - d12
+111. Checker f10 - e11
+111. Checker f12 - d10 x e11
+112. Checker b12 - a13
+112. Checker m13 - l12
+113. Checker a11 - b12
+113. Checker d10 - c9
+114. Checker a13 - b14 = King
+114. Checker d12 - c11
+115. partial 2 Checker b12 - d10 x c11
+115. Checker d10 - b8 x c9
+115. Checker a9 - c7 x b8
+116. King b14 - a13
+116. Checker g7 - f6
+117. partial 3 King a13 - k3 x j4
+117. Checker f6 - g5
+118. Checker f4 - h6 x g5
+118. Checker c7 - d6
+119. Checker c3 - d4
+119. Checker h10 - g9
+120. Checker h6 - g7
+120. Checker h14 - g13
+121. King k3 - l4
+121. Checker g13 - h12
+122. partial 3 King l4 - e11 x g9
+122. Checker h12 - g11
+123. King e11 - g9
+123. Checker l12 - m11
+124. partial 3 King g9 - b4 x d6
+124. Checker j14 - i13
+125. King b4 - i11
+125. Checker g11 - f10
+126. King i11 - e7
+126. Checker i13 - h12
+127. King e7 - d8
+127. Checker h12 - g11
+128. Checker j8 - i9
+128. Checker m11 - n10
+129. Checker i9 - h10
+129. Checker g11 - i9 x h10
+130. partial 3 King d8 - g11 x f10
+130. partial 3 King g11 - k7 x i9
+130. Checker l14 - m13
+131. Checker g7 - f8
+131. Checker m13 - n12
+132. Checker c1 - b2
+132. Checker n12 - m11
+133. King k7 - j8
+133. Checker m11 - l10
+134. partial 3 King j8 - n12 x l10
+134. Checker n10 - m9
+135. King n12 - j8
+135. Checker m9 - n8
+136. King j8 - l6
+136. Checker n8 - m7
+137. partial 3 King l6 - n8 x m7

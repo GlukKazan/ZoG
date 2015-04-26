@@ -2133,8 +2133,8 @@
   )
 
   (board-setup
-    (First (Checker a1 c1 e1 g1 i1 k1 m1  b2 d2 f2 h2 j2 l2 n2  a3 c3 e3 g3 i3 k3 m3  b4 d4 f4 h4 j4 l4 n4  a5 c5 e5 g5 i5 k5 m5 b6 d6 f6 h6 j6 l6 n6) )
-    (Second (Checker b14 d14 f14 h14 j14 l14 n14  a13 c13 e13 g13 i13 k13 m13  b12 d12 f12 h12 j12 l12 n12  a11 c11 e11 g11 i11 k11 m11  b10 d10 f10 h10 j10 l10 n10 a9 c9 e9 g9 i9 k9 m9) )
+    (First (Checker a1 c1 e1 g1 i1 k1 m1  b2 d2 f2 h2 j2 l2 n2  a3 c3 e3 g3 i3 k3 m3  b4 d4 f4 h4 j4 l4 n4  a5 c5 e5 g5 i5 k5 m5) )
+    (Second (Checker b14 d14 f14 h14 j14 l14 n14  a13 c13 e13 g13 i13 k13 m13  b12 d12 f12 h12 j12 l12 n12  a11 c11 e11 g11 i11 k11 m11  b10 d10 f10 h10 j10 l10 n10) )
   )
 )
 
