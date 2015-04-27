@@ -1176,6 +1176,86 @@
 )
 
 (variant
+  (title "Universal Checkers")
+  (description "")
+  (history  "Unknown Inventor.")
+
+  (option "maximal captures" false)
+
+  (piece
+     (name Checker)
+     (image First "../images/wiedem/CheckerWhite.bmp"
+            Second "../images/wiedem/CheckerBlack.bmp")
+     (attribute captured? false)
+     (moves
+        (move-type jumptype)
+           (checker-jump n)
+           (checker-jump e)
+           (checker-jump w)
+           (checker-jump s)
+           (checker-jump ne)
+           (checker-jump nw)
+           (checker-jump se)
+           (checker-jump sw)
+
+        (move-type normaltype)
+           (checker-shift n)
+           (checker-shift e)
+           (checker-shift w)
+           (checker-shift nw)
+           (checker-shift ne)
+
+        (move-type notype)
+     )
+  )
+
+  (piece
+     (name King)
+     (image First "../images/wiedem/CheckerKingWhite.bmp"
+            Second "../images/wiedem/CheckerKingBlack.bmp")
+     (attribute captured? false)
+     (moves
+        (move-type jumptype)
+           (king-jump n)
+           (king-jump e)
+           (king-jump w)
+           (king-jump s)
+           (king-jump nw)
+           (king-jump ne)
+           (king-jump sw)
+           (king-jump se)
+
+        (move-type continuetype)
+           (king-jump n)
+           (king-jump e)
+           (king-jump w)
+           (king-jump s)
+           (king-jump nw)
+           (king-jump ne)
+           (king-jump sw)
+           (king-jump se)
+
+        (move-type normaltype)
+           (king-shift n)
+           (king-shift w)
+           (king-shift e)
+           (king-shift s)
+           (king-shift ne)
+           (king-shift nw)
+           (king-shift se)
+           (king-shift sw)
+
+        (move-type notype)
+     )
+  )
+
+  (board-setup
+    (First (Checker a1 b1 c1 d1 e1 f1 g1 h1  a2 b2 c2 d2 e2 f2 g2 h2  a3 b3 c3 d3 e3 f3 g3 h3) )
+    (Second (Checker a8 b8 c8 d8 e8 f8 g8 h8  a7 b7 c7 d7 e7 f7 g7 h7  a6 b6 c6 d6 e6 f6 g6 h6) )
+  )
+)
+
+(variant
   (title "Croda")
   (description "")
   (history  "Croda was invented by the Croation mathematics professor and Draughts master Ljuban Dedic \
@@ -1768,10 +1848,6 @@
            (international-checker-jump ne se nw)
            (international-checker-jump sw se nw)
            (international-checker-jump se ne sw)
-;          (int-checker-jump nw sw ne)
-;          (int-checker-jump ne se nw)
-;          (int-checker-jump sw se nw)
-;          (int-checker-jump se ne sw)
 
         (move-type normaltype)
            (checker-shift nw)
@@ -1792,16 +1868,6 @@
            (long-king-jump ne se nw)
            (long-king-jump sw se nw)
            (long-king-jump se ne sw)
-;          (king-jump nw)
-;          (king-jump ne)
-;          (king-jump sw)
-;          (king-jump se)
-
-;       (move-type continuetype)
-;          (king-jump nw)
-;          (king-jump ne)
-;          (king-jump sw)
-;          (king-jump se)
 
         (move-type normaltype)
            (king-shift ne)
