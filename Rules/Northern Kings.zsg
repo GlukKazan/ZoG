@@ -1,0 +1,184 @@
+Zillions Save Game File Version 0.02 CC
+RulesFile=CheckersCollection.zrf
+VariantName=Northern Kings
+1. King c3 - a5
+1. King f6 - g5
+2. King g3 - e5
+2. partial 3 King d6 - g3 = Checker on e5 @ e5 0 1
+3. partial 3 King f2 - h4 = Checker on g3 @ g3 0 1 @ e5 0 0
+3. partial 3 King h4 - f6 = Checker on g5 @ g5 0 1
+3. partial 3 King b6 - f2 = Checker on e3 @ e3 0 1 @ e5 0 0 @ g3 0 0 @ g5 0 0
+4. partial 3 King f6 - h4 @ e3 0 0 @ e5 0 0 @ g3 0 0 @ g5 0 0 x g5
+4. partial 3 King f2 - d4 @ e3 0 0 @ e5 0 0 @ g3 0 0 x e3
+4. partial 3 King d4 - f6 x e5
+5. partial 3 King h4 - f2 @ g3 0 0 x g3
+5. King f6 - h4
+6. King d2 - b4
+6. King e7 - g5
+7. King b4 - e7
+7. partial 3 King f8 - d6 = Checker on e7 @ e7 0 1
+8. partial 3 Checker e7 - c5 = Checker on d6 @ d6 0 1 @ e7 0 0 @ c5 0 0
+8. partial 3 Checker d6 - b4 @ c5 0 0 @ d6 0 0 @ b4 0 0 x c5
+9. partial 3 King a3 - e7 @ b4 0 0 x b4
+9. partial 3 King d8 - f6 = Checker on e7 @ e7 0 1
+10. partial 3 King a5 - d8 = Checker on c7 @ c7 0 1 @ e7 0 0
+10. Checker c7 - b6 @ c7 0 0 @ e7 0 0 @ b6 0 0
+11. partial 3 King d8 - a5 @ b6 0 0 @ e7 0 0 x b6
+11. partial 3 King f6 - d8 @ e7 0 0 x e7
+12. King b2 - a3
+12. King g5 - d2
+13. partial 3 King e1 - c3 = Checker on d2 @ d2 0 1
+13. partial 3 King g7 - b2 = Checker on c3 @ c3 0 1 @ d2 0 0
+14. partial 3 Checker c3 - e1 @ c3 0 0 @ d2 0 0 @ e1 0 0 x d2
+14. King b2 - f6
+15. partial 3 King a1 - g7 = Checker on f6 @ f6 0 1 @ e1 0 0
+15. partial 3 King h6 - f8 = Checker on g7 @ g7 0 1 @ e1 0 0 @ f6 0 0
+16. partial 3 Checker g7 - e5 @ e1 0 0 @ f6 0 0 @ g7 0 0 @ e5 0 0 x f6
+16. partial 3 King h8 - a1 @ e1 0 0 @ e5 0 0 x e5
+17. King c1 - h6
+17. King a1 - h8
+18. King h6 - e3
+18. King f8 - h6
+19. King e3 - c1
+19. King h8 - a1
+20. King a3 - e7
+20. partial 3 King d8 - f6 = Checker on e7 @ e7 0 1 @ e1 0 0
+21. partial 3 Checker e7 - g5 = Checker on f6 @ f6 0 1 @ e1 0 0 @ e7 0 0 @ g5 0 0
+21. partial 3 King h6 - d2 @ e1 0 0 @ f6 0 0 @ g5 0 0 x g5
+22. partial 3 King c1 - g5 = Checker on d2 @ d2 0 1 @ e1 0 0 @ f6 0 0
+22. partial 3 King g5 - d8 x f6
+22. Checker d2 - c1 @ d2 0 0 @ e1 0 0 = King on c1
+23. King d8 - e7 @ e1 0 0
+23. partial 3 King h4 - d8 = Checker on e7 @ e7 0 1 @ e1 0 0
+24. Checker e7 - f8 @ e1 0 0 @ e7 0 0 = King on f8
+24. King c1 - h6
+25. King a5 - c7
+25. partial 3 King d8 - a5 = Checker on c7 @ c7 0 1 @ e1 0 0
+26. Checker c7 - d8 @ c7 0 0 @ e1 0 0 = King on d8
+26. King a1 - b2 @ e1 0 0
+27. King f2 - c5
+27. partial 3 King a7 - d4 = Checker on c5 @ c5 0 1 @ e1 0 0
+28. partial 3 Checker c5 - e3 = Checker on d4 @ d4 0 1 @ c5 0 0 @ e1 0 0 @ e3 0 0
+28. partial 3 King h6 - c1 @ d4 0 0 @ e1 0 0 @ e3 0 0 x e3
+29. partial 3 King g1 - a7 @ d4 0 0 @ e1 0 0 x d4
+29. King c1 - h6
+30. King f8 - a3
+30. King b2 - c3 @ e1 0 0
+31. King d8 - h4
+31. King a5 - d8
+32. King a3 - e7
+32. partial 3 King d8 - f6 = Checker on e7 @ e7 0 1 @ e1 0 0
+33. partial 3 Checker e7 - g5 = Checker on f6 @ f6 0 1 @ e1 0 0 @ e7 0 0 @ g5 0 0
+33. partial 3 King h6 - c1 @ e1 0 0 @ f6 0 0 @ g5 0 0 x g5
+34. partial 3 King h4 - d8 @ e1 0 0 @ f6 0 0 x f6
+34. King c1 - a3
+35. King d8 - a5
+35. King c3 - f6
+36. King a5 - b6 @ e1 0 0
+36. King f6 - d8
+37. King b6 - g1
+37. King a3 - f8
+38. King a7 - f2
+38. King d8 - f6
+39. King f2 - h4
+39. King f6 - d8
+40. King h4 - g3 @ e1 0 0
+40. King d8 - f6
+41. Checker e1 - d2 @ e1 0 0 @ d2 0 0
+41. King f6 - h4
+42. King g3 - e1
+42. King f8 - g7 @ d2 0 0
+43. King e1 - g3
+43. partial 3 King h4 - e1 = Checker on g3 @ g3 0 1 @ d2 0 0
+43. partial 3 King e1 - a5 x d2
+44. Checker g3 - f4 @ g3 0 0 @ f4 0 0
+44. partial 3 King b8 - g3 @ f4 0 0 x f4
+45. partial 3 King h2 - e5 = Checker on g3 @ g3 0 1
+45. partial 3 King e5 - h8 = Checker on g7 @ g7 0 1
+45. Checker g7 - h6 @ g3 0 0 @ g7 0 0 @ h6 0 0
+46. King h8 - d4
+46. Checker g3 - h2 @ g3 0 0 @ h6 0 0 @ h2 0 0
+47. King d4 - a7
+47. King a5 - c3
+48. King a7 - e3
+48. King c3 - e1
+49. King e3 - f4 @ h2 0 0 @ h6 0 0
+49. King e1 - c3
+50. King f4 - c1
+50. King c3 - h8
+51. King c1 - d2 @ h2 0 0 @ h6 0 0
+51. King h8 - g7 @ h2 0 0 @ h6 0 0
+52. King d2 - b4
+52. Checker h6 - g5 @ h2 0 0 @ h6 0 0 @ g5 0 0
+53. King b4 - d2
+53. King g7 - h8 @ g5 0 0 @ h2 0 0
+54. partial 3 King d2 - h6 @ g5 0 0 @ h2 0 0 x g5
+54. King h8 - f6
+55. King h6 - g7 @ h2 0 0
+55. partial 3 King f6 - h8 = Checker on g7 @ g7 0 1 @ h2 0 0
+56. Checker g7 - f8 @ g7 0 0 @ h2 0 0 = King on f8
+56. King h8 - f6
+57. King f8 - h6
+57. King f6 - h4
+58. King h6 - f4
+58. King h4 - d8
+59. King f4 - e3 @ h2 0 0
+59. King d8 - h4
+60. King e3 - b6
+60. King h4 - e1
+61. King b6 - a5 @ h2 0 0
+61. King e1 - d2 @ h2 0 0
+62. partial 3 King a5 - e1 = Checker on d2 @ d2 0 1 @ h2 0 0
+62. Checker d2 - c1 @ d2 0 0 @ h2 0 0 = King on c1
+63. King e1 - f2 @ h2 0 0
+63. King c1 - f4
+64. King f2 - b6
+64. King f4 - h6
+65. King b6 - a7 @ h2 0 0
+65. King h6 - d2
+66. King a7 - d4
+66. King d2 - g5
+67. King d4 - g7
+67. King g5 - h4 @ h2 0 0
+68. King g7 - h6 @ h2 0 0
+68. King h4 - f2
+69. partial 3 King g1 - e3 = Checker on f2 @ f2 0 1 @ h2 0 0
+69. partial 3 Checker f2 - d4 = Checker on e3 @ e3 0 1 @ f2 0 0 @ h2 0 0 @ d4 0 0
+70. partial 3 Checker e3 - c5 @ d4 0 0 @ e3 0 0 @ h2 0 0 @ c5 0 0 x d4
+70. Checker h2 - g1 @ c5 0 0 @ h2 0 0 = King on g1
+71. Checker c5 - d6 @ c5 0 0 @ d6 0 0
+71. King g1 - b6
+72. Checker d6 - e7 @ d6 0 0 @ e7 0 0
+72. King b6 - c5 @ e7 0 0
+73. Checker e7 - d8 @ e7 0 0 = King on d8
+73. King c5 - a3
+74. King d8 - g5
+74. King a3 - f8
+75. King g5 - f6
+75. King f8 - d6
+76. King h6 - c1
+76. King d6 - c5
+77. King c1 - a3
+77. King c5 - f2
+78. King a3 - d6
+78. King f2 - e3
+79. King f6 - e5
+79. King e3 - a7
+80. King e5 - f4
+80. King a7 - d4
+81. King f4 - c1
+81. King d4 - h8
+82. King c1 - g5
+82. King h8 - g7
+83. King d6 - f8
+83. King g7 - h8
+84. King f8 - h6
+84. King h8 - f6
+85. partial 3 King g5 - e7 = Checker on f6 @ f6 0 1
+85. partial 3 Checker f6 - d8 = Checker on e7 @ e7 0 1 @ f6 0 0 @ d8 0 0
+86. King h6 - g7 @ d8 0 0 @ e7 0 0
+86. partial 3 Checker d8 - f6 @ d8 0 0 @ e7 0 0 @ f6 0 0 x e7
+86. partial 3 Checker f6 - h8 = Checker on g7 @ g7 0 1
+87. Checker g7 - f8 @ g7 0 0 @ h8 0 0 = King on f8
+87. Checker h8 - g7 @ h8 0 0 @ g7 0 0
+88. partial 3 King f8 - h6 @ g7 0 0 x g7

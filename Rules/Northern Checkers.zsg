@@ -1,169 +1,75 @@
 Zillions Save Game File Version 0.02 CC
 RulesFile=CheckersCollection.zrf
 VariantName=Northern Checkers
-1. Checker c3 - b4
-1. Checker d6 - c5
-2. partial 3 Checker b4 - d6 @ a1 0 0 @ a3 0 0 @ a7 0 0 @ b2 0 0 @ b4 0 0 @ b6 0 0 @ b8 0 0 @ c1 0 0 @ c5 0 0 @ c7 0 0 @ d2 0 0 @ d8 0 0 @ e1 0 0 @ e3 0 0 @ e7 0 0 @ f2 0 0 @ f6 0 0 @ f8 0 0 @ g1 0 0 @ g3 0 0 @ g7 0 0 @ h2 0 0 @ h6 0 0 @ h8 0 0 x c5
-2. partial 3 Checker c7 - e5 @ a1 0 0 @ a3 0 0 @ a7 0 0 @ b2 0 0 @ b6 0 0 @ b8 0 0 @ c1 0 0 @ c7 0 0 @ d2 0 0 @ d6 0 0 @ d8 0 0 @ e1 0 0 @ e3 0 0 @ e7 0 0 @ f2 0 0 @ f6 0 0 @ f8 0 0 @ g1 0 0 @ g3 0 0 @ g7 0 0 @ h2 0 0 @ h6 0 0 @ h8 0 0 x d6
-3. Checker g3 - f4
-3. partial 3 Checker e5 - g3 @ a1 0 0 @ a3 0 0 @ a7 0 0 @ b2 0 0 @ b6 0 0 @ b8 0 0 @ c1 0 0 @ d2 0 0 @ d8 0 0 @ e1 0 0 @ e3 0 0 @ e5 0 0 @ e7 0 0 @ f2 0 0 @ f4 0 0 @ f6 0 0 @ f8 0 0 @ g1 0 0 @ g7 0 0 @ h2 0 0 @ h6 0 0 @ h8 0 0 x f4
-4. partial 3 Checker h2 - f4 @ a1 0 0 @ a3 0 0 @ a7 0 0 @ b2 0 0 @ b6 0 0 @ b8 0 0 @ c1 0 0 @ d2 0 0 @ d8 0 0 @ e1 0 0 @ e3 0 0 @ e7 0 0 @ f2 0 0 @ f6 0 0 @ f8 0 0 @ g1 0 0 @ g3 0 0 @ g7 0 0 @ h2 0 0 @ h6 0 0 @ h8 0 0 x g3
-4. Checker f6 - g5
-5. Checker a3 - b4
-5. Checker e7 - d6
-6. Checker b2 - a3
-6. Checker g7 - f6
-7. Checker b4 - c5
-7. partial 3 Checker b6 - d4 @ a1 0 0 @ a3 0 0 @ a7 0 0 @ b6 0 0 @ b8 0 0 @ c1 0 0 @ c5 0 0 @ d2 0 0 @ d6 0 0 @ d8 0 0 @ e1 0 0 @ e3 0 0 @ f2 0 0 @ f4 0 0 @ f6 0 0 @ f8 0 0 @ g1 0 0 @ g5 0 0 @ h6 0 0 @ h8 0 0 x c5
-8. partial 3 Checker e3 - c5 @ a1 0 0 @ a3 0 0 @ a7 0 0 @ b8 0 0 @ c1 0 0 @ d2 0 0 @ d4 0 0 @ d6 0 0 @ d8 0 0 @ e1 0 0 @ e3 0 0 @ f2 0 0 @ f4 0 0 @ f6 0 0 @ f8 0 0 @ g1 0 0 @ g5 0 0 @ h6 0 0 @ h8 0 0 x d4
-8. partial 3 Checker c5 - e7 x d6
-8. partial 3 Checker f8 - d6 @ a1 0 0 @ a3 0 0 @ a7 0 0 @ b8 0 0 @ c1 0 0 @ d2 0 0 @ d8 0 0 @ e1 0 0 @ e7 0 0 @ f2 0 0 @ f4 0 0 @ f6 0 0 @ f8 0 0 @ g1 0 0 @ g5 0 0 @ h6 0 0 @ h8 0 0 x e7
-9. Checker d2 - e3
-9. Checker d8 - c7
-10. Checker a3 - b4
-10. Checker a7 - b6
-11. Checker b4 - c5
-11. partial 3 Checker b6 - d4 @ a1 0 0 @ b6 0 0 @ b8 0 0 @ c1 0 0 @ c5 0 0 @ c7 0 0 @ d6 0 0 @ e1 0 0 @ e3 0 0 @ f2 0 0 @ f4 0 0 @ f6 0 0 @ g1 0 0 @ g5 0 0 @ h6 0 0 @ h8 0 0 x c5
-12. partial 3 Checker e3 - c5 @ a1 0 0 @ b8 0 0 @ c1 0 0 @ c7 0 0 @ d4 0 0 @ d6 0 0 @ e1 0 0 @ e3 0 0 @ f2 0 0 @ f4 0 0 @ f6 0 0 @ g1 0 0 @ g5 0 0 @ h6 0 0 @ h8 0 0 x d4
-12. partial 3 Checker c5 - e7 x d6
-12. partial 3 Checker f6 - d8 @ a1 0 0 @ b8 0 0 @ c1 0 0 @ c7 0 0 @ e1 0 0 @ e7 0 0 @ f2 0 0 @ f4 0 0 @ f6 0 0 @ g1 0 0 @ g5 0 0 @ h6 0 0 @ h8 0 0 x e7
-13. Checker a1 - b2
-13. partial 3 Checker g5 - e3 @ b2 0 0 @ b8 0 0 @ c1 0 0 @ c7 0 0 @ d8 0 0 @ e1 0 0 @ f2 0 0 @ f4 0 0 @ g1 0 0 @ g5 0 0 @ h6 0 0 @ h8 0 0 x f4
-14. partial 3 Checker f2 - d4 @ b2 0 0 @ b8 0 0 @ c1 0 0 @ c7 0 0 @ d8 0 0 @ e1 0 0 @ e3 0 0 @ f2 0 0 @ g1 0 0 @ h6 0 0 @ h8 0 0 x e3
-14. Checker h6 - g5
-15. Checker c1 - d2
-15. Checker h8 - g7
-16. Checker d2 - c3
-16. Checker g5 - f4
-17. Checker c3 - b4
-17. Checker c7 - d6
-18. Checker g1 - h2
-18. Checker g7 - f6
-19. Checker b2 - a3
-19. Checker b8 - a7
-20. Checker b4 - c5
-20. partial 3 Checker d6 - b4 @ a3 0 0 @ a7 0 0 @ c5 0 0 @ d4 0 0 @ d6 0 0 @ d8 0 0 @ e1 0 0 @ f4 0 0 @ f6 0 0 @ h2 0 0 x c5
-21. partial 3 Checker a3 - c5 @ a3 0 0 @ a7 0 0 @ b4 0 0 @ d4 0 0 @ d8 0 0 @ e1 0 0 @ f4 0 0 @ f6 0 0 @ h2 0 0 x b4
-21. Checker d8 - e7
-22. Checker e1 - d2
-22. Checker f6 - g5
-23. Checker d2 - c3
-23. Checker g5 - h4
-24. Checker c3 - b4
-24. Checker e7 - f6
-25. Checker c5 - d6
-25. Checker h4 - g3
-26. Checker d4 - c5
-26. Checker g3 - f2
-27. Checker d6 - c7
-27. Checker f6 - g5
-28. Checker b4 - a5
-28. Checker f2 - e1 = King
-29. Checker c7 - d8 = King
-29. Checker g5 - h4
-30. Checker c5 - d6
-30. Checker f4 - e3
-31. Checker d6 - c7
-31. Checker e3 - f2
-32. King d8 - g5
-32. partial 3 Checker h4 - f6 @ a5 0 0 @ a7 0 0 @ c7 0 0 @ f2 0 0 @ h2 0 0 @ h4 0 0 = Checker on g5 @ g5 0 1
-33. partial 3 Checker g5 - e7 @ a5 0 0 @ a7 0 0 @ c7 0 0 @ f2 0 0 @ f6 0 0 @ g5 0 0 @ h2 0 0 x f6
-33. Checker f2 - g1 = King
-34. Checker e7 - f8 = King
-34. King e1 - f2
-35. Checker c7 - d8 = King
-35. King f2 - e1
-36. King f8 - d6
-36. King e1 - h4
-37. King d6 - e7
-37. King h4 - f2
-38. King e7 - b4
-38. King f2 - e1
-39. King b4 - a3
-39. King e1 - h4
-40. King a3 - d6
-40. King g1 - f2
-41. King d6 - c5
-41. partial 3 King f2 - b6 @ a5 0 0 @ a7 0 0 @ h2 0 0 = Checker on c5 @ c5 0 1
-42. partial 3 Checker a5 - c7 @ a5 0 0 @ a7 0 0 @ c5 0 0 @ h2 0 0 = Checker on b6 @ b6 0 1
-42. partial 3 Checker b6 - d4 @ a7 0 0 @ b6 0 0 @ c5 0 0 @ c7 0 0 @ h2 0 0 x c5
-43. Checker c7 - b8 = King
-43. Checker d4 - c3
-44. King d8 - b6
-44. partial 3 Checker a7 - c5 @ a7 0 0 @ c3 0 0 @ h2 0 0 = Checker on b6 @ b6 0 1
-45. partial 3 Checker b6 - d4 @ b6 0 0 @ c3 0 0 @ c5 0 0 @ h2 0 0 x c5
-45. partial 3 Checker d4 - b2 x c3
-45. King h4 - f6
-46. Checker b2 - a3
-46. King f6 - b2
-47. partial 3 Checker a3 - c1 @ a3 0 0 @ h2 0 0 = Checker on b2 @ b2 0 1
-47. Checker b2 - a1 = King
-48. King b8 - a7
-48. King a1 - b2
-49. partial 3 Checker c1 - a3 @ c1 0 0 @ h2 0 0 = Checker on b2 @ b2 0 1
-49. Checker b2 - a1 = King
-50. King a7 - e3
-50. King a1 - f6
-51. King e3 - f4
-51. King f6 - c3
-52. King f4 - d6
-52. King c3 - a1
-53. Checker h2 - g3
-53. King a1 - f6
-54. Checker g3 - h4
-54. King f6 - c3
-55. Checker h4 - g5
-55. King c3 - d4
-56. King d6 - f8
-56. King d4 - e3
-57. Checker g5 - f6
-57. King e3 - d4
-58. Checker f6 - e7
-58. King d4 - e3
-59. Checker e7 - d8 = King
-59. King e3 - g1
-60. King d8 - c7
-60. King g1 - f2
-61. King c7 - h2
-61. King f2 - e1
-62. King f8 - g7
-62. King e1 - a5
-63. King h2 - g3
-63. King a5 - b6
-64. King g3 - c7
-64. partial 3 King b6 - d8 @ a3 0 0 = Checker on c7 @ c7 0 1
-65. Checker c7 - b8 = King
-65. King d8 - b6
-66. Checker a3 - b4
-66. King b6 - e3
-67. Checker b4 - a5
-67. King e3 - h6
-68. Checker a5 - b6
-68. partial 3 King h6 - f8 @ b6 0 0 = Checker on g7 @ g7 0 1
-69. Checker g7 - h8 = King
-69. King f8 - e7
-70. King b8 - e5
-70. King e7 - f8
-71. King h8 - g7
-71. partial 3 King f8 - h6 @ b6 0 0 = Checker on g7 @ g7 0 1
-72. Checker g7 - f8 = King
-72. King h6 - c1
-73. King f8 - h6
-73. King c1 - a3
-74. Checker b6 - c7
-74. King a3 - b2
-75. partial 3 King e5 - a1 @ c7 0 0 = Checker on b2 @ b2 0 1
-75. Checker b2 - c1 = King
-76. Checker c7 - d8 = King
-76. King c1 - a3
-77. King h6 - c1
-77. King a3 - f8
-78. King a1 - g7
-78. partial 3 King f8 - h6 = Checker on g7 @ g7 0 1
-79. Checker g7 - f8 = King
-79. King h6 - f4
-80. partial 3 King c1 - h6 = Checker on f4 @ f4 0 1
-80. Checker f4 - g3
-81. King h6 - f4
-81. partial 3 Checker g3 - e5 @ g3 0 0 = Checker on f4 @ f4 0 1
-82. partial 3 Checker f4 - d6 @ e5 0 0 @ f4 0 0 x e5
+1. Checker a3 - b4 @ a1 0 0 @ a3 0 0 @ a7 0 0 @ b2 0 0 @ b6 0 0 @ b8 0 0 @ c1 0 0 @ c3 0 0 @ c7 0 0 @ d2 0 0 @ d6 0 0 @ d8 0 0 @ e1 0 0 @ e3 0 0 @ e7 0 0 @ f2 0 0 @ f6 0 0 @ f8 0 0 @ g1 0 0 @ g3 0 0 @ g7 0 0 @ h2 0 0 @ h6 0 0 @ h8 0 0 @ b4 0 0
+1. Checker h6 - g5 @ a1 0 0 @ a7 0 0 @ b2 0 0 @ b4 0 0 @ b6 0 0 @ b8 0 0 @ c1 0 0 @ c3 0 0 @ c7 0 0 @ d2 0 0 @ d6 0 0 @ d8 0 0 @ e1 0 0 @ e3 0 0 @ e7 0 0 @ f2 0 0 @ f6 0 0 @ f8 0 0 @ g1 0 0 @ g3 0 0 @ g7 0 0 @ h2 0 0 @ h6 0 0 @ h8 0 0 @ g5 0 0
+2. Checker b2 - a3 @ a1 0 0 @ a7 0 0 @ b2 0 0 @ b4 0 0 @ b6 0 0 @ b8 0 0 @ c1 0 0 @ c3 0 0 @ c7 0 0 @ d2 0 0 @ d6 0 0 @ d8 0 0 @ e1 0 0 @ e3 0 0 @ e7 0 0 @ f2 0 0 @ f6 0 0 @ f8 0 0 @ g1 0 0 @ g3 0 0 @ g5 0 0 @ g7 0 0 @ h2 0 0 @ h8 0 0 @ a3 0 0
+2. Checker g5 - h4 @ a1 0 0 @ a3 0 0 @ a7 0 0 @ b4 0 0 @ b6 0 0 @ b8 0 0 @ c1 0 0 @ c3 0 0 @ c7 0 0 @ d2 0 0 @ d6 0 0 @ d8 0 0 @ e1 0 0 @ e3 0 0 @ e7 0 0 @ f2 0 0 @ f6 0 0 @ f8 0 0 @ g1 0 0 @ g3 0 0 @ g5 0 0 @ g7 0 0 @ h2 0 0 @ h8 0 0 @ h4 0 0
+3. Checker g3 - f4 @ a1 0 0 @ a3 0 0 @ a7 0 0 @ b4 0 0 @ b6 0 0 @ b8 0 0 @ c1 0 0 @ c3 0 0 @ c7 0 0 @ d2 0 0 @ d6 0 0 @ d8 0 0 @ e1 0 0 @ e3 0 0 @ e7 0 0 @ f2 0 0 @ f6 0 0 @ f8 0 0 @ g1 0 0 @ g3 0 0 @ g7 0 0 @ h2 0 0 @ h4 0 0 @ h8 0 0 @ f4 0 0
+3. Checker d6 - e5 @ a1 0 0 @ a3 0 0 @ a7 0 0 @ b4 0 0 @ b6 0 0 @ b8 0 0 @ c1 0 0 @ c3 0 0 @ c7 0 0 @ d2 0 0 @ d6 0 0 @ d8 0 0 @ e1 0 0 @ e3 0 0 @ e7 0 0 @ f2 0 0 @ f4 0 0 @ f6 0 0 @ f8 0 0 @ g1 0 0 @ g7 0 0 @ h2 0 0 @ h4 0 0 @ h8 0 0 @ e5 0 0
+4. partial 3 Checker f4 - d6 @ a1 0 0 @ a3 0 0 @ a7 0 0 @ b4 0 0 @ b6 0 0 @ b8 0 0 @ c1 0 0 @ c3 0 0 @ c7 0 0 @ d2 0 0 @ d8 0 0 @ e1 0 0 @ e3 0 0 @ e5 0 0 @ e7 0 0 @ f2 0 0 @ f4 0 0 @ f6 0 0 @ f8 0 0 @ g1 0 0 @ g7 0 0 @ h2 0 0 @ h4 0 0 @ h8 0 0 @ d6 0 0 x e5
+4. partial 3 Checker c7 - e5 @ a1 0 0 @ a3 0 0 @ a7 0 0 @ b4 0 0 @ b6 0 0 @ b8 0 0 @ c1 0 0 @ c3 0 0 @ c7 0 0 @ d2 0 0 @ d6 0 0 @ d8 0 0 @ e1 0 0 @ e3 0 0 @ e7 0 0 @ f2 0 0 @ f6 0 0 @ f8 0 0 @ g1 0 0 @ g7 0 0 @ h2 0 0 @ h4 0 0 @ h8 0 0 @ e5 0 0 x d6
+5. Checker e3 - f4 @ a1 0 0 @ a3 0 0 @ a7 0 0 @ b4 0 0 @ b6 0 0 @ b8 0 0 @ c1 0 0 @ c3 0 0 @ d2 0 0 @ d8 0 0 @ e1 0 0 @ e3 0 0 @ e5 0 0 @ e7 0 0 @ f2 0 0 @ f6 0 0 @ f8 0 0 @ g1 0 0 @ g7 0 0 @ h2 0 0 @ h4 0 0 @ h8 0 0 @ f4 0 0
+5. partial 3 Checker e5 - g3 @ a1 0 0 @ a3 0 0 @ a7 0 0 @ b4 0 0 @ b6 0 0 @ b8 0 0 @ c1 0 0 @ c3 0 0 @ d2 0 0 @ d8 0 0 @ e1 0 0 @ e5 0 0 @ e7 0 0 @ f2 0 0 @ f4 0 0 @ f6 0 0 @ f8 0 0 @ g1 0 0 @ g7 0 0 @ h2 0 0 @ h4 0 0 @ h8 0 0 @ g3 0 0 x f4
+6. partial 3 Checker h2 - f4 @ a1 0 0 @ a3 0 0 @ a7 0 0 @ b4 0 0 @ b6 0 0 @ b8 0 0 @ c1 0 0 @ c3 0 0 @ d2 0 0 @ d8 0 0 @ e1 0 0 @ e7 0 0 @ f2 0 0 @ f6 0 0 @ f8 0 0 @ g1 0 0 @ g3 0 0 @ g7 0 0 @ h2 0 0 @ h4 0 0 @ h8 0 0 @ f4 0 0 x g3
+6. Checker e7 - d6 @ a1 0 0 @ a3 0 0 @ a7 0 0 @ b4 0 0 @ b6 0 0 @ b8 0 0 @ c1 0 0 @ c3 0 0 @ d2 0 0 @ d8 0 0 @ e1 0 0 @ e7 0 0 @ f2 0 0 @ f4 0 0 @ f6 0 0 @ f8 0 0 @ g1 0 0 @ g7 0 0 @ h4 0 0 @ h8 0 0 @ d6 0 0
+7. Checker g1 - h2 @ a1 0 0 @ a3 0 0 @ a7 0 0 @ b4 0 0 @ b6 0 0 @ b8 0 0 @ c1 0 0 @ c3 0 0 @ d2 0 0 @ d6 0 0 @ d8 0 0 @ e1 0 0 @ f2 0 0 @ f4 0 0 @ f6 0 0 @ f8 0 0 @ g1 0 0 @ g7 0 0 @ h4 0 0 @ h8 0 0 @ h2 0 0
+7. Checker b6 - c5 @ a1 0 0 @ a3 0 0 @ a7 0 0 @ b4 0 0 @ b6 0 0 @ b8 0 0 @ c1 0 0 @ c3 0 0 @ d2 0 0 @ d6 0 0 @ d8 0 0 @ e1 0 0 @ f2 0 0 @ f4 0 0 @ f6 0 0 @ f8 0 0 @ g7 0 0 @ h2 0 0 @ h4 0 0 @ h8 0 0 @ c5 0 0
+8. Checker b4 - a5 @ a1 0 0 @ a3 0 0 @ a7 0 0 @ b4 0 0 @ b8 0 0 @ c1 0 0 @ c3 0 0 @ c5 0 0 @ d2 0 0 @ d6 0 0 @ d8 0 0 @ e1 0 0 @ f2 0 0 @ f4 0 0 @ f6 0 0 @ f8 0 0 @ g7 0 0 @ h2 0 0 @ h4 0 0 @ h8 0 0 @ a5 0 0
+8. Checker b8 - c7 @ a1 0 0 @ a3 0 0 @ a5 0 0 @ a7 0 0 @ b8 0 0 @ c1 0 0 @ c3 0 0 @ c5 0 0 @ d2 0 0 @ d6 0 0 @ d8 0 0 @ e1 0 0 @ f2 0 0 @ f4 0 0 @ f6 0 0 @ f8 0 0 @ g7 0 0 @ h2 0 0 @ h4 0 0 @ h8 0 0 @ c7 0 0
+9. Checker f2 - g3 @ a1 0 0 @ a3 0 0 @ a5 0 0 @ a7 0 0 @ c1 0 0 @ c3 0 0 @ c5 0 0 @ c7 0 0 @ d2 0 0 @ d6 0 0 @ d8 0 0 @ e1 0 0 @ f2 0 0 @ f4 0 0 @ f6 0 0 @ f8 0 0 @ g7 0 0 @ h2 0 0 @ h4 0 0 @ h8 0 0 @ g3 0 0
+9. partial 3 Checker h4 - f2 @ a1 0 0 @ a3 0 0 @ a5 0 0 @ a7 0 0 @ c1 0 0 @ c3 0 0 @ c5 0 0 @ c7 0 0 @ d2 0 0 @ d6 0 0 @ d8 0 0 @ e1 0 0 @ f4 0 0 @ f6 0 0 @ f8 0 0 @ g3 0 0 @ g7 0 0 @ h2 0 0 @ h4 0 0 @ h8 0 0 @ f2 0 0 x g3
+10. partial 3 Checker e1 - g3 @ a1 0 0 @ a3 0 0 @ a5 0 0 @ a7 0 0 @ c1 0 0 @ c3 0 0 @ c5 0 0 @ c7 0 0 @ d2 0 0 @ d6 0 0 @ d8 0 0 @ e1 0 0 @ f2 0 0 @ f4 0 0 @ f6 0 0 @ f8 0 0 @ g7 0 0 @ h2 0 0 @ h8 0 0 @ g3 0 0 x f2
+10. Checker g7 - h6 @ a1 0 0 @ a3 0 0 @ a5 0 0 @ a7 0 0 @ c1 0 0 @ c3 0 0 @ c5 0 0 @ c7 0 0 @ d2 0 0 @ d6 0 0 @ d8 0 0 @ f4 0 0 @ f6 0 0 @ f8 0 0 @ g3 0 0 @ g7 0 0 @ h2 0 0 @ h8 0 0 @ h6 0 0
+11. Checker g3 - h4 @ a1 0 0 @ a3 0 0 @ a5 0 0 @ a7 0 0 @ c1 0 0 @ c3 0 0 @ c5 0 0 @ c7 0 0 @ d2 0 0 @ d6 0 0 @ d8 0 0 @ f4 0 0 @ f6 0 0 @ f8 0 0 @ g3 0 0 @ h2 0 0 @ h6 0 0 @ h8 0 0 @ h4 0 0
+11. Checker f8 - g7 @ a1 0 0 @ a3 0 0 @ a5 0 0 @ a7 0 0 @ c1 0 0 @ c3 0 0 @ c5 0 0 @ c7 0 0 @ d2 0 0 @ d6 0 0 @ d8 0 0 @ f4 0 0 @ f6 0 0 @ f8 0 0 @ h2 0 0 @ h4 0 0 @ h6 0 0 @ h8 0 0 @ g7 0 0
+12. Checker h2 - g3 @ a1 0 0 @ a3 0 0 @ a5 0 0 @ a7 0 0 @ c1 0 0 @ c3 0 0 @ c5 0 0 @ c7 0 0 @ d2 0 0 @ d6 0 0 @ d8 0 0 @ f4 0 0 @ f6 0 0 @ g7 0 0 @ h2 0 0 @ h4 0 0 @ h6 0 0 @ h8 0 0 @ g3 0 0
+12. Checker f6 - g5 @ a1 0 0 @ a3 0 0 @ a5 0 0 @ a7 0 0 @ c1 0 0 @ c3 0 0 @ c5 0 0 @ c7 0 0 @ d2 0 0 @ d6 0 0 @ d8 0 0 @ f4 0 0 @ f6 0 0 @ g3 0 0 @ g7 0 0 @ h4 0 0 @ h6 0 0 @ h8 0 0 @ g5 0 0
+13. partial 3 Checker h4 - f6 @ a1 0 0 @ a3 0 0 @ a5 0 0 @ a7 0 0 @ c1 0 0 @ c3 0 0 @ c5 0 0 @ c7 0 0 @ d2 0 0 @ d6 0 0 @ d8 0 0 @ f4 0 0 @ g3 0 0 @ g5 0 0 @ g7 0 0 @ h4 0 0 @ h6 0 0 @ h8 0 0 @ f6 0 0 x g5
+13. partial 3 Checker g7 - e5 @ a1 0 0 @ a3 0 0 @ a5 0 0 @ a7 0 0 @ c1 0 0 @ c3 0 0 @ c5 0 0 @ c7 0 0 @ d2 0 0 @ d6 0 0 @ d8 0 0 @ f4 0 0 @ f6 0 0 @ g3 0 0 @ g7 0 0 @ h6 0 0 @ h8 0 0 @ e5 0 0 x f6
+14. Checker g3 - h4 @ a1 0 0 @ a3 0 0 @ a5 0 0 @ a7 0 0 @ c1 0 0 @ c3 0 0 @ c5 0 0 @ c7 0 0 @ d2 0 0 @ d6 0 0 @ d8 0 0 @ e5 0 0 @ f4 0 0 @ g3 0 0 @ h6 0 0 @ h8 0 0 @ h4 0 0
+14. partial 3 Checker e5 - g3 @ a1 0 0 @ a3 0 0 @ a5 0 0 @ a7 0 0 @ c1 0 0 @ c3 0 0 @ c5 0 0 @ c7 0 0 @ d2 0 0 @ d6 0 0 @ d8 0 0 @ e5 0 0 @ f4 0 0 @ h4 0 0 @ h6 0 0 @ h8 0 0 @ g3 0 0 x f4
+15. partial 3 Checker h4 - f2 @ a1 0 0 @ a3 0 0 @ a5 0 0 @ a7 0 0 @ c1 0 0 @ c3 0 0 @ c5 0 0 @ c7 0 0 @ d2 0 0 @ d6 0 0 @ d8 0 0 @ g3 0 0 @ h4 0 0 @ h6 0 0 @ h8 0 0 @ f2 0 0 x g3
+15. Checker h8 - g7 @ a1 0 0 @ a3 0 0 @ a5 0 0 @ a7 0 0 @ c1 0 0 @ c3 0 0 @ c5 0 0 @ c7 0 0 @ d2 0 0 @ d6 0 0 @ d8 0 0 @ f2 0 0 @ h6 0 0 @ h8 0 0 @ g7 0 0
+16. Checker c3 - b4 @ a1 0 0 @ a3 0 0 @ a5 0 0 @ a7 0 0 @ c1 0 0 @ c3 0 0 @ c5 0 0 @ c7 0 0 @ d2 0 0 @ d6 0 0 @ d8 0 0 @ f2 0 0 @ g7 0 0 @ h6 0 0 @ b4 0 0
+16. Checker g7 - f6 @ a1 0 0 @ a3 0 0 @ a5 0 0 @ a7 0 0 @ b4 0 0 @ c1 0 0 @ c5 0 0 @ c7 0 0 @ d2 0 0 @ d6 0 0 @ d8 0 0 @ f2 0 0 @ g7 0 0 @ h6 0 0 @ f6 0 0
+17. Checker a1 - b2 @ a1 0 0 @ a3 0 0 @ a5 0 0 @ a7 0 0 @ b4 0 0 @ c1 0 0 @ c5 0 0 @ c7 0 0 @ d2 0 0 @ d6 0 0 @ d8 0 0 @ f2 0 0 @ f6 0 0 @ h6 0 0 @ b2 0 0
+17. Checker h6 - g5 @ a3 0 0 @ a5 0 0 @ a7 0 0 @ b2 0 0 @ b4 0 0 @ c1 0 0 @ c5 0 0 @ c7 0 0 @ d2 0 0 @ d6 0 0 @ d8 0 0 @ f2 0 0 @ f6 0 0 @ h6 0 0 @ g5 0 0
+18. Checker d2 - e3 @ a3 0 0 @ a5 0 0 @ a7 0 0 @ b2 0 0 @ b4 0 0 @ c1 0 0 @ c5 0 0 @ c7 0 0 @ d2 0 0 @ d6 0 0 @ d8 0 0 @ f2 0 0 @ f6 0 0 @ g5 0 0 @ e3 0 0
+18. Checker f6 - e5 @ a3 0 0 @ a5 0 0 @ a7 0 0 @ b2 0 0 @ b4 0 0 @ c1 0 0 @ c5 0 0 @ c7 0 0 @ d6 0 0 @ d8 0 0 @ e3 0 0 @ f2 0 0 @ f6 0 0 @ g5 0 0 @ e5 0 0
+19. Checker b2 - c3 @ a3 0 0 @ a5 0 0 @ a7 0 0 @ b2 0 0 @ b4 0 0 @ c1 0 0 @ c5 0 0 @ c7 0 0 @ d6 0 0 @ d8 0 0 @ e3 0 0 @ e5 0 0 @ f2 0 0 @ g5 0 0 @ c3 0 0
+19. Checker g5 - h4 @ a3 0 0 @ a5 0 0 @ a7 0 0 @ b4 0 0 @ c1 0 0 @ c3 0 0 @ c5 0 0 @ c7 0 0 @ d6 0 0 @ d8 0 0 @ e3 0 0 @ e5 0 0 @ f2 0 0 @ g5 0 0 @ h4 0 0
+20. Checker c3 - d4 @ a3 0 0 @ a5 0 0 @ a7 0 0 @ b4 0 0 @ c1 0 0 @ c3 0 0 @ c5 0 0 @ c7 0 0 @ d6 0 0 @ d8 0 0 @ e3 0 0 @ e5 0 0 @ f2 0 0 @ h4 0 0 @ d4 0 0
+20. partial 3 Checker e5 - c3 @ a3 0 0 @ a5 0 0 @ a7 0 0 @ b4 0 0 @ c1 0 0 @ c5 0 0 @ c7 0 0 @ d4 0 0 @ d6 0 0 @ d8 0 0 @ e3 0 0 @ e5 0 0 @ f2 0 0 @ h4 0 0 @ c3 0 0 x d4
+21. partial 3 Checker b4 - d2 @ a3 0 0 @ a5 0 0 @ a7 0 0 @ b4 0 0 @ c1 0 0 @ c3 0 0 @ c5 0 0 @ c7 0 0 @ d6 0 0 @ d8 0 0 @ e3 0 0 @ f2 0 0 @ h4 0 0 @ d2 0 0 x c3
+21. Checker d6 - e5 @ a3 0 0 @ a5 0 0 @ a7 0 0 @ c1 0 0 @ c5 0 0 @ c7 0 0 @ d2 0 0 @ d6 0 0 @ d8 0 0 @ e3 0 0 @ f2 0 0 @ h4 0 0 @ e5 0 0
+22. Checker c1 - b2 @ a3 0 0 @ a5 0 0 @ a7 0 0 @ c1 0 0 @ c5 0 0 @ c7 0 0 @ d2 0 0 @ d8 0 0 @ e3 0 0 @ e5 0 0 @ f2 0 0 @ h4 0 0 @ b2 0 0
+22. Checker c7 - b6 @ a3 0 0 @ a5 0 0 @ a7 0 0 @ b2 0 0 @ c5 0 0 @ c7 0 0 @ d2 0 0 @ d8 0 0 @ e3 0 0 @ e5 0 0 @ f2 0 0 @ h4 0 0 @ b6 0 0
+23. partial 3 Checker a5 - c7 @ a3 0 0 @ a5 0 0 @ a7 0 0 @ b2 0 0 @ b6 0 0 @ c5 0 0 @ d2 0 0 @ d8 0 0 @ e3 0 0 @ e5 0 0 @ f2 0 0 @ h4 0 0 @ c7 0 0 x b6
+23. partial 3 Checker d8 - b6 @ a3 0 0 @ a7 0 0 @ b2 0 0 @ c5 0 0 @ c7 0 0 @ d2 0 0 @ d8 0 0 @ e3 0 0 @ e5 0 0 @ f2 0 0 @ h4 0 0 @ b6 0 0 x c7
+24. Checker b2 - c3 @ a3 0 0 @ a7 0 0 @ b2 0 0 @ b6 0 0 @ c5 0 0 @ d2 0 0 @ e3 0 0 @ e5 0 0 @ f2 0 0 @ h4 0 0 @ c3 0 0
+24. Checker b6 - a5 @ a3 0 0 @ a7 0 0 @ b6 0 0 @ c3 0 0 @ c5 0 0 @ d2 0 0 @ e3 0 0 @ e5 0 0 @ f2 0 0 @ h4 0 0 @ a5 0 0
+25. Checker a3 - b4 @ a3 0 0 @ a5 0 0 @ a7 0 0 @ c3 0 0 @ c5 0 0 @ d2 0 0 @ e3 0 0 @ e5 0 0 @ f2 0 0 @ h4 0 0 @ b4 0 0
+25. partial 3 Checker c5 - a3 @ a5 0 0 @ a7 0 0 @ b4 0 0 @ c3 0 0 @ c5 0 0 @ d2 0 0 @ e3 0 0 @ e5 0 0 @ f2 0 0 @ h4 0 0 @ a3 0 0 x b4
+26. Checker e3 - d4 @ a3 0 0 @ a5 0 0 @ a7 0 0 @ c3 0 0 @ d2 0 0 @ e3 0 0 @ e5 0 0 @ f2 0 0 @ h4 0 0 @ d4 0 0
+26. Checker e5 - f4 @ a3 0 0 @ a5 0 0 @ a7 0 0 @ c3 0 0 @ d2 0 0 @ d4 0 0 @ e5 0 0 @ f2 0 0 @ h4 0 0 @ f4 0 0
+27. Checker f2 - e3 @ a3 0 0 @ a5 0 0 @ a7 0 0 @ c3 0 0 @ d2 0 0 @ d4 0 0 @ f2 0 0 @ f4 0 0 @ h4 0 0 @ e3 0 0
+27. Checker a7 - b6 @ a3 0 0 @ a5 0 0 @ a7 0 0 @ c3 0 0 @ d2 0 0 @ d4 0 0 @ e3 0 0 @ f4 0 0 @ h4 0 0 @ b6 0 0
+28. partial 3 Checker e3 - g5 @ a3 0 0 @ a5 0 0 @ b6 0 0 @ c3 0 0 @ d2 0 0 @ d4 0 0 @ e3 0 0 @ f4 0 0 @ h4 0 0 @ g5 0 0 x f4
+28. partial 3 Checker h4 - f6 @ a3 0 0 @ a5 0 0 @ b6 0 0 @ c3 0 0 @ d2 0 0 @ d4 0 0 @ g5 0 0 @ h4 0 0 @ f6 0 0 x g5
+29. Checker d2 - e3 @ a3 0 0 @ a5 0 0 @ b6 0 0 @ c3 0 0 @ d2 0 0 @ d4 0 0 @ f6 0 0 @ e3 0 0
+29. Checker b6 - c5 @ a3 0 0 @ a5 0 0 @ b6 0 0 @ c3 0 0 @ d4 0 0 @ e3 0 0 @ f6 0 0 @ c5 0 0
+30. partial 3 Checker d4 - b6 @ a3 0 0 @ a5 0 0 @ c3 0 0 @ c5 0 0 @ d4 0 0 @ e3 0 0 @ f6 0 0 @ b6 0 0 x c5
+30. partial 3 Checker a5 - c7 @ a3 0 0 @ a5 0 0 @ b6 0 0 @ c3 0 0 @ e3 0 0 @ f6 0 0 @ c7 0 0 x b6
+31. Checker e3 - f4 @ a3 0 0 @ c3 0 0 @ c7 0 0 @ e3 0 0 @ f6 0 0 @ f4 0 0
+31. Checker c7 - d6 @ a3 0 0 @ c3 0 0 @ c7 0 0 @ f4 0 0 @ f6 0 0 @ d6 0 0
+32. Checker c3 - d4 @ a3 0 0 @ c3 0 0 @ d6 0 0 @ f4 0 0 @ f6 0 0 @ d4 0 0
+32. Checker a3 - b2 @ a3 0 0 @ d4 0 0 @ d6 0 0 @ f4 0 0 @ f6 0 0 @ b2 0 0
+33. Checker f4 - e5 @ b2 0 0 @ d4 0 0 @ d6 0 0 @ f4 0 0 @ f6 0 0 @ e5 0 0
+33. partial 3 Checker d6 - f4 @ b2 0 0 @ d4 0 0 @ d6 0 0 @ e5 0 0 @ f6 0 0 @ f4 0 0 x e5
+34. Checker d4 - c5 @ b2 0 0 @ d4 0 0 @ f4 0 0 @ f6 0 0 @ c5 0 0
+34. Checker b2 - a1 @ b2 0 0 @ c5 0 0 @ f4 0 0 @ f6 0 0 = King on a1
+35. Checker c5 - b6 @ c5 0 0 @ f4 0 0 @ f6 0 0 @ b6 0 0
+35. King a1 - e5
+36. Checker b6 - a7 @ b6 0 0 @ f4 0 0 @ f6 0 0 @ a7 0 0
+36. King e5 - b8

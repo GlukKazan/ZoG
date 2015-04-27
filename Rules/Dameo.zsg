@@ -82,30 +82,28 @@ VariantName=Dameo
 39. Checker g5 - f4
 40. Checker f1 - g2
 40. partial 3 King h1 - c1 x e1
-40. partial 3 King c1 - c3 x c2
-41. partial 2 Checker c4 - c2 x c3
-41. Checker f4 - f3
-42. Checker f7 - g8 = King
-42. Checker f3 - e2
-43. partial 3 King g8 - a8 x b8
-43. Checker e2 - d1 = King
-44. King a8 - a1
-44. King d1 - h1
-45. Checker e6 - f7
-45. King h1 - h2
-46. Checker c5 - d6
-46. partial 3 King h2 - f2 x g2
-46. partial 3 King f2 - b2 x c2
-47. Checker d6 - d8 x d7 = King on d8
-47. King b2 - b5
-48. Checker f7 - g8 = King
-48. King b5 - b7
-49. King d8 - d2
-49. King b7 - b8
-50. partial 3 King g8 - a8 x b8
-50. Checker h6 - h5
-51. King a1 - h1
-51. Checker h5 - g4
-52. King h1 - h3
-52. Checker g4 - f3
-53. partial 3 King h3 - e3 x f3
+41. Checker f7 - f8 = King
+41. partial 4 King c1 - c3 x c2
+42. partial 4 King f8 - f3 x f4
+42. partial 4 King f3 - b3 x c3
+42. Checker b8 - a7
+43. Checker e6 - f7
+43. Checker d7 - e6
+44. Checker f7 - e8 = King
+44. Checker e6 - f5
+45. Checker c5 - c6
+45. Checker a7 - a6
+46. Checker c6 - b7
+46. Checker h6 - g5
+47. Checker b7 - a8 = King
+47. Checker a6 - b5
+48. partial 4 King b3 - b6 x b5
+48. Checker f5 - g4
+49. King a8 - a3
+49. Checker g5 - h4
+50. King e8 - e3
+50. Checker g4 - h3
+51. King e3 - g3
+51. partial 2 Checker h3 - f3 x g3
+52. partial 4 King a3 - h3 x f3
+52. partial 4 King h3 - h8 x h4

@@ -257,35 +257,49 @@ VariantName=South African Checkers
 120. Checker h14 - g13
 121. King k3 - l4
 121. Checker g13 - h12
-122. partial 3 King l4 - e11 x g9
-122. Checker h12 - g11
-123. King e11 - g9
-123. Checker l12 - m11
-124. partial 3 King g9 - b4 x d6
-124. Checker j14 - i13
-125. King b4 - i11
-125. Checker g11 - f10
-126. King i11 - e7
-126. Checker i13 - h12
-127. King e7 - d8
-127. Checker h12 - g11
-128. Checker j8 - i9
-128. Checker m11 - n10
-129. Checker i9 - h10
-129. Checker g11 - i9 x h10
-130. partial 3 King d8 - g11 x f10
-130. partial 3 King g11 - k7 x i9
-130. Checker l14 - m13
-131. Checker g7 - f8
-131. Checker m13 - n12
-132. Checker c1 - b2
-132. Checker n12 - m11
-133. King k7 - j8
-133. Checker m11 - l10
-134. partial 3 King j8 - n12 x l10
-134. Checker n10 - m9
-135. King n12 - j8
-135. Checker m9 - n8
-136. King j8 - l6
-136. Checker n8 - m7
-137. partial 3 King l6 - n8 x m7
+122. partial 3 King l4 - f10 x g9
+122. partial 3 King f10 - i13 x h12
+122. partial 4 Checker j14 - h12 x i13
+123. Checker g7 - f8
+123. Checker l12 - k11
+124. Checker f8 - e9
+124. Checker h12 - i11
+125. Checker e9 - f10
+125. Checker k11 - l10
+126. Checker f10 - e11
+126. Checker i11 - j10
+127. Checker e11 - d12
+127. Checker j10 - k9
+128. Checker d12 - e13
+128. partial 4 Checker k9 - i7 x j8
+129. Checker e13 - f14 = King
+129. Checker i7 - h6
+130. King f14 - a9
+130. Checker d6 - c5
+131. partial 4 Checker d4 - b6 x c5
+131. Checker l14 - m13
+132. King a9 - c11
+132. Checker h6 - g5
+133. King c11 - b10
+133. Checker g5 - f4
+134. Checker c1 - d2
+134. Checker f4 - g3
+135. King b10 - a9
+135. Checker m13 - l12
+136. partial 3 King a9 - h2 x g3
+136. Checker l10 - m9
+137. King h2 - e5
+137. Checker l12 - m11
+138. King e5 - f4
+138. Checker m11 - n10
+139. King f4 - k9
+139. Checker m9 - n8
+140. King k9 - l8
+140. Checker n8 - m7
+141. partial 3 King l8 - n6 x m7
+141. Checker n10 - m9
+142. King n6 - m7
+142. Checker m9 - n8
+143. King m7 - l8
+143. Checker n8 - m7
+144. partial 3 King l8 - n6 x m7

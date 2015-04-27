@@ -23,7 +23,7 @@
   $1
   (verify empty?)
   (if (in-zone? promotion)
-      (add King)
+      (add-partial King notype)
    else
       (add-partial jumptype)
   )
@@ -49,7 +49,7 @@
               (and (enemy? w) (empty? ww)))
           (add-partial jumptype)
        else
-          (add King)
+          (add-partial King notype)
       )
    else
       (add-partial jumptype)
@@ -161,6 +161,8 @@
            (checker-shift n)
            (checker-shift e)
            (checker-shift w)
+
+        (move-type notype)
      )
   )
 
@@ -187,6 +189,8 @@
            (king-shift e)
            (king-shift w)
            (king-shift s)
+
+        (move-type notype)
      )
   )
 
@@ -319,6 +323,8 @@
            (king-shift e)
            (king-shift w)
            (king-shift s)
+
+        (move-type notype)
      )
   )
 )
@@ -352,6 +358,8 @@
            (king-shift e)
            (king-shift w)
            (king-shift s)
+
+        (move-type notype)
      )
   )
 )
@@ -363,7 +371,7 @@
   $1
   (verify empty?)
   (if (in-zone? promotion)
-      (add King)
+      (add-partial King notype)
    else
       (add-partial continuetype)
   )
@@ -375,7 +383,7 @@
   $1
   (verify empty?)
   (if (in-zone? promotion)
-      (add King)
+      (add-partial King notype)
    else
       (add-partial continuetype)
   )
@@ -388,9 +396,9 @@
   $1
   (verify empty?)
   (if (in-zone? promotion)
-      (add King)
+      (add-partial King notype)
    else
-      add
+      (add-partial notype)
   )
 ))
 
@@ -418,6 +426,8 @@
            (ken-jump e)
            (ken-jump w)
            (ken-jump s)
+
+        (move-type notype)
      )
   )
 )
@@ -429,7 +439,7 @@
   $1
   (verify empty?)
   (if (in-zone? promotion)
-      (add King)
+      (add-partial King notype)
    else
       (add-partial continuetype)
   )
@@ -512,7 +522,7 @@
           )
           back
           (capture-all)
-          add
+          (add-partial notype)
       )
       $1
   )
@@ -523,7 +533,7 @@
   (description "")
   (history  "Invented by Benedikt Rosenau in 2009.")
 
-  (option "maximal captures" false) ; bugfix (true)
+  (option "maximal captures" true)
 
   (board
     (image "../images/wiedem/chess8x8.bmp")
@@ -563,6 +573,8 @@
         (move-type normaltype)
            (checker-shift n)
            (checker-shift e)
+
+        (move-type notype)
      )
   )
 
@@ -583,6 +595,8 @@
            (king-shift w)
            (king-shift e)
            (king-shift s)
+
+        (move-type notype)
      )
   )
 
@@ -651,13 +665,13 @@
       (if (flag? more-captures)
           (add-partial King jumptype)
        else
-          (add King)
+          (add-partial King notype)
       )
    else
       (if (flag? more-captures)
           (add-partial jumptype)
        else
-          add
+          (add-partial notype)
       )
   )
 ))
@@ -712,7 +726,7 @@
           )
           back
           (capture-all)
-          add
+          (add-partial notype)
       )
       $1
   )
@@ -752,7 +766,7 @@
           (add-partial jumptype)
        else
           capture
-          add
+          (add-partial notype)
       )
    else
       (add-partial jumptype)
@@ -801,6 +815,8 @@
            (senegal-checker-shift n)
            (senegal-checker-shift e)
            (senegal-checker-shift w)
+
+        (move-type notype)
      )
   )
 
@@ -857,6 +873,8 @@
            (checker-shift n)
            (checker-shift e)
            (checker-shift w)
+
+        (move-type notype)
      )
   )
 
@@ -876,6 +894,8 @@
            (damone-shift e)
            (damone-shift w)
            (damone-shift s)
+
+        (move-type notype)
      )
   )
 
@@ -894,7 +914,7 @@
   (description "")
   (history  "Traditional game.")
 
-  (option "maximal captures" false) ; bugfix (true)
+  (option "maximal captures" true)
 
   (piece
      (name Checker)
@@ -913,6 +933,8 @@
            (checker-shift w)
            (checker-shift ne)
            (checker-shift nw)
+
+        (move-type notype)
      )
   )
 
@@ -937,6 +959,8 @@
            (king-shift nw)
            (king-shift se)
            (king-shift sw)
+
+        (move-type notype)
      )
   )
 )
@@ -962,6 +986,8 @@
            (checker-shift w)
            (checker-shift ne)
            (checker-shift nw)
+
+        (move-type notype)
      )
   )
 
@@ -991,6 +1017,8 @@
            (king-shift nw)
            (king-shift se)
            (king-shift sw)
+
+        (move-type notype)
      )
   )
 )
@@ -1064,6 +1092,8 @@
            (oc-jump sw)
            (oc-jump ne)
            (oc-jump se)
+
+        (move-type notype)
      )
   )
 
@@ -1094,6 +1124,8 @@
         (move-type normaltype)
            (checker-shift ne)
            (checker-shift nw)
+
+        (move-type notype)
      )
   )
 
@@ -1132,6 +1164,8 @@
            (king-shift ne)
            (king-shift sw)
            (king-shift se)
+
+        (move-type notype)
      )
   )
 
@@ -1163,6 +1197,8 @@
            (checker-shift n)
            (checker-shift ne)
            (checker-shift nw)
+
+        (move-type notype)
      )
   )
 
@@ -1205,6 +1241,8 @@
            (dameo-shift n)
            (dameo-shift ne)
            (dameo-shift nw)
+
+        (move-type notype)
      )
   )
 
@@ -1278,6 +1316,8 @@
            (checker-shift n)
            (persian-shift nw)
            (persian-shift ne)
+
+        (move-type notype)
      )
   )
 
@@ -1305,6 +1345,8 @@
            (persian-king-shift sw)
            (persian-king-shift ne)
            (persian-king-shift se)
+
+        (move-type notype)
      )
   )
 
@@ -1337,6 +1379,8 @@
         (move-type normaltype)
            (checker-shift nw)
            (checker-shift ne)
+
+        (move-type notype)
      )
   )
 
@@ -1356,6 +1400,8 @@
            (damone-shift ne)
            (damone-shift sw)
            (damone-shift se)
+
+        (move-type notype)
      )
   )
 
@@ -1373,7 +1419,7 @@
   $1
   (verify empty?)
   (if (in-zone? promotion)
-      (add Dama)
+      (add-partial Dama notype)
    else
       (add-partial jumptype)
   )
@@ -1429,6 +1475,8 @@
         (move-type normaltype)
            (italian-shift nw)
            (italian-shift ne)
+
+        (move-type notype)
      )
   )
 
@@ -1448,6 +1496,8 @@
            (damone-shift ne)
            (damone-shift sw)
            (damone-shift se)
+
+        (move-type notype)
      )
   )
 
@@ -1465,7 +1515,7 @@
   $1
   (verify empty?)
   (if (in-zone? damone-promotion)
-      (add Damone)
+      (add-partial Damone notype)
    else
       (add-partial jumptype)
   )
@@ -1527,6 +1577,8 @@
            (italian-shift nw)
            (italian-shift ne)
            (italian-shift sw)
+
+        (move-type notype)
      )
   )
 
@@ -1546,6 +1598,8 @@
            (italian-king-shift ne)
            (italian-king-shift sw)
            (italian-king-shift se)
+
+        (move-type notype)
      )
   )
 
@@ -1565,6 +1619,8 @@
            (damone-shift ne)
            (damone-shift sw)
            (damone-shift se)
+
+        (move-type notype)
      )
   )
 
@@ -1584,6 +1640,8 @@
            (damone-shift ne)
            (damone-shift sw)
            (damone-shift se)
+
+        (move-type notype)
      )
   )
 
@@ -1637,13 +1695,13 @@
       (if (flag? more-captures)
           (add-partial jumptype)
        else
-          (add King)
+          (add-partial King notype)
       )
    else
       (if (flag? more-captures)
           (add-partial jumptype)
        else
-          add
+          (add-partial notype)
       )
   )
 ))
@@ -1662,9 +1720,9 @@
       (add-partial jumptype)
    else
       (if (in-zone? promotion)
-          (add King)
+          (add-partial King notype)
        else
-          add
+          (add-partial notype)
       )
   )
 ))
@@ -1674,7 +1732,7 @@
   (description "")
   (history  "Traditional game.")
 
-  (option "maximal captures" false) ; bugfix (true)
+  (option "maximal captures" true)
 
   (board
     (image "../images/wiedem/chess10x10.bmp")
@@ -1718,6 +1776,8 @@
         (move-type normaltype)
            (checker-shift nw)
            (checker-shift ne)
+
+        (move-type notype)
      )
   )
 
@@ -1748,6 +1808,8 @@
            (king-shift nw)
            (king-shift se)
            (king-shift sw)
+
+        (move-type notype)
      )
   )
 
@@ -1779,6 +1841,8 @@
         (move-type normaltype)
            (checker-shift nw)
            (checker-shift ne)
+
+        (move-type notype)
      )
   )
 
@@ -1799,6 +1863,8 @@
            (king-shift nw)
            (king-shift se)
            (king-shift sw)
+
+        (move-type notype)
      )
   )
 
@@ -1830,6 +1896,8 @@
         (move-type normaltype)
            (checker-shift nw)
            (checker-shift ne)
+
+        (move-type notype)
      )
   )
 
@@ -1850,6 +1918,8 @@
            (king-shift nw)
            (king-shift se)
            (king-shift sw)
+
+        (move-type notype)
      )
   )
 
@@ -1864,7 +1934,7 @@
   (description "")
   (history  "Traditional game.")
 
-  (option "maximal captures" false) ; bugfix (true)
+  (option "maximal captures" true)
 
   (piece
      (name Checker)
@@ -1881,6 +1951,8 @@
         (move-type normaltype)
            (checker-shift nw)
            (checker-shift ne)
+
+        (move-type notype)
      )
   )
 
@@ -1901,6 +1973,8 @@
            (king-shift nw)
            (king-shift se)
            (king-shift sw)
+
+        (move-type notype)
      )
   )
 
@@ -1955,6 +2029,8 @@
         (move-type normaltype)
            (checker-shift nw)
            (checker-shift ne)
+
+        (move-type notype)
      )
   )
 
@@ -1975,6 +2051,8 @@
            (king-shift nw)
            (king-shift se)
            (king-shift sw)
+
+        (move-type notype)
      )
   )
 
@@ -1989,7 +2067,7 @@
   (description "")
   (history  "Traditional game.")
 
-  (option "maximal captures" false) ; bugfix (true)
+  (option "maximal captures" true)
 
   (board
     (image "../images/wiedem/chess12x12.bmp")
@@ -2029,6 +2107,8 @@
         (move-type normaltype)
            (checker-shift nw)
            (checker-shift ne)
+
+        (move-type notype)
      )
   )
 
@@ -2049,6 +2129,8 @@
            (king-shift nw)
            (king-shift se)
            (king-shift sw)
+
+        (move-type notype)
      )
   )
 
@@ -2063,7 +2145,7 @@
   (description "")
   (history  "Traditional game.")
 
-  (option "maximal captures" false) ; bugfix (true)
+  (option "maximal captures" true)
 
   (board
     (image "../images/wiedem/chess14x14.bmp")
@@ -2103,6 +2185,8 @@
         (move-type normaltype)
            (checker-shift nw)
            (checker-shift ne)
+
+        (move-type notype)
      )
   )
 
@@ -2129,6 +2213,8 @@
            (king-shift nw)
            (king-shift se)
            (king-shift sw)
+
+        (move-type notype)
      )
   )
 
@@ -2180,13 +2266,13 @@
       (if (flag? more-captures)
           (add-partial jumptype)
        else
-          (add King)
+          (add-partial King notype)
       )
    else
       (if (flag? more-captures)
           (add-partial jumptype)
        else
-          add
+          (add-partial notype)
       )
   )
 ))
@@ -2231,7 +2317,7 @@
           )
           back
           (capture-all)
-          add
+          (add-partial notype)
       )
       $1
   )
@@ -2287,6 +2373,8 @@
         (move-type normaltype)
            (checker-shift nw)
            (checker-shift ne)
+
+        (move-type notype)
      )
   )
 
@@ -2321,6 +2409,8 @@
            (king-shift nw)
            (king-shift se)
            (king-shift sw)
+
+        (move-type notype)
      )
   )
 
@@ -2349,6 +2439,8 @@
         (move-type normaltype)
            (checker-shift nw)
            (checker-shift ne)
+
+        (move-type notype)
      )
   )
 
@@ -2374,6 +2466,8 @@
            (king-shift ne)
            (king-shift sw)
            (king-shift se)
+
+        (move-type notype)
      )
   )
 
@@ -2400,6 +2494,8 @@
         (move-type normaltype)
            (checker-shift nw)
            (checker-shift ne)
+
+        (move-type notype)
      )
   )
 
@@ -2425,6 +2521,8 @@
            (king-shift ne)
            (king-shift sw)
            (king-shift se)
+
+        (move-type notype)
      )
   )
 
@@ -2457,6 +2555,8 @@
         (move-type normaltype)
            (checker-shift nw)
            (checker-shift ne)
+
+        (move-type notype)
      )
   )
 
@@ -2476,6 +2576,8 @@
            (damone-shift ne)
            (damone-shift sw)
            (damone-shift se)
+
+        (move-type notype)
      )
   )
 
@@ -2624,6 +2726,8 @@
         (move-type normaltype)
            (first-checker-shift nw)
            (first-checker-shift ne)
+
+        (move-type notype)
      )
   )
 
@@ -2641,6 +2745,8 @@
         (move-type normaltype)
            (second-checker-shift sw)
            (second-checker-shift se)
+
+        (move-type notype)
      )
   )
 
@@ -2660,6 +2766,8 @@
            (king-shift nw)
            (king-shift se)
            (king-shift sw)
+
+        (move-type notype)
      )
   )
 
@@ -2679,6 +2787,8 @@
            (king-shift nw)
            (king-shift se)
            (king-shift sw)
+
+        (move-type notype)
      )
   )
 
@@ -2841,6 +2951,8 @@
         (move-type normaltype)
            (north-shift nw)
            (north-shift ne)
+
+        (move-type notype)
      )
   )
 
@@ -2867,6 +2979,8 @@
            (north-king-shift nw)
            (north-king-shift se)
            (north-king-shift sw)
+
+        (move-type notype)
      )
   )
 
@@ -2902,6 +3016,8 @@
         (move-type normaltype)
            (north-shift nw)
            (north-shift ne)
+
+        (move-type notype)
      )
   )
 
@@ -2928,6 +3044,8 @@
            (north-king-shift nw)
            (north-king-shift se)
            (north-king-shift sw)
+
+        (move-type notype)
      )
   )
 
@@ -2963,6 +3081,8 @@
         (move-type normaltype)
            (checker-shift nw)
            (checker-shift ne)
+
+        (move-type notype)
      )
   )
 
@@ -2982,6 +3102,8 @@
            (damone-shift ne)
            (damone-shift sw)
            (damone-shift se)
+
+        (move-type notype)
      )
   )
 

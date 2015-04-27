@@ -5,80 +5,91 @@ VariantName=Ossetian Checkers
 1. Checker b5 - a4
 2. Checker e3 - d4
 2. partial 2 Checker d5 - b3 x c4
-3. partial 2 Checker a2 - c4 x b3
-3. partial 2 Checker c5 - e3 x d4
-4. partial 2 Checker f2 - d4 x e3
-4. Checker b6 - c5
-5. partial 2 Checker d4 - b6 x c5
-5. Checker c6 - d5
-6. Checker b2 - b3
-6. partial 2 Checker a6 - c6 x b6
-7. Checker a1 - a2
-7. Checker d6 - c5
-8. Checker d3 - d4
-8. partial 2 Checker d5 - d3 x d4
-8. partial 2 Checker d3 - b5 x c4
-9. Checker c3 - c4
-9. partial 2 Checker b5 - d3 x c4
-10. partial 2 Checker d2 - d4 x d3
-10. partial 2 Checker d4 - b6 x c5
-10. partial 2 Checker b6 - d6 x c6
-10. partial 2 Checker d6 - f4 x e5
-10. Checker f5 - g4
-11. Checker b3 - c4
-11. Checker e6 - d5
-12. partial 2 Checker c4 - e6 x d5
-12. partial 2 Checker f7 - d5 x e6
-13. Checker d1 - d2
-13. partial 2 Checker g4 - e4 x f4
-14. Checker f3 - g4
-14. Checker f6 - e5
-15. Checker g4 - f5
-15. Checker d5 - d4
-16. partial 2 Checker f5 - d5 x e5
-16. partial 2 Checker d5 - d3 x d4
-16. partial 2 Checker d3 - f5 x e4
-16. partial 2 Checker g5 - e5 x f5
-17. Checker g2 - f3
-17. Checker a7 - b6
-18. Checker d2 - e3
-18. Checker c7 - c6
-19. Checker e3 - e4
-19. Checker g7 - f6
-20. Checker e2 - e3
-20. Checker e7 - e6
-21. Checker f3 - f4
-21. Checker d7 - d6
-22. Checker c2 - c3
-22. Checker c6 - b5
-23. Checker c1 - c2
-23. Checker e6 - f5
-24. Checker g3 - g4
-24. partial 2 Checker f5 - f3 x f4
-24. partial 2 Checker f3 - d3 x e3
-24. partial 2 Checker d3 - b3 x c3
-24. partial 2 Checker b3 - d1 x c2
-25. partial 2 Checker e4 - e6 x e5
-25. partial 2 Checker e6 - c6 x d6
-25. partial 2 Checker c6 - a6 x b6
-25. partial 2 Checker a6 - c4 x b5
-25. Checker a4 - b3
-26. partial 2 Checker a3 - c3 x b3
-26. Checker f6 - g5
-27. partial 2 Checker e1 - c1 x d1
-27. partial 2 Checker g5 - g3 x g4
-28. Checker f1 - g2
-28. Checker g3 - f2
-29. partial 2 Checker g1 - e3 x f2
-29. Checker g6 - f5
-30. Checker a2 - a3
-30. Checker f5 - g4
-31. Checker c3 - d4
-31. Checker b7 - b6
-32. Checker d4 - e5
-32. Checker g4 - g3
-33. partial 2 Checker g2 - g4 x g3
-33. Checker b6 - c5
-34. partial 2 Checker c4 - c6 x c5
-34. Checker a5 - b4
-35. partial 2 Checker a3 - c5 x b4
+3. Checker f3 - e4
+3. Checker c5 - c4
+4. Checker f2 - e3
+4. Checker d6 - d5
+5. partial 2 Checker c3 - c5 x c4
+5. partial 2 Checker c6 - c4 x c5
+6. Checker g2 - f3
+6. Checker g5 - g4
+7. Checker g3 - f4
+7. partial 2 Checker e5 - g3 x f4
+8. partial 2 Checker a3 - c3 x b3
+8. partial 2 Checker c3 - c5 x c4
+8. partial 2 Checker c5 - e5 x d5
+8. partial 2 Checker e5 - g5 x f5
+8. Checker a6 - b5
+9. Checker a2 - b3
+9. Checker e6 - e5
+10. Checker b2 - c3
+10. Checker f6 - f5
+11. partial 2 Checker d4 - f6 x e5
+11. partial 2 Checker f6 - f4 x f5
+11. Checker c7 - d6
+12. Checker b3 - c4
+12. Checker b5 - b4
+13. Checker f1 - f2
+13. partial 2 Checker b4 - d4 x c4
+13. partial 2 Checker d4 - b2 x c3
+14. partial 2 Checker a1 - c3 x b2
+14. Checker a7 - a6
+15. Checker c3 - d4
+15. Checker g6 - f5
+16. Checker g5 - g6
+16. partial 2 Checker g3 - e5 x f4
+16. partial 2 Checker e5 - c3 x d4
+17. Checker f2 - g3
+17. Checker a5 - b4
+18. partial 2 Checker d3 - b3 x c3
+18. partial 2 Checker b3 - b5 x b4
+18. partial 2 Checker f5 - d3 x e4
+18. partial 2 Checker d3 - f1 x e2
+19. partial 2 Checker g3 - g5 x g4
+19. Checker d6 - e5
+20. Checker e1 - f2
+20. partial 2 Checker a6 - c4 x b5
+21. Checker d2 - c3
+21. Checker e5 - e4
+22. partial 2 Checker e3 - e5 x e4
+22. Checker d7 - e6
+23. partial 2 Checker c3 - c5 x c4
+23. partial 2 Checker c5 - a7 x b6
+23. partial 2 Checker a7 - c7 x b7
+23. partial 2 Checker e6 - e4 x e5
+23. partial 2 Checker e4 - g2 x f3
+23. partial 2 Checker g2 - e2 x f2
+24. partial 2 Checker g1 - e1 x f1
+24. partial 2 Checker e1 - e3 x e2
+24. Checker a4 - a3
+25. Checker c2 - c3
+25. Checker e7 - e6
+26. Checker c3 - d4
+26. Checker e6 - f5
+27. partial 2 Checker g6 - e4 x f5
+27. Checker f7 - g6
+28. Checker d4 - d5
+28. partial 2 Checker g6 - g4 x g5
+29. Checker d5 - e6
+29. Checker g7 - g6
+30. Checker d1 - e2
+30. Checker g4 - g3
+31. Checker e3 - d4
+31. Checker g3 - g2
+32. Checker e4 - e5
+32. Checker g6 - g5
+33. Checker c1 - d2
+33. Checker g5 - g4
+34. Checker e5 - f6
+34. Checker g4 - g3
+35. Checker d2 - e3
+35. Checker g2 - g1
+36. Checker e2 - f3
+36. Checker a3 - a2
+37. Checker b1 - c2
+37. Checker a2 - a1
+38. Checker c2 - b3
+38. Checker g3 - f2
+39. partial 2 Checker f3 - f1 x f2
+39. partial 2 Checker g1 - e1 x f1
+40. Checker d4 - c5
