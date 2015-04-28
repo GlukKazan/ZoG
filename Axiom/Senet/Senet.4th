@@ -3,6 +3,7 @@
 
 VARIABLE		piece-counter
 DEFER			MARK
+DEFER			ONE
 
 {board
 	ROWS 	COLS	{grid}
@@ -159,14 +160,18 @@ turn-order}
 	SWAP to
 ;
 
+: my-piece-value ( piece-type -- n )
+	ONE = IF 1 ELSE 0 ENDIF
+;
+
 : check-dices ( n -- )
 	k1 enemy-at? IF
 		DROP 0
 	ENDIF
-	g1 piece-at piece-value
-	h1 piece-at piece-value +
-	i1 piece-at piece-value +
-	j1 piece-at piece-value +
+	g1 piece-type-at my-piece-value
+	h1 piece-type-at my-piece-value +
+	i1 piece-type-at my-piece-value +
+	j1 piece-type-at my-piece-value +
 	DUP 0= IF
 		DROP 5
 	ENDIF
@@ -174,10 +179,10 @@ turn-order}
 ;
 
 : check-repeat ( -- )
-	g1 piece-at piece-value
-	h1 piece-at piece-value +
-	i1 piece-at piece-value +
-	j1 piece-at piece-value +
+	g1 piece-type-at my-piece-value
+	h1 piece-type-at my-piece-value +
+	i1 piece-type-at my-piece-value +
+	j1 piece-type-at my-piece-value +
 	DUP 2 = SWAP 3 = OR IF
 		k1 empty-at? NOT IF
 			k1 capture-at

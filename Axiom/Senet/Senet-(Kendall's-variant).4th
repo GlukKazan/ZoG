@@ -171,6 +171,7 @@ move-priorities}
 pieces}
 
 ' Mark	IS MARK
+' One	IS ONE
 
 {board-setup
 	{setup}	White 	Man a4
