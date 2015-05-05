@@ -35,7 +35,7 @@ VARIABLE prev-enemy
 	FALSE prev-enemy !
 	BEGIN
 		1-
-		enemy? DUP IF
+		not-empty? DUP IF
 			prev-enemy @ NOT verify
 		ENDIF prev-enemy !
 		OVER EXECUTE 
@@ -52,6 +52,47 @@ VARIABLE prev-enemy
 		from here move
 		IF from create-player-at ELSE DROP ENDIF
 	ENDIF
+	check-repeat
+	add-move
+;
+
+: part-move ( 'dir n -- )
+	here f2 < verify
+	DUP check-dices 1-
+	FALSE prev-enemy !
+	BEGIN
+		1-
+		not-empty? DUP IF
+			prev-enemy @ NOT verify
+		ENDIF prev-enemy !
+		OVER EXECUTE verify
+		DUP 0> NOT
+	UNTIL 2DROP
+	empty? verify
+	from here move
+	check-repeat
+	add-move
+;
+
+: boun-move ( 'dir n -- )
+	here f2 < verify
+	DUP check-dices
+	FALSE prev-enemy !
+	BEGIN
+		1-
+		not-empty? DUP IF
+			prev-enemy @ NOT verify
+		ENDIF prev-enemy !
+		OVER EXECUTE verify
+		not-empty? IF
+			SWAP DROP ['] prev SWAP
+			2 +
+		ENDIF
+		here from <> verify
+		DUP 0> NOT
+	UNTIL 2DROP
+	empty? verify
+	from here move
 	check-repeat
 	add-move
 ;
@@ -102,6 +143,15 @@ VARIABLE prev-enemy
 : next-4 ( -- ) ['] next 4 next-move ;
 : next-5 ( -- ) ['] next 5 next-move ;
 
+: part-2 ( -- ) ['] next 2 part-move ;
+: part-3 ( -- ) ['] next 3 part-move ;
+: part-4 ( -- ) ['] next 4 part-move ;
+: part-5 ( -- ) ['] next 5 part-move ;
+
+: boun-3 ( -- ) ['] next 3 boun-move ;
+: boun-4 ( -- ) ['] next 4 boun-move ;
+: boun-5 ( -- ) ['] next 5 boun-move ;
+
 : back-1 ( -- ) ['] prev 1 next-move ;
 : back-2 ( -- ) ['] prev 2 next-move ;
 : back-3 ( -- ) ['] prev 3 next-move ;
@@ -114,11 +164,18 @@ VARIABLE prev-enemy
 	{move} priv-3    {move-type} priority-type
 	{move} priv-4    {move-type} priority-type
 	{move} priv-5    {move-type} priority-type
-	{move} next-1    {move-type} normal-type
-	{move} next-2    {move-type} normal-type
-	{move} next-3    {move-type} normal-type
-	{move} next-4    {move-type} normal-type
-	{move} next-5    {move-type} normal-type
+	{move} next-1    {move-type} priority-type
+	{move} next-2    {move-type} priority-type
+	{move} next-3    {move-type} priority-type
+	{move} next-4    {move-type} priority-type
+	{move} next-5    {move-type} priority-type
+	{move} part-2    {move-type} normal-type
+	{move} part-3    {move-type} normal-type
+	{move} part-4    {move-type} normal-type
+	{move} part-5    {move-type} normal-type
+	{move} boun-3    {move-type} normal-type
+	{move} boun-4    {move-type} normal-type
+	{move} boun-5    {move-type} normal-type
 	{move} back-1    {move-type} back-type
 	{move} back-2    {move-type} back-type
 	{move} back-3    {move-type} back-type
