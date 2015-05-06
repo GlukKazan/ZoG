@@ -1,6 +1,7 @@
 LOAD	Senet.4th
 
 VARIABLE prev-enemy
+VARIABLE is-beauty
 
 : check-neighbors ( -- ? )
 	['] prev check-neighbor
@@ -18,14 +19,28 @@ VARIABLE prev-enemy
 		from here move
 	ELSE
 		f3 to
-		BEGIN
-			empty? IF
-				from here move
-				TRUE
-			ELSE
-				prev NOT
-			ENDIF
-		UNTIL
+		enemy? IF
+			player
+			from here move
+			prev verify
+			BEGIN
+				empty? IF
+					DUP create-player
+					TRUE
+				ELSE
+					prev NOT
+				ENDIF
+			UNTIL DROP
+		ELSE
+			BEGIN
+				empty? IF
+					from here move
+					TRUE
+				ELSE
+					prev NOT
+				ENDIF
+			UNTIL
+		ENDIF
 	ENDIF
 ;
 
@@ -33,9 +48,10 @@ VARIABLE prev-enemy
 	here f2 < verify
 	DUP check-dices
 	FALSE prev-enemy !
+	FALSE is-beauty  !
 	BEGIN
 		1-
-		not-empty? DUP IF
+		here from <> not-empty? AND DUP IF
 			prev-enemy @ NOT verify
 		ENDIF prev-enemy !
 		OVER EXECUTE 
@@ -47,12 +63,19 @@ VARIABLE prev-enemy
 	here f2 = empty? NOT AND IF
 		to-water
 	ELSE
+		here f2 = IF
+			TRUE is-beauty !
+		ENDIF
 		friend? NOT verify
 		check-enemy
 		from here move
 		IF from create-player-at ELSE DROP ENDIF
 	ENDIF
-	check-repeat
+	is-beauty @ IF
+		set-repeat
+	ELSE
+		check-repeat
+	ENDIF
 	add-move
 ;
 
@@ -62,7 +85,7 @@ VARIABLE prev-enemy
 	FALSE prev-enemy !
 	BEGIN
 		1-
-		not-empty? DUP IF
+		here from <> not-empty? AND DUP IF
 			prev-enemy @ NOT verify
 		ENDIF prev-enemy !
 		OVER EXECUTE verify
@@ -80,7 +103,7 @@ VARIABLE prev-enemy
 	FALSE prev-enemy !
 	BEGIN
 		1-
-		not-empty? DUP IF
+		here from <> not-empty? AND DUP IF
 			prev-enemy @ NOT verify
 		ENDIF prev-enemy !
 		OVER EXECUTE verify
@@ -127,7 +150,7 @@ VARIABLE prev-enemy
 	ELSE
 		to-water
 	ENDIF
-	check-repeat
+	clear-repeat
 	add-move
 ;
 

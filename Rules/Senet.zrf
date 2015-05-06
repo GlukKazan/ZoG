@@ -80,6 +80,17 @@
 
 (variant
    (title "Senet (Skiryuk's variant)")
+   (description "When a pawn reached a square already occupied by an opponent pawn, they have to exchange their positions\\
+                 The special squares have the following effects on play:\\
+                 - 15: House of Rebirth, starting square and the return square for the pawns reaching square number 27.\
+                 - 26: House of Happiness, a mandatory square for all the pawns.\
+                 - 27: House of Water, a pawn may only leave when a 4 is thrown. Otherwise it have to restart from square 15.\
+                 - 28: House of the Three Truths, a pawn may only leave when a 3 is thrown.\
+                 - 29: House of the Re-Atoum, a pawn may only leave when a 2 is thrown.\\
+                 The winner is the first to move all of their pawns off the board.")
+   (history "Senet is one of the oldest known board games. It has been found in predynastic and First Dynasty \
+             burials of Egypt, c. 3500 BC and 3100 BC respectively.\\
+             this version was invented by Dmitry Skiryuk in 2011.")
    (board-setup
           (White (Man a4 c4 e4 g4 i4))
           (Black (Man b4 d4 f4 h4 j4))
@@ -88,6 +99,17 @@
 
 (variant
    (title "Senet (my variant)")
+   (description "When a pawn reached a square already occupied by an opponent pawn, they have to exchange their positions\\
+                 The special squares have the following effects on play:\\
+                 - 15: House of Rebirth, starting square and the return square for the pawns reaching square number 27.\
+                 - 26: House of Happiness, a mandatory square for all the pawns.\
+                 - 27: House of Water, a pawn may only leave when a 4 is thrown. Otherwise it have to restart from square 15.\
+                 - 28: House of the Three Truths, a pawn may only leave when a 3 is thrown.\
+                 - 29: House of the Re-Atoum, a pawn may only leave when a 2 is thrown.\\
+                 The winner is the first to move all of their pawns off the board.")
+   (history "Senet is one of the oldest known board games. It has been found in predynastic and First Dynasty \
+             burials of Egypt, c. 3500 BC and 3100 BC respectively.\\
+             this version was invented by Valentin Chelnokov in 2015.")
    (board-setup
           (White (Man a4 c4 e4 g4 i4))
           (Black (Man b4 d4 f4 h4 j4))

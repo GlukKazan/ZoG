@@ -178,19 +178,27 @@ turn-order}
 	= verify
 ;
 
+: set-repeat ( -- )
+	k1 empty-at? IF
+		MARK k1 create-piece-type-at
+	ENDIF
+;
+
+: clear-repeat ( -- )
+	k1 empty-at? NOT IF
+		k1 capture-at
+	ENDIF
+;
+
 : check-repeat ( -- )
 	g1 piece-type-at my-piece-value
 	h1 piece-type-at my-piece-value +
 	i1 piece-type-at my-piece-value +
 	j1 piece-type-at my-piece-value +
 	DUP 2 = SWAP 3 = OR IF
-		k1 empty-at? NOT IF
-			k1 capture-at
-		ENDIF
+		clear-repeat
 	ELSE
-		k1 empty-at? IF
-			MARK k1 create-piece-type-at
-		ENDIF
+		set-repeat
 	ENDIF
 ;
 

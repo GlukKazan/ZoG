@@ -13,12 +13,6 @@ VARIABLE not-water?
 	enemy?
 ;
 
-: clear-repeat ( -- )
-	k1 empty-at? NOT IF
-		k1 capture-at
-	ENDIF
-;
-
 : next-move ( 'dir n -- )
 	here f2 < verify
 	DUP check-dices
