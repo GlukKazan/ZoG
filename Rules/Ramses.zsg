@@ -1,0 +1,155 @@
+Zillions Save Game File Version 0.02 HHCCC
+RulesFile=Senet.zrf
+VariantName=Ramses
+1. ?White One g1
+1. ?White Zero j1
+1. ?White Zero i1
+1. ?White One h1
+1. Man e4 x g4 Black Man e4
+1. ?Black Zero h1
+1. ?Black Zero i1
+1. ?Black Zero g1
+1. ?Black One j1
+1. Man j4 - j3 Black Mark k1
+1. ?Counter Mark f1 ?Counter Mark a1
+2. ?White One i1
+2. ?White One h1
+2. ?White Zero j1
+2. ?White One g1
+2. Pass
+2. ?Black Zero i1
+2. ?Black Zero j1
+2. ?Black Zero g1
+2. ?Black Zero h1
+2. Man h4 - h3
+2. ?Counter Mark f1 x a1 ?Counter Mark b1
+3. ?White One h1
+3. ?White One g1
+3. ?White Zero i1
+3. ?White Zero j1
+3. Pass
+3. ?Black Zero j1
+3. ?Black One i1
+3. ?Black One g1
+3. ?Black Zero h1
+3. Man h3 - f3
+3. ?Counter Mark f1 ?Counter Mark a1
+4. ?White Zero h1
+4. ?White Zero g1
+4. ?White One i1
+4. ?White Zero j1
+4. Pass
+4. ?Black Zero i1
+4. ?Black Zero g1
+4. ?Black Zero j1
+4. ?Black One h1
+4. Man f3 - e3 x k1
+4. ?Counter Mark f1 x a1 x b1 ?Counter Mark c1
+5. ?White One i1
+5. ?White One j1
+5. ?White One g1
+5. ?White One h1
+5. Man g4 x j3 Black Man g4 White Mark k1
+5. ?Black One i1
+5. ?Black One j1
+5. ?Black One g1
+5. ?Black Zero h1
+5. Pass
+5. ?Counter Mark f1 ?Counter Mark a1
+6. ?White Zero j1
+6. ?White Zero i1
+6. ?White Zero h1
+6. ?White Zero g1
+6. Man j3 x e3 Black Man j3
+6. ?Black Zero g1
+6. ?Black One i1
+6. ?Black One j1
+6. ?Black One h1
+6. Pass
+6. ?Counter Mark f1 x a1 ?Counter Mark b1
+7. ?White Zero h1
+7. ?White One i1
+7. ?White One j1
+7. ?White Zero g1
+7. Man d4 x f4 Black Man d4 x k1
+7. ?Black Zero j1
+7. ?Black One h1
+7. ?Black One g1
+7. ?Black Zero i1
+7. Man j3 - h3
+7. ?Counter Mark f1 ?Counter Mark a1
+8. ?White One i1
+8. ?White One g1
+8. ?White One h1
+8. ?White One j1
+8. Man f4 - j4 White Mark k1
+8. ?Black One i1
+8. ?Black Zero h1
+8. ?Black Zero g1
+8. ?Black Zero j1
+8. Pass
+8. ?Counter Mark f1 x a1 x b1 x c1 ?Counter Mark d1
+9. ?White Zero j1
+9. ?White Zero h1
+9. ?White Zero g1
+9. ?White One i1
+9. Man e3 - d3
+9. ?Black Zero h1
+9. ?Black Zero g1
+9. ?Black Zero j1
+9. ?Black One i1
+9. Pass
+9. ?Counter Mark f1 ?Counter Mark a1
+10. ?White Zero j1
+10. ?White Zero i1
+10. ?White One g1
+10. ?White One h1
+10. Man j4 - i3 x k1
+10. ?Black Zero g1
+10. ?Black One j1
+10. ?Black Zero i1
+10. ?Black Zero h1
+10. Man i4 - j4 Black Mark k1
+10. ?Counter Mark f1 x a1 ?Counter Mark b1
+11. ?White Zero j1
+11. ?White Zero i1
+11. ?White One h1
+11. ?White Zero g1
+11. Pass
+11. ?Black Zero j1
+11. ?Black One g1
+11. ?Black One h1
+11. ?Black One i1
+11. Man e4 - h4 x k1
+11. ?Counter Mark f1 ?Counter Mark a1
+12. ?White Zero g1
+12. ?White Zero j1
+12. ?White One i1
+12. ?White One h1
+12. Man i3 - g3
+12. ?Black One g1
+12. ?Black One j1
+12. ?Black Zero i1
+12. ?Black One h1
+12. Man h4 - j3
+12. ?Counter Mark f1 x a1 x b1 ?Counter Mark c1
+13. ?White Zero h1
+13. ?White Zero g1
+13. ?White One i1
+13. ?White Zero j1
+13. Man g3 - f3 White Mark k1
+13. ?Black Zero i1
+13. ?Black One g1
+13. ?Black Zero h1
+13. ?Black One j1
+13. Pass
+13. ?Counter Mark f1 ?Counter Mark a1
+14. ?White Zero h1
+14. ?White One j1
+14. ?White One g1
+14. ?White One i1
+14. Man f3 - c3 x k1
+14. ?Black One i1
+14. ?Black Zero h1
+14. ?Black Zero g1
+14. ?Black Zero j1

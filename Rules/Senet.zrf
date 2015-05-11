@@ -115,3 +115,20 @@
           (Black (Man b4 d4 f4 h4 j4))
    )
 )
+
+(variant
+   (title "-")
+)
+
+(variant
+   (title "Ramses")
+   (turn-order ?White ?White ?White ?White 
+               White 
+               ?Black ?Black ?Black ?Black
+               Black
+               ?Counter)
+   (board-setup
+          (White (Man a4 b4 c4 d4 e4))
+          (Black (Man f4 g4 h4 i4 j4))
+   )
+)
