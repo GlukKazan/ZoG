@@ -122,7 +122,7 @@
   (move-priorities jumptype normaltype)
 
   (board
-    (image "../images/wiedem/chess8x8.bmp")
+    (image "../images/sultan/chess8x8.bmp" "../images/wiedem/chess8x8.bmp")
     (grid
       (start-rectangle 5 5 54 54)
       (dimensions
@@ -203,6 +203,11 @@
   (loss-condition (First Second) stalemated )
 )
 
+(variant
+  (title "Arab Checkers")
+  (option "maximal captures" false)
+)
+ 
 (define short-king-jump (
   (while (empty? $1)
       $1
@@ -536,7 +541,7 @@
   (option "maximal captures" true)
 
   (board
-    (image "../images/wiedem/chess8x8.bmp")
+    (image "../images/sultan/chess8x8.bmp" "../images/wiedem/chess8x8.bmp")
     (grid
       (start-rectangle 5 5 54 54)
       (dimensions
@@ -781,7 +786,7 @@
   (option "maximal captures" false)
 
   (board
-    (image "../images/wiedem/chess6x5.bmp")
+    (image "../images/sultan/chess6x5.bmp" "../images/wiedem/chess6x5.bmp")
     (grid
       (start-rectangle 5 5 54 54)
       (dimensions
@@ -1358,7 +1363,7 @@
   (history  "Traditional game.")
 
   (board
-    (image "../images/wiedem/chess8x8.bmp")
+    (image "../images/sultan/chess8x8.bmp" "../images/wiedem/chess8x8.bmp")
     (grid
       (start-rectangle 5 5 54 54)
       (dimensions
@@ -1523,7 +1528,7 @@
   (option "maximal captures" 2)
 
   (board
-    (image "../images/wiedem/italian.bmp")
+    (image "../images/sultan/italian.bmp" "../images/wiedem/italian.bmp")
     (grid
       (start-rectangle 5 5 54 54)
       (dimensions
@@ -1619,7 +1624,7 @@
   (option "maximal captures" false)
 
   (board
-    (image "../images/wiedem/italian.bmp")
+    (image "../images/sultan/italian.bmp" "../images/wiedem/italian.bmp")
     (grid
       (start-rectangle 5 5 54 54)
       (dimensions
@@ -1815,7 +1820,7 @@
   (option "maximal captures" true)
 
   (board
-    (image "../images/wiedem/chess10x10.bmp")
+    (image "../images/sultan/chess10x10.bmp" "../images/wiedem/chess10x10.bmp")
     (grid
       (start-rectangle 5 5 54 54)
       (dimensions
@@ -2058,7 +2063,7 @@
   (option "maximal captures" false)
 
   (board
-    (image "../images/wiedem/chess10x8.bmp")
+    (image "../images/sultan/chess10x8.bmp" "../images/wiedem/chess10x8.bmp")
     (grid
       (start-rectangle 5 5 54 54)
       (dimensions
@@ -2136,7 +2141,7 @@
   (option "maximal captures" false)
 
   (board
-    (image "../images/wiedem/chess10x10.bmp")
+    (image "../images/sultan/chess10x10.bmp" "../images/wiedem/chess10x10.bmp")
     (grid
       (start-rectangle 5 5 54 54)
       (dimensions
@@ -2214,7 +2219,7 @@
   (option "maximal captures" true)
 
   (board
-    (image "../images/wiedem/chess12x12.bmp")
+    (image "../images/sultan/chess12x12.bmp" "../images/wiedem/chess12x12.bmp")
     (grid
       (start-rectangle 5 5 54 54)
       (dimensions
@@ -2292,7 +2297,7 @@
   (option "maximal captures" true)
 
   (board
-    (image "../images/wiedem/chess14x14.bmp")
+    (image "../images/sultan/chess14x14.bmp" "../images/wiedem/chess14x14.bmp")
     (grid
       (start-rectangle 5 5 54 54)
       (dimensions
@@ -2475,7 +2480,7 @@
   (option "maximal captures" 2)
 
   (board
-    (image "../images/wiedem/chess10x10.bmp")
+    (image "../images/sultan/chess10x10.bmp" "../images/wiedem/chess10x10.bmp")
     (grid
       (start-rectangle 5 5 54 54)
       (dimensions
@@ -2831,7 +2836,7 @@
   (turn-order (First Neurtal) (Second Neurtal))
 
   (board
-    (image "../images/wiedem/chess8x8.bmp")
+    (image "../images/sultan/chess8x8.bmp" "../images/wiedem/chess8x8.bmp")
     (grid
       (start-rectangle 5 5 54 54)
       (dimensions
