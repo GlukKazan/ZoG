@@ -1,0 +1,508 @@
+(version "2.0")
+
+(define capture-huff (
+   (verify enemy?)
+   (verify is-huff?)
+   (clear-huffs)
+   (set-position-flag from? true)
+   ; TODO check-enemies/check-long-enemies
+   capture
+   add
+))
+
+(define my-friend?
+  (or (position-flag? to? $1)
+      (friend? $1)
+  )
+)
+
+(define my-empty?
+  (or (position-flag? from? $1)
+      (empty? $1)
+  )
+)
+
+(define check-huff
+  (if (and (on-board? $1) (my-friend? $1))
+      $1
+      (if (and (on-board? $1) (my-empty? $1))
+          (set-flag is-huffing? true)
+      )
+      $2
+  )
+)
+
+(define check-huff-1
+  (set-flag is-huffing? false)
+  (check-huff $1 $2)
+  (if (and (flag? is-huffing?) (not is-huff?))
+      (set-attribute is-huff? true)
+  )
+)
+
+(define check-huff-2
+  (set-flag is-huffing? false)
+  (if (and (on-board? $1) (empty? $1))
+      $1 (check-huff $1 $2) $2
+  )
+  (if (and (flag? is-huffing?) (not is-huff?))
+      (set-attribute is-huff? true)
+  )
+)
+
+(define check-huff-3
+  (set-flag is-huffing? false)
+  (if (and (on-board? $1) (empty? $1))
+      $1 (check-huff-2 $1 $2) $2
+  )
+  (if (and (flag? is-huffing?) (not is-huff?))
+      (set-attribute is-huff? true)
+  )
+)
+
+(define check-huff-4
+  (set-flag is-huffing? false)
+  (if (and (on-board? $1) (empty? $1))
+      $1 (check-huff-3 $1 $2) $2
+  )
+  (if (and (flag? is-huffing?) (not is-huff?))
+      (set-attribute is-huff? true)
+  )
+)
+
+(define check-huff-5
+  (set-flag is-huffing? false)
+  (if (and (on-board? $1) (empty? $1))
+      $1 (check-huff-4 $1 $2) $2
+  )
+  (if (and (flag? is-huffing?) (not is-huff?))
+      (set-attribute is-huff? true)
+  )
+)
+
+(define check-huff-6
+  (set-flag is-huffing? false)
+  (if (and (on-board? $1) (empty? $1))
+      $1 (check-huff-5 $1 $2) $2
+  )
+  (if (and (flag? is-huffing?) (not is-huff?))
+      (set-attribute is-huff? true)
+  )
+)
+
+(define clear-huffs
+  mark
+  a0
+  (while (on-board? next) 
+     next
+     (if friend?
+         (if is-huff?
+             (set-attribute is-huff? false)
+         )
+     )
+  )
+  back
+)
+
+(define check-enemies
+  (set-position-flag to? true)
+  mark
+  a0
+  (while (on-board? next) 
+     next
+     (if enemy?
+         (if is-huff?
+             (set-attribute is-huff? false)
+         )
+         (check-huff-1 sw ne) (check-huff-1 se nw)
+         (if (piece? King)
+             (check-huff-1 ne sw) (check-huff-1 nw se)
+         )
+     )
+  )
+  back
+)
+
+(define check-long-enemies
+  (set-position-flag to? true)
+  mark
+  a0
+  (while (on-board? next) 
+     next
+     (if enemy?
+         (if is-huff?
+             (set-attribute is-huff? false)
+         )
+         (check-huff-1 sw ne) (check-huff-1 se nw) 
+         (check-huff-1 ne sw) (check-huff-1 nw se)
+         (if (piece? King)
+             (check-huff-2 sw ne) (check-huff-2 se nw) 
+             (check-huff-2 ne sw) (check-huff-2 nw se)
+             (check-huff-3 sw ne) (check-huff-3 se nw) 
+             (check-huff-3 ne sw) (check-huff-3 nw se)
+             (check-huff-4 sw ne) (check-huff-4 se nw) 
+             (check-huff-4 ne sw) (check-huff-4 nw se)
+             (check-huff-5 sw ne) (check-huff-5 se nw) 
+             (check-huff-5 ne sw) (check-huff-5 nw se)
+             (check-huff-6 sw ne) (check-huff-6 se nw) 
+             (check-huff-6 ne sw) (check-huff-6 nw se)
+         )
+     )
+  )
+  back
+)
+
+(define checker-shift (
+  (set-position-flag from? true)
+  $1
+  (verify empty?)
+  (check-enemies)
+  (if (in-zone? promotion)
+      (add King)
+   else
+      add
+  )
+))
+
+(define long-checker-shift (
+  (set-position-flag to? true)
+  $1
+  (verify empty?)
+  (check-long-enemies)
+  (if (in-zone? promotion)
+      (add King)
+   else
+      add
+  )
+))
+
+(define checker-jump (
+  (set-position-flag from? true)
+  $1
+  (verify enemy?)
+  (set-position-flag from? true)
+  capture
+  $1
+  (verify empty?)
+  (clear-huffs)
+  (check-enemies)
+  (set-attribute is-huff? false)
+  (if (in-zone? promotion)
+      (add-partial King notype)
+   else
+      (add-partial jumptype)
+  )
+))
+
+(define damone-shift (
+  (set-position-flag from? true)
+  $1
+  (verify empty?)
+  (check-enemies)
+  add
+))
+
+(define damone-jump (
+  (set-position-flag from? true)
+  $1
+  (verify enemy?)
+  (set-position-flag from? true)
+  capture
+  $1
+  (verify empty?)
+  (clear-huffs)
+  (check-enemies)
+  (set-attribute is-huff? false)
+  (add-partial jumptype)
+))
+
+(define checker-captured-find
+   mark
+   (if (on-board? $1)  
+      $1    
+      (if (and enemy? (empty? $1) (not captured?)) 
+          (set-flag more-captures true)
+      )
+   )
+   back
+)
+
+(define king-captured-find
+   mark
+   (while (and (on-board? $1) (empty? $1))
+      $1
+   )
+   (if (on-board? $1)  
+      $1    
+      (if (and enemy? (empty? $1) (not captured?)) 
+          (set-flag more-captures true)
+      )
+   )
+   back
+)
+
+(define markit 
+  (set-attribute captured? true)
+)
+
+(define capture-all
+   mark  
+   a0 
+   (while (on-board? next) 
+      next
+      (if captured? 
+          (set-position-flag from? true)
+          capture
+      )
+   )
+   back  
+)
+
+(define long-checker-jump (
+  (set-position-flag to? true)
+  (verify (not captured?))    
+  $1
+  (verify enemy?)
+  (verify (not captured?))
+  $1
+  (verify empty?)
+  (set-flag more-captures false)
+  (if (in-zone? promotion)
+      (king-captured-find $1)
+      (king-captured-find $2)
+      (king-captured-find $3)
+   else
+      (checker-captured-find $1)
+      (checker-captured-find $2)
+      (checker-captured-find $3)
+  )
+  (if (flag? more-captures)
+      (opposite $1)
+      (markit)
+      $1
+  )
+  (if (not (flag? more-captures))
+      (opposite $1) 
+      (if enemy?
+          (set-position-flag from? true)
+          capture
+      )
+      $1
+      (capture-all)
+  )
+  (clear-huffs)
+  (check-long-enemies)
+  (set-attribute is-huff? false)
+  (if (in-zone? promotion)
+      (if (flag? more-captures)
+          (add-partial King jumptype)
+       else
+          (add-partial King notype)
+      )
+   else
+      (if (flag? more-captures)
+          (add-partial jumptype)
+       else
+          (add-partial notype)
+      )
+  )
+))
+
+(define long-king-jump (
+  (set-position-flag to? true)
+  (verify (not captured?))    
+  (while (or (empty? $1) captured?)
+      $1
+  )
+  (verify (enemy? $1))
+  $1
+  (verify (not captured?))    
+  (verify (empty? $1))
+  $1
+  (while empty?
+      (set-flag more-captures false)
+      (king-captured-find $1)
+      (king-captured-find $2)
+      (king-captured-find $3)
+      mark
+      (while empty? 
+          (opposite $1)
+      ) 
+      (if (flag? more-captures)
+          (markit)
+      )
+      back
+      (if (flag? more-captures)
+          (clear-huffs)
+          (check-long-enemies)
+          (set-attribute is-huff? false)
+          (add-partial jumptype)
+       else
+          mark
+          (opposite $1)
+          (while empty?
+             (opposite $1)
+          )
+          (if enemy?
+              (set-position-flag from? true)
+              capture
+          )
+          back
+          (capture-all)
+          (clear-huffs)
+          (check-long-enemies)
+          (set-attribute is-huff? false)
+          (add-partial notype)
+      )
+      $1
+  )
+))
+
+(define king-shift (
+  (set-position-flag to? true)
+  (while (empty? $1)
+      $1
+      (check-long-enemies)
+      add
+  )
+))
+
+(game
+  (title "English draughts (with huffs)")
+
+  (move-sound "Audio/Pickup.wav")
+  (release-sound "Audio/Pickup.wav")
+  (capture-sound "")
+
+  (option "maximal captures" false)
+  (option "prevent flipping" 2)
+  (option "recycle captures" true)
+  (option "animate captures" false)
+  (option "animate drops"    false)
+
+  (players    First Second)
+  (turn-order First Second)
+
+; (move-priorities capturing (jumptype normaltype))
+
+  (board
+    (image "../images/sultan/chess8x8.bmp" "../images/wiedem/chess8x8.bmp")
+    (grid
+      (start-rectangle 5 5 54 54)
+      (dimensions
+        ("a/b/c/d/e/f/g/h" (49 0)) ; files
+        ("8/7/6/5/4/3/2/1" (0 49)) ; ranks
+      )
+      (directions (ne 1 -1) (nw -1 -1) (se 1 1) (sw -1 1)
+                  (next 0 -1)
+      ) 
+    )
+    (dummy a0)
+    (links next (a0 a1) (a8 b1) (b8 c1) (c8 d1) (d8 e1) (e8 f1) (f8 g1) (g8 h1))
+    (symmetry Second (nw se) (se nw) (ne sw) (sw ne))
+    (zone (name promotion) (players First)
+          (positions a8 b8 c8 d8 e8 f8 g8 h8)
+    )
+    (zone (name promotion) (players Second)
+          (positions a1 b1 c1 d1 e1 f1 g1 h1)
+    )
+  )
+
+  (piece
+     (name Checker)
+     (image First "../images/wiedem/CheckerBlack.bmp"
+            Second "../images/wiedem/CheckerWhite.bmp")
+     (attribute is-huff? false)
+     (drops (move-type capturing)
+            (capture-huff)
+     )
+     (moves (move-type jumptype)
+            (checker-jump nw)
+            (checker-jump ne)
+
+            (move-type normaltype)
+            (checker-shift nw)
+            (checker-shift ne)
+
+            (move-type notype)
+     )
+  )
+
+  (piece
+     (name King)
+     (image First "../images/wiedem/CheckerKingBlack.bmp"
+            Second "../images/wiedem/CheckerKingWhite.bmp")
+     (attribute is-huff? false)
+     (moves (move-type jumptype)
+            (damone-jump nw)
+            (damone-jump ne)
+            (damone-jump sw)
+            (damone-jump se)
+        
+            (move-type normaltype)
+            (damone-shift nw)
+            (damone-shift ne)
+            (damone-shift sw)
+            (damone-shift se)
+
+            (move-type notype)
+     )
+  )
+
+  (board-setup
+    (First (Checker a1 c1 e1 g1  b2 d2 f2 h2  a3 c3 e3 g3 off 1) )
+    (Second (Checker b8 d8 f8 h8  a7 c7 e7 g7  b6 d6 f6 h6 off 1) )
+  )
+
+  (loss-condition (First Second) (pieces-remaining 0) )
+  (loss-condition (First Second) stalemated )
+)
+
+(variant
+  (title "Russian Checkers (with huffs)")
+
+  (piece
+     (name Checker)
+     (image First "../images/wiedem/CheckerWhite.bmp"
+            Second "../images/wiedem/CheckerBlack.bmp")
+     (attribute captured? false)
+     (attribute is-huff? false)
+     (drops (move-type capturing)
+            (capture-huff)
+     )
+     (moves (move-type jumptype)
+            (long-checker-jump nw sw ne)
+            (long-checker-jump ne se nw)
+            (long-checker-jump sw se nw)
+            (long-checker-jump se ne sw)
+        
+            (move-type normaltype)
+            (long-checker-shift nw)
+            (long-checker-shift ne)
+       
+            (move-type notype)
+     )
+  )
+
+  (piece
+     (name King)
+     (image First "../images/wiedem/CheckerKingWhite.bmp"
+            Second "../images/wiedem/CheckerKingBlack.bmp")
+     (attribute captured? false)
+     (attribute is-huff? false)
+     (moves (move-type jumptype)
+            (long-king-jump nw sw ne)
+            (long-king-jump ne se nw)
+            (long-king-jump sw se nw)
+            (long-king-jump se ne sw)
+        
+            (move-type normaltype)
+            (king-shift ne)
+            (king-shift nw)
+            (king-shift se)
+            (king-shift sw)
+
+            (move-type notype)
+     )
+  )
+)
