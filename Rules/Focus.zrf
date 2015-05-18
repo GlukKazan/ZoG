@@ -1,3 +1,12 @@
+(define switch-enemy (
+   (verify enemy?)
+   (verify (not is-protected?))
+   mark sym
+   (set-attribute is-protected? true)
+   back
+   add
+))
+
 (define capture-enemy (
    (verify enemy?)
    (verify (not is-protected?))
@@ -981,12 +990,13 @@
 
   (option "prevent flipping" 2)
   (option "animate captures" false)
+  (option "animate drops" false)
 
   (players    White Black)
   (turn-order White Black)
 
   (board
-    (image "../Images/focus/board.bmp")
+    (image "../images/focus/board.bmp")
     (grid
       (start-rectangle 5 5 54 54)
       (dimensions
@@ -1025,25 +1035,31 @@
 
   (piece
      (name w)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/w.bmp")
+     (image White "../images/focus/CheckerWhite.bmp" "../images/focus/w.bmp")
      (attribute is-protected? false)
      (moves
         (move-1-w north w) (move-1-w south w) (move-1-w east w) (move-1-w west w)
         (drop-w)
      )
+     (drops (move-type capturing)
+            (switch-enemy)
+     )
   )
   (piece
      (name b)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/b.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp" "../images/focus/b.bmp")
      (attribute is-protected? false)
      (moves
         (move-1-b north b) (move-1-b south b) (move-1-b east b) (move-1-b west b)
         (drop-b)
      )
+     (drops (move-type capturing)
+            (switch-enemy)
+     )
   )
   (piece
      (name ww)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/ww.bmp")
+     (image White "../images/focus/CheckerWhite.bmp" "../images/focus/ww.bmp")
      (moves
         (move-2-w north ww) (move-2-w south ww) (move-2-w east ww) (move-2-w west ww)
         (split-1-w north w w) (split-1-w south w w) (split-1-w east w w) (split-1-w west w w)
@@ -1051,7 +1067,7 @@
   )
   (piece
      (name wb)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wb.bmp")
+     (image White "../images/focus/CheckerWhite.bmp" "../images/focus/wb.bmp")
      (moves
         (move-2-w north wb) (move-2-w south wb) (move-2-w east wb) (move-2-w west wb)
 ;       (split-1-f north w b) (split-1-f south w b) (split-1-f east w b) (split-1-f west w b)
@@ -1059,7 +1075,7 @@
   )
   (piece
      (name bw)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bw.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp" "../images/focus/bw.bmp")
      (moves
         (move-2-b north bw) (move-2-b south bw) (move-2-b east bw) (move-2-b west bw)
 ;       (split-1-s north b w) (split-1-s south b w) (split-1-s east b w) (split-1-s west b w)
@@ -1067,7 +1083,7 @@
   )
   (piece
      (name bb)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bb.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp" "../images/focus/bb.bmp")
      (moves
         (move-2-b north bb) (move-2-b south bb) (move-2-b east bb) (move-2-b west bb)
         (split-1-b north b b) (split-1-b south b b) (split-1-b east b b) (split-1-b west b b)
@@ -1075,7 +1091,7 @@
   )
   (piece
      (name www)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/www.bmp")
+     (image White "../images/focus/CheckerWhite.bmp" "../images/focus/www.bmp")
      (moves
         (move-3-w north www) (move-3-w south www) (move-3-w east www) (move-3-w west www)
         (split-2-w north ww w) (split-2-w south ww w) (split-2-w east ww w) (split-2-w west ww w)
@@ -1084,7 +1100,7 @@
   )
   (piece
      (name wwb)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wwb.bmp")
+     (image White "../images/focus/CheckerWhite.bmp" "../images/focus/wwb.bmp")
      (moves
         (move-3-w north wwb) (move-3-w south wwb) (move-3-w east wwb) (move-3-w west wwb)
 ;       (split-2-f north ww b) (split-2-f south ww b) (split-2-f east ww b) (split-2-f west ww b)
@@ -1093,7 +1109,7 @@
   )
   (piece
      (name wbw)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wbw.bmp")
+     (image White "../images/focus/CheckerWhite.bmp" "../images/focus/wbw.bmp")
      (moves
         (move-3-w north wbw) (move-3-w south wbw) (move-3-w east wbw) (move-3-w west wbw)
         (split-2-w north wb w) (split-2-w south wb w) (split-2-w east wb w) (split-2-w west wb w)
@@ -1102,7 +1118,7 @@
   )
   (piece
      (name wbb)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wbb.bmp")
+     (image White "../images/focus/CheckerWhite.bmp" "../images/focus/wbb.bmp")
      (moves
         (move-3-w north wbb) (move-3-w south wbb) (move-3-w east wbb) (move-3-w west wbb)
 ;       (split-2-f north wb b) (split-2-f south wb b) (split-2-f east wb b) (split-2-f west wb b)
@@ -1111,7 +1127,7 @@
   )
   (piece
      (name bww)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bww.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp" "../images/focus/bww.bmp")
      (moves
         (move-3-b north bww) (move-3-b south bww) (move-3-b east bww) (move-3-b west bww)
 ;       (split-2-s north bw w) (split-2-s south bw w) (split-2-s east bw w) (split-2-s west bw w)
@@ -1120,7 +1136,7 @@
   )
   (piece
      (name bwb)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bwb.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp" "../images/focus/bwb.bmp")
      (moves
         (move-3-b north bwb) (move-3-b south bwb) (move-3-b east bwb) (move-3-b west bwb)
         (split-2-b north bw b) (split-2-b south bw b) (split-2-b east bw b) (split-2-b west bw b)
@@ -1129,7 +1145,7 @@
   )
   (piece
      (name bbw)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bbw.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp" "../images/focus/bbw.bmp")
      (moves
         (move-3-b north bbw) (move-3-b south bbw) (move-3-b east bbw) (move-3-b west bbw)
 ;       (split-2-s north bb w) (split-2-s south bb w) (split-2-s east bb w) (split-2-s west bb w)
@@ -1138,7 +1154,7 @@
   )
   (piece
      (name bbb)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bbb.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp" "../images/focus/bbb.bmp")
      (moves
         (move-3-b north bbb) (move-3-b south bbb) (move-3-b east bbb) (move-3-b west bbb)
         (split-2-b north bb b) (split-2-b south bb b) (split-2-b east bb b) (split-2-b west bb b)
@@ -1147,7 +1163,7 @@
   )
   (piece
      (name wwww)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wwww.bmp")
+     (image White "../images/focus/CheckerWhite.bmp" "../images/focus/wwww.bmp")
      (moves
         (move-4-w north wwww) (move-4-w south wwww) (move-4-w east wwww) (move-4-w west wwww)
         (split-3-w north www w) (split-3-w south www w) (split-3-w east www w) (split-3-w west www w)
@@ -1157,7 +1173,7 @@
   )
   (piece
      (name wwwb)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wwwb.bmp")
+     (image White "../images/focus/CheckerWhite.bmp" "../images/focus/wwwb.bmp")
      (moves
         (move-4-w north wwwb) (move-4-w south wwwb) (move-4-w east wwwb) (move-4-w west wwwb)
 ;       (split-3-f north www b) (split-3-f south www b) (split-3-f east www b) (split-3-f west www b)
@@ -1167,7 +1183,7 @@
   )
   (piece
      (name wwbw)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wwbw.bmp")
+     (image White "../images/focus/CheckerWhite.bmp" "../images/focus/wwbw.bmp")
      (moves
         (move-4-w north wwbw) (move-4-w south wwbw) (move-4-w east wwbw) (move-4-w west wwbw)
         (split-3-w north wwb w) (split-3-w south wwb w) (split-3-w east wwb w) (split-3-w west wwb w)
@@ -1177,7 +1193,7 @@
   )
   (piece
      (name wwbb)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wwbb.bmp")
+     (image White "../images/focus/CheckerWhite.bmp" "../images/focus/wwbb.bmp")
      (moves
         (move-4-w north wwbb) (move-4-w south wwbb) (move-4-w east wwbb) (move-4-w west wwbb)
 ;       (split-3-f north wwb b) (split-3-f south wwb b) (split-3-f east wwb b) (split-3-f west wwb b)
@@ -1187,7 +1203,7 @@
   )
   (piece
      (name wbww)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wbww.bmp")
+     (image White "../images/focus/CheckerWhite.bmp" "../images/focus/wbww.bmp")
      (moves
         (move-4-w north wbww) (move-4-w south wbww) (move-4-w east wbww) (move-4-w west wbww)
         (split-3-w north wbw w) (split-3-w south wbw w) (split-3-w east wbw w) (split-3-w west wbw w)
@@ -1197,7 +1213,7 @@
   )
   (piece
      (name wbwb)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wbwb.bmp")
+     (image White "../images/focus/CheckerWhite.bmp" "../images/focus/wbwb.bmp")
      (moves
         (move-4-w north wbwb) (move-4-w south wbwb) (move-4-w east wbwb) (move-4-w west wbwb)
 ;       (split-3-f north wbw b) (split-3-f south wbw b) (split-3-f east wbw b) (split-3-f west wbw b)
@@ -1207,7 +1223,7 @@
   )
   (piece
      (name wbbw)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wbbw.bmp")
+     (image White "../images/focus/CheckerWhite.bmp" "../images/focus/wbbw.bmp")
      (moves
         (move-4-w north wbbw) (move-4-w south wbbw) (move-4-w east wbbw) (move-4-w west wbbw)
         (split-3-w north wbb w) (split-3-w south wbb w) (split-3-w east wbb w) (split-3-w west wbb w)
@@ -1217,7 +1233,7 @@
   )
   (piece
      (name wbbb)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wbbb.bmp")
+     (image White "../images/focus/CheckerWhite.bmp" "../images/focus/wbbb.bmp")
      (moves
         (move-4-w north wbbb) (move-4-w south wbbb) (move-4-w east wbbb) (move-4-w west wbbb)
 ;       (split-3-f north wbb b) (split-3-f south wbb b) (split-3-f east wbb b) (split-3-f west wbb b)
@@ -1227,7 +1243,7 @@
   )
   (piece
      (name bwww)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bwww.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp" "../images/focus/bwww.bmp")
      (moves
         (move-4-b north bwww) (move-4-b south bwww) (move-4-b east bwww) (move-4-b west bwww)
 ;       (split-3-s north bww w) (split-3-s south bww w) (split-3-s east bww w) (split-3-s west bww w)
@@ -1237,7 +1253,7 @@
   )
   (piece
      (name bwwb)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bwwb.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp" "../images/focus/bwwb.bmp")
      (moves
         (move-4-b north bwwb) (move-4-b south bwwb) (move-4-b east bwwb) (move-4-b west bwwb)
         (split-3-b north bww b) (split-3-b south bww b) (split-3-b east bww b) (split-3-b west bww b)
@@ -1247,7 +1263,7 @@
   )
   (piece
      (name bwbw)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bwbw.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp" "../images/focus/bwbw.bmp")
      (moves
         (move-4-b north bwbw) (move-4-b south bwbw) (move-4-b east bwbw) (move-4-b west bwbw)
 ;       (split-3-s north bwb w) (split-3-s south bwb w) (split-3-s east bwb w) (split-3-s west bwb w)
@@ -1257,7 +1273,7 @@
   )
   (piece
      (name bwbb)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bwbb.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp" "../images/focus/bwbb.bmp")
      (moves
         (move-4-b north bwbb) (move-4-b south bwbb) (move-4-b east bwbb) (move-4-b west bwbb)
         (split-3-b north bwb b) (split-3-b south bwb b) (split-3-b east bwb b) (split-3-b west bwb b)
@@ -1267,7 +1283,7 @@
   )
   (piece
      (name bbww)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bbww.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp" "../images/focus/bbww.bmp")
      (moves
         (move-4-b north bbww) (move-4-b south bbww) (move-4-b east bbww) (move-4-b west bbww)
 ;       (split-3-s north bbw w) (split-3-s south bbw w) (split-3-s east bbw w) (split-3-s west bbw w)
@@ -1277,7 +1293,7 @@
   )
   (piece
      (name bbwb)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bwbb.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp" "../images/focus/bwbb.bmp")
      (moves
         (move-4-b north bbwb) (move-4-b south bbwb) (move-4-b east bbwb) (move-4-b west bbwb)
         (split-3-b north bbw b) (split-3-b south bbw b) (split-3-b east bbw b) (split-3-b west bbw b)
@@ -1287,7 +1303,7 @@
   )
   (piece
      (name bbbw)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bbbw.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp" "../images/focus/bbbw.bmp")
      (moves
         (move-4-b north bbbw) (move-4-b south bbbw) (move-4-b east bbbw) (move-4-b west bbbw)
 ;       (split-3-s north bbb w) (split-3-s south bbb w) (split-3-s east bbb w) (split-3-s west bbb w)
@@ -1297,7 +1313,7 @@
   )
   (piece
      (name bbbb)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bbbb.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp" "../images/focus/bbbb.bmp")
      (moves
         (move-4-b north bbbb) (move-4-b south bbbb) (move-4-b east bbbb) (move-4-b west bbbb)
         (split-3-b north bbb b) (split-3-b south bbb b) (split-3-b east bbb b) (split-3-b west bbb b)
@@ -1307,7 +1323,7 @@
   )
   (piece
      (name wwwww)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wwwww.bmp")
+     (image White "../images/focus/CheckerWhite.bmp" "../images/focus/wwwww.bmp")
      (moves
         (move-5-w north wwwww) (move-5-w south wwwww) (move-5-w east wwwww) (move-5-w west wwwww)
         (split-4-w north wwww w) (split-4-w south wwww w) (split-4-w east wwww w) (split-4-w west wwww w)
@@ -1318,7 +1334,7 @@
   )
   (piece
      (name wwwwb)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wwwwb.bmp")
+     (image White "../images/focus/CheckerWhite.bmp" "../images/focus/wwwwb.bmp")
      (moves
         (move-5-w north wwwwb) (move-5-w south wwwwb) (move-5-w east wwwwb) (move-5-w west wwwwb)
 ;       (split-4-f north wwww b) (split-4-f south wwww b) (split-4-f east wwww b) (split-4-f west wwww b)
@@ -1329,7 +1345,7 @@
   )
   (piece
      (name wwwbw)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wwwbw.bmp")
+     (image White "../images/focus/CheckerWhite.bmp" "../images/focus/wwwbw.bmp")
      (moves
         (move-5-w north wwwbw) (move-5-w south wwwbw) (move-5-w east wwwbw) (move-5-w west wwwbw)
         (split-4-w north wwwb w) (split-4-w south wwwb w) (split-4-w east wwwb w) (split-4-w west wwwb w)
@@ -1340,7 +1356,7 @@
   )
   (piece
      (name wwwbb)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wwwbb.bmp")
+     (image White "../images/focus/CheckerWhite.bmp" "../images/focus/wwwbb.bmp")
      (moves
         (move-5-w north wwwbb) (move-5-w south wwwbb) (move-5-w east wwwbb) (move-5-w west wwwbb)
 ;       (split-4-f north wwwb b) (split-4-f south wwwb b) (split-4-f east wwwb b) (split-4-f west wwwb b)
@@ -1351,7 +1367,7 @@
   )
   (piece
      (name wwbww)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wwbww.bmp")
+     (image White "../images/focus/CheckerWhite.bmp" "../images/focus/wwbww.bmp")
      (moves
         (move-5-w north wwbww) (move-5-w south wwbww) (move-5-w east wwbww) (move-5-w west wwbww)
         (split-4-w north wwbw w) (split-4-w south wwbw w) (split-4-w east wwbw w) (split-4-w west wwbw w)
@@ -1362,7 +1378,7 @@
   )
   (piece
      (name wwbwb)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wwbwb.bmp")
+     (image White "../images/focus/CheckerWhite.bmp" "../images/focus/wwbwb.bmp")
      (moves
         (move-5-w north wwbwb) (move-5-w south wwbwb) (move-5-w east wwbwb) (move-5-w west wwbwb)
 ;       (split-4-f north wwbw b) (split-4-f south wwbw b) (split-4-f east wwbw b) (split-4-f west wwbw b)
@@ -1373,7 +1389,7 @@
   )
   (piece
      (name wwbbw)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wwbbw.bmp")
+     (image White "../images/focus/CheckerWhite.bmp" "../images/focus/wwbbw.bmp")
      (moves
         (move-5-w north wwbbw) (move-5-w south wwbbw) (move-5-w east wwbbw) (move-5-w west wwbbw)
         (split-4-w north wwbb w) (split-4-w south wwbb w) (split-4-w east wwbb w) (split-4-w west wwbb w)
@@ -1384,7 +1400,7 @@
   )
   (piece
      (name wwbbb)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wwbbb.bmp")
+     (image White "../images/focus/CheckerWhite.bmp" "../images/focus/wwbbb.bmp")
      (moves
         (move-5-w north wwbbb) (move-5-w south wwbbb) (move-5-w east wwbbb) (move-5-w west wwbbb)
 ;       (split-4-f north wwbb b) (split-4-f south wwbb b) (split-4-f east wwbb b) (split-4-f west wwbb b)
@@ -1395,7 +1411,7 @@
   )
   (piece
      (name wbwww)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wbwww.bmp")
+     (image White "../images/focus/CheckerWhite.bmp" "../images/focus/wbwww.bmp")
      (moves
         (move-5-w north wbwww) (move-5-w south wbwww) (move-5-w east wbwww) (move-5-w west wbwww)
         (split-4-w north wbww w) (split-4-w south wbww w) (split-4-w east wbww w) (split-4-w west wbww w)
@@ -1406,7 +1422,7 @@
   )
   (piece
      (name wbwwb)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wbwwb.bmp")
+     (image White "../images/focus/CheckerWhite.bmp" "../images/focus/wbwwb.bmp")
      (moves
         (move-5-w north wbwwb) (move-5-w south wbwwb) (move-5-w east wbwwb) (move-5-w west wbwwb)
 ;       (split-4-f north wbww b) (split-4-f south wbww b) (split-4-f east wbww b) (split-4-f west wbww b)
@@ -1417,7 +1433,7 @@
   )
   (piece
      (name wbwbw)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wbwbw.bmp")
+     (image White "../images/focus/CheckerWhite.bmp" "../images/focus/wbwbw.bmp")
      (moves
         (move-5-w north wbwbw) (move-5-w south wbwbw) (move-5-w east wbwbw) (move-5-w west wbwbw)
         (split-4-w north wbwb w) (split-4-w south wbwb w) (split-4-w east wbwb w) (split-4-w west wbwb w)
@@ -1428,7 +1444,7 @@
   )
   (piece
      (name wbwbb)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wbwbb.bmp")
+     (image White "../images/focus/CheckerWhite.bmp" "../images/focus/wbwbb.bmp")
      (moves
         (move-5-w north wbwbb) (move-5-w south wbwbb) (move-5-w east wbwbb) (move-5-w west wbwbb)
 ;       (split-4-f north wbwb b) (split-4-f south wbwb b) (split-4-f east wbwb b) (split-4-f west wbwb b)
@@ -1439,7 +1455,7 @@
   )
   (piece
      (name wbbww)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wbbww.bmp")
+     (image White "../images/focus/CheckerWhite.bmp" "../images/focus/wbbww.bmp")
      (moves
         (move-5-w north wbbww) (move-5-w south wbbww) (move-5-w east wbbww) (move-5-w west wbbww)
         (split-4-w north wbbw w) (split-4-w south wbbw w) (split-4-w east wbbw w) (split-4-w west wbbw w)
@@ -1450,7 +1466,7 @@
   )
   (piece
      (name wbbwb)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wbbwb.bmp")
+     (image White "../images/focus/CheckerWhite.bmp" "../images/focus/wbbwb.bmp")
      (moves
         (move-5-w north wbbwb) (move-5-w south wbbwb) (move-5-w east wbbwb) (move-5-w west wbbwb)
 ;       (split-4-f north wbbw b) (split-4-f south wbbw b) (split-4-f east wbbw b) (split-4-f west wbbw b)
@@ -1461,7 +1477,7 @@
   )
   (piece
      (name wbbbw)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wbbbw.bmp")
+     (image White "../images/focus/CheckerWhite.bmp" "../images/focus/wbbbw.bmp")
      (moves
         (move-5-w north wbbbw) (move-5-w south wbbbw) (move-5-w east wbbbw) (move-5-w west wbbbw)
         (split-4-w north wbbb w) (split-4-w south wbbb w) (split-4-w east wbbb w) (split-4-w west wbbb w)
@@ -1472,7 +1488,7 @@
   )
   (piece
      (name wbbbb)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wbbbb.bmp")
+     (image White "../images/focus/CheckerWhite.bmp" "../images/focus/wbbbb.bmp")
      (moves
         (move-5-w north wbbbb) (move-5-w south wbbbb) (move-5-w east wbbbb) (move-5-w west wbbbb)
 ;       (split-4-f north wbbb b) (split-4-f south wbbb b) (split-4-f east wbbb b) (split-4-f west wbbb b)
@@ -1483,7 +1499,7 @@
   )
   (piece
      (name bwwww)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bwwww.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp" "../images/focus/bwwww.bmp")
      (moves
         (move-5-b north bwwww) (move-5-b south bwwww) (move-5-b east bwwww) (move-5-b west bwwww)
 ;       (split-4-s north bwww w) (split-4-s south bwww w) (split-4-s east bwww w) (split-4-s west bwww w)
@@ -1494,7 +1510,7 @@
   )
   (piece
      (name bwwwb)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bwwwb.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp" "../images/focus/bwwwb.bmp")
      (moves
         (move-5-b north bwwwb) (move-5-b south bwwwb) (move-5-b east bwwwb) (move-5-b west bwwwb)
         (split-4-b north bwww b) (split-4-b south bwww b) (split-4-b east bwww b) (split-4-b west bwww b)
@@ -1505,7 +1521,7 @@
   )
   (piece
      (name bwwbw)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bwwbw.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp" "../images/focus/bwwbw.bmp")
      (moves
         (move-5-b north bwwbw) (move-5-b south bwwbw) (move-5-b east bwwbw) (move-5-b west bwwbw)
 ;       (split-4-s north bwwb w) (split-4-s south bwwb w) (split-4-s east bwwb w) (split-4-s west bwwb w)
@@ -1516,7 +1532,7 @@
   )
   (piece
      (name bwwbb)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bwwbb.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp" "../images/focus/bwwbb.bmp")
      (moves
         (move-5-b north bwwbb) (move-5-b south bwwbb) (move-5-b east bwwbb) (move-5-b west bwwbb)
         (split-4-b north bwwb b) (split-4-b south bwwb b) (split-4-b east bwwb b) (split-4-b west bwwb b)
@@ -1527,7 +1543,7 @@
   )
   (piece
      (name bwbww)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bwbww.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp" "../images/focus/bwbww.bmp")
      (moves
         (move-5-b north bwbww) (move-5-b south bwbww) (move-5-b east bwbww) (move-5-b west bwbww)
 ;       (split-4-s north bwbw w) (split-4-s south bwbw w) (split-4-s east bwbw w) (split-4-s west bwbw w)
@@ -1538,7 +1554,7 @@
   )
   (piece
      (name bwbwb)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bwbwb.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp" "../images/focus/bwbwb.bmp")
      (moves
         (move-5-b north bwbwb) (move-5-b south bwbwb) (move-5-b east bwbwb) (move-5-b west bwbwb)
         (split-4-b north bwbw b) (split-4-b south bwbw b) (split-4-b east bwbw b) (split-4-b west bwbw b)
@@ -1549,7 +1565,7 @@
   )
   (piece
      (name bwbbw)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bwbbw.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp" "../images/focus/bwbbw.bmp")
      (moves
         (move-5-b north bwbbw) (move-5-b south bwbbw) (move-5-b east bwbbw) (move-5-b west bwbbw)
 ;       (split-4-s north bwbb w) (split-4-s south bwbb w) (split-4-s east bwbb w) (split-4-s west bwbb w)
@@ -1560,7 +1576,7 @@
   )
   (piece
      (name bwbbb)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bwbbb.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp" "../images/focus/bwbbb.bmp")
      (moves
         (move-5-b north bwbbb) (move-5-b south bwbbb) (move-5-b east bwbbb) (move-5-b west bwbbb)
         (split-4-b north bwbb b) (split-4-b south bwbb b) (split-4-b east bwbb b) (split-4-b west bwbb b)
@@ -1571,7 +1587,7 @@
   )
   (piece
      (name bbwww)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bbwww.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp" "../images/focus/bbwww.bmp")
      (moves
         (move-5-b north bbwww) (move-5-b south bbwww) (move-5-b east bbwww) (move-5-b west bbwww)
 ;       (split-4-s north bbww w) (split-4-s south bbww w) (split-4-s east bbww w) (split-4-s west bbww w)
@@ -1582,7 +1598,7 @@
   )
   (piece
      (name bbwwb)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bbwwb.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp" "../images/focus/bbwwb.bmp")
      (moves
         (move-5-b north bbwwb) (move-5-b south bbwwb) (move-5-b east bbwwb) (move-5-b west bbwwb)
         (split-4-b north bbww b) (split-4-b south bbww b) (split-4-b east bbww b) (split-4-b west bbww b)
@@ -1593,7 +1609,7 @@
   )
   (piece
      (name bbwbw)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bbwbw.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp" "../images/focus/bbwbw.bmp")
      (moves
         (move-5-b north bbwbw) (move-5-b south bbwbw) (move-5-b east bbwbw) (move-5-b west bbwbw)
 ;       (split-4-s north bbwb w) (split-4-s south bbwb w) (split-4-s east bbwb w) (split-4-s west bbwb w)
@@ -1604,7 +1620,7 @@
   )
   (piece
      (name bbwbb)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bbwbb.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp" "../images/focus/bbwbb.bmp")
      (moves
         (move-5-b north bbwbb) (move-5-b south bbwbb) (move-5-b east bbwbb) (move-5-b west bbwbb)
         (split-4-b north bbwb b) (split-4-b south bbwb b) (split-4-b east bbwb b) (split-4-b west bbwb b)
@@ -1615,7 +1631,7 @@
   )
   (piece
      (name bbbww)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bbbww.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp" "../images/focus/bbbww.bmp")
      (moves
         (move-5-b north bbbww) (move-5-b south bbbww) (move-5-b east bbbww) (move-5-b west bbbww)
 ;       (split-4-s north bbbw w) (split-4-s south bbbw w) (split-4-s east bbbw w) (split-4-s west bbbw w)
@@ -1626,7 +1642,7 @@
   )
   (piece
      (name bbbwb)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bbbwb.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp" "../images/focus/bbbwb.bmp")
      (moves
         (move-5-b north bbbwb) (move-5-b south bbbwb) (move-5-b east bbbwb) (move-5-b west bbbwb)
         (split-4-b north bbbw b) (split-4-b south bbbw b) (split-4-b east bbbw b) (split-4-b west bbbw b)
@@ -1637,7 +1653,7 @@
   )
   (piece
      (name bbbbw)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bbbbw.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp" "../images/focus/bbbbw.bmp")
      (moves
         (move-5-b north bbbbw) (move-5-b south bbbbw) (move-5-b east bbbbw) (move-5-b west bbbbw)
 ;       (split-4-s north bbbb w) (split-4-s south bbbb w) (split-4-s east bbbb w) (split-4-s west bbbb w)
@@ -1648,7 +1664,7 @@
   )
   (piece
      (name bbbbb)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bbbbb.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp" "../images/focus/bbbbb.bmp")
      (moves
         (move-5-b north bbbbb) (move-5-b south bbbbb) (move-5-b east bbbbb) (move-5-b west bbbbb)
         (split-4-b north bbbb b) (split-4-b south bbbb b) (split-4-b east bbbb b) (split-4-b west bbbb b)
@@ -1666,7 +1682,7 @@
 
   (piece
      (name wb)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wb.bmp")
+     (image White "../images/focus/CheckerWhite.bmp" "../images/focus/wb.bmp")
      (moves
         (move-2-w north wb) (move-2-w south wb) (move-2-w east wb) (move-2-w west wb)
         (split-1-f north w b) (split-1-f south w b) (split-1-f east w b) (split-1-f west w b)
@@ -1674,7 +1690,7 @@
   )
   (piece
      (name bw)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bw.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp" "../images/focus/bw.bmp")
      (moves
         (move-2-b north bw) (move-2-b south bw) (move-2-b east bw) (move-2-b west bw)
         (split-1-s north b w) (split-1-s south b w) (split-1-s east b w) (split-1-s west b w)
@@ -1682,7 +1698,7 @@
   )
   (piece
      (name wwb)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wwb.bmp")
+     (image White "../images/focus/CheckerWhite.bmp" "../images/focus/wwb.bmp")
      (moves
         (move-3-w north wwb) (move-3-w south wwb) (move-3-w east wwb) (move-3-w west wwb)
         (split-2-f north ww b) (split-2-f south ww b) (split-2-f east ww b) (split-2-f west ww b)
@@ -1691,7 +1707,7 @@
   )
   (piece
      (name wbw)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wbw.bmp")
+     (image White "../images/focus/CheckerWhite.bmp" "../images/focus/wbw.bmp")
      (moves
         (move-3-w north wbw) (move-3-w south wbw) (move-3-w east wbw) (move-3-w west wbw)
         (split-2-w north wb w) (split-2-w south wb w) (split-2-w east wb w) (split-2-w west wb w)
@@ -1700,7 +1716,7 @@
   )
   (piece
      (name wbb)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wbb.bmp")
+     (image White "../images/focus/CheckerWhite.bmp" "../images/focus/wbb.bmp")
      (moves
         (move-3-w north wbb) (move-3-w south wbb) (move-3-w east wbb) (move-3-w west wbb)
         (split-2-f north wb b) (split-2-f south wb b) (split-2-f east wb b) (split-2-f west wb b)
@@ -1709,7 +1725,7 @@
   )
   (piece
      (name bww)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bww.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp" "../images/focus/bww.bmp")
      (moves
         (move-3-b north bww) (move-3-b south bww) (move-3-b east bww) (move-3-b west bww)
         (split-2-s north bw w) (split-2-s south bw w) (split-2-s east bw w) (split-2-s west bw w)
@@ -1718,7 +1734,7 @@
   )
   (piece
      (name bwb)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bwb.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp" "../images/focus/bwb.bmp")
      (moves
         (move-3-b north bwb) (move-3-b south bwb) (move-3-b east bwb) (move-3-b west bwb)
         (split-2-b north bw b) (split-2-b south bw b) (split-2-b east bw b) (split-2-b west bw b)
@@ -1727,7 +1743,7 @@
   )
   (piece
      (name bbw)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bbw.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp" "../images/focus/bbw.bmp")
      (moves
         (move-3-b north bbw) (move-3-b south bbw) (move-3-b east bbw) (move-3-b west bbw)
         (split-2-s north bb w) (split-2-s south bb w) (split-2-s east bb w) (split-2-s west bb w)
@@ -1736,7 +1752,7 @@
   )
   (piece
      (name wwwb)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wwwb.bmp")
+     (image White "../images/focus/CheckerWhite.bmp" "../images/focus/wwwb.bmp")
      (moves
         (move-4-w north wwwb) (move-4-w south wwwb) (move-4-w east wwwb) (move-4-w west wwwb)
         (split-3-f north www b) (split-3-f south www b) (split-3-f east www b) (split-3-f west www b)
@@ -1746,7 +1762,7 @@
   )
   (piece
      (name wwbw)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wwbw.bmp")
+     (image White "../images/focus/CheckerWhite.bmp" "../images/focus/wwbw.bmp")
      (moves
         (move-4-w north wwbw) (move-4-w south wwbw) (move-4-w east wwbw) (move-4-w west wwbw)
         (split-3-w north wwb w) (split-3-w south wwb w) (split-3-w east wwb w) (split-3-w west wwb w)
@@ -1756,7 +1772,7 @@
   )
   (piece
      (name wwbb)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wwbb.bmp")
+     (image White "../images/focus/CheckerWhite.bmp" "../images/focus/wwbb.bmp")
      (moves
         (move-4-w north wwbb) (move-4-w south wwbb) (move-4-w east wwbb) (move-4-w west wwbb)
         (split-3-f north wwb b) (split-3-f south wwb b) (split-3-f east wwb b) (split-3-f west wwb b)
@@ -1766,7 +1782,7 @@
   )
   (piece
      (name wbww)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wbww.bmp")
+     (image White "../images/focus/CheckerWhite.bmp" "../images/focus/wbww.bmp")
      (moves
         (move-4-w north wbww) (move-4-w south wbww) (move-4-w east wbww) (move-4-w west wbww)
         (split-3-w north wbw w) (split-3-w south wbw w) (split-3-w east wbw w) (split-3-w west wbw w)
@@ -1776,7 +1792,7 @@
   )
   (piece
      (name wbwb)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wbwb.bmp")
+     (image White "../images/focus/CheckerWhite.bmp" "../images/focus/wbwb.bmp")
      (moves
         (move-4-w north wbwb) (move-4-w south wbwb) (move-4-w east wbwb) (move-4-w west wbwb)
         (split-3-f north wbw b) (split-3-f south wbw b) (split-3-f east wbw b) (split-3-f west wbw b)
@@ -1786,7 +1802,7 @@
   )
   (piece
      (name wbbw)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wbbw.bmp")
+     (image White "../images/focus/CheckerWhite.bmp" "../images/focus/wbbw.bmp")
      (moves
         (move-4-w north wbbw) (move-4-w south wbbw) (move-4-w east wbbw) (move-4-w west wbbw)
         (split-3-w north wbb w) (split-3-w south wbb w) (split-3-w east wbb w) (split-3-w west wbb w)
@@ -1796,7 +1812,7 @@
   )
   (piece
      (name wbbb)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wbbb.bmp")
+     (image White "../images/focus/CheckerWhite.bmp" "../images/focus/wbbb.bmp")
      (moves
         (move-4-w north wbbb) (move-4-w south wbbb) (move-4-w east wbbb) (move-4-w west wbbb)
         (split-3-f north wbb b) (split-3-f south wbb b) (split-3-f east wbb b) (split-3-f west wbb b)
@@ -1806,7 +1822,7 @@
   )
   (piece
      (name bwww)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bwww.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp" "../images/focus/bwww.bmp")
      (moves
         (move-4-b north bwww) (move-4-b south bwww) (move-4-b east bwww) (move-4-b west bwww)
         (split-3-s north bww w) (split-3-s south bww w) (split-3-s east bww w) (split-3-s west bww w)
@@ -1816,7 +1832,7 @@
   )
   (piece
      (name bwwb)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bwwb.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp" "../images/focus/bwwb.bmp")
      (moves
         (move-4-b north bwwb) (move-4-b south bwwb) (move-4-b east bwwb) (move-4-b west bwwb)
         (split-3-b north bww b) (split-3-b south bww b) (split-3-b east bww b) (split-3-b west bww b)
@@ -1826,7 +1842,7 @@
   )
   (piece
      (name bwbw)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bwbw.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp" "../images/focus/bwbw.bmp")
      (moves
         (move-4-b north bwbw) (move-4-b south bwbw) (move-4-b east bwbw) (move-4-b west bwbw)
         (split-3-s north bwb w) (split-3-s south bwb w) (split-3-s east bwb w) (split-3-s west bwb w)
@@ -1836,7 +1852,7 @@
   )
   (piece
      (name bwbb)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bwbb.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp" "../images/focus/bwbb.bmp")
      (moves
         (move-4-b north bwbb) (move-4-b south bwbb) (move-4-b east bwbb) (move-4-b west bwbb)
         (split-3-b north bwb b) (split-3-b south bwb b) (split-3-b east bwb b) (split-3-b west bwb b)
@@ -1846,7 +1862,7 @@
   )
   (piece
      (name bbww)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bbww.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp" "../images/focus/bbww.bmp")
      (moves
         (move-4-b north bbww) (move-4-b south bbww) (move-4-b east bbww) (move-4-b west bbww)
         (split-3-s north bbw w) (split-3-s south bbw w) (split-3-s east bbw w) (split-3-s west bbw w)
@@ -1856,7 +1872,7 @@
   )
   (piece
      (name bbwb)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bwbb.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp" "../images/focus/bwbb.bmp")
      (moves
         (move-4-b north bbwb) (move-4-b south bbwb) (move-4-b east bbwb) (move-4-b west bbwb)
         (split-3-b north bbw b) (split-3-b south bbw b) (split-3-b east bbw b) (split-3-b west bbw b)
@@ -1866,7 +1882,7 @@
   )
   (piece
      (name bbbw)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bbbw.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp" "../images/focus/bbbw.bmp")
      (moves
         (move-4-b north bbbw) (move-4-b south bbbw) (move-4-b east bbbw) (move-4-b west bbbw)
         (split-3-s north bbb w) (split-3-s south bbb w) (split-3-s east bbb w) (split-3-s west bbb w)
@@ -1876,7 +1892,7 @@
   )
   (piece
      (name wwwwb)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wwwwb.bmp")
+     (image White "../images/focus/CheckerWhite.bmp" "../images/focus/wwwwb.bmp")
      (moves
         (move-5-w north wwwwb) (move-5-w south wwwwb) (move-5-w east wwwwb) (move-5-w west wwwwb)
         (split-4-f north wwww b) (split-4-f south wwww b) (split-4-f east wwww b) (split-4-f west wwww b)
@@ -1887,7 +1903,7 @@
   )
   (piece
      (name wwwbw)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wwwbw.bmp")
+     (image White "../images/focus/CheckerWhite.bmp" "../images/focus/wwwbw.bmp")
      (moves
         (move-5-w north wwwbw) (move-5-w south wwwbw) (move-5-w east wwwbw) (move-5-w west wwwbw)
         (split-4-w north wwwb w) (split-4-w south wwwb w) (split-4-w east wwwb w) (split-4-w west wwwb w)
@@ -1898,7 +1914,7 @@
   )
   (piece
      (name wwwbb)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wwwbb.bmp")
+     (image White "../images/focus/CheckerWhite.bmp" "../images/focus/wwwbb.bmp")
      (moves
         (move-5-w north wwwbb) (move-5-w south wwwbb) (move-5-w east wwwbb) (move-5-w west wwwbb)
         (split-4-f north wwwb b) (split-4-f south wwwb b) (split-4-f east wwwb b) (split-4-f west wwwb b)
@@ -1909,7 +1925,7 @@
   )
   (piece
      (name wwbww)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wwbww.bmp")
+     (image White "../images/focus/CheckerWhite.bmp" "../images/focus/wwbww.bmp")
      (moves
         (move-5-w north wwbww) (move-5-w south wwbww) (move-5-w east wwbww) (move-5-w west wwbww)
         (split-4-w north wwbw w) (split-4-w south wwbw w) (split-4-w east wwbw w) (split-4-w west wwbw w)
@@ -1920,7 +1936,7 @@
   )
   (piece
      (name wwbwb)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wwbwb.bmp")
+     (image White "../images/focus/CheckerWhite.bmp" "../images/focus/wwbwb.bmp")
      (moves
         (move-5-w north wwbwb) (move-5-w south wwbwb) (move-5-w east wwbwb) (move-5-w west wwbwb)
         (split-4-f north wwbw b) (split-4-f south wwbw b) (split-4-f east wwbw b) (split-4-f west wwbw b)
@@ -1931,7 +1947,7 @@
   )
   (piece
      (name wwbbw)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wwbbw.bmp")
+     (image White "../images/focus/CheckerWhite.bmp" "../images/focus/wwbbw.bmp")
      (moves
         (move-5-w north wwbbw) (move-5-w south wwbbw) (move-5-w east wwbbw) (move-5-w west wwbbw)
         (split-4-w north wwbb w) (split-4-w south wwbb w) (split-4-w east wwbb w) (split-4-w west wwbb w)
@@ -1942,7 +1958,7 @@
   )
   (piece
      (name wwbbb)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wwbbb.bmp")
+     (image White "../images/focus/CheckerWhite.bmp" "../images/focus/wwbbb.bmp")
      (moves
         (move-5-w north wwbbb) (move-5-w south wwbbb) (move-5-w east wwbbb) (move-5-w west wwbbb)
         (split-4-f north wwbb b) (split-4-f south wwbb b) (split-4-f east wwbb b) (split-4-f west wwbb b)
@@ -1953,7 +1969,7 @@
   )
   (piece
      (name wbwww)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wbwww.bmp")
+     (image White "../images/focus/CheckerWhite.bmp" "../images/focus/wbwww.bmp")
      (moves
         (move-5-w north wbwww) (move-5-w south wbwww) (move-5-w east wbwww) (move-5-w west wbwww)
         (split-4-w north wbww w) (split-4-w south wbww w) (split-4-w east wbww w) (split-4-w west wbww w)
@@ -1964,7 +1980,7 @@
   )
   (piece
      (name wbwwb)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wbwwb.bmp")
+     (image White "../images/focus/CheckerWhite.bmp" "../images/focus/wbwwb.bmp")
      (moves
         (move-5-w north wbwwb) (move-5-w south wbwwb) (move-5-w east wbwwb) (move-5-w west wbwwb)
         (split-4-f north wbww b) (split-4-f south wbww b) (split-4-f east wbww b) (split-4-f west wbww b)
@@ -1975,7 +1991,7 @@
   )
   (piece
      (name wbwbw)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wbwbw.bmp")
+     (image White "../images/focus/CheckerWhite.bmp" "../images/focus/wbwbw.bmp")
      (moves
         (move-5-w north wbwbw) (move-5-w south wbwbw) (move-5-w east wbwbw) (move-5-w west wbwbw)
         (split-4-w north wbwb w) (split-4-w south wbwb w) (split-4-w east wbwb w) (split-4-w west wbwb w)
@@ -1986,7 +2002,7 @@
   )
   (piece
      (name wbwbb)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wbwbb.bmp")
+     (image White "../images/focus/CheckerWhite.bmp" "../images/focus/wbwbb.bmp")
      (moves
         (move-5-w north wbwbb) (move-5-w south wbwbb) (move-5-w east wbwbb) (move-5-w west wbwbb)
         (split-4-f north wbwb b) (split-4-f south wbwb b) (split-4-f east wbwb b) (split-4-f west wbwb b)
@@ -1997,7 +2013,7 @@
   )
   (piece
      (name wbbww)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wbbww.bmp")
+     (image White "../images/focus/CheckerWhite.bmp" "../images/focus/wbbww.bmp")
      (moves
         (move-5-w north wbbww) (move-5-w south wbbww) (move-5-w east wbbww) (move-5-w west wbbww)
         (split-4-w north wbbw w) (split-4-w south wbbw w) (split-4-w east wbbw w) (split-4-w west wbbw w)
@@ -2008,7 +2024,7 @@
   )
   (piece
      (name wbbwb)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wbbwb.bmp")
+     (image White "../images/focus/CheckerWhite.bmp" "../images/focus/wbbwb.bmp")
      (moves
         (move-5-w north wbbwb) (move-5-w south wbbwb) (move-5-w east wbbwb) (move-5-w west wbbwb)
         (split-4-f north wbbw b) (split-4-f south wbbw b) (split-4-f east wbbw b) (split-4-f west wbbw b)
@@ -2019,7 +2035,7 @@
   )
   (piece
      (name wbbbw)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wbbbw.bmp")
+     (image White "../images/focus/CheckerWhite.bmp" "../images/focus/wbbbw.bmp")
      (moves
         (move-5-w north wbbbw) (move-5-w south wbbbw) (move-5-w east wbbbw) (move-5-w west wbbbw)
         (split-4-w north wbbb w) (split-4-w south wbbb w) (split-4-w east wbbb w) (split-4-w west wbbb w)
@@ -2030,7 +2046,7 @@
   )
   (piece
      (name wbbbb)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wbbbb.bmp")
+     (image White "../images/focus/CheckerWhite.bmp" "../images/focus/wbbbb.bmp")
      (moves
         (move-5-w north wbbbb) (move-5-w south wbbbb) (move-5-w east wbbbb) (move-5-w west wbbbb)
         (split-4-f north wbbb b) (split-4-f south wbbb b) (split-4-f east wbbb b) (split-4-f west wbbb b)
@@ -2041,7 +2057,7 @@
   )
   (piece
      (name bwwww)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bwwww.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp" "../images/focus/bwwww.bmp")
      (moves
         (move-5-b north bwwww) (move-5-b south bwwww) (move-5-b east bwwww) (move-5-b west bwwww)
         (split-4-s north bwww w) (split-4-s south bwww w) (split-4-s east bwww w) (split-4-s west bwww w)
@@ -2052,7 +2068,7 @@
   )
   (piece
      (name bwwwb)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bwwwb.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp" "../images/focus/bwwwb.bmp")
      (moves
         (move-5-b north bwwwb) (move-5-b south bwwwb) (move-5-b east bwwwb) (move-5-b west bwwwb)
         (split-4-b north bwww b) (split-4-b south bwww b) (split-4-b east bwww b) (split-4-b west bwww b)
@@ -2063,7 +2079,7 @@
   )
   (piece
      (name bwwbw)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bwwbw.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp" "../images/focus/bwwbw.bmp")
      (moves
         (move-5-b north bwwbw) (move-5-b south bwwbw) (move-5-b east bwwbw) (move-5-b west bwwbw)
         (split-4-s north bwwb w) (split-4-s south bwwb w) (split-4-s east bwwb w) (split-4-s west bwwb w)
@@ -2074,7 +2090,7 @@
   )
   (piece
      (name bwwbb)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bwwbb.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp" "../images/focus/bwwbb.bmp")
      (moves
         (move-5-b north bwwbb) (move-5-b south bwwbb) (move-5-b east bwwbb) (move-5-b west bwwbb)
         (split-4-b north bwwb b) (split-4-b south bwwb b) (split-4-b east bwwb b) (split-4-b west bwwb b)
@@ -2085,7 +2101,7 @@
   )
   (piece
      (name bwbww)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bwbww.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp" "../images/focus/bwbww.bmp")
      (moves
         (move-5-b north bwbww) (move-5-b south bwbww) (move-5-b east bwbww) (move-5-b west bwbww)
         (split-4-s north bwbw w) (split-4-s south bwbw w) (split-4-s east bwbw w) (split-4-s west bwbw w)
@@ -2096,7 +2112,7 @@
   )
   (piece
      (name bwbwb)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bwbwb.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp" "../images/focus/bwbwb.bmp")
      (moves
         (move-5-b north bwbwb) (move-5-b south bwbwb) (move-5-b east bwbwb) (move-5-b west bwbwb)
         (split-4-b north bwbw b) (split-4-b south bwbw b) (split-4-b east bwbw b) (split-4-b west bwbw b)
@@ -2107,7 +2123,7 @@
   )
   (piece
      (name bwbbw)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bwbbw.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp" "../images/focus/bwbbw.bmp")
      (moves
         (move-5-b north bwbbw) (move-5-b south bwbbw) (move-5-b east bwbbw) (move-5-b west bwbbw)
         (split-4-s north bwbb w) (split-4-s south bwbb w) (split-4-s east bwbb w) (split-4-s west bwbb w)
@@ -2118,7 +2134,7 @@
   )
   (piece
      (name bwbbb)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bwbbb.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp" "../images/focus/bwbbb.bmp")
      (moves
         (move-5-b north bwbbb) (move-5-b south bwbbb) (move-5-b east bwbbb) (move-5-b west bwbbb)
         (split-4-b north bwbb b) (split-4-b south bwbb b) (split-4-b east bwbb b) (split-4-b west bwbb b)
@@ -2129,7 +2145,7 @@
   )
   (piece
      (name bbwww)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bbwww.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp" "../images/focus/bbwww.bmp")
      (moves
         (move-5-b north bbwww) (move-5-b south bbwww) (move-5-b east bbwww) (move-5-b west bbwww)
         (split-4-s north bbww w) (split-4-s south bbww w) (split-4-s east bbww w) (split-4-s west bbww w)
@@ -2140,7 +2156,7 @@
   )
   (piece
      (name bbwwb)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bbwwb.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp" "../images/focus/bbwwb.bmp")
      (moves
         (move-5-b north bbwwb) (move-5-b south bbwwb) (move-5-b east bbwwb) (move-5-b west bbwwb)
         (split-4-b north bbww b) (split-4-b south bbww b) (split-4-b east bbww b) (split-4-b west bbww b)
@@ -2151,7 +2167,7 @@
   )
   (piece
      (name bbwbw)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bbwbw.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp" "../images/focus/bbwbw.bmp")
      (moves
         (move-5-b north bbwbw) (move-5-b south bbwbw) (move-5-b east bbwbw) (move-5-b west bbwbw)
         (split-4-s north bbwb w) (split-4-s south bbwb w) (split-4-s east bbwb w) (split-4-s west bbwb w)
@@ -2162,7 +2178,7 @@
   )
   (piece
      (name bbwbb)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bbwbb.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp" "../images/focus/bbwbb.bmp")
      (moves
         (move-5-b north bbwbb) (move-5-b south bbwbb) (move-5-b east bbwbb) (move-5-b west bbwbb)
         (split-4-b north bbwb b) (split-4-b south bbwb b) (split-4-b east bbwb b) (split-4-b west bbwb b)
@@ -2173,7 +2189,7 @@
   )
   (piece
      (name bbbww)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bbbww.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp" "../images/focus/bbbww.bmp")
      (moves
         (move-5-b north bbbww) (move-5-b south bbbww) (move-5-b east bbbww) (move-5-b west bbbww)
         (split-4-s north bbbw w) (split-4-s south bbbw w) (split-4-s east bbbw w) (split-4-s west bbbw w)
@@ -2184,7 +2200,7 @@
   )
   (piece
      (name bbbwb)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bbbwb.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp" "../images/focus/bbbwb.bmp")
      (moves
         (move-5-b north bbbwb) (move-5-b south bbbwb) (move-5-b east bbbwb) (move-5-b west bbbwb)
         (split-4-b north bbbw b) (split-4-b south bbbw b) (split-4-b east bbbw b) (split-4-b west bbbw b)
@@ -2195,7 +2211,7 @@
   )
   (piece
      (name bbbbw)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bbbbw.bmp")
+     (image Black "../images/focus/CheckerBlack.bmp" "../images/focus/bbbbw.bmp")
      (moves
         (move-5-b north bbbbw) (move-5-b south bbbbw) (move-5-b east bbbbw) (move-5-b west bbbbw)
         (split-4-s north bbbb w) (split-4-s south bbbb w) (split-4-s east bbbb w) (split-4-s west bbbb w)
@@ -2211,7 +2227,7 @@
 )
 
 (variant
-  (title "Asymmetric Focus")
+  (title "Asymmetric Focus (variant I)")
 
   (turn-order (White capturing) (Black capturing) repeat White Black)
 
@@ -2222,8 +2238,8 @@
 
   (piece
      (name t)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/w.bmp"
-            Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/b.bmp")
+     (image White "../images/focus/CheckerWhite.bmp" "../images/focus/w.bmp"
+            Black "../images/focus/CheckerBlack.bmp" "../images/focus/b.bmp")
      (drops (move-type capturing)
             (capture-enemy)
      )
@@ -2231,562 +2247,12 @@
 )
 
 (variant
-  (title "Asymmetric Focus (no restrictions)")
+  (title "Asymmetric Focus (variant II)")
 
   (turn-order (White capturing) (Black capturing) repeat White Black)
 
   (board-setup
-    (White (w b2 c2 b4 c4 b6 c6 d3 e3 d5 e5 d7 e7 f2 g2 f4 g4 f6 g6) (t off 1))
-    (Black (b b3 c3 b5 c5 b7 c7 d2 e2 d4 e4 d6 e6 f3 g3 f5 g5 f7 g7) (t off 1))
-  )
-
-  (piece
-     (name t)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/w.bmp"
-            Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/b.bmp")
-     (drops (move-type capturing)
-            (capture-any)
-     )
-  )
-
-  (piece
-     (name wb)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wb.bmp")
-     (moves
-        (move-2-w north wb) (move-2-w south wb) (move-2-w east wb) (move-2-w west wb)
-        (split-1-f north w b) (split-1-f south w b) (split-1-f east w b) (split-1-f west w b)
-     )
-  )
-  (piece
-     (name bw)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bw.bmp")
-     (moves
-        (move-2-b north bw) (move-2-b south bw) (move-2-b east bw) (move-2-b west bw)
-        (split-1-s north b w) (split-1-s south b w) (split-1-s east b w) (split-1-s west b w)
-     )
-  )
-  (piece
-     (name wwb)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wwb.bmp")
-     (moves
-        (move-3-w north wwb) (move-3-w south wwb) (move-3-w east wwb) (move-3-w west wwb)
-        (split-2-f north ww b) (split-2-f south ww b) (split-2-f east ww b) (split-2-f west ww b)
-        (split-1-w north w wb) (split-1-w south w wb) (split-1-w east w wb) (split-1-w west w wb)
-     )
-  )
-  (piece
-     (name wbw)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wbw.bmp")
-     (moves
-        (move-3-w north wbw) (move-3-w south wbw) (move-3-w east wbw) (move-3-w west wbw)
-        (split-2-w north wb w) (split-2-w south wb w) (split-2-w east wb w) (split-2-w west wb w)
-        (split-1-f north w bw) (split-1-f south w bw) (split-1-f east w bw) (split-1-f west w bw)
-     )
-  )
-  (piece
-     (name wbb)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wbb.bmp")
-     (moves
-        (move-3-w north wbb) (move-3-w south wbb) (move-3-w east wbb) (move-3-w west wbb)
-        (split-2-f north wb b) (split-2-f south wb b) (split-2-f east wb b) (split-2-f west wb b)
-        (split-1-f north w bb) (split-1-f south w bb) (split-1-f east w bb) (split-1-f west w bb)
-     )
-  )
-  (piece
-     (name bww)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bww.bmp")
-     (moves
-        (move-3-b north bww) (move-3-b south bww) (move-3-b east bww) (move-3-b west bww)
-        (split-2-s north bw w) (split-2-s south bw w) (split-2-s east bw w) (split-2-s west bw w)
-        (split-1-s north b ww) (split-1-s south b ww) (split-1-s east b ww) (split-1-s west b ww)
-     )
-  )
-  (piece
-     (name bwb)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bwb.bmp")
-     (moves
-        (move-3-b north bwb) (move-3-b south bwb) (move-3-b east bwb) (move-3-b west bwb)
-        (split-2-b north bw b) (split-2-b south bw b) (split-2-b east bw b) (split-2-b west bw b)
-        (split-1-s north b wb) (split-1-s south b wb) (split-1-s east b wb) (split-1-s west b wb)
-     )
-  )
-  (piece
-     (name bbw)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bbw.bmp")
-     (moves
-        (move-3-b north bbw) (move-3-b south bbw) (move-3-b east bbw) (move-3-b west bbw)
-        (split-2-s north bb w) (split-2-s south bb w) (split-2-s east bb w) (split-2-s west bb w)
-        (split-1-b north b bw) (split-1-b south b bw) (split-1-b east b bw) (split-1-b west b bw)
-     )
-  )
-  (piece
-     (name wwwb)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wwwb.bmp")
-     (moves
-        (move-4-w north wwwb) (move-4-w south wwwb) (move-4-w east wwwb) (move-4-w west wwwb)
-        (split-3-f north www b) (split-3-f south www b) (split-3-f east www b) (split-3-f west www b)
-        (split-2-w north ww wb) (split-2-w south ww wb) (split-2-w east ww wb) (split-2-w west ww wb)
-        (split-1-w north w wwb) (split-1-w south w wwb) (split-1-w east w wwb) (split-1-w west w wwb)
-     )
-  )
-  (piece
-     (name wwbw)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wwbw.bmp")
-     (moves
-        (move-4-w north wwbw) (move-4-w south wwbw) (move-4-w east wwbw) (move-4-w west wwbw)
-        (split-3-w north wwb w) (split-3-w south wwb w) (split-3-w east wwb w) (split-3-w west wwb w)
-        (split-2-f north ww bw) (split-2-f south ww bw) (split-2-f east ww bw) (split-2-f west ww bw)
-        (split-1-w north w wbw) (split-1-w south w wbw) (split-1-w east w wbw) (split-1-w west w wbw)
-     )
-  )
-  (piece
-     (name wwbb)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wwbb.bmp")
-     (moves
-        (move-4-w north wwbb) (move-4-w south wwbb) (move-4-w east wwbb) (move-4-w west wwbb)
-        (split-3-f north wwb b) (split-3-f south wwb b) (split-3-f east wwb b) (split-3-f west wwb b)
-        (split-2-f north ww bb) (split-2-f south ww bb) (split-2-f east ww bb) (split-2-f west ww bb)
-        (split-1-w north w wbb) (split-1-w south w wbb) (split-1-w east w wbb) (split-1-w west w wbb)
-     )
-  )
-  (piece
-     (name wbww)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wbww.bmp")
-     (moves
-        (move-4-w north wbww) (move-4-w south wbww) (move-4-w east wbww) (move-4-w west wbww)
-        (split-3-w north wbw w) (split-3-w south wbw w) (split-3-w east wbw w) (split-3-w west wbw w)
-        (split-2-w north wb ww) (split-2-w south wb ww) (split-2-w east wb ww) (split-2-w west wb ww)
-        (split-1-f north w bww) (split-1-f south w bww) (split-1-f east w bww) (split-1-f west w bww)
-     )
-  )
-  (piece
-     (name wbwb)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wbwb.bmp")
-     (moves
-        (move-4-w north wbwb) (move-4-w south wbwb) (move-4-w east wbwb) (move-4-w west wbwb)
-        (split-3-f north wbw b) (split-3-f south wbw b) (split-3-f east wbw b) (split-3-f west wbw b)
-        (split-2-w north wb wb) (split-2-w south wb wb) (split-2-w east wb wb) (split-2-w west wb wb)
-        (split-1-f north w bwb) (split-1-f south w bwb) (split-1-f east w bwb) (split-1-f west w bwb)
-     )
-  )
-  (piece
-     (name wbbw)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wbbw.bmp")
-     (moves
-        (move-4-w north wbbw) (move-4-w south wbbw) (move-4-w east wbbw) (move-4-w west wbbw)
-        (split-3-w north wbb w) (split-3-w south wbb w) (split-3-w east wbb w) (split-3-w west wbb w)
-        (split-2-f north wb bw) (split-2-f south wb bw) (split-2-f east wb bw) (split-2-f west wb bw)
-        (split-1-f north w bbw) (split-1-f south w bbw) (split-1-f east w bbw) (split-1-f west w bbw)
-     )
-  )
-  (piece
-     (name wbbb)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wbbb.bmp")
-     (moves
-        (move-4-w north wbbb) (move-4-w south wbbb) (move-4-w east wbbb) (move-4-w west wbbb)
-        (split-3-f north wbb b) (split-3-f south wbb b) (split-3-f east wbb b) (split-3-f west wbb b)
-        (split-2-f north wb bb) (split-2-f south wb bb) (split-2-f east wb bb) (split-2-f west wb bb)
-        (split-1-f north w bbb) (split-1-f south w bbb) (split-1-f east w bbb) (split-1-f west w bbb)
-     )
-  )
-  (piece
-     (name bwww)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bwww.bmp")
-     (moves
-        (move-4-b north bwww) (move-4-b south bwww) (move-4-b east bwww) (move-4-b west bwww)
-        (split-3-s north bww w) (split-3-s south bww w) (split-3-s east bww w) (split-3-s west bww w)
-        (split-2-s north bw ww) (split-2-s south bw ww) (split-2-s east bw ww) (split-2-s west bw ww)
-        (split-1-s north b www) (split-1-s south b www) (split-1-s east b www) (split-1-s west b www)
-     )
-  )
-  (piece
-     (name bwwb)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bwwb.bmp")
-     (moves
-        (move-4-b north bwwb) (move-4-b south bwwb) (move-4-b east bwwb) (move-4-b west bwwb)
-        (split-3-b north bww b) (split-3-b south bww b) (split-3-b east bww b) (split-3-b west bww b)
-        (split-2-s north bw wb) (split-2-s south bw wb) (split-2-s east bw wb) (split-2-s west bw wb)
-        (split-1-s north b wwb) (split-1-s south b wwb) (split-1-s east b wwb) (split-1-s west b wwb)
-     )
-  )
-  (piece
-     (name bwbw)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bwbw.bmp")
-     (moves
-        (move-4-b north bwbw) (move-4-b south bwbw) (move-4-b east bwbw) (move-4-b west bwbw)
-        (split-3-s north bwb w) (split-3-s south bwb w) (split-3-s east bwb w) (split-3-s west bwb w)
-        (split-2-b north bw bw) (split-2-b south bw bw) (split-2-b east bw bw) (split-2-b west bw bw)
-        (split-1-s north b wbw) (split-1-s south b wbw) (split-1-s east b wbw) (split-1-s west b wbw)
-     )
-  )
-  (piece
-     (name bwbb)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bwbb.bmp")
-     (moves
-        (move-4-b north bwbb) (move-4-b south bwbb) (move-4-b east bwbb) (move-4-b west bwbb)
-        (split-3-b north bwb b) (split-3-b south bwb b) (split-3-b east bwb b) (split-3-b west bwb b)
-        (split-2-b north bw bb) (split-2-b south bw bb) (split-2-b east bw bb) (split-2-b west bw bb)
-        (split-1-s north b wbb) (split-1-s south b wbb) (split-1-s east b wbb) (split-1-s west b wbb)
-     )
-  )
-  (piece
-     (name bbww)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bbww.bmp")
-     (moves
-        (move-4-b north bbww) (move-4-b south bbww) (move-4-b east bbww) (move-4-b west bbww)
-        (split-3-s north bbw w) (split-3-s south bbw w) (split-3-s east bbw w) (split-3-s west bbw w)
-        (split-2-s north bb ww) (split-2-s south bb ww) (split-2-s east bb ww) (split-2-s west bb ww)
-        (split-1-b north b bww) (split-1-b south b bww) (split-1-b east b bww) (split-1-b west b bww)
-     )
-  )
-  (piece
-     (name bbwb)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bwbb.bmp")
-     (moves
-        (move-4-b north bbwb) (move-4-b south bbwb) (move-4-b east bbwb) (move-4-b west bbwb)
-        (split-3-b north bbw b) (split-3-b south bbw b) (split-3-b east bbw b) (split-3-b west bbw b)
-        (split-2-s north bb wb) (split-2-s south bb wb) (split-2-s east bb wb) (split-2-s west bb wb)
-        (split-1-b north b bwb) (split-1-b south b bwb) (split-1-b east b bwb) (split-1-b west b bwb)
-     )
-  )
-  (piece
-     (name bbbw)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bbbw.bmp")
-     (moves
-        (move-4-b north bbbw) (move-4-b south bbbw) (move-4-b east bbbw) (move-4-b west bbbw)
-        (split-3-s north bbb w) (split-3-s south bbb w) (split-3-s east bbb w) (split-3-s west bbb w)
-        (split-2-b north bb bw) (split-2-b south bb bw) (split-2-b east bb bw) (split-2-b west bb bw)
-        (split-1-b north b bbw) (split-1-b south b bbw) (split-1-b east b bbw) (split-1-b west b bbw)
-     )
-  )
-  (piece
-     (name wwwwb)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wwwwb.bmp")
-     (moves
-        (move-5-w north wwwwb) (move-5-w south wwwwb) (move-5-w east wwwwb) (move-5-w west wwwwb)
-        (split-4-f north wwww b) (split-4-f south wwww b) (split-4-f east wwww b) (split-4-f west wwww b)
-        (split-3-w north www wb) (split-3-w south www wb) (split-3-w east www wb) (split-3-w west www wb)
-        (split-2-w north ww wwb) (split-2-w south ww wwb) (split-2-w east ww wwb) (split-2-w west ww wwb)
-        (split-1-w north w wwwb) (split-1-w south w wwwb) (split-1-w east w wwwb) (split-1-w west w wwwb)
-     )
-  )
-  (piece
-     (name wwwbw)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wwwbw.bmp")
-     (moves
-        (move-5-w north wwwbw) (move-5-w south wwwbw) (move-5-w east wwwbw) (move-5-w west wwwbw)
-        (split-4-w north wwwb w) (split-4-w south wwwb w) (split-4-w east wwwb w) (split-4-w west wwwb w)
-        (split-3-f north www bw) (split-3-f south www bw) (split-3-f east www bw) (split-3-f west www bw)
-        (split-2-w north ww wbw) (split-2-w south ww wbw) (split-2-w east ww wbw) (split-2-w west ww wbw)
-        (split-1-w north w wwbw) (split-1-w south w wwbw) (split-1-w east w wwbw) (split-1-w west w wwbw)
-     )
-  )
-  (piece
-     (name wwwbb)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wwwbb.bmp")
-     (moves
-        (move-5-w north wwwbb) (move-5-w south wwwbb) (move-5-w east wwwbb) (move-5-w west wwwbb)
-        (split-4-f north wwwb b) (split-4-f south wwwb b) (split-4-f east wwwb b) (split-4-f west wwwb b)
-        (split-3-f north www bb) (split-3-f south www bb) (split-3-f east www bb) (split-3-f west www bb)
-        (split-2-w north ww wbb) (split-2-w south ww wbb) (split-2-w east ww wbb) (split-2-w west ww wbb)
-        (split-1-w north w wwbb) (split-1-w south w wwbb) (split-1-w east w wwbb) (split-1-w west w wwbb)
-     )
-  )
-  (piece
-     (name wwbww)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wwbww.bmp")
-     (moves
-        (move-5-w north wwbww) (move-5-w south wwbww) (move-5-w east wwbww) (move-5-w west wwbww)
-        (split-4-w north wwbw w) (split-4-w south wwbw w) (split-4-w east wwbw w) (split-4-w west wwbw w)
-        (split-3-w north wwb ww) (split-3-w south wwb ww) (split-3-w east wwb ww) (split-3-w west wwb ww)
-        (split-2-f north ww bww) (split-2-f south ww bww) (split-2-f east ww bww) (split-2-f west ww bww)
-        (split-1-w north w wbww) (split-1-w south w wbww) (split-1-w east w wbww) (split-1-w west w wbww)
-     )
-  )
-  (piece
-     (name wwbwb)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wwbwb.bmp")
-     (moves
-        (move-5-w north wwbwb) (move-5-w south wwbwb) (move-5-w east wwbwb) (move-5-w west wwbwb)
-        (split-4-f north wwbw b) (split-4-f south wwbw b) (split-4-f east wwbw b) (split-4-f west wwbw b)
-        (split-3-w north wwb wb) (split-3-w south wwb wb) (split-3-w east wwb wb) (split-3-w west wwb wb)
-        (split-2-f north ww bwb) (split-2-f south ww bwb) (split-2-f east ww bwb) (split-2-f west ww bwb)
-        (split-1-w north w wbwb) (split-1-w south w wbwb) (split-1-w east w wbwb) (split-1-w west w wbwb)
-     )
-  )
-  (piece
-     (name wwbbw)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wwbbw.bmp")
-     (moves
-        (move-5-w north wwbbw) (move-5-w south wwbbw) (move-5-w east wwbbw) (move-5-w west wwbbw)
-        (split-4-w north wwbb w) (split-4-w south wwbb w) (split-4-w east wwbb w) (split-4-w west wwbb w)
-        (split-3-f north wwb bw) (split-3-f south wwb bw) (split-3-f east wwb bw) (split-3-f west wwb bw)
-        (split-2-f north ww bbw) (split-2-f south ww bbw) (split-2-f east ww bbw) (split-2-f west ww bbw)
-        (split-1-w north w wbbw) (split-1-w south w wbbw) (split-1-w east w wbbw) (split-1-w west w wbbw)
-     )
-  )
-  (piece
-     (name wwbbb)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wwbbb.bmp")
-     (moves
-        (move-5-w north wwbbb) (move-5-w south wwbbb) (move-5-w east wwbbb) (move-5-w west wwbbb)
-        (split-4-f north wwbb b) (split-4-f south wwbb b) (split-4-f east wwbb b) (split-4-f west wwbb b)
-        (split-3-f north wwb bb) (split-3-f south wwb bb) (split-3-f east wwb bb) (split-3-f west wwb bb)
-        (split-2-f north ww bbb) (split-2-f south ww bbb) (split-2-f east ww bbb) (split-2-f west ww bbb)
-        (split-1-w north w wbbb) (split-1-w south w wbbb) (split-1-w east w wbbb) (split-1-w west w wbbb)
-     )
-  )
-  (piece
-     (name wbwww)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wbwww.bmp")
-     (moves
-        (move-5-w north wbwww) (move-5-w south wbwww) (move-5-w east wbwww) (move-5-w west wbwww)
-        (split-4-w north wbww w) (split-4-w south wbww w) (split-4-w east wbww w) (split-4-w west wbww w)
-        (split-3-w north wbw ww) (split-3-w south wbw ww) (split-3-w east wbw ww) (split-3-w west wbw ww)
-        (split-2-w north wb www) (split-2-w south wb www) (split-2-w east wb www) (split-2-w west wb www)
-        (split-1-f north w bwww) (split-1-f south w bwww) (split-1-f east w bwww) (split-1-f west w bwww)
-     )
-  )
-  (piece
-     (name wbwwb)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wbwwb.bmp")
-     (moves
-        (move-5-w north wbwwb) (move-5-w south wbwwb) (move-5-w east wbwwb) (move-5-w west wbwwb)
-        (split-4-f north wbww b) (split-4-f south wbww b) (split-4-f east wbww b) (split-4-f west wbww b)
-        (split-3-w north wbw wb) (split-3-w south wbw wb) (split-3-w east wbw wb) (split-3-w west wbw wb)
-        (split-2-w north wb wwb) (split-2-w south wb wwb) (split-2-w east wb wwb) (split-2-w west wb wwb)
-        (split-1-f north w bwwb) (split-1-f south w bwwb) (split-1-f east w bwwb) (split-1-f west w bwwb)
-     )
-  )
-  (piece
-     (name wbwbw)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wbwbw.bmp")
-     (moves
-        (move-5-w north wbwbw) (move-5-w south wbwbw) (move-5-w east wbwbw) (move-5-w west wbwbw)
-        (split-4-w north wbwb w) (split-4-w south wbwb w) (split-4-w east wbwb w) (split-4-w west wbwb w)
-        (split-3-f north wbw bw) (split-3-f south wbw bw) (split-3-f east wbw bw) (split-3-f west wbw bw)
-        (split-2-w north wb wbw) (split-2-w south wb wbw) (split-2-w east wb wbw) (split-2-w west wb wbw)
-        (split-1-f north w bwbw) (split-1-f south w bwbw) (split-1-f east w bwbw) (split-1-f west w bwbw)
-     )
-  )
-  (piece
-     (name wbwbb)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wbwbb.bmp")
-     (moves
-        (move-5-w north wbwbb) (move-5-w south wbwbb) (move-5-w east wbwbb) (move-5-w west wbwbb)
-        (split-4-f north wbwb b) (split-4-f south wbwb b) (split-4-f east wbwb b) (split-4-f west wbwb b)
-        (split-3-f north wbw bb) (split-3-f south wbw bb) (split-3-f east wbw bb) (split-3-f west wbw bb)
-        (split-2-w north wb wbb) (split-2-w south wb wbb) (split-2-w east wb wbb) (split-2-w west wb wbb)
-        (split-1-f north w bwbb) (split-1-f south w bwbb) (split-1-f east w bwbb) (split-1-f west w bwbb)
-     )
-  )
-  (piece
-     (name wbbww)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wbbww.bmp")
-     (moves
-        (move-5-w north wbbww) (move-5-w south wbbww) (move-5-w east wbbww) (move-5-w west wbbww)
-        (split-4-w north wbbw w) (split-4-w south wbbw w) (split-4-w east wbbw w) (split-4-w west wbbw w)
-        (split-3-w north wbb ww) (split-3-w south wbb ww) (split-3-w east wbb ww) (split-3-w west wbb ww)
-        (split-2-f north wb bww) (split-2-f south wb bww) (split-2-f east wb bww) (split-2-f west wb bww)
-        (split-1-f north w bbww) (split-1-f south w bbww) (split-1-f east w bbww) (split-1-f west w bbww)
-     )
-  )
-  (piece
-     (name wbbwb)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wbbwb.bmp")
-     (moves
-        (move-5-w north wbbwb) (move-5-w south wbbwb) (move-5-w east wbbwb) (move-5-w west wbbwb)
-        (split-4-f north wbbw b) (split-4-f south wbbw b) (split-4-f east wbbw b) (split-4-f west wbbw b)
-        (split-3-w north wbb wb) (split-3-w south wbb wb) (split-3-w east wbb wb) (split-3-w west wbb wb)
-        (split-2-f north wb bwb) (split-2-f south wb bwb) (split-2-f east wb bwb) (split-2-f west wb bwb)
-        (split-1-f north w bbwb) (split-1-f south w bbwb) (split-1-f east w bbwb) (split-1-f west w bbwb)
-     )
-  )
-  (piece
-     (name wbbbw)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wbbbw.bmp")
-     (moves
-        (move-5-w north wbbbw) (move-5-w south wbbbw) (move-5-w east wbbbw) (move-5-w west wbbbw)
-        (split-4-w north wbbb w) (split-4-w south wbbb w) (split-4-w east wbbb w) (split-4-w west wbbb w)
-        (split-3-f north wbb bw) (split-3-f south wbb bw) (split-3-f east wbb bw) (split-3-f west wbb bw)
-        (split-2-f north wb bbw) (split-2-f south wb bbw) (split-2-f east wb bbw) (split-2-f west wb bbw)
-        (split-1-f north w bbbw) (split-1-f south w bbbw) (split-1-f east w bbbw) (split-1-f west w bbbw)
-     )
-  )
-  (piece
-     (name wbbbb)
-     (image White "../Images/focus/CheckerWhite.bmp" "../Images/focus/wbbbb.bmp")
-     (moves
-        (move-5-w north wbbbb) (move-5-w south wbbbb) (move-5-w east wbbbb) (move-5-w west wbbbb)
-        (split-4-f north wbbb b) (split-4-f south wbbb b) (split-4-f east wbbb b) (split-4-f west wbbb b)
-        (split-3-f north wbb bb) (split-3-f south wbb bb) (split-3-f east wbb bb) (split-3-f west wbb bb)
-        (split-2-f north wb bbb) (split-2-f south wb bbb) (split-2-f east wb bbb) (split-2-f west wb bbb)
-        (split-1-f north w bbbb) (split-1-f south w bbbb) (split-1-f east w bbbb) (split-1-f west w bbbb)
-     )
-  )
-  (piece
-     (name bwwww)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bwwww.bmp")
-     (moves
-        (move-5-b north bwwww) (move-5-b south bwwww) (move-5-b east bwwww) (move-5-b west bwwww)
-        (split-4-s north bwww w) (split-4-s south bwww w) (split-4-s east bwww w) (split-4-s west bwww w)
-        (split-3-s north bww ww) (split-3-s south bww ww) (split-3-s east bww ww) (split-3-s west bww ww)
-        (split-2-s north bw www) (split-2-s south bw www) (split-2-s east bw www) (split-2-s west bw www)
-        (split-1-s north b wwww) (split-1-s south b wwww) (split-1-s east b wwww) (split-1-s west b wwww)
-     )
-  )
-  (piece
-     (name bwwwb)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bwwwb.bmp")
-     (moves
-        (move-5-b north bwwwb) (move-5-b south bwwwb) (move-5-b east bwwwb) (move-5-b west bwwwb)
-        (split-4-b north bwww b) (split-4-b south bwww b) (split-4-b east bwww b) (split-4-b west bwww b)
-        (split-3-s north bww wb) (split-3-s south bww wb) (split-3-s east bww wb) (split-3-s west bww wb)
-        (split-2-s north bw wwb) (split-2-s south bw wwb) (split-2-s east bw wwb) (split-2-s west bw wwb)
-        (split-1-s north b wwwb) (split-1-s south b wwwb) (split-1-s east b wwwb) (split-1-s west b wwwb)
-     )
-  )
-  (piece
-     (name bwwbw)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bwwbw.bmp")
-     (moves
-        (move-5-b north bwwbw) (move-5-b south bwwbw) (move-5-b east bwwbw) (move-5-b west bwwbw)
-        (split-4-s north bwwb w) (split-4-s south bwwb w) (split-4-s east bwwb w) (split-4-s west bwwb w)
-        (split-3-b north bww bw) (split-3-b south bww bw) (split-3-b east bww bw) (split-3-b west bww bw)
-        (split-2-s north bw wbw) (split-2-s south bw wbw) (split-2-s east bw wbw) (split-2-s west bw wbw)
-        (split-1-s north b wwbw) (split-1-s south b wwbw) (split-1-s east b wwbw) (split-1-s west b wwbw)
-     )
-  )
-  (piece
-     (name bwwbb)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bwwbb.bmp")
-     (moves
-        (move-5-b north bwwbb) (move-5-b south bwwbb) (move-5-b east bwwbb) (move-5-b west bwwbb)
-        (split-4-b north bwwb b) (split-4-b south bwwb b) (split-4-b east bwwb b) (split-4-b west bwwb b)
-        (split-3-b north bww bb) (split-3-b south bww bb) (split-3-b east bww bb) (split-3-b west bww bb)
-        (split-2-s north bw wbb) (split-2-s south bw wbb) (split-2-s east bw wbb) (split-2-s west bw wbb)
-        (split-1-s north b wwbb) (split-1-s south b wwbb) (split-1-s east b wwbb) (split-1-s west b wwbb)
-     )
-  )
-  (piece
-     (name bwbww)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bwbww.bmp")
-     (moves
-        (move-5-b north bwbww) (move-5-b south bwbww) (move-5-b east bwbww) (move-5-b west bwbww)
-        (split-4-s north bwbw w) (split-4-s south bwbw w) (split-4-s east bwbw w) (split-4-s west bwbw w)
-        (split-3-s north bwb ww) (split-3-s south bwb ww) (split-3-s east bwb ww) (split-3-s west bwb ww)
-        (split-2-b north bw bww) (split-2-b south bw bww) (split-2-b east bw bww) (split-2-b west bw bww)
-        (split-1-s north b wbww) (split-1-s south b wbww) (split-1-s east b wbww) (split-1-s west b wbww)
-     )
-  )
-  (piece
-     (name bwbwb)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bwbwb.bmp")
-     (moves
-        (move-5-b north bwbwb) (move-5-b south bwbwb) (move-5-b east bwbwb) (move-5-b west bwbwb)
-        (split-4-b north bwbw b) (split-4-b south bwbw b) (split-4-b east bwbw b) (split-4-b west bwbw b)
-        (split-3-s north bwb wb) (split-3-s south bwb wb) (split-3-s east bwb wb) (split-3-s west bwb wb)
-        (split-2-b north bw bwb) (split-2-b south bw bwb) (split-2-b east bw bwb) (split-2-b west bw bwb)
-        (split-1-s north b wbwb) (split-1-s south b wbwb) (split-1-s east b wbwb) (split-1-s west b wbwb)
-     )
-  )
-  (piece
-     (name bwbbw)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bwbbw.bmp")
-     (moves
-        (move-5-b north bwbbw) (move-5-b south bwbbw) (move-5-b east bwbbw) (move-5-b west bwbbw)
-        (split-4-s north bwbb w) (split-4-s south bwbb w) (split-4-s east bwbb w) (split-4-s west bwbb w)
-        (split-3-b north bwb bw) (split-3-b south bwb bw) (split-3-b east bwb bw) (split-3-b west bwb bw)
-        (split-2-b north bw bbw) (split-2-b south bw bbw) (split-2-b east bw bbw) (split-2-b west bw bbw)
-        (split-1-s north b wbbw) (split-1-s south b wbbw) (split-1-s east b wbbw) (split-1-s west b wbbw)
-     )
-  )
-  (piece
-     (name bwbbb)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bwbbb.bmp")
-     (moves
-        (move-5-b north bwbbb) (move-5-b south bwbbb) (move-5-b east bwbbb) (move-5-b west bwbbb)
-        (split-4-b north bwbb b) (split-4-b south bwbb b) (split-4-b east bwbb b) (split-4-b west bwbb b)
-        (split-3-b north bwb bb) (split-3-b south bwb bb) (split-3-b east bwb bb) (split-3-b west bwb bb)
-        (split-2-b north bw bbb) (split-2-b south bw bbb) (split-2-b east bw bbb) (split-2-b west bw bbb)
-        (split-1-s north b wbbb) (split-1-s south b wbbb) (split-1-s east b wbbb) (split-1-s west b wbbb)
-     )
-  )
-  (piece
-     (name bbwww)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bbwww.bmp")
-     (moves
-        (move-5-b north bbwww) (move-5-b south bbwww) (move-5-b east bbwww) (move-5-b west bbwww)
-        (split-4-s north bbww w) (split-4-s south bbww w) (split-4-s east bbww w) (split-4-s west bbww w)
-        (split-3-s north bbw ww) (split-3-s south bbw ww) (split-3-s east bbw ww) (split-3-s west bbw ww)
-        (split-2-s north bb www) (split-2-s south bb www) (split-2-s east bb www) (split-2-s west bb www)
-        (split-1-b north b bwww) (split-1-b south b bwww) (split-1-b east b bwww) (split-1-b west b bwww)
-     )
-  )
-  (piece
-     (name bbwwb)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bbwwb.bmp")
-     (moves
-        (move-5-b north bbwwb) (move-5-b south bbwwb) (move-5-b east bbwwb) (move-5-b west bbwwb)
-        (split-4-b north bbww b) (split-4-b south bbww b) (split-4-b east bbww b) (split-4-b west bbww b)
-        (split-3-s north bbw wb) (split-3-s south bbw wb) (split-3-s east bbw wb) (split-3-s west bbw wb)
-        (split-2-s north bb wwb) (split-2-s south bb wwb) (split-2-s east bb wwb) (split-2-s west bb wwb)
-        (split-1-b north b bwwb) (split-1-b south b bwwb) (split-1-b east b bwwb) (split-1-b west b bwwb)
-     )
-  )
-  (piece
-     (name bbwbw)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bbwbw.bmp")
-     (moves
-        (move-5-b north bbwbw) (move-5-b south bbwbw) (move-5-b east bbwbw) (move-5-b west bbwbw)
-        (split-4-s north bbwb w) (split-4-s south bbwb w) (split-4-s east bbwb w) (split-4-s west bbwb w)
-        (split-3-b north bbw bw) (split-3-b south bbw bw) (split-3-b east bbw bw) (split-3-b west bbw bw)
-        (split-2-s north bb wbw) (split-2-s south bb wbw) (split-2-s east bb wbw) (split-2-s west bb wbw)
-        (split-1-b north b bwbw) (split-1-b south b bwbw) (split-1-b east b bwbw) (split-1-b west b bwbw)
-     )
-  )
-  (piece
-     (name bbwbb)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bbwbb.bmp")
-     (moves
-        (move-5-b north bbwbb) (move-5-b south bbwbb) (move-5-b east bbwbb) (move-5-b west bbwbb)
-        (split-4-b north bbwb b) (split-4-b south bbwb b) (split-4-b east bbwb b) (split-4-b west bbwb b)
-        (split-3-b north bbw bb) (split-3-b south bbw bb) (split-3-b east bbw bb) (split-3-b west bbw bb)
-        (split-2-s north bb wbb) (split-2-s south bb wbb) (split-2-s east bb wbb) (split-2-s west bb wbb)
-        (split-1-b north b bwbb) (split-1-b south b bwbb) (split-1-b east b bwbb) (split-1-b west b bwbb)
-     )
-  )
-  (piece
-     (name bbbww)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bbbww.bmp")
-     (moves
-        (move-5-b north bbbww) (move-5-b south bbbww) (move-5-b east bbbww) (move-5-b west bbbww)
-        (split-4-s north bbbw w) (split-4-s south bbbw w) (split-4-s east bbbw w) (split-4-s west bbbw w)
-        (split-3-s north bbb ww) (split-3-s south bbb ww) (split-3-s east bbb ww) (split-3-s west bbb ww)
-        (split-2-b north bb bww) (split-2-b south bb bww) (split-2-b east bb bww) (split-2-b west bb bww)
-        (split-1-b north b bbww) (split-1-b south b bbww) (split-1-b east b bbww) (split-1-b west b bbww)
-     )
-  )
-  (piece
-     (name bbbwb)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bbbwb.bmp")
-     (moves
-        (move-5-b north bbbwb) (move-5-b south bbbwb) (move-5-b east bbbwb) (move-5-b west bbbwb)
-        (split-4-b north bbbw b) (split-4-b south bbbw b) (split-4-b east bbbw b) (split-4-b west bbbw b)
-        (split-3-s north bbb wb) (split-3-s south bbb wb) (split-3-s east bbb wb) (split-3-s west bbb wb)
-        (split-2-b north bb bwb) (split-2-b south bb bwb) (split-2-b east bb bwb) (split-2-b west bb bwb)
-        (split-1-b north b bbwb) (split-1-b south b bbwb) (split-1-b east b bbwb) (split-1-b west b bbwb)
-     )
-  )
-  (piece
-     (name bbbbw)
-     (image Black "../Images/focus/CheckerBlack.bmp" "../Images/focus/bbbbw.bmp")
-     (moves
-        (move-5-b north bbbbw) (move-5-b south bbbbw) (move-5-b east bbbbw) (move-5-b west bbbbw)
-        (split-4-s north bbbb w) (split-4-s south bbbb w) (split-4-s east bbbb w) (split-4-s west bbbb w)
-        (split-3-b north bbb bw) (split-3-b south bbb bw) (split-3-b east bbb bw) (split-3-b west bbb bw)
-        (split-2-b north bb bbw) (split-2-b south bb bbw) (split-2-b east bb bbw) (split-2-b west bb bbw)
-        (split-1-b north b bbbw) (split-1-b south b bbbw) (split-1-b east b bbbw) (split-1-b west b bbbw)
-     )
+    (White (w b2 c2 b4 c4 b6 c6 d3 e3 d5 e5 d7 e7 f2 g2 f4 g4 f6 g6 off 1))
+    (Black (b b3 c3 b5 c5 b7 c7 d2 e2 d4 e4 d6 e6 f3 g3 f5 g5 f7 g7 off 1))
   )
 )
