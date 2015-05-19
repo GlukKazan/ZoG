@@ -1,10 +1,30 @@
 (version "2.0")
 
+(define set-lock
+   (create Lock h1)
+)
+
+(define clear-lock
+   (if (not-empty? h1)
+       (capture h1)
+   )
+)
+
+(define check-lock
+   (verify (not-enemy? h1))
+)
+
+(define check-empty-lock
+   (verify (empty? h1))
+)
+
 (define capture-huff (
+   (check-empty-lock)
    (verify enemy?)
    (verify is-huff?)
-   (clear-huffs)
    (set-position-flag from? true)
+   (clear-enemy-huffs)
+   (set-lock)
    capture
    add
 ))
@@ -106,6 +126,20 @@
   back
 )
 
+(define clear-enemy-huffs
+  mark
+  a0
+  (while (on-board? next) 
+     next
+     (if enemy?
+         (if is-huff?
+             (set-attribute is-huff? false)
+         )
+     )
+  )
+  back
+)
+
 (define check-enemies
   (set-position-flag to? true)
   mark
@@ -155,10 +189,12 @@
 )
 
 (define checker-shift (
+  (check-lock)
   (set-position-flag from? true)
   $1
   (verify empty?)
   (check-enemies)
+  (clear-lock)
   (if (in-zone? promotion)
       (add King)
    else
@@ -167,10 +203,12 @@
 ))
 
 (define long-checker-shift (
+  (check-lock)
   (set-position-flag from? true)
   $1
   (verify empty?)
   (check-long-enemies)
+  (clear-lock)
   (if (in-zone? promotion)
       (add King)
    else
@@ -179,6 +217,7 @@
 ))
 
 (define checker-jump (
+  (check-lock)
   (set-position-flag from? true)
   $1
   (verify enemy?)
@@ -188,6 +227,7 @@
   (verify empty?)
   (clear-huffs)
   (check-enemies)
+  (clear-lock)
   (set-attribute is-huff? false)
   (if (in-zone? promotion)
       (add-partial King notype)
@@ -197,14 +237,17 @@
 ))
 
 (define damone-shift (
+  (check-lock)
   (set-position-flag from? true)
   $1
-  (verify empty?)
+  (verify empty?)  
   (check-enemies)
+  (clear-lock)
   add
 ))
 
 (define damone-jump (
+  (check-lock)
   (set-position-flag from? true)
   $1
   (verify enemy?)
@@ -214,6 +257,7 @@
   (verify empty?)
   (clear-huffs)
   (check-enemies)
+  (clear-lock)
   (set-attribute is-huff? false)
   (add-partial jumptype)
 ))
@@ -261,6 +305,7 @@
 )
 
 (define long-checker-jump (
+  (check-lock)
   (set-position-flag from? true)
   (verify (not captured?))    
   $1
@@ -294,6 +339,7 @@
   )
   (clear-huffs)
   (check-long-enemies)
+  (clear-lock)
   (set-attribute is-huff? false)
   (if (in-zone? promotion)
       (if (flag? more-captures)
@@ -311,6 +357,7 @@
 ))
 
 (define long-king-jump (
+  (check-lock)
   (set-position-flag from? true)
   (verify (not captured?))    
   (while (or (empty? $1) captured?)
@@ -337,6 +384,7 @@
       (if (flag? more-captures)
           (clear-huffs)
           (check-long-enemies)
+          (clear-lock)
           (set-attribute is-huff? false)
           (add-partial jumptype)
        else
@@ -353,6 +401,7 @@
           (capture-all)
           (clear-huffs)
           (check-long-enemies)
+          (clear-lock)
           (set-attribute is-huff? false)
           (add-partial notype)
       )
@@ -361,10 +410,12 @@
 ))
 
 (define king-shift (
+  (check-lock)
   (set-position-flag from? true)
   (while (empty? $1)
       $1
       (check-long-enemies)
+      (clear-lock)
       add
   )
 ))
@@ -377,6 +428,7 @@
   (capture-sound "")
 
   (option "maximal captures" false)
+  (option "pass turn"        forced)
   (option "prevent flipping" 2)
   (option "recycle captures" true)
   (option "animate captures" false)
@@ -385,10 +437,8 @@
   (players    First Second)
   (turn-order First Second)
 
-; (move-priorities capturing (jumptype normaltype))
-
   (board
-    (image "images/sultan/chess8x8.bmp" "images/wiedem/chess8x8.bmp")
+    (image "../images/sultan/chess8x8.bmp" "../images/wiedem/chess8x8.bmp")
     (grid
       (start-rectangle 5 5 54 54)
       (dimensions
@@ -411,9 +461,15 @@
   )
 
   (piece
+     (name Lock)
+     (image First "../images/other/invisible.bmp"
+            Second "../images/other/invisible.bmp")
+  )
+
+  (piece
      (name Checker)
-     (image First "images/wiedem/CheckerBlack.bmp"
-            Second "images/wiedem/CheckerWhite.bmp")
+     (image First "../images/wiedem/CheckerBlack.bmp"
+            Second "../images/wiedem/CheckerWhite.bmp")
      (attribute is-huff? false)
      (drops (move-type capturing)
             (capture-huff)
@@ -432,8 +488,8 @@
 
   (piece
      (name King)
-     (image First "images/wiedem/CheckerKingBlack.bmp"
-            Second "images/wiedem/CheckerKingWhite.bmp")
+     (image First "../images/wiedem/CheckerKingBlack.bmp"
+            Second "../images/wiedem/CheckerKingWhite.bmp")
      (attribute is-huff? false)
      (moves (move-type jumptype)
             (damone-jump nw)
@@ -457,6 +513,7 @@
   )
 
   (loss-condition (First Second) (pieces-remaining 0) )
+; (loss-condition (First Second) (and stalemated (total-piece-count 0 Lock) ) )
   (loss-condition (First Second) stalemated )
 )
 
@@ -465,8 +522,8 @@
 
   (piece
      (name Checker)
-     (image First "images/wiedem/CheckerWhite.bmp"
-            Second "images/wiedem/CheckerBlack.bmp")
+     (image First "../images/wiedem/CheckerWhite.bmp"
+            Second "../images/wiedem/CheckerBlack.bmp")
      (attribute captured? false)
      (attribute is-huff? false)
      (drops (move-type capturing)
@@ -488,8 +545,8 @@
 
   (piece
      (name King)
-     (image First "images/wiedem/CheckerKingWhite.bmp"
-            Second "images/wiedem/CheckerKingBlack.bmp")
+     (image First "../images/wiedem/CheckerKingWhite.bmp"
+            Second "../images/wiedem/CheckerKingBlack.bmp")
      (attribute captured? false)
      (attribute is-huff? false)
      (moves (move-type jumptype)
