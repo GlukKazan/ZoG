@@ -2,25 +2,26 @@
 
 (define drop-pass (
    (verify (in-zone? pass-zone))
+   capture
    add
 ))
 
 (define set-lock
-   (create Lock h1)
+   (create Lock a8)
 )
 
 (define clear-lock
-   (if (not-empty? h1)
-       (capture h1)
+   (if (not-empty? a8)
+       (capture a8)
    )
 )
 
 (define check-lock
-   (verify (not-enemy? h1))
+   (verify (not-enemy? a8))
 )
 
 (define check-empty-lock
-   (verify (empty? h1))
+   (verify (empty? a8))
 )
 
 (define capture-huff (
@@ -472,8 +473,8 @@
 
   (piece
      (name Lock)
-     (image First "../images/other/invisible.bmp"
-            Second "../images/other/invisible.bmp")
+     (image First "../images/wiedem/CheckerBlack.bmp"
+            Second "../images/wiedem/CheckerWhite.bmp")
      (drops (move-type passtype)
             (drop-pass)
      )
