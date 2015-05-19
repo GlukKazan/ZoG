@@ -1,5 +1,10 @@
 (version "2.0")
 
+(define drop-pass (
+   (verify (in-zone? pass-zone))
+   add
+))
+
 (define set-lock
    (create Lock h1)
 )
@@ -428,7 +433,7 @@
   (capture-sound "")
 
   (option "maximal captures" false)
-  (option "pass turn"        forced)
+; (option "pass turn"        forced)
   (option "prevent flipping" 2)
   (option "recycle captures" true)
   (option "animate captures" false)
@@ -458,12 +463,20 @@
     (zone (name promotion) (players Second)
           (positions a1 b1 c1 d1 e1 f1 g1 h1)
     )
+    (zone (name pass-zone) (players First Second)
+          (positions a8)
+    )
   )
+
+  (move-priorities normaltype passtype)
 
   (piece
      (name Lock)
      (image First "../images/other/invisible.bmp"
             Second "../images/other/invisible.bmp")
+     (drops (move-type passtype)
+            (drop-pass)
+     )
   )
 
   (piece
@@ -471,7 +484,7 @@
      (image First "../images/wiedem/CheckerBlack.bmp"
             Second "../images/wiedem/CheckerWhite.bmp")
      (attribute is-huff? false)
-     (drops (move-type capturing)
+     (drops (move-type normaltype)
             (capture-huff)
      )
      (moves (move-type jumptype)
@@ -479,6 +492,8 @@
             (checker-jump ne)
 
             (move-type normaltype)
+            (checker-jump nw)
+            (checker-jump ne)
             (checker-shift nw)
             (checker-shift ne)
 
@@ -498,6 +513,10 @@
             (damone-jump se)
         
             (move-type normaltype)
+            (damone-jump nw)
+            (damone-jump ne)
+            (damone-jump sw)
+            (damone-jump se)
             (damone-shift nw)
             (damone-shift ne)
             (damone-shift sw)
@@ -508,8 +527,8 @@
   )
 
   (board-setup
-    (First (Checker a1 c1 e1 g1  b2 d2 f2 h2  a3 c3 e3 g3 off 1) )
-    (Second (Checker b8 d8 f8 h8  a7 c7 e7 g7  b6 d6 f6 h6 off 1) )
+    (First (Checker a1 c1 e1 g1  b2 d2 f2 h2  a3 c3 e3 g3 off 1) (Lock off 2) )
+    (Second (Checker b8 d8 f8 h8  a7 c7 e7 g7  b6 d6 f6 h6 off 1) (Lock off 2) )
   )
 
   (loss-condition (First Second) (pieces-remaining 0) )
@@ -526,7 +545,7 @@
             Second "../images/wiedem/CheckerBlack.bmp")
      (attribute captured? false)
      (attribute is-huff? false)
-     (drops (move-type capturing)
+     (drops (move-type normaltype)
             (capture-huff)
      )
      (moves (move-type jumptype)
@@ -536,6 +555,10 @@
             (long-checker-jump se ne sw)
         
             (move-type normaltype)
+            (long-checker-jump nw sw ne)
+            (long-checker-jump ne se nw)
+            (long-checker-jump sw se nw)
+            (long-checker-jump se ne sw)
             (long-checker-shift nw)
             (long-checker-shift ne)
        
@@ -556,6 +579,10 @@
             (long-king-jump se ne sw)
         
             (move-type normaltype)
+            (long-king-jump nw sw ne)
+            (long-king-jump ne se nw)
+            (long-king-jump sw se nw)
+            (long-king-jump se ne sw)
             (king-shift ne)
             (king-shift nw)
             (king-shift se)
