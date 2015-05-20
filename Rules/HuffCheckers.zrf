@@ -209,6 +209,7 @@
 
   (move-sound "Audio/Pickup.wav")
   (release-sound "Audio/Pickup.wav")
+  (drop-sound "Audio/Pickup.wav")
   (capture-sound "")
 
   (option "maximal captures" false)
@@ -252,8 +253,8 @@
 
   (piece
      (name Lock)
-     (image First "../images/wiedem/CheckerBlack.bmp"
-            Second "../images/wiedem/CheckerWhite.bmp")
+     (image First "../images/other/pass.bmp"
+            Second "../images/other/pass.bmp")
      (drops (move-type passtype)
             (drop-pass)
      )
