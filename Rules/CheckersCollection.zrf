@@ -2133,12 +2133,737 @@
   )
 )
 
+(define drop-pass (
+   (verify (in-zone? pass-zone))
+   (verify not-empty?)
+   capture
+   add
+))
+
+(define set-lock
+   (create Lock a10)
+)
+
+(define clear-lock
+   (if (not-empty? a10)
+       (capture a10)
+   )
+)
+
+(define check-lock
+   (verify (not-enemy? a10))
+)
+
+(define check-empty-lock
+   (verify (empty? a10))
+)
+
+(define capture-huff (
+   (check-empty-lock)
+   (verify enemy?)
+   (verify is-huff?)
+   (set-position-flag from? true)
+   (clear-enemy-huffs)
+   (set-lock)
+   capture
+   add
+))
+
+(define my-friend?
+  (and 
+       (not (position-flag? from? $1))
+       (or (position-flag? to? $1)
+           (friend? $1)
+       )
+  )
+)
+
+(define my-empty?
+  (and (not (position-flag? to? $1))
+       (or (position-flag? from? $1)
+           (empty? $1)
+       )
+  )
+)
+
+(define check-huff
+  (if (and (on-board? $1) (my-friend? $1))
+      $1
+      (if (and (on-board? $1) (my-empty? $1))
+          (set-flag is-huffing? true)
+      )
+      $2
+  )
+)
+
+(define check-huff-1
+  (set-flag is-huffing? false)
+  (check-huff $1 $2)
+  (if (and (flag? is-huffing?) (not is-huff?))
+      (set-attribute is-huff? true)
+  )
+)
+
+(define check-huff-2
+  (set-flag is-huffing? false)
+  (if (and (on-board? $1) (empty? $1))
+      $1 (check-huff $1 $2) $2
+  )
+  (if (and (flag? is-huffing?) (not is-huff?))
+      (set-attribute is-huff? true)
+  )
+)
+
+(define check-huff-3
+  (set-flag is-huffing? false)
+  (if (and (on-board? $1) (empty? $1))
+      $1 (check-huff-2 $1 $2) $2
+  )
+  (if (and (flag? is-huffing?) (not is-huff?))
+      (set-attribute is-huff? true)
+  )
+)
+
+(define check-huff-4
+  (set-flag is-huffing? false)
+  (if (and (on-board? $1) (empty? $1))
+      $1 (check-huff-3 $1 $2) $2
+  )
+  (if (and (flag? is-huffing?) (not is-huff?))
+      (set-attribute is-huff? true)
+  )
+)
+
+(define check-huff-5
+  (set-flag is-huffing? false)
+  (if (and (on-board? $1) (empty? $1))
+      $1 (check-huff-4 $1 $2) $2
+  )
+  (if (and (flag? is-huffing?) (not is-huff?))
+      (set-attribute is-huff? true)
+  )
+)
+
+(define check-huff-6
+  (set-flag is-huffing? false)
+  (if (and (on-board? $1) (empty? $1))
+      $1 (check-huff-5 $1 $2) $2
+  )
+  (if (and (flag? is-huffing?) (not is-huff?))
+      (set-attribute is-huff? true)
+  )
+)
+
+(define check-huff-7
+  (set-flag is-huffing? false)
+  (if (and (on-board? $1) (empty? $1))
+      $1 (check-huff-6 $1 $2) $2
+  )
+  (if (and (flag? is-huffing?) (not is-huff?))
+      (set-attribute is-huff? true)
+  )
+)
+
+(define check-huff-8
+  (set-flag is-huffing? false)
+  (if (and (on-board? $1) (empty? $1))
+      $1 (check-huff-7 $1 $2) $2
+  )
+  (if (and (flag? is-huffing?) (not is-huff?))
+      (set-attribute is-huff? true)
+  )
+)
+
+(define clear-huffs
+  mark
+  a0
+  (while (on-board? next) 
+     next
+     (if friend?
+         (if is-huff?
+             (set-attribute is-huff? false)
+         )
+     )
+  )
+  back
+)
+
+(define clear-enemy-huffs
+  mark
+  a0
+  (while (on-board? next) 
+     next
+     (if enemy?
+         (if is-huff?
+             (set-attribute is-huff? false)
+         )
+     )
+  )
+  back
+)
+
+(define check-long-enemies
+  (set-position-flag to? true)
+  mark
+  a0
+  (while (on-board? next) 
+     next
+     (if enemy?
+         (if is-huff?
+             (set-attribute is-huff? false)
+         )
+         (check-huff-1 sw ne) (check-huff-1 se nw) 
+         (check-huff-1 ne sw) (check-huff-1 nw se)
+         (if (piece? King)
+             (check-huff-2 sw ne) (check-huff-2 se nw) 
+             (check-huff-2 ne sw) (check-huff-2 nw se)
+             (check-huff-3 sw ne) (check-huff-3 se nw) 
+             (check-huff-3 ne sw) (check-huff-3 nw se)
+             (check-huff-4 sw ne) (check-huff-4 se nw) 
+             (check-huff-4 ne sw) (check-huff-4 nw se)
+             (check-huff-5 sw ne) (check-huff-5 se nw) 
+             (check-huff-5 ne sw) (check-huff-5 nw se)
+             (check-huff-6 sw ne) (check-huff-6 se nw) 
+             (check-huff-6 ne sw) (check-huff-6 nw se)
+             (check-huff-7 sw ne) (check-huff-7 se nw) 
+             (check-huff-7 ne sw) (check-huff-7 nw se)
+             (check-huff-8 sw ne) (check-huff-8 se nw) 
+             (check-huff-8 ne sw) (check-huff-8 nw se)
+         )
+     )
+  )
+  back
+)
+
+(define checker-captured-find
+   mark
+   (if (on-board? $1)  
+      $1    
+      (if (and enemy? (empty? $1)) 
+          (set-flag more-captures true)
+      )
+   )
+   back
+)
+
+(define king-captured-find
+   mark
+   (while (and (on-board? $1) (empty? $1))
+      $1
+   )
+   (if (on-board? $1)  
+      $1    
+      (if (and enemy? (empty? $1)) 
+          (set-flag more-captures true)
+      )
+   )
+   back
+)
+
+(define king-jump-1 (
+  (check-lock)
+  (set-position-flag from? true)
+  (while (empty? $1)
+      $1
+  )
+  (verify (enemy? $1))
+  $1
+  capture
+  (set-position-flag from? true)
+  $1
+  (verify empty?)
+  (clear-huffs)
+  (clear-lock)
+  (set-flag more-captures false)
+  (king-captured-find $1)
+  (king-captured-find $2)
+  (king-captured-find $3)
+  (if (flag? more-captures)
+      (set-attribute is-huff? true)
+      (add-partial jumptype)
+   else
+      (check-long-enemies)
+      (set-attribute is-huff? false)
+      (add-partial notype)
+  )
+))
+
+(define king-jump-2 (
+  (check-lock)
+  (set-position-flag from? true)
+  (while (empty? $1)
+      $1
+  )
+  (verify (enemy? $1))
+  $1
+  capture
+  (set-position-flag from? true)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  (clear-huffs)
+  (clear-lock)
+  (set-flag more-captures false)
+  (king-captured-find $1)
+  (king-captured-find $2)
+  (king-captured-find $3)
+  (if (flag? more-captures)
+      (set-attribute is-huff? true)
+      (add-partial jumptype)
+   else
+      (check-long-enemies)
+      (set-attribute is-huff? false)
+      (add-partial notype)
+  )
+))
+
+(define king-jump-3 (
+  (check-lock)
+  (set-position-flag from? true)
+  (while (empty? $1)
+      $1
+  )
+  (verify (enemy? $1))
+  $1
+  capture
+  (set-position-flag from? true)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  (clear-huffs)
+  (clear-lock)
+  (set-flag more-captures false)
+  (king-captured-find $1)
+  (king-captured-find $2)
+  (king-captured-find $3)
+  (if (flag? more-captures)
+      (set-attribute is-huff? true)
+      (add-partial jumptype)
+   else
+      (check-long-enemies)
+      (set-attribute is-huff? false)
+      (add-partial notype)
+  )
+))
+
+(define king-jump-4 (
+  (check-lock)
+  (set-position-flag from? true)
+  (while (empty? $1)
+      $1
+  )
+  (verify (enemy? $1))
+  $1
+  capture
+  (set-position-flag from? true)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  (clear-huffs)
+  (clear-lock)
+  (set-flag more-captures false)
+  (king-captured-find $1)
+  (king-captured-find $2)
+  (king-captured-find $3)
+  (if (flag? more-captures)
+      (set-attribute is-huff? true)
+      (add-partial jumptype)
+   else
+      (check-long-enemies)
+      (set-attribute is-huff? false)
+      (add-partial notype)
+  )
+))
+
+(define king-jump-5 (
+  (check-lock)
+  (set-position-flag from? true)
+  (while (empty? $1)
+      $1
+  )
+  (verify (enemy? $1))
+  $1
+  capture
+  (set-position-flag from? true)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  (clear-huffs)
+  (clear-lock)
+  (set-flag more-captures false)
+  (king-captured-find $1)
+  (king-captured-find $2)
+  (king-captured-find $3)
+  (if (flag? more-captures)
+      (set-attribute is-huff? true)
+      (add-partial jumptype)
+   else
+      (check-long-enemies)
+      (set-attribute is-huff? false)
+      (add-partial notype)
+  )
+))
+
+(define king-jump-6 (
+  (check-lock)
+  (set-position-flag from? true)
+  (while (empty? $1)
+      $1
+  )
+  (verify (enemy? $1))
+  $1
+  capture
+  (set-position-flag from? true)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  (clear-huffs)
+  (clear-lock)
+  (set-flag more-captures false)
+  (king-captured-find $1)
+  (king-captured-find $2)
+  (king-captured-find $3)
+  (if (flag? more-captures)
+      (set-attribute is-huff? true)
+      (add-partial jumptype)
+   else
+      (check-long-enemies)
+      (set-attribute is-huff? false)
+      (add-partial notype)
+  )
+))
+
+(define king-jump-7 (
+  (check-lock)
+  (set-position-flag from? true)
+  (while (empty? $1)
+      $1
+  )
+  (verify (enemy? $1))
+  $1
+  capture
+  (set-position-flag from? true)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  (clear-huffs)
+  (clear-lock)
+  (set-flag more-captures false)
+  (king-captured-find $1)
+  (king-captured-find $2)
+  (king-captured-find $3)
+  (if (flag? more-captures)
+      (set-attribute is-huff? true)
+      (add-partial jumptype)
+   else
+      (check-long-enemies)
+      (set-attribute is-huff? false)
+      (add-partial notype)
+  )
+))
+
+(define king-jump-8 (
+  (check-lock)
+  (set-position-flag from? true)
+  (while (empty? $1)
+      $1
+  )
+  (verify (enemy? $1))
+  $1
+  capture
+  (set-position-flag from? true)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  (clear-huffs)
+  (clear-lock)
+  (set-flag more-captures false)
+  (king-captured-find $1)
+  (king-captured-find $2)
+  (king-captured-find $3)
+  (if (flag? more-captures)
+      (set-attribute is-huff? true)
+      (add-partial jumptype)
+   else
+      (check-long-enemies)
+      (set-attribute is-huff? false)
+      (add-partial notype)
+  )
+))
+
+(define king-shift-1 (
+  (check-lock)
+  (set-position-flag from? true)
+  $1
+  (verify empty?)
+  (check-long-enemies)
+  (clear-lock)
+  add
+))
+
+(define king-shift-2 (
+  (check-lock)
+  (set-position-flag from? true)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  (check-long-enemies)
+  (clear-lock)
+  add
+))
+
+(define king-shift-3 (
+  (check-lock)
+  (set-position-flag from? true)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  (check-long-enemies)
+  (clear-lock)
+  add
+))
+
+(define king-shift-4 (
+  (check-lock)
+  (set-position-flag from? true)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  (check-long-enemies)
+  (clear-lock)
+  add
+))
+
+(define king-shift-5 (
+  (check-lock)
+  (set-position-flag from? true)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  (check-long-enemies)
+  (clear-lock)
+  add
+))
+
+(define king-shift-6 (
+  (check-lock)
+  (set-position-flag from? true)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  (check-long-enemies)
+  (clear-lock)
+  add
+))
+
+(define king-shift-7 (
+  (check-lock)
+  (set-position-flag from? true)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  (check-long-enemies)
+  (clear-lock)
+  add
+))
+
+(define king-shift-8 (
+  (check-lock)
+  (set-position-flag from? true)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  (check-long-enemies)
+  (clear-lock)
+  add
+))
+
+(define king-shift-9 (
+  (check-lock)
+  (set-position-flag from? true)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  (check-long-enemies)
+  (clear-lock)
+  add
+))
+
+(define damii-checker-jump (
+  (check-lock)
+  (set-position-flag from? true)
+  $1
+  (verify enemy?)
+  (set-position-flag from? true)
+  capture
+  $1
+  (verify empty?)
+  (clear-huffs)
+  (clear-lock)
+  (set-flag more-captures false)
+  (checker-captured-find $1)
+  (checker-captured-find $2)
+  (checker-captured-find $3)
+  (if (flag? more-captures)
+      (set-attribute is-huff? true)
+   else
+      (check-long-enemies)
+      (set-attribute is-huff? false)
+  )
+  (if (in-zone? promotion)
+      (if (flag? more-captures)
+          (add-partial jumptype)
+       else
+          (add-partial King notype)
+      )
+   else
+      (if (flag? more-captures)
+          (add-partial jumptype)
+       else
+          (add-partial notype)
+      )
+  )
+))
+
+(define damii-checker-shift (
+  (check-lock)
+  (set-position-flag from? true)
+  $1
+  (verify empty?)
+  (check-long-enemies)
+  (clear-lock)
+  (if (in-zone? promotion)
+      (add King)
+   else
+      add
+  )
+))
+
 (variant
-  (title "Ghanaian Checkers")
+  (title "Damii (Ghana Draughts)")
   (description "")
   (history  "Traditional game.")
 
+  (drop-sound "Audio/Pickup.wav")
+
   (option "maximal captures" false)
+  (option "pass partial"     true)
+  (option "recycle captures" true)
+  (option "animate captures" false)
+  (option "animate drops"    false)
 
   (board
     (image "../images/sultan/chess10x10.bmp" "../images/wiedem/chess10x10.bmp")
@@ -2161,23 +2886,44 @@
     (zone (name promotion) (players Second)
           (positions a1 b1 c1 d1 e1 f1 g1 h1 i1 j1)
     )
+    (zone (name pass-zone) (players First Second)
+          (positions a10)
+    )
+  )
+
+  (move-priorities normaltype passtype)
+
+  (piece
+     (name Lock)
+     (image First "../images/other/pass.bmp"
+            Second "../images/other/pass.bmp")
+     (drops (move-type passtype)
+            (drop-pass)
+     )
   )
 
   (piece
      (name Checker)
      (image First "../images/wiedem/CheckerWhite.bmp"
             Second "../images/wiedem/CheckerBlack.bmp")
-     (attribute captured? false)
+     (attribute is-huff? false)
+     (drops (move-type normaltype)
+            (capture-huff)
+     )
      (moves
         (move-type jumptype)
-           (international-checker-jump nw sw ne)
-           (international-checker-jump ne se nw)
-           (international-checker-jump sw se nw)
-           (international-checker-jump se ne sw)
+           (damii-checker-jump nw sw ne)
+           (damii-checker-jump ne se nw)
+           (damii-checker-jump sw se nw)
+           (damii-checker-jump se ne sw)
 
         (move-type normaltype)
-           (checker-shift nw)
-           (checker-shift ne)
+           (damii-checker-jump nw sw ne)
+           (damii-checker-jump ne se nw)
+           (damii-checker-jump sw se nw)
+           (damii-checker-jump se ne sw)
+           (damii-checker-shift nw)
+           (damii-checker-shift ne)
 
         (move-type notype)
      )
@@ -2187,28 +2933,47 @@
      (name King)
      (image First "../images/wiedem/CheckerKingWhite.bmp"
             Second "../images/wiedem/CheckerKingBlack.bmp")
-     (attribute captured? false)
-     (moves
-        (move-type jumptype)
-           (long-king-jump nw sw ne)
-           (long-king-jump ne se nw)
-           (long-king-jump sw se nw)
-           (long-king-jump se ne sw)
+     (attribute is-huff? false)
+     (moves (move-type jumptype)
+            (king-jump-1 nw sw ne) (king-jump-1 ne se nw) (king-jump-1 sw se nw) (king-jump-1 se ne sw)
+            (king-jump-2 nw sw ne) (king-jump-2 ne se nw) (king-jump-2 sw se nw) (king-jump-2 se ne sw)
+            (king-jump-3 nw sw ne) (king-jump-3 ne se nw) (king-jump-3 sw se nw) (king-jump-3 se ne sw)
+            (king-jump-4 nw sw ne) (king-jump-4 ne se nw) (king-jump-4 sw se nw) (king-jump-4 se ne sw)
+            (king-jump-5 nw sw ne) (king-jump-5 ne se nw) (king-jump-5 sw se nw) (king-jump-5 se ne sw)
+            (king-jump-6 nw sw ne) (king-jump-6 ne se nw) (king-jump-6 sw se nw) (king-jump-6 se ne sw)
+            (king-jump-7 nw sw ne) (king-jump-7 ne se nw) (king-jump-7 sw se nw) (king-jump-7 se ne sw)
+            (king-jump-8 nw sw ne) (king-jump-8 ne se nw) (king-jump-8 sw se nw) (king-jump-8 se ne sw)
+        
+            (move-type  normaltype)
+            (king-jump-1 nw sw ne) (king-jump-1 ne se nw) (king-jump-1 sw se nw) (king-jump-1 se ne sw)
+            (king-jump-2 nw sw ne) (king-jump-2 ne se nw) (king-jump-2 sw se nw) (king-jump-2 se ne sw)
+            (king-jump-3 nw sw ne) (king-jump-3 ne se nw) (king-jump-3 sw se nw) (king-jump-3 se ne sw)
+            (king-jump-4 nw sw ne) (king-jump-4 ne se nw) (king-jump-4 sw se nw) (king-jump-4 se ne sw)
+            (king-jump-5 nw sw ne) (king-jump-5 ne se nw) (king-jump-5 sw se nw) (king-jump-5 se ne sw)
+            (king-jump-6 nw sw ne) (king-jump-6 ne se nw) (king-jump-6 sw se nw) (king-jump-6 se ne sw)
+            (king-jump-7 nw sw ne) (king-jump-7 ne se nw) (king-jump-7 sw se nw) (king-jump-7 se ne sw)
+            (king-jump-8 nw sw ne) (king-jump-8 ne se nw) (king-jump-8 sw se nw) (king-jump-8 se ne sw)
+            (king-shift-1 ne) (king-shift-1 nw) (king-shift-1 se) (king-shift-1 sw)
+            (king-shift-2 ne) (king-shift-2 nw) (king-shift-2 se) (king-shift-2 sw)
+            (king-shift-3 ne) (king-shift-3 nw) (king-shift-3 se) (king-shift-3 sw)
+            (king-shift-4 ne) (king-shift-4 nw) (king-shift-4 se) (king-shift-4 sw)
+            (king-shift-5 ne) (king-shift-5 nw) (king-shift-5 se) (king-shift-5 sw)
+            (king-shift-6 ne) (king-shift-6 nw) (king-shift-6 se) (king-shift-6 sw)
+            (king-shift-7 ne) (king-shift-7 nw) (king-shift-7 se) (king-shift-7 sw)
+            (king-shift-8 ne) (king-shift-8 nw) (king-shift-8 se) (king-shift-8 sw)
+            (king-shift-9 ne) (king-shift-9 nw) (king-shift-9 se) (king-shift-9 sw)
 
-        (move-type normaltype)
-           (king-shift ne)
-           (king-shift nw)
-           (king-shift se)
-           (king-shift sw)
-
-        (move-type notype)
+            (move-type notype)
      )
   )
 
   (board-setup
-    (First (Checker a1 c1 e1 g1 i1  b2 d2 f2 h2 j2  a3 c3 e3 g3 i3  b4 d4 f4 h4 j4) )
-    (Second (Checker b10 d10 f10 h10 j10  a9 c9 e9 g9 i9  b8 d8 f8 h8 j8  a7 c7 e7 g7 i7) )
+    (First (Checker a1 c1 e1 g1 i1  b2 d2 f2 h2 j2  a3 c3 e3 g3 i3  b4 d4 f4 h4 j4 off 1) (Lock off 2) )
+    (Second (Checker b10 d10 f10 h10 j10  a9 c9 e9 g9 i9  b8 d8 f8 h8 j8  a7 c7 e7 g7 i7 off 1) (Lock off 2) )
   )
+
+  (loss-condition (First Second) (pieces-remaining 1) )
+  (loss-condition (First Second) stalemated )
 )
 
 (variant
