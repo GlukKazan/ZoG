@@ -1,0 +1,156 @@
+(define drop-lock (
+   (verify enemy?)
+   (verify is-capturing?)
+   capture
+   mark a0 
+   (while (on-board? next) 
+        next
+        (if (and enemy? is-capturing?)
+            (set-attribute is-capturing? false)
+        )
+   )
+   back
+   add
+))
+
+(define check-side
+   (if (friend? $1)
+       mark $1
+       (if (friend? $1)
+           (set-flag is-accepted? false)
+           (set-position-flag is-marked? true $2)
+           (set-position-flag is-marked? true $3)
+           $1
+           (set-position-flag is-marked? true $2)
+           (set-position-flag is-marked? true $3)
+       )
+       back
+       (set-position-flag is-marked? true $2)
+       (set-position-flag is-marked? true $3)
+   )
+)
+
+(define check-middle
+   (if (and (friend? $1) (friend? $2))
+       (set-flag is-accepted? false)
+       mark
+       $1
+       (set-position-flag is-marked? true $3)
+       (set-position-flag is-marked? true $4)
+       $2 $2
+       (set-position-flag is-marked? true $3)
+       (set-position-flag is-marked? true $4)
+       back
+       (set-position-flag is-marked? true $3)
+       (set-position-flag is-marked? true $4)
+   )
+)
+
+(define drop-man (
+   (verify empty?)
+   (set-flag is-accepted? true)
+   (check-side n w e) (check-side s w e)
+   (check-side w n s) (check-side e n s)
+   (check-middle n s w e)
+   (check-middle w e n s)
+   (verify (flag? is-accepted?))
+   add
+))
+
+(define shift-man (
+   $1
+   (verify empty?)
+   (set-flag is-accepted? true)
+   (check-side $1 $2 $4)
+   (check-side $2 $3 $1)
+   (check-side $4 $1 $3)
+   (check-middle $2 $4 $1 $3)
+   (if (not-flag? is-accepted?)
+        mark a0 
+        (while (on-board? next) 
+            next
+            (if (and enemy? (position-flag? is-marked?))
+                (set-attribute is-capturing? true)
+            )
+        )
+        back
+   )
+   add
+))
+
+(game
+  (title "Bolotudu")
+  (description "")
+  (history  "Traditional game.")
+
+  (move-sound    "Audio/Pickup.wav")
+  (release-sound "Audio/Pickup.wav")
+  (drop-sound    "Audio/Pickup.wav")
+  (capture-sound "")
+
+  (option "pass turn" forced)
+  (option "recycle captures" true)
+  (option "prevent flipping" 2)
+  (option "animate captures" false)
+  (option "animate drops" false)
+
+  (players    White Black)
+  (turn-order (White droptype) (White droptype) (Black droptype) (Black droptype)
+              (White droptype) (White droptype) (Black droptype) (Black droptype)
+              (White droptype) (White droptype) (Black droptype) (Black droptype)
+              (White droptype) (White droptype) (Black droptype) (Black droptype)
+              (White droptype) (White droptype) (Black droptype) (Black droptype)
+              (White droptype) (White droptype) (Black droptype) (Black droptype)
+              repeat 
+              (White normaltype) (White capturetype)
+              (Black normaltype) (Black capturetype)
+  )
+
+  (board
+    (image "../images/sultan/bolotudu.bmp" "../images/wiedem/bolotudu.bmp")
+    (grid
+      (start-rectangle 5 5 54 54)
+      (dimensions
+        ("1/2/3/4/5/6" (49 0)) ; files
+        ("a/b/c/d/e" (0 49)) ; ranks
+      )
+      (directions (n 0 -1) (s 0 1) (e 1 0) (w -1 0) (next 0 1)) 
+    )
+    (dummy a0)
+    (links next (a0 1a) (1e 2a) (2e 3a) (3e 4a) (4e 5a) (5e 6a))
+  )
+
+  (piece
+     (name  Lock)
+     (image White "../images/wiedem/CheckerWhite.bmp"
+            Black "../images/wiedem/CheckerBlack.bmp")
+     (drops
+        (move-type capturetype)
+           (drop-lock)
+     )
+  )
+  (piece
+     (name  Man)
+     (image White "../images/wiedem/CheckerWhite.bmp"
+            Black "../images/wiedem/CheckerBlack.bmp")
+     (attribute is-capturing? false)
+     (drops
+        (move-type droptype)
+           (drop-man)
+     )
+     (moves
+        (move-type normaltype)
+           (shift-man n e s w)
+           (shift-man e s w n)
+           (shift-man s w n e)
+           (shift-man w n e s)
+     )
+  )
+
+  (board-setup
+    (White (Man off 12) (Lock off 1) )
+    (Black (Man off 12) (Lock off 1) )
+  )
+
+; (loss-condition (White Black) (pieces-remaining 2) )
+)
