@@ -1,109 +1,95 @@
-Zillions Save Game File Version 0.02 HH
+Zillions Save Game File Version 0.02 CC
 RulesFile=bolotudu.zrf
 VariantName=Bolotudu
-1. White Man 3e
-1. White Man 3d
-1. Black Man 1e
-1. Black Man 1d
-1. White Man 2e
-1. White Man 2c
-1. Black Man 2d
-1. Black Man 3c
-1. White Man 1c
-1. White Man 2b
-1. Black Man 2a
-1. Black Man 3b
-1. White Man 3a
-1. White Man 4a
-1. Black Man 5a
-1. Black Man 5b
-1. White Man 4b
-1. White Man 5c
-1. Black Man 6b
-1. Black Man 4c
-1. White Man 6c
-1. White Man 5d
-1. Black Man 4d
-1. Black Man 5e
-2. Man 3e - 4e
+1. White Man 3b x 1z
+1. White Man 2d x 2z
+1. Black Man 4c x 1x
+1. Black Man 2a x 2x
+1. White Man 5b x 3z
+1. White Man 3e x 4z
+1. Black Man 5d x 3x
+1. Black Man 4a x 4x
+1. White Man 4e x 5z
+1. White Man 2c x 6z
+1. Black Man 5a x 5x
+1. Black Man 1b x 6x
+1. White Man 1e x 1t
+1. White Man 6c x 2t
+1. Black Man 3d x 1y
+1. Black Man 6b x 2y
+1. White Man 5c x 3t
+1. White Man 6e x 4t
+1. Black Man 5e x 3y
+1. Black Man 2e x 4y
+1. White Man 6a x 5t
+1. White Man 3a x 6t
+1. Black Man 2b x 5y
+1. Black Man 3c x 6y
+2. Man 4e - 4d
 2. Pass
-2. Man 5a - 6a
+2. Man 4a - 4b
 2. Pass
-3. Man 3d - 3e @ 2d 0 1 @ 4d 0 1
-3. White Lock 2d @ 2d 0 0 @ 4d 0 0 x 2d
-3. Man 4d - 3d @ 2b 0 1 @ 2c 0 1 @ 4b 0 1
-3. Black Lock 4b @ 2b 0 0 @ 2c 0 0 @ 4b 0 0 x 4b
-4. Man 2e - 2d @ 1d 0 1 @ 3b 0 1 @ 3c 0 1 @ 3d 0 1
-4. White Lock 3b @ 1d 0 0 @ 3b 0 0 @ 3c 0 0 @ 3d 0 0 x 3b
-4. Man 4c - 4b @ 4a 0 1 @ 5c 0 1 @ 6c 0 1
-4. Black Lock 6c @ 4a 0 0 @ 5c 0 0 @ 6c 0 0 x 6c
-5. Man 3a - 3b
+3. Man 3a - 4a
+3. Pass
+3. Man 1b - 1c
+3. Pass
+4. Man 6c - 6d
+4. Pass
+4. Man 6b - 6c
+4. Pass
+5. Man 6a - 6b
 5. Pass
-5. Man 6b - 6c
+5. Man 2a - 1a
 5. Pass
-6. Man 1c - 1b @ 2a 0 1 @ 3c 0 1
-6. White Lock 3c @ 2a 0 0 @ 3c 0 0 x 3c
-6. Man 6a - 6b @ 4a 0 1 @ 5c 0 1
-6. Black Lock 4a @ 4a 0 0 @ 5c 0 0 x 4a
-7. Man 2c - 1c
+6. Man 1e - 1d
+6. Pass
+6. Man 2b - 1b @ 2c 0 1
+6. Black Lock 2c @ 2c 0 0 x 2c
+7. Man 2d - 2c
 7. Pass
-7. Man 4b - 4c
+7. Man 1b - 2b
 7. Pass
-8. Man 3b - 4b
+8. Man 1d - 2d
 8. Pass
-8. Man 3d - 4d
-8. Pass
-9. Man 1c - 2c @ 1d 0 1
-9. White Lock 1d @ 1d 0 0 x 1d
-9. Man 6c - 6d
+8. Man 2b - 1b @ 2c 0 1
+8. Black Lock 2c @ 2c 0 0 x 2c
+9. Man 2d - 2c
 9. Pass
-10. Man 4b - 3b @ 2a 0 1
-10. White Lock 2a @ 2a 0 0 x 2a
-10. Man 6b - 6c
+9. Man 1b - 2b
+9. Pass
+10. Man 4d - 4e
 10. Pass
-11. Man 2d - 2e @ 4d 0 1
-11. White Lock 4d @ 4d 0 0 x 4d
-11. Man 5b - 6b @ 5c 0 1 @ 5d 0 1
-11. Black Lock 5d @ 5c 0 0 @ 5d 0 0 x 5d
-12. Man 5c - 5d
+10. Man 2b - 1b @ 2c 0 1
+10. Black Lock 2c @ 2c 0 0 x 2c
+11. Man 6b - 6a
+11. Pass
+11. Man 1c - 2c @ 3b 0 1
+11. Black Lock 3b @ 3b 0 0 x 3b
+12. Man 4e - 4d
 12. Pass
-12. Man 6b - 5b
+12. Man 1b - 2b
 12. Pass
-13. Man 2c - 2d
+13. Man 4a - 3a
 13. Pass
-13. Man 5b - 5c @ 5d 0 1
-13. Black Lock 5d @ 5d 0 0 x 5d
-14. Man 2b - 2c @ 1e 0 1
-14. White Lock 1e @ 1e 0 0 x 1e
-14. Man 6d - 5d @ 4e 0 1
-14. Black Lock 4e @ 4e 0 0 x 4e
-15. Man 3b - 3c
+13. Man 1a - 2a @ 3a 0 1
+13. Black Lock 3a @ 3a 0 0 x 3a
+14. Man 3e - 4e
+14. Pass
+14. Man 2b - 3b @ 4d 0 1
+14. Black Lock 4d @ 4d 0 0 x 4d
+15. Man 4e - 3e
 15. Pass
-15. Man 5e - 4e
-15. Pass
-16. Man 2d - 3d @ 4c 0 1 @ 4e 0 1
-16. White Lock 4e @ 4c 0 0 @ 4e 0 0 x 4e
-16. Man 4c - 4d
+15. Man 3d - 2d @ 3e 0 1
+15. Black Lock 3e @ 3e 0 0 x 3e
+16. Man 6a - 6b
 16. Pass
-17. Man 3c - 4c
+16. Man 5d - 4d @ 5b 0 1 @ 5c 0 1
+16. Black Lock 5c @ 5b 0 0 @ 5c 0 0 x 5c
+17. Man 6d - 5d
 17. Pass
-17. Man 4d - 4e
-17. Pass
-18. Man 2c - 3c @ 4e 0 1
-18. White Lock 4e @ 4e 0 0 x 4e
-18. Man 6c - 6d
+17. Man 5e - 4e @ 5d 0 1
+17. Black Lock 5d @ 5d 0 0 x 5d
+18. Man 6e - 5e
 18. Pass
-19. Man 4c - 4d
-19. Pass
-19. Man 5d - 5e
-19. Pass
-20. Man 3e - 4e
-20. Pass
-20. Man 6d - 6c
-20. Pass
-21. Man 4d - 5d
-21. Pass
-21. Man 5c - 4c
-21. Pass
-22. Man 4e - 4d @ 4c 0 1 @ 5e 0 1
-22. White Lock 5e @ 4c 0 0 @ 5e 0 0 x 5e
+18. Man 6c - 5c @ 5b 0 1
+18. Black Lock 5b @ 5b 0 0 x 5b
