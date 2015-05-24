@@ -14,10 +14,18 @@
    add
 ))
 
+(define my-friend?
+   (and (not (position-flag? from? $1)) 
+        (friend? $1)
+   )
+)
+
 (define check-side
-   (if (and (in-zone? inner $1) (friend? $1))
+   (set-flag is-checked? false)
+   (if (and (in-zone? inner $1) (my-friend? $1))
        mark $1
-       (if (and (in-zone? inner $1) (friend? $1))
+       (if (and (in-zone? inner $1) (my-friend? $1))
+           (set-flag is-checked?  true)
            (set-flag is-accepted? false)
            (set-position-flag is-marked? true $2)
            (set-position-flag is-marked? true $3)
@@ -26,13 +34,15 @@
            (set-position-flag is-marked? true $3)
        )
        back
-       (set-position-flag is-marked? true $2)
-       (set-position-flag is-marked? true $3)
+       (if (flag? is-checked?)
+           (set-position-flag is-marked? true $2)
+           (set-position-flag is-marked? true $3)
+       )
    )
 )
 
 (define check-middle
-   (if (and (friend? $1) (friend? $2))
+   (if (and (my-friend? $1) (my-friend? $2))
        (set-flag is-accepted? false)
        mark
        $1
@@ -70,8 +80,10 @@
 ))
 
 (define shift-man (
+   (set-position-flag from? true)
    (verify (in-zone? inner))
    $1
+   (verify (in-zone? inner))
    (verify empty?)
    (set-flag is-accepted? true)
    (check-side $1 $2 $4)
