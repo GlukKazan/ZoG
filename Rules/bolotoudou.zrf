@@ -15,16 +15,17 @@
 ))
 
 (define my-friend?
-   (and (not (position-flag? from? $1)) 
+   (and (in-zone? inner $1)
+        (not (position-flag? from? $1)) 
         (friend? $1)
    )
 )
 
 (define check-side
    (set-flag is-checked? false)
-   (if (and (in-zone? inner $1) (my-friend? $1))
+   (if (my-friend? $1)
        mark $1
-       (if (and (in-zone? inner $1) (my-friend? $1))
+       (if (my-friend? $1)
            (set-flag is-checked?  true)
            (set-flag is-accepted? false)
            (set-position-flag is-marked? true $2)
@@ -104,7 +105,7 @@
 ))
 
 (game
-  (title "Bolotudu")
+  (title "Bolotoudou")
   (description "")
   (history  "Traditional game.")
 
