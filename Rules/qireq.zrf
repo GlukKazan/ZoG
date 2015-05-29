@@ -20,6 +20,38 @@
     )
 ))
 
+(define man-captured-find
+   mark
+   (if (on-board? $1)  
+      $1    
+      (if (and enemy? (empty? $1)) 
+          (set-flag more-captures true)
+      )
+   )
+   back
+)
+
+(define man-jump-with-check (
+    $1 (verify enemy?) 
+    capture 
+    $1 (verify empty?)
+    (if (in-zone? promotion-zone)
+        (set-flag more-captures false)
+        (man-captured-find $2)
+        (man-captured-find $3)
+        (man-captured-find $4)
+        (man-captured-find $5)
+        (man-captured-find $6)
+        (if (flag? more-captures)
+            (add-partial jumptype)
+         else
+            (add Mullah)
+        )
+     else
+        (add-partial jumptype)
+    )
+))
+
 (define mullah-slide (
     $1 
     (while empty? 
@@ -185,6 +217,65 @@
                   (man-jump e)
                   (man-jump w)
                   (man-jump s)
+	)
+    )
+)
+
+(variant
+    (title "Qireq (Fetaix) III")
+
+    (piece
+        (name Man)
+        (image White "../images/MedievalAlquerque/RChecker.bmp"
+               Black "../images/MedievalAlquerque/BChecker.bmp")
+	(help "")
+        (description "")
+
+	(moves
+            (move-type normaltype)
+                  (man-shift ne)
+                  (man-shift nw)
+                  (man-shift n)	
+                  (man-shift e)
+                  (man-shift w)			
+
+            (move-type jumptype)
+                  (man-jump-with-check ne e w e w e)
+                  (man-jump-with-check nw e w e w e)
+                  (man-jump-with-check n  e w e w e)
+                  (man-jump-with-check e  e w e w e)
+                  (man-jump-with-check w  e w e w e)
+	)
+    )
+)
+
+(variant
+    (title "Qireq (Fetaix) IV")
+
+    (piece
+        (name Man)
+        (image White "../images/MedievalAlquerque/RChecker.bmp"
+               Black "../images/MedievalAlquerque/BChecker.bmp")
+	(help "")
+        (description "")
+
+	(moves
+            (move-type normaltype)
+                  (man-shift ne)
+                  (man-shift nw)
+                  (man-shift n)	
+                  (man-shift e)
+                  (man-shift w)			
+
+            (move-type jumptype)
+                  (man-jump-with-check ne e w se sw s)
+                  (man-jump-with-check nw e w se sw s)
+                  (man-jump-with-check se e w se sw s)
+                  (man-jump-with-check sw e w se sw s)
+                  (man-jump-with-check n  e w se sw s)
+                  (man-jump-with-check e  e w se sw s)
+                  (man-jump-with-check w  e w se sw s)
+                  (man-jump-with-check s  e w se sw s)
 	)
     )
 )
