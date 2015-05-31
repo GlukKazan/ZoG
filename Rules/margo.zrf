@@ -1,0 +1,152 @@
+(define de-1 (
+   (verify (on-board? e))
+   (verify (on-board? s))
+   (verify (in-zone? empty-plane))
+   (verify empty?)
+   (verify (empty? e))
+   (verify (empty? s))
+   (verify (empty? se))
+   (create tile-1)
+   (create tile-2 e)
+   (create tile-3 se)
+   (create tile-4 s)
+   add
+))
+
+(define de-2 (
+   (verify (on-board? w))
+   (verify (on-board? s))
+   (verify (in-zone? empty-plane w)) 
+   (verify empty?)
+   (verify (empty? w))
+   (verify (empty? s))
+   (verify (empty? sw))
+   (create tile-1 w)
+   (create tile-2)
+   (create tile-3 s)
+   (create tile-4 sw)
+   add
+))
+
+(define de-3 (
+   (verify (on-board? w))
+   (verify (on-board? n))
+   (verify (in-zone? empty-plane nw)) 
+   (verify empty?)
+   (verify (empty? n))
+   (verify (empty? w))
+   (verify (empty? nw))
+   (create tile-1 nw)
+   (create tile-2 n)
+   (create tile-3)
+   (create tile-4 w)
+   add
+))
+
+(define de-4 (
+   (verify (on-board? e))
+   (verify (on-board? n))
+   (verify (in-zone? empty-plane n)) 
+   (verify empty?)
+   (verify (empty? e))
+   (verify (empty? n))
+   (verify (empty? ne))
+   (create tile-1 n)
+   (create tile-2 ne)
+   (create tile-3 e)
+   (create tile-4)
+   add
+))
+
+(game 
+   (title "MarGo board")
+
+   (drop-sound    "Audio/Pickup.wav")
+   (capture-sound "")
+
+   (option "recycle captures" true)
+   (option "animate drops"    false)
+   (option "animate captures" false)
+
+   (players    White Black)
+   (turn-order White Black)
+
+   (board
+      (image "../images/margo/board.bmp")
+      (grid   ;main playing board
+         (start-rectangle 30 36 59 71)
+         (dimensions
+             ("a/b/c/d/e/f/g/h/i/j/k/l/m/n" (30 0)) ; files
+             ("14/13/12/11/10/9/8/7/6/5/4/3/2/1" (0 36)) ; ranks
+             ("I/II/III/IV" (1600 0))  ;layers
+         )
+         (directions (n   0 -1 0) (e  1  0 0) (s  0  1 0) (w -1 0 0)
+                     (nw -1 -1 0) (ne 1 -1 0) (sw -1 1 0) (se 1 1 0)
+                     (u 0 0 1)
+         )
+      )
+      (zone (name empty-plane) (players White Black)
+            (positions a2I a4I a6I a8I a10I a12I a14I
+                       c2I c4I c6I c8I c10I c12I c14I
+                       e2I e4I e6I e8I e10I e12I e14I
+                       g2I g4I g6I g8I g10I g12I g14I
+                       i2I i4I i6I i8I i10I i12I i14I
+                       k2I k4I k6I k8I k10I k12I k14I
+                       m2I m4I m6I m8I m10I m12I m14I
+            )
+      )
+      (zone (name plane) (players White Black)
+            (positions a1I a2I a3I a4I a5I a6I a7I a8I a9I a10I a11I a12I a13I a14I
+                       b1I b2I b3I b4I b5I b6I b7I b8I b9I b10I b11I b12I b13I b14I
+                       c1I c2I c3I c4I c5I c6I c7I c8I c9I c10I c11I c12I c13I c14I
+                       d1I d2I d3I d4I d5I d6I d7I d8I d9I d10I d11I d12I d13I d14I
+                       e1I e2I e3I e4I e5I e6I e7I e8I e9I e10I e11I e12I e13I e14I
+                       f1I f2I f3I f4I f5I f6I f7I f8I f9I f10I f11I f12I f13I f14I
+                       g1I g2I g3I g4I g5I g6I g7I g8I g9I g10I g11I g12I g13I g14I
+                       h1I h2I h3I h4I h5I h6I h7I h8I h9I h10I h11I h12I h13I h14I
+                       i1I i2I i3I i4I i5I i6I i7I i8I i9I i10I i11I i12I i13I i14I
+                       j1I j2I j3I j4I j5I j6I j7I j8I j9I j10I j11I j12I j13I j14I
+                       k1I k2I k3I k4I k5I k6I k7I k8I k9I k10I k11I k12I k13I k14I
+                       l1I l2I l3I l4I l5I l6I l7I l8I l9I l10I l11I l12I l13I l14I
+                       m1I m2I m3I m4I m5I m6I m7I m8I m9I m10I m11I m12I m13I m14I
+                       n1I n2I n3I n4I n5I n6I n7I n8I n9I n10I n11I n12I n13I n14I
+            )
+      )
+   )
+
+   (piece
+      (name  Mark)
+      (image White "../images/margo/m.bmp"
+             Black "../images/margo/m.bmp")
+      (drops (de-1)
+             (de-2)
+             (de-3)
+             (de-4)
+      )
+   )
+   (piece
+      (name  tile-1)
+      (image White "../images/margo/w1.bmp"
+             Black "../images/margo/b1.bmp")
+   )
+   (piece
+      (name  tile-2)
+      (image White "../images/margo/w2.bmp"
+             Black "../images/margo/b2.bmp")
+   )
+   (piece
+      (name  tile-3)
+      (image White "../images/margo/w3.bmp"
+             Black "../images/margo/b3.bmp")
+   )
+   (piece
+      (name  tile-4)
+      (image White "../images/margo/w4.bmp"
+             Black "../images/margo/b4.bmp")
+   )
+
+   (board-setup
+      (White (Mark off 1) )
+      (Black (Mark off 1) )
+   )
+)
