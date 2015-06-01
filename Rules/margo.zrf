@@ -1,58 +1,32 @@
-(define pre-check-3
-   (verify (on-board? $1))
-   (verify (on-board? $2))
-   (verify (in-zone? $3))
-)
-
-(define pre-check-4
-   (verify (on-board? $1))
-   (verify (on-board? $2))
-   (verify (in-zone? $3 $4))
-)
-
-(define check-p
-   (verify (piece? tile-$1))
-   (verify (piece? tile-$2 $3))
-   (verify (piece? tile-$4 $5))
-   (verify (piece? tile-$6 $7))
-)
-
-(define check-e
-   (verify empty?)
-   (verify (empty? $1))
-   (verify (empty? $2))
-   (verify (empty? $3))
-)
-
-(define post-action
-   (create tile-$1)
-   (create tile-$2 $2)
-   (create tile-$3 $4)
-   (create tile-$5 $6)
-   add
-)
-
 (define dp-nw (
    (pre-check-3 e s plane)
    (check-p se sw e nw se ne s)
+   (check-d s e)
+   (pre-action s e)
    (post-action nw se ne e sw s)
 ))
 
 (define dp-ne (
    (pre-check-4 w s plane w)
    (check-p sw se w nw s ne sw)
+   (check-d s w)
+   (pre-action s w)
    (post-action ne sw nw w se s)
 ))
 
 (define dp-se (
    (pre-check-4 w n plane nw)
    (check-p nw sw n ne w se nw)
+   (check-d n w)
+   (pre-action n w)
    (post-action se nw ne n sw w)
 ))
 
 (define dp-sw (
    (pre-check-4 e n plane n)
    (check-p ne nw e se n sw ne)
+   (check-d n e)
+   (pre-action n e)
    (post-action sw ne nw n se e)
 ))
 
@@ -80,6 +54,105 @@
    (post-action sw ne nw n se e)
 ))
 
+(define pre-check-3
+   (verify (on-board? $1))
+   (verify (on-board? $2))
+   (verify (in-zone? $3))
+)
+
+(define pre-check-4
+   (verify (on-board? $1))
+   (verify (on-board? $2))
+   (verify (in-zone? $3 $4))
+)
+
+(define check-p
+   (verify (piece? t-$1))
+   (verify (piece? t-$2 $3))
+   (verify (piece? t-$4 $5))
+   (verify (piece? t-$6 $7))
+)
+
+(define check-e
+   (verify empty?)
+   (verify (empty? $1))
+   (verify (empty? $2))
+   (verify (empty? $3))
+)
+
+(define post-action
+   (create t-$1)
+   (create t-$2 $2)
+   (create t-$3 $4)
+   (create t-$5 $6)
+   add
+)
+
+(define check-d
+   mark
+   u
+   (while not-empty?
+       (verify (not-empty? $1))
+       (verify (not-empty? $2))
+       (verify (not-empty? $1$2))
+       u
+   )
+   (verify (empty? $1))
+   (verify (empty? $2))
+   (verify (empty? $1$2))
+   back
+)
+
+(define pre-action
+   mark
+   (copy-p t-nw)
+   (copy-p t-ne)
+   (copy-p t-sw)
+   (copy-p t-se)
+   back $1
+   (copy-p t-nw)
+   (copy-p t-ne)
+   (copy-p t-sw)
+   (copy-p t-se)
+   back $2
+   (copy-p t-nw)
+   (copy-p t-ne)
+   (copy-p t-sw)
+   (copy-p t-se)
+   back $1$2
+   (copy-p t-nw)
+   (copy-p t-ne)
+   (copy-p t-sw)
+   (copy-p t-se)
+   back
+)
+
+(define copy-d
+   u
+   (while not-empty? u)
+   (verify empty?)
+   (create $1 $2)
+)
+
+(define copy-p
+   (if (piece? $1)
+       (if (in-zone? im a1I)
+           (if friend?
+               (copy-d W $1)
+            else
+               (copy-d B $1)
+           )
+       )
+       (if (in-zone? im a2I)
+           (if friend?
+               (copy-d B $1)
+            else
+               (copy-d W $1)
+           )
+       )
+   )
+)
+
 (game 
    (title "MarGo board")
 
@@ -90,8 +163,8 @@
    (option "animate drops"    false)
    (option "animate captures" false)
 
-   (players    White Black)
-   (turn-order White Black)
+   (players    W B)
+   (turn-order W B)
 
    (board
       (image "../images/margo/board.bmp")
@@ -100,14 +173,20 @@
          (dimensions
              ("a/b/c/d/e/f/g/h/i/j/k/l/m/n" (30 0)) ; files
              ("14/13/12/11/10/9/8/7/6/5/4/3/2/1" (0 36)) ; ranks
-             ("I/II/III/IV" (1600 0))  ;layers
+             ("I/II/III/IV/V/VI/VII" (1600 0))  ;layers
          )
          (directions (n   0 -1 0) (e  1  0 0) (s  0  1 0) (w -1 0 0)
                      (nw -1 -1 0) (ne 1 -1 0) (sw -1 1 0) (se 1 1 0)
                      (u 0 0 1)
          )
       )
-      (zone (name empty-plane) (players White Black)
+      (zone (name im) (players W)
+            (positions a1I)
+      )
+      (zone (name im) (players B)
+            (positions a2I)
+      )
+      (zone (name empty-plane) (players W B)
             (positions a2I a4I a6I a8I a10I a12I a14I
                        c2I c4I c6I c8I c10I c12I c14I
                        e2I e4I e6I e8I e10I e12I e14I
@@ -117,7 +196,7 @@
                        m2I m4I m6I m8I m10I m12I m14I
             )
       )
-      (zone (name plane) (players White Black)
+      (zone (name plane) (players W B)
             (positions a1I a2I a3I a4I a5I a6I a7I a8I a9I a10I a11I a12I a13I a14I
                        b1I b2I b3I b4I b5I b6I b7I b8I b9I b10I b11I b12I b13I b14I
                        c1I c2I c3I c4I c5I c6I c7I c8I c9I c10I c11I c12I c13I c14I
@@ -137,9 +216,9 @@
    )
 
    (piece
-      (name  Mark)
-      (image White "../images/margo/m.bmp"
-             Black "../images/margo/m.bmp")
+      (name  M)
+      (image W "../images/margo/m.bmp"
+             B "../images/margo/m.bmp")
       (drops (de-nw) (dp-nw)
              (de-ne) (dp-ne)
              (de-se) (dp-se)
@@ -147,28 +226,28 @@
       )
    )
    (piece
-      (name  tile-nw)
-      (image White "../images/margo/w-nw.bmp"
-             Black "../images/margo/b-nw.bmp")
+      (name  t-nw)
+      (image W "../images/margo/w-nw.bmp"
+             B "../images/margo/b-nw.bmp")
    )
    (piece
-      (name  tile-ne)
-      (image White "../images/margo/w-ne.bmp"
-             Black "../images/margo/b-ne.bmp")
+      (name  t-ne)
+      (image W "../images/margo/w-ne.bmp"
+             B "../images/margo/b-ne.bmp")
    )
    (piece
-      (name  tile-se)
-      (image White "../images/margo/w-se.bmp"
-             Black "../images/margo/b-se.bmp")
+      (name  t-se)
+      (image W "../images/margo/w-se.bmp"
+             B "../images/margo/b-se.bmp")
    )
    (piece
-      (name  tile-sw)
-      (image White "../images/margo/w-sw.bmp"
-             Black "../images/margo/b-sw.bmp")
+      (name  t-sw)
+      (image W "../images/margo/w-sw.bmp"
+             B "../images/margo/b-sw.bmp")
    )
 
    (board-setup
-      (White (Mark off 1) )
-      (Black (Mark off 1) )
+      (W (M off 1) )
+      (B (M off 1) )
    )
 )
