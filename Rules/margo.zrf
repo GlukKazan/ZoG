@@ -1,61 +1,83 @@
-(define de-1 (
-   (verify (on-board? e))
-   (verify (on-board? s))
-   (verify (in-zone? empty-plane))
+(define pre-check-3
+   (verify (on-board? $1))
+   (verify (on-board? $2))
+   (verify (in-zone? $3))
+)
+
+(define pre-check-4
+   (verify (on-board? $1))
+   (verify (on-board? $2))
+   (verify (in-zone? $3 $4))
+)
+
+(define check-p
+   (verify (piece? tile-$1))
+   (verify (piece? tile-$2 $3))
+   (verify (piece? tile-$4 $5))
+   (verify (piece? tile-$6 $7))
+)
+
+(define check-e
    (verify empty?)
-   (verify (empty? e))
-   (verify (empty? s))
-   (verify (empty? se))
-   (create tile-1)
-   (create tile-2 e)
-   (create tile-3 se)
-   (create tile-4 s)
+   (verify (empty? $1))
+   (verify (empty? $2))
+   (verify (empty? $3))
+)
+
+(define post-action
+   (create tile-$1)
+   (create tile-$2 $2)
+   (create tile-$3 $4)
+   (create tile-$5 $6)
    add
+)
+
+(define dp-nw (
+   (pre-check-3 e s plane)
+   (check-p se sw e nw se ne s)
+   (post-action nw se ne e sw s)
 ))
 
-(define de-2 (
-   (verify (on-board? w))
-   (verify (on-board? s))
-   (verify (in-zone? empty-plane w)) 
-   (verify empty?)
-   (verify (empty? w))
-   (verify (empty? s))
-   (verify (empty? sw))
-   (create tile-1 w)
-   (create tile-2)
-   (create tile-3 s)
-   (create tile-4 sw)
-   add
+(define dp-ne (
+   (pre-check-4 w s plane w)
+   (check-p sw se w nw s ne sw)
+   (post-action ne sw nw w se s)
 ))
 
-(define de-3 (
-   (verify (on-board? w))
-   (verify (on-board? n))
-   (verify (in-zone? empty-plane nw)) 
-   (verify empty?)
-   (verify (empty? n))
-   (verify (empty? w))
-   (verify (empty? nw))
-   (create tile-1 nw)
-   (create tile-2 n)
-   (create tile-3)
-   (create tile-4 w)
-   add
+(define dp-se (
+   (pre-check-4 w n plane nw)
+   (check-p nw sw n ne w se nw)
+   (post-action se nw ne n sw w)
 ))
 
-(define de-4 (
-   (verify (on-board? e))
-   (verify (on-board? n))
-   (verify (in-zone? empty-plane n)) 
-   (verify empty?)
-   (verify (empty? e))
-   (verify (empty? n))
-   (verify (empty? ne))
-   (create tile-1 n)
-   (create tile-2 ne)
-   (create tile-3 e)
-   (create tile-4)
-   add
+(define dp-sw (
+   (pre-check-4 e n plane n)
+   (check-p ne nw e se n sw ne)
+   (post-action sw ne nw n se e)
+))
+
+(define de-nw (
+   (pre-check-3 e s empty-plane)
+   (check-e e s se)
+   (post-action nw se ne e sw s)
+))                          
+
+(define de-ne (
+   (pre-check-4 w s empty-plane w)
+   (check-e w s sw)
+   (post-action ne sw nw w se s)
+))
+
+(define de-se (
+   (pre-check-4 w n empty-plane nw)
+   (check-e n w nw)
+   (post-action se nw ne n sw w)
+))
+
+(define de-sw (
+   (pre-check-4 e n empty-plane n)
+   (check-e e n ne)
+   (post-action sw ne nw n se e)
 ))
 
 (game 
@@ -118,31 +140,31 @@
       (name  Mark)
       (image White "../images/margo/m.bmp"
              Black "../images/margo/m.bmp")
-      (drops (de-1)
-             (de-2)
-             (de-3)
-             (de-4)
+      (drops (de-nw) (dp-nw)
+             (de-ne) (dp-ne)
+             (de-se) (dp-se)
+             (de-sw) (dp-sw)
       )
    )
    (piece
-      (name  tile-1)
-      (image White "../images/margo/w1.bmp"
-             Black "../images/margo/b1.bmp")
+      (name  tile-nw)
+      (image White "../images/margo/w-nw.bmp"
+             Black "../images/margo/b-nw.bmp")
    )
    (piece
-      (name  tile-2)
-      (image White "../images/margo/w2.bmp"
-             Black "../images/margo/b2.bmp")
+      (name  tile-ne)
+      (image White "../images/margo/w-ne.bmp"
+             Black "../images/margo/b-ne.bmp")
    )
    (piece
-      (name  tile-3)
-      (image White "../images/margo/w3.bmp"
-             Black "../images/margo/b3.bmp")
+      (name  tile-se)
+      (image White "../images/margo/w-se.bmp"
+             Black "../images/margo/b-se.bmp")
    )
    (piece
-      (name  tile-4)
-      (image White "../images/margo/w4.bmp"
-             Black "../images/margo/b4.bmp")
+      (name  tile-sw)
+      (image White "../images/margo/w-sw.bmp"
+             Black "../images/margo/b-sw.bmp")
    )
 
    (board-setup
