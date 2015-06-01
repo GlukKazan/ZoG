@@ -138,7 +138,7 @@
    (if (piece? $1)
        (if (in-zone? im a1I)
            (if friend?
-               (copy-d W $1)
+               (copy-d R $1)
             else
                (copy-d B $1)
            )
@@ -147,7 +147,7 @@
            (if friend?
                (copy-d B $1)
             else
-               (copy-d W $1)
+               (copy-d R $1)
            )
        )
    )
@@ -163,8 +163,8 @@
    (option "animate drops"    false)
    (option "animate captures" false)
 
-   (players    W B)
-   (turn-order W B)
+   (players    R B)
+   (turn-order R B)
 
    (board
       (image "../images/margo/board.bmp")
@@ -180,13 +180,13 @@
                      (u 0 0 1)
          )
       )
-      (zone (name im) (players W)
+      (zone (name im) (players R)
             (positions a1I)
       )
       (zone (name im) (players B)
             (positions a2I)
       )
-      (zone (name empty-plane) (players W B)
+      (zone (name empty-plane) (players R B)
             (positions a2I a4I a6I a8I a10I a12I a14I
                        c2I c4I c6I c8I c10I c12I c14I
                        e2I e4I e6I e8I e10I e12I e14I
@@ -196,7 +196,7 @@
                        m2I m4I m6I m8I m10I m12I m14I
             )
       )
-      (zone (name plane) (players W B)
+      (zone (name plane) (players R B)
             (positions a1I a2I a3I a4I a5I a6I a7I a8I a9I a10I a11I a12I a13I a14I
                        b1I b2I b3I b4I b5I b6I b7I b8I b9I b10I b11I b12I b13I b14I
                        c1I c2I c3I c4I c5I c6I c7I c8I c9I c10I c11I c12I c13I c14I
@@ -217,7 +217,7 @@
 
    (piece
       (name  M)
-      (image W "../images/margo/m.bmp"
+      (image R "../images/margo/m.bmp"
              B "../images/margo/m.bmp")
       (drops (de-nw) (dp-nw)
              (de-ne) (dp-ne)
@@ -227,27 +227,27 @@
    )
    (piece
       (name  t-nw)
-      (image W "../images/margo/w-nw.bmp"
+      (image R "../images/margo/w-nw.bmp"
              B "../images/margo/b-nw.bmp")
    )
    (piece
       (name  t-ne)
-      (image W "../images/margo/w-ne.bmp"
+      (image R "../images/margo/w-ne.bmp"
              B "../images/margo/b-ne.bmp")
    )
    (piece
       (name  t-se)
-      (image W "../images/margo/w-se.bmp"
+      (image R "../images/margo/w-se.bmp"
              B "../images/margo/b-se.bmp")
    )
    (piece
       (name  t-sw)
-      (image W "../images/margo/w-sw.bmp"
+      (image R "../images/margo/w-sw.bmp"
              B "../images/margo/b-sw.bmp")
    )
 
    (board-setup
-      (W (M off 1) )
+      (R (M off 1) )
       (B (M off 1) )
    )
 )
