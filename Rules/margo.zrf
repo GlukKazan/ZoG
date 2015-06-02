@@ -103,54 +103,106 @@
    back
 )
 
-(define pre-action
-   mark
-   (copy-p t-nw)
-   (copy-p t-ne)
-   (copy-p t-sw)
-   (copy-p t-se)
-   back $1
-   (copy-p t-nw)
-   (copy-p t-ne)
-   (copy-p t-sw)
-   (copy-p t-se)
-   back $2
-   (copy-p t-nw)
-   (copy-p t-ne)
-   (copy-p t-sw)
-   (copy-p t-se)
-   back $1$2
-   (copy-p t-nw)
-   (copy-p t-ne)
-   (copy-p t-sw)
-   (copy-p t-se)
-   back
+(define get-piece
+   (set-flag is-piece? false)
+   (set-flag is-black? false)
+   (set-flag is-left?  false)
+   (set-flag is-top?   false)
+   (if not-empty?
+       (set-flag is-piece? true)
+       (if (and enemy? (in-zone? im a1I))
+           (set-flag is-black? true)
+       )
+       (if (and friend? (in-zone? im a2I))
+           (set-flag is-black? true)
+       )
+       (if (or (piece? t-nw) (piece? t-ne))
+           (set-flag is-top?   true)
+       )
+       (if (or (piece? t-nw) (piece? t-sw))
+           (set-flag is-left?  true)
+       )
+   )
 )
 
-(define copy-d
+(define add-piece-type
+   (if (flag? is-top?)
+       (if (flag? is-left?)
+           (create $1 t-nw)
+        else
+           (create $1 t-ne)
+       )
+    else
+       (if (flag? is-left?)
+           (create $1 t-sw)
+        else
+           (create $1 t-se)
+       )
+   )
+)
+
+(define add-piece
+   (if (flag? is-piece?)
+       (if (flag? is-black?)
+           (add-piece-type B)
+        else
+           (add-piece-type R)
+       )
+   )
+)
+
+(define copy-piece
    u
    (while not-empty? u)
    (verify empty?)
-   (create $1 $2)
+   (add-piece)
 )
 
-(define copy-p
-   (if (piece? $1)
-       (if (in-zone? im a1I)
-           (if friend?
-               (copy-d R $1)
-            else
-               (copy-d B $1)
-           )
-       )
-       (if (in-zone? im a2I)
-           (if friend?
-               (copy-d B $1)
-            else
-               (copy-d R $1)
-           )
-       )
+(define pre-action
+   mark
+   (get-piece) (copy-piece)
+   back $1
+   (get-piece) (copy-piece)
+   back $2
+   (get-piece) (copy-piece)
+   back $1$2
+   (get-piece) (copy-piece)
+   back
+)
+
+(define clean-piece
+   (set-flag is-piece? false)
+   (while (on-board? u)
+        u
+        (if (and not-empty? (not-position-flag? is-alive?))
+             capture
+        )
    )
+   (while (and (not-in-zone? plane) 
+               (or empty? (not-position-flag? is-alive?))) 
+        d
+   )
+   (if (not-in-zone? plane)
+        (get-piece)
+        capture
+   )
+   (while (not-in-zone? plane) d)
+   (add-piece)
+)
+
+(define clean-pieces
+   mark a0
+   (while (on-board? next)
+        next
+        (if (and not-empty? (not-position-flag? is-alive?))
+            (if (empty? u)
+                 capture
+             else
+                 (clean-piece)
+            )
+        )
+   )
+   back
 )
 
 (game 
@@ -177,8 +229,13 @@
          )
          (directions (n   0 -1 0) (e  1  0 0) (s  0  1 0) (w -1 0 0)
                      (nw -1 -1 0) (ne 1 -1 0) (sw -1 1 0) (se 1 1 0)
-                     (u 0 0 1)
+                     (u 0 0  1) (d 0 0 -1) (next  0 -1 0)
          )
+      )
+      (dummy a0)
+      (links next (a0 a1I)   (a14I b1I) (b14I c1I) (c14I d1I) (d14I e1I)
+                  (e14I f1I) (f14I g1I) (g14I h1I) (h14I i1I) (i14I j1I)
+                  (j14I k1I) (k14I l1I) (l14I m1I) (m14I n1I)
       )
       (zone (name im) (players R)
             (positions a1I)
@@ -229,21 +286,25 @@
       (name  t-nw)
       (image R "../images/margo/w-nw.bmp"
              B "../images/margo/b-nw.bmp")
+      (attribute is-ko? false)
    )
    (piece
       (name  t-ne)
       (image R "../images/margo/w-ne.bmp"
              B "../images/margo/b-ne.bmp")
+      (attribute is-ko? false)
    )
    (piece
       (name  t-se)
       (image R "../images/margo/w-se.bmp"
              B "../images/margo/b-se.bmp")
+      (attribute is-ko? false)
    )
    (piece
       (name  t-sw)
       (image R "../images/margo/w-sw.bmp"
              B "../images/margo/b-sw.bmp")
+      (attribute is-ko? false)
    )
 
    (board-setup
