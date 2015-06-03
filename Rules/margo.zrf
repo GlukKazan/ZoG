@@ -173,7 +173,7 @@
 (define clean-piece
    (set-flag is-piece? false)
    d (while empty? d)
-   (while (and not-empty? (or (position-flag? is-dead?) (not-position-flag? is-alive?)))
+   (while (and not-empty? (position-flag? is-dead?))
         capture
         d
    )
@@ -193,7 +193,7 @@
    mark a0
    (while (on-board? next)
         next
-        (if (and not-empty? (or (position-flag? is-dead?) (not-position-flag? is-alive?)))
+        (if (and not-empty? (position-flag? is-dead?))
             (if (empty? b)
                  capture
              else
@@ -203,6 +203,19 @@
    )
    back
 )
+
+(define proceed-dead
+   ; TODO
+
+)
+
+(define dp-clear (
+   (verify not-empty?)
+   (set-position-flag is-dead? true)
+   (proceed-dead)
+   (clean-pieces)
+   add
+))
 
 (game 
    (title "MarGo board")
@@ -219,7 +232,7 @@
 
    (board
       (image "../images/margo/board.bmp")
-      (grid   ;main playing board
+      (grid
          (start-rectangle 30 36 59 71)
          (dimensions
              ("a/b/c/d/e/f/g/h/i/j/k/l/m/n" (30 0)) ; files
@@ -228,13 +241,28 @@
          )
          (directions (n   0 -1 0) (e  1  0 0) (s  0  1 0) (w -1 0 0)
                      (nw -1 -1 0) (ne 1 -1 0) (sw -1 1 0) (se 1 1 0)
-                     (u 0 0 -1) (d 0 0  1) (next  0 -1 0)
+                     (u 0 0 -1) (d 0 0 1) (next 0 -1 0) (na 0  -1 0)
          )
       )
       (dummy a0)
       (links next (a0 a1I)   (a14I b1I) (b14I c1I) (c14I d1I) (d14I e1I)
                   (e14I f1I) (f14I g1I) (g14I h1I) (h14I i1I) (i14I j1I)
                   (j14I k1I) (k14I l1I) (l14I m1I) (m14I n1I)
+      )
+      (links na   (a0 a1I)   (a14I b1I) (b14I c1I) (c14I d1I)  (d14I e1I)
+                  (e14I f1I) (f14I g1I) (g14I h1I) (h14I i1I)  (i14I j1I)
+                  (j14I k1I) (k14I l1I) (l14I m1I) (m14I n1I)  (n14I b2VII)
+                  (b14VII c2VII) (c14VII d2VII) (d14VII e2VII) (e14VII f2VII)
+                  (f14VII g2VII) (g14VII h2VII) (h14VII i2VII) (i14VII j2VII) 
+                  (j14VII k2VII) (k14VII l2VII) (l14VII m2VII) (m14VII c3VI)
+                  (c14VI  d3VI)  (d14VI  e3VI)  (e14VI  f3VI)  (f14VI  g3VI)
+                  (g14VI  h3VI)  (h14VI  i3VI)  (i14VI  j3VI)  (j14VI  k3VI)
+                  (k14VI  l3VI)  (l14VI  d4V)   (d14V   e4V)   (e14V   f4V)
+                  (f14V g4V)     (g14V   h4V)   (h14V   i4V)   (i14V   j4V)
+                  (j14V k4V)     (k14V   e5IV)  (e14IV  f5IV)  (f14IV  g5IV)
+                  (g14IV h5IV)   (h14IV  i5IV)  (i14IV  j5IV)  (j14IV  f6III)
+                  (f14III g6III) (g14III h6III) (h14III i6III) (i14III g7II)
+                  (g14II h7II)
       )
       (links b    (a1I a1VII) (a2I a2VII) (a3I a3VII) (a4I a4VII) (a5I a5VII) (a6I a6VII) (a7I a7VII) (a8I a8VII) (a9I a9VII) (a10I a10VII) (a11I a11VII) (a12I a12VII) (a13I a13VII) (a14I a14VII)
                   (b1I b1VII) (b2I b2VII) (b3I b3VII) (b4I b4VII) (b5I b5VII) (b6I b6VII) (b7I b7VII) (b8I b8VII) (b9I b9VII) (b10I b10VII) (b11I b11VII) (b12I b12VII) (b13I b13VII) (b14I b14VII)
@@ -294,6 +322,8 @@
              (de-ne) (dp-ne)
              (de-se) (dp-se)
              (de-sw) (dp-sw)
+
+             (dp-clear)
       )
    )
    (piece
