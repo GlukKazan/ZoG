@@ -90,8 +90,8 @@
 
 (define check-d
    mark
-   u
-   (while not-empty?
+   b
+   (while (and not-empty? (not-in-zone? plane))
        (verify (not-empty? $1))
        (verify (not-empty? $2))
        (verify (not-empty? $1$2))
@@ -152,8 +152,8 @@
 )
 
 (define copy-piece
-   u
-   (while not-empty? u)
+   b
+   (while (and not-empty? (not-in-zone? plane)) u)
    (verify empty?)
    (add-piece)
 )
@@ -172,30 +172,29 @@
 
 (define clean-piece
    (set-flag is-piece? false)
-   (while (on-board? u)
-        u
-        (if (and not-empty? (not-position-flag? is-alive?))
-             capture
-        )
-   )
-   (while (and (not-in-zone? plane) 
-               (or empty? (not-position-flag? is-alive?))) 
+   d (while empty? d)
+   (while (and not-empty? (or (position-flag? is-dead?) (not-position-flag? is-alive?)))
+        capture
         d
    )
-   (if (not-in-zone? plane)
+   (if not-empty?
         (get-piece)
         capture
    )
-   (while (not-in-zone? plane) d)
-   (add-piece)
+   (while (not-in-zone? plane) u)
+   (if (flag? is-piece?)
+        (add-piece)
+    else
+        capture
+   )
 )
 
 (define clean-pieces
    mark a0
    (while (on-board? next)
         next
-        (if (and not-empty? (not-position-flag? is-alive?))
-            (if (empty? u)
+        (if (and not-empty? (or (position-flag? is-dead?) (not-position-flag? is-alive?)))
+            (if (empty? b)
                  capture
              else
                  (clean-piece)
@@ -225,17 +224,32 @@
          (dimensions
              ("a/b/c/d/e/f/g/h/i/j/k/l/m/n" (30 0)) ; files
              ("14/13/12/11/10/9/8/7/6/5/4/3/2/1" (0 36)) ; ranks
-             ("I/II/III/IV/V/VI/VII" (1600 0))  ;layers
+             ("I/II/III/IV/V/VI/VII/VIII" (1600 0))  ;layers
          )
          (directions (n   0 -1 0) (e  1  0 0) (s  0  1 0) (w -1 0 0)
                      (nw -1 -1 0) (ne 1 -1 0) (sw -1 1 0) (se 1 1 0)
-                     (u 0 0  1) (d 0 0 -1) (next  0 -1 0)
+                     (u 0 0 -1) (d 0 0  1) (next  0 -1 0)
          )
       )
       (dummy a0)
       (links next (a0 a1I)   (a14I b1I) (b14I c1I) (c14I d1I) (d14I e1I)
                   (e14I f1I) (f14I g1I) (g14I h1I) (h14I i1I) (i14I j1I)
                   (j14I k1I) (k14I l1I) (l14I m1I) (m14I n1I)
+      )
+      (links b    (a1I a1VII) (a2I a2VII) (a3I a3VII) (a4I a4VII) (a5I a5VII) (a6I a6VII) (a7I a7VII) (a8I a8VII) (a9I a9VII) (a10I a10VII) (a11I a11VII) (a12I a12VII) (a13I a13VII) (a14I a14VII)
+                  (b1I b1VII) (b2I b2VII) (b3I b3VII) (b4I b4VII) (b5I b5VII) (b6I b6VII) (b7I b7VII) (b8I b8VII) (b9I b9VII) (b10I b10VII) (b11I b11VII) (b12I b12VII) (b13I b13VII) (b14I b14VII)
+                  (c1I c1VII) (c2I c2VII) (c3I c3VII) (c4I c4VII) (c5I c5VII) (c6I c6VII) (c7I c7VII) (c8I c8VII) (c9I c9VII) (c10I c10VII) (c11I c11VII) (c12I c12VII) (c13I c13VII) (c14I c14VII)
+                  (d1I d1VII) (d2I d2VII) (d3I d3VII) (d4I d4VII) (d5I d5VII) (d6I d6VII) (d7I d7VII) (d8I d8VII) (d9I d9VII) (d10I d10VII) (d11I d11VII) (d12I d12VII) (d13I d13VII) (d14I d14VII)
+                  (e1I e1VII) (e2I e2VII) (e3I e3VII) (e4I e4VII) (e5I e5VII) (e6I e6VII) (e7I e7VII) (e8I e8VII) (e9I e9VII) (e10I e10VII) (e11I e11VII) (e12I e12VII) (e13I e13VII) (e14I e14VII)
+                  (f1I f1VII) (f2I f2VII) (f3I f3VII) (f4I f4VII) (f5I f5VII) (f6I f6VII) (f7I f7VII) (f8I f8VII) (f9I f9VII) (f10I f10VII) (f11I f11VII) (f12I f12VII) (f13I f13VII) (f14I f14VII)
+                  (g1I g1VII) (g2I g2VII) (g3I g3VII) (g4I g4VII) (g5I g5VII) (g6I g6VII) (g7I g7VII) (g8I g8VII) (g9I g9VII) (g10I g10VII) (g11I g11VII) (g12I g12VII) (g13I g13VII) (g14I g14VII)
+                  (h1I h1VII) (h2I h2VII) (h3I h3VII) (h4I h4VII) (h5I h5VII) (h6I h6VII) (h7I h7VII) (h8I h8VII) (h9I h9VII) (h10I h10VII) (h11I h11VII) (h12I h12VII) (h13I h13VII) (h14I h14VII)
+                  (i1I i1VII) (i2I i2VII) (i3I i3VII) (i4I i4VII) (i5I i5VII) (i6I i6VII) (i7I i7VII) (i8I i8VII) (i9I i9VII) (i10I i10VII) (i11I i11VII) (i12I i12VII) (i13I i13VII) (i14I i14VII)
+                  (j1I j1VII) (j2I j2VII) (j3I j3VII) (j4I j4VII) (j5I j5VII) (j6I j6VII) (j7I j7VII) (j8I j8VII) (j9I j9VII) (j10I j10VII) (j11I j11VII) (j12I j12VII) (j13I j13VII) (j14I j14VII)
+                  (k1I k1VII) (k2I k2VII) (k3I k3VII) (k4I k4VII) (k5I k5VII) (k6I k6VII) (k7I k7VII) (k8I k8VII) (k9I k9VII) (k10I k10VII) (k11I k11VII) (k12I k12VII) (k13I k13VII) (k14I k14VII)
+                  (l1I l1VII) (l2I l2VII) (l3I l3VII) (l4I l4VII) (l5I l5VII) (l6I l6VII) (l7I l7VII) (l8I l8VII) (l9I l9VII) (l10I l10VII) (l11I l11VII) (l12I l12VII) (l13I l13VII) (l14I l14VII)
+                  (m1I m1VII) (m2I m2VII) (m3I m3VII) (m4I m4VII) (m5I m5VII) (m6I m6VII) (m7I m7VII) (m8I m8VII) (m9I m9VII) (m10I m10VII) (m11I m11VII) (m12I m12VII) (m13I m13VII) (m14I m14VII)
+                  (n1I n1VII) (n2I n2VII) (n3I n3VII) (n4I n4VII) (n5I n5VII) (n6I n6VII) (n7I n7VII) (n8I n8VII) (n9I n9VII) (n10I n10VII) (n11I n11VII) (n12I n12VII) (n13I n13VII) (n14I n14VII)
       )
       (zone (name im) (players R)
             (positions a1I)
