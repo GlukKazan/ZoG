@@ -144,9 +144,9 @@
 (define add-piece
    (if (flag? is-piece?)
        (if (flag? is-black?)
-           (add-piece-type B)
-        else
            (add-piece-type R)
+        else
+           (add-piece-type G)
        )
    )
 )
@@ -304,8 +304,8 @@
    (option "animate drops"    false)
    (option "animate captures" false)
 
-   (players    R B)
-   (turn-order R B)
+   (players    G R)
+   (turn-order G R)
 
    (board
       (image "../images/margo/board.bmp")
@@ -356,13 +356,13 @@
                   (m1I m1VII) (m2I m2VII) (m3I m3VII) (m4I m4VII) (m5I m5VII) (m6I m6VII) (m7I m7VII) (m8I m8VII) (m9I m9VII) (m10I m10VII) (m11I m11VII) (m12I m12VII) (m13I m13VII) (m14I m14VII)
                   (n1I n1VII) (n2I n2VII) (n3I n3VII) (n4I n4VII) (n5I n5VII) (n6I n6VII) (n7I n7VII) (n8I n8VII) (n9I n9VII) (n10I n10VII) (n11I n11VII) (n12I n12VII) (n13I n13VII) (n14I n14VII)
       )
-      (zone (name im) (players R)
+      (zone (name im) (players G)
             (positions a1I)
       )
-      (zone (name im) (players B)
+      (zone (name im) (players R)
             (positions a2I)
       )
-      (zone (name empty-plane) (players R B)
+      (zone (name empty-plane) (players G R)
             (positions a2I a4I a6I a8I a10I a12I a14I
                        c2I c4I c6I c8I c10I c12I c14I
                        e2I e4I e6I e8I e10I e12I e14I
@@ -372,7 +372,7 @@
                        m2I m4I m6I m8I m10I m12I m14I
             )
       )
-      (zone (name plane) (players R B)
+      (zone (name plane) (players G R)
             (positions a1I a2I a3I a4I a5I a6I a7I a8I a9I a10I a11I a12I a13I a14I
                        b1I b2I b3I b4I b5I b6I b7I b8I b9I b10I b11I b12I b13I b14I
                        c1I c2I c3I c4I c5I c6I c7I c8I c9I c10I c11I c12I c13I c14I
@@ -393,8 +393,8 @@
 
    (piece
       (name  M)
-      (image R "../images/margo/m.bmp"
-             B "../images/margo/m.bmp")
+      (image G "../images/margo/m.bmp"
+             R "../images/margo/m.bmp")
       (drops (de-nw) (dp-nw)
              (de-ne) (dp-ne)
              (de-se) (dp-se)
@@ -405,31 +405,31 @@
    )
    (piece
       (name  tnw)
-      (image R "../images/margo/w-nw.bmp"
-             B "../images/margo/b-nw.bmp")
+      (image G "../images/margo/w-nw.bmp"
+             R "../images/margo/b-nw.bmp")
       (attribute is-ko? false)
    )
    (piece
       (name  tne)
-      (image R "../images/margo/w-ne.bmp"
-             B "../images/margo/b-ne.bmp")
+      (image G "../images/margo/w-ne.bmp"
+             R "../images/margo/b-ne.bmp")
       (attribute is-ko? false)
    )
    (piece
       (name  tse)
-      (image R "../images/margo/w-se.bmp"
-             B "../images/margo/b-se.bmp")
+      (image G "../images/margo/w-se.bmp"
+             R "../images/margo/b-se.bmp")
       (attribute is-ko? false)
    )
    (piece
       (name  tsw)
-      (image R "../images/margo/w-sw.bmp"
-             B "../images/margo/b-sw.bmp")
+      (image G "../images/margo/w-sw.bmp"
+             R "../images/margo/b-sw.bmp")
       (attribute is-ko? false)
    )
 
    (board-setup
+      (G (M off 1) )
       (R (M off 1) )
-      (B (M off 1) )
    )
 )
