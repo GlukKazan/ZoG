@@ -67,10 +67,10 @@
 )
 
 (define check-p
-   (verify (piece? t-$1))
-   (verify (piece? t-$2 $3))
-   (verify (piece? t-$4 $5))
-   (verify (piece? t-$6 $7))
+   (verify (piece? t$1))
+   (verify (piece? t$2 $3))
+   (verify (piece? t$4 $5))
+   (verify (piece? t$6 $7))
 )
 
 (define check-e
@@ -81,10 +81,10 @@
 )
 
 (define post-action
-   (create t-$1)
-   (create t-$2 $2)
-   (create t-$3 $4)
-   (create t-$5 $6)
+   (create t$1)
+   (create t$2 $2)
+   (create t$3 $4)
+   (create t$5 $6)
    add
 )
 
@@ -116,10 +116,10 @@
        (if (and friend? (in-zone? im a2I))
            (set-flag is-black? true)
        )
-       (if (or (piece? t-nw) (piece? t-ne))
+       (if (or (piece? tnw) (piece? tne))
            (set-flag is-top?   true)
        )
-       (if (or (piece? t-nw) (piece? t-sw))
+       (if (or (piece? tnw) (piece? tsw))
            (set-flag is-left?  true)
        )
    )
@@ -128,15 +128,15 @@
 (define add-piece-type
    (if (flag? is-top?)
        (if (flag? is-left?)
-           (create $1 t-nw)
+           (create $1 tnw)
         else
-           (create $1 t-ne)
+           (create $1 tne)
        )
     else
        (if (flag? is-left?)
-           (create $1 t-sw)
+           (create $1 tsw)
         else
-           (create $1 t-se)
+           (create $1 tse)
        )
    )
 )
@@ -204,15 +204,92 @@
    back
 )
 
-(define proceed-dead
-   ; TODO
+(define check-top
+   (verify (on-board? $1))
+   (if (and (not-empty? $1) (not-position-flag? is-dead? $1) (not-position-flag? is-current? $1))
+        $1 
+        (set-position-flag is-current? true)
+        (if (not-piece? t$3)
+            d (while (and empty? (on-board? d)) d)
+            (verify not-empty?)
+            (if (and not-empty? (not-position-flag? is-dead?) (not-position-flag? is-current?))
+                (set-position-flag is-current? true)
+            )
+            (while (not-in-zone? plane) u)
+        )
+        $2
+   )
+)
 
+(define check-deep
+   (verify (on-board? $1))
+   (if (and (not-empty? $1) (not-position-flag? is-dead? $1) (not-position-flag? is-current? $1))
+       $1
+       (set-position-flag is-current? true)
+       (verify (on-board? u))
+       (if (and (not-empty? u) (not-position-flag? is-dead? u) (not-position-flag? is-current? u))
+           u (set-position-flag is-current? true) d
+       )
+       $2
+   )
+)
+
+(define proceed-current
+   (set-position-flag is-dead? true)
+   (set-position-flag is-current? false)
+   (get-piece)
+   (if (in-zone? plane)
+       (if (flag? is-left?)
+           (if (flag? is-top?)
+               (check-top e w ne)
+               (check-top s n sw)
+            else
+               (check-top e w se)
+               (check-top n s nw)
+           )
+        else
+           (if (flag? is-top?)
+               (check-top w e nw)
+               (check-top s n se)
+            else
+               (check-top w e sw)
+               (check-top n s ne)
+           )
+       )
+    else
+       (if (flag? is-left?)
+           (check-deep e w)
+        else
+           (check-deep w e)
+       )
+       (if (flag? is-top?)
+           (check-deep s n)
+        else
+           (check-deep n s)
+       )
+   )
+)
+
+(define proceed-all
+   (set-flag is-done? false)
+   (while (not-flag? is-done?)
+        (set-flag is-done? true)
+        mark a0
+        (while (on-board? next-all)
+             next-all
+             (if (position-flag? is-current?)
+                 (set-flag is-done? false)
+                 (proceed-current)
+             )
+        )
+        back
+   )
 )
 
 (define dp-clear (
    (verify not-empty?)
-   (set-position-flag is-dead? true)
-   (proceed-dead)
+   (set-position-flag is-current? true)
+   (proceed-all)
    (clean-pieces)
    add
 ))
@@ -233,15 +310,15 @@
    (board
       (image "../images/margo/board.bmp")
       (grid
-         (start-rectangle 30 36 59 71)
+         (start-rectangle 30 30 59 59)
          (dimensions
              ("a/b/c/d/e/f/g/h/i/j/k/l/m/n" (30 0)) ; files
-             ("14/13/12/11/10/9/8/7/6/5/4/3/2/1" (0 36)) ; ranks
+             ("14/13/12/11/10/9/8/7/6/5/4/3/2/1" (0 30)) ; ranks
              ("I/II/III/IV/V/VI/VII/VIII" (1600 0))  ;layers
          )
          (directions (n   0 -1 0) (e  1  0 0) (s  0  1 0) (w -1 0 0)
                      (nw -1 -1 0) (ne 1 -1 0) (sw -1 1 0) (se 1 1 0)
-                     (u 0 0 -1) (d 0 0 1) (next 0 -1 0) (na 0  -1 0)
+                     (u 0 0 -1) (d 0 0 1) (next 0 -1 0) (next-all 0 -1 0)
          )
       )
       (dummy a0)
@@ -249,7 +326,7 @@
                   (e14I f1I) (f14I g1I) (g14I h1I) (h14I i1I) (i14I j1I)
                   (j14I k1I) (k14I l1I) (l14I m1I) (m14I n1I)
       )
-      (links na   (a0 a1I)   (a14I b1I) (b14I c1I) (c14I d1I)  (d14I e1I)
+      (links next-all (a0 a1I) (a14I b1I) (b14I c1I) (c14I d1I) (d14I e1I)
                   (e14I f1I) (f14I g1I) (g14I h1I) (h14I i1I)  (i14I j1I)
                   (j14I k1I) (k14I l1I) (l14I m1I) (m14I n1I)  (n14I b2VII)
                   (b14VII c2VII) (c14VII d2VII) (d14VII e2VII) (e14VII f2VII)
@@ -327,25 +404,25 @@
       )
    )
    (piece
-      (name  t-nw)
+      (name  tnw)
       (image R "../images/margo/w-nw.bmp"
              B "../images/margo/b-nw.bmp")
       (attribute is-ko? false)
    )
    (piece
-      (name  t-ne)
+      (name  tne)
       (image R "../images/margo/w-ne.bmp"
              B "../images/margo/b-ne.bmp")
       (attribute is-ko? false)
    )
    (piece
-      (name  t-se)
+      (name  tse)
       (image R "../images/margo/w-se.bmp"
              B "../images/margo/b-se.bmp")
       (attribute is-ko? false)
    )
    (piece
-      (name  t-sw)
+      (name  tsw)
       (image R "../images/margo/w-sw.bmp"
              B "../images/margo/b-sw.bmp")
       (attribute is-ko? false)
