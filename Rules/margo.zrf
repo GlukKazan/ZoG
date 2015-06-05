@@ -3,7 +3,7 @@
    (check-p se sw e nw se ne s)
    (check-d s e)
    (pre-action s e)
-   (post-action nw se ne e sw s)
+   (post-action-new nw se ne e sw s)
 ))
 
 (define dp-ne (
@@ -11,7 +11,7 @@
    (check-p sw se w nw s ne sw)
    (check-d s w)
    (pre-action s w)
-   (post-action ne sw nw w se s)
+   (post-action-new ne sw nw w se s)
 ))
 
 (define dp-se (
@@ -19,7 +19,7 @@
    (check-p nw sw n ne w se nw)
    (check-d n w)
    (pre-action n w)
-   (post-action se nw ne n sw w)
+   (post-action-new se nw ne n sw w)
 ))
 
 (define dp-sw (
@@ -27,31 +27,31 @@
    (check-p ne nw e se n sw ne)
    (check-d n e)
    (pre-action n e)
-   (post-action sw ne nw n se e)
+   (post-action-new sw ne nw n se e)
 ))
 
 (define de-nw (
    (pre-check-3 e s empty-plane)
    (check-e e s se)
-   (post-action nw se ne e sw s)
+   (post-action-old nw se ne e sw s)
 ))                          
 
 (define de-ne (
    (pre-check-4 w s empty-plane w)
    (check-e w s sw)
-   (post-action ne sw nw w se s)
+   (post-action-old ne sw nw w se s)
 ))
 
 (define de-se (
    (pre-check-4 w n empty-plane nw)
    (check-e n w nw)
-   (post-action se nw ne n sw w)
+   (post-action-old se nw ne n sw w)
 ))
 
 (define de-sw (
    (pre-check-4 e n empty-plane n)
    (check-e e n ne)
-   (post-action sw ne nw n se e)
+   (post-action-old sw ne nw n se e)
 ))
 
 (define pre-check-3
@@ -67,10 +67,10 @@
 )
 
 (define check-p
-   (verify (piece? t$1))
-   (verify (piece? t$2 $3))
-   (verify (piece? t$4 $5))
-   (verify (piece? t$6 $7))
+   (verify (or (piece? t$1) (piece? w$1) (piece? b$1)))
+   (verify (or (piece? t$2 $3) (piece? w$2 $3) (piece? b$2 $3)))
+   (verify (or (piece? t$4 $5) (piece? w$4 $5) (piece? b$4 $5)))
+   (verify (or (piece? t$6 $7) (piece? w$6 $7) (piece? b$6 $7)))
 )
 
 (define check-e
@@ -80,7 +80,39 @@
    (verify (empty? $3))
 )
 
-(define post-action
+(define create-piece-1
+   (if (flag? is-b-corner?)
+       (create b$1)
+    else
+       (if (flag? is-w-corner?)
+           (create w$1)
+        else
+           (create t$1)
+       )
+   )
+)
+
+(define create-piece-2
+   (if (flag? is-b-$2-corner?)
+       (create b$1 $2)
+    else
+       (if (flag? is-w-$2-corner?)
+           (create w$1 $2)
+        else
+           (create t$1 $2)
+       )
+   )
+)
+
+(define post-action-new
+   (create-piece-1 $1)
+   (create-piece-2 $2 $2)
+   (create-piece-2 $3 $4)
+   (create-piece-2 $5 $6)
+   add
+)
+
+(define post-action-old
    (create t$1)
    (create t$2 $2)
    (create t$3 $4)
@@ -160,13 +192,53 @@
 
 (define pre-action
    mark
-   (get-piece) (copy-piece)
+   (get-piece)
+   (set-flag is-b-corner? false)
+   (set-flag is-w-corner? false)
+   (if (flag? is-piece?)
+       (if (flag? is-black?)
+           (set-flag is-b-corner? true)
+        else
+           (set-flag is-w-corner? true)
+       )
+   )
+   (copy-piece)
    back $1
-   (get-piece) (copy-piece)
+   (get-piece) 
+   (set-flag is-b-$1-corner? false)
+   (set-flag is-w-$1-corner? false)
+   (if (flag? is-piece?)
+       (if (flag? is-black?)
+           (set-flag is-b-$1-corner? true)
+        else
+           (set-flag is-w-$1-corner? true)
+       )
+   )
+   (copy-piece)
    back $2
-   (get-piece) (copy-piece)
+   (get-piece) 
+   (set-flag is-b-$2-corner? false)
+   (set-flag is-w-$2-corner? false)
+   (if (flag? is-piece?)
+       (if (flag? is-black?)
+           (set-flag is-b-$2-corner? true)
+        else
+           (set-flag is-w-$2-corner? true)
+       )
+   )
+   (copy-piece)
    back $1$2
-   (get-piece) (copy-piece)
+   (get-piece) 
+   (set-flag is-b-$1$2-corner? false)
+   (set-flag is-w-$1$2-corner? false)
+   (if (flag? is-piece?)
+       (if (flag? is-black?)
+           (set-flag is-b-$1$2-corner? true)
+        else
+           (set-flag is-w-$1$2-corner? true)
+       )
+   )
+   (copy-piece)
    back
 )
 
@@ -209,7 +281,7 @@
    (if (and (not-empty? $1) (not-position-flag? is-dead? $1) (not-position-flag? is-current? $1))
         $1 
         (set-position-flag is-current? true)
-        (if (not-piece? t$3)
+        (if (and (not-piece? t$3) (not-piece? w$3) (not-piece? b$3))
             d (while (and empty? (on-board? d)) d)
             (verify not-empty?)
             (if (and not-empty? (not-position-flag? is-dead?) (not-position-flag? is-current?))
@@ -308,6 +380,13 @@
    (clean-pieces)
    add
 ))
+
+(define tile
+   (name  $1$2)
+   (image G "../images/margo/w$1$2.bmp"
+          R "../images/margo/b$1$2.bmp")
+   (attribute is-ko? false)
+)
 
 (game 
    (title "MarGo board")
@@ -419,28 +498,40 @@
       )
    )
    (piece
-      (name  tnw)
-      (image G "../images/margo/w-nw.bmp"
-             R "../images/margo/b-nw.bmp")
-      (attribute is-ko? false)
+      (tile t nw)
    )
    (piece
-      (name  tne)
-      (image G "../images/margo/w-ne.bmp"
-             R "../images/margo/b-ne.bmp")
-      (attribute is-ko? false)
+      (tile w nw)
    )
    (piece
-      (name  tse)
-      (image G "../images/margo/w-se.bmp"
-             R "../images/margo/b-se.bmp")
-      (attribute is-ko? false)
+      (tile b nw)
    )
    (piece
-      (name  tsw)
-      (image G "../images/margo/w-sw.bmp"
-             R "../images/margo/b-sw.bmp")
-      (attribute is-ko? false)
+      (tile t ne)
+   )
+   (piece
+      (tile w ne)
+   )
+   (piece
+      (tile b ne)
+   )
+   (piece
+      (tile t se)
+   )
+   (piece
+      (tile w se)
+   )
+   (piece
+      (tile b se)
+   )
+   (piece
+      (tile t sw)
+   )
+   (piece
+      (tile w sw)
+   )
+   (piece
+      (tile b sw)
    )
 
    (board-setup
