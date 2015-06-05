@@ -10,8 +10,8 @@ VariantName=MarGo board
 4. G M e6I G tnw e6I G tse f5I G tne f6I G tsw e5I
 4. R M e7I R tsw e7I R tne f8I R tnw e8I R tse f7I
 5. G M h8I G tne h8I G tsw g7I G tnw g8I G tse h7I
-5. R M f9I G tse f9VII R tne f8VII R tsw g9VII G tnw g8VII R wnw f9I R wse g8I R bne g9I R bsw f8I
-6. G M h9I R tse h9VII G tne h8VII G tsw i9VII R tnw i8VII G bnw h9I G bse i8I G wne i9I G wsw h8I
-6. R M h7I G tse h7VII R tne h6VII R tsw i7VII G tnw i6VII R wnw h7I R wse i6I R bne i7I R bsw h6I
-7. G M f7I R tse f7VII G tne f6VII G tsw g7VII R tnw g6VII G bnw f7I G bse g6I G wne g7I G wsw f6I
-7. R M g8I R tse g8VI G tne g7VI G tsw h8VI R tnw h7VI R bnw g8I R bse h7I R wne h8I R wsw g7I
+5. R M f9I G wse f9VII R wne f8VII R wsw g9VII G wnw g8VII R wnw f9I R wse g8I R bne g9I R bsw f8I
+6. G M h9I R bse h9VII G bne h8VII G bsw i9VII R bnw i8VII G bnw h9I G bse i8I G wne i9I G wsw h8I
+6. R M h7I G wse h7VII R wne h6VII R wsw i7VII G wnw i6VII R wnw h7I R wse i6I R bne i7I R bsw h6I
+7. G M f7I R bse f7VII G bne f6VII G bsw g7VII R bnw g6VII G bnw f7I G bse g6I G wne g7I G wsw f6I
+7. R M g8I R bse g8VI G bne g7VI G bsw h8VI R bnw h7VI R bnw g8I R bse h7I R wne h8I R wsw g7I

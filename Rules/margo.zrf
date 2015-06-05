@@ -157,18 +157,30 @@
    )
 )
 
+(define create-piece-owner
+   (if (flag? is-b-corner?)
+       (create $1 b$2)
+    else
+       (if (flag? is-w-corner?)
+           (create $1 w$2)
+        else
+           (create $1 t$2)
+       )
+   )
+)
+
 (define add-piece-type
    (if (flag? is-top?)
        (if (flag? is-left?)
-           (create $1 tnw)
+           (create-piece-owner $1 nw)
         else
-           (create $1 tne)
+           (create-piece-owner $1 ne)
        )
     else
        (if (flag? is-left?)
-           (create $1 tsw)
+           (create-piece-owner $1 sw)
         else
-           (create $1 tse)
+           (create-piece-owner $1 se)
        )
    )
 )
@@ -244,12 +256,26 @@
 
 (define clean-piece
    (set-flag is-piece? false)
+   (set-flag is-b-corner? false)
+   (set-flag is-w-corner? false)
    d (while empty? d)
    (while (and not-empty? (position-flag? is-dead?))
         capture
         d
    )
    (if not-empty?
+        (if (and (on-board? d) (not-empty? d))
+            (if (and (enemy? d) (in-zone? im a1I))
+                (set-flag is-b-corner? true)
+             else
+                (set-flag is-w-corner? true)
+            )
+            (if (and (friend? d) (in-zone? im a2I))
+                (set-flag is-b-corner? true)
+             else
+                (set-flag is-w-corner? true)
+            )
+        )
         (get-piece)
         capture
    )
