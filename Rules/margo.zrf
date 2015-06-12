@@ -391,8 +391,8 @@
         (while (on-board? next-all)
              next-all
              (if (position-flag? is-current?)
-                 (set-flag is-done? false)
                  (proceed-current)
+                 (set-flag is-done? false)
              )
         )
         back
@@ -414,8 +414,160 @@
    (attribute is-ko? false)
 )
 
+(variant
+   (title "MarGo 4x4")
+   (board
+      (image "../images/margo/4x4.bmp")
+      (grid
+         (start-rectangle 30 30 59 59)
+         (dimensions
+             ("a/b/c/d/e/f/g/h" (30 0)) ; files
+             ("8/7/6/5/4/3/2/1" (0 30)) ; ranks
+             ("I/II/III/IV/V" (1600 0))  ;layers
+         )
+         (directions (n   0 -1 0) (e  1  0 0) (s  0  1 0) (w -1 0 0)
+                     (nw -1 -1 0) (ne 1 -1 0) (sw -1 1 0) (se 1 1 0)
+                     (u 0 0 -1) (d 0 0 1) (next 0 -1 0) (next-all 0 -1 0)
+         )
+      )
+      (dummy a0)
+      (links next (a0 a1I)  (a8I b1I) (b8I c1I) (c8I d1I) (d8I e1I)
+                  (e8I f1I) (f8I g1I) (g8I h1I)
+      )
+      (links next-all (a0 a1I)  (a8I b1I) (b8I c1I) (c8I d1I) (d8I e1I)
+                  (e8I f1I) (f8I g1I) (g8I h1I)
+                  (h8I a1II) (a8II b1II) (b8II c1II) (c8II d1II) (d8II e1II)
+                  (e8II f1II) (f8II g1II) (g8II h1II)
+                  (h8II a1III) (a8III b1III) (b8III c1III) (c8III d1III) (d8III e1III)
+                  (e8III f1III) (f8III g1III) (g8III h1III)
+                  (h8III a1IV) (a8IV b1IV) (b8IV c1IV) (c8IV d1IV) (d8IV e1IV)
+                  (e8IV f1IV) (f8IV g1IV) (g8IV h1IV)
+      )
+      (links b    (a1I a1IV) (a2I a2IV) (a3I a3IV) (a4I a4IV) (a5I a5IV) (a6I a6IV) (a7I a7IV) (a8I a8IV)
+                  (b1I b1IV) (b2I b2IV) (b3I b3IV) (b4I b4IV) (b5I b5IV) (b6I b6IV) (b7I b7IV) (b8I b8IV)
+                  (c1I c1IV) (c2I c2IV) (c3I c3IV) (c4I c4IV) (c5I c5IV) (c6I c6IV) (c7I c7IV) (c8I c8IV)
+                  (d1I d1IV) (d2I d2IV) (d3I d3IV) (d4I d4IV) (d5I d5IV) (d6I d6IV) (d7I d7IV) (d8I d8IV)
+                  (e1I e1IV) (e2I e2IV) (e3I e3IV) (e4I e4IV) (e5I e5IV) (e6I e6IV) (e7I e7IV) (e8I e8IV)
+                  (f1I f1IV) (f2I f2IV) (f3I f3IV) (f4I f4IV) (f5I f5IV) (f6I f6IV) (f7I f7IV) (f8I f8IV)
+                  (g1I g1IV) (g2I g2IV) (g3I g3IV) (g4I g4IV) (g5I g5IV) (g6I g6IV) (g7I g7IV) (g8I g8IV)
+                  (h1I h1IV) (h2I h2IV) (h3I h3IV) (h4I h4IV) (h5I h5IV) (h6I h6IV) (h7I h7IV) (h8I h8IV)
+      )
+      (zone (name im) (players G)
+            (positions a1I)
+      )
+      (zone (name im) (players R)
+            (positions a2I)
+      )
+      (zone (name empty-plane) (players G R)
+            (positions a2I a4I a6I a8I
+                       c2I c4I c6I c8I
+                       e2I e4I e6I e8I
+                       g2I g4I g6I g8I
+            )
+      )
+      (zone (name plane) (players G R)
+            (positions a1I a2I a3I a4I a5I a6I a7I a8I
+                       b1I b2I b3I b4I b5I b6I b7I b8I
+                       c1I c2I c3I c4I c5I c6I c7I c8I
+                       d1I d2I d3I d4I d5I d6I d7I d8I
+                       e1I e2I e3I e4I e5I e6I e7I e8I
+                       f1I f2I f3I f4I f5I f6I f7I f8I
+                       g1I g2I g3I g4I g5I g6I g7I g8I
+                       h1I h2I h3I h4I h5I h6I h7I h8I
+            )
+      )
+   )
+)
+
+(variant
+   (title "MarGo 6x6")
+   (board
+      (image "../images/margo/6x6.bmp")
+      (grid
+         (start-rectangle 30 30 59 59)
+         (dimensions
+             ("a/b/c/d/e/f/g/h/i/j/k/l" (30 0)) ; files
+             ("12/11/10/9/8/7/6/5/4/3/2/1" (0 30)) ; ranks
+             ("I/II/III/IV/V/VI/VII" (1600 0))  ;layers
+         )
+         (directions (n   0 -1 0) (e  1  0 0) (s  0  1 0) (w -1 0 0)
+                     (nw -1 -1 0) (ne 1 -1 0) (sw -1 1 0) (se 1 1 0)
+                     (u 0 0 -1) (d 0 0 1) (next 0 -1 0) (next-all 0 -1 0)
+         )
+      )
+      (dummy a0)
+      (links next (a0 a1I)   (a12I b1I) (b12I c1I) (c12I d1I) (d12I e1I)
+                  (e12I f1I) (f12I g1I) (g12I h1I) (h12I i1I) (i12I j1I)
+                  (j12I k1I) (k12I l1I)
+      )
+      (links next-all (a0 a1I) (a12I b1I) (b12I c1I) (c12I d1I) (d12I e1I)
+                  (e12I f1I) (f12I g1I) (g12I h1I) (h12I i1I) (i12I j1I)
+                  (j12I k1I) (k12I l1I)
+                  (l12I a1II) (a12II b1II) (b12II c1II) (c12II d1II) (d12II e1II)
+                  (e12II f1II) (f12II g1II) (g12II h1II) (h12II i1II) (i12II j1II)
+                  (j12II k1II) (k12II l1II)
+                  (l12II a1III) (a12III b1III) (b12III c1III) (c12III d1III) (d12III e1III)
+                  (e12III f1III) (f12III g1III) (g12III h1III) (h12III i1III) (i12III j1III)
+                  (j12III k1III) (k12III l1III)
+                  (l12III a1IV) (a12IV b1IV) (b12IV c1IV) (c12IV d1IV) (d12IV e1IV)
+                  (e12IV f1IV) (f12IV g1IV) (g12IV h1IV) (h12IV i1IV) (i12IV j1IV)
+                  (j12IV k1IV) (k12IV l1IV)
+                  (l12IV a1V) (a12V b1V) (b12V c1V) (c12V d1V) (d12V e1V)
+                  (e12V f1V) (f12V g1V) (g12V h1V) (h12V i1V) (i12V j1V)
+                  (j12V k1V) (k12V l1V)
+                  (l12V a1VI) (a12VI b1VI) (b12VI c1VI) (c12VI d1VI) (d12VI e1VI)
+                  (e12VI f1VI) (f12VI g1VI) (g12VI h1VI) (h12VI i1VI) (i12VI j1VI)
+                  (j12VI k1VI) (k12VI l1VI)
+      )
+      (links b    (a1I a1VI) (a2I a2VI) (a3I a3VI) (a4I a4VI) (a5I a5VI) (a6I a6VI) (a7I a7VI) (a8I a8VI) (a9I a9VI) (a10I a10VI) (a11I a11VI) (a12I a12VI)
+                  (b1I b1VI) (b2I b2VI) (b3I b3VI) (b4I b4VI) (b5I b5VI) (b6I b6VI) (b7I b7VI) (b8I b8VI) (b9I b9VI) (b10I b10VI) (b11I b11VI) (b12I b12VI)
+                  (c1I c1VI) (c2I c2VI) (c3I c3VI) (c4I c4VI) (c5I c5VI) (c6I c6VI) (c7I c7VI) (c8I c8VI) (c9I c9VI) (c10I c10VI) (c11I c11VI) (c12I c12VI)
+                  (d1I d1VI) (d2I d2VI) (d3I d3VI) (d4I d4VI) (d5I d5VI) (d6I d6VI) (d7I d7VI) (d8I d8VI) (d9I d9VI) (d10I d10VI) (d11I d11VI) (d12I d12VI)
+                  (e1I e1VI) (e2I e2VI) (e3I e3VI) (e4I e4VI) (e5I e5VI) (e6I e6VI) (e7I e7VI) (e8I e8VI) (e9I e9VI) (e10I e10VI) (e11I e11VI) (e12I e12VI)
+                  (f1I f1VI) (f2I f2VI) (f3I f3VI) (f4I f4VI) (f5I f5VI) (f6I f6VI) (f7I f7VI) (f8I f8VI) (f9I f9VI) (f10I f10VI) (f11I f11VI) (f12I f12VI)
+                  (g1I g1VI) (g2I g2VI) (g3I g3VI) (g4I g4VI) (g5I g5VI) (g6I g6VI) (g7I g7VI) (g8I g8VI) (g9I g9VI) (g10I g10VI) (g11I g11VI) (g12I g12VI)
+                  (h1I h1VI) (h2I h2VI) (h3I h3VI) (h4I h4VI) (h5I h5VI) (h6I h6VI) (h7I h7VI) (h8I h8VI) (h9I h9VI) (h10I h10VI) (h11I h11VI) (h12I h12VI)
+                  (i1I i1VI) (i2I i2VI) (i3I i3VI) (i4I i4VI) (i5I i5VI) (i6I i6VI) (i7I i7VI) (i8I i8VI) (i9I i9VI) (i10I i10VI) (i11I i11VI) (i12I i12VI)
+                  (j1I j1VI) (j2I j2VI) (j3I j3VI) (j4I j4VI) (j5I j5VI) (j6I j6VI) (j7I j7VI) (j8I j8VI) (j9I j9VI) (j10I j10VI) (j11I j11VI) (j12I j12VI)
+                  (k1I k1VI) (k2I k2VI) (k3I k3VI) (k4I k4VI) (k5I k5VI) (k6I k6VI) (k7I k7VI) (k8I k8VI) (k9I k9VI) (k10I k10VI) (k11I k11VI) (k12I k12VI)
+                  (l1I l1VI) (l2I l2VI) (l3I l3VI) (l4I l4VI) (l5I l5VI) (l6I l6VI) (l7I l7VI) (l8I l8VI) (l9I l9VI) (l10I l10VI) (l11I l11VI) (l12I l12VI)
+      )
+      (zone (name im) (players G)
+            (positions a1I)
+      )
+      (zone (name im) (players R)
+            (positions a2I)
+      )
+      (zone (name empty-plane) (players G R)
+            (positions a2I a4I a6I a8I a10I a12I
+                       c2I c4I c6I c8I c10I c12I
+                       e2I e4I e6I e8I e10I e12I
+                       g2I g4I g6I g8I g10I g12I
+                       i2I i4I i6I i8I i10I i12I
+                       k2I k4I k6I k8I k10I k12I
+            )
+      )
+      (zone (name plane) (players G R)
+            (positions a1I a2I a3I a4I a5I a6I a7I a8I a9I a10I a11I a12I
+                       b1I b2I b3I b4I b5I b6I b7I b8I b9I b10I b11I b12I
+                       c1I c2I c3I c4I c5I c6I c7I c8I c9I c10I c11I c12I
+                       d1I d2I d3I d4I d5I d6I d7I d8I d9I d10I d11I d12I
+                       e1I e2I e3I e4I e5I e6I e7I e8I e9I e10I e11I e12I
+                       f1I f2I f3I f4I f5I f6I f7I f8I f9I f10I f11I f12I
+                       g1I g2I g3I g4I g5I g6I g7I g8I g9I g10I g11I g12I
+                       h1I h2I h3I h4I h5I h6I h7I h8I h9I h10I h11I h12I
+                       i1I i2I i3I i4I i5I i6I i7I i8I i9I i10I i11I i12I
+                       j1I j2I j3I j4I j5I j6I j7I j8I j9I j10I j11I j12I
+                       k1I k2I k3I k4I k5I k6I k7I k8I k9I k10I k11I k12I
+                       l1I l2I l3I l4I l5I l6I l7I l8I l9I l10I l11I l12I
+            )
+      )
+   )
+)
+
 (game 
-   (title "MarGo board")
+   (title "MarGo 7x7")
+   (default)
 
    (drop-sound    "Audio/Pickup.wav")
    (capture-sound "")
@@ -428,7 +580,7 @@
    (turn-order G R)
 
    (board
-      (image "../images/margo/board.bmp")
+      (image "../images/margo/7x7.bmp")
       (grid
          (start-rectangle 30 30 59 59)
          (dimensions
@@ -448,18 +600,25 @@
       )
       (links next-all (a0 a1I) (a14I b1I) (b14I c1I) (c14I d1I) (d14I e1I)
                   (e14I f1I) (f14I g1I) (g14I h1I) (h14I i1I)  (i14I j1I)
-                  (j14I k1I) (k14I l1I) (l14I m1I) (m14I n1I)  (n14I b2VII)
-                  (b14VII c2VII) (c14VII d2VII) (d14VII e2VII) (e14VII f2VII)
-                  (f14VII g2VII) (g14VII h2VII) (h14VII i2VII) (i14VII j2VII) 
-                  (j14VII k2VII) (k14VII l2VII) (l14VII m2VII) (m14VII c3VI)
-                  (c14VI  d3VI)  (d14VI  e3VI)  (e14VI  f3VI)  (f14VI  g3VI)
-                  (g14VI  h3VI)  (h14VI  i3VI)  (i14VI  j3VI)  (j14VI  k3VI)
-                  (k14VI  l3VI)  (l14VI  d4V)   (d14V   e4V)   (e14V   f4V)
-                  (f14V g4V)     (g14V   h4V)   (h14V   i4V)   (i14V   j4V)
-                  (j14V k4V)     (k14V   e5IV)  (e14IV  f5IV)  (f14IV  g5IV)
-                  (g14IV h5IV)   (h14IV  i5IV)  (i14IV  j5IV)  (j14IV  f6III)
-                  (f14III g6III) (g14III h6III) (h14III i6III) (i14III g7II)
-                  (g14II h7II)
+                  (j14I k1I) (k14I l1I) (l14I m1I) (m14I n1I)  
+                  (n14I a1VII) (a14VII b1VII) (b14VII c1VII) (c14VII d1VII) (d14VII e1VII)
+                  (e14VII f1VII) (f14VII g1VII) (g14VII h1VII) (h14VII i1VII)  (i14VII j1VII)
+                  (j14VII k1VII) (k14VII l1VII) (l14VII m1VII) (m14VII n1VII)
+                  (n14VII a1VI) (a14VI b1VI) (b14VI c1VI) (c14VI d1VI) (d14VI e1VI)
+                  (e14VI f1VI) (f14VI g1VI) (g14VI h1VI) (h14VI i1VI)  (i14VI j1VI)
+                  (j14VI k1VI) (k14VI l1VI) (l14VI m1VI) (m14VI n1VI)
+                  (n14VI a1V) (a14V b1V) (b14V c1V) (c14V d1V) (d14V e1V)
+                  (e14V f1V) (f14V g1V) (g14V h1V) (h14V i1V)  (i14V j1V)
+                  (j14V k1V) (k14V l1V) (l14V m1V) (m14V n1V)
+                  (n14V a1IV) (a14IV b1IV) (b14IV c1IV) (c14IV d1IV) (d14IV e1IV)
+                  (e14IV f1IV) (f14IV g1IV) (g14IV h1IV) (h14IV i1IV)  (i14IV j1IV)
+                  (j14IV k1IV) (k14IV l1IV) (l14IV m1IV) (m14IV n1IV)
+                  (n14IV a1III) (a14III b1III) (b14III c1III) (c14III d1III) (d14III e1III)
+                  (e14III f1III) (f14III g1III) (g14III h1III) (h14III i1III)  (i14III j1III)
+                  (j14III k1III) (k14III l1III) (l14III m1III) (m14III n1III)
+                  (n14III a1II) (a14II b1II) (b14II c1II) (c14II d1II) (d14II e1II)
+                  (e14II f1II) (f14II g1II) (g14II h1II) (h14II i1II)  (i14II j1II)
+                  (j14II k1II) (k14II l1II) (l14II m1II) (m14II n1II)
       )
       (links b    (a1I a1VII) (a2I a2VII) (a3I a3VII) (a4I a4VII) (a5I a5VII) (a6I a6VII) (a7I a7VII) (a8I a8VII) (a9I a9VII) (a10I a10VII) (a11I a11VII) (a12I a12VII) (a13I a13VII) (a14I a14VII)
                   (b1I b1VII) (b2I b2VII) (b3I b3VII) (b4I b4VII) (b5I b5VII) (b6I b6VII) (b7I b7VII) (b8I b8VII) (b9I b9VII) (b10I b10VII) (b11I b11VII) (b12I b12VII) (b13I b13VII) (b14I b14VII)
@@ -563,5 +722,217 @@
    (board-setup
       (G (M off 1) )
       (R (M off 1) )
+   )
+)
+
+(variant
+   (title "MarGo 8x8")
+   (board
+      (image "../images/margo/8x8.bmp")
+      (grid
+         (start-rectangle 30 30 59 59)
+         (dimensions
+             ("a/b/c/d/e/f/g/h/i/j/k/l/m/n/o/p" (30 0)) ; files
+             ("16/15/14/13/12/11/10/9/8/7/6/5/4/3/2/1" (0 30)) ; ranks
+             ("I/II/III/IV/V/VI/VII/VIII/IX" (1600 0))  ;layers
+         )
+         (directions (n   0 -1 0) (e  1  0 0) (s  0  1 0) (w -1 0 0)
+                     (nw -1 -1 0) (ne 1 -1 0) (sw -1 1 0) (se 1 1 0)
+                     (u 0 0 -1) (d 0 0 1) (next 0 -1 0) (next-all 0 -1 0)
+         )
+      )
+      (dummy a0)
+      (links next (a0 a1I) (a16I b1I) (b16I c1I) (c16I d1I) (d16I e1I) (e16I f1I) 
+                  (f16I g1I) (g16I h1I) (h16I i1I) (i16I j1I) (j16I k1I)
+                  (k16I l1I) (l16I m1I) (m16I n1I) (n16I o1I) (o16I p1I)
+      )
+      (links next-all (a0 a1I) (a16I b1I) (b16I c1I) (c16I d1I) (d16I e1I) (e16I f1I) 
+                  (f16I g1I) (g16I h1I) (h16I i1I) (i16I j1I) (j16I k1I)
+                  (k16I l1I) (l16I m1I) (m16I n1I) (n16I o1I) (o16I p1I)
+                  (p16I a1II) (a16II b1II) (b16II c1II) (c16II d1II) (d16II e1II) (e16II f1II) 
+                  (f16II g1II) (g16II h1II) (h16II i1II) (i16II j1II) (j16II k1II)
+                  (k16II l1II) (l16II m1II) (m16II n1II) (n16II o1II) (o16II p1II)
+                  (p16II a1III) (a16III b1III) (b16III c1III) (c16III d1III) (d16III e1III) (e16III f1III) 
+                  (f16III g1III) (g16III h1III) (h16III i1III) (i16III j1III) (j16III k1III)
+                  (k16III l1III) (l16III m1III) (m16III n1III) (n16III o1III) (o16III p1III)
+                  (p16III a1IV) (a16IV b1IV) (b16IV c1IV) (c16IV d1IV) (d16IV e1IV) (e16IV f1IV) 
+                  (f16IV g1IV) (g16IV h1IV) (h16IV i1IV) (i16IV j1IV) (j16IV k1IV)
+                  (k16IV l1IV) (l16IV m1IV) (m16IV n1IV) (n16IV o1IV) (o16IV p1IV)
+                  (p16IV a1V) (a16V b1V) (b16V c1V) (c16V d1V) (d16V e1V) (e16V f1V) 
+                  (f16V g1V) (g16V h1V) (h16V i1V) (i16V j1V) (j16V k1V)
+                  (k16V l1V) (l16V m1V) (m16V n1V) (n16V o1V) (o16V p1V)
+                  (p16V a1VI) (a16VI b1VI) (b16VI c1VI) (c16VI d1VI) (d16VI e1VI) (e16VI f1VI) 
+                  (f16VI g1VI) (g16VI h1VI) (h16VI i1VI) (i16VI j1VI) (j16VI k1VI)
+                  (k16VI l1VI) (l16VI m1VI) (m16VI n1VI) (n16VI o1VI) (o16VI p1VI)
+                  (p16VI a1VII) (a16VII b1VII) (b16VII c1VII) (c16VII d1VII) (d16VII e1VII) (e16VII f1VII) 
+                  (f16VII g1VII) (g16VII h1VII) (h16VII i1VII) (i16VII j1VII) (j16VII k1VII)
+                  (k16VII l1VII) (l16VII m1VII) (m16VII n1VII) (n16VII o1VII) (o16VII p1VII)
+                  (p16VII a1VIII) (a16VIII b1VIII) (b16VIII c1VIII) (c16VIII d1VIII) (d16VIII e1VIII) (e16VIII f1VIII) 
+                  (f16VIII g1VIII) (g16VIII h1VIII) (h16VIII i1VIII) (i16VIII j1VIII) (j16VIII k1VIII)
+                  (k16VIII l1VIII) (l16VIII m1VIII) (m16VIII n1VIII) (n16VIII o1VIII) (o16VIII p1VIII)
+      )
+      (links b    (a1I a1VIII) (a2I a2VIII) (a3I a3VIII) (a4I a4VIII) (a5I a5VIII) (a6I a6VIII) (a7I a7VIII) (a8I a8VIII) (a9I a9VIII) (a10I a10VIII) (a11I a11VIII) (a12I a12VIII) (a13I a13VIII) (a14I a14VIII) (a15I a15VIII) (a16I a16VIII)
+                  (b1I b1VIII) (b2I b2VIII) (b3I b3VIII) (b4I b4VIII) (b5I b5VIII) (b6I b6VIII) (b7I b7VIII) (b8I b8VIII) (b9I b9VIII) (b10I b10VIII) (b11I b11VIII) (b12I b12VIII) (b13I b13VIII) (b14I b14VIII) (b15I b15VIII) (b16I b16VIII)
+                  (c1I c1VIII) (c2I c2VIII) (c3I c3VIII) (c4I c4VIII) (c5I c5VIII) (c6I c6VIII) (c7I c7VIII) (c8I c8VIII) (c9I c9VIII) (c10I c10VIII) (c11I c11VIII) (c12I c12VIII) (c13I c13VIII) (c14I c14VIII) (c15I c15VIII) (c16I c16VIII)
+                  (d1I d1VIII) (d2I d2VIII) (d3I d3VIII) (d4I d4VIII) (d5I d5VIII) (d6I d6VIII) (d7I d7VIII) (d8I d8VIII) (d9I d9VIII) (d10I d10VIII) (d11I d11VIII) (d12I d12VIII) (d13I d13VIII) (d14I d14VIII) (d15I d15VIII) (d16I d16VIII)
+                  (e1I e1VIII) (e2I e2VIII) (e3I e3VIII) (e4I e4VIII) (e5I e5VIII) (e6I e6VIII) (e7I e7VIII) (e8I e8VIII) (e9I e9VIII) (e10I e10VIII) (e11I e11VIII) (e12I e12VIII) (e13I e13VIII) (e14I e14VIII) (e15I e15VIII) (e16I e16VIII)
+                  (f1I f1VIII) (f2I f2VIII) (f3I f3VIII) (f4I f4VIII) (f5I f5VIII) (f6I f6VIII) (f7I f7VIII) (f8I f8VIII) (f9I f9VIII) (f10I f10VIII) (f11I f11VIII) (f12I f12VIII) (f13I f13VIII) (f14I f14VIII) (f15I f15VIII) (f16I f16VIII)
+                  (g1I g1VIII) (g2I g2VIII) (g3I g3VIII) (g4I g4VIII) (g5I g5VIII) (g6I g6VIII) (g7I g7VIII) (g8I g8VIII) (g9I g9VIII) (g10I g10VIII) (g11I g11VIII) (g12I g12VIII) (g13I g13VIII) (g14I g14VIII) (g15I g15VIII) (g16I g16VIII)
+                  (h1I h1VIII) (h2I h2VIII) (h3I h3VIII) (h4I h4VIII) (h5I h5VIII) (h6I h6VIII) (h7I h7VIII) (h8I h8VIII) (h9I h9VIII) (h10I h10VIII) (h11I h11VIII) (h12I h12VIII) (h13I h13VIII) (h14I h14VIII) (h15I h15VIII) (h16I h16VIII)
+                  (i1I i1VIII) (i2I i2VIII) (i3I i3VIII) (i4I i4VIII) (i5I i5VIII) (i6I i6VIII) (i7I i7VIII) (i8I i8VIII) (i9I i9VIII) (i10I i10VIII) (i11I i11VIII) (i12I i12VIII) (i13I i13VIII) (i14I i14VIII) (i15I i15VIII) (i16I i16VIII)
+                  (j1I j1VIII) (j2I j2VIII) (j3I j3VIII) (j4I j4VIII) (j5I j5VIII) (j6I j6VIII) (j7I j7VIII) (j8I j8VIII) (j9I j9VIII) (j10I j10VIII) (j11I j11VIII) (j12I j12VIII) (j13I j13VIII) (j14I j14VIII) (j15I j15VIII) (j16I j16VIII)
+                  (k1I k1VIII) (k2I k2VIII) (k3I k3VIII) (k4I k4VIII) (k5I k5VIII) (k6I k6VIII) (k7I k7VIII) (k8I k8VIII) (k9I k9VIII) (k10I k10VIII) (k11I k11VIII) (k12I k12VIII) (k13I k13VIII) (k14I k14VIII) (k15I k15VIII) (k16I k16VIII)
+                  (l1I l1VIII) (l2I l2VIII) (l3I l3VIII) (l4I l4VIII) (l5I l5VIII) (l6I l6VIII) (l7I l7VIII) (l8I l8VIII) (l9I l9VIII) (l10I l10VIII) (l11I l11VIII) (l12I l12VIII) (l13I l13VIII) (l14I l14VIII) (l15I l15VIII) (l16I l16VIII)
+                  (m1I m1VIII) (m2I m2VIII) (m3I m3VIII) (m4I m4VIII) (m5I m5VIII) (m6I m6VIII) (m7I m7VIII) (m8I m8VIII) (m9I m9VIII) (m10I m10VIII) (m11I m11VIII) (m12I m12VIII) (m13I m13VIII) (m14I m14VIII) (m15I m15VIII) (m16I m16VIII)
+                  (n1I n1VIII) (n2I n2VIII) (n3I n3VIII) (n4I n4VIII) (n5I n5VIII) (n6I n6VIII) (n7I n7VIII) (n8I n8VIII) (n9I n9VIII) (n10I n10VIII) (n11I n11VIII) (n12I n12VIII) (n13I n13VIII) (n14I n14VIII) (n15I n15VIII) (n16I n16VIII)
+                  (o1I o1VIII) (o2I o2VIII) (o3I o3VIII) (o4I o4VIII) (o5I o5VIII) (o6I o6VIII) (o7I o7VIII) (o8I o8VIII) (o9I o9VIII) (o10I o10VIII) (o11I o11VIII) (o12I o12VIII) (o13I o13VIII) (o14I o14VIII) (o15I o15VIII) (o16I o16VIII)
+                  (p1I p1VIII) (p2I p2VIII) (p3I p3VIII) (p4I p4VIII) (p5I p5VIII) (p6I p6VIII) (p7I p7VIII) (p8I p8VIII) (p9I p9VIII) (p10I p10VIII) (p11I p11VIII) (p12I p12VIII) (p13I p13VIII) (p14I p14VIII) (p15I p15VIII) (p16I p16VIII)
+      )
+      (zone (name im) (players G)
+            (positions a1I)
+      )
+      (zone (name im) (players R)
+            (positions a2I)
+      )
+      (zone (name empty-plane) (players G R)
+            (positions a2I a4I a6I a8I a10I a12I a14I a16I
+                       c2I c4I c6I c8I c10I c12I c14I c16I
+                       e2I e4I e6I e8I e10I e12I e14I e16I
+                       g2I g4I g6I g8I g10I g12I g14I g16I
+                       i2I i4I i6I i8I i10I i12I i14I i16I
+                       k2I k4I k6I k8I k10I k12I k14I k16I
+                       m2I m4I m6I m8I m10I m12I m14I m16I
+                       o2I o4I o6I o8I o10I o12I o14I o16I
+            )
+      )
+      (zone (name plane) (players G R)
+            (positions a1I a2I a3I a4I a5I a6I a7I a8I a9I a10I a11I a12I a13I a14I a15I a16I
+                       b1I b2I b3I b4I b5I b6I b7I b8I b9I b10I b11I b12I b13I b14I b15I b16I
+                       c1I c2I c3I c4I c5I c6I c7I c8I c9I c10I c11I c12I c13I c14I c15I c16I
+                       d1I d2I d3I d4I d5I d6I d7I d8I d9I d10I d11I d12I d13I d14I d15I d16I
+                       e1I e2I e3I e4I e5I e6I e7I e8I e9I e10I e11I e12I e13I e14I e15I e16I
+                       f1I f2I f3I f4I f5I f6I f7I f8I f9I f10I f11I f12I f13I f14I f15I f16I
+                       g1I g2I g3I g4I g5I g6I g7I g8I g9I g10I g11I g12I g13I g14I g15I g16I
+                       h1I h2I h3I h4I h5I h6I h7I h8I h9I h10I h11I h12I h13I h14I h15I h16I
+                       i1I i2I i3I i4I i5I i6I i7I i8I i9I i10I i11I i12I i13I i14I i15I i16I
+                       j1I j2I j3I j4I j5I j6I j7I j8I j9I j10I j11I j12I j13I j14I j15I j16I
+                       k1I k2I k3I k4I k5I k6I k7I k8I k9I k10I k11I k12I k13I k14I k15I k16I
+                       l1I l2I l3I l4I l5I l6I l7I l8I l9I l10I l11I l12I l13I l14I l15I l16I
+                       m1I m2I m3I m4I m5I m6I m7I m8I m9I m10I m11I m12I m13I m14I m15I m16I
+                       n1I n2I n3I n4I n5I n6I n7I n8I n9I n10I n11I n12I n13I n14I n15I n16I
+                       o1I o2I o3I o4I o5I o6I o7I o8I o9I o10I o11I o12I o13I o14I o15I o16I
+                       p1I p2I p3I p4I p5I p6I p7I p8I p9I p10I p11I p12I p13I p14I p15I p16I
+            )
+      )
+   )
+)
+
+(variant
+   (title "MarGo 9x9")
+   (board
+      (image "../images/margo/9x9.bmp")
+      (grid
+         (start-rectangle 30 30 59 59)
+         (dimensions
+             ("a/b/c/d/e/f/g/h/i/j/k/l/m/n/o/p/q/r" (30 0)) ; files
+             ("18/17/16/15/14/13/12/11/10/9/8/7/6/5/4/3/2/1" (0 30)) ; ranks
+             ("I/II/III/IV/V/VI/VII/VIII/IX/X" (1600 0))  ;layers
+         )
+         (directions (n   0 -1 0) (e  1  0 0) (s  0  1 0) (w -1 0 0)
+                     (nw -1 -1 0) (ne 1 -1 0) (sw -1 1 0) (se 1 1 0)
+                     (u 0 0 -1) (d 0 0 1) (next 0 -1 0) (next-all 0 -1 0)
+         )
+      )
+      (dummy a0)
+      (links next (a0 a1I) (a18I b1I) (b18I c1I) (c18I d1I) (d18I e1I) (e18I f1I) 
+                  (f18I g1I) (g18I h1I) (h18I i1I) (i18I j1I) (j18I k1I) (k18I l1I)
+                  (l18I m1I) (m18I n1I) (n18I o1I) (o18I p1I) (p18I q1I) (q18I r1I)
+      )
+      (links next-all (a0 a1I) (a18I b1I) (b18I c1I) (c18I d1I) (d18I e1I) (e18I f1I) 
+                  (f18I g1I) (g18I h1I) (h18I i1I) (i18I j1I) (j18I k1I) (k18I l1I)
+                  (l18I m1I) (m18I n1I) (n18I o1I) (o18I p1I) (p18I q1I) (q18I r1I)
+                  (r18I a1II) (a18II b1II) (b18II c1II) (c18II d1II) (d18II e1II) (e18II f1II) 
+                  (f18II g1II) (g18II h1II) (h18II i1II) (i18II j1II) (j18II k1II) (k18II l1II)
+                  (l18II m1II) (m18II n1II) (n18II o1II) (o18II p1II) (p18II q1II) (q18II r1II)
+                  (r18II a1III) (a18III b1III) (b18III c1III) (c18III d1III) (d18III e1III) (e18III f1III) 
+                  (f18III g1III) (g18III h1III) (h18III i1III) (i18III j1III) (j18III k1III) (k18III l1III)
+                  (l18III m1III) (m18III n1III) (n18III o1III) (o18III p1III) (p18III q1III) (q18III r1III)
+                  (r18III a1IV) (a18IV b1IV) (b18IV c1IV) (c18IV d1IV) (d18IV e1IV) (e18IV f1IV) 
+                  (f18IV g1IV) (g18IV h1IV) (h18IV i1IV) (i18IV j1IV) (j18IV k1IV) (k18IV l1IV)
+                  (l18IV m1IV) (m18IV n1IV) (n18IV o1IV) (o18IV p1IV) (p18IV q1IV) (q18IV r1IV)
+                  (r18IV a1V) (a18V b1V) (b18V c1V) (c18V d1V) (d18V e1V) (e18V f1V) 
+                  (f18V g1V) (g18V h1V) (h18V i1V) (i18V j1V) (j18V k1V) (k18V l1V)
+                  (l18V m1V) (m18V n1V) (n18V o1V) (o18V p1V) (p18V q1V) (q18V r1V)
+                  (r18V a1VI) (a18VI b1VI) (b18VI c1VI) (c18VI d1VI) (d18VI e1VI) (e18VI f1VI) 
+                  (f18VI g1VI) (g18VI h1VI) (h18VI i1VI) (i18VI j1VI) (j18VI k1VI) (k18VI l1VI)
+                  (l18VI m1VI) (m18VI n1VI) (n18VI o1VI) (o18VI p1VI) (p18VI q1VI) (q18VI r1VI)
+                  (r18VI a1VII) (a18VII b1VII) (b18VII c1VII) (c18VII d1VII) (d18VII e1VII) (e18VII f1VII) 
+                  (f18VII g1VII) (g18VII h1VII) (h18VII i1VII) (i18VII j1VII) (j18VII k1VII) (k18VII l1VII)
+                  (l18VII m1VII) (m18VII n1VII) (n18VII o1VII) (o18VII p1VII) (p18VII q1VII) (q18VII r1VII)
+                  (r18VII a1VIII) (a18VIII b1VIII) (b18VIII c1VIII) (c18VIII d1VIII) (d18VIII e1VIII) (e18VIII f1VIII) 
+                  (f18VIII g1VIII) (g18VIII h1VIII) (h18VIII i1VIII) (i18VIII j1VIII) (j18VIII k1VIII) (k18VIII l1VIII)
+                  (l18VIII m1VIII) (m18VIII n1VIII) (n18VIII o1VIII) (o18VIII p1VIII) (p18VIII q1VIII) (q18VIII r1VIII)
+                  (r18VIII a1IX) (a18IX b1IX) (b18IX c1IX) (c18IX d1IX) (d18IX e1IX) (e18IX f1IX) 
+                  (f18IX g1IX) (g18IX h1IX) (h18IX i1IX) (i18IX j1IX) (j18IX k1IX) (k18IX l1IX)
+                  (l18IX m1IX) (m18IX n1IX) (n18IX o1IX) (o18IX p1IX) (p18IX q1IX) (q18IX r1IX)
+      )
+      (links b    (a1I a1IX) (a2I a2IX) (a3I a3IX) (a4I a4IX) (a5I a5IX) (a6I a6IX) (a7I a7IX) (a8I a8IX) (a9I a9IX) (a10I a10IX) (a11I a11IX) (a12I a12IX) (a13I a13IX) (a14I a14IX) (a15I a15IX) (a16I a16IX) (a17I a17IX) (a18I a18IX)
+                  (b1I b1IX) (b2I b2IX) (b3I b3IX) (b4I b4IX) (b5I b5IX) (b6I b6IX) (b7I b7IX) (b8I b8IX) (b9I b9IX) (b10I b10IX) (b11I b11IX) (b12I b12IX) (b13I b13IX) (b14I b14IX) (b15I b15IX) (b16I b16IX) (b17I b17IX) (b18I b18IX)
+                  (c1I c1IX) (c2I c2IX) (c3I c3IX) (c4I c4IX) (c5I c5IX) (c6I c6IX) (c7I c7IX) (c8I c8IX) (c9I c9IX) (c10I c10IX) (c11I c11IX) (c12I c12IX) (c13I c13IX) (c14I c14IX) (c15I c15IX) (c16I c16IX) (c17I c17IX) (c18I c18IX)
+                  (d1I d1IX) (d2I d2IX) (d3I d3IX) (d4I d4IX) (d5I d5IX) (d6I d6IX) (d7I d7IX) (d8I d8IX) (d9I d9IX) (d10I d10IX) (d11I d11IX) (d12I d12IX) (d13I d13IX) (d14I d14IX) (d15I d15IX) (d16I d16IX) (d17I d17IX) (d18I d18IX)
+                  (e1I e1IX) (e2I e2IX) (e3I e3IX) (e4I e4IX) (e5I e5IX) (e6I e6IX) (e7I e7IX) (e8I e8IX) (e9I e9IX) (e10I e10IX) (e11I e11IX) (e12I e12IX) (e13I e13IX) (e14I e14IX) (e15I e15IX) (e16I e16IX) (e17I e17IX) (e18I e18IX)
+                  (f1I f1IX) (f2I f2IX) (f3I f3IX) (f4I f4IX) (f5I f5IX) (f6I f6IX) (f7I f7IX) (f8I f8IX) (f9I f9IX) (f10I f10IX) (f11I f11IX) (f12I f12IX) (f13I f13IX) (f14I f14IX) (f15I f15IX) (f16I f16IX) (f17I f17IX) (f18I f18IX)
+                  (g1I g1IX) (g2I g2IX) (g3I g3IX) (g4I g4IX) (g5I g5IX) (g6I g6IX) (g7I g7IX) (g8I g8IX) (g9I g9IX) (g10I g10IX) (g11I g11IX) (g12I g12IX) (g13I g13IX) (g14I g14IX) (g15I g15IX) (g16I g16IX) (g17I g17IX) (g18I g18IX)
+                  (h1I h1IX) (h2I h2IX) (h3I h3IX) (h4I h4IX) (h5I h5IX) (h6I h6IX) (h7I h7IX) (h8I h8IX) (h9I h9IX) (h10I h10IX) (h11I h11IX) (h12I h12IX) (h13I h13IX) (h14I h14IX) (h15I h15IX) (h16I h16IX) (h17I h17IX) (h18I h18IX)
+                  (i1I i1IX) (i2I i2IX) (i3I i3IX) (i4I i4IX) (i5I i5IX) (i6I i6IX) (i7I i7IX) (i8I i8IX) (i9I i9IX) (i10I i10IX) (i11I i11IX) (i12I i12IX) (i13I i13IX) (i14I i14IX) (i15I i15IX) (i16I i16IX) (i17I i17IX) (i18I i18IX)
+                  (j1I j1IX) (j2I j2IX) (j3I j3IX) (j4I j4IX) (j5I j5IX) (j6I j6IX) (j7I j7IX) (j8I j8IX) (j9I j9IX) (j10I j10IX) (j11I j11IX) (j12I j12IX) (j13I j13IX) (j14I j14IX) (j15I j15IX) (j16I j16IX) (j17I j17IX) (j18I j18IX)
+                  (k1I k1IX) (k2I k2IX) (k3I k3IX) (k4I k4IX) (k5I k5IX) (k6I k6IX) (k7I k7IX) (k8I k8IX) (k9I k9IX) (k10I k10IX) (k11I k11IX) (k12I k12IX) (k13I k13IX) (k14I k14IX) (k15I k15IX) (k16I k16IX) (k17I k17IX) (k18I k18IX)
+                  (l1I l1IX) (l2I l2IX) (l3I l3IX) (l4I l4IX) (l5I l5IX) (l6I l6IX) (l7I l7IX) (l8I l8IX) (l9I l9IX) (l10I l10IX) (l11I l11IX) (l12I l12IX) (l13I l13IX) (l14I l14IX) (l15I l15IX) (l16I l16IX) (l17I l17IX) (l18I l18IX)
+                  (m1I m1IX) (m2I m2IX) (m3I m3IX) (m4I m4IX) (m5I m5IX) (m6I m6IX) (m7I m7IX) (m8I m8IX) (m9I m9IX) (m10I m10IX) (m11I m11IX) (m12I m12IX) (m13I m13IX) (m14I m14IX) (m15I m15IX) (m16I m16IX) (m17I m17IX) (m18I m18IX)
+                  (n1I n1IX) (n2I n2IX) (n3I n3IX) (n4I n4IX) (n5I n5IX) (n6I n6IX) (n7I n7IX) (n8I n8IX) (n9I n9IX) (n10I n10IX) (n11I n11IX) (n12I n12IX) (n13I n13IX) (n14I n14IX) (n15I n15IX) (n16I n16IX) (n17I n17IX) (n18I n18IX)
+                  (o1I o1IX) (o2I o2IX) (o3I o3IX) (o4I o4IX) (o5I o5IX) (o6I o6IX) (o7I o7IX) (o8I o8IX) (o9I o9IX) (o10I o10IX) (o11I o11IX) (o12I o12IX) (o13I o13IX) (o14I o14IX) (o15I o15IX) (o16I o16IX) (o17I o17IX) (o18I o18IX)
+                  (p1I p1IX) (p2I p2IX) (p3I p3IX) (p4I p4IX) (p5I p5IX) (p6I p6IX) (p7I p7IX) (p8I p8IX) (p9I p9IX) (p10I p10IX) (p11I p11IX) (p12I p12IX) (p13I p13IX) (p14I p14IX) (p15I p15IX) (p16I p16IX) (p17I p17IX) (p18I p18IX)
+                  (q1I q1IX) (q2I q2IX) (q3I q3IX) (q4I q4IX) (q5I q5IX) (q6I q6IX) (q7I q7IX) (q8I q8IX) (q9I q9IX) (q10I q10IX) (q11I q11IX) (q12I q12IX) (q13I q13IX) (q14I q14IX) (q15I q15IX) (q16I q16IX) (q17I q17IX) (q18I q18IX)
+                  (r1I r1IX) (r2I r2IX) (r3I r3IX) (r4I r4IX) (r5I r5IX) (r6I r6IX) (r7I r7IX) (r8I r8IX) (r9I r9IX) (r10I r10IX) (r11I r11IX) (r12I r12IX) (r13I r13IX) (r14I r14IX) (r15I r15IX) (r16I r16IX) (r17I r17IX) (r18I r18IX)
+      )
+      (zone (name im) (players G)
+            (positions a1I)
+      )
+      (zone (name im) (players R)
+            (positions a2I)
+      )
+      (zone (name empty-plane) (players G R)
+            (positions a2I a4I a6I a8I a10I a12I a14I a16I a18I
+                       c2I c4I c6I c8I c10I c12I c14I c16I c18I
+                       e2I e4I e6I e8I e10I e12I e14I e16I e18I
+                       g2I g4I g6I g8I g10I g12I g14I g16I g18I
+                       i2I i4I i6I i8I i10I i12I i14I i16I i18I
+                       k2I k4I k6I k8I k10I k12I k14I k16I k18I
+                       m2I m4I m6I m8I m10I m12I m14I m16I m18I
+                       o2I o4I o6I o8I o10I o12I o14I o16I o18I
+                       q2I q4I q6I q8I q10I q12I q14I q16I q18I
+            )
+      )
+      (zone (name plane) (players G R)
+            (positions a1I a2I a3I a4I a5I a6I a7I a8I a9I a10I a11I a12I a13I a14I a15I a16I a17I a18I
+                       b1I b2I b3I b4I b5I b6I b7I b8I b9I b10I b11I b12I b13I b14I b15I b16I b17I b18I
+                       c1I c2I c3I c4I c5I c6I c7I c8I c9I c10I c11I c12I c13I c14I c15I c16I c17I c18I
+                       d1I d2I d3I d4I d5I d6I d7I d8I d9I d10I d11I d12I d13I d14I d15I d16I d17I d18I
+                       e1I e2I e3I e4I e5I e6I e7I e8I e9I e10I e11I e12I e13I e14I e15I e16I e17I e18I
+                       f1I f2I f3I f4I f5I f6I f7I f8I f9I f10I f11I f12I f13I f14I f15I f16I f17I f18I
+                       g1I g2I g3I g4I g5I g6I g7I g8I g9I g10I g11I g12I g13I g14I g15I g16I g17I g18I
+                       h1I h2I h3I h4I h5I h6I h7I h8I h9I h10I h11I h12I h13I h14I h15I h16I h17I h18I
+                       i1I i2I i3I i4I i5I i6I i7I i8I i9I i10I i11I i12I i13I i14I i15I i16I i17I i18I
+                       j1I j2I j3I j4I j5I j6I j7I j8I j9I j10I j11I j12I j13I j14I j15I j16I j17I j18I
+                       k1I k2I k3I k4I k5I k6I k7I k8I k9I k10I k11I k12I k13I k14I k15I k16I k17I k18I
+                       l1I l2I l3I l4I l5I l6I l7I l8I l9I l10I l11I l12I l13I l14I l15I l16I l17I l18I
+                       m1I m2I m3I m4I m5I m6I m7I m8I m9I m10I m11I m12I m13I m14I m15I m16I m17I m18I
+                       n1I n2I n3I n4I n5I n6I n7I n8I n9I n10I n11I n12I n13I n14I n15I n16I n17I n18I
+                       o1I o2I o3I o4I o5I o6I o7I o8I o9I o10I o11I o12I o13I o14I o15I o16I o17I o18I
+                       p1I p2I p3I p4I p5I p6I p7I p8I p9I p10I p11I p12I p13I p14I p15I p16I p17I p18I
+                       q1I q2I q3I q4I q5I q6I q7I q8I q9I q10I q11I q12I q13I q14I q15I q16I q17I q18I
+                       r1I r2I r3I r4I r5I r6I r7I r8I r9I r10I r11I r12I r13I r14I r15I r16I r17I r18I
+            )
+      )
    )
 )
