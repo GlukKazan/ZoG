@@ -2,8 +2,8 @@
 
 (define tile
    (name  $1$2)
-   (image White "../images/margo/w$1$3.bmp"
-          Black "../images/margo/b$1$3.bmp")
+   (image White "../images/margo/$3.bmp"
+          Black "../images/margo/$4.bmp")
 )
 
 (variant
@@ -67,25 +67,25 @@
              Black "../images/margo/m.bmp")
    )
 
-   (piece (tile t w nw) )
-   (piece (tile z w nw) )
-   (piece (tile w w nw) )
-   (piece (tile b w nw) )
+   (piece (tile t w wtnw btnw) )
+   (piece (tile z w m m) )
+   (piece (tile w w wwnw bwnw) )
+   (piece (tile b w wbnw bbnw) )
 
-   (piece (tile t n ne) )
-   (piece (tile z n ne) )
-   (piece (tile w n ne) )
-   (piece (tile b n ne) )
+   (piece (tile t n wtne btne) )
+   (piece (tile z n m m) )
+   (piece (tile w n wwne bwne) )
+   (piece (tile b n wbne bbne) )
 
-   (piece (tile t e se) )
-   (piece (tile z e se) )
-   (piece (tile w e se) )
-   (piece (tile b e se) )
+   (piece (tile t e wtse btse) )
+   (piece (tile z e m m) )
+   (piece (tile w e wwse bwse) )
+   (piece (tile b e wbse bbse) )
 
-   (piece (tile t s sw) )
-   (piece (tile z s sw) )
-   (piece (tile w s sw) )
-   (piece (tile b s sw) )
+   (piece (tile t s wtsw btsw) )
+   (piece (tile z s m m) )
+   (piece (tile w s wwsw bwsw) )
+   (piece (tile b s wbsw bbsw) )
 
    ; The following dummy piece is required in order to placate the Zillions engine.
    ; It appears as though Zillions must find at least one "moves" keyword somewhere
