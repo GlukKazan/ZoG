@@ -1,7 +1,6 @@
 DIM 2 *		CONSTANT	COLS
-COLS DIM *	CONSTANT	ROWS
-COLS NEGATE	CONSTANT	UDIR
-ROWS COLS -	CONSTANT	BDIR
+COLS DUP 1- *	CONSTANT	BDIR
+BDIR NEGATE	CONSTANT	UDIR
 
 {board
 	ROWS COLS	{grid}
@@ -16,7 +15,6 @@ board}
 	 1	-1	{direction} sw
 	-1	 1	{direction} ne
 	 1	 1	{direction} se
-	 COLS	 0 	{direction} d
+	 BDIR	 0 	{direction} d
 	 UDIR	 0 	{direction} u
-	 BDIR	 0 	{direction} b
 directions}
