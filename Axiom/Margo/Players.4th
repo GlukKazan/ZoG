@@ -1,9 +1,9 @@
 {players
-	{player}	White
-	{player}	Black
+	{player}	W
+	{player}	B
 players}
 
 {turn-order
-	{turn}	White
-	{turn}	Black
+	{turn}	W
+	{turn}	B
 turn-order}
