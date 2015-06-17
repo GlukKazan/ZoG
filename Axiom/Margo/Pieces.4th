@@ -22,6 +22,7 @@ DEFER	sw-piece
 : create-neighbor ( piece-type 'dir -- )
 	here
 	SWAP EXECUTE IF
+		empty? verify
 		SWAP create-piece-type
 
 	ELSE
