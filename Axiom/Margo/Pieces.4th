@@ -19,6 +19,36 @@ DEFER	sw-piece
 	2 MOD
 ;
 
+: is-edge? ( 'op -- ? )
+	COLS here get-y
+	BEGIN
+		2DUP <= IF
+			OVER -
+			SWAP 2 - SWAP
+			FALSE
+		ELSE
+			TRUE
+		ENDIF
+	UNTIL
+	SWAP 1- OVER = SWAP 0= ROT EXECUTE
+;
+
+: common-dir ( 'dir 'op -- ? )
+	is-edge? IF
+		DROP FALSE
+	ELSE
+		EXECUTE
+	ENDIF
+;
+
+: my-first ( a b -- b )
+	SWAP DROP
+;
+
+: n ( -- ) ['] n-internal ['] my-first common-dir ;
+: s ( -- ) ['] s-internal ['] DROP     common-dir ;
+: d ( -- ) ['] d-internal ['] OR       common-dir ;
+
 : create-neighbor ( piece-type 'dir -- )
 	here
 	SWAP EXECUTE IF
