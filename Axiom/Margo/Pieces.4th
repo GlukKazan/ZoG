@@ -164,8 +164,7 @@ DEFER	sw-piece
 	not-empty? verify
 	DUP equal-type? verify
 
-        ( TODO: check-deep )
-        ( TODO: up/down directions )
+        ( TODO: check-deep or piece-types )
 
 	SWAP change-piece SWAP
 	player piece-type ROT

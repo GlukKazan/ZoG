@@ -1,4 +1,32 @@
 {directions
+	{link} d d5 d2 {link} u d2 d5
+	{link} d e5 e2 {link} u e2 e5
+
+	{link} d d4 d1 {link} u d1 d4
+	{link} d e4 e1 {link} u e1 e4
+
+
+	{link} d c11 c6 {link} u c6 c11
+	{link} d d11 d6 {link} u d6 d11
+	{link} d e11 e6 {link} u e6 e11
+	{link} d f11 f6 {link} u f6 f11
+
+	{link} d c10 c5 {link} u c5 c10
+	{link} d d10 d5 {link} u d5 d10
+	{link} d e10 e5 {link} u e5 e10
+	{link} d f10 f5 {link} u f5 f10
+
+	{link} d c9 c4 {link} u c4 c9
+	{link} d d9 d4 {link} u d4 d9
+	{link} d e9 e4 {link} u e4 e9
+	{link} d f9 f4 {link} u f4 f9
+
+	{link} d c8 c3 {link} u c3 c8
+	{link} d d8 d3 {link} u d3 d8
+	{link} d e8 e3 {link} u e3 e8
+	{link} d f8 f3 {link} u f3 f8
+
+
 	{link} d b19 b12 {link} u b12 b19
 	{link} d c19 c12 {link} u c12 c19
 	{link} d d19 d12 {link} u d12 d19
@@ -40,31 +68,4 @@
 	{link} d e14 e7 {link} u e7 e14
 	{link} d f14 f7 {link} u f7 f14
 	{link} d g14 g7 {link} u g7 g14
-
-
-	{link} d c11 c6 {link} u c6 c11
-	{link} d d11 d6 {link} u d6 d11
-	{link} d e11 e6 {link} u e6 e11
-	{link} d f11 f6 {link} u f6 f11
-
-	{link} d c10 c5 {link} u c5 c10
-	{link} d d10 d5 {link} u d5 d10
-	{link} d e10 e5 {link} u e5 e10
-	{link} d f10 f5 {link} u f5 f10
-
-	{link} d c9 c4 {link} u c4 c9
-	{link} d d9 d4 {link} u d4 d9
-	{link} d e9 e4 {link} u e4 e9
-	{link} d f9 f4 {link} u f4 f9
-
-	{link} d c8 c3 {link} u c3 c8
-	{link} d d8 d3 {link} u d3 d8
-	{link} d e8 e3 {link} u e3 e8
-	{link} d f8 f3 {link} u f3 f8
-
-	{link} d d5 d2 {link} u d2 d5
-	{link} d e5 e2 {link} u e2 e5
-
-	{link} d d4 d1 {link} u d1 d4
-	{link} d e4 e1 {link} u e1 e4
 directions}
