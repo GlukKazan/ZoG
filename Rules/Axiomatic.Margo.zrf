@@ -8,6 +8,7 @@
 
 (variant
    (title "MarGo 4x4")
+   (default)
    (board
       (image "../images/margo/4x4.bmp")
       (grid
@@ -36,7 +37,6 @@
 
 (game 
    (title "MarGo 7x7")
-   (default)
 
    (engine "../Axiom/Margo/axiom.dll")
 

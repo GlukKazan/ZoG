@@ -47,7 +47,6 @@ DEFER	sw-piece
 
 : n ( -- ) ['] n-internal ['] my-first common-dir ;
 : s ( -- ) ['] s-internal ['] DROP     common-dir ;
-: d ( -- ) ['] d-internal ['] OR       common-dir ;
 
 : create-neighbor ( piece-type 'dir -- )
 	here
@@ -61,16 +60,89 @@ DEFER	sw-piece
 	to
 ;
 
+: change-piece ( piece-type -- piece-type )
+	player W = IF
+		2 +
+	ENDIF
+	player B = IF
+		3 +
+	ENDIF
+;
+
+: equal-type? ( piece-type -- ? )
+	DUP piece-type <= 
+	SWAP 4 + piece-type > AND
+;
+
+: equal-types? ( piece-type base-type -- ? )
+	2DUP >= ROT ROT
+	4 + < AND
+;
+
+: zero-type ( piece-type -- piece-type )
+	DUP nw-piece equal-types? IF
+		DROP nw-piece 1+
+	ELSE
+		DUP ne-piece equal-types? IF
+			DROP ne-piece 1+
+		ELSE
+			DUP se-piece equal-types? IF
+				DROP se-piece 1+
+			ELSE
+				DUP sw-piece equal-types? IF
+					DROP sw-piece 1+
+				ENDIF
+			ENDIF
+		ENDIF
+	ENDIF
+;
+
+: add-piece-type ( player piece-type -- )
+	here ROT ROT zero-type
+	BEGIN
+		d verify
+		empty?
+	UNTIL
+	create-player-piece-type
+	to 
+;
+
+: add-neighbor ( piece-type 'dir -- )
+	here
+	SWAP EXECUTE IF
+		not-empty? verify
+		SWAP 
+		change-piece
+		player piece-type
+		add-piece-type
+		create-piece-type
+	ELSE
+		SWAP DROP
+	ENDIF
+	to
+;
+
 : create-neighbors ( piece-type 'dir piece-type 'dir piece-type 'dir -- )
 	create-neighbor
 	create-neighbor
 	create-neighbor
 ;
 
+: add-neighbors ( piece-type 'dir piece-type 'dir piece-type 'dir -- )
+	add-neighbor
+	add-neighbor
+	add-neighbor
+;
+
 : create-nw-neighbors ( -- ) sw-piece ['] w ne-piece ['] n nw-piece ['] nw create-neighbors ;
 : create-sw-neighbors ( -- ) nw-piece ['] w se-piece ['] s sw-piece ['] sw create-neighbors ;
 : create-ne-neighbors ( -- ) se-piece ['] e nw-piece ['] n ne-piece ['] ne create-neighbors ;
 : create-se-neighbors ( -- ) ne-piece ['] e sw-piece ['] s se-piece ['] se create-neighbors ;
+
+: add-nw-neighbors ( -- ) sw-piece ['] w ne-piece ['] n nw-piece ['] nw add-neighbors ;
+: add-sw-neighbors ( -- ) nw-piece ['] w se-piece ['] s sw-piece ['] sw add-neighbors ;
+: add-ne-neighbors ( -- ) se-piece ['] e nw-piece ['] n ne-piece ['] ne add-neighbors ;
+: add-se-neighbors ( -- ) ne-piece ['] e sw-piece ['] s se-piece ['] se add-neighbors ;
 
 : drop-piece ( x y -- )
 	2DUP
@@ -88,25 +160,54 @@ DEFER	sw-piece
 	add-move
 ;
 
+: add-piece ( piece-type opposite-type -- )
+	not-empty? verify
+	DUP equal-type? verify
+
+        ( TODO: check-deep )
+        ( TODO: up/down directions )
+
+	SWAP change-piece SWAP
+	player piece-type ROT
+	drop
+	DUP nw-piece = IF add-nw-neighbors ENDIF
+	DUP ne-piece = IF add-ne-neighbors ENDIF
+	DUP se-piece = IF add-se-neighbors ENDIF
+	DUP sw-piece = IF add-sw-neighbors ENDIF
+	DROP
+	add-piece-type
+	create-piece-type
+	add-move
+;
+
 : drop-w ( -- ) 0 0 drop-piece ;
 : drop-n ( -- ) 1 0 drop-piece ;
 : drop-e ( -- ) 1 1 drop-piece ;
 : drop-s ( -- ) 0 1 drop-piece ;
 
+: drop-nw ( -- ) nw-piece se-piece add-piece ;
+: drop-ne ( -- ) ne-piece sw-piece add-piece ;
+: drop-se ( -- ) se-piece nw-piece add-piece ;
+: drop-sw ( -- ) sw-piece ne-piece add-piece ;
+
 {moves w-drop
 	{move} drop-w
+	{move} drop-nw
 moves}
 
 {moves n-drop
 	{move} drop-n
+	{move} drop-ne
 moves}
 
 {moves e-drop
 	{move} drop-e
+	{move} drop-se
 moves}
 
 {moves s-drop
 	{move} drop-s
+	{move} drop-sw
 moves}
 
 {pieces

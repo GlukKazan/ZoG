@@ -1,6 +1,4 @@
 DIM 2 *		CONSTANT	COLS
-COLS 1- 	CONSTANT	DDIR
-DDIR NEGATE	CONSTANT	UDIR
 
 {board
 	ROWS COLS	{grid}
@@ -15,6 +13,4 @@ board}
 	 1	-1	{direction} sw
 	-1	 1	{direction} ne
 	 1	 1	{direction} se
-	 DDIR	 0 	{direction} d-internal
-	 UDIR	 0 	{direction} u
 directions}
