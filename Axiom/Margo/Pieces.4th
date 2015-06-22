@@ -107,17 +107,18 @@ DEFER	sw-piece
 	to 
 ;
 
-: add-neighbor ( piece-type 'dir -- )
+: add-neighbor ( piece-type pattern-type 'dir -- )
 	here
 	SWAP EXECUTE IF
 		not-empty? verify
+		SWAP equal-type? verify
 		SWAP 
 		change-piece
 		player piece-type
 		add-piece-type
 		create-piece-type
 	ELSE
-		SWAP DROP
+		SWAP DROP SWAP DROP
 	ENDIF
 	to
 ;
@@ -128,7 +129,7 @@ DEFER	sw-piece
 	create-neighbor
 ;
 
-: add-neighbors ( piece-type 'dir piece-type 'dir piece-type 'dir -- )
+: add-neighbors ( piece-type pattern-type 'dir piece-type pattern-type 'dir piece-type pattern-type 'dir -- )
 	add-neighbor
 	add-neighbor
 	add-neighbor
@@ -139,10 +140,10 @@ DEFER	sw-piece
 : create-ne-neighbors ( -- ) se-piece ['] e nw-piece ['] n ne-piece ['] ne create-neighbors ;
 : create-se-neighbors ( -- ) ne-piece ['] e sw-piece ['] s se-piece ['] se create-neighbors ;
 
-: add-nw-neighbors ( -- ) sw-piece ['] w ne-piece ['] n nw-piece ['] nw add-neighbors ;
-: add-sw-neighbors ( -- ) nw-piece ['] w se-piece ['] s sw-piece ['] sw add-neighbors ;
-: add-ne-neighbors ( -- ) se-piece ['] e nw-piece ['] n ne-piece ['] ne add-neighbors ;
-: add-se-neighbors ( -- ) ne-piece ['] e sw-piece ['] s se-piece ['] se add-neighbors ;
+: add-nw-neighbors ( -- ) sw-piece ne-piece ['] w ne-piece sw-piece ['] n nw-piece se-piece ['] nw add-neighbors ;
+: add-sw-neighbors ( -- ) nw-piece se-piece ['] w se-piece nw-piece ['] s sw-piece ne-piece ['] sw add-neighbors ;
+: add-ne-neighbors ( -- ) se-piece nw-piece ['] e nw-piece se-piece ['] n ne-piece sw-piece ['] ne add-neighbors ;
+: add-se-neighbors ( -- ) ne-piece sw-piece ['] e sw-piece ne-piece ['] s se-piece nw-piece ['] se add-neighbors ;
 
 : drop-piece ( x y -- )
 	2DUP
@@ -161,11 +162,9 @@ DEFER	sw-piece
 ;
 
 : add-piece ( piece-type opposite-type -- )
+	here is-plane? verify
 	not-empty? verify
 	DUP equal-type? verify
-
-        ( TODO: check-deep or piece-types )
-
 	SWAP change-piece SWAP
 	player piece-type ROT
 	drop
