@@ -1,7 +1,9 @@
-DEFER	nw-piece
-DEFER	ne-piece
-DEFER	se-piece
-DEFER	sw-piece
+$gameLog	ON
+
+DEFER		nw-piece
+DEFER		ne-piece
+DEFER		se-piece
+DEFER		sw-piece
 
 : get-x ( pos -- x )
 	COLS MOD
@@ -188,28 +190,140 @@ DEFER	sw-piece
 : drop-se ( -- ) se-piece nw-piece add-piece ;
 : drop-sw ( -- ) sw-piece ne-piece add-piece ;
 
+: position-not-present? ( -- ? )
+	TRUE
+	0 BEGIN
+		DUP piece-group[] @ here = IF
+			SWAP DROP FALSE SWAP
+			TRUE
+		ELSE
+			1+ DUP piece-group-tail @ >=
+		ENDIF
+	UNTIL DROP
+;
+
+: add-position ( -- )
+	position-not-present? piece-group-tail @ TOTAL < AND IF
+		here piece-group-tail @ piece-group[] !
+		piece-group-tail ++
+		
+		here . CR
+	ENDIF
+;
+
+: check-piece ( 'op 'dir -- )
+	EXECUTE IF
+		EXECUTE IF
+			add-position
+		ENDIF
+	ELSE
+		DROP
+	ENDIF
+;
+
+: init-group ( 'op -- )
+	0 piece-group-tail !
+	0 BEGIN
+		DUP empty-at? IF
+			DUP to OVER ['] n check-piece
+			DUP to OVER ['] s check-piece
+			DUP to OVER ['] w check-piece
+			DUP to OVER ['] e check-piece 
+		ENDIF
+		1+ DUP PLANE >=
+	UNTIL 2DROP
+;
+
+: proceed-group ( 'op -- )
+	0 piece-group-head !
+	BEGIN
+		piece-group-head @ piece-group-tail @ < IF
+			piece-group-head @ to DUP ['] n check-piece
+			piece-group-head @ to DUP ['] s check-piece
+			piece-group-head @ to DUP ['] w check-piece
+			piece-group-head @ to DUP ['] e check-piece
+			piece-group-head ++
+			FALSE
+		ELSE
+			TRUE
+		ENDIF
+	UNTIL DROP
+;
+
+: clear-unmarked ( 'op -- ? )
+	TRUE result !
+        0 BEGIN
+		DUP to OVER EXECUTE IF
+			position-not-present? IF
+				capture
+				FALSE result !
+			ENDIF
+		ENDIF
+		1+ DUP PLANE >=
+	UNTIL 2DROP
+	result @
+;
+
+: clear-pieces ( 'op -- ? )
+	DUP init-group
+(	DUP proceed-group )
+(	clear-unmarked    ) DROP FALSE
+;
+
+: my-enemy? ( -- ? )
+	not-empty? IF
+		for-player player = NOT
+	ELSE
+		FALSE
+	ENDIF
+;
+
+: my-friend? ( -- ? )
+	not-empty? IF
+		for-player player =
+	ELSE
+		FALSE
+	ENDIF
+;
+
+: drop-m ( -- )
+	here a1 = verify
+	drop
+	['] my-enemy? clear-pieces  DROP IF
+		['] my-friend? clear-pieces  DROP
+	ENDIF
+
+	CR
+
+	add-move
+;
+
 {moves w-drop
-	{move} drop-w
-	{move} drop-nw
+	{move} drop-w	{move-type} normal
+	{move} drop-nw	{move-type} normal
 moves}
 
 {moves n-drop
-	{move} drop-n
-	{move} drop-ne
+	{move} drop-n	{move-type} normal
+	{move} drop-ne	{move-type} normal
 moves}
 
 {moves e-drop
-	{move} drop-e
-	{move} drop-se
+	{move} drop-e	{move-type} normal
+	{move} drop-se	{move-type} normal
 moves}
 
 {moves s-drop
-	{move} drop-s
-	{move} drop-sw
+	{move} drop-s	{move-type} normal
+	{move} drop-sw	{move-type} normal
+moves}
+
+{moves m-drop
+	{move} drop-m	{move-type} clean
 moves}
 
 {pieces
-	{piece}		M
+	{piece}		M	{drops} m-drop
 	{piece}		tw	{drops} w-drop
 	{piece}		zw
 	{piece}		ww

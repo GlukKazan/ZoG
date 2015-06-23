@@ -1,4 +1,5 @@
 DIM 2 *		CONSTANT	COLS
+COLS DUP *	CONSTANT	PLANE
 
 {board
 	ROWS COLS	{grid}
@@ -14,3 +15,8 @@ board}
 	-1	 1	{direction} ne
 	 1	 1	{direction} se
 directions}
+
+TOTAL []	piece-group[]
+VARIABLE	piece-group-head
+VARIABLE	piece-group-tail
+VARIABLE	result
