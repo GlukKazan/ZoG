@@ -1,4 +1,4 @@
-$gameLog	ON
+$gameLog	OFF
 
 DEFER		nw-piece
 DEFER		ne-piece
@@ -265,7 +265,7 @@ DEFER		sw-piece
 ;
 
 : clear-pieces ( 'op -- ? )
-	DUP init-group
+	DUP init-group    
 (	DUP proceed-group )
 (	clear-unmarked    ) DROP FALSE
 ;
@@ -289,8 +289,8 @@ DEFER		sw-piece
 : drop-m ( -- )
 	here a1 = verify
 	drop
-	['] my-enemy? clear-pieces  DROP IF
-		['] my-friend? clear-pieces  DROP
+	['] my-enemy? clear-pieces IF
+		['] my-friend? clear-pieces DROP
 	ENDIF
 
 	CR
