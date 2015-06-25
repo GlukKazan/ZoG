@@ -533,6 +533,35 @@
   )
 ))
 
+(define hzdm-king-jump (
+  (while (empty? $1)
+      $1
+      (verify not-last-from?)
+  )
+  (verify (enemy? $1))
+  $1
+  (verify (empty? $1))
+  $1
+  (while empty?
+      (set-flag more-captures false)
+      (king-captured-find $1)
+      (king-captured-find $2)
+      (king-captured-find $3)
+      mark
+      (while empty? 
+          (opposite $1)
+      ) 
+      capture
+      back
+      (if (flag? more-captures)
+          (add-partial jumptype)
+       else
+          (add-partial notype)
+      )
+      $1
+  )
+))
+
 (variant
   (title "Harzdame")
   (description "")
@@ -570,10 +599,10 @@
      (attribute captured? false)
      (moves
         (move-type jumptype)
-           (international-checker-jump n e w)
-           (international-checker-jump e n s)
-           (international-checker-jump w n s)
-           (international-checker-jump s e w)
+           (int-checker-jump n e w)
+           (int-checker-jump e n s)
+           (int-checker-jump w n s)
+           (int-checker-jump s e w)
 
         (move-type normaltype)
            (checker-shift n)
@@ -590,10 +619,10 @@
      (attribute captured? false)
      (moves
         (move-type jumptype)
-           (harzdame-king-jump n e w)
-           (harzdame-king-jump e n s)
-           (harzdame-king-jump w n s)
-           (harzdame-king-jump s e w)
+           (hzdm-king-jump n e w)
+           (hzdm-king-jump e n s)
+           (hzdm-king-jump w n s)
+           (hzdm-king-jump s e w)
 
         (move-type normaltype)
            (king-shift n)
@@ -625,7 +654,7 @@
    mark
    (if (on-board? $1)  
       $1    
-      (if (and enemy? (empty? $1) (not captured?)) 
+      (if (and enemy? (on-board? $1) (empty? $1) (not captured?)) 
           (set-flag more-captures true)
       )
    )
@@ -665,6 +694,38 @@
       )
       $1
       (capture-all)
+  )
+  (if (in-zone? promotion)
+      (if (flag? more-captures)
+          (add-partial King jumptype)
+       else
+          (add-partial King notype)
+      )
+   else
+      (if (flag? more-captures)
+          (add-partial jumptype)
+       else
+          (add-partial notype)
+      )
+  )
+))
+
+(define lng-checker-jump (
+  (verify (not captured?))    
+  $1
+  (verify enemy?)
+  capture
+  $1
+  (verify empty?)
+  (set-flag more-captures false)
+  (if (in-zone? promotion)
+      (king-captured-find $1)
+      (king-captured-find $2)
+      (king-captured-find $3)
+   else
+      (checker-captured-find $1)
+      (checker-captured-find $2)
+      (checker-captured-find $3)
   )
   (if (in-zone? promotion)
       (if (flag? more-captures)
@@ -731,6 +792,34 @@
           )
           back
           (capture-all)
+          (add-partial notype)
+      )
+      $1
+  )
+))
+
+(define lng-king-jump (
+  (while (empty? $1)
+      $1
+  )
+  (verify (enemy? $1))
+  $1
+  (verify (empty? $1))
+  $1
+  (while empty?
+      (set-flag more-captures false)
+      (king-captured-find $1)
+      (king-captured-find $2)
+      (king-captured-find $3)
+      mark
+      (while empty? 
+          (opposite $1)
+      ) 
+      capture
+      back
+      (if (flag? more-captures)
+          (add-partial jumptype)
+       else
           (add-partial notype)
       )
       $1
@@ -829,6 +918,10 @@
     (First (Checker a1 b1 c1 d1 e1 f1  a2 b2 c2 d2 e2 f2  e3 f3) )
     (Second (Checker a5 b5 c5 d5 e5 f5  a4 b4 c4 d4 e4 f4  a3 b3) )
   )
+
+  (loss-condition (First Second) (pieces-remaining 0) )
+  (count-condition (First Second) stalemated )
+  (count-condition (First Second) repetition )
 )
 
 (variant
@@ -1754,15 +1847,9 @@
   $1
   (verify empty?)
   (set-flag more-captures false)
-  (if (in-zone? promotion)
-      (king-captured-find $1)
-      (king-captured-find $2)
-      (king-captured-find $3)
-   else
-      (checker-captured-find $1)
-      (checker-captured-find $2)
-      (checker-captured-find $3)
-  )
+  (checker-captured-find $1)
+  (checker-captured-find $2)
+  (checker-captured-find $3)
   (if (flag? more-captures)
       (opposite $1)
       (markit)
@@ -1849,10 +1936,10 @@
      (attribute captured? false)
      (moves
         (move-type jumptype)
-           (international-checker-jump nw sw ne)
-           (international-checker-jump ne se nw)
-           (international-checker-jump sw se nw)
-           (international-checker-jump se ne sw)
+           (int-checker-jump nw sw ne)
+           (int-checker-jump ne se nw)
+           (int-checker-jump sw se nw)
+           (int-checker-jump se ne sw)
 
         (move-type normaltype)
            (checker-shift nw)
@@ -1869,10 +1956,10 @@
      (attribute captured? false)
      (moves
         (move-type jumptype)
-           (long-king-jump nw sw ne)
-           (long-king-jump ne se nw)
-           (long-king-jump sw se nw)
-           (long-king-jump se ne sw)
+           (lng-king-jump nw sw ne)
+           (lng-king-jump ne se nw)
+           (lng-king-jump sw se nw)
+           (lng-king-jump se ne sw)
 
         (move-type normaltype)
            (king-shift ne)
@@ -1904,10 +1991,10 @@
      (attribute captured? false)
      (moves
         (move-type jumptype)
-           (international-checker-jump nw sw ne)
-           (international-checker-jump ne se nw)
-           (international-checker-jump sw se nw)
-           (international-checker-jump se ne sw)
+           (int-checker-jump nw sw ne)
+           (int-checker-jump ne se nw)
+           (int-checker-jump sw se nw)
+           (int-checker-jump se ne sw)
 
         (move-type normaltype)
            (checker-shift nw)
@@ -1924,10 +2011,10 @@
      (attribute captured? false)
      (moves
         (move-type jumptype)
-           (long-king-jump nw sw ne)
-           (long-king-jump ne se nw)
-           (long-king-jump sw se nw)
-           (long-king-jump se ne sw)
+           (lng-king-jump nw sw ne)
+           (lng-king-jump ne se nw)
+           (lng-king-jump sw se nw)
+           (lng-king-jump se ne sw)
 
         (move-type normaltype)
            (king-shift ne)
@@ -2014,10 +2101,10 @@
      (attribute captured? false)
      (moves
         (move-type jumptype)
-           (international-checker-jump nw sw ne)
-           (international-checker-jump ne se nw)
-           (international-checker-jump sw se nw)
-           (international-checker-jump se ne sw)
+           (int-checker-jump nw sw ne)
+           (int-checker-jump ne se nw)
+           (int-checker-jump sw se nw)
+           (int-checker-jump se ne sw)
 
         (move-type normaltype)
            (checker-shift nw)
@@ -2034,10 +2121,10 @@
      (attribute captured? false)
      (moves
         (move-type jumptype)
-           (long-king-jump nw sw ne)
-           (long-king-jump ne se nw)
-           (long-king-jump sw se nw)
-           (long-king-jump se ne sw)
+           (lng-king-jump nw sw ne)
+           (lng-king-jump ne se nw)
+           (lng-king-jump sw se nw)
+           (lng-king-jump se ne sw)
 
         (move-type normaltype)
            (king-shift ne)
@@ -3013,10 +3100,10 @@
      (attribute captured? false)
      (moves
         (move-type jumptype)
-           (international-checker-jump nw sw ne)
-           (international-checker-jump ne se nw)
-           (international-checker-jump sw se nw)
-           (international-checker-jump se ne sw)
+           (int-checker-jump nw sw ne)
+           (int-checker-jump ne se nw)
+           (int-checker-jump sw se nw)
+           (int-checker-jump se ne sw)
 
         (move-type normaltype)
            (checker-shift nw)
@@ -3033,10 +3120,10 @@
      (attribute captured? false)
      (moves
         (move-type jumptype)
-           (long-king-jump nw sw ne)
-           (long-king-jump ne se nw)
-           (long-king-jump sw se nw)
-           (long-king-jump se ne sw)
+           (lng-king-jump nw sw ne)
+           (lng-king-jump ne se nw)
+           (lng-king-jump sw se nw)
+           (lng-king-jump se ne sw)
 
         (move-type normaltype)
            (king-shift ne)
@@ -3139,43 +3226,19 @@
 )
 
 (define frisian-checker-jump (
-  (verify (not captured?))    
   $1
   (verify enemy?)
-  (verify (not captured?))
+  capture
   $1
   (verify empty?)
   (set-flag more-captures false)
-  (if (in-zone? promotion)
-      (king-captured-find $1)
-      (king-captured-find $2)
-      (king-captured-find $3)
-      (king-captured-find $4)
-      (king-captured-find $5)
-      (king-captured-find $6)
-      (king-captured-find $7)
-   else
-      (checker-captured-find $1)
-      (checker-captured-find $2)
-      (checker-captured-find $3)
-      (checker-captured-find $4)
-      (checker-captured-find $5)
-      (checker-captured-find $6)
-      (checker-captured-find $7)
-  )
-  (if (flag? more-captures)
-      (opposite $1)
-      (markit)
-      $1
-  )
-  (if (not (flag? more-captures))
-      (opposite $1) 
-      (if enemy?
-          capture
-      )
-      $1
-      (capture-all)
-  )
+  (checker-captured-find $1)
+  (checker-captured-find $2)
+  (checker-captured-find $3)
+  (checker-captured-find $4)
+  (checker-captured-find $5)
+  (checker-captured-find $6)
+  (checker-captured-find $7)
   (if (in-zone? promotion)
       (if (flag? more-captures)
           (add-partial jumptype)
@@ -3192,13 +3255,11 @@
 ))
 
 (define frisian-king-jump (
-  (verify (not captured?))    
-  (while (or (empty? $1) captured?)
+  (while (empty? $1)
       $1
   )
   (verify (enemy? $1))
   $1
-  (verify (not captured?))    
   (verify (empty? $1))
   $1
   (while empty?
@@ -3214,23 +3275,11 @@
       (while empty? 
           (opposite $1)
       ) 
-      (if (flag? more-captures)
-          (markit)
-      )
+      capture
       back
       (if (flag? more-captures)
           (add-partial jumptype)
        else
-          mark
-          (opposite $1)
-          (while empty?
-             (opposite $1)
-          )
-          (if enemy?
-              capture
-          )
-          back
-          (capture-all)
           (add-partial notype)
       )
       $1
@@ -3275,14 +3324,14 @@
      (attribute captured? false)
      (moves
         (move-type jumptype)
-           (long-jump nw)
-           (long-jump ne)
-           (long-jump sw)
-           (long-jump se)
-           (long-jump n)
-           (long-jump s)
-           (long-jump w)
-           (long-jump e)
+           (frisian-checker-jump nw sw ne n s w e)  
+           (frisian-checker-jump ne se nw n s w e)  
+           (frisian-checker-jump sw se nw n s w e)  
+           (frisian-checker-jump se ne sw n s w e)  
+           (frisian-checker-jump n w e nw sw ne se)  
+           (frisian-checker-jump s w e nw sw ne se)  
+           (frisian-checker-jump w n s nw sw ne se)  
+           (frisian-checker-jump e n s nw sw ne se)  
 
         (move-type normaltype)
            (checker-shift nw)
@@ -3299,24 +3348,14 @@
      (attribute captured? false)
      (moves
         (move-type jumptype)
-           (king-jump nw)
-           (king-jump ne)
-           (king-jump sw)
-           (king-jump se)
-           (king-jump n)
-           (king-jump s)
-           (king-jump w)
-           (king-jump e)
-
-        (move-type continuetype)
-           (king-jump nw)
-           (king-jump ne)
-           (king-jump sw)
-           (king-jump se)
-           (king-jump n)
-           (king-jump s)
-           (king-jump w)
-           (king-jump e)
+           (frisian-king-jump nw sw ne n s w e)  
+           (frisian-king-jump ne se nw n s w e)  
+           (frisian-king-jump sw se nw n s w e)  
+           (frisian-king-jump se ne sw n s w e)  
+           (frisian-king-jump n w e nw sw ne se)  
+           (frisian-king-jump s w e nw sw ne se)  
+           (frisian-king-jump w n s nw sw ne se)  
+           (frisian-king-jump e n s nw sw ne se)  
 
         (move-type normaltype)
            (king-shift ne)
