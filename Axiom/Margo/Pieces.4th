@@ -325,17 +325,21 @@ DEFER		sw-piece
 	here PLANE < IF
 		DROP TRUE
 	ELSE
-		TRUE here
-		d NOT empty? OR IF
-			BEGIN u NOT UNTIL
-		ENDIF
-		ROT is-over? IF
-			SWAP FALSE SWAP
-		ENDIF
-		to
-		DUP NOT IF
-			add-zomby
-			influence
+		is-not-zomby? NOT IF
+			DROP FALSE
+		ELSE
+			TRUE here
+			d NOT empty? OR IF
+				BEGIN u NOT UNTIL
+			ENDIF
+			ROT is-over? IF
+				SWAP FALSE SWAP
+			ENDIF
+			to
+			DUP NOT IF
+				add-zomby
+				influence
+			ENDIF
 		ENDIF
 	ENDIF
 ;
