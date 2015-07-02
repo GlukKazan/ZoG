@@ -17,6 +17,5 @@ board}
 directions}
 
 TOTAL []	piece-group[]
-VARIABLE	piece-group-head
-VARIABLE	piece-group-tail
+VARIABLE	piece-group-count
 VARIABLE	result

@@ -193,21 +193,25 @@ DEFER		sw-piece
 : position-not-present? ( -- ? )
 	TRUE
 	0 BEGIN
-		DUP piece-group[] @ here = IF
-			SWAP DROP FALSE SWAP
-			TRUE
+		DUP piece-group-count @ < IF
+			DUP piece-group[] @ here = IF
+				SWAP DROP FALSE SWAP
+				TRUE
+			ELSE
+				1+
+				FALSE
+			ENDIF
+
 		ELSE
-			1+ DUP piece-group-tail @ >=
+			TRUE
 		ENDIF
 	UNTIL DROP
 ;
 
 : add-position ( -- )
-	position-not-present? piece-group-tail @ TOTAL < AND IF
-		here piece-group-tail @ piece-group[] !
-		piece-group-tail ++
-		
-		here . CR
+	position-not-present? piece-group-count @ TOTAL < AND IF
+		here piece-group-count @ piece-group[] !
+		piece-group-count ++
 	ENDIF
 ;
 
@@ -222,7 +226,7 @@ DEFER		sw-piece
 ;
 
 : init-group ( 'op -- )
-	0 piece-group-tail !
+	0 piece-group-count !
 	0 BEGIN
 		DUP empty-at? IF
 			DUP to OVER ['] n check-piece
@@ -235,19 +239,17 @@ DEFER		sw-piece
 ;
 
 : proceed-group ( 'op -- )
-	0 piece-group-head !
-	BEGIN
-		piece-group-head @ piece-group-tail @ < IF
-			piece-group-head @ to DUP ['] n check-piece
-			piece-group-head @ to DUP ['] s check-piece
-			piece-group-head @ to DUP ['] w check-piece
-			piece-group-head @ to DUP ['] e check-piece
-			piece-group-head ++
-			FALSE
+	0 BEGIN
+		DUP piece-group-count @ < IF
+			DUP piece-group[] @ to OVER ['] n check-piece
+			DUP piece-group[] @ to OVER ['] s check-piece
+			DUP piece-group[] @ to OVER ['] w check-piece
+			DUP piece-group[] @ to OVER ['] e check-piece
+			1+ FALSE
 		ELSE
 			TRUE
 		ENDIF
-	UNTIL DROP
+	UNTIL 2DROP
 ;
 
 : clear-unmarked ( 'op -- ? )
@@ -266,8 +268,8 @@ DEFER		sw-piece
 
 : clear-pieces ( 'op -- ? )
 	DUP init-group    
-(	DUP proceed-group )
-(	clear-unmarked    ) DROP FALSE
+	DUP proceed-group
+	clear-unmarked     
 ;
 
 : my-enemy? ( -- ? )
@@ -292,30 +294,27 @@ DEFER		sw-piece
 	['] my-enemy? clear-pieces IF
 		['] my-friend? clear-pieces DROP
 	ENDIF
-
-	CR
-
 	add-move
 ;
 
 {moves w-drop
 	{move} drop-w	{move-type} normal
-	{move} drop-nw	{move-type} normal
+(	{move} drop-nw	{move-type} normal )
 moves}
 
 {moves n-drop
 	{move} drop-n	{move-type} normal
-	{move} drop-ne	{move-type} normal
+(	{move} drop-ne	{move-type} normal )
 moves}
 
 {moves e-drop
 	{move} drop-e	{move-type} normal
-	{move} drop-se	{move-type} normal
+(	{move} drop-se	{move-type} normal )
 moves}
 
 {moves s-drop
 	{move} drop-s	{move-type} normal
-	{move} drop-sw	{move-type} normal
+(	{move} drop-sw	{move-type} normal )
 moves}
 
 {moves m-drop
