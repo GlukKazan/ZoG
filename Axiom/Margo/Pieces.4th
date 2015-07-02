@@ -193,8 +193,8 @@ DEFER		sw-piece
 : position-not-present? ( -- ? )
 	TRUE
 	0 BEGIN
-		DUP piece-group-count @ < IF
-			DUP piece-group[] @ here = IF
+		DUP pieces-count @ < IF
+			DUP pieces[] @ here = IF
 				SWAP DROP FALSE SWAP
 				TRUE
 			ELSE
@@ -209,9 +209,9 @@ DEFER		sw-piece
 ;
 
 : add-position ( -- )
-	position-not-present? piece-group-count @ TOTAL < AND IF
-		here piece-group-count @ piece-group[] !
-		piece-group-count ++
+	position-not-present? pieces-count @ TOTAL < AND IF
+		here pieces-count @ pieces[] !
+		pieces-count ++
 	ENDIF
 ;
 
@@ -226,7 +226,7 @@ DEFER		sw-piece
 ;
 
 : init-group ( 'op -- )
-	0 piece-group-count !
+	0 pieces-count !
 	0 BEGIN
 		DUP empty-at? IF
 			DUP to OVER ['] n check-piece
@@ -240,11 +240,11 @@ DEFER		sw-piece
 
 : proceed-group ( 'op -- )
 	0 BEGIN
-		DUP piece-group-count @ < IF
-			DUP piece-group[] @ to OVER ['] n check-piece
-			DUP piece-group[] @ to OVER ['] s check-piece
-			DUP piece-group[] @ to OVER ['] w check-piece
-			DUP piece-group[] @ to OVER ['] e check-piece
+		DUP pieces-count @ < IF
+			DUP pieces[] @ to OVER ['] n check-piece
+			DUP pieces[] @ to OVER ['] s check-piece
+			DUP pieces[] @ to OVER ['] w check-piece
+			DUP pieces[] @ to OVER ['] e check-piece
 			1+ FALSE
 		ELSE
 			TRUE
@@ -252,16 +252,108 @@ DEFER		sw-piece
 	UNTIL 2DROP
 ;
 
+: is-not-zomby? ( -- ? )
+	TRUE
+	0 BEGIN
+		DUP zombies-count @ < IF
+			DUP zombies[] @ here = IF
+				SWAP DROP FALSE SWAP
+				TRUE
+			ELSE
+				1+
+				FALSE
+			ENDIF
+		ELSE
+			TRUE
+		ENDIF
+	UNTIL DROP
+;
+
+: add-zomby ( -- )
+	is-not-zomby? zombies-count @ TOTAL < AND IF
+		here zombies-count @ zombies[] !
+		zombies-count ++
+	ENDIF
+;
+
+: influence-dir ( 'dir -- )
+	here
+	SWAP EXECUTE verify
+	empty? IF
+		BEGIN u NOT UNTIL
+	ENDIF
+	add-zomby
+	to
+;
+
+: influence ( -- )
+	nw-piece equal-type? IF
+		['] s  influence-dir
+		['] e  influence-dir
+		['] se influence-dir
+	ENDIF
+	ne-piece equal-type? IF
+		['] s  influence-dir
+		['] w  influence-dir
+		['] sw influence-dir
+	ENDIF
+	se-piece equal-type? IF
+		['] n  influence-dir
+		['] w  influence-dir
+		['] nw influence-dir
+	ENDIF
+	sw-piece equal-type? IF
+		['] n  influence-dir
+		['] e  influence-dir
+		['] ne influence-dir
+	ENDIF
+;
+
+: is-over? ( 'op -- ? )
+	not-empty? IF
+		EXECUTE IF
+			is-not-zomby? NOT
+		ELSE
+			TRUE
+		ENDIF
+	ELSE
+		DROP FALSE
+	ENDIF
+;
+
+: is-not-over? ( 'op -- ? )
+	here PLANE < IF
+		DROP TRUE
+	ELSE
+		TRUE here
+		d NOT empty? OR IF
+			BEGIN u NOT UNTIL
+		ENDIF
+		ROT is-over? IF
+			SWAP FALSE SWAP
+		ENDIF
+		to
+		DUP NOT IF
+			add-zomby
+			influence
+		ENDIF
+	ENDIF
+;
+
 : clear-unmarked ( 'op -- ? )
 	TRUE result !
-        0 BEGIN
+	0 zombies-count !
+        ALL BEGIN
+		1-
 		DUP to OVER EXECUTE IF
 			position-not-present? IF
-				capture
-				FALSE result !
+				OVER is-not-over? IF
+					capture
+					FALSE result !
+				ENDIF
 			ENDIF
 		ENDIF
-		1+ DUP PLANE >=
+		DUP 0 <=
 	UNTIL 2DROP
 	result @
 ;
@@ -273,7 +365,7 @@ DEFER		sw-piece
 ;
 
 : my-enemy? ( -- ? )
-	not-empty? IF
+	here a1 <> not-empty? AND IF
 		for-player player = NOT
 	ELSE
 		FALSE
@@ -281,7 +373,7 @@ DEFER		sw-piece
 ;
 
 : my-friend? ( -- ? )
-	not-empty? IF
+	here a1 <> not-empty? AND IF
 		for-player player =
 	ELSE
 		FALSE
@@ -299,22 +391,22 @@ DEFER		sw-piece
 
 {moves w-drop
 	{move} drop-w	{move-type} normal
-(	{move} drop-nw	{move-type} normal )
+	{move} drop-nw	{move-type} normal
 moves}
 
 {moves n-drop
 	{move} drop-n	{move-type} normal
-(	{move} drop-ne	{move-type} normal )
+	{move} drop-ne	{move-type} normal
 moves}
 
 {moves e-drop
 	{move} drop-e	{move-type} normal
-(	{move} drop-se	{move-type} normal )
+	{move} drop-se	{move-type} normal
 moves}
 
 {moves s-drop
 	{move} drop-s	{move-type} normal
-(	{move} drop-sw	{move-type} normal )
+	{move} drop-sw	{move-type} normal
 moves}
 
 {moves m-drop
