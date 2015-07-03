@@ -50,6 +50,40 @@ DEFER		sw-piece
 : n ( -- ) ['] n-internal ['] my-first common-dir ;
 : s ( -- ) ['] s-internal ['] DROP     common-dir ;
 
+: dir-ext ( 'dir -- ? )
+	here PLANE < IF
+		BEGIN
+			d IF
+				empty?
+			ELSE
+				TRUE
+			ENDIF
+		UNTIL
+		empty? SWAP EXECUTE SWAP
+		OVER IF
+			not-empty? AND NOT IF
+				BEGIN u NOT UNTIL
+			ENDIF
+		ELSE
+			DROP
+		ENDIF
+	ELSE
+		EXECUTE
+		DUP empty? AND IF
+			BEGIN u NOT UNTIL
+		ENDIF
+	ENDIF
+;
+
+: n-ext  ( -- ) ['] n  dir-ext ;
+: s-ext  ( -- ) ['] s  dir-ext ;
+: w-ext  ( -- ) ['] w  dir-ext ;
+: e-ext  ( -- ) ['] e  dir-ext ;
+: nw-ext ( -- ) ['] nw dir-ext ;
+: ne-ext ( -- ) ['] ne dir-ext ;
+: sw-ext ( -- ) ['] sw dir-ext ;
+: se-ext ( -- ) ['] se dir-ext ;
+
 : create-neighbor ( piece-type 'dir -- )
 	here
 	SWAP EXECUTE IF
@@ -62,13 +96,15 @@ DEFER		sw-piece
 	to
 ;
 
-: change-piece ( piece-type -- piece-type )
-	player W = IF
+: change-piece ( piece-type player -- piece-type )
+	SWAP
+	OVER W = IF
 		2 +
 	ENDIF
-	player B = IF
+	OVER B = IF
 		3 +
 	ENDIF
+	SWAP DROP
 ;
 
 : equal-type? ( piece-type -- ? )
@@ -115,7 +151,7 @@ DEFER		sw-piece
 		not-empty? verify
 		SWAP equal-type? verify
 		SWAP 
-		change-piece
+		player change-piece
 		player piece-type
 		add-piece-type
 		create-piece-type
@@ -167,7 +203,7 @@ DEFER		sw-piece
 	here is-plane? verify
 	not-empty? verify
 	DUP equal-type? verify
-	SWAP change-piece SWAP
+	SWAP player change-piece SWAP
 	player piece-type ROT
 	drop
 	DUP nw-piece = IF add-nw-neighbors ENDIF
@@ -238,18 +274,79 @@ DEFER		sw-piece
 	UNTIL 2DROP
 ;
 
+: action-dir ( 'op 'dir -- )
+	here
+	SWAP EXECUTE IF
+		SWAP EXECUTE
+	ELSE
+		SWAP DROP
+	ENDIF
+	to
+;
+
+: inner ( 'op -- )
+	nw-piece equal-type? IF
+		DUP ['] s-ext  action-dir
+		DUP ['] e-ext  action-dir
+		DUP ['] se-ext action-dir
+	ENDIF
+	ne-piece equal-type? IF
+		DUP ['] s-ext  action-dir
+		DUP ['] w-ext  action-dir
+		DUP ['] sw-ext action-dir
+	ENDIF
+	se-piece equal-type? IF
+		DUP ['] n-ext  action-dir
+		DUP ['] w-ext  action-dir
+		DUP ['] nw-ext action-dir
+	ENDIF
+	sw-piece equal-type? IF
+		DUP ['] n-ext  action-dir
+		DUP ['] e-ext  action-dir
+		DUP ['] ne-ext action-dir
+	ENDIF
+	DROP
+;
+
+: neighbor ( 'op -- )
+	nw-piece equal-type? IF
+		DUP ['] n-ext  action-dir
+		DUP ['] w-ext  action-dir
+	ENDIF
+	ne-piece equal-type? IF
+		DUP ['] n-ext  action-dir
+		DUP ['] e-ext  action-dir
+	ENDIF
+	se-piece equal-type? IF
+		DUP ['] s-ext  action-dir
+		DUP ['] e-ext  action-dir
+	ENDIF
+	sw-piece equal-type? IF
+		DUP ['] s-ext  action-dir
+		DUP ['] w-ext  action-dir
+	ENDIF
+	DUP ['] d action-dir
+	DUP ['] u action-dir
+	DROP
+;
+
+: check-position ( -- )
+	function @ EXECUTE IF
+		add-position
+	ENDIF
+;
+
 : proceed-group ( 'op -- )
+	function !
 	0 BEGIN
 		DUP pieces-count @ < IF
-			DUP pieces[] @ to OVER ['] n check-piece
-			DUP pieces[] @ to OVER ['] s check-piece
-			DUP pieces[] @ to OVER ['] w check-piece
-			DUP pieces[] @ to OVER ['] e check-piece
+			DUP pieces[] @ to ['] add-position inner
+			DUP pieces[] @ to ['] check-position neighbor
 			1+ FALSE
 		ELSE
 			TRUE
 		ENDIF
-	UNTIL 2DROP
+	UNTIL DROP
 ;
 
 : is-not-zomby? ( -- ? )
@@ -276,40 +373,7 @@ DEFER		sw-piece
 	ENDIF
 ;
 
-: influence-dir ( 'dir -- )
-	here
-	SWAP EXECUTE verify
-	empty? IF
-		BEGIN u NOT UNTIL
-	ENDIF
-	add-zomby
-	to
-;
-
-: influence ( -- )
-	nw-piece equal-type? IF
-		['] s  influence-dir
-		['] e  influence-dir
-		['] se influence-dir
-	ENDIF
-	ne-piece equal-type? IF
-		['] s  influence-dir
-		['] w  influence-dir
-		['] sw influence-dir
-	ENDIF
-	se-piece equal-type? IF
-		['] n  influence-dir
-		['] w  influence-dir
-		['] nw influence-dir
-	ENDIF
-	sw-piece equal-type? IF
-		['] n  influence-dir
-		['] e  influence-dir
-		['] ne influence-dir
-	ENDIF
-;
-
-: is-over? ( 'op -- ? )
+: is-cover? ( 'op -- ? )
 	not-empty? IF
 		EXECUTE IF
 			is-not-zomby? NOT
@@ -321,7 +385,7 @@ DEFER		sw-piece
 	ENDIF
 ;
 
-: is-not-over? ( 'op -- ? )
+: is-not-cover? ( 'op -- ? )
 	here PLANE < IF
 		DROP TRUE
 	ELSE
@@ -332,15 +396,51 @@ DEFER		sw-piece
 			d NOT empty? OR IF
 				BEGIN u NOT UNTIL
 			ENDIF
-			ROT is-over? IF
+			ROT is-cover? IF
 				SWAP FALSE SWAP
 			ENDIF
 			to
 			DUP NOT IF
 				add-zomby
-				influence
+				['] add-zomby inner
 			ENDIF
 		ENDIF
+	ENDIF
+;
+
+: my-capture ( -- )
+	here PLANE < IF
+		d not-empty? AND IF
+			player
+			FALSE BEGIN
+				d IF
+					empty? IF
+						u verify
+						TRUE
+					ELSE
+						DROP TRUE
+						FALSE
+					ENDIF
+				ELSE
+					TRUE
+				ENDIF
+			UNTIL
+			piece-type 1-
+			SWAP IF
+				SWAP change-piece
+			ELSE
+				SWAP DROP
+			ENDIF
+			player SWAP
+			capture
+			BEGIN u NOT UNTIL
+			create-player-piece-type
+		ELSE
+			u DROP
+			capture
+		ENDIF
+	ELSE
+		capture
 	ENDIF
 ;
 
@@ -351,8 +451,8 @@ DEFER		sw-piece
 		1-
 		DUP to OVER EXECUTE IF
 			position-not-present? IF
-				OVER is-not-over? IF
-					capture
+				OVER is-not-cover? IF
+					my-capture
 					FALSE result !
 				ENDIF
 			ENDIF
@@ -365,7 +465,7 @@ DEFER		sw-piece
 : clear-pieces ( 'op -- ? )
 	DUP init-group    
 	DUP proceed-group
-	clear-unmarked     
+	clear-unmarked
 ;
 
 : my-enemy? ( -- ? )

@@ -22,3 +22,4 @@ VARIABLE	pieces-count
 TOTAL []	zombies[]
 VARIABLE	zombies-count
 VARIABLE	result
+VARIABLE	function
