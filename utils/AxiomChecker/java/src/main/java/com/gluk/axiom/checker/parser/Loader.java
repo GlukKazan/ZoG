@@ -1,18 +1,12 @@
 package com.gluk.axiom.checker.parser;
 
-import com.gluk.axiom.checker.interfaces.IDictionary;
-import com.gluk.axiom.checker.interfaces.IParser;
-import com.gluk.axiom.checker.interfaces.IWord;
+import com.gluk.axiom.checker.api.IDictionary;
+import com.gluk.axiom.checker.api.IParser;
+import com.gluk.axiom.checker.api.IWord;
+import com.gluk.axiom.checker.api.Words;
 
 public class Loader implements IParser {
 	
-	private final static String BNG_WORD          = "!";
-	private final static String DEF_WORD          = ":";
-	private final static String EQL_WORD          = "==";
-	private final static String INH_WORD          = "<=";
-	private final static String OUT_WORD          = "--";
-	private final static String ARG_WORD          = "<<";
-
 	private final static int    INITIAL           = 0;
 	private final static int    WORD_EXPECTED     = 1;
 	private final static int    TYPE_EXPECTED     = 2;
@@ -34,10 +28,10 @@ public class Loader implements IParser {
 	public void parse(String s, boolean isComment) throws Exception {
 		if (isComment) {
 			if (word != null) {
-				if (s.equals(OUT_WORD)) {
+				if (s.equals(Words.OUT_WORD)) {
 					mode = OUT_TYPES;
 				}
-				else if (s.equals(ARG_WORD)) {
+				else if (s.equals(Words.ARG_WORD)) {
 					mode = ARG_TYPES;
 				}
 				else if (mode == INITIAL) {
@@ -64,16 +58,16 @@ public class Loader implements IParser {
 				type = s;
 				mode = INITIAL;
 			}
-			else if (s.equals(BNG_WORD)) {
+			else if (s.equals(Words.BNG_WORD)) {
 				mode = TYPE_EXPECTED;
 			}
-			else if (s.equals(EQL_WORD)) {
+			else if (s.equals(Words.EQL_WORD)) {
 				if (type == null) {
 					throw new Exception("Syntax Error");
 				}
 				mode = EQUEAL_EXPECTED;
 			}
-			else if (s.equals(INH_WORD)) {
+			else if (s.equals(Words.INH_WORD)) {
 				if (type == null) {
 					throw new Exception("Syntax Error");
 				}
@@ -84,7 +78,7 @@ public class Loader implements IParser {
 				word = dict.addWord(s);
 				mode = INITIAL;
 			}
-			else if (s.equals(DEF_WORD)) {
+			else if (s.equals(Words.DEF_WORD)) {
 				if (word != null) {
 					throw new Exception("Syntax Error");
 				}
@@ -95,4 +89,6 @@ public class Loader implements IParser {
 			}
 		}
 	}
+
+	public void dumpStack() {}
 }

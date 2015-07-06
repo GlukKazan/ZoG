@@ -1,4 +1,4 @@
-package com.gluk.axiom.checker.interfaces;
+package com.gluk.axiom.checker.api;
 
 import java.util.List;
 

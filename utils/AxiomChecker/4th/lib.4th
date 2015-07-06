@@ -1,24 +1,31 @@
 ( ! . <= x ) ( ! x == y ) ( ! x == z )
 ( ! . <= ' ) ( ! . <= ` ) ( ! . <= * ) ( ! ` == '% )
 ( ! . <= ? ) ( ! ? == %? )
-( ! x <= n ) ( ! x <= m )
-( ! n <= p ) ( ! p == pos )
-( ! n <= t ) ( ! t == piece-type )
-( ! n <= a ) ( ! a == player )
+( ! x <= i ) ( ! x <= m )
+( ! i <= p ) ( ! p == pos )
+( ! i <= t ) ( ! t == piece-type )
+( ! i <= a ) ( ! a == player )
 
-: CONSTANT			( x << y ) ;
+: CONSTANT			( i << i ) ;
 : VARIABLE			( << ' ) ;
-: DEFER				( << ' ) ;
-: '				( << ' ) ;
-: IS				( ' << ' ) ;
-: []				( x << * ) ;
+: DEFER				( << i ) ;
+: []				( i << * ) ;
 : [']				( << ` ) ;
+
+: {direction}			( << ` ) ;
+: {link}			( << ` ) ;
+: {variable}			( << ' ) ;
+: {position}			( << p ) ;
+: {piece}			( << t ) ;
+: {player}			( << a ) ;
+: {move-type}			( << m ) ;
+
 : EXECUTE			( ` -- ) ;
 : IF				( ? -- ) ;
 : UNTIL				( ? -- ) ;
 
 : @				( ' -- x ) ;
-: !				( x ' -- ) ;
+: !				( i ' -- ) ;
 
 : DUP				( x -- x x ) ;
 : 2DUP				( x y -- x y x y ) ;
@@ -28,33 +35,33 @@
 : OVER				( x y -- x y x ) ;
 : ROT				( x y z -- y z x ) ;
 
-: +				( n n -- n ) ;
-: -				( n n -- n ) ;
-: *				( n n -- n ) ;
-: /				( n n -- n ) ;
-: MOD				( n n -- n ) ;
-: MIN				( n n -- n ) ;
-: MAX				( n n -- n ) ;
-: RAND-WITHIN			( n n -- n ) ;
-: RAND-WITHIN2			( n n -- n ) ;
+: +				( i i -- i ) ;
+: -				( i i -- i ) ;
+: *				( i i -- i ) ;
+: /				( i i -- i ) ;
+: MOD				( i i -- i ) ;
+: MIN				( i i -- i ) ;
+: MAX				( i i -- i ) ;
+: RAND-WITHIN			( i i -- i ) ;
+: RAND-WITHIN2			( i i -- i ) ;
 
-: 1+				( n -- n ) ;
-: 1-				( n -- n ) ;
-: ABS				( n -- n ) ;
-: NEGATE			( n -- n ) ;
+: 1+				( i -- i ) ;
+: 1-				( i -- i ) ;
+: ABS				( i -- i ) ;
+: NEGATE			( i -- i ) ;
 : ++				( ' -- ) ;
 : --				( ' -- ) ;
 
-: =				( n n -- ? ) ;
-: <				( n n -- ? ) ;
-: >				( n n -- ? ) ;
-: <=				( n n -- ? ) ;
-: >=				( n n -- ? ) ;
+: =				( i i -- ? ) ;
+: <				( i i -- ? ) ;
+: >				( i i -- ? ) ;
+: <=				( i i -- ? ) ;
+: >=				( i i -- ? ) ;
 
-: 0=				( n -- ? ) ;
-: 0<				( n -- ? ) ;
-: 0>				( n -- ? ) ;
-: 0<>				( n -- ? ) ;
+: 0=				( i -- ? ) ;
+: 0<				( i -- ? ) ;
+: 0>				( i -- ? ) ;
+: 0<>				( i -- ? ) ;
 
 : TRUE				( -- ? ) ;
 : FALSE				( -- ? ) ;
@@ -64,11 +71,11 @@
 : NOT				( ? -- ? ) ;
 
 : empty?			( -- ? ) ;
-: empty-at?			( p -- ? ) ;
+: empty-at?			( i -- ? ) ;
 : not-empty?			( -- ? ) ;
-: not-empty-at?			( p -- ? ) ;
-: not-piece-type		( t -- ? ) ;
-: not-piece-type-at		( p t -- ? ) ;
+: not-empty-at?			( i -- ? ) ;
+: not-piece-type		( i -- ? ) ;
+: not-piece-type-at		( i i -- ? ) ;
 : friend?			( -- ? ) ;
 : friend-at?			( -- ? ) ;
 : friend-of?			( a -- ? ) ;
@@ -76,57 +83,57 @@
 : enemy-at?			( -- ? ) ;
 : enemy-of?			( a -- ? ) ;
 : neutral-piece?		( -- ? ) ;
-: neutral-piece-at?		( p -- ? ) ;
+: neutral-piece-at?		( i -- ? ) ;
 
 : current-player		( -- a ) ;
 : for-player			( -- a ) ;
 : of-type			( -- m ) ;
 : player			( -- a ) ;
-: player-at			( p -- a ) ;
+: player-at			( i -- a ) ;
 
-: move				( p p -- ) ;
+: move				( i i -- ) ;
 : drop				( -- ) ;
-: drop-piece			( t -- ) ;
-: drop-piece-at			( t p -- ) ;
+: drop-piece			( i -- ) ;
+: drop-piece-at			( i i -- ) ;
 : capture			( -- ) ;
-: capture-at			( p -- ) ;
+: capture-at			( i -- ) ;
 : create			( -- ) ;
-: create-at			( p -- ) ;
+: create-at			( i -- ) ;
 : create-player			( a -- ) ;
-: create-player-at		( a p -- ) ;
-: create-piece-type		( t -- ) ;
-: create-piece-type-at		( t p -- ) ;
-: create-player-piece-type	( a t -- ) ;
-: create-player-piece-type-at	( a t p -- ) ;
-: change-type			( t -- ) ;
-: change-type-at		( t p -- ) ;
+: create-player-at		( a i -- ) ;
+: create-piece-type		( i -- ) ;
+: create-piece-type-at		( i i -- ) ;
+: create-player-piece-type	( a i -- ) ;
+: create-player-piece-type-at	( a i i -- ) ;
+: change-type			( i -- ) ;
+: change-type-at		( i i -- ) ;
 : change-owner			( a -- ) ;
-: change-owner-at		( a p -- ) ;
+: change-owner-at		( a i -- ) ;
 
 : verify			( ? -- ) ;
 : here				( -- p ) ;
 : from				( -- p ) ;
-: to				( p -- ) ;
-: current-piece			( -- n ) ;
+: to				( i -- ) ;
+: current-piece			( -- i ) ;
 : current-piece-type		( -- t ) ;
-: piece				( -- n ) ;
-: piece-at			( p -- n ) ;
-: piece-value			( n -- n ) ;
-: piece-index			( n -- n ) ;
+: piece				( -- i ) ;
+: piece-at			( i -- i ) ;
+: piece-value			( i -- i ) ;
+: piece-index			( i -- i ) ;
 : piece-type			( -- t ) ;
-: piece-type-at			( p -- t ) ;
+: piece-type-at			( i -- t ) ;
 
-: move-count			( -- n ) ;
-: turn-number			( -- n ) ;
-: turn-offset			( -- n ) ;
-: next-turn-offset		( n -- n ) ;
-: turn-offset-to-player		( n -- a ) ;
+: move-count			( -- i ) ;
+: turn-number			( -- i ) ;
+: turn-offset			( -- i ) ;
+: next-turn-offset		( i -- i ) ;
+: turn-offset-to-player		( i -- a ) ;
 : next-player			( -- a ) ;
 : stalemate?			( -- ? ) ;
-: board[]			( p -- ' ) ;
-: material-balance		( p -- n ) ;
-: player-index			( a -- n ) ;
-: player-count			( -- n ) ;
+: board[]			( i -- ' ) ;
+: material-balance		( i -- i ) ;
+: player-index			( a -- i ) ;
+: player-count			( -- i ) ;
 
 : add-move			( -- ) ;
 : partial			( -- ) ;
