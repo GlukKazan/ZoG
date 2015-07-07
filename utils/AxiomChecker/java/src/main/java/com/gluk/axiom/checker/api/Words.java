@@ -20,6 +20,7 @@ public interface Words {
 
 	public final static String ANY_TYPE          = ".";
 	public final static String NUM_TYPE          = "i";
+	public final static String POS_TYPE          = "p";
 	public final static String ARRAY_TYPE        = "*";
 	public final static String QUOTE_TYPE        = "\'";
 	public final static String FUNC_TYPE         = "`";

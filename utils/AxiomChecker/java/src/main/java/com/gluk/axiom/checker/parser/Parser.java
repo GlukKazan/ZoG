@@ -218,9 +218,19 @@ public class Parser implements IParser {
 	}
 	
 	private boolean isNumOrPosition(String s) {
-		// TODO:
-		
-		return false;
+		if (s.isEmpty()) return false;
+		int i = 0;
+		if ((s.charAt(0) >= 'a') && (s.charAt(0) <= 'z')) {
+			i++;
+		}
+		boolean r = false;
+		for (; i < s.length(); i++) {
+			r = true;
+			if ((s.charAt(i) > '9') || (s.charAt(i) < '0')) {
+				return false;
+			}
+		}
+		return r;
 	}
 	
 	private void checkWord(String s) throws Exception {
@@ -245,8 +255,7 @@ public class Parser implements IParser {
 				stack.remove(stack.size() - 1);
 				checkWord(f);
 			} else if (isNumOrPosition(s)) {
-				// TODO: 
-				
+				stack.add(Words.POS_TYPE); 
 			} else {
 				genOutput(s);
 				if (s.equals(Words.IF_WORD) || s.equals(Words.BEGIN_WORD)) {

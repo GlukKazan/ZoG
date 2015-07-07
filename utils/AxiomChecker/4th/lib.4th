@@ -24,8 +24,8 @@
 : IF				( ? -- ) ;
 : UNTIL				( ? -- ) ;
 
-: @				( ' -- x ) ;
-: !				( i ' -- ) ;
+: @				( ' -- . ) ;
+: !				( . ' -- ) ;
 
 : DUP				( x -- x x ) ;
 : 2DUP				( x y -- x y x y ) ;
@@ -71,11 +71,11 @@
 : NOT				( ? -- ? ) ;
 
 : empty?			( -- ? ) ;
-: empty-at?			( i -- ? ) ;
+: empty-at?			( p -- ? ) ;
 : not-empty?			( -- ? ) ;
-: not-empty-at?			( i -- ? ) ;
-: not-piece-type		( i -- ? ) ;
-: not-piece-type-at		( i i -- ? ) ;
+: not-empty-at?			( p -- ? ) ;
+: not-piece-type		( t -- ? ) ;
+: not-piece-type-at		( p t -- ? ) ;
 : friend?			( -- ? ) ;
 : friend-at?			( -- ? ) ;
 : friend-of?			( a -- ? ) ;
@@ -83,45 +83,45 @@
 : enemy-at?			( -- ? ) ;
 : enemy-of?			( a -- ? ) ;
 : neutral-piece?		( -- ? ) ;
-: neutral-piece-at?		( i -- ? ) ;
+: neutral-piece-at?		( p -- ? ) ;
 
 : current-player		( -- a ) ;
 : for-player			( -- a ) ;
 : of-type			( -- m ) ;
 : player			( -- a ) ;
-: player-at			( i -- a ) ;
+: player-at			( p -- a ) ;
 
-: move				( i i -- ) ;
+: move				( p p -- ) ;
 : drop				( -- ) ;
-: drop-piece			( i -- ) ;
-: drop-piece-at			( i i -- ) ;
+: drop-piece			( t -- ) ;
+: drop-piece-at			( t p -- ) ;
 : capture			( -- ) ;
-: capture-at			( i -- ) ;
+: capture-at			( p -- ) ;
 : create			( -- ) ;
-: create-at			( i -- ) ;
+: create-at			( p -- ) ;
 : create-player			( a -- ) ;
-: create-player-at		( a i -- ) ;
-: create-piece-type		( i -- ) ;
-: create-piece-type-at		( i i -- ) ;
-: create-player-piece-type	( a i -- ) ;
-: create-player-piece-type-at	( a i i -- ) ;
-: change-type			( i -- ) ;
-: change-type-at		( i i -- ) ;
+: create-player-at		( a p -- ) ;
+: create-piece-type		( t -- ) ;
+: create-piece-type-at		( t p -- ) ;
+: create-player-piece-type	( a t -- ) ;
+: create-player-piece-type-at	( a t p -- ) ;
+: change-type			( t -- ) ;
+: change-type-at		( t p -- ) ;
 : change-owner			( a -- ) ;
-: change-owner-at		( a i -- ) ;
+: change-owner-at		( a p -- ) ;
 
 : verify			( ? -- ) ;
 : here				( -- p ) ;
 : from				( -- p ) ;
-: to				( i -- ) ;
+: to				( p -- ) ;
 : current-piece			( -- i ) ;
 : current-piece-type		( -- t ) ;
 : piece				( -- i ) ;
-: piece-at			( i -- i ) ;
+: piece-at			( p -- i ) ;
 : piece-value			( i -- i ) ;
 : piece-index			( i -- i ) ;
 : piece-type			( -- t ) ;
-: piece-type-at			( i -- t ) ;
+: piece-type-at			( p -- t ) ;
 
 : move-count			( -- i ) ;
 : turn-number			( -- i ) ;
@@ -130,8 +130,8 @@
 : turn-offset-to-player		( i -- a ) ;
 : next-player			( -- a ) ;
 : stalemate?			( -- ? ) ;
-: board[]			( i -- ' ) ;
-: material-balance		( i -- i ) ;
+: board[]			( p -- ' ) ;
+: material-balance		( p -- i ) ;
 : player-index			( a -- i ) ;
 : player-count			( -- i ) ;
 
