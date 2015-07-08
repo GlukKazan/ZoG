@@ -1,7 +1,7 @@
 package com.gluk.axiom.checker.api;
 
 public interface IApplication {
-	void Load(String s) throws Exception;
-	ISerializer getSerializer();
+	void load(String s) throws Exception;
+	ISerializer getSerializer() throws Exception;
 	IDictionary getDictionary();
 }

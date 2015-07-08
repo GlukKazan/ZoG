@@ -1,11 +1,15 @@
 package com.gluk.axiom.checker.application;
 
+import java.io.PrintWriter;
+
 import com.gluk.axiom.checker.api.ISerializer;
 import com.gluk.axiom.checker.api.Words;
 
 public class Output implements ISerializer {
 	
-	private final static int TAB_SIZE = 8;
+    private final static String OUT_EXTENSION = ".out";
+
+    private final static int TAB_SIZE = 8;
 	private final static int STR_SIZE = 80;
 	
 	private int len = 0;
@@ -13,6 +17,11 @@ public class Output implements ISerializer {
 	private StringBuffer inline  = new StringBuffer();
 	private StringBuffer outline = new StringBuffer();
 	private boolean isCRLF = false;
+	PrintWriter out;
+	
+	public Output(String s) throws Exception {
+		this.out = new PrintWriter(s + OUT_EXTENSION);
+ 	}
 
 	public void scan(char c) throws Exception {
 		if (inline.length() > 0) {
@@ -27,7 +36,7 @@ public class Output implements ISerializer {
 			case Words.LF:
 				if (isCRLF) return;
 				isCRLF = true;
-				String o = output.toString();
+				String s = output.toString();
 				if (outline.length() > 0) {
 					while (len < STR_SIZE) {
 						output.append(' ');
@@ -36,8 +45,8 @@ public class Output implements ISerializer {
 					output.append("( ");
 					output.append(outline.toString().trim());
 					output.append(")");
-					o = output.toString();
-					out(o);
+					s = output.toString();
+					out.println(s);
 					outline.setLength(0);
 				}
 				output.setLength(0);
@@ -64,8 +73,7 @@ public class Output implements ISerializer {
 		}
 	}
 	
-	private void out(String s) {
-		// TODO:
-		
+	public void close() {
+		out.close();
 	}
 }

@@ -21,7 +21,7 @@ public class Scaner implements IScaner {
 	private int mode = INITIAL;
 	private boolean prevNewLine = false;
 	
-	public Scaner(IApplication app, IParser parser) {
+	public Scaner(IApplication app, IParser parser) throws Exception {
 		this.parser = parser;
 		this.output = app.getSerializer();
 	}

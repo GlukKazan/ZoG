@@ -32,7 +32,7 @@ public class Parser implements IParser {
 	private Stack<String> commands = new Stack<String>();
 	private List<String> args = new ArrayList<String>();
 	
-	public Parser(IApplication app, IParser loader) {
+	public Parser(IApplication app, IParser loader) throws Exception {
 		this.app    = app;
 		this.loader = loader;
 		this.output = app.getSerializer();
@@ -86,7 +86,7 @@ public class Parser implements IParser {
 		if (l.size() == stack.size()) {
 			f = false;
 			for (int i = 0; i < l.size(); i++) {
-				if (!dict.isEqualTypes(l.get(i), stack.get(i))) {
+				if (!dict.isTypeMatched(l.get(i), stack.get(i))) {
 					f = true;
 					break;
 				}
@@ -144,7 +144,7 @@ public class Parser implements IParser {
 		if (l.size() <= stack.size()) {
 			f = false;
 			for (int i = 0, j = stack.size() - l.size(); i < l.size(); i++, j++) {
-				if (!dict.isEqualTypes(l.get(i), stack.get(j))) {
+				if (!dict.isTypeMatched(l.get(i), stack.get(j))) {
 					f = true;
 					break;
 				}
@@ -294,7 +294,7 @@ public class Parser implements IParser {
 		}
 		if (mode == LOAD) {
 			mode = INITIAL;
-			app.Load(s);
+			app.load(s);
 			return;
 		}
 		if (mode == NAME) {
