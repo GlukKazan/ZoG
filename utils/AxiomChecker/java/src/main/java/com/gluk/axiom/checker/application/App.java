@@ -32,9 +32,9 @@ public class App implements IApplication {
 		return dict;
 	}
 
-	public ISerializer getSerializer() throws Exception {
+	public ISerializer getSerializer() {
 		if (outs.isEmpty()) {
-			throw new Exception("No Serializer");
+			return null;
 		}
 		return outs.peek();
 	}

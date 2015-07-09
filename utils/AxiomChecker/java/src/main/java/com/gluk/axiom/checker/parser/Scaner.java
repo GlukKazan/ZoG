@@ -45,20 +45,25 @@ public class Scaner implements IScaner {
 	 			return isNewLine(c);
 		}
 	}
+	
+	private void out(char c) throws Exception {
+		if (output != null) {
+			output.scan(c);
+		}
+	}
 
 	public void scan(char c) throws Exception {
 		if (mode >= ML_COMMENT) {
 			if (c == Words.BANG) {
 				mode = SP_COMMENT;
-				output.scan(c);
 			}
 			if (c == Words.CLOSE) {
-				if (mode == SP_COMMENT) {
-					output.scan(c);
-				}
 				mode = INITIAL;
+				return;
 			}
-			return;
+			if (mode == ML_COMMENT) {
+				return;
+			}
 		}
 		if (mode == SL_COMMENT) {
 			if (isNewLine(c)) { 
@@ -76,7 +81,7 @@ public class Scaner implements IScaner {
 			prevNewLine = false;
 		}
 		if (isSpaceChar(c)) {
-			output.scan(c);
+			out(c);
 			if (word.length() > 0) {
 				String w = word.toString();
 				if (w.equals(Words.DEF_WORD)) {
@@ -91,7 +96,7 @@ public class Scaner implements IScaner {
 			if (c == Words.OPEN) {
 				mode = (mode == DF_WAITING)? SP_COMMENT : ML_COMMENT;
 				if (mode == SP_COMMENT) {
-					output.scan(c);
+					out(c);
 				}
 				return;
 			}
@@ -101,6 +106,6 @@ public class Scaner implements IScaner {
 			}
 		}
 		word.append(c);
-		output.scan(c);
+		out(c);
 	}
 }

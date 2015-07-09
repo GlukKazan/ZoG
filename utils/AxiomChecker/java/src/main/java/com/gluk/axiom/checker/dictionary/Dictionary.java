@@ -3,13 +3,17 @@ package com.gluk.axiom.checker.dictionary;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
+
 import com.gluk.axiom.checker.api.IDictionary;
 import com.gluk.axiom.checker.api.IWord;
 import com.gluk.axiom.checker.api.Words;
 
 public class Dictionary implements IDictionary {
 	
-	private Map<String, Type>  types = new HashMap<String, Type>();
+    private static final Logger LOGGER = Logger.getLogger(Dictionary.class);
+
+    private Map<String, Type>  types = new HashMap<String, Type>();
 	private Map<String, IWord> words = new HashMap<String, IWord>();
 	
 	public Type getType(String s) {
@@ -26,12 +30,14 @@ public class Dictionary implements IDictionary {
 		Type tb = getType(b);
 		ta.addEqualType(tb);
 		tb.addEqualType(ta);
+		LOGGER.debug(a + " == " + b);
 	}
 
 	public void setInherits(String a, String b) {
 		Type ta = getType(a);
 		Type tb = getType(b);
 		ta.addChildType(tb);
+		LOGGER.debug(a + " <= " + b);
 	}
 
 	public boolean isTypeMatched(String a, String b) {
