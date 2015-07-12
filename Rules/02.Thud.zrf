@@ -7,7 +7,7 @@
 (define board-defs
   (image "images\gluk\Thud.bmp")
   (grid
-     (start-rectangle 39 39 66 60)
+     (start-rectangle 39 31 66 66)
      (dimensions
          ("a/b/c/d/e/f/g/h/i/j/k/l/m/n/o" (35 0)) ; files
          ("15/14/13/12/11/10/9/8/7/6/5/4/3/2/1" (0 35)) ; ranks
