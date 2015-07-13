@@ -28,6 +28,8 @@
               ?Common ?Common ?Common ?Common 
               ?Common ?Common ?Common ?Common 
               ?Common ?Common ?Common ?Common 
+              ?Common ?Common ?Common ?Common 
+              ?Common ?Common ?Common ?Common 
               repeat (First ?Common) (Second ?Common)
   )
 
@@ -37,7 +39,7 @@
       (start-rectangle 6 4 73 89)
       (dimensions
         ("a/b/c/d/e/f/g/h" (67 0)) ; files
-        ("4/3/2/1" (0 85)) ; ranks
+        ("8/7/6/5/4/3/2/1" (0 85)) ; ranks
       )
     )
   )

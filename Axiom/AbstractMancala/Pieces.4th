@@ -12,10 +12,49 @@
 	add-move
 ;
 
+: inc-piece ( -- )
+	0 BEGIN
+		DUP size @ < IF
+			DUP pos[] @ here = IF
+				TRUE
+			ELSE
+				1+
+				FALSE
+			ENDIF
+		ELSE
+			TRUE
+		ENDIF
+	UNTIL
+	DUP size @ < IF
+		DUP val[] @
+	ELSE
+		DUP SIZE < verify
+		here OVER pos[] !
+		piece piece-value
+		here from = IF
+			DROP 0
+		ENDIF
+		size ++
+	ENDIF
+	DUP 20 < verify
+	1+ SWAP val[] !
+;
+
 : move-piece ( 'dir -- )
-	EXECUTE verify
-	empty? verify
+	0 size !
+	piece piece-value
+	BEGIN
+		OVER EXECUTE verify
+		inc-piece
+		1- DUP 0=
+	UNTIL DROP
+	from to EXECUTE verify
 	from here move
+	size @ 0> verify
+	0 BEGIN
+		DUP val[] @ OVER pos[] @ create-piece-type-at
+		1+ DUP size @ >=
+	UNTIL DROP
 	add-move
 ;
 
@@ -45,12 +84,12 @@ moves}
 moves}
 
 {pieces
-	{piece} p1  {drops} drop-pieces {moves} move-pieces 1  {value}
+	{piece} p1  {moves} move-pieces 1  {value}
 	{piece} p2  {drops} drop-pieces {moves} move-pieces 2  {value}
 	{piece} p3  {drops} drop-pieces {moves} move-pieces 3  {value}
 	{piece} p4  {drops} drop-pieces {moves} move-pieces 4  {value}
-	{piece} p5  {moves} move-pieces 5  {value}
-	{piece} p6  {moves} move-pieces 6  {value}
+	{piece} p5  {drops} drop-pieces {moves} move-pieces 5  {value}
+	{piece} p6  {drops} drop-pieces {moves} move-pieces 6  {value}
 	{piece} p7  {moves} move-pieces 7  {value}
 	{piece} p8  {moves} move-pieces 8  {value}
 	{piece} p9  {moves} move-pieces 9  {value}

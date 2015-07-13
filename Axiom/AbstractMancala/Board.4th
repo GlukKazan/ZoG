@@ -15,3 +15,7 @@ board}
 	 1	 1	{direction} se
 	 ROWS	 0	{direction} u
 directions}
+
+SIZE []		pos[]
+SIZE []		val[]
+VARIABLE	size
