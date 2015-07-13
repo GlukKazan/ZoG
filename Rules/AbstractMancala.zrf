@@ -3,7 +3,7 @@
      (name  p$1)
      (image First   "../images/Mancala-IV/$1-beans.bmp"
             Second  "../images/Mancala-IV/$1-beans.bmp"
-            ?Common "../images/Mancala-IV/$1-beans.bmp")
+            ?C "../images/Mancala-IV/$1-beans.bmp")
   )
 )
 
@@ -22,15 +22,15 @@
   (option "animate captures" false)
   (option "animate drops" false)
 
-  (players ?Common First Second)
+  (players ?C First Second)
 
-  (turn-order ?Common ?Common ?Common ?Common 
-              ?Common ?Common ?Common ?Common 
-              ?Common ?Common ?Common ?Common 
-              ?Common ?Common ?Common ?Common 
-              ?Common ?Common ?Common ?Common 
-              ?Common ?Common ?Common ?Common 
-              repeat (First ?Common) (Second ?Common)
+  (turn-order ?C ?C ?C ?C 
+              ?C ?C ?C ?C 
+              ?C ?C ?C ?C 
+              ?C ?C ?C ?C 
+              ?C ?C ?C ?C 
+              ?C ?C ?C ?C 
+              repeat (First ?C) (Second ?C)
   )
 
   (board 

@@ -1,43 +1,43 @@
 {players
-	{player}	?Common	{random}
+	{player}	?C	{random}
 	{player}	First
 	{player}	Second
 players}
 
 {turn-order
-	{turn}	?Common	{of-type} setup
-	{turn}	?Common	{of-type} setup
-	{turn}	?Common	{of-type} setup
-	{turn}	?Common	{of-type} setup
+	{turn}	?C	{of-type} setup
+	{turn}	?C	{of-type} setup
+	{turn}	?C	{of-type} setup
+	{turn}	?C	{of-type} setup
 
-	{turn}	?Common	{of-type} setup
-	{turn}	?Common	{of-type} setup
-	{turn}	?Common	{of-type} setup
-	{turn}	?Common	{of-type} setup
+	{turn}	?C	{of-type} setup
+	{turn}	?C	{of-type} setup
+	{turn}	?C	{of-type} setup
+	{turn}	?C	{of-type} setup
 
-	{turn}	?Common	{of-type} setup
-	{turn}	?Common	{of-type} setup
-	{turn}	?Common	{of-type} setup
-	{turn}	?Common	{of-type} setup
+	{turn}	?C	{of-type} setup
+	{turn}	?C	{of-type} setup
+	{turn}	?C	{of-type} setup
+	{turn}	?C	{of-type} setup
 
-	{turn}	?Common	{of-type} setup
-	{turn}	?Common	{of-type} setup
-	{turn}	?Common	{of-type} setup
-	{turn}	?Common	{of-type} setup
+	{turn}	?C	{of-type} setup
+	{turn}	?C	{of-type} setup
+	{turn}	?C	{of-type} setup
+	{turn}	?C	{of-type} setup
 
-	{turn}	?Common	{of-type} setup
-	{turn}	?Common	{of-type} setup
-	{turn}	?Common	{of-type} setup
-	{turn}	?Common	{of-type} setup
+	{turn}	?C	{of-type} setup
+	{turn}	?C	{of-type} setup
+	{turn}	?C	{of-type} setup
+	{turn}	?C	{of-type} setup
 
-	{turn}	?Common	{of-type} setup
-	{turn}	?Common	{of-type} setup
-	{turn}	?Common	{of-type} setup
-	{turn}	?Common	{of-type} setup
+	{turn}	?C	{of-type} setup
+	{turn}	?C	{of-type} setup
+	{turn}	?C	{of-type} setup
+	{turn}	?C	{of-type} setup
 
 	{repeat}
-	{turn}	First	{for-player} ?Common
-	{turn}	Second	{for-player} ?Common
+	{turn}	First	{for-player} ?C
+	{turn}	Second	{for-player} ?C
 turn-order}
 
 : OnNewGame ( -- )
