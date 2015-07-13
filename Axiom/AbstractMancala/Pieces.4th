@@ -40,9 +40,8 @@
 	1+ SWAP val[] !
 ;
 
-: move-piece ( 'dir -- )
+: move-common ( 'dir value -- )
 	0 size !
-	piece piece-value
 	BEGIN
 		OVER EXECUTE verify
 		inc-piece
@@ -58,6 +57,24 @@
 	add-move
 ;
 
+: move-piece ( 'dir -- )
+	piece piece-value
+	DUP 1 > IF
+		move-common
+	ELSE
+		2DROP
+	ENDIF
+;
+
+: move-1-piece ( 'dir -- )
+	piece piece-value
+	DUP 1 = IF
+		move-common
+	ELSE
+		2DROP
+	ENDIF
+;
+
 : move-n  ( -- ) ['] n  move-piece ;
 : move-s  ( -- ) ['] s  move-piece ;
 : move-e  ( -- ) ['] e  move-piece ;
@@ -67,20 +84,43 @@
 : move-ne ( -- ) ['] ne move-piece ;
 : move-se ( -- ) ['] se move-piece ;
 
+: move-1-n  ( -- ) ['] n  move-1-piece ;
+: move-1-s  ( -- ) ['] s  move-1-piece ;
+: move-1-e  ( -- ) ['] e  move-1-piece ;
+: move-1-w  ( -- ) ['] w  move-1-piece ;
+: move-1-nw ( -- ) ['] nw move-1-piece ;
+: move-1-sw ( -- ) ['] sw move-1-piece ;
+: move-1-ne ( -- ) ['] ne move-1-piece ;
+: move-1-se ( -- ) ['] se move-1-piece ;
+
 {moves drop-pieces
 	{move} drop-bean {move-type} setup
 moves}
 
+{move-priorities
+	{move-priority} high
+	{move-priority} normal
+	{move-priority} low
+move-priorities}
+
 {moves move-pieces
-	{move} move-n  {move-type} normal
-	{move} move-s  {move-type} normal
-	{move} move-e  {move-type} normal
-	{move} move-w  {move-type} normal
-	{move} move-nw {move-type} normal
-	{move} move-sw {move-type} normal
-	{move} move-ne {move-type} normal
-	{move} move-se {move-type} normal
-	{move} Pass    {move-type} normal
+	{move} move-n    {move-type} high
+	{move} move-s    {move-type} high
+	{move} move-e    {move-type} high
+	{move} move-w    {move-type} high
+	{move} move-nw   {move-type} high
+	{move} move-sw   {move-type} high
+	{move} move-ne   {move-type} high
+	{move} move-se   {move-type} high
+	{move} move-1-n  {move-type} normal
+	{move} move-1-s  {move-type} normal
+	{move} move-1-e  {move-type} normal
+	{move} move-1-w  {move-type} normal
+	{move} move-1-nw {move-type} normal
+	{move} move-1-sw {move-type} normal
+	{move} move-1-ne {move-type} normal
+	{move} move-1-se {move-type} normal
+	{move} Pass      {move-type} low
 moves}
 
 {pieces
