@@ -1,4 +1,5 @@
 : drop-bean ( -- )
+	here PLANE < verify
 	empty? IF
 		0
 	ELSE
