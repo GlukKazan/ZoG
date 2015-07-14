@@ -19,3 +19,5 @@ directions}
 SIZE []		pos[]
 SIZE []		val[]
 VARIABLE	size
+VARIABLE	curr-piece
+VARIABLE	capture-pos

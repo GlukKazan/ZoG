@@ -58,6 +58,9 @@
 (variant
   (title "Lesson 1")
 
+  (description "Take 5 beans for 1 turn.")
+  (strategy "It's easy: b7 - c7 x g7")
+
   (players ?C You)
   (turn-order (You ?C) )
 
@@ -68,6 +71,19 @@
 
 (variant
   (title "Lesson 2")
+
+  (description "Take 9 beans for 1 turn.")
+  (strategy "f7 - e7 isn't solution, because one bean can't capture the pieces.\\
+Correct solution:\
+1. c6 - d5 (is a partial move)\
+1. .. d5 - e6\
+1. .. f7 - f6\
+1. .. f5 - g6
+1. .. a8 - b5 x d7!\\
+Also possible:\
+1. d5 - c6\
+1. .. c6 - b7 (need to clear this position to a8 could take d7)\
+1. .. a8 - b5 x d7")
 
   (players ?C You)
   (turn-order (You ?C) )
@@ -80,6 +96,12 @@
 (variant
   (title "Lesson 3")
 
+  (description "Take 9 beans for 2 turns.")
+  (strategy "You must use a trap:\\
+1. f5 - e6 (creates a trap on d7)\
+2. g7 - f7 (5 beans fall into the trap)\\
+Everything that contains in the traps takes trap's creator.")
+
   (players ?C You)
   (turn-order (You ?C) )
 
@@ -90,6 +112,11 @@
 
 (variant
   (title "Lesson 4")
+
+  (description "Take 9 beans for 2 turns.")
+  (strategy "You can destroy your trap, taking out the beans:\\
+1. c6 - d7 (creates a trap)\
+2. d7 - e6 x a6")
 
   (players ?C You)
   (turn-order (You ?C) )

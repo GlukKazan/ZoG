@@ -27,6 +27,7 @@
 	UNTIL
 	DUP size @ < IF
 		DUP val[] @
+		0 curr-piece !
 	ELSE
 		DUP SIZE < verify
 		here OVER pos[] !
@@ -40,13 +41,21 @@
 	1+ SWAP val[] !
 ;
 
-: move-common ( 'dir value -- )
+: move-piece ( 'dir -- )
+	piece piece-value
+	DUP curr-piece !
 	0 size !
 	BEGIN
 		OVER EXECUTE verify
 		inc-piece
 		1- DUP 0=
 	UNTIL DROP
+	DUP EXECUTE verify
+	here from <> curr-piece @ 1 > AND IF
+		here capture-pos !
+	ELSE
+		0 curr-piece !
+	ENDIF
 	from to EXECUTE verify
 	from here move
 	size @ 0> verify
@@ -54,25 +63,10 @@
 		DUP val[] @ OVER pos[] @ create-piece-type-at
 		1+ DUP size @ >=
 	UNTIL DROP
-	add-move
-;
-
-: move-piece ( 'dir -- )
-	piece piece-value
-(	DUP 1 > IF )
-		move-common
-(	ELSE
-		2DROP
-	ENDIF )
-;
-
-: move-1-piece ( 'dir -- )
-	piece piece-value
-	DUP 1 = IF
-		move-common
-	ELSE
-		2DROP
+	curr-piece @ 1 > IF
+		capture-pos @ capture-at
 	ENDIF
+	add-move
 ;
 
 : move-n  ( -- ) ['] n  move-piece ;
@@ -84,24 +78,9 @@
 : move-ne ( -- ) ['] ne move-piece ;
 : move-se ( -- ) ['] se move-piece ;
 
-: move-1-n  ( -- ) ['] n  move-1-piece ;
-: move-1-s  ( -- ) ['] s  move-1-piece ;
-: move-1-e  ( -- ) ['] e  move-1-piece ;
-: move-1-w  ( -- ) ['] w  move-1-piece ;
-: move-1-nw ( -- ) ['] nw move-1-piece ;
-: move-1-sw ( -- ) ['] sw move-1-piece ;
-: move-1-ne ( -- ) ['] ne move-1-piece ;
-: move-1-se ( -- ) ['] se move-1-piece ;
-
 {moves drop-pieces
 	{move} drop-bean {move-type} setup
 moves}
-
-( {move-priorities
-	{move-priority} high
-	{move-priority} normal
-	{move-priority} low
-move-priorities} )
 
 {moves move-pieces
 	{move} move-n    {move-type} normal
@@ -112,14 +91,6 @@ move-priorities} )
 	{move} move-sw   {move-type} normal
 	{move} move-ne   {move-type} normal
 	{move} move-se   {move-type} normal
-(	{move} move-1-n  {move-type} normal
-	{move} move-1-s  {move-type} normal
-	{move} move-1-e  {move-type} normal
-	{move} move-1-w  {move-type} normal
-	{move} move-1-nw {move-type} normal
-	{move} move-1-sw {move-type} normal
-	{move} move-1-ne {move-type} normal
-	{move} move-1-se {move-type} normal )
 	{move} Pass      {move-type} normal
 moves}
 
