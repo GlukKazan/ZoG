@@ -1,9 +1,7 @@
 (define p
   (piece
      (name  p$1)
-     (image First   "../images/Mancala-IV/$1-beans.bmp"
-            Second  "../images/Mancala-IV/$1-beans.bmp"
-            ?C "../images/Mancala-IV/$1-beans.bmp")
+     (image ?C "../images/Mancala-IV/$1-beans.bmp")
   )
 )
 
@@ -51,4 +49,52 @@
   ; It appears as though Zillions must find at least one "moves" keyword somewhere
   ; in the zrf in order for it to be happy and thus allow "moves" to work correctly.
   (piece (name Dummy) (dummy) (moves (from)))
+)
+
+(variant
+  (title "-")
+)
+
+(variant
+  (title "Lesson 1")
+
+  (players ?C You)
+  (turn-order (You ?C) )
+
+  (board-setup
+    (?C (p4 b7) (p5 g7) )
+  )
+)
+
+(variant
+  (title "Lesson 2")
+
+  (players ?C You)
+  (turn-order (You ?C) )
+
+  (board-setup
+    (?C (p1 a8 c6 d5 f7) (p2 f5) (p9 d7) )
+  )
+)
+
+(variant
+  (title "Lesson 3")
+
+  (players ?C You)
+  (turn-order (You ?C) )
+
+  (board-setup
+    (?C (p3 d7) (p6 f5) (p7 g7) )
+  )
+)
+
+(variant
+  (title "Lesson 4")
+
+  (players ?C You)
+  (turn-order (You ?C) )
+
+  (board-setup
+    (?C (p1 c6) (p3 d7) (p9 a6) )
+  )
 )

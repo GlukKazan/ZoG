@@ -59,11 +59,11 @@
 
 : move-piece ( 'dir -- )
 	piece piece-value
-	DUP 1 > IF
+(	DUP 1 > IF )
 		move-common
-	ELSE
+(	ELSE
 		2DROP
-	ENDIF
+	ENDIF )
 ;
 
 : move-1-piece ( 'dir -- )
@@ -97,30 +97,30 @@
 	{move} drop-bean {move-type} setup
 moves}
 
-{move-priorities
+( {move-priorities
 	{move-priority} high
 	{move-priority} normal
 	{move-priority} low
-move-priorities}
+move-priorities} )
 
 {moves move-pieces
-	{move} move-n    {move-type} high
-	{move} move-s    {move-type} high
-	{move} move-e    {move-type} high
-	{move} move-w    {move-type} high
-	{move} move-nw   {move-type} high
-	{move} move-sw   {move-type} high
-	{move} move-ne   {move-type} high
-	{move} move-se   {move-type} high
-	{move} move-1-n  {move-type} normal
+	{move} move-n    {move-type} normal
+	{move} move-s    {move-type} normal
+	{move} move-e    {move-type} normal
+	{move} move-w    {move-type} normal
+	{move} move-nw   {move-type} normal
+	{move} move-sw   {move-type} normal
+	{move} move-ne   {move-type} normal
+	{move} move-se   {move-type} normal
+(	{move} move-1-n  {move-type} normal
 	{move} move-1-s  {move-type} normal
 	{move} move-1-e  {move-type} normal
 	{move} move-1-w  {move-type} normal
 	{move} move-1-nw {move-type} normal
 	{move} move-1-sw {move-type} normal
 	{move} move-1-ne {move-type} normal
-	{move} move-1-se {move-type} normal
-	{move} Pass      {move-type} low
+	{move} move-1-se {move-type} normal )
+	{move} Pass      {move-type} normal
 moves}
 
 {pieces
