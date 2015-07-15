@@ -1,14 +1,14 @@
 (define p
   (piece
      (name  p$1)
-     (image ?C "../images/Mancala-IV/$1-beans.bmp")
+     (image ?C "../images/Mancala-IV/$1-beans.bmp" "../images/Mancala-IV/$1-beans.bmp")
   )
 )
 
 (define q
   (piece
      (name  q$1)
-     (image ?C "../images/Mancala-IV/$1-beans.bmp")
+     (image ?C "../images/Mancala-IV/$1-force.bmp" "../images/Mancala-IV/$1-beans.bmp")
   )
 )
 
@@ -152,7 +152,7 @@ Also possible:\
 
   (description "Take 9 beans for 2 turns.")
   (strategy "You must use the trap:\\
-1. f5 - e6 (creates a trap on d7)\
+1. f5 - g8 (creates a trap on d7)\
 2. g7 - f7 (5 beans fall into the trap)\\
 Everything that contains in the traps takes trap's creator.")
 
