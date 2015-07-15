@@ -5,8 +5,15 @@
   )
 )
 
+(define q
+  (piece
+     (name  q$1)
+     (image ?C "../images/Mancala-IV/$1-beans.bmp")
+  )
+)
+
 (game
-  (title "Abstract Mancala")
+  (title "Abstract Mancala (4x8)")
 
   (engine "../Axiom/AbstractMancala/axiom.dll")
 
@@ -15,7 +22,7 @@
   (drop-sound    "Audio/Pickup.wav")
   (capture-sound "")
 
-  (option "pass turn" true)
+  (option "pass turn" 2)
   (option "prevent flipping" 2)
   (option "animate captures" false)
   (option "animate drops" false)
@@ -45,10 +52,47 @@
   (p 1)  (p 2)  (p 3)  (p 4)  (p 5)  (p 6)  (p 7)  (p 8)  (p 9)  (p 10)
   (p 11) (p 12) (p 13) (p 14) (p 15) (p 16) (p 17) (p 18) (p 19) (p 20)    
 
+  (q 1)  (q 2)  (q 3)  (q 4)  (q 5)  (q 6)  (q 7)  (q 8)  (q 9)  (q 10)
+  (q 11) (q 12) (q 13) (q 14) (q 15) (q 16) (q 17) (q 18) (q 19) (q 20)    
+
+  (piece
+     (name  M)
+     (image First  "../images/Mancala-IV/invisible.bmp"
+            Second "../images/Mancala-IV/invisible.bmp")
+  )
+
   ; The following dummy piece is required in order to placate the Zillions engine.
   ; It appears as though Zillions must find at least one "moves" keyword somewhere
   ; in the zrf in order for it to be happy and thus allow "moves" to work correctly.
   (piece (name Dummy) (dummy) (moves (from)))
+)
+
+(variant
+  (title "Abstract Mancala (4x10)")
+  (board 
+    (image "../images/Mancala-IV/4x10.bmp")
+    (grid
+      (start-rectangle 6 4 73 89)
+      (dimensions
+        ("a/b/c/d/e/f/g/h/i/j" (67 0)) ; files
+        ("8/7/6/5/4/3/2/1" (0 85)) ; ranks
+      )
+    )
+  )
+)
+
+(variant
+  (title "Abstract Mancala (4x12)")
+  (board 
+    (image "../images/Mancala-IV/4x12.bmp")
+    (grid
+      (start-rectangle 6 4 73 89)
+      (dimensions
+        ("a/b/c/d/e/f/g/h/i/j/k/l" (67 0)) ; files
+        ("8/7/6/5/4/3/2/1" (0 85)) ; ranks
+      )
+    )
+  )
 )
 
 (variant
@@ -63,6 +107,11 @@
 
   (players ?C You)
   (turn-order (You ?C) )
+
+  (piece
+     (name  M)
+     (image You  "../images/Mancala-IV/invisible.bmp")
+  )
 
   (board-setup
     (?C (p4 b7) (p5 g7) )
@@ -88,6 +137,11 @@ Also possible:\
   (players ?C You)
   (turn-order (You ?C) )
 
+  (piece
+     (name  M)
+     (image You  "../images/Mancala-IV/invisible.bmp")
+  )
+
   (board-setup
     (?C (p1 a8 c6 d5 f7) (p2 f5) (p9 d7) )
   )
@@ -97,13 +151,18 @@ Also possible:\
   (title "Lesson 3")
 
   (description "Take 9 beans for 2 turns.")
-  (strategy "You must use a trap:\\
+  (strategy "You must use the trap:\\
 1. f5 - e6 (creates a trap on d7)\
 2. g7 - f7 (5 beans fall into the trap)\\
 Everything that contains in the traps takes trap's creator.")
 
   (players ?C You)
   (turn-order (You ?C) )
+
+  (piece
+     (name  M)
+     (image You  "../images/Mancala-IV/invisible.bmp")
+  )
 
   (board-setup
     (?C (p3 d7) (p6 f5) (p7 g7) )
@@ -120,6 +179,11 @@ Everything that contains in the traps takes trap's creator.")
 
   (players ?C You)
   (turn-order (You ?C) )
+
+  (piece
+     (name  M)
+     (image You  "../images/Mancala-IV/invisible.bmp")
+  )
 
   (board-setup
     (?C (p1 c6) (p3 d7) (p9 a6) )

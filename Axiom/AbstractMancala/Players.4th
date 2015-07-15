@@ -36,8 +36,8 @@ players}
 	{turn}	?C	{of-type} setup
 
 	{repeat}
-	{turn}	First	{for-player} ?C {of-type} normal
-	{turn}	Second	{for-player} ?C {of-type} normal
+	{turn}	First	{for-player} ?C
+	{turn}	Second	{for-player} ?C
 turn-order}
 
 : OnNewGame ( -- )

@@ -1,4 +1,5 @@
 ROWS COLS *	CONSTANT	PLANE
+PLANE 2 *	CONSTANT	ALL
 
 {board
 	ROWS 2 * COLS	{grid}
@@ -13,11 +14,12 @@ board}
 	 1	-1	{direction} sw
 	-1	 1	{direction} ne
 	 1	 1	{direction} se
-	 ROWS	 0	{direction} u
+	 ROWS	 0	{direction} up
 directions}
 
 SIZE []		pos[]
 SIZE []		val[]
 VARIABLE	size
 VARIABLE	curr-piece
+VARIABLE	curr-val
 VARIABLE	capture-pos
