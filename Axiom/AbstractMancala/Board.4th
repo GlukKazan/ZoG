@@ -23,3 +23,5 @@ VARIABLE	size
 VARIABLE	curr-piece
 VARIABLE	curr-val
 VARIABLE	capture-pos
+VARIABLE	set-trap
+VARIABLE	use-trap

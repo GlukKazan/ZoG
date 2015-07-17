@@ -12,6 +12,13 @@
   )
 )
 
+(define t
+  (piece
+     (name  t$1)
+     (image ?C "../images/Mancala-IV/$1-trap.bmp" "../images/Mancala-IV/$1-beans.bmp")
+  )
+)
+
 (game
   (title "Abstract Mancala (4x8)")
 
@@ -55,8 +62,16 @@
   (q 1)  (q 2)  (q 3)  (q 4)  (q 5)  (q 6)  (q 7)  (q 8)  (q 9)  (q 10)
   (q 11) (q 12) (q 13) (q 14) (q 15) (q 16) (q 17) (q 18) (q 19) (q 20)    
 
+  (t 1)  (t 2)  (t 3)  (t 4)  (t 5)  (t 6)  (t 7)  (t 8)  (t 9)  (t 10)
+  (t 11) (t 12) (t 13) (t 14) (t 15) (t 16) (t 17) (t 18) (t 19) (t 20)    
+
   (piece
      (name  M)
+     (image First  "../images/Mancala-IV/invisible.bmp"
+            Second "../images/Mancala-IV/invisible.bmp")
+  )
+  (piece
+     (name  T)
      (image First  "../images/Mancala-IV/invisible.bmp"
             Second "../images/Mancala-IV/invisible.bmp")
   )
@@ -112,6 +127,10 @@
      (name  M)
      (image You  "../images/Mancala-IV/invisible.bmp")
   )
+  (piece
+     (name  T)
+     (image You  "../images/Mancala-IV/invisible.bmp")
+  )
 
   (board-setup
     (?C (p4 b7) (p5 g7) )
@@ -141,6 +160,10 @@ Also possible:\
      (name  M)
      (image You  "../images/Mancala-IV/invisible.bmp")
   )
+  (piece
+     (name  T)
+     (image You  "../images/Mancala-IV/invisible.bmp")
+  )
 
   (board-setup
     (?C (p1 a8 c6 d5 f7) (p2 f5) (p9 d7) )
@@ -163,6 +186,10 @@ Everything that contains in the traps takes trap's creator.")
      (name  M)
      (image You  "../images/Mancala-IV/invisible.bmp")
   )
+  (piece
+     (name  T)
+     (image You  "../images/Mancala-IV/invisible.bmp")
+  )
 
   (board-setup
     (?C (p3 d7) (p6 f5) (p7 g7) )
@@ -182,6 +209,10 @@ Everything that contains in the traps takes trap's creator.")
 
   (piece
      (name  M)
+     (image You  "../images/Mancala-IV/invisible.bmp")
+  )
+  (piece
+     (name  T)
      (image You  "../images/Mancala-IV/invisible.bmp")
   )
 

@@ -1,4 +1,5 @@
 DEFER	MARK
+DEFER	TRAP
 
 : drop-bean ( -- )
 	current-player ?C = verify
@@ -30,7 +31,7 @@ DEFER	MARK
 	from to
 ;
 
-: inc-piece ( -- )
+: find-pos ( -- n )
 	0 BEGIN
 		DUP size @ < IF
 			DUP pos[] @ here = IF
@@ -43,6 +44,10 @@ DEFER	MARK
 			TRUE
 		ENDIF
 	UNTIL
+;
+
+: inc-piece ( -- )
+	find-pos
 	DUP size @ < IF
 		DUP val[] @
 		0 curr-piece !
@@ -59,16 +64,66 @@ DEFER	MARK
 	1+ SWAP val[] !
 ;
 
+: get-count ( -- piece-type )
+	find-pos
+	DUP size @ < verify
+	val[] @
+;
+
+: to-trap ( n -- )
+	piece piece-value +
+	find-pos
+	DUP size @ >= verify
+	DUP SIZE < verify
+	here OVER pos[] !
+	val[] !
+	size ++
+;
+
+: check-trap ( -- ? )
+	here up verify
+	not-empty? IF
+		piece-type TRAP = IF
+			TRUE use-trap !
+		ENDIF
+	ENDIF
+	to
+	use-trap @
+;
+
+: check-enemy-trap ( -- )
+	here up verify
+	not-empty? IF
+		piece-type TRAP = IF
+			player current-player = verify
+		ENDIF
+	ENDIF
+	to
+;
+
 : move-piece ( 'dir -- )
 	check-last
+	check-enemy-trap
 	piece piece-value
+	FALSE set-trap !
+	FALSE use-trap !
 	DUP curr-piece !
 	DUP curr-val !
 	0 size !
 	BEGIN
 		OVER EXECUTE verify
-		inc-piece
-		1- DUP 0=
+		check-trap IF
+			DUP to-trap
+			TRUE
+		ELSE
+			inc-piece
+			DUP 1 = IF
+				get-count 4 = IF
+					TRUE set-trap !
+				ENDIF
+			ENDIF
+			1- DUP 0=
+		ENDIF
 	UNTIL DROP
 	not-empty? IF
 		0 curr-piece !
@@ -82,19 +137,36 @@ DEFER	MARK
 	size @ 0> verify
 	0 BEGIN
 		DUP val[] @ 
-		OVER size @ 1- = curr-piece @ 0= AND IF
-			OVER pos[] @ to
-			here from <> IF
-				20 +
+		set-trap @ use-trap @ OR IF
+			OVER size @ 1- = IF
+				40 +
+			ENDIF
+		ELSE
+			OVER size @ 1- = curr-piece @ 0= AND IF
+				OVER pos[] @ to
+				here from <> IF
+					20 +
+				ENDIF
 			ENDIF
 		ENDIF
 		OVER pos[] @ create-piece-type-at
-		DUP size @ 1- = curr-piece @ 0= AND IF
-			here OVER pos[] @ to 
-			here from <> IF
-				up verify
-				current-player MARK create-player-piece-type
-			ENDIF to
+		use-trap @ NOT IF
+			set-trap @ IF
+				DUP size @ 1- = IF
+					here OVER pos[] @ to 
+					up verify
+					current-player TRAP create-player-piece-type
+					to
+				ENDIF
+			ELSE
+				DUP size @ 1- = curr-piece @ 0= AND IF
+					here OVER pos[] @ to 
+					here from <> IF
+						up verify
+						current-player MARK create-player-piece-type
+					ENDIF to
+				ENDIF
+			ENDIF
 		ENDIF
 		1+ DUP size @ >=
 	UNTIL DROP
@@ -103,9 +175,7 @@ DEFER	MARK
 	ENDIF
 	from to up verify
 	not-empty? IF
-		piece-type MARK = IF
-			capture
-		ENDIF
+		capture
 	ENDIF
 	add-move
 ;
@@ -183,7 +253,30 @@ moves}
 	{piece} q19 {moves} move-pieces 19 {value}
 	{piece} q20 {moves} move-pieces 20 {value}
 
+	{piece} t1  {moves} move-pieces 1  {value}
+	{piece} t2  {moves} move-pieces 2  {value}
+	{piece} t3  {moves} move-pieces 3  {value}
+	{piece} t4  {moves} move-pieces 4  {value}
+	{piece} t5  {moves} move-pieces 5  {value}
+	{piece} t6  {moves} move-pieces 6  {value}
+	{piece} t7  {moves} move-pieces 7  {value}
+	{piece} t8  {moves} move-pieces 8  {value}
+	{piece} t9  {moves} move-pieces 9  {value}
+	{piece} t10 {moves} move-pieces 10 {value}
+	{piece} t11 {moves} move-pieces 11 {value}
+	{piece} t12 {moves} move-pieces 12 {value}
+	{piece} t13 {moves} move-pieces 13 {value}
+	{piece} t14 {moves} move-pieces 14 {value}
+	{piece} t15 {moves} move-pieces 15 {value}
+	{piece} t16 {moves} move-pieces 16 {value}
+	{piece} t17 {moves} move-pieces 17 {value}
+	{piece} t18 {moves} move-pieces 18 {value}
+	{piece} t19 {moves} move-pieces 19 {value}
+	{piece} t20 {moves} move-pieces 20 {value}
+
 	{piece} M
+	{piece} T
 pieces}
 
 ' M	IS MARK
+' T	IS TRAP
