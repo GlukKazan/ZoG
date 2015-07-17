@@ -64,14 +64,19 @@ DEFER	TRAP
 	1+ SWAP val[] !
 ;
 
-: get-count ( -- piece-type )
+: is-trap? ( -- ? )
 	find-pos
 	DUP size @ < verify
-	val[] @
+	DUP size @ 1- = IF
+		val[] @ 4 =
+	ELSE
+		DROP FALSE
+	ENDIF
 ;
 
 : to-trap ( n -- )
 	piece piece-value +
+	DUP 20 < verify
 	find-pos
 	DUP size @ >= verify
 	DUP SIZE < verify
@@ -91,19 +96,22 @@ DEFER	TRAP
 	use-trap @
 ;
 
-: check-enemy-trap ( -- )
+: not-enemy-trap? ( -- ? )
 	here up verify
+	TRUE
 	not-empty? IF
 		piece-type TRAP = IF
-			player current-player = verify
+			player current-player <> IF
+				DROP FALSE
+			ENDIF
 		ENDIF
 	ENDIF
-	to
+	SWAP to
 ;
 
 : move-piece ( 'dir -- )
 	check-last
-	check-enemy-trap
+	not-enemy-trap? verify
 	piece piece-value
 	FALSE set-trap !
 	FALSE use-trap !
@@ -118,7 +126,7 @@ DEFER	TRAP
 		ELSE
 			inc-piece
 			DUP 1 = IF
-				get-count 4 = IF
+				is-trap? IF
 					TRUE set-trap !
 				ENDIF
 			ENDIF
@@ -130,13 +138,16 @@ DEFER	TRAP
 	ENDIF
 	DUP EXECUTE verify
 	here from <> curr-val @ 1 > AND IF
-		here capture-pos !
+		not-enemy-trap? IF
+			here capture-pos !
+		ENDIF
 	ENDIF
 	from to EXECUTE verify
 	from here move
 	size @ 0> verify
 	0 BEGIN
 		DUP val[] @ 
+		DUP 20 < verify
 		set-trap @ use-trap @ OR IF
 			OVER size @ 1- = IF
 				40 +
