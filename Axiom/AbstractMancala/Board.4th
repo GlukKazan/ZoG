@@ -3,6 +3,8 @@ PLANE 2 *	CONSTANT	ALL
 
 {board
 	ROWS 2 * COLS	{grid}
+	{variable}	FP
+	{variable}	SP
 board}
 
 {directions
@@ -25,3 +27,4 @@ VARIABLE	curr-val
 VARIABLE	capture-pos
 VARIABLE	set-trap
 VARIABLE	use-trap
+VARIABLE	is-marked?

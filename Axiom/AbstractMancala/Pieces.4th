@@ -1,5 +1,10 @@
+$gameLog	OFF
+
 DEFER	MARK
 DEFER	TRAP
+
+DEFER	p++
+DEFER	t++
 
 : drop-bean ( -- )
 	current-player ?C = verify
@@ -122,6 +127,7 @@ DEFER	TRAP
 	check-last
 	not-enemy-trap? verify
 	piece piece-value
+	FALSE is-marked? !
 	FALSE set-trap !
 	FALSE use-trap !
 	DUP curr-piece !
@@ -189,6 +195,7 @@ DEFER	TRAP
 						up verify
 						empty? IF
 							current-player MARK create-player-piece-type
+							TRUE is-marked? !
 						ENDIF
 					ENDIF to
 				ENDIF
@@ -197,12 +204,25 @@ DEFER	TRAP
 		1+ DUP size @ >=
 	UNTIL DROP
 	curr-piece @ 1 > IF
+		capture-pos @ piece-at piece-value
+		BEGIN
+			DUP 0> IF
+				1-
+				COMPILE p++
+				FALSE
+			ELSE
+				TRUE
+			ENDIF
+		UNTIL DROP
 		capture-pos @ capture-at
 	ENDIF
 	from to up verify
 	not-empty? IF
 		capture
 	ENDIF
+	is-marked? @ NOT IF
+		COMPILE t++
+	ENDIF 
 	add-move
 ;
 
