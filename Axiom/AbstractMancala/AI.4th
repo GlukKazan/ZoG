@@ -30,6 +30,13 @@ VARIABLE	total-pices
 	UNTIL DROP
 ;
 
+: OnEvaluate ( -- score )
+	calc-pices
+	first-pices  @
+	second-pices @ - 100 *
+	current-player Second = IF NEGATE ENDIF
+;
+
 : OnIsGameOver ( -- gameResult )
 	calc-pices
 	#UnknownScore

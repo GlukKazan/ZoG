@@ -21,6 +21,9 @@
 
 (game
   (title "Abstract Mancala (4x8)")
+  (description "See lessons for understanding the rules.")
+  (history "Invented by Valentin Chelnokov, 2015-07-19\
+Graphics by K. Franklin.")
 
   (engine "../Axiom/AbstractMancala/axiom.dll")
 
