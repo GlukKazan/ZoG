@@ -115,6 +115,42 @@
 )
 
 (variant
+  (title "Abstract Mancala (4x8 weak traps)")
+)
+
+(variant
+  (title "Abstract Mancala (4x10)")
+  (board 
+    (image "../images/Mancala-IV/4x10.bmp")
+    (grid
+      (start-rectangle 6 4 73 89)
+      (dimensions
+        ("a/b/c/d/e/f/g/h/i/j" (67 0)) ; files
+        ("8/7/6/5/4/3/2/1" (0 85)) ; ranks
+      )
+    )
+  )
+)
+
+(variant
+  (title "Abstract Mancala (4x12 weak traps)")
+  (board 
+    (image "../images/Mancala-IV/4x12.bmp")
+    (grid
+      (start-rectangle 6 4 73 89)
+      (dimensions
+        ("a/b/c/d/e/f/g/h/i/j/k/l" (67 0)) ; files
+        ("8/7/6/5/4/3/2/1" (0 85)) ; ranks
+      )
+    )
+  )
+)
+
+(variant
+  (title "-")
+)
+
+(variant
   (title "Lesson 1")
 
   (description "Take 5 beans for 1 turn.")

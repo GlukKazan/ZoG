@@ -86,14 +86,18 @@ DEFER	TRAP
 ;
 
 : check-trap ( -- ? )
-	here up verify
-	not-empty? IF
-		piece-type TRAP = IF
-			TRUE use-trap !
+	STRONG-TRAP? IF
+		here up verify
+		not-empty? IF
+			piece-type TRAP = IF
+				TRUE use-trap !
+			ENDIF
 		ENDIF
+		to
+		use-trap @
+	ELSE
+		FALSE
 	ENDIF
-	to
-	use-trap @
 ;
 
 : not-enemy-trap? ( -- ? )
@@ -107,6 +111,11 @@ DEFER	TRAP
 		ENDIF
 	ENDIF
 	SWAP to
+;
+
+: is-weak-trap? ( pos -- ? )
+	to up verify
+	piece-type TRAP =
 ;
 
 : move-piece ( 'dir -- )
@@ -147,16 +156,20 @@ DEFER	TRAP
 	size @ 0> verify
 	0 BEGIN
 		DUP val[] @ 
-		DUP 20 < verify
+		DUP 20 < verify		
 		set-trap @ use-trap @ OR IF
 			OVER size @ 1- = IF
 				40 +
 			ENDIF
 		ELSE
-			OVER size @ 1- = curr-piece @ 0= AND IF
-				OVER pos[] @ to
-				here from <> IF
-					20 +
+			OVER pos[] @ is-weak-trap? IF
+				40 +
+			ELSE
+				OVER size @ 1- = curr-piece @ 0= AND IF
+					OVER pos[] @ to
+					here from <> IF
+						20 +
+					ENDIF
 				ENDIF
 			ENDIF
 		ENDIF
@@ -174,7 +187,9 @@ DEFER	TRAP
 					here OVER pos[] @ to 
 					here from <> IF
 						up verify
-						current-player MARK create-player-piece-type
+						empty? IF
+							current-player MARK create-player-piece-type
+						ENDIF
 					ENDIF to
 				ENDIF
 			ENDIF
