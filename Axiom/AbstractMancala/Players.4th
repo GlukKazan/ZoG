@@ -39,7 +39,3 @@ players}
 	{turn}	First	{for-player} ?C
 	{turn}	Second	{for-player} ?C
 turn-order}
-
-: OnNewGame ( -- )
-	RANDOMIZE
-;

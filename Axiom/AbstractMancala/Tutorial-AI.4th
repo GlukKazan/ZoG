@@ -19,6 +19,7 @@ VARIABLE	total-pices
 	0 your-pices  !
 	0 total-pices !
 	PLANE BEGIN
+		1-
 		DUP to
 		not-empty? IF
 			piece piece-value
@@ -30,12 +31,7 @@ VARIABLE	total-pices
 				total-pices !
 			ENDIF
 		ENDIF 
-		DUP 0= IF
-			TRUE
-		ELSE
-			1-
-			FALSE
-		ENDIF
+		DUP 0=
 	UNTIL DROP
 	FP @ your-pices @ +
 	total-pices @ >
