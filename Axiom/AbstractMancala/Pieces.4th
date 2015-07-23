@@ -1,5 +1,3 @@
-$gameLog	OFF
-
 DEFER	MARK
 DEFER	TRAP
 

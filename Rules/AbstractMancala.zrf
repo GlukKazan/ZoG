@@ -32,7 +32,7 @@ Graphics by K. Franklin.")
   (drop-sound    "Audio/Pickup.wav")
   (capture-sound "")
 
-  (option "pass turn" 2)
+  (option "pass turn" forced)
   (option "prevent flipping" 2)
   (option "animate captures" false)
   (option "animate drops" false)

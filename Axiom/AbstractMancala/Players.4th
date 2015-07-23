@@ -1,7 +1,9 @@
+DEFER		AI
+
 {players
 	{player}	?C	{random}
-	{player}	First
-	{player}	Second
+	{player}	First	{search-engine}	AI
+	{player}	Second	{search-engine}	AI
 players}
 
 {turn-order
