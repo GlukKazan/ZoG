@@ -1,7 +1,7 @@
 DEFER	MARK
 DEFER	TRAP
 
-DEFER	p++
+DEFER	p+
 DEFER	t++
 
 : drop-bean ( -- )
@@ -203,15 +203,7 @@ DEFER	t++
 	UNTIL DROP
 	curr-piece @ 1 > IF
 		capture-pos @ piece-at piece-value
-		BEGIN
-			DUP 0> IF
-				1-
-				COMPILE p++
-				FALSE
-			ELSE
-				TRUE
-			ENDIF
-		UNTIL DROP
+		COMPILE-LITERAL COMPILE p+
 		capture-pos @ capture-at
 	ENDIF
 	from to up verify
