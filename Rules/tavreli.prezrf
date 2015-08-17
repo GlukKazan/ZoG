@@ -1,0 +1,234 @@
+(define push-1
+   (if (and not-empty? (not-piece? K))
+       (while not-empty?
+           cascade
+           from
+           d
+           to
+       )
+   )
+)
+
+(define push-2
+   (if (and not-empty? (not-piece? K))
+       (while not-empty?
+           cascade
+           from
+           d d
+           to
+           u
+       )
+   )
+)
+
+(define push-3
+   (if (and not-empty? (not-piece? K))
+       (while not-empty?
+           cascade
+           from
+           d d d
+           to
+           u u
+       )
+   )
+)
+
+(define pop-1
+   d
+   (while not-empty?
+      cascade
+      from
+      u
+      to
+      d d
+   )
+)
+
+(define pop-2
+   d d
+   (while not-empty?
+      cascade
+      from
+      u u
+      to
+      d d d
+   )
+)
+
+(define pop-3
+   d d d
+   (while not-empty?
+      cascade
+      from
+      u u u
+      to
+      d d d d
+   )
+)
+
+(define king-shift-1 (
+   (verify (in-zone? plane)) 
+   mark
+   $1    
+   (set-attribute never-moved? false) 
+   to
+   (push-1)
+   back
+   (pop-1)
+   add
+))
+
+(define king-shift-2 (
+   (verify (in-zone? plane)) 
+   mark
+   $1    
+   (set-attribute never-moved? false) 
+   to
+
+   back
+   d
+   (verify not-empty?)
+   cascade
+   from
+   $1 to
+
+   back
+   $1
+
+   (push-2)
+   back
+   (pop-2)
+   add
+))
+
+(define king-shift-3 (
+   (verify (in-zone? plane)) 
+   mark
+   $1    
+   (set-attribute never-moved? false) 
+   to
+
+   back
+   d
+   (verify not-empty?)
+   cascade
+   from
+   $1 to
+
+   back
+   d d
+   (verify not-empty?)
+   cascade
+   from
+   $1 to
+
+   back
+   $1
+
+   (push-3)
+   back
+   (pop-3)
+   add
+))
+
+(game
+   (title "Tavreli")
+
+   (option "prevent flipping" 2)
+
+   (move-sound "Audio\Pickup.wav")
+   (release-sound "Audio\Pickup.wav")
+   (capture-sound "")
+   (drop-sound "")
+
+   (players White Black)
+   (turn-order White Black)
+
+   (board
+     (image "images\Chess\SHaag\Chess8x8.bmp")
+     (grid
+        (start-rectangle 5 5 53 53)
+        (dimensions
+            ("a/b/c/d/e/f/g/h" (49 0)) ; files
+            ("8/7/6/5/4/3/2/1" (0 49)) ; ranks
+            ("a/b/c/d/e" (0 1000)) ; layers
+        )
+        (directions (n  0 -1 0) (e   1  0  0) (s  0 1 0) (w  -1 0 0)
+                    (ne 1 -1 0) (nw -1 -1  0) (se 1 1 0) (sw -1 1 0)
+                    (d  0  0 1) (u   0  0 -1)
+        )
+     )
+     (symmetry Black (n s)(s n) (nw sw)(sw nw) (ne se)(se ne))
+     (zone
+        (name plane)
+        (players White Black)
+        (positions 
+           a8a b8a c8a d8a e8a f8a g8a h8a
+           a7a b7a c7a d7a e7a f7a g7a h7a
+           a6a b6a c6a d6a e6a f6a g6a h6a
+           a5a b5a c5a d5a e5a f5a g5a h5a
+           a4a b4a c4a d4a e4a f4a g4a h4a
+           a3a b3a c3a d3a e3a f3a g3a h3a
+           a2a b2a c2a d2a e2a f2a g2a h2a
+           a1a b1a c1a d1a e1a f1a g1a h1a
+        )
+     )
+   )
+
+   (piece
+      (name P)
+      (help "Pawn: moves forward, captures diagonally, can promote on 8th row")
+      (image White "images\Chess\SHaag\wpawn.bmp"
+             Black "images\Chess\SHaag\bpawn.bmp")
+   )
+
+   (piece
+      (name K)
+      (help "King: steps 1 square in any direction to a safe square")
+      (image White "images\Chess\SHaag\wking.bmp"
+             Black "images\Chess\SHaag\bking.bmp")
+      (attribute never-moved? true)
+      (moves
+         (king-shift-1 n)
+         (king-shift-1 e)
+         (king-shift-1 s)
+         (king-shift-1 w)
+         (king-shift-1 ne)
+         (king-shift-1 nw)
+         (king-shift-1 se)
+         (king-shift-1 sw)
+
+         (king-shift-2 n)
+         (king-shift-2 e)
+         (king-shift-2 s)
+         (king-shift-2 w)
+         (king-shift-2 ne)
+         (king-shift-2 nw)
+         (king-shift-2 se)
+         (king-shift-2 sw)
+
+         (king-shift-3 n)
+         (king-shift-3 e)
+         (king-shift-3 s)
+         (king-shift-3 w)
+         (king-shift-3 ne)
+         (king-shift-3 nw)
+         (king-shift-3 se)
+         (king-shift-3 sw)
+      )
+   )
+
+   (board-setup
+      (White
+         (P a2a b2a c2a d2a e2a f2a g2a h2a)
+         (K e1a)
+      )
+      (Black
+         (P a7a b7a c7a d7a e7a f7a g7a h7a)
+         (K e8a)
+      )
+   )
+
+   (loss-condition (White Black) (checkmated K) )
+)
+
