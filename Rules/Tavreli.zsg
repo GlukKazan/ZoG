@@ -1,0 +1,15 @@
+Zillions Save Game File Version 0.02 HC
+RulesFile=tavreli.zrf
+VariantName=Tavreli
+1. K e1a x e2a PH e2a - e2b @ e2a 0 0
+1. N b8a - c6a
+2. K e2a - e3a PH e2b - e3b @ e3a 0 0
+2. N g8a - h6a
+3. K e3a - d3a PH e3b x e3a @ d3a 0 0
+3. N h6a - f5a
+4. PH e3a - e4a @ e4a 0 0
+4. N f5a - d6a
+5. K d3a - e3a @ e3a 0 0
+5. B c8a x d7a PQ d7a - d7b
+6. K e3a - f4a @ f4a 0 0
+6. PH e7a - e5a @ e5a 0 0
