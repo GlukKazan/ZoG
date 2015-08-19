@@ -4,7 +4,6 @@
 (define! -rook-directions (n e s w))
 (define! -knight-directions (nne nnw sse ssw ene ese wnw wsw))
 (define! -pawn-directions (w e))
-(define! -all-directions (n e s w nw ne sw se nne nnw sse ssw ene ese wnw wsw))
 
 (define! repeat
   (if-less! 0 $1
@@ -30,6 +29,124 @@
 
 (define! king-leap-all
   (! king-leap-all-n ($ -deep))
+)
+
+(define! pawn-leap-all-n
+  (if-less! 0 $1
+     ( (concat! pawn-leap - $1) $2
+     )
+     (! pawn-leap-all-n (!! (sum! $1 -1)) $2)
+  )
+)
+
+(define! pawn-leap-all
+  (! pawn-leap-all-n ($ -deep) $1)
+)
+
+(define! pawn-capture-all-n
+  (if-less! 0 $1
+     (for! $d ($ -pawn-directions)
+        ( (concat! pawn-capture - $1) 
+          (concat! n $d) $2
+        )
+     )
+     (! pawn-capture-all-n (!! (sum! $1 -1)) $2)
+  )
+)
+
+(define! pawn-capture-all
+  (! pawn-capture-all-n ($ -deep) $1)
+)
+
+(define! en-passant-all-n
+  (if-less! 0 $1
+     (for! $d ($ -pawn-directions)
+        ( (concat! en-passant - $1) $d
+        )
+     )
+     (! en-passant-all-n (!! (sum! $1 -1)))
+  )
+)
+
+(define! en-passant-all
+  (! en-passant-all-n ($ -deep))
+)
+
+(define! rook-slide-all-n-m
+  (if-less! 0 $1
+     (for! $d ($ -rook-directions)
+        ( (concat! rook-slide - $1 - $2) $d
+        )
+     )
+     (! rook-slide-all-n-m (!! (sum! $1 -1)) $2)
+  )
+)
+
+(define! rook-slide-all-n
+  (if-less! 0 $1
+     (! rook-slide-all-n-m ($ -deep) $1)
+     (! rook-slide-all-n (!! (sum! $1 -1)))
+  )
+)
+
+(define! rook-slide-all
+  (! rook-slide-all-n 7)
+)
+
+(define! r-slide-all-n-m
+  (if-less! 0 $1
+     (for! $d ($ -rook-directions)
+        ( (concat! slide - $1 - $2) $d
+        )
+     )
+     (! r-slide-all-n-m (!! (sum! $1 -1)) $2)
+  )
+)
+
+(define! r-slide-all-n
+  (if-less! 0 $1
+     (! r-slide-all-n-m ($ -deep) $1)
+     (! r-slide-all-n (!! (sum! $1 -1)))
+  )
+)
+
+(define! r-slide-all
+  (! r-slide-all-n 7)
+)
+
+(define! bishop-slide-all-n-m
+  (if-less! 0 $1
+     (for! $d ($ -bishop-directions)
+        ( (concat! slide - $1 - $2) $d
+        )
+     )
+     (! bishop-slide-all-n-m (!! (sum! $1 -1)) $2)
+  )
+)
+
+(define! bishop-slide-all-n
+  (if-less! 0 $1
+     (! bishop-slide-all-n-m ($ -deep) $1)
+     (! bishop-slide-all-n (!! (sum! $1 -1)))
+  )
+)
+
+(define! bishop-slide-all
+  (! bishop-slide-all-n 7)
+)
+
+(define! knight-leap-all-n
+  (if-less! 0 $1
+     (for! $d ($ -knight-directions)
+        ( (concat! leap - $1) $d
+        )
+     )
+     (! knight-leap-all-n (!! (sum! $1 -1)))
+  )
+)
+
+(define! knight-leap-all
+  (! knight-leap-all-n ($ -deep))
 )
 
 (define! push-n
@@ -75,7 +192,267 @@
   (! pop-n ($ -deep))
 )
 
-(! push-all)
+(define! move-n
+  (concat! $ 1)
+  (! repeat (!! (sum! $1 -1))
+      (verify empty?)
+      (concat! $ 1)
+  )    
+)
+
+(define! tail-n-m
+  (if-less! 0 $1
+     back
+     (! repeat $1 d)
+     (verify not-empty?)
+     cascade
+     from
+     (! move-n $2)
+     to
+     (! tail-n-m (!! (sum! $1 -1)) $2)
+  )
+)
+
+(define! tail-n
+  (if-less! 0 $1
+     back
+     (! repeat $1 d)
+     (verify not-empty?)
+     cascade
+     from n to
+     (! tail-n (!! (sum! $1 -1)))
+  )
+)
+
+(define! tail-enpass
+  (if-less! 0 $1
+     back
+     (! repeat $1 d)
+     (verify not-empty?)
+     cascade
+     from
+     (concat! $ 1)
+     n to
+     (! tail-enpass (!! (sum! $1 -1)))
+  )
+)
+
+(define! slide-n-m
+  (if-less! 0 $1
+     (define (concat! slide - $1 - $2) (
+         (verify (in-zone? plane)) 
+         mark
+         (! move-n $2)
+         to
+         (if-less! 1 $1
+             (! tail-n-m (!! (sum! $1 -1)) $2)
+             back
+             (! move-n $2)
+         )
+         ((concat! push - $1))
+         back
+         ((concat! pop - $1))
+         add
+     ))
+     (! slide-n-m (!! (sum! $1 -1)) $2)
+  )
+)
+
+(define! slide-m
+  (if-less! 0 $1
+     (! slide-n-m ($ -deep) $1)
+     (! slide-m (!! (sum! $1 -1)))
+  )
+)
+
+(define! slide
+  (! slide-m 7)
+)
+
+(define! rook-slide-n-m
+  (if-less! 0 $1
+     (define (concat! rook-slide - $1 - $2) (
+         (verify (in-zone? plane)) 
+         mark
+         (! move-n $2)
+         (set-attribute never-moved? false) 
+         to
+         (if-less! 1 $1
+             (! tail-n-m (!! (sum! $1 -1)) $2)
+             back
+             (! move-n $2)
+         )
+         ((concat! push - $1))
+         back
+         ((concat! pop - $1))
+         add
+     ))
+     (! rook-slide-n-m (!! (sum! $1 -1)) $2)
+  )
+)
+
+(define! rook-slide-m
+  (if-less! 0 $1
+     (! rook-slide-n-m ($ -deep) $1)
+     (! rook-slide-m (!! (sum! $1 -1)))
+  )
+)
+
+(define! rook-slide
+  (! rook-slide-m 7)
+)
+
+(define! leap-n
+  (if-less! 0 $1
+     (define (concat! leap - $1) (
+         (verify (in-zone? plane)) 
+         mark
+         (! move-n 1)
+         to
+         (if-less! 1 $1
+             (! tail-n-m (!! (sum! $1 -1)) 1)
+             back
+             (! move-n 1)
+         )
+         ((concat! push - $1))
+         back
+         ((concat! pop - $1))
+         add
+     ))
+     (! leap-n (!! (sum! $1 -1)))
+  )
+)
+
+(define! leap
+  (! leap-n ($ -deep))
+)
+
+(define! king-leap-n
+  (if-less! 0 $1
+     (define (concat! king-leap - $1) (
+         (verify (in-zone? plane)) 
+         mark
+         (! move-n 1)
+         (set-attribute never-moved? false) 
+         to
+         (if-less! 1 $1
+             (! tail-n-m (!! (sum! $1 -1)) 1)
+             back
+             (! move-n 1)
+         )
+         ((concat! push - $1))
+         back
+         ((concat! pop - $1))
+         add
+     ))
+     (! king-leap-n (!! (sum! $1 -1)))
+  )
+)
+
+(define! king-leap
+  (! king-leap-n ($ -deep))
+)
+
+(define! pawn-leap-n
+  (if-less! 0 $1
+     (define (concat! pawn-leap - $1) (
+         (verify (in-zone? plane)) 
+         mark n
+         (verify empty?)
+         (set-attribute never-moved? false) 
+         to
+         (if-less! 1 $1
+             (! tail-n (!! (sum! $1 -1)))
+             back n
+         )
+         ((concat! push - $1))
+         back
+         ((concat! pop - $1))
+         back
+         n
+         (if (in-zone? promotion)
+             cascade
+             (add (concat! $ 1))
+          else
+             add
+         )
+     ))
+     (! pawn-leap-n (!! (sum! $1 -1)))
+  )
+)
+
+(define! pawn-leap
+  (! pawn-leap-n ($ -deep))
+)
+
+(define! pawn-capture-n
+  (if-less! 0 $1
+     (define (concat! pawn-capture - $1) (
+         (verify (in-zone? plane)) 
+         mark
+         (concat! $ 1)
+         (verify not-empty?)
+         (verify (or enemy? (not-piece? K)))
+         (set-attribute never-moved? false) 
+         to
+         (if-less! 1 $1
+             (! tail-n-m (!! (sum! $1 -1)) 1)
+             back 
+             (! move-n 1)
+         )
+         ((concat! push - $1))
+         back
+         ((concat! pop - $1))
+         back
+         (concat! $ 1)
+         (if (in-zone? promotion)
+             cascade
+             (add (concat! $ 2))
+          else
+             add
+         )
+     ))
+     (! pawn-capture-n (!! (sum! $1 -1)))
+  )
+)
+
+(define! pawn-capture
+  (! pawn-capture-n ($ -deep))
+)
+
+(define! en-passant-n
+  (if-less! 0 $1
+     (define (concat! en-passant - $1) (
+         (verify (in-zone? plane)) 
+         mark
+         (concat! $ 1)
+         (verify enemy?)
+         (verify last-to?)
+         (verify (or (piece? PR) (piece? PN) (piece? PB) (piece? PB) (piece? PQ) (piece? PH)))
+         n to n
+         (verify last-from?)
+         cascade
+         back
+         (concat! $ 1)
+         from
+         n d to
+         (if-less! 1 $1
+             (! tail-enpass (!! (sum! $1 -1)))
+             back 
+             (concat! $ 1)
+             n
+         )
+         back
+         ((concat! pop - $1))
+         add   
+     ))
+     (! en-passant-n (!! (sum! $1 -1)))
+  )
+)
+
+(define! en-passant
+  (! en-passant-n ($ -deep))
+)
 
 (define unprom
    (if not-empty?
@@ -121,168 +498,6 @@
       )
    )
 )
-
-(! pop-all)
-
-(define slide-1-1 (
-   (verify (in-zone? plane)) 
-   mark
-   $1    
-   to
-   (push-1)
-   back
-   (pop-1)
-   add
-))
-
-(define rook-slide-1-1 (
-   (verify (in-zone? plane)) 
-   mark
-   $1    
-   (set-attribute never-moved? false) 
-   to
-   (push-1)
-   back
-   (pop-1)
-   add
-))
-
-(define leap-1 (
-   (verify (in-zone? plane)) 
-   mark
-   $1    
-   to
-   (push-1)
-   back
-   (pop-1)
-   add
-))
-
-(define king-leap-1 (
-   (verify (in-zone? plane)) 
-   mark
-   $1    
-   (set-attribute never-moved? false) 
-   to
-   (push-1)
-   back
-   (pop-1)
-   add
-))
-
-(define king-leap-2 (
-   (verify (in-zone? plane)) 
-   mark
-   $1    
-   (set-attribute never-moved? false) 
-   to
-
-   back
-   d
-   (verify not-empty?)
-   cascade
-   from
-   $1 to
-
-   back
-   $1
-
-   (push-2)
-   back
-   (pop-2)
-   add
-))
-
-(define king-leap-3 (
-   (verify (in-zone? plane)) 
-   mark
-   $1    
-   (set-attribute never-moved? false) 
-   to
-
-   back
-   d
-   (verify not-empty?)
-   cascade
-   from
-   $1 to
-
-   back
-   d d
-   (verify not-empty?)
-   cascade
-   from
-   $1 to
-
-   back
-   $1
-
-   (push-3)
-   back
-   (pop-3)
-   add
-))
-
-(define pawn-leap-1 (
-   (verify (in-zone? plane)) 
-   mark
-   n
-   (verify empty?)
-   (set-attribute never-moved? false) 
-   to
-   (push-1)
-   back
-   (pop-1)
-   back
-   n
-   (if (in-zone? promotion)
-       cascade
-       (add $1)
-    else
-       add
-   )
-))
-
-(define pawn-capture-1 (
-   (verify (in-zone? plane)) 
-   mark
-   $1
-   (verify not-empty?)
-   (verify (or enemy? (not-piece? K)))
-   (set-attribute never-moved? false) 
-   to
-   (push-1)
-   back
-   (pop-1)
-   back
-   $1
-   (if (in-zone? promotion)
-       cascade
-       (add $2)
-    else
-       add
-   )
-))
-
-(define en-passant-1 (
-   (verify (in-zone? plane)) 
-   mark
-   $1
-   (verify enemy?)
-   (verify last-to?)
-   (verify (or (piece? PR) (piece? PN) (piece? PB) (piece? PB) (piece? PQ) (piece? PH)))
-   n to
-   n
-   (verify last-from?)
-   cascade
-   back
-   $1
-   from
-   n d to
-   back
-   (pop-1)
-   add   
-))
 
 (define pawn-jump (
    (verify (in-zone? plane)) 
@@ -339,6 +554,16 @@
    add
 ))
 
+(! push-all)
+(! pop-all)
+(! slide)
+(! rook-slide)
+(! leap)
+(! king-leap)
+(! pawn-leap)
+(! pawn-capture)
+(! en-passant)
+
 (game
    (title "Tavreli")
 
@@ -359,7 +584,8 @@
         (dimensions
             ("a/b/c/d/e/f/g/h" (49 0)) ; files
             ("8/7/6/5/4/3/2/1" (0 49)) ; ranks
-            ("a/b/c/d/e/f/g/h/i/j/k/l/m/n/o/p/q/r/s/t/u/v/w/x/y/z" (0 1000)) ; layers
+            ("a/b/c/d" (0 1000)) ; layers
+;           ("a/b/c/d/e/f/g/h/i/j/k/l/m/n/o/p/q/r/s/t/u/v/w/x/y/z" (0 1000)) ; layers
         )
         (directions (n   0 -1 0) (e    1  0  0) (s    0  1 0) (w   -1 0 0)
                     (ne  1 -1 0) (nw  -1 -1  0) (se   1  1 0) (sw  -1 1 0)
@@ -402,11 +628,9 @@
              Black "images\Chess\SHaag\bpawn.bmp")
       (attribute never-moved? true)
       (moves
-         (pawn-leap-1 RP)
-         (pawn-capture-1 nw RP)
-         (pawn-capture-1 ne RP)
-         (en-passant-1 w)
-         (en-passant-1 e)
+         (! pawn-leap-all RP)
+         (! pawn-capture-all RP)
+         (! en-passant-all)
          (pawn-jump)
       )
    )
@@ -417,10 +641,7 @@
       (image White "images\Chess\SHaag\wrook.bmp"
              Black "images\Chess\SHaag\brook.bmp")
       (moves
-         (rook-slide-1-1 n)
-         (rook-slide-1-1 s)
-         (rook-slide-1-1 w)
-         (rook-slide-1-1 e)
+         (! r-slide-all)
       )
    )
 
@@ -431,11 +652,9 @@
              Black "images\Chess\SHaag\bpawn.bmp")
       (attribute never-moved? true)
       (moves
-         (pawn-leap-1 NP)
-         (pawn-capture-1 nw NP)
-         (pawn-capture-1 ne NP)
-         (en-passant-1 w)
-         (en-passant-1 e)
+         (! pawn-leap-all NP)
+         (! pawn-capture-all NP)
+         (! en-passant-all)
          (pawn-jump)
       )
    )
@@ -446,14 +665,7 @@
       (image White "images\Chess\SHaag\wknight.bmp"
              Black "images\Chess\SHaag\bknight.bmp")
       (moves
-         (leap-1 nne)
-         (leap-1 nnw)
-         (leap-1 sse)
-         (leap-1 ssw)
-         (leap-1 ene)
-         (leap-1 ese)
-         (leap-1 wnw)
-         (leap-1 wsw)
+         (! knight-leap-all)
       )
    )
 
@@ -464,11 +676,9 @@
              Black "images\Chess\SHaag\bpawn.bmp")
       (attribute never-moved? true)
       (moves
-         (pawn-leap-1 BP)
-         (pawn-capture-1 nw BP)
-         (pawn-capture-1 ne BP)
-         (en-passant-1 w)
-         (en-passant-1 e)
+         (! pawn-leap-all BP)
+         (! pawn-capture-all BP)
+         (! en-passant-all)
          (pawn-jump)
       )
    )
@@ -479,10 +689,7 @@
       (image White "images\Chess\SHaag\wbishop.bmp"
              Black "images\Chess\SHaag\bbishop.bmp")
       (moves
-         (slide-1-1 nw)
-         (slide-1-1 sw)
-         (slide-1-1 ne)
-         (slide-1-1 se)
+         (! bishop-slide-all)
       )
    )
 
@@ -493,11 +700,9 @@
              Black "images\Chess\SHaag\bpawn.bmp")
       (attribute never-moved? true)
       (moves
-         (pawn-leap-1 QP)
-         (pawn-capture-1 nw QP)
-         (pawn-capture-1 ne QP)
-         (en-passant-1 w)
-         (en-passant-1 e)
+         (! pawn-leap-all QP)
+         (! pawn-capture-all QP)
+         (! en-passant-all)
          (pawn-jump)
       )
    )
@@ -508,14 +713,8 @@
       (image White "images\Chess\SHaag\wqueen.bmp"
              Black "images\Chess\SHaag\bqueen.bmp")
       (moves
-         (slide-1-1 n)
-         (slide-1-1 s)
-         (slide-1-1 w)
-         (slide-1-1 e)
-         (slide-1-1 nw)
-         (slide-1-1 sw)
-         (slide-1-1 ne)
-         (slide-1-1 se)
+         (! r-slide-all)
+         (! bishop-slide-all)
       )
    )
 
@@ -526,11 +725,9 @@
              Black "images\Chess\SHaag\bpawn.bmp")
       (attribute never-moved? true)
       (moves
-         (pawn-leap-1 HP)
-         (pawn-capture-1 nw HP)
-         (pawn-capture-1 ne HP)
-         (en-passant-1 w)
-         (en-passant-1 e)
+         (! pawn-leap-all HP)
+         (! pawn-capture-all HP)
+         (! en-passant-all)
          (pawn-jump)
       )
    )
@@ -541,22 +738,9 @@
       (image White "images\Chess\SHaag\wdownqueen.bmp"
              Black "images\Chess\SHaag\bdownqueen.bmp")
       (moves
-         (slide-1-1 n)
-         (slide-1-1 s)
-         (slide-1-1 w)
-         (slide-1-1 e)
-         (slide-1-1 nw)
-         (slide-1-1 sw)
-         (slide-1-1 ne)
-         (slide-1-1 se)
-         (leap-1 nne)
-         (leap-1 nnw)
-         (leap-1 sse)
-         (leap-1 ssw)
-         (leap-1 ene)
-         (leap-1 ese)
-         (leap-1 wnw)
-         (leap-1 wsw)
+         (! r-slide-all)
+         (! bishop-slide-all)
+         (! knight-leap-all)
       )
    )
 
@@ -567,10 +751,7 @@
              Black "images\Chess\SHaag\brook.bmp")
       (attribute never-moved? true)
       (moves
-         (rook-slide-1-1 n)
-         (rook-slide-1-1 s)
-         (rook-slide-1-1 w)
-         (rook-slide-1-1 e)
+         (! rook-slide-all)
       )
    )
 
@@ -580,14 +761,7 @@
       (image White "images\Chess\SHaag\wknight.bmp"
              Black "images\Chess\SHaag\bknight.bmp")
       (moves
-         (leap-1 nne)
-         (leap-1 nnw)
-         (leap-1 sse)
-         (leap-1 ssw)
-         (leap-1 ene)
-         (leap-1 ese)
-         (leap-1 wnw)
-         (leap-1 wsw)
+         (! knight-leap-all)
       )
    ) 
 
@@ -597,10 +771,7 @@
       (image White "images\Chess\SHaag\wbishop.bmp"
              Black "images\Chess\SHaag\bbishop.bmp")
       (moves
-         (slide-1-1 nw)
-         (slide-1-1 sw)
-         (slide-1-1 ne)
-         (slide-1-1 se)
+         (! bishop-slide-all)
       )
    )
 
@@ -610,14 +781,8 @@
       (image White "images\Chess\SHaag\wqueen.bmp"
              Black "images\Chess\SHaag\bqueen.bmp")
       (moves
-         (slide-1-1 n)
-         (slide-1-1 s)
-         (slide-1-1 w)
-         (slide-1-1 e)
-         (slide-1-1 nw)
-         (slide-1-1 sw)
-         (slide-1-1 ne)
-         (slide-1-1 se)
+         (! r-slide-all)
+         (! bishop-slide-all)
       )
    )
 
