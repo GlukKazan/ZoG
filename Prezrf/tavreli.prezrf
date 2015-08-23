@@ -243,6 +243,7 @@
          (verify (in-zone? plane)) 
          mark
          (! move-n $2)
+         (verify (or not-friend? (not-piece? K)))
          to
          (if-less! 1 $1
              (! tail-n-m (!! (sum! $1 -1)) $2)
@@ -275,6 +276,7 @@
          (verify (in-zone? plane)) 
          mark
          (! move-n $2)
+         (verify (or not-friend? (not-piece? K)))
          (set-attribute never-moved? false) 
          to
          (if-less! 1 $1
@@ -308,6 +310,7 @@
          (verify (in-zone? plane)) 
          mark
          (! move-n 1)
+         (verify (or not-friend? (not-piece? K)))
          to
          (if-less! 1 $1
              (! tail-n-m (!! (sum! $1 -1)) 1)
@@ -358,7 +361,7 @@
      (define (concat! pawn-leap - $1) (
          (verify (in-zone? plane)) 
          mark n
-         (verify empty?)
+         (verify (and not-enemy? (not-piece? K)))
          (set-attribute never-moved? false) 
          to
          (if-less! 1 $1
@@ -392,7 +395,7 @@
          mark
          (concat! $ 1)
          (verify not-empty?)
-         (verify (or enemy? (not-piece? K)))
+         (verify enemy?)
          (set-attribute never-moved? false) 
          to
          (if-less! 1 $1
@@ -442,6 +445,9 @@
              (concat! $ 1)
              n
          )
+         back
+         (concat! $ 1)
+         (pop-1-nr)
          back
          ((concat! pop - $1))
          add   
@@ -499,14 +505,21 @@
    )
 )
 
+(define pop-1-nr
+  d (unprom) 
+  (while not-empty? cascade from u to d d)
+)
+
 (define pawn-jump (
    (verify (in-zone? plane)) 
    (verify never-moved?)
    n
    (verify empty?)
    n
-   (verify empty?)
+   (verify (and not-enemy? (not-piece? K)))
    (set-attribute never-moved? false) 
+   to
+   (push-1)
    add
 ))
 
