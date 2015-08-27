@@ -1,0 +1,743 @@
+(define! -queen-directions (n e s w nw ne sw se))
+(define! -bishop-directions (nw ne sw se))
+(define! -rook-directions (n e s w))
+
+(define! repeat
+  (if-less! 0 $1
+     ($?2
+        $2*
+     )
+     ($!2
+        $1
+     )
+     (! repeat (!! (sum! $1 -1)) ($?2 $2*))
+  )
+)
+
+(define! slide-bishop
+  (if-less! 0 $1
+     (for! $d ($ -bishop-directions)
+        ( (concat! slide - $1) $d
+        )
+     )
+     (! slide-bishop (!! (sum! $1 -1)))
+  )
+)
+
+(define! slide-rook
+  (if-less! 0 $1
+     (for! $d ($ -rook-directions)
+        ( (concat! rook-slide - $1) $d
+        )
+     )
+     (! slide-rook (!! (sum! $1 -1)))
+  )
+)
+
+(define! slide-queen
+  (if-less! 0 $1
+     (for! $d ($ -queen-directions)
+        ( (concat! slide - $1) $d
+        )
+     )
+     (! slide-queen (!! (sum! $1 -1)))
+  )
+)
+
+(define! resurrect-slide-bishop
+  (if-less! 0 $1
+     (for! $d ($ -bishop-directions)
+        ( (concat! resurrect-slide - $1) $d Bishop
+        )
+     )
+     (! resurrect-slide-bishop (!! (sum! $1 -1)))
+  )
+)
+
+(define! resurrect-slide-rook
+  (if-less! 0 $1
+     (for! $d ($ -rook-directions)
+        ( (concat! resurrect-slide - $1) $d Rook
+        )
+     )
+     (! resurrect-slide-rook (!! (sum! $1 -1)))
+  )
+)
+
+(define! resurrect-slide-queen
+  (if-less! 0 $1
+     (for! $d ($ -queen-directions)
+        ( (concat! resurrect-slide - $1) $d Queen
+        )
+     )
+     (! resurrect-slide-queen (!! (sum! $1 -1)))
+  )
+)
+
+(define! resurrect-slide-n
+  (if-less! 0 $1
+     (define (concat! resurrect-slide - $1) (
+        (start)
+        (! repeat (!! (sum! $1 -1))
+            (concat! $ 1)
+            (verify-empty)
+        )
+        (concat! $ 1) to
+        (verify friend?)
+        (verify (or (piece? PawnDead) 
+                    (piece? KnightDead) 
+                    (piece? BishopDead) 
+                    (piece? RookDead) 
+                    (piece? QueenDead)))
+        back (create (concat! $ 2)) 
+        (! repeat $1 (concat! $ 1))
+        (resurrect)
+     ))
+     (! resurrect-slide-n (!! (sum! $1 -1)))
+  )
+)
+
+(! resurrect-slide-n 7)
+
+(define! slide-n
+  (if-less! 0 $1
+     (define (concat! slide - $1) (
+        (start)
+        (! repeat (!! (sum! $1 -1))
+            (concat! $ 1)
+            (verify-empty)
+        )
+        (concat! $ 1)
+        (verify not-friend?) to
+        (kill)
+        (pop) 
+        (! repeat $1 (concat! $ 1))
+        add
+     ))
+     (! slide-n (!! (sum! $1 -1)))
+  )
+)
+
+(! slide-n 7)
+
+(define! rook-slide-n
+  (if-less! 0 $1
+     (define (concat! rook-slide - $1) (
+        (start)
+        (! repeat (!! (sum! $1 -1))
+            (concat! $ 1)
+            (verify-empty)
+        )
+        (concat! $ 1)
+        (verify not-friend?) to
+        (set-attribute never-moved? false)
+        (kill)
+        (pop) 
+        (! repeat $1 (concat! $ 1))
+        add
+     ))
+     (! rook-slide-n (!! (sum! $1 -1)))
+  )
+)
+
+(! rook-slide-n 7)
+
+(define start
+   (verify (in-zone? plane)) 
+   mark
+)
+
+(define kill-piece
+   (if (piece? $1)
+       (if (in-zone? promotion-zone h8a)
+           (create Black $1Dead d)
+        else
+           (create White $1Dead d)
+       )
+   )
+)
+
+(define verify-empty
+   (verify (or empty? 
+              (piece? PawnDead) 
+              (piece? KnightDead) 
+              (piece? BishopDead) 
+              (piece? RookDead) 
+              (piece? QueenDead)))
+)
+
+(define push
+   (if (or (piece? PawnDead) 
+           (piece? KnightDead) 
+           (piece? BishopDead) 
+           (piece? RookDead) 
+           (piece? QueenDead))
+       cascade from d to
+   )
+)
+
+(define kill
+   (if (and enemy? (in-zone? kill-enabled a1a))
+       (kill-piece Pawn)
+       (kill-piece Knight)
+       (kill-piece Bishop)
+       (kill-piece Rook)
+       (kill-piece Queen)
+   )
+   (push)
+)
+
+(define pop
+   back
+   (if (not-empty? d)
+       cascade d from u to
+   )
+)
+
+(define resurrect
+   (if (piece? PawnDead)
+       (add Pawn)
+   )
+   (if (piece? KnightDead)
+       (add Knight)
+   )
+   (if (piece? BishopDead)
+       (add Bishop)
+   )
+   (if (piece? RookDead)
+       (set-attribute never-moved? false) 
+       (add Rook)
+   )
+   (if (piece? QueenDead)
+       (add Queen)
+   )
+)
+
+(define resurrect-leap (
+   (start)
+   $1 to
+   (verify friend?)
+   (verify (or (piece? PawnDead) 
+               (piece? KnightDead) 
+               (piece? BishopDead) 
+               (piece? RookDead) 
+               (piece? QueenDead)))
+   back (create $2) $1
+   (resurrect)
+))
+
+(define resurrect-knight-leap (
+   (start)
+   $1 $2 to
+   (verify friend?)
+   (verify (or (piece? PawnDead) 
+               (piece? KnightDead) 
+               (piece? BishopDead) 
+               (piece? RookDead) 
+               (piece? QueenDead)))
+   back (create Knight) $1 $2
+   (resurrect)
+))
+
+(define leap (
+   (start)
+   $1 $2 to
+   (verify not-friend?) 
+   (kill)
+   (pop)
+   add
+))
+
+(define king-shift (
+   (start)
+   $1 to
+   (verify not-friend?) 
+   (set-attribute never-moved? false) 
+   (kill)
+   (pop)
+   add
+))
+
+(define O-O
+	 ( (verify never-moved?)
+	   e ; KB1
+	   (verify empty?)
+	   e ; KN1
+	   (verify empty?)
+	   cascade
+	   e ; KR1
+	   (verify (and friend? (piece? Rook) never-moved?) )
+	   from
+	   back ; K1
+		 ; Save expensive not-attacked?s for last
+	   (verify not-attacked?)
+	   e ; KB1
+	   (verify not-attacked?)
+	   to
+	   (set-attribute never-moved? false)
+		 ; We could check if KN1 is attacked too, but this isn't
+		 ; really necessary since Zillions doesn't allow any moves
+		 ; into check
+	   e ; KN1
+	   (set-attribute never-moved? false)
+	   add
+	 )
+)
+
+(define O-O-O
+     ( (verify never-moved?)
+       w ; Q1
+       (verify empty?)
+       w ; QB1
+       (verify empty?)
+       cascade
+       w ; QN1
+       (verify empty?)
+       w ; QR1
+       (verify (and friend? (piece? Rook) never-moved?) )
+       from
+       back ; K1
+         ; Save expensive not-attacked?s for last
+       (verify not-attacked?)
+       w ; Q1
+       (verify not-attacked?)
+       to
+       (set-attribute never-moved? false)
+         ; We could check if KN1 is attacked too, but this isn't
+         ; really necessary since Zillions doesn't allow any moves
+         ; into check
+       w ; QB1
+       (set-attribute never-moved? false)
+       add
+     )
+)
+
+(define Pawn-add
+    (if (in-zone? promotion-zone) 
+        cascade
+        (add Knight Bishop Rook Queen) 
+     else 
+         add
+    )
+)
+
+(define Pawn-move (
+   (start)
+   n to
+   (verify-empty)
+   (push)
+   (pop) n
+   (Pawn-add)
+))
+
+(define Pawn-jump (
+   (start)
+   n
+   (verify-empty)
+   (verify (in-zone? third-rank))
+   n to
+   (verify-empty)
+   (push)
+   (pop)
+   add
+))
+
+(define Pawn-capture (
+   (start)
+   $1 to
+   (verify enemy?)
+   (kill)
+   (pop) $1
+   (Pawn-add)
+))
+
+(define En-Passant (
+   (start)
+   $1
+   (verify enemy?)
+   (verify last-to?)
+   (verify (piece? Pawn))
+   capture
+   n
+   to
+   n
+   (verify last-from?)
+   (create PawnDead d)
+   (pop)
+   add
+))
+
+(define Board-Definitions
+  (image "images\Chess\SHaag\Chess8x8.bmp")
+  (grid
+     (start-rectangle 5 5 53 53)
+     (dimensions
+         ("a/b/c/d/e/f/g/h" (49 0)) ; files
+         ("8/7/6/5/4/3/2/1" (0 49)) ; ranks
+         ("a/b" (0 1000)) ; layers
+     )
+     (directions (n  0 -1 0) (e   1  0  0) (s  0 1 0) (w  -1 0 0)
+                 (ne 1 -1 0) (nw -1 -1  0) (se 1 1 0) (sw -1 1 0)
+                 (d  0  0 1) (u   0  0 -1)
+     )
+  )
+  (symmetry Black (n s)(s n) (nw sw)(sw nw) (ne se)(se ne))
+  (zone
+     (name plane)
+     (players White Black)
+     (positions 
+        a8a b8a c8a d8a e8a f8a g8a h8a
+        a7a b7a c7a d7a e7a f7a g7a h7a
+        a6a b6a c6a d6a e6a f6a g6a h6a
+        a5a b5a c5a d5a e5a f5a g5a h5a
+        a4a b4a c4a d4a e4a f4a g4a h4a
+        a3a b3a c3a d3a e3a f3a g3a h3a
+        a2a b2a c2a d2a e2a f2a g2a h2a
+        a1a b1a c1a d1a e1a f1a g1a h1a
+     )
+  )
+  (zone
+     (name promotion-zone)
+     (players White)
+     (positions a8a b8a c8a d8a e8a f8a g8a h8a)
+  )
+  (zone
+     (name promotion-zone)
+     (players Black)
+     (positions a1a b1a c1a d1a e1a f1a g1a h1a)
+  )
+  (zone
+     (name third-rank)
+     (players White)
+     (positions a3a b3a c3a d3a e3a f3a g3a h3a)
+  )
+  (zone
+     (name third-rank)
+     (players Black)
+     (positions a6a b6a c6a d6a e6a f6a g6a h6a)
+  )
+)
+
+(game
+   (title "Resurrection Chess")
+   (description "Object: Checkmate the opponent's King by attacking
+	   it so it cannot escape.  To see a description of how a piece moves
+	   right-click on it to bring up its properties dialog.\\
+         Try playing one of the many exciting variants.")
+
+   (move-sound "Audio/Pickup.wav")
+   (release-sound "Audio/Pickup.wav")
+   (drop-sound "Audio/Pickup.wav")
+   (capture-sound "")
+
+   (option "prevent flipping" 2)
+   (option "animate captures" false)
+
+   (players White Black)
+   (turn-order White Black)
+   (board (Board-Definitions)
+      (zone
+         (name kill-enabled)
+         (players White Black)
+         (positions a1a)
+      )
+   )
+
+   (board-setup
+      (White
+         (Pawn a2a b2a c2a d2a e2a f2a g2a h2a)
+         (Knight b1a g1a)
+         (Bishop c1a f1a)
+         (Rook a1a h1a)
+         (Queen d1a)
+         (King e1a)
+      )
+      (Black
+         (Pawn a7a b7a c7a d7a e7a f7a g7a h7a)
+         (Knight b8a g8a)
+         (Bishop c8a f8a)
+         (Rook a8a h8a)
+         (Queen d8a)
+         (King e8a)
+      )
+   )
+
+   (piece
+      (name Pawn)
+      (help "Pawn: moves forward, captures diagonally, can promote on 8th row")
+      (description "Pawn\A Pawn can move straight ahead one square, or two squares from
+           its starting position.  A Pawn captures by moving one square ahead and
+           diagonally.  If a Pawn reaches the far rank it promotes, changing into
+           a Knight, Bishop, Rook, or Queen.  On rare occasions Pawns can also execute
+           a move called `En Passant`, or `in passing`.  This allows a Pawn to take
+           an enemy Pawn that has just moved two squares.")
+      (image White "images\Chess\SHaag\wpawn.bmp"
+             Black "images\Chess\SHaag\bpawn.bmp")
+      (moves
+         (resurrect-leap nw Pawn)
+         (resurrect-leap ne Pawn)
+         (Pawn-capture nw)
+         (Pawn-capture ne)
+         (Pawn-move)
+         (Pawn-jump)
+         (En-Passant e)
+         (En-Passant w)
+      )
+   )
+   (piece
+      (name PawnDead)
+      (image White "images\Chess\SHaag\wdownpawn.bmp"
+             Black "images\Chess\SHaag\bdownpawn.bmp")
+   )
+
+   (piece
+      (name Knight)
+	  (help "Knight: moves like an `L`, 2 squares one way and one the other")
+      (description "Knight\A Knight moves like an `L`, two squares vertically plus one
+          horizontally, or two squares horizontally plus one vertically.  It
+          hops over any pieces on the way.")
+      (image White "images\Chess\SHaag\wknight.bmp"
+             Black "images\Chess\SHaag\bknight.bmp")
+      (moves
+	     (resurrect-knight-leap n ne)
+	     (resurrect-knight-leap n nw)
+	     (resurrect-knight-leap s se)
+	     (resurrect-knight-leap s sw)
+	     (resurrect-knight-leap e ne)
+	     (resurrect-knight-leap e se)
+	     (resurrect-knight-leap w nw)
+	     (resurrect-knight-leap w sw)
+	     (leap n ne)
+	     (leap n nw)
+	     (leap s se)
+	     (leap s sw)
+	     (leap e ne)
+	     (leap e se)
+	     (leap w nw)
+	     (leap w sw)
+      )
+   )
+   (piece
+      (name KnightDead)
+      (image White "images\Chess\SHaag\wdownknight.bmp"
+             Black "images\Chess\SHaag\bdownknight.bmp")
+   )
+
+   (piece
+      (name Bishop)
+	  (help "Bishop: slides diagonally any number of squares")
+      (description "Bishop\A Bishop moves any number of squares on a diagonal.  It may
+           not leap over other pieces.")
+      (image White "images\Chess\SHaag\wbishop.bmp"
+             Black "images\Chess\SHaag\bbishop.bmp")
+      (moves
+         (! slide-bishop 7)
+         (! resurrect-slide-bishop 7)
+      )
+   )
+   (piece
+      (name BishopDead)
+      (image White "images\Chess\SHaag\wdownbishop.bmp"
+             Black "images\Chess\SHaag\bdownbishop.bmp")
+   )
+
+   (piece
+      (name Rook)
+	  (help "Rook: slides any number of squares along the row or column.")
+      (description "Rook\A Rook moves any number of squares orthogonally on a rank
+           or a file.  It may not leap over other pieces.")
+      (image White "images\Chess\SHaag\wrook.bmp"
+             Black "images\Chess\SHaag\brook.bmp")
+      (attribute never-moved? true)
+      (moves
+         (! slide-rook 7)
+         (! resurrect-slide-rook 7)
+      )
+   )
+   (piece
+      (name RookDead)
+      (image White "images\Chess\SHaag\wdownrook.bmp"
+             Black "images\Chess\SHaag\bdownrook.bmp")
+   )
+
+   (piece
+      (name Queen)
+	  (help "Queen: can slide any number of squares in any direction")
+      (description "Queen\A Queen moves any number of squares in a straight line.
+          It may not leap over other pieces.")
+      (image White "images\Chess\SHaag\wqueen.bmp"
+             Black "images\Chess\SHaag\bqueen.bmp")
+      (moves
+         (! slide-queen 7)
+         (! resurrect-slide-queen 7)
+      )
+   )
+   (piece
+      (name QueenDead)
+      (image White "images\Chess\SHaag\wdownqueen.bmp"
+             Black "images\Chess\SHaag\bdownqueen.bmp")
+   )
+
+   (piece
+      (name King)
+	  (help "King: steps 1 square in any direction to a safe square")
+      (description "King\A King can move to any adjacent square, but never to a 
+	      square where it can be captured.  It may also `castle`
+          with the Rook if neither the Rook nor King has moved yet and there is
+          nothing in between them.  In castling the King moves two squares nearer
+          the Rook and the Rook leaps to the far side of the King.  You may not
+          castle out of or through check, or if the King or Rook involved has 
+		  previously moved.")
+      (image White "images\Chess\SHaag\wking.bmp"
+             Black "images\Chess\SHaag\bking.bmp")
+      (attribute never-moved? true)
+      (moves
+         (resurrect-leap n King)
+         (resurrect-leap s King)
+         (resurrect-leap w King)
+         (resurrect-leap e King)
+         (resurrect-leap nw King)
+         (resurrect-leap ne King)
+         (resurrect-leap sw King)
+         (resurrect-leap se King)
+         (king-shift n)
+         (king-shift e)
+         (king-shift s)
+         (king-shift w)
+         (king-shift ne)
+         (king-shift nw)
+         (king-shift se)
+         (king-shift sw)
+         (O-O)
+         (O-O-O)
+      )
+   )
+
+   (loss-condition (White Black) (checkmated King) )
+)
+
+(variant
+   (title "-")
+)
+
+(variant
+   (title "Soulbringer")
+
+   (board (Board-Definitions)
+      (zone
+         (name kill-enabled)
+         (players Black)
+         (positions a1a)
+      )
+   )
+
+   (board-setup
+      (White
+         (Pawn a2a b2a c3a d4a e4a f3a g2a h2a)
+         (KnightDead d3a e3a)
+         (Bishop c1a f1a)
+         (RookDead a3a h3a)
+         (QueenDead d6a)
+         (King d1a)
+      )
+      (Black
+         (Pawn a7a b7a c7a d7a e7a f7a g7a h7a)
+         (Knight b8a g8a)
+         (Bishop c8a f8a)
+         (Rook a8a h8a)
+         (King e8a)
+      )
+   )
+
+   (piece
+      (name Pawn)
+      (help "Pawn: moves forward, captures diagonally, can promote on 8th row")
+      (description "Pawn\A Pawn can move straight ahead one square, or two squares from
+           its starting position.  A Pawn captures by moving one square ahead and
+           diagonally.  If a Pawn reaches the far rank it promotes, changing into
+           a Knight, Bishop, Rook, or Queen.  On rare occasions Pawns can also execute
+           a move called `En Passant`, or `in passing`.  This allows a Pawn to take
+           an enemy Pawn that has just moved two squares.")
+      (image White "images\Chess\SHaag\wpawn.bmp"
+             Black "images\Chess\SHaag\bpawn.bmp")
+      (moves
+         (Pawn-capture nw)
+         (Pawn-capture ne)
+         (Pawn-move)
+         (Pawn-jump)
+         (En-Passant e)
+         (En-Passant w)
+      )
+   )
+
+   (piece
+      (name Knight)
+	  (help "Knight: moves like an `L`, 2 squares one way and one the other")
+      (description "Knight\A Knight moves like an `L`, two squares vertically plus one
+          horizontally, or two squares horizontally plus one vertically.  It
+          hops over any pieces on the way.")
+      (image White "images\Chess\SHaag\wknight.bmp"
+             Black "images\Chess\SHaag\bknight.bmp")
+      (moves
+	     (leap n ne)
+	     (leap n nw)
+	     (leap s se)
+	     (leap s sw)
+	     (leap e ne)
+	     (leap e se)
+	     (leap w nw)
+	     (leap w sw)
+      )
+   )
+
+   (piece
+      (name Rook)
+	  (help "Rook: slides any number of squares along the row or column.")
+      (description "Rook\A Rook moves any number of squares orthogonally on a rank
+           or a file.  It may not leap over other pieces.")
+      (image White "images\Chess\SHaag\wrook.bmp"
+             Black "images\Chess\SHaag\brook.bmp")
+      (attribute never-moved? true)
+      (moves
+         (! slide-rook 7)
+      )
+   )
+
+   (piece
+      (name Queen)
+	  (help "Queen: can slide any number of squares in any direction")
+      (description "Queen\A Queen moves any number of squares in a straight line.
+          It may not leap over other pieces.")
+      (image White "images\Chess\SHaag\wqueen.bmp"
+             Black "images\Chess\SHaag\bqueen.bmp")
+      (moves
+         (! slide-queen 7)
+      )
+   )
+
+   (piece
+      (name King)
+	  (help "King: steps 1 square in any direction to a safe square")
+      (description "King\A King can move to any adjacent square, but never to a 
+	      square where it can be captured.  It may also `castle`
+          with the Rook if neither the Rook nor King has moved yet and there is
+          nothing in between them.  In castling the King moves two squares nearer
+          the Rook and the Rook leaps to the far side of the King.  You may not
+          castle out of or through check, or if the King or Rook involved has 
+		  previously moved.")
+      (image White "images\Chess\SHaag\wking.bmp"
+             Black "images\Chess\SHaag\bking.bmp")
+      (attribute never-moved? true)
+      (moves
+         (king-shift n)
+         (king-shift e)
+         (king-shift s)
+         (king-shift w)
+         (king-shift ne)
+         (king-shift nw)
+         (king-shift se)
+         (king-shift sw)
+      )
+   )
+
+)
