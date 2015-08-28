@@ -346,6 +346,7 @@
    (start)
    $1 to
    (verify enemy?)
+   (verify (or (piece? Pawn) (piece? Knight) (piece? Bishop) (piece? Rook) (piece? Queen) (piece? King)))
    (kill)
    (pop) $1
    (Pawn-add)
@@ -421,9 +422,12 @@
 (game
    (title "Resurrection Chess")
    (description "Object: Checkmate the opponent's King by attacking
-	   it so it cannot escape.  To see a description of how a piece moves
+	   it so it cannot escape.  \
+           To see a description of how a piece moves
 	   right-click on it to bring up its properties dialog.\\
-         Try playing one of the many exciting variants.")
+         Capturing pieces not cleaned from the board, but can't move.\
+         They are transparent to the all pieces, but may be resurrected by friendly pieces.")
+   (history "Based on the Zillions of Games implementation of the Chess game.")
 
    (move-sound "Audio/Pickup.wav")
    (release-sound "Audio/Pickup.wav")
@@ -622,6 +626,7 @@
 
 (variant
    (title "Soulbringer")
+   (history "''Soulbringer'' mission from the Order Campaign of the ''Battle vs Chess'' game.")
 
    (board (Board-Definitions)
       (zone
