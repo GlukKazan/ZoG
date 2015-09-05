@@ -1,0 +1,252 @@
+(define kampa-shift (
+  (verify (in-zone? $1))
+  $2
+  (verify empty?)
+  add
+  (verify (in-zone? $1))
+  $2
+  (verify empty?)
+  add
+))
+
+(define kampa-leap (
+  (verify (not-in-zone? home-zone))
+  $1
+  (verify not-friend?)
+  add
+))
+
+(define common-slide (
+  (verify (in-zone? $1))
+  $2
+  (while (and empty? (in-zone? $1))
+     add
+     $2
+  )
+  (verify (and not-friend? (in-zone? $3)))
+  add
+  (verify empty?)
+  $4
+  (while (and empty? (in-zone? $3))
+     add
+     $4
+  )
+  (verify (and not-friend? (in-zone? $3)))
+  add
+))
+
+(define horsa-slide (
+  (verify (in-zone? $1))
+  $2
+  (while (and empty? (in-zone? $1))
+     add
+     $2
+  )
+  (verify (and empty? (in-zone? $3)))
+  add
+  $4
+  (while (and empty? (in-zone? $3))
+     add
+     $4
+  )
+  (verify (and not-friend? (in-zone? $3)))
+  add
+))
+
+(define gala-shift (
+  $1
+  (verify empty?)
+  add
+))
+
+(define gala-leap (
+  (verify (in-zone? $2))
+  $1
+  (verify enemy?)
+  (verify (in-zone? $3))
+  add
+))
+
+(define gala-jump (
+  (verify (in-zone? central-zone))
+  a0
+  (while (on-board? next) 
+     next
+     (if empty? add)
+  )
+))
+
+(define Board-Definitions
+  (image "images\Chess\SHaag\Chess10x10.bmp")
+  (grid
+     (start-rectangle 5 5 53 53)
+     (dimensions
+         ("a/b/c/d/e/f/g/h/i/j" (49 0)) ; files
+         ("10/9/8/7/6/5/4/3/2/1" (0 49)) ; ranks
+     )
+     (directions (n 0 -1) (e 1 0) (s 0 1) (w -1 0)
+                 (ne 1 -1) (nw -1 -1) (se 1 1) (sw -1 1)
+     )
+  )
+  (dummy a0)
+  (links next 
+     (a0 a5) (a5 b5) (b5 c5) (c5 d5) (d5 g5)  (g5 h5)  (h5 i5)  (i5 j5) (j5 a6) 
+     (a6 b6) (b6 c6) (c6 d6) (d6 g6) (g6 h6)  (h6 i6)  (i6 j6)  (j6 e1) (e1 e2) 
+     (e2 e3) (e3 e4) (e4 e7) (e7 e8) (e8 e9)  (e9 e10) (e10 f1) (f1 f2) (f2 f3) 
+     (f3 f4) (f4 f7) (f7 f8) (f8 f9) (f9 f10) (f10 b4) (b4 c4)  (c4 d4) (d4 c3)
+     (c3 d3) (d3 d2) (d2 g4) (g4 h4) (h4 i4)  (i4 g3)  (g3 h3)  (h3 g2) (g2 b7)
+     (b7 c7) (c7 d7) (d7 c8) (c8 d8) (d8 d9)  (d9 g7)  (g7 h7)  (h7 i7) (i7 g8)
+     (g8 h8) (h8 g9)
+  )
+  (symmetry Black 
+     (nw se)(se nw) 
+     (ne sw)(sw ne)
+  )
+  (zone
+     (name cross-zone)
+     (players White Black)
+     (positions a5 b5 c5 d5 e5 f5 g5 h5 i5 j5 a6 b6 c6 d6 e6 f6 g6 h6 i6 j6 e1 e2 e3 e4 e7 e8 e9 e10 f1 f2 f3 f4 f7 f8 f9 f10)
+  )
+  (zone
+     (name outer-zone)
+     (players White Black)
+     (positions a1 a2 a3 a4 b1 b2 b3 b4 c1 c2 c3 c4 d1 d2 d3 d4 g1 g2 g3 g4 h1 h2 h3 h4 i1 i2 i3 i4 j1 j2 j3 j4 a7 a8 a9 a10 b7 b8 b9 b10 c7 c8 c9 c10 d7 d8 d9 d10 g7 g8 g9 g10 h7 h8 h9 h10 i7 i8 i9 i10 j7 j8 j9 j10)
+  )
+  (zone
+     (name home-zone)
+     (players White)
+     (positions a1 a2 a3 a4 b1 b2 b3 b4 c1 c2 c3 c4 d1 d2 d3 d4 g1 g2 g3 g4 h1 h2 h3 h4 i1 i2 i3 i4 j1 j2 j3 j4)
+  )
+  (zone
+     (name left-zone)
+     (players White)
+     (positions a1 a2 a3 a4 b1 b2 b3 b4 c1 c2 c3 c4 d1 d2 d3 d4)
+  )
+  (zone
+     (name right-zone)
+     (players White)
+     (positions g1 g2 g3 g4 h1 h2 h3 h4 i1 i2 i3 i4 j1 j2 j3 j4)
+  )
+  (zone
+     (name home-zone)
+     (players Black)
+     (positions a7 a8 a9 a10 b7 b8 b9 b10 c7 c8 c9 c10 d7 d8 d9 d10 g7 g8 g9 g10 h7 h8 h9 h10 i7 i8 i9 i10 j7 j8 j9 j10)
+  )
+  (zone
+     (name left-zone)
+     (players Black)
+     (positions g7 g8 g9 g10 h7 h8 h9 h10 i7 i8 i9 i10 j7 j8 j9 j10)
+  )
+  (zone
+     (name right-zone)
+     (players Black)
+     (positions a7 a8 a9 a10 b7 b8 b9 b10 c7 c8 c9 c10 d7 d8 d9 d10)
+  )
+  (zone
+     (name start-zone)
+     (players White Black)
+     (positions a1 a2 a3 a4 b1 b2 b3 c1 c2 d1 g1 h1 h2 i1 i2 i3 j1 j2 j3 j4 a7 a8 a9 a10 b8 b9 b10 c9 c10 d10 g10 h9 h10 i8 i9 i10 j7 j8 j9 j10)
+  )
+  (zone
+     (name central-zone)
+     (players White Black)
+     (positions e5 e6 f5 f6)
+  )
+)
+
+(game
+   (title "Farmer's chess")
+
+   (move-sound "Audio/Pickup.wav")
+   (release-sound "Audio/Pickup.wav")
+   (capture-sound "")
+
+   (option "prevent flipping" 2)
+   (option "animate captures" false)
+
+   (players White Black)
+   (turn-order White Black)
+
+   (board (Board-Definitions))
+
+   (piece
+      (name Kampa)
+      (image White "images\Chess\SHaag\wpawn.bmp"
+             Black "images\Chess\SHaag\bpawn.bmp")
+      (moves
+         (kampa-shift left-zone ne)
+         (kampa-shift right-zone nw)
+         (kampa-leap n) (kampa-leap nw)
+         (kampa-leap w) (kampa-leap sw)
+         (kampa-leap s) (kampa-leap se)
+         (kampa-leap e) (kampa-leap ne)
+      )
+   )
+   (piece
+      (name Horsa)
+      (image White "images\Chess\SHaag\wbishop.bmp"
+             Black "images\Chess\SHaag\bbishop.bmp")
+      (moves
+         (common-slide outer-zone nw cross-zone n) (common-slide outer-zone nw cross-zone s) (common-slide outer-zone nw cross-zone w) (common-slide outer-zone nw cross-zone e)
+         (common-slide outer-zone sw cross-zone n) (common-slide outer-zone sw cross-zone s) (common-slide outer-zone sw cross-zone w) (common-slide outer-zone sw cross-zone e)
+         (common-slide outer-zone se cross-zone n) (common-slide outer-zone se cross-zone s) (common-slide outer-zone se cross-zone w) (common-slide outer-zone se cross-zone e)
+         (common-slide outer-zone ne cross-zone n) (common-slide outer-zone ne cross-zone s) (common-slide outer-zone ne cross-zone w) (common-slide outer-zone ne cross-zone e)
+         (horsa-slide cross-zone n outer-zone nw) (horsa-slide cross-zone n outer-zone ne) (horsa-slide cross-zone n outer-zone sw) (horsa-slide cross-zone n outer-zone se)
+         (horsa-slide cross-zone s outer-zone nw) (horsa-slide cross-zone s outer-zone ne) (horsa-slide cross-zone s outer-zone sw) (horsa-slide cross-zone s outer-zone se)
+         (horsa-slide cross-zone e outer-zone nw) (horsa-slide cross-zone e outer-zone ne) (horsa-slide cross-zone e outer-zone sw) (horsa-slide cross-zone e outer-zone se)
+         (horsa-slide cross-zone w outer-zone nw) (horsa-slide cross-zone w outer-zone ne) (horsa-slide cross-zone w outer-zone sw) (horsa-slide cross-zone w outer-zone se)
+      )
+   )
+   (piece
+      (name Korna)
+      (image White "images\Chess\SHaag\wrook.bmp"
+             Black "images\Chess\SHaag\brook.bmp")
+      (moves
+         (common-slide outer-zone n cross-zone nw) (common-slide outer-zone n cross-zone ne) (common-slide outer-zone n cross-zone sw) (common-slide outer-zone n cross-zone se)
+         (common-slide outer-zone s cross-zone nw) (common-slide outer-zone s cross-zone ne) (common-slide outer-zone s cross-zone sw) (common-slide outer-zone s cross-zone se)
+         (common-slide outer-zone e cross-zone nw) (common-slide outer-zone e cross-zone ne) (common-slide outer-zone e cross-zone sw) (common-slide outer-zone e cross-zone se)
+         (common-slide outer-zone w cross-zone nw) (common-slide outer-zone w cross-zone ne) (common-slide outer-zone w cross-zone sw) (common-slide outer-zone w cross-zone se)
+         (common-slide cross-zone nw outer-zone n) (common-slide cross-zone nw outer-zone s) (common-slide cross-zone nw outer-zone w) (common-slide cross-zone nw outer-zone e)
+         (common-slide cross-zone sw outer-zone n) (common-slide cross-zone sw outer-zone s) (common-slide cross-zone sw outer-zone w) (common-slide cross-zone sw outer-zone e)
+         (common-slide cross-zone se outer-zone n) (common-slide cross-zone se outer-zone s) (common-slide cross-zone se outer-zone w) (common-slide cross-zone se outer-zone e)
+         (common-slide cross-zone ne outer-zone n) (common-slide cross-zone ne outer-zone s) (common-slide cross-zone ne outer-zone w) (common-slide cross-zone ne outer-zone e)
+      )
+   )
+   (piece
+      (name Gala)
+      (image White "images\Chess\SHaag\wking.bmp"
+             Black "images\Chess\SHaag\bking.bmp")
+      (moves
+         (gala-shift n) (gala-shift nw)
+         (gala-shift s) (gala-shift sw)
+         (gala-shift e) (gala-shift ne)
+         (gala-shift w) (gala-shift se)
+         (gala-leap n cross-zone outer-zone) (gala-leap nw cross-zone outer-zone)
+         (gala-leap s cross-zone outer-zone) (gala-leap sw cross-zone outer-zone)
+         (gala-leap e cross-zone outer-zone) (gala-leap ne cross-zone outer-zone)
+         (gala-leap w cross-zone outer-zone) (gala-leap se cross-zone outer-zone)
+         (gala-leap n outer-zone cross-zone) (gala-leap nw outer-zone cross-zone)
+         (gala-leap s outer-zone cross-zone) (gala-leap sw outer-zone cross-zone)
+         (gala-leap e outer-zone cross-zone) (gala-leap ne outer-zone cross-zone)
+         (gala-leap w outer-zone cross-zone) (gala-leap se outer-zone cross-zone)
+         (gala-jump)
+      )
+   )
+
+   (board-setup
+      (White
+         (Kampa  a4 b3 c2 d1 g1 h2 i3 j4)
+         (Gala   a1 j1)
+         (Korna  i1 j2 a3 b2 c1)
+         (Horsa  a2 b1 h1 i2 j3)
+      )
+      (Black
+         (Kampa  a7 b8 c9 d10 g10 h9 i8 j7)
+         (Gala   a10 j10) 
+         (Korna  a9 b10 h10 i9 j8)
+         (Horsa  i10 j9 a8 b9 c10) 
+      )
+   )
+
+   (loss-condition (White Black) (pieces-remaining 0 Gala))
+)
