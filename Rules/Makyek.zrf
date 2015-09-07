@@ -1,0 +1,196 @@
+(define common-capture
+  mark
+  (if (and (enemy? $2) (enemy? $3))
+      (capture $2)
+      (capture $3)
+   else
+      (if (enemy? $2)
+          $2
+          (if (friend? $2)
+              capture
+          )
+      )
+      back
+      (if (enemy? $3)
+          $3
+          (if (friend? $3)
+              capture
+          )
+      )
+  )
+  back
+  (if (enemy? $1)
+      $1
+      (if (friend? $1)
+          capture
+      )
+  )
+)
+
+(define slide-1 (
+  $1
+  (verify empty?)
+  to (common-capture) add
+))
+
+(define slide-2 (
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  to (common-capture) add
+))
+
+(define slide-3 (
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  to (common-capture) add
+))
+
+(define slide-4 (
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  to (common-capture) add
+))
+
+(define slide-5 (
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  to (common-capture) add
+))
+
+(define slide-6 (
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  to (common-capture) add
+))
+
+(define slide-7 (
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  to (common-capture) add
+))
+
+(game
+  (title "Makyek")
+  (description "The goal of the game is to capture your opponent's pieces.\
+                There two methods of capture: \\
+                A piece may be captured if it is sandwiched between two of the opponent's pieces \
+                (this is called custodial capture).\\
+                A piece may also capture two of the opponent's pieces if it is moved between those two pieces \
+                (this is called capture by intervention).")
+  (history  "''Makyek'' is a two-player board game from Brunei.\
+             In Malaysia it has the name ''Apit-sodok.''")
+
+  (move-sound "Audio/Pickup.wav")
+  (release-sound "Audio/Pickup.wav")
+  (capture-sound "")
+
+  (option "prevent flipping" 2)
+; (option "animate captures" false)
+
+  (players    White Black)
+  (turn-order White Black)
+
+  (board
+    (image "images/sultan/chess8x8.bmp" "images/wiedem/chess8x8.bmp")
+    (grid
+      (start-rectangle 5 5 54 54)
+      (dimensions
+        ("a/b/c/d/e/f/g/h" (49 0)) ; files
+        ("8/7/6/5/4/3/2/1" (0 49)) ; ranks
+      )
+      (directions (n 0 -1) (s 0 1) (e 1 0) (w -1 0) )
+    )
+  )
+
+  (piece
+     (name  Man)
+     (help "Man: moves as Rook in Chess.")
+     (image White "images/wiedem/CheckerWhite.bmp"
+            Black "images/wiedem/CheckerBlack.bmp")
+     (moves
+        (slide-1 n w e)
+        (slide-1 w n s)
+        (slide-1 s e w)
+        (slide-1 e s n)
+
+        (slide-2 n w e)
+        (slide-2 w n s)
+        (slide-2 s e w)
+        (slide-2 e s n)
+
+        (slide-3 n w e)
+        (slide-3 w n s)
+        (slide-3 s e w)
+        (slide-3 e s n)
+
+        (slide-4 n w e)
+        (slide-4 w n s)
+        (slide-4 s e w)
+        (slide-4 e s n)
+
+        (slide-5 n w e)
+        (slide-5 w n s)
+        (slide-5 s e w)
+        (slide-5 e s n)
+
+        (slide-6 n w e)
+        (slide-6 w n s)
+        (slide-6 s e w)
+        (slide-6 e s n)
+
+        (slide-7 n w e)
+        (slide-7 w n s)
+        (slide-7 s e w)
+        (slide-7 e s n)
+     )
+  )
+
+  (board-setup
+    (White (Man a1 b1 c1 d1 e1 f1 g1 h1  a3 b3 c3 d3 e3 f3 g3 h3) )
+    (Black (Man a6 b6 c6 d6 e6 f6 g6 h6  a8 b8 c8 d8 e8 f8 g8 h8) )
+  )
+
+  (loss-condition (White Black) (pieces-remaining 0 Man))
+)
