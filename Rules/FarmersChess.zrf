@@ -75,7 +75,7 @@
 ))
 
 (define Board-Definitions
-  (image "images\Chess\SHaag\Chess10x10.bmp")
+  (image "../images/gala/gala10x10.bmp")
   (grid
      (start-rectangle 5 5 53 53)
      (dimensions
@@ -154,13 +154,13 @@
 
 (game
    (title "Farmer's chess")
-   (description "Game goals:\\
-                 to capture both of the enemy Galas\
-                 or to move both Galas to the four central squares.\\
-                 To see a description of how a piece moves \
+   (description "Game goals://
+                 to capture both of the enemy Galas/
+                 or to move both Galas to the four central squares.//
+                 To see a description of how a piece moves /
                  right-click on it to bring up its properties dialog.")
-   (history  "Gala, also knows as ''farmer's chess'' or ''pagan chess'' was a game played in some farmers villages \
-              in northern Germany. The game probably comes from the middle ages. It has been mentioned \
+   (history  "Gala, also knows as ''farmer's chess'' or ''pagan chess'' was a game played in some farmers villages /
+              in northern Germany. The game probably comes from the middle ages. It has been mentioned /
               in the game books by R. C. Bell, Jack Botermans / Pieter van Delft and Glonnegger.")
 
    (move-sound "Audio/Pickup.wav")
@@ -178,14 +178,14 @@
    (piece
       (name Kampa)
       (help "Kampa: moves diagonally towards the middle of the board, in the middle part moves to one square in an arbitrary direction.")
-      (description "Kampas move diagonally towards the middle of the board until they are in the middle part or in the opponents corners. \
-                    It is allowed to move two squares if the deflection line isn't passed with the first move of the Kampa. \
-                    When the Kampa is in the middle part or in one of the opponents corners, then it may move one square in any direction. \
-                    When a Kampa is moved back to a corner of the owning player, it can only move diagonally forward again. \
-                    Kampas only can take in the move after they have crossed a deflection line.\
+      (description "Kampas move diagonally towards the middle of the board until they are in the middle part or in the opponents corners. /
+                    It is allowed to move two squares if the deflection line isn't passed with the first move of the Kampa. /
+                    When the Kampa is in the middle part or in one of the opponents corners, then it may move one square in any direction. /
+                    When a Kampa is moved back to a corner of the owning player, it can only move diagonally forward again. /
+                    Kampas only can take in the move after they have crossed a deflection line./
                     Kampa can't move to ''nobile'' squares.")
-      (image White "images\Chess\SHaag\wpawn.bmp"
-             Black "images\Chess\SHaag\bpawn.bmp")
+      (image White "images/Chess/SHaag/wpawn.bmp"
+             Black "images/Chess/SHaag/bpawn.bmp")
       (moves
          (kampa-shift left-zone ne)
          (kampa-shift right-zone nw)
@@ -198,13 +198,13 @@
    (piece
       (name Horsa)
       (help "Horsa: moves as bishops on the corner parts and and as rooks on the middle part.")
-      (description "Horsas are just the opposite of Kornas (with an additional small difference in the taking rules): \
-                    they move as bishops on the corner parts, and as rooks on the middle part. Again it is possible \
-                    to combine such moves. If the Horsa has moved one or more squares before crossing the line, \
-                    it may then only move one square. Horsas only take in moves where they pass the deflection line, \
+      (description "Horsas are just the opposite of Kornas (with an additional small difference in the taking rules): /
+                    they move as bishops on the corner parts, and as rooks on the middle part. Again it is possible /
+                    to combine such moves. If the Horsa has moved one or more squares before crossing the line, /
+                    it may then only move one square. Horsas only take in moves where they pass the deflection line, /
                     but not when they move only one square in rookwise fashion.")
-      (image White "images\Chess\SHaag\wbishop.bmp"
-             Black "images\Chess\SHaag\bbishop.bmp")
+      (image White "images/Chess/SHaag/wbishop.bmp"
+             Black "images/Chess/SHaag/bbishop.bmp")
       (moves
          (slide outer-zone nw cross-zone n true)  (slide outer-zone nw cross-zone s true)  (slide outer-zone nw cross-zone w true)  (slide outer-zone nw cross-zone e true)
          (slide outer-zone sw cross-zone n true)  (slide outer-zone sw cross-zone s true)  (slide outer-zone sw cross-zone w true)  (slide outer-zone sw cross-zone e true)
@@ -219,12 +219,12 @@
    (piece
       (name Korna)
       (help "Korna: moves as a rook in chess when in a corner of the board, and as a bishop in the middle of the board.")
-      (description "A Korna moves as a rook in chess when in a corner of the board, and as a bishop in the middle \
-                    of the board. It is also possible to combine these moves in one turn. If the Korna has moved \
-                    one or more squares before crossing the deflection line, it may then only move one square.\
+      (description "A Korna moves as a rook in chess when in a corner of the board, and as a bishop in the middle /
+                    of the board. It is also possible to combine these moves in one turn. If the Korna has moved /
+                    one or more squares before crossing the deflection line, it may then only move one square./
                     Kornas can only take in moves where they move over a deflection line.")
-      (image White "images\Chess\SHaag\wrook.bmp"
-             Black "images\Chess\SHaag\brook.bmp")
+      (image White "images/Chess/SHaag/wrook.bmp"
+             Black "images/Chess/SHaag/brook.bmp")
       (moves
          (slide outer-zone n cross-zone nw true) (slide outer-zone n cross-zone ne true) (slide outer-zone n cross-zone sw true) (slide outer-zone n cross-zone se true)
          (slide outer-zone s cross-zone nw true) (slide outer-zone s cross-zone ne true) (slide outer-zone s cross-zone sw true) (slide outer-zone s cross-zone se true)
@@ -239,12 +239,12 @@
    (piece
       (name LeftGala)
       (help "Gala: moves in general as kings in chess.")
-      (description "Galas move in general as kings in chess. Additionally, when a Gala is on one \
-                    of the four squares in the middle of the board, it may be moved in one move \
-                    to any empty square on the board with the exception of those squares that contain \
+      (description "Galas move in general as kings in chess. Additionally, when a Gala is on one /
+                    of the four squares in the middle of the board, it may be moved in one move /
+                    to any empty square on the board with the exception of those squares that contain /
                     a piece in the opening setup. Kings can only take when moving over a deflection line.")
-      (image White "images\Chess\SHaag\wking.bmp"
-             Black "images\Chess\SHaag\bking.bmp")
+      (image White "images/Chess/SHaag/wking.bmp"
+             Black "images/Chess/SHaag/bking.bmp")
       (moves
          (gala-shift n) (gala-shift nw)
          (gala-shift s) (gala-shift sw)
@@ -264,12 +264,12 @@
    (piece
       (name RightGala)
       (help "Gala: moves in general as kings in chess.")
-      (description "Galas move in general as kings in chess. Additionally, when a Gala is on one \
-                    of the four squares in the middle of the board, it may be moved in one move \
-                    to any empty square on the board with the exception of those squares that contain \
+      (description "Galas move in general as kings in chess. Additionally, when a Gala is on one /
+                    of the four squares in the middle of the board, it may be moved in one move /
+                    to any empty square on the board with the exception of those squares that contain /
                     a piece in the opening setup. Kings can only take when moving over a deflection line.")
-      (image White "images\Chess\SHaag\wking.bmp"
-             Black "images\Chess\SHaag\bking.bmp")
+      (image White "images/Chess/SHaag/wking.bmp"
+             Black "images/Chess/SHaag/bking.bmp")
       (moves
          (gala-shift n) (gala-shift nw)
          (gala-shift s) (gala-shift sw)
