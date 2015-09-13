@@ -1,20 +1,47 @@
+(define slide (
+  $1
+  (while empty?
+     add
+     $1
+  )
+))
+
 (define common-capture
   mark
   (if (and (enemy? $2) (enemy? $3))
-      (capture $2)
-      (capture $3)
+      (set-flag is-captured true)
+      (set-flag is-flip $5)
+      (if (flag? is-flip)
+          (flip $2)
+          (flip $3)
+       else
+          (capture $2)
+          (capture $3)
+      )
    else
       (if (enemy? $2)
           $2
           (if (friend? $2)
-              capture
+              (set-flag is-captured true)
+              (set-flag is-flip $5)
+              (if (flag? is-flip)
+                  flip
+               else
+                  capture
+              )
           )
       )
       back
       (if (enemy? $3)
           $3
           (if (friend? $3)
-              capture
+              (set-flag is-captured true)
+              (set-flag is-flip $5)
+              (if (flag? is-flip)
+                  flip
+               else
+                  capture
+              )
           )
       )
   )
@@ -22,36 +49,70 @@
   (if (enemy? $1)
       $1
       (if (friend? $1)
-          capture
+          (set-flag is-captured true)
+          (set-flag is-flip $5)
+          (if (flag? is-flip)
+              flip
+           else
+              capture
+          )
       )
   )
 )
 
 (define slide-1 (
+  (set-flag is-captured $4)
   $1
   (verify empty?)
-  to (common-capture) add
+  to (common-capture) 
+  (if (flag? is-captured)
+      (set-flag not-partial $4)
+      (if (flag? not-partial)
+          add
+       else
+          (add-partial capturetype)
+      )
+  )
 ))
 
 (define slide-2 (
+  (set-flag is-captured $4)
   $1
   (verify empty?)
   $1
   (verify empty?)
-  to (common-capture) add
+  to (common-capture) 
+  (if (flag? is-captured)
+      (set-flag not-partial $4)
+      (if (flag? not-partial)
+          add
+       else
+          (add-partial capturetype)
+      )
+  )
 ))
 
 (define slide-3 (
+  (set-flag is-captured $4)
   $1
   (verify empty?)
   $1
   (verify empty?)
   $1
   (verify empty?)
-  to (common-capture) add
+  to (common-capture) 
+  (if (flag? is-captured)
+      (set-flag not-partial $4)
+      (if (flag? not-partial)
+          add
+       else
+          (add-partial capturetype)
+      )
+  )
 ))
 
 (define slide-4 (
+  (set-flag is-captured $4)
   $1
   (verify empty?)
   $1
@@ -60,10 +121,19 @@
   (verify empty?)
   $1
   (verify empty?)
-  to (common-capture) add
+  to (common-capture) 
+  (if (flag? is-captured)
+      (set-flag not-partial $4)
+      (if (flag? not-partial)
+          add
+       else
+          (add-partial capturetype)
+      )
+  )
 ))
 
 (define slide-5 (
+  (set-flag is-captured $4)
   $1
   (verify empty?)
   $1
@@ -74,10 +144,19 @@
   (verify empty?)
   $1
   (verify empty?)
-  to (common-capture) add
+  to (common-capture) 
+  (if (flag? is-captured)
+      (set-flag not-partial $4)
+      (if (flag? not-partial)
+          add
+       else
+          (add-partial capturetype)
+      )
+  )
 ))
 
 (define slide-6 (
+  (set-flag is-captured $4)
   $1
   (verify empty?)
   $1
@@ -90,10 +169,19 @@
   (verify empty?)
   $1
   (verify empty?)
-  to (common-capture) add
+  to (common-capture) 
+  (if (flag? is-captured)
+      (set-flag not-partial $4)
+      (if (flag? not-partial)
+          add
+       else
+          (add-partial capturetype)
+      )
+  )
 ))
 
 (define slide-7 (
+  (set-flag is-captured $4)
   $1
   (verify empty?)
   $1
@@ -108,7 +196,15 @@
   (verify empty?)
   $1
   (verify empty?)
-  to (common-capture) add
+  to (common-capture) 
+  (if (flag? is-captured)
+      (set-flag not-partial $4)
+      (if (flag? not-partial)
+          add
+       else
+          (add-partial capturetype)
+      )
+  )
 ))
 
 (game
@@ -150,40 +246,40 @@
      (image White "images/wiedem/CheckerWhite.bmp"
             Black "images/wiedem/CheckerBlack.bmp")
      (moves
-        (slide-1 n w e)
-        (slide-1 w n s)
-        (slide-1 s e w)
-        (slide-1 e s n)
+        (slide-1 n w e true false)
+        (slide-1 w n s true false)
+        (slide-1 s e w true false)
+        (slide-1 e s n true false)
 
-        (slide-2 n w e)
-        (slide-2 w n s)
-        (slide-2 s e w)
-        (slide-2 e s n)
+        (slide-2 n w e true false)
+        (slide-2 w n s true false)
+        (slide-2 s e w true false)
+        (slide-2 e s n true false)
 
-        (slide-3 n w e)
-        (slide-3 w n s)
-        (slide-3 s e w)
-        (slide-3 e s n)
+        (slide-3 n w e true false)
+        (slide-3 w n s true false)
+        (slide-3 s e w true false)
+        (slide-3 e s n true false)
 
-        (slide-4 n w e)
-        (slide-4 w n s)
-        (slide-4 s e w)
-        (slide-4 e s n)
+        (slide-4 n w e true false)
+        (slide-4 w n s true false)
+        (slide-4 s e w true false)
+        (slide-4 e s n true false)
 
-        (slide-5 n w e)
-        (slide-5 w n s)
-        (slide-5 s e w)
-        (slide-5 e s n)
+        (slide-5 n w e true false)
+        (slide-5 w n s true false)
+        (slide-5 s e w true false)
+        (slide-5 e s n true false)
 
-        (slide-6 n w e)
-        (slide-6 w n s)
-        (slide-6 s e w)
-        (slide-6 e s n)
+        (slide-6 n w e true false)
+        (slide-6 w n s true false)
+        (slide-6 s e w true false)
+        (slide-6 e s n true false)
 
-        (slide-7 n w e)
-        (slide-7 w n s)
-        (slide-7 s e w)
-        (slide-7 e s n)
+        (slide-7 n w e true false)
+        (slide-7 w n s true false)
+        (slide-7 s e w true false)
+        (slide-7 e s n true false)
      )
   )
 
@@ -193,4 +289,122 @@
   )
 
   (loss-condition (White Black) (pieces-remaining 0 Man))
+  (loss-condition (White Black)  stalemated)
+  (count-condition (White Black) repetition)
+)
+
+(variant
+  (title "-")
+)
+
+(variant
+  (title "Makyek (variant 1)")
+
+  (move-priorities capturetype normaltype)
+
+  (piece
+     (name  Man)
+     (help "Man: moves as Rook in Chess.")
+     (image White "images/wiedem/CheckerWhite.bmp"
+            Black "images/wiedem/CheckerBlack.bmp")
+     (moves
+        (move-type normaltype)
+        (slide n)
+        (slide w)
+        (slide s)
+        (slide e)
+
+        (move-type capturetype)
+        (slide-1 n w e false false)
+        (slide-1 w n s false false)
+        (slide-1 s e w false false)
+        (slide-1 e s n false false)
+
+        (slide-2 n w e false false)
+        (slide-2 w n s false false)
+        (slide-2 s e w false false)
+        (slide-2 e s n false false)
+
+        (slide-3 n w e false false)
+        (slide-3 w n s false false)
+        (slide-3 s e w false false)
+        (slide-3 e s n false false)
+
+        (slide-4 n w e false false)
+        (slide-4 w n s false false)
+        (slide-4 s e w false false)
+        (slide-4 e s n false false)
+
+        (slide-5 n w e false false)
+        (slide-5 w n s false false)
+        (slide-5 s e w false false)
+        (slide-5 e s n false false)
+
+        (slide-6 n w e false false)
+        (slide-6 w n s false false)
+        (slide-6 s e w false false)
+        (slide-6 e s n false false)
+
+        (slide-7 n w e false false)
+        (slide-7 w n s false false)
+        (slide-7 s e w false false)
+        (slide-7 e s n false false)
+     )
+  )
+)
+
+(variant
+  (title "Makyek (variant 2)")
+
+  (move-priorities capturetype normaltype)
+
+  (piece
+     (name  Man)
+     (help "Man: moves as Rook in Chess.")
+     (image White "images/wiedem/CheckerWhite.bmp"
+            Black "images/wiedem/CheckerBlack.bmp")
+     (moves
+        (move-type normaltype)
+        (slide n)
+        (slide w)
+        (slide s)
+        (slide e)
+
+        (move-type capturetype)
+        (slide-1 n w e false true)
+        (slide-1 w n s false true)
+        (slide-1 s e w false true)
+        (slide-1 e s n false true)
+
+        (slide-2 n w e false true)
+        (slide-2 w n s false true)
+        (slide-2 s e w false true)
+        (slide-2 e s n false true)
+
+        (slide-3 n w e false true)
+        (slide-3 w n s false true)
+        (slide-3 s e w false true)
+        (slide-3 e s n false true)
+
+        (slide-4 n w e false true)
+        (slide-4 w n s false true)
+        (slide-4 s e w false true)
+        (slide-4 e s n false true)
+
+        (slide-5 n w e false true)
+        (slide-5 w n s false true)
+        (slide-5 s e w false true)
+        (slide-5 e s n false true)
+
+        (slide-6 n w e false true)
+        (slide-6 w n s false true)
+        (slide-6 s e w false true)
+        (slide-6 e s n false true)
+
+        (slide-7 n w e false true)
+        (slide-7 w n s false true)
+        (slide-7 s e w false true)
+        (slide-7 e s n false true)
+     )
+  )
 )
