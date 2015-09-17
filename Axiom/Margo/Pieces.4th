@@ -206,18 +206,18 @@ DEFER	sw-piece
 
 : down-internal ( -- ? ) 
 	here is-plane? IF
-		d DROP 
+		d verify 
 		empty? IF
 			FALSE
 		ELSE
 			BEGIN d NOT empty? OR UNTIL
 			empty? IF
-				u DROP
+				u verify
 			ENDIF
 			TRUE
 		ENDIF
 	ELSE
-		u DROP
+		u verify
 		here is-plane? NOT
 	ENDIF
 ;
@@ -227,11 +227,11 @@ DEFER	sw-piece
 : common-internal ( 'dir -- ? )
 	here is-plane? IF
 		BEGIN d NOT empty? OR UNTIL
-		empty? IF
-			EXECUTE
-			empty? IF
-				DROP FALSE
+		empty? EXECUTE IF
+			empty? AND IF
+				BEGIN u NOT UNTIL
 			ENDIF
+			TRUE
 		ELSE
 			DROP FALSE
 		ENDIF
@@ -241,6 +241,7 @@ DEFER	sw-piece
 			BEGIN u NOT UNTIL
 		ENDIF
 	ENDIF
+	empty? NOT AND
 ;
 
 : n-internal ( -- ? ) ['] n common-internal ;
@@ -252,6 +253,69 @@ DEFER	sw-piece
 : south ( -- ? ) ['] s-internal wrap-direction ;
 : west  ( -- ? ) ['] w-internal wrap-direction ;
 : east  ( -- ? ) ['] e-internal wrap-direction ;
+
+: position-not-present? ( -- ? )
+	TRUE
+	0 BEGIN
+		DUP piece-group-count @ < IF
+			DUP piece-group[] @ here = IF
+				SWAP DROP FALSE SWAP
+				TRUE
+			ELSE
+				1+
+				FALSE
+			ENDIF
+		ELSE
+			TRUE
+		ENDIF
+	UNTIL DROP
+;
+
+: add-position ( -- )
+	position-not-present? piece-group-count @ TOTAL < AND IF
+		here piece-group-count @ piece-group[] !
+		piece-group-count ++
+	ENDIF
+;
+
+: check-piece ( 'op 'dir -- )
+	EXECUTE IF
+		EXECUTE IF
+			add-position
+		ENDIF
+	ELSE
+		DROP
+	ENDIF
+;
+
+: init-group ( 'op -- )
+	0 piece-group-count !
+	0 BEGIN
+		DUP empty-at? IF
+			DUP to OVER ['] n check-piece
+			DUP to OVER ['] s check-piece
+			DUP to OVER ['] w check-piece
+			DUP to OVER ['] e check-piece 
+		ENDIF
+		1+ DUP PLANE >=
+	UNTIL 2DROP
+;
+
+: proceed-group ( 'op -- )
+	0 BEGIN
+		DUP piece-group-count @ < IF
+			DUP piece-group[] @ to OVER ['] north check-piece
+			DUP piece-group[] @ to OVER ['] south check-piece
+			DUP piece-group[] @ to OVER ['] west  check-piece
+			DUP piece-group[] @ to OVER ['] east  check-piece
+			DUP piece-group[] @ to OVER ['] up    check-piece
+			DUP piece-group[] @ to OVER ['] down  check-piece
+			1+ FALSE
+		ELSE
+			TRUE
+		ENDIF
+	UNTIL 2DROP
+;
 
 {moves w-drop
 	{move} drop-w

@@ -1,6 +1,5 @@
 DIM 2 *		CONSTANT	COLS
 COLS DUP *	CONSTANT	PLANE
-ROWS COLS *	CONSTANT	ALL
 
 {board
 	ROWS COLS	{grid}
@@ -17,9 +16,5 @@ board}
 	 1	 1	{direction} se-internal
 directions}
 
-TOTAL []	pieces[]
-VARIABLE	pieces-count
-TOTAL []	zombies[]
-VARIABLE	zombies-count
-VARIABLE	result
-VARIABLE	function
+TOTAL []	piece-group[]
+VARIABLE	piece-group-count
