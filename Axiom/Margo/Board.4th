@@ -16,5 +16,7 @@ board}
 	 1	 1	{direction} se-internal
 directions}
 
-TOTAL []	piece-group[]
-VARIABLE	piece-group-count
+TOTAL []	pieces[]
+VARIABLE	pieces-count
+TOTAL []	zombies[]
+VARIABLE	zombies-count

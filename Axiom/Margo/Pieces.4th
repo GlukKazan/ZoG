@@ -254,12 +254,12 @@ DEFER	sw-piece
 : west  ( -- ? ) ['] w-internal wrap-direction ;
 : east  ( -- ? ) ['] e-internal wrap-direction ;
 
-: position-not-present? ( -- ? )
-	TRUE
+: in-pieces? ( -- ? )
+	FALSE
 	0 BEGIN
-		DUP piece-group-count @ < IF
-			DUP piece-group[] @ here = IF
-				SWAP DROP FALSE SWAP
+		DUP pieces-count @ < IF
+			DUP pieces[] @ here = IF
+				SWAP DROP TRUE SWAP
 				TRUE
 			ELSE
 				1+
@@ -272,9 +272,9 @@ DEFER	sw-piece
 ;
 
 : add-position ( -- )
-	position-not-present? piece-group-count @ TOTAL < AND IF
-		here piece-group-count @ piece-group[] !
-		piece-group-count ++
+	in-pieces? NOT pieces-count @ TOTAL < AND IF
+		here pieces-count @ pieces[] !
+		pieces-count ++
 	ENDIF
 ;
 
@@ -288,8 +288,8 @@ DEFER	sw-piece
 	ENDIF
 ;
 
-: init-group ( 'op -- )
-	0 piece-group-count !
+: init-pieces ( 'op -- )
+	0 pieces-count !
 	0 BEGIN
 		DUP empty-at? IF
 			DUP to OVER ['] n check-piece
@@ -301,19 +301,40 @@ DEFER	sw-piece
 	UNTIL 2DROP
 ;
 
-: proceed-group ( 'op -- )
+: proceed-pieces ( 'op -- )
 	0 BEGIN
-		DUP piece-group-count @ < IF
-			DUP piece-group[] @ to OVER ['] north check-piece
-			DUP piece-group[] @ to OVER ['] south check-piece
-			DUP piece-group[] @ to OVER ['] west  check-piece
-			DUP piece-group[] @ to OVER ['] east  check-piece
-			DUP piece-group[] @ to OVER ['] up    check-piece
-			DUP piece-group[] @ to OVER ['] down  check-piece
+		DUP pieces-count @ < IF
+			DUP pieces[] @ to OVER ['] north check-piece
+			DUP pieces[] @ to OVER ['] south check-piece
+			DUP pieces[] @ to OVER ['] west  check-piece
+			DUP pieces[] @ to OVER ['] east  check-piece
+			DUP pieces[] @ to OVER ['] up    check-piece
+			DUP pieces[] @ to OVER ['] down  check-piece
 			1+ FALSE
 		ELSE
 			TRUE
 		ENDIF
+	UNTIL 2DROP
+;
+
+: collect-zombies ( 'op -- )
+	0 zombies-count !
+	0 BEGIN
+		DUP empty-at? NOT IF
+			DUP to
+			BEGIN OVER EXECUTE in-pieces? AND NOT down AND NOT UNTIL
+			OVER EXECUTE NOT in-pieces? OR IF
+				BEGIN
+					OVER down SWAP EXECUTE
+					OVER in-pieces? NOT AND zombies-count @ TOTAL < AND IF
+						here zombies-count @ zombies[] !
+						zombies-count ++
+					ENDIF
+					NOT
+				UNTIL
+			ENDIF
+		ENDIF
+		1+ DUP PLANE >=
 	UNTIL 2DROP
 ;
 
