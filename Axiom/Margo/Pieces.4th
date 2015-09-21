@@ -254,12 +254,12 @@ DEFER	sw-piece
 : west  ( -- ? ) ['] w-internal wrap-direction ;
 : east  ( -- ? ) ['] e-internal wrap-direction ;
 
-: in-pieces? ( -- ? )
-	FALSE
+: not-alive? ( -- ? )
+	TRUE
 	0 BEGIN
-		DUP pieces-count @ < IF
-			DUP pieces[] @ here = IF
-				SWAP DROP TRUE SWAP
+		DUP alive-count @ < IF
+			DUP alive[] @ here = IF
+				SWAP DROP FALSE SWAP
 				TRUE
 			ELSE
 				1+
@@ -271,95 +271,264 @@ DEFER	sw-piece
 	UNTIL DROP
 ;
 
-: add-position ( -- )
-	in-pieces? NOT pieces-count @ TOTAL < AND IF
-		here pieces-count @ pieces[] !
-		pieces-count ++
+: add-alive ( -- )
+	not-alive? alive-count @ TOTAL < AND IF
+		here alive-count @ alive[] !
+		alive-count ++
 	ENDIF
 ;
 
-: check-piece ( 'op 'dir -- )
+: check-alive ( 'op 'dir -- )
 	EXECUTE IF
 		EXECUTE IF
-			add-position
+			add-alive
 		ENDIF
 	ELSE
 		DROP
 	ENDIF
 ;
 
-: init-pieces ( 'op -- )
-	0 pieces-count !
+: init-alive ( 'op -- 'op )
+	0 alive-count !
 	0 BEGIN
 		DUP empty-at? IF
-			DUP to OVER ['] n check-piece
-			DUP to OVER ['] s check-piece
-			DUP to OVER ['] w check-piece
-			DUP to OVER ['] e check-piece 
+			DUP to OVER ['] n check-alive
+			DUP to OVER ['] s check-alive
+			DUP to OVER ['] w check-alive
+			DUP to OVER ['] e check-alive 
 		ENDIF
 		1+ DUP PLANE >=
-	UNTIL 2DROP
+	UNTIL DROP
 ;
 
-: proceed-pieces ( 'op -- )
+: proceed-alive ( 'op -- 'op )
 	0 BEGIN
-		DUP pieces-count @ < IF
-			DUP pieces[] @ to OVER ['] north check-piece
-			DUP pieces[] @ to OVER ['] south check-piece
-			DUP pieces[] @ to OVER ['] west  check-piece
-			DUP pieces[] @ to OVER ['] east  check-piece
-			DUP pieces[] @ to OVER ['] up    check-piece
-			DUP pieces[] @ to OVER ['] down  check-piece
+		DUP alive-count @ < IF
+			DUP alive[] @ to OVER ['] north check-alive
+			DUP alive[] @ to OVER ['] south check-alive
+			DUP alive[] @ to OVER ['] west  check-alive
+			DUP alive[] @ to OVER ['] east  check-alive
+			DUP alive[] @ to OVER ['] up    check-alive
+			DUP alive[] @ to OVER ['] down  check-alive
 			1+ FALSE
 		ELSE
 			TRUE
 		ENDIF
-	UNTIL 2DROP
+	UNTIL DROP
 ;
 
-: collect-zombies ( 'op -- )
+: not-zombies? ( -- ? )
+	TRUE
+	0 BEGIN
+		DUP zombies-count @ < IF
+			DUP zombies[] @ here = IF
+				SWAP DROP FALSE SWAP
+				TRUE
+			ELSE
+				1+
+				FALSE
+			ENDIF
+		ELSE
+			TRUE
+		ENDIF
+	UNTIL DROP
+;
+
+: add-zombies ( -- )
+	not-zombies? zombies-count @ TOTAL < AND IF
+		here zombies-count @ zombies[] !
+		zombies-count ++
+	ENDIF
+;
+
+: check-zombies ( 'op -- 'op )
 	0 zombies-count !
 	0 BEGIN
-		DUP empty-at? NOT IF
-			DUP to
-			BEGIN OVER EXECUTE in-pieces? AND NOT down AND NOT UNTIL
-			OVER EXECUTE NOT in-pieces? OR IF
-				BEGIN
-					OVER down SWAP EXECUTE
-					OVER in-pieces? NOT AND zombies-count @ TOTAL < AND IF
-						here zombies-count @ zombies[] !
-						zombies-count ++
+		DUP to
+		empty? NOT IF
+			BEGIN
+				OVER EXECUTE NOT not-alive? NOT OR IF
+					TRUE
+				ELSE
+					down NOT
+				ENDIF
+			UNTIL
+			BEGIN
+				OVER EXECUTE not-alive? AND IF
+					add-zombies
+					here
+					piece-type nw-piece equal-types? IF
+						south IF
+							add-zombies 
+							DUP to
+						ENDIF
+						east IF
+							add-zombies 
+							DUP to
+						ENDIF
 					ENDIF
-					NOT
-				UNTIL
+					piece-type ne-piece equal-types? IF
+						south IF
+							add-zombies 
+							DUP to
+						ENDIF
+						west IF
+							add-zombies 
+							DUP to
+						ENDIF
+					ENDIF
+					piece-type sw-piece equal-types? IF
+						north IF
+							add-zombies 
+							DUP to
+						ENDIF
+						east IF
+							add-zombies 
+							DUP to
+						ENDIF
+					ENDIF
+					piece-type se-piece equal-types? IF
+						north IF
+							add-zombies 
+							DUP to
+						ENDIF
+						west IF
+							add-zombies 
+							DUP to
+						ENDIF
+					ENDIF
+					DROP
+				ENDIF
+				down NOT
+			UNTIL
+		ENDIF
+		1+ DUP PLANE >=
+	UNTIL DROP
+;
+
+: capture-column ( 'op -- ? )
+	TRUE BEGIN
+		OVER EXECUTE not-alive? AND not-zombies? AND IF
+			capture
+			captured-tiles ++
+			down NOT IF
+				DROP FALSE
+				TRUE
+			ELSE
+				FALSE
+			ENDIF
+		ELSE
+			TRUE
+		ENDIF
+	UNTIL SWAP DROP
+;
+
+: capture-all ( 'op -- )
+	0 captured-tiles !
+	0 BEGIN
+		DUP to
+		empty? NOT OVER EXECUTE AND not-alive? AND IF
+			captured-tiles ++
+			down verify
+			OVER capture-column IF
+				DUP player piece-type 1-
+				capture
+				down empty? NOT IF
+					decorate-piece
+				ENDIF
+				ROT create-player-piece-type-at
+			ELSE
+				DUP capture-at
 			ENDIF
 		ENDIF
 		1+ DUP PLANE >=
 	UNTIL 2DROP
 ;
 
+: my-enemy? ( -- ? )
+	not-empty? IF
+		for-player player = NOT
+	ELSE
+		FALSE
+	ENDIF
+;
+
+: my-friend? ( -- ? )
+	not-empty? IF
+		for-player player =
+	ELSE
+		FALSE
+	ENDIF
+;
+
+: WC+ ( n -- )
+	WC +!
+;
+
+: BC+ ( n -- )
+	BC +!
+;
+
+: update-variables ( n -- )
+	for-player W = NEG 4 /
+	DUP 0< IF
+		NEG
+		COMPILE-LITERAL COMPILE WC+
+	ENDIF
+	DUP 0> IF
+		COMPILE-LITERAL COMPILE BC+
+	ENDIF
+;
+
+: drop-m ( -- )
+	here a1 = verify
+	drop
+	['] my-enemy?
+	init-alive
+        proceed-alive
+	check-zombies
+	capture-all
+	captured-tiles @ 0= IF
+		['] my-friend?
+		init-alive
+	        proceed-alive
+		check-zombies
+		capture-all
+		captured-tiles @ NEG
+		update-variables
+	ELSE
+		captured-tiles @
+		update-variables
+	ENDIF
+	add-move
+;
+
 {moves w-drop
-	{move} drop-w
-	{move} drop-nw
+	{move} drop-w	{move-type} normal
+	{move} drop-nw	{move-type} normal
 moves}
 
 {moves n-drop
-	{move} drop-n
-	{move} drop-ne
+	{move} drop-n	{move-type} normal
+	{move} drop-ne	{move-type} normal
 moves}
 
 {moves e-drop
-	{move} drop-e
-	{move} drop-se
+	{move} drop-e	{move-type} normal
+	{move} drop-se	{move-type} normal
 moves}
 
 {moves s-drop
-	{move} drop-s
-	{move} drop-sw
+	{move} drop-s	{move-type} normal
+	{move} drop-sw	{move-type} normal
+moves}
+
+{moves m-drop
+	{move} drop-m	{move-type} clean
 moves}
 
 {pieces
-	{piece}		M
+	{piece}		M	{drops} m-drop
 	{piece}		tw	{drops} w-drop
 	{piece}		zw
 	{piece}		ww

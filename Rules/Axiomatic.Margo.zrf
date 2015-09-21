@@ -48,8 +48,8 @@
    (option "animate drops"    false)
    (option "animate captures" false)
 
-   (players    W B)
-   (turn-order W B)
+   (players    W B ?C)
+   (turn-order (W normal) (?C W clean) (B normal) (?C B clean))
 
    (board
       (image "../images/margo/7x7.bmp")

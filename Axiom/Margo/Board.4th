@@ -3,6 +3,8 @@ COLS DUP *	CONSTANT	PLANE
 
 {board
 	ROWS COLS	{grid}
+	{variable}	WC
+	{variable}	BC
 board}
 
 {directions
@@ -16,7 +18,8 @@ board}
 	 1	 1	{direction} se-internal
 directions}
 
-TOTAL []	pieces[]
-VARIABLE	pieces-count
+TOTAL []	alive[]
+VARIABLE	alive-count
 TOTAL []	zombies[]
 VARIABLE	zombies-count
+VARIABLE	captured-tiles
