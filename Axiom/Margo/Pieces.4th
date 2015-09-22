@@ -227,13 +227,22 @@ DEFER	sw-piece
 : common-internal ( 'dir -- ? )
 	here is-plane? IF
 		BEGIN d NOT empty? OR UNTIL
-		empty? EXECUTE IF
-			empty? AND IF
-				BEGIN u NOT UNTIL
+		empty? IF
+			EXECUTE IF
+				empty? IF
+					BEGIN u NOT UNTIL
+				ENDIF
+				TRUE
+			ELSE
+				FALSE
 			ENDIF
-			TRUE
 		ELSE
-			DROP FALSE
+			EXECUTE empty? NOT AND IF
+				BEGIN u NOT UNTIL
+				TRUE
+			ELSE
+				FALSE
+			ENDIF
 		ENDIF
 	ELSE
 		EXECUTE 
@@ -244,15 +253,15 @@ DEFER	sw-piece
 	empty? NOT AND
 ;
 
-: n-internal ( -- ? ) ['] n common-internal ;
-: s-internal ( -- ? ) ['] s common-internal ;
-: w-internal ( -- ? ) ['] w common-internal ;
-: e-internal ( -- ? ) ['] e common-internal ;
+: north-internal ( -- ? ) ['] n common-internal ;
+: south-internal ( -- ? ) ['] s common-internal ;
+: west-internal  ( -- ? ) ['] w common-internal ;
+: east-internal  ( -- ? ) ['] e common-internal ;
 
-: north ( -- ? ) ['] n-internal wrap-direction ;
-: south ( -- ? ) ['] s-internal wrap-direction ;
-: west  ( -- ? ) ['] w-internal wrap-direction ;
-: east  ( -- ? ) ['] e-internal wrap-direction ;
+: north ( -- ? ) ['] north-internal wrap-direction ;
+: south ( -- ? ) ['] south-internal wrap-direction ;
+: west  ( -- ? ) ['] west-internal  wrap-direction ;
+: east  ( -- ? ) ['] east-internal  wrap-direction ;
 
 : not-alive? ( -- ? )
 	TRUE
@@ -427,18 +436,21 @@ DEFER	sw-piece
 	0 captured-tiles !
 	0 BEGIN
 		DUP to
-		empty? NOT OVER EXECUTE AND not-alive? AND IF
-			captured-tiles ++
-			down verify
-			OVER capture-column IF
-				DUP player piece-type 1-
-				capture
-				down empty? NOT IF
-					decorate-piece
+		empty? NOT IF
+			OVER EXECUTE not-alive? AND IF
+				captured-tiles ++
+				down IF
+					OVER capture-column IF
+						DUP player piece-type 1-
+						capture
+						down IF decorate-piece ENDIF
+						ROT create-player-piece-type-at
+					ELSE
+						DUP capture-at
+					ENDIF
+				ELSE
+					DUP capture-at
 				ENDIF
-				ROT create-player-piece-type-at
-			ELSE
-				DUP capture-at
 			ENDIF
 		ENDIF
 		1+ DUP PLANE >=
@@ -470,9 +482,9 @@ DEFER	sw-piece
 ;
 
 : update-variables ( n -- )
-	for-player W = NEG 4 /
+	for-player W = IF NEGATE ENDIF 4 /
 	DUP 0< IF
-		NEG
+		NEGATE
 		COMPILE-LITERAL COMPILE WC+
 	ENDIF
 	DUP 0> IF
@@ -494,7 +506,7 @@ DEFER	sw-piece
 	        proceed-alive
 		check-zombies
 		capture-all
-		captured-tiles @ NEG
+		captured-tiles @ NEGATE
 		update-variables
 	ELSE
 		captured-tiles @
