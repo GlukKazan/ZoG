@@ -121,3 +121,44 @@
       )
    )
 )
+
+(variant
+   (title "-")
+)
+
+(variant
+   (title "Lesson 1")
+   (board
+      (image "../images/margo/9x9.bmp")
+      (grid
+         (start-rectangle 30 30 59 59)
+         (dimensions
+             ("a/b/c/d/e/f/g/h/i/j/k/l/m/n/o/p/q/r" (30 0)) ; files
+             ("90/89/88/87/86/85/84/83/82/81/80/79/78/77/76/75/74/73/72/71/70/69/68/67/66/65/64/63/62/61/60/59/58/57/56/55/54/53/52/51/50/49/48/47/46/45/44/43/42/41/40/39/38/37/36/35/34/33/32/31/30/29/28/27/26/25/24/23/22/21/20/19/18/17/16/15/14/13/12/11/10/9/8/7/6/5/4/3/2/1" (0 30)) ; ranks
+         )
+      )
+   )
+   (board-setup
+      (W (tw m88 o86 o84) (tn n88 p86 p84) (te n87 p85 p83) (ts m87 o85 o83) )
+      (B (tw m86) (tn n86) (te n85) (ts m85) )
+   )
+)
+
+(variant
+   (title "Lesson 2")
+   (default)
+   (board
+      (image "../images/margo/4x4.bmp")
+      (grid
+         (start-rectangle 30 30 59 59)
+         (dimensions
+             ("a/b/c/d/e/f/g/h" (30 0)) ; files
+             ("20/19/18/17/16/15/14/13/12/11/10/9/8/7/6/5/4/3/2/1" (0 30)) ; ranks
+         )
+      )
+   )
+   (board-setup
+      (W (tw a16 c16 g16 a14) (ww b15) (zw g7) (tn b16 d16 h16 h14) (wn c15) (zn b7) (te d15 h15 h13 b13) (be c14) (ze b8) (ts a15 a13 g13) (ws b14) (zs c8 g8) )
+      (B (tw e16 e14) (bw f15) (zw c7) (tn f16 d14) (wn g15) (zn f7) (te d13 f13) (we g14) (ze f8) (ts e15 c13 e13) (bs f14) )
+   )
+)

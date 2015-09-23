@@ -206,8 +206,7 @@ DEFER	sw-piece
 
 : down-internal ( -- ? ) 
 	here is-plane? IF
-		d verify 
-		empty? IF
+		d NOT empty? OR IF
 			FALSE
 		ELSE
 			BEGIN d NOT empty? OR UNTIL
@@ -459,7 +458,9 @@ DEFER	sw-piece
 
 : my-enemy? ( -- ? )
 	not-empty? IF
-		for-player player = NOT
+		for-player player = 
+		current-player player =  OR 
+		NOT
 	ELSE
 		FALSE
 	ENDIF
@@ -468,6 +469,7 @@ DEFER	sw-piece
 : my-friend? ( -- ? )
 	not-empty? IF
 		for-player player =
+		current-player player = OR
 	ELSE
 		FALSE
 	ENDIF
@@ -499,7 +501,7 @@ DEFER	sw-piece
 	init-alive
         proceed-alive
 	check-zombies
-	capture-all
+        capture-all
 	captured-tiles @ 0= IF
 		['] my-friend?
 		init-alive
