@@ -1,0 +1,139 @@
+(define shift (
+  $1
+  (while empty?
+     add
+     $1
+  )
+))
+
+(game
+   (title "Kamisado (non stop)")
+
+   (move-sound "Audio/Pickup.wav")
+   (release-sound "Audio/Pickup.wav")
+   (capture-sound "")
+
+   (option "prevent flipping" true)
+
+   (players    White Black)
+   (turn-order White Black)
+  
+   (board
+      (image "Images/Kamisado/board.bmp")
+      (grid
+         (start-rectangle 5 5 53 53)
+         (dimensions
+             ("a/b/c/d/e/f/g/h" (49 0)) ; files
+             ("8/7/6/5/4/3/2/1" (0 49)) ; ranks
+         )
+         (directions (n 0 -1) (s 0 1) 
+                     (ne 1 -1) (nw -1 -1) (se 1 1) (sw -1 1)
+         )
+      )
+      (symmetry Black (n s)(s n) (nw sw)(sw nw) (ne se)(se ne) )
+   )
+
+   (piece
+      (name OrangeDragon)
+      (image White "Images/Kamisado/wo.bmp"
+             Black "Images/Kamisado/bo.bmp")
+      (moves
+         (shift n)
+         (shift nw)
+         (shift ne)
+      )
+   )
+   (piece
+      (name BlueDragon)
+      (image White "Images/Kamisado/wb.bmp"
+             Black "Images/Kamisado/bb.bmp")
+      (moves
+         (shift n)
+         (shift nw)
+         (shift ne)
+      )
+   )
+   (piece
+      (name PurpleDragon)
+      (image White "Images/Kamisado/wp.bmp"
+             Black "Images/Kamisado/bp.bmp")
+      (moves
+         (shift n)
+         (shift nw)
+         (shift ne)
+      )
+   )
+   (piece
+      (name PinkDragon)
+      (image White "Images/Kamisado/wi.bmp"
+             Black "Images/Kamisado/bi.bmp")
+      (moves
+         (shift n)
+         (shift nw)
+         (shift ne)
+      )
+   )
+   (piece
+      (name YellowDragon)
+      (image White "Images/Kamisado/wy.bmp"
+             Black "Images/Kamisado/by.bmp")
+      (moves
+         (shift n)
+         (shift nw)
+         (shift ne)
+      )
+   )
+   (piece
+      (name RedDragon)
+      (image White "Images/Kamisado/wr.bmp"
+             Black "Images/Kamisado/br.bmp")
+      (moves
+         (shift n)
+         (shift nw)
+         (shift ne)
+      )
+   )
+   (piece
+      (name GreenDragon)
+      (image White "Images/Kamisado/wg.bmp"
+             Black "Images/Kamisado/bg.bmp")
+      (moves
+         (shift n)
+         (shift nw)
+         (shift ne)
+      )
+   )
+   (piece
+      (name BrawnDragon)
+      (image White "Images/Kamisado/ww.bmp"
+             Black "Images/Kamisado/bw.bmp")
+      (moves
+         (shift n)
+         (shift nw)
+         (shift ne)
+      )
+   )
+
+   (board-setup
+      (White 
+         (OrangeDragon h1)
+         (BlueDragon g1) 
+         (PurpleDragon f1) 
+         (PinkDragon e1) 
+         (YellowDragon d1) 
+         (RedDragon c1) 
+         (GreenDragon b1) 
+         (BrawnDragon a1) 
+      )
+      (Black 
+         (OrangeDragon a8) 
+         (BlueDragon b8) 
+         (PurpleDragon c8) 
+         (PinkDragon d8) 
+         (YellowDragon e8) 
+         (RedDragon f8) 
+         (GreenDragon g8) 
+         (BrawnDragon h8) 
+      )
+   )
+)
