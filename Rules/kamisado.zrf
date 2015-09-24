@@ -1,3 +1,5 @@
+; http://www.yucata.de/en/Rules/Kamisado
+
 (define shift (
   $1
   (while empty?
@@ -31,12 +33,53 @@
          )
       )
       (symmetry Black (n s)(s n) (nw sw)(sw nw) (ne se)(se ne) )
+      (zone (name promotion) 
+         (players White) 
+         (positions a8 b8 c8 d8 e8 f8 g8 h8)
+      )
+      (zone (name promotion) 
+         (players Black) 
+         (positions a1 b1 c1 d1 e1 f1 g1 h1)
+      )
+      (zone (name orange) 
+         (players White Black) 
+         (positions a8 b7 c6 d5 e4 f3 g2 h1)
+      )
+      (zone (name blue)   
+         (players White Black) 
+         (positions a3 b8 c5 d2 e7 f4 g1 h6)
+      )
+      (zone (name purple) 
+         (players White Black) 
+         (positions a2 b5 c8 d3 e6 f1 g4 h7)
+      )
+      (zone (name pink)   
+         (players White Black) 
+         (positions a5 b6 c7 d8 e1 f2 g3 h4)
+      )
+      (zone (name yellow) 
+         (players White Black) 
+         (positions a4 b3 c2 d1 e8 f7 g6 h5)
+      )
+      (zone (name red)    
+         (players White Black) 
+         (positions a7 b4 c1 d6 e3 f8 g5 h2)
+      )
+      (zone (name green)  
+         (players White Black) 
+         (positions a6 b1 c4 d7 e2 f5 g8 h3)
+      )
+      (zone (name brown)  
+         (players White Black) 
+         (positions a1 b2 c3 d4 e5 f6 g7 h8)
+      )
    )
 
    (piece
       (name OrangeDragon)
       (image White "Images/Kamisado/wo.bmp"
              Black "Images/Kamisado/bo.bmp")
+      (attribute last-moved false)
       (moves
          (shift n)
          (shift nw)
@@ -47,6 +90,7 @@
       (name BlueDragon)
       (image White "Images/Kamisado/wb.bmp"
              Black "Images/Kamisado/bb.bmp")
+      (attribute last-moved false)
       (moves
          (shift n)
          (shift nw)
@@ -57,6 +101,7 @@
       (name PurpleDragon)
       (image White "Images/Kamisado/wp.bmp"
              Black "Images/Kamisado/bp.bmp")
+      (attribute last-moved false)
       (moves
          (shift n)
          (shift nw)
@@ -67,6 +112,7 @@
       (name PinkDragon)
       (image White "Images/Kamisado/wi.bmp"
              Black "Images/Kamisado/bi.bmp")
+      (attribute last-moved false)
       (moves
          (shift n)
          (shift nw)
@@ -77,6 +123,7 @@
       (name YellowDragon)
       (image White "Images/Kamisado/wy.bmp"
              Black "Images/Kamisado/by.bmp")
+      (attribute last-moved false)
       (moves
          (shift n)
          (shift nw)
@@ -87,6 +134,7 @@
       (name RedDragon)
       (image White "Images/Kamisado/wr.bmp"
              Black "Images/Kamisado/br.bmp")
+      (attribute last-moved false)
       (moves
          (shift n)
          (shift nw)
@@ -97,6 +145,7 @@
       (name GreenDragon)
       (image White "Images/Kamisado/wg.bmp"
              Black "Images/Kamisado/bg.bmp")
+      (attribute last-moved false)
       (moves
          (shift n)
          (shift nw)
@@ -107,6 +156,7 @@
       (name BrawnDragon)
       (image White "Images/Kamisado/ww.bmp"
              Black "Images/Kamisado/bw.bmp")
+      (attribute last-moved false)
       (moves
          (shift n)
          (shift nw)
