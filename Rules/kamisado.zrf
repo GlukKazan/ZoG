@@ -1,40 +1,455 @@
-; http://www.yucata.de/en/Rules/Kamisado
-; 5, 3, 1
-; 1, 2, 3
+(define check-ultimate
+  (if (on-board? $1)
+      (verify (not (and (enemy? $1) (or 
+         (piece? OrangeUltimate $1)
+         (piece? BlueUltimate $1)
+         (piece? PurpleUltimate $1)
+         (piece? PinkUltimate $1)
+         (piece? YellowUltimate $1)
+         (piece? RedUltimate $1)
+         (piece? GreenUltimate $1)
+         (piece? BrownUltimate $1)
+      ))))
+  )
+)
 
-(define shift (
+(define check-color
+  (verify (not-enemy? b9))
+  (if (not-empty? b9)
+      (capture b9)
+  )
+  (verify (or (empty? a9)
+      (piece? $1Dragon a9)
+  ))
+)
+
+(define set-color
+  (if (in-zone? orange)
+      (create OrangeDragon a9)
+  )
+  (if (in-zone? blue)
+      (create BlueDragon a9)
+  )
+  (if (in-zone? purple)
+      (create PurpleDragon a9)
+  )
+  (if (in-zone? pink)
+      (create PinkDragon a9)
+  )
+  (if (in-zone? yellow)
+      (create YellowDragon a9)
+  )
+  (if (in-zone? red)
+      (create RedDragon a9)
+  )
+  (if (in-zone? green)
+      (create GreenDragon a9)
+  )
+  (if (in-zone? brown)
+      (create BrownDragon a9)
+  )
+)
+
+(define check-prom
+  (if (in-zone? promotion)
+      (create PinkDragon b9)
+  )
+)
+
+(define shift-1 (
+  (check-ultimate n) (check-ultimate nw) 
+  (check-ultimate s) (check-ultimate sw)
+  (check-ultimate w) (check-ultimate ne)
+  (check-ultimate e) (check-ultimate se)
+  (check-color $2)
   $1
-  (while empty?
-     add
-     $1
+  (verify empty?)
+  (check-prom)
+  (set-color)
+  add
+))
+
+(define shift-2 (
+  (check-ultimate n) (check-ultimate nw) 
+  (check-ultimate s) (check-ultimate sw)
+  (check-ultimate w) (check-ultimate ne)
+  (check-ultimate e) (check-ultimate se)
+  (check-color $2)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  (check-prom)
+  (set-color)
+  add
+))
+
+(define shift-3 (
+  (check-ultimate n) (check-ultimate nw) 
+  (check-ultimate s) (check-ultimate sw)
+  (check-ultimate w) (check-ultimate ne)
+  (check-ultimate e) (check-ultimate se)
+  (check-color $2)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  (check-prom)
+  (set-color)
+  add
+))
+
+(define shift-4 (
+  (check-ultimate n) (check-ultimate nw) 
+  (check-ultimate s) (check-ultimate sw)
+  (check-ultimate w) (check-ultimate ne)
+  (check-ultimate e) (check-ultimate se)
+  (check-color $2)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  (check-prom)
+  (set-color)
+  add
+))
+
+(define shift-5 (
+  (check-ultimate n) (check-ultimate nw) 
+  (check-ultimate s) (check-ultimate sw)
+  (check-ultimate w) (check-ultimate ne)
+  (check-ultimate e) (check-ultimate se)
+  (check-color $2)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  (check-prom)
+  (set-color)
+  add
+))
+
+(define shift-6 (
+  (check-ultimate n) (check-ultimate nw) 
+  (check-ultimate s) (check-ultimate sw)
+  (check-ultimate w) (check-ultimate ne)
+  (check-ultimate e) (check-ultimate se)
+  (check-color $2)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  (check-prom)
+  (set-color)
+  add
+))
+
+(define shift-7 (
+  (check-ultimate n) (check-ultimate nw) 
+  (check-ultimate s) (check-ultimate sw)
+  (check-ultimate w) (check-ultimate ne)
+  (check-ultimate e) (check-ultimate se)
+  (check-color $2)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  (check-prom)
+  (set-color)
+  add
+))
+
+(define check-dragon
+  (piece? OrangeDragon)
+  (piece? BlueDragon)
+  (piece? PurpleDragon)
+  (piece? PinkDragon)
+  (piece? YellowDragon)
+  (piece? RedDragon)
+  (piece? GreenDragon)
+  (piece? BrownDragon)
+)
+
+(define check-sumo
+  (piece? OrangeSumo)
+  (piece? BlueSumo)
+  (piece? PurpleSumo)
+  (piece? PinkSumo)
+  (piece? YellowSumo)
+  (piece? RedSumo)
+  (piece? GreenSumo)
+  (piece? BrownSumo)
+)
+
+(define check-double
+  (piece? OrangeDouble)
+  (piece? BlueDouble)
+  (piece? PurpleDouble)
+  (piece? PinkDouble)
+  (piece? YellowDouble)
+  (piece? RedDouble)
+  (piece? GreenDouble)
+  (piece? BrownDouble)
+)
+
+(define push-1 (
+  (check-ultimate n) (check-ultimate nw) 
+  (check-ultimate s) (check-ultimate sw)
+  (check-ultimate w) (check-ultimate ne)
+  (check-ultimate e) (check-ultimate se)
+  (check-color $1)
+  n
+  (verify enemy?)
+  (verify (or (check-dragon)))
+  cascade from
+  n
+  (verify empty?)
+  (create PinkDragon b9)
+  (set-color)
+  add
+))
+
+(define push-2 (
+  (check-ultimate n) (check-ultimate nw) 
+  (check-ultimate s) (check-ultimate sw)
+  (check-ultimate w) (check-ultimate ne)
+  (check-ultimate e) (check-ultimate se)
+  (set-flag is-enemy false)
+  (check-color $1)
+  n
+  (verify not-empty?)
+  (if enemy?
+      (set-flag is-enemy true)
+  )
+  (verify (or (check-dragon) (check-sumo)))
+  cascade from
+  n
+  (if empty?
+      (if (flag? is-enemy)
+          (create PinkDragon b9)
+      )
+      (set-color)
+      add
+   else
+      (set-flag is-enemy false)
+      (if enemy?
+          (set-flag is-enemy true)
+      )
+      (verify (or (check-dragon) (check-sumo)))
+      cascade from
+      n
+      (verify empty?)
+      (if (flag? is-enemy)
+          (create PinkDragon b9)
+      )
+      (set-color)
+      add
   )
 ))
 
+(define push-3 (
+  (check-ultimate n) (check-ultimate nw) 
+  (check-ultimate s) (check-ultimate sw)
+  (check-ultimate w) (check-ultimate ne)
+  (check-ultimate e) (check-ultimate se)
+  (set-flag is-enemy false)
+  (check-color $2)
+  $1
+  (verify not-empty?)
+  (if enemy?
+      (set-flag is-enemy true)
+  )
+  (verify (or (check-dragon) (check-sumo) (check-double)))
+  cascade from
+  $1
+  (verify empty?)
+  (if (flag? is-enemy)
+      (create PinkDragon b9)
+  )
+  (set-color)
+  add
+))
+
+(define jump (
+  (check-color $1)
+  a9
+  (while (on-board? next)
+      next
+      (if empty?
+         (set-color)
+         add
+      )
+  )
+))
+
+(define promote (
+  (verify (in-zone? promotion))
+  a9
+  (while (on-board? prom)
+      prom
+      (if empty?
+          (set-color)
+          (capture b9)
+          (add $1$2)
+      )
+  )
+))
+
+(define dragon
+   (piece
+      (name $1Dragon)
+      (image White "Images/Kamisado/w$2.bmp"
+             Black "Images/Kamisado/b$2.bmp")
+      (moves
+         (move-type priority)
+         (promote $1 Sumo)
+         (move-type normal)
+         (shift-1 n $1) (shift-1 nw $1) (shift-1 ne $1)
+         (shift-2 n $1) (shift-2 nw $1) (shift-2 ne $1)
+         (shift-3 n $1) (shift-3 nw $1) (shift-3 ne $1)
+         (shift-4 n $1) (shift-4 nw $1) (shift-4 ne $1)
+         (shift-5 n $1) (shift-5 nw $1) (shift-5 ne $1)
+         (shift-6 n $1) (shift-6 nw $1) (shift-6 ne $1)
+         (shift-7 n $1) (shift-7 nw $1) (shift-7 ne $1)
+      )
+   )
+)
+
+(define sumo
+   (piece
+      (name $1Sumo)
+      (image White "Images/Kamisado/w$2s.bmp"
+             Black "Images/Kamisado/b$2s.bmp")
+      (moves
+         (move-type priority)
+         (promote $1 Double)
+         (move-type normal)
+         (push-1 $1)
+         (shift-1 n $1) (shift-1 nw $1) (shift-1 ne $1)
+         (shift-2 n $1) (shift-2 nw $1) (shift-2 ne $1)
+         (shift-3 n $1) (shift-3 nw $1) (shift-3 ne $1)
+         (shift-4 n $1) (shift-4 nw $1) (shift-4 ne $1)
+         (shift-5 n $1) (shift-5 nw $1) (shift-5 ne $1)
+      )
+   )
+)
+
+(define double
+   (piece
+      (name $1Double)
+      (image White "Images/Kamisado/w$2d.bmp"
+             Black "Images/Kamisado/b$2d.bmp")
+      (moves
+         (move-type priority)
+         (promote $1 Triple)
+         (move-type normal)
+         (push-2 $1)
+         (shift-1 n $1) (shift-1 nw $1) (shift-1 ne $1)
+         (shift-2 n $1) (shift-2 nw $1) (shift-2 ne $1)
+         (shift-3 n $1) (shift-3 nw $1) (shift-3 ne $1)
+      )
+   )
+)
+
+(define triple
+   (piece
+      (name $1Triple)
+      (image White "Images/Kamisado/w$2t.bmp"
+             Black "Images/Kamisado/b$2t.bmp")
+      (moves
+         (move-type priority)
+         (promote $1 Ultimate)
+         (move-type normal)
+         (push-3  n $1) (push-3  nw $1) (push-3  ne $1)
+         (shift-1 n $1) (shift-1 nw $1) (shift-1 ne $1)
+      )
+   )
+)
+
+(define ultimate
+   (piece
+      (name $1Ultimate)
+      (image White "Images/Kamisado/w$2q.bmp"
+             Black "Images/Kamisado/b$2q.bmp")
+      (moves
+         (move-type normal)
+         (jump)
+      )
+   )
+)
+
 (game
-   (title "Kamisado (non stop)")
+   (title "Kamisado (Non stop)")
 
    (move-sound "Audio/Pickup.wav")
    (release-sound "Audio/Pickup.wav")
    (capture-sound "")
 
    (option "prevent flipping" true)
+   (option "animate captures" false)
+   (option "animate drops"    false)
+   (option "pass turn"        forced)
 
    (players    White Black)
    (turn-order White Black)
   
+   (move-priorities priority normal)
+
    (board
       (image "Images/Kamisado/board.bmp")
       (grid
-         (start-rectangle 5 5 53 53)
+         (start-rectangle 5 -44 53 4)
          (dimensions
              ("a/b/c/d/e/f/g/h" (49 0)) ; files
-             ("8/7/6/5/4/3/2/1" (0 49)) ; ranks
+             ("9/8/7/6/5/4/3/2/1" (0 49)) ; ranks
          )
-         (directions (n 0 -1) (s 0 1) 
+         (directions (n 0 -1) (s 0 1) (w -1 0) (e 1 0) 
                      (ne 1 -1) (nw -1 -1) (se 1 1) (sw -1 1)
+                     (next 0 -1) (prom 1 0) (brom 1 0)
          )
       )
-      (symmetry Black (n s)(s n) (nw sw)(sw nw) (ne se)(se ne) )
+      (links next (a9 a1) (a8 b1) (b8 c1) (c8 d1) (d8 e1) (e8 f1) (f8 g1) (g8 h1) )
+      (links prom (a9 a1) )
+      (links brom (a9 a8) )
+      (symmetry Black (n s)(s n) (nw sw)(sw nw) (ne se)(se ne) (prom brom) )
+      (unlink a9 b9 c9 e9 f9 g9 h9
+         (a8 a9) (a8 b9) (b8 a9) (b8 b9) 
+         (b8 c9) (c8 b9) (c8 c9) (c8 d9) 
+         (d8 c9) (d8 d9) (d8 e9) (e8 d9) 
+         (e8 e9) (e8 f9) (f8 e9) (f8 f9) 
+         (f8 g9) (g8 f9) (g8 g9) (g8 h9)
+         (h8 g9) (h8 h9)
+      )
       (zone (name promotion) 
          (players White) 
          (positions a8 b8 c8 d8 e8 f8 g8 h8)
@@ -77,94 +492,14 @@
       )
    )
 
-   (piece
-      (name OrangeDragon)
-      (image White "Images/Kamisado/wo.bmp"
-             Black "Images/Kamisado/bo.bmp")
-      (attribute last-moved false)
-      (moves
-         (shift n)
-         (shift nw)
-         (shift ne)
-      )
-   )
-   (piece
-      (name BlueDragon)
-      (image White "Images/Kamisado/wb.bmp"
-             Black "Images/Kamisado/bb.bmp")
-      (attribute last-moved false)
-      (moves
-         (shift n)
-         (shift nw)
-         (shift ne)
-      )
-   )
-   (piece
-      (name PurpleDragon)
-      (image White "Images/Kamisado/wp.bmp"
-             Black "Images/Kamisado/bp.bmp")
-      (attribute last-moved false)
-      (moves
-         (shift n)
-         (shift nw)
-         (shift ne)
-      )
-   )
-   (piece
-      (name PinkDragon)
-      (image White "Images/Kamisado/wi.bmp"
-             Black "Images/Kamisado/bi.bmp")
-      (attribute last-moved false)
-      (moves
-         (shift n)
-         (shift nw)
-         (shift ne)
-      )
-   )
-   (piece
-      (name YellowDragon)
-      (image White "Images/Kamisado/wy.bmp"
-             Black "Images/Kamisado/by.bmp")
-      (attribute last-moved false)
-      (moves
-         (shift n)
-         (shift nw)
-         (shift ne)
-      )
-   )
-   (piece
-      (name RedDragon)
-      (image White "Images/Kamisado/wr.bmp"
-             Black "Images/Kamisado/br.bmp")
-      (attribute last-moved false)
-      (moves
-         (shift n)
-         (shift nw)
-         (shift ne)
-      )
-   )
-   (piece
-      (name GreenDragon)
-      (image White "Images/Kamisado/wg.bmp"
-             Black "Images/Kamisado/bg.bmp")
-      (attribute last-moved false)
-      (moves
-         (shift n)
-         (shift nw)
-         (shift ne)
-      )
-   )
-   (piece
-      (name BrawnDragon)
-      (image White "Images/Kamisado/ww.bmp"
-             Black "Images/Kamisado/bw.bmp")
-      (attribute last-moved false)
-      (moves
-         (shift n)
-         (shift nw)
-         (shift ne)
-      )
-   )
+   (dragon Orange o) (sumo Orange o) (double Orange o) (triple Orange o) (ultimate Orange o)
+   (dragon Blue   b) (sumo Blue   b) (double Blue   b) (triple Blue   b) (ultimate Blue   b)
+   (dragon Purple p) (sumo Purple p) (double Purple p) (triple Purple p) (ultimate Purple p)
+   (dragon Pink   i) (sumo Pink   i) (double Pink   i) (triple Pink   i) (ultimate Pink   i)
+   (dragon Yellow y) (sumo Yellow y) (double Yellow y) (triple Yellow y) (ultimate Yellow y)
+   (dragon Red    r) (sumo Red    r) (double Red    r) (triple Red    r) (ultimate Red    r)
+   (dragon Green  g) (sumo Green  g) (double Green  g) (triple Green  g) (ultimate Green  g)
+   (dragon Brown  w) (sumo Brown  w) (double Brown  w) (triple Brown  w) (ultimate Brown  w)
 
    (board-setup
       (White 
@@ -175,7 +510,7 @@
          (YellowDragon d1) 
          (RedDragon c1) 
          (GreenDragon b1) 
-         (BrawnDragon a1) 
+         (BrownDragon a1) 
       )
       (Black 
          (OrangeDragon a8) 
@@ -185,7 +520,102 @@
          (YellowDragon e8) 
          (RedDragon f8) 
          (GreenDragon g8) 
-         (BrawnDragon h8) 
+         (BrownDragon h8) 
       )
    )
+)
+
+(variant
+   (title "-")
+)
+
+(variant
+   (title "Kamisado (Single round)")
+   (win-condition (White Black) (absolute-config OrangeDragon BlueDragon PurpleDragon PinkDragon YellowDragon RedDragon GreenDragon BrownDragon (promotion) ) )
+)
+
+(variant
+   (title "Kamisado (Sumo vs Dragon)")
+   (board-setup
+      (White 
+         (OrangeSumo h1)
+         (BlueSumo g1) 
+         (PurpleSumo f1) 
+         (PinkSumo e1) 
+         (YellowSumo d1) 
+         (RedSumo c1) 
+         (GreenSumo b1) 
+         (BrownSumo a1) 
+      )
+      (Black 
+         (OrangeDragon a8) 
+         (BlueDragon b8) 
+         (PurpleDragon c8) 
+         (PinkDragon d8) 
+         (YellowDragon e8) 
+         (RedDragon f8) 
+         (GreenDragon g8) 
+         (BrownDragon h8) 
+      )
+   )
+   (win-condition (White Black) (absolute-config OrangeDragon BlueDragon PurpleDragon PinkDragon YellowDragon RedDragon GreenDragon BrownDragon (promotion) ) )
+   (win-condition (White Black) (absolute-config OrangeSumo BlueSumo PurpleSumo PinkSumo YellowSumo RedSumo GreenSumo BrownSumo (promotion) ) )
+)
+
+(variant
+   (title "Kamisado (Dragon vs Sumo)")
+   (board-setup
+      (White 
+         (OrangeDragon h1)
+         (BlueDragon g1) 
+         (PurpleDragon f1) 
+         (PinkDragon e1) 
+         (YellowDragon d1) 
+         (RedDragon c1) 
+         (GreenDragon b1) 
+         (BrownDragon a1) 
+      )
+      (Black 
+         (OrangeSumo a8) 
+         (BlueSumo b8) 
+         (PurpleSumo c8) 
+         (PinkSumo d8) 
+         (YellowSumo e8) 
+         (RedSumo f8) 
+         (GreenSumo g8) 
+         (BrownSumo h8) 
+      )
+   )
+   (win-condition (White Black) (absolute-config OrangeDragon BlueDragon PurpleDragon PinkDragon YellowDragon RedDragon GreenDragon BrownDragon (promotion) ) )
+   (win-condition (White Black) (absolute-config OrangeSumo BlueSumo PurpleSumo PinkSumo YellowSumo RedSumo GreenSumo BrownSumo (promotion) ) )
+)
+
+(variant
+   (title "Kamisado (Sumo round)")
+   (board-setup
+      (White 
+         (OrangeSumo h1)
+         (BlueSumo g1) 
+         (PurpleDouble f1) 
+         (PinkTriple e1) 
+         (YellowTriple d1) 
+         (RedDouble c1) 
+         (GreenSumo b1) 
+         (BrownSumo a1) 
+      )
+      (Black 
+         (OrangeSumo a8) 
+         (BlueSumo b8) 
+         (PurpleDouble c8) 
+         (PinkTriple d8) 
+         (YellowTriple e8) 
+         (RedDouble f8) 
+         (GreenSumo g8) 
+         (BrownSumo h8) 
+      )
+   )
+   (win-condition (White Black) (absolute-config OrangeDragon BlueDragon PurpleDragon PinkDragon YellowDragon RedDragon GreenDragon BrownDragon (promotion) ) )
+   (win-condition (White Black) (absolute-config OrangeSumo BlueSumo PurpleSumo PinkSumo YellowSumo RedSumo GreenSumo BrownSumo (promotion) ) )
+   (win-condition (White Black) (absolute-config OrangeDouble BlueDouble PurpleDouble PinkDouble YellowDouble RedDouble GreenDouble BrownDouble (promotion) ) )
+   (win-condition (White Black) (absolute-config OrangeTriple BlueTriple PurpleTriple PinkTriple YellowTriple RedTriple GreenTriple BrownTriple (promotion) ) )
 )
