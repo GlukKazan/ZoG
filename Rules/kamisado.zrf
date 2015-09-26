@@ -1,3 +1,19 @@
+(define count
+  mark
+  a9
+  (set-flag is-carry true)
+  (while (and (on-board? cnt) (flag? is-carry))
+      cnt
+      (if empty?
+          (set-flag is-carry false)
+          (create Bit)
+       else
+          capture
+      )
+  )
+  back
+)
+
 (define check-ultimate
   (if (on-board? $1)
       (verify (not (and (enemy? $1) (or 
@@ -52,6 +68,7 @@
 
 (define check-prom
   (if (in-zone? promotion)
+      (count)
       (create PinkDragon b9)
   )
 )
@@ -439,9 +456,11 @@
          )
       )
       (links next (a9 a1) (a8 b1) (b8 c1) (c8 d1) (d8 e1) (e8 f1) (f8 g1) (g8 h1) )
+      (links cnt  (a9 c9) (c9 d9) (d9 e9) )
+      (links bnt  (a9 f9) (f9 g9) (g9 h9) )
       (links prom (a9 a1) )
       (links brom (a9 a8) )
-      (symmetry Black (n s)(s n) (nw sw)(sw nw) (ne se)(se ne) (prom brom) )
+      (symmetry Black (n s)(s n) (nw sw)(sw nw) (ne se)(se ne) (prom brom) (cnt bnt) )
       (unlink a9 b9 c9 e9 f9 g9 h9
          (a8 a9) (a8 b9) (b8 a9) (b8 b9) 
          (b8 c9) (c8 b9) (c8 c9) (c8 d9) 
@@ -501,6 +520,12 @@
    (dragon Green  g) (sumo Green  g) (double Green  g) (triple Green  g) (ultimate Green  g)
    (dragon Brown  w) (sumo Brown  w) (double Brown  w) (triple Brown  w) (ultimate Brown  w)
 
+   (piece
+      (name Bit)
+      (image White "Images/Kamisado/m.bmp"
+             Black "Images/Kamisado/m.bmp")
+   )
+
    (board-setup
       (White 
          (OrangeDragon h1)
@@ -523,6 +548,7 @@
          (BrownDragon h8) 
       )
    )
+   (win-condition (White Black) (pieces-remaining 3 Bit) )
 )
 
 (variant
