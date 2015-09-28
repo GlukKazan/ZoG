@@ -34,35 +34,130 @@
   (if (not-empty? b9)
       (capture b9)
   )
-  (verify (or (empty? a9)
-      (piece? $1Dragon a9)
-  ))
+  (if (not-empty? a9)
+      (if (or (enemy? a9) (empty? a10))
+          (verify (piece? $1Dragon a9))
+       else
+          (verify (piece? $1Dragon a10))
+      )
+  )
 )
 
-(define set-color
+(define set-color-to-pos
+  (set-flag is-orange-zone false)
+  (set-flag is-blue-zone   false)
+  (set-flag is-purple-zone false)
+  (set-flag is-pink-zone   false)
+  (set-flag is-yellow-zone false)
+  (set-flag is-red-zone    false)
+  (set-flag is-green-zone  false)
+  (set-flag is-brown-zone  false)
   (if (in-zone? orange)
-      (create OrangeDragon a9)
+      (create OrangeDragon $1)
+      (set-flag is-orange-zone true)
   )
   (if (in-zone? blue)
-      (create BlueDragon a9)
+      (create BlueDragon $1)
+      (set-flag is-blue-zone true)
   )
   (if (in-zone? purple)
-      (create PurpleDragon a9)
+      (create PurpleDragon $1)
+      (set-flag is-purple-zone true)
   )
   (if (in-zone? pink)
-      (create PinkDragon a9)
+      (create PinkDragon $1)
+      (set-flag is-pink-zone true)
   )
   (if (in-zone? yellow)
-      (create YellowDragon a9)
+      (create YellowDragon $1)
+      (set-flag is-yellow-zone true)
   )
   (if (in-zone? red)
-      (create RedDragon a9)
+      (create RedDragon $1)
+      (set-flag is-red-zone true)
   )
   (if (in-zone? green)
-      (create GreenDragon a9)
+      (create GreenDragon $1)
+      (set-flag is-green-zone true)
   )
   (if (in-zone? brown)
-      (create BrownDragon a9)
+      (create BrownDragon $1)
+      (set-flag is-brown-zone true)
+  )
+)
+
+(define eq-piece-type?
+   (and (flag? is-$1-zone)
+        (or (piece? $2Dragon)
+            (piece? $2Sumo)
+            (piece? $2Double)
+            (piece? $2Triple)
+            (piece? $2Ultimate)
+        )
+   )
+)
+
+(define target-enemy-piece?
+   (or (eq-piece-type? orange Orange)
+       (eq-piece-type? blue Blue)
+       (eq-piece-type? purple Purple)
+       (eq-piece-type? pink Pink)
+       (eq-piece-type? yellow Yellow)
+       (eq-piece-type? red Red)
+       (eq-piece-type? green Green)
+       (eq-piece-type? brown Brown)
+   )
+)
+
+(define set-color  
+  (set-color-to-pos a9)
+  (if (in-zone? original a1)
+      (set-flag is-once true)
+      mark
+      a9
+      (while (on-board? next)
+          next
+          (if (and enemy? (flag? is-once) (target-enemy-piece?))
+              (set-color-to-pos a10)
+              (set-flag is-once false)
+          )
+      )
+      back
+  )
+)
+
+(define set-player-color
+  (if (in-zone? orange)
+      (create $1 OrangeDragon a9)
+  )
+  (if (in-zone? blue)
+      (create $1 BlueDragon a9)
+  )
+  (if (in-zone? purple)
+      (create $1 PurpleDragon a9)
+  )
+  (if (in-zone? pink)
+      (create $1 PinkDragon a9)
+  )
+  (if (in-zone? yellow)
+      (create $1 YellowDragon a9)
+  )
+  (if (in-zone? red)
+      (create $1 RedDragon a9)
+  )
+  (if (in-zone? green)
+      (create $1 GreenDragon a9)
+  )
+  (if (in-zone? brown)
+      (create $1 BrownDragon a9)
+  )
+)
+
+(define set-enemy-color
+  (if (in-zone? promotion a1)
+      (set-player-color White)
+   else
+      (set-player-color Black)
   )
 )
 
@@ -252,7 +347,7 @@
   n
   (verify empty?)
   (create PinkDragon b9)
-  (set-color)
+  (set-enemy-color)
   add
 ))
 
@@ -274,8 +369,10 @@
   (if empty?
       (if (flag? is-enemy)
           (create PinkDragon b9)
+          (set-enemy-color)
+       else
+          (set-color)
       )
-      (set-color)
       add
    else
       (set-flag is-enemy false)
@@ -288,8 +385,10 @@
       (verify empty?)
       (if (flag? is-enemy)
           (create PinkDragon b9)
+          (set-enemy-color)
+       else
+          (set-color)
       )
-      (set-color)
       add
   )
 ))
@@ -312,8 +411,10 @@
   (verify empty?)
   (if (flag? is-enemy)
       (create PinkDragon b9)
+      (set-enemy-color)
+   else
+      (set-color)
   )
-  (set-color)
   add
 ))
 
@@ -341,6 +442,7 @@
 (define dragon
    (piece
       (name $1Dragon)
+      (help "Dragon: must be moved in a straight line, either directly forwards or diagonally forwards.")
       (image White "Images/Kamisado/w$2.bmp"
              Black "Images/Kamisado/b$2.bmp")
       (moves
@@ -361,6 +463,7 @@
 (define sumo
    (piece
       (name $1Sumo)
+      (help "Sumo: May be moved up to a maximum of 5 space and may perform a ''Sumo push'' move.")
       (image White "Images/Kamisado/w$2s.bmp"
              Black "Images/Kamisado/b$2s.bmp")
       (moves
@@ -380,6 +483,7 @@
 (define double
    (piece
       (name $1Double)
+      (help "Double Sumo: May be moved up to a maximum of 3 space and may perform a ''Sumo push'' move.")
       (image White "Images/Kamisado/w$2d.bmp"
              Black "Images/Kamisado/b$2d.bmp")
       (moves
@@ -397,6 +501,7 @@
 (define triple
    (piece
       (name $1Triple)
+      (help "Triple Sumo: May be moved up to a 1 space and may perform a ''Sumo push'' move in 3 directions.")
       (image White "Images/Kamisado/w$2t.bmp"
              Black "Images/Kamisado/b$2t.bmp")
       (moves
@@ -412,48 +517,34 @@
 (define ultimate
    (piece
       (name $1Ultimate)
+      (help "Ultimate Dragon: Moves like Knight and immobilizes adjacent pieces.")
       (image White "Images/Kamisado/w$2q.bmp"
              Black "Images/Kamisado/b$2q.bmp")
       (moves
          (move-type normal)
          (jump n nw $1) (jump n ne $1)
          (jump s sw $1) (jump s se $1)
-         (jump w nw $1) (jump w sw $1)
          (jump e ne $1) (jump e se $1)
+         (jump w nw $1) (jump w sw $1)
       )
    )
 )
 
-(game
-   (title "Kamisado (Non stop)")
-
-   (move-sound "Audio/Pickup.wav")
-   (release-sound "Audio/Pickup.wav")
-   (capture-sound "")
-
-   (option "prevent flipping" true)
-   (option "animate captures" false)
-   (option "animate drops"    false)
-   (option "pass turn"        forced)
-
-   (players    White Black)
-   (turn-order White Black)
-  
-   (move-priorities priority normal)
-
+(define board-def
    (board
       (image "Images/Kamisado/board.bmp")
       (grid
-         (start-rectangle 5 -44 53 4)
+         (start-rectangle 5 -93 53 -45)
          (dimensions
              ("a/b/c/d/e/f/g/h" (49 0)) ; files
-             ("9/8/7/6/5/4/3/2/1" (0 49)) ; ranks
+             ("10/9/8/7/6/5/4/3/2/1" (0 49)) ; ranks
          )
          (directions (n 0 -1) (s 0 1) (w -1 0) (e 1 0) 
                      (ne 1 -1) (nw -1 -1) (se 1 1) (sw -1 1)
-                     (prom 1 0) (brom 1 0)
+                     (next 0 -1) (prom 1 0) (brom 1 0)
          )
       )
+      (links next (a9 a1) (a8 b1) (b8 c1) (c8 d1) (d8 e1) (e8 f1) (f8 g1) (g8 h1) )
       (links cnt  (a9 c9) (c9 d9) (d9 e9) )
       (links bnt  (a9 f9) (f9 g9) (g9 h9) )
       (links prom (a9 a1) )
@@ -466,6 +557,10 @@
          (e8 e9) (e8 f9) (f8 e9) (f8 f9) 
          (f8 g9) (g8 f9) (g8 g9) (g8 h9)
          (h8 g9) (h8 h9)
+      )
+      (zone (name original) 
+         (players White Black) 
+         (positions $1)
       )
       (zone (name promotion) 
          (players White) 
@@ -508,6 +603,33 @@
          (positions a1 b2 c3 d4 e5 f6 g7 h8)
       )
    )
+)
+
+(game
+   (title "Kamisado (Non stop)")
+   (description "The players take turns to move a dragon tower, each attempting \
+                 to be the first to place a dragon tower on a square within \
+                 their opponent's home row.\\
+                 For the first move only, the player making this move can select \
+                 any of eight dragon towers as the one to be moved.\\
+                 For all subsequent moves, each player must move the dragon tower \
+                 that matches the colour of the square on which their opponent's \
+                 previous move finished.")
+
+   (move-sound "Audio/Pickup.wav")
+   (release-sound "Audio/Pickup.wav")
+   (capture-sound "")
+
+   (option "prevent flipping" true)
+   (option "animate captures" false)
+   (option "animate drops"    false)
+   (option "pass turn"        forced)
+
+   (players    White Black)
+   (turn-order White Black)
+  
+   (move-priorities priority normal)
+   (board-def a2)
 
    (dragon Orange o) (sumo Orange o) (double Orange o) (triple Orange o) (ultimate Orange o)
    (dragon Blue   b) (sumo Blue   b) (double Blue   b) (triple Blue   b) (ultimate Blue   b)
@@ -559,7 +681,7 @@
 )
 
 (variant
-   (title "Kamisado (Sumo vs Dragon)")
+   (title "Kamisado (Sumo vs Dragons)")
    (board-setup
       (White 
          (OrangeSumo h1)
@@ -587,7 +709,7 @@
 )
 
 (variant
-   (title "Kamisado (Dragon vs Sumo)")
+   (title "Kamisado (Dragons vs Sumo)")
    (board-setup
       (White 
          (OrangeDragon h1)
@@ -642,4 +764,14 @@
    (win-condition (White Black) (absolute-config OrangeSumo BlueSumo PurpleSumo PinkSumo YellowSumo RedSumo GreenSumo BrownSumo (promotion) ) )
    (win-condition (White Black) (absolute-config OrangeDouble BlueDouble PurpleDouble PinkDouble YellowDouble RedDouble GreenDouble BrownDouble (promotion) ) )
    (win-condition (White Black) (absolute-config OrangeTriple BlueTriple PurpleTriple PinkTriple YellowTriple RedTriple GreenTriple BrownTriple (promotion) ) )
+)
+
+(variant
+   (title "-")
+)
+
+(variant
+   (title "Kamisado (Original version)")
+   (board-def a1)
+   (win-condition (White Black) (absolute-config OrangeDragon BlueDragon PurpleDragon PinkDragon YellowDragon RedDragon GreenDragon BrownDragon (promotion) ) )
 )
