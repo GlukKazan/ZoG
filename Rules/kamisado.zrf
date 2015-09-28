@@ -633,6 +633,7 @@
                  For all subsequent moves, each player must move the dragon tower \
                  that matches the colour of the square on which their opponent's \
                  previous move finished.")
+   (history "Invented by Peter Burley in 2008.")
 
    (move-sound "Audio/Pickup.wav")
    (release-sound "Audio/Pickup.wav")
