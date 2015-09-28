@@ -461,8 +461,8 @@
    (piece
       (name $1Dragon)
       (help "Dragon: must be moved in a straight line, either directly forwards or diagonally forwards.")
-      (image White "Images/Kamisado/w$2.bmp"
-             Black "Images/Kamisado/b$2.bmp")
+      (image White "../Images/Kamisado/w$2.bmp"
+             Black "../Images/Kamisado/b$2.bmp")
       (moves
          (move-type priority)
          (promote $1 Sumo)
@@ -482,8 +482,8 @@
    (piece
       (name $1Sumo)
       (help "Sumo: May be moved up to a maximum of 5 space and may perform a ''Sumo push'' move.")
-      (image White "Images/Kamisado/w$2s.bmp"
-             Black "Images/Kamisado/b$2s.bmp")
+      (image White "../Images/Kamisado/w$2s.bmp"
+             Black "../Images/Kamisado/b$2s.bmp")
       (moves
          (move-type priority)
          (promote $1 Double)
@@ -502,8 +502,8 @@
    (piece
       (name $1Double)
       (help "Double Sumo: May be moved up to a maximum of 3 space and may perform a ''Sumo push'' move.")
-      (image White "Images/Kamisado/w$2d.bmp"
-             Black "Images/Kamisado/b$2d.bmp")
+      (image White "../Images/Kamisado/w$2d.bmp"
+             Black "../Images/Kamisado/b$2d.bmp")
       (moves
          (move-type priority)
          (promote $1 Triple)
@@ -520,8 +520,8 @@
    (piece
       (name $1Triple)
       (help "Triple Sumo: May be moved up to a 1 space and may perform a ''Sumo push'' move in 3 directions.")
-      (image White "Images/Kamisado/w$2t.bmp"
-             Black "Images/Kamisado/b$2t.bmp")
+      (image White "../Images/Kamisado/w$2t.bmp"
+             Black "../Images/Kamisado/b$2t.bmp")
       (moves
          (move-type priority)
          (promote $1 Ultimate)
@@ -536,8 +536,8 @@
    (piece
       (name $1Ultimate)
       (help "Ultimate Dragon: Moves like Knight and immobilizes adjacent pieces.")
-      (image White "Images/Kamisado/w$2q.bmp"
-             Black "Images/Kamisado/b$2q.bmp")
+      (image White "../Images/Kamisado/w$2q.bmp"
+             Black "../Images/Kamisado/b$2q.bmp")
       (moves
          (move-type normal)
          (jump n nw $1) (jump n ne $1)
@@ -550,7 +550,7 @@
 
 (define board-def
    (board
-      (image "Images/Kamisado/board.bmp")
+      (image "../Images/Kamisado/board.bmp")
       (grid
          (start-rectangle 5 -44 53 4)
          (dimensions
@@ -661,8 +661,8 @@
 
    (piece
       (name Bit)
-      (image White "Images/Kamisado/m.bmp"
-             Black "Images/Kamisado/m.bmp")
+      (image White "../Images/Kamisado/m.bmp"
+             Black "../Images/Kamisado/m.bmp")
    )
 
    (board-setup
