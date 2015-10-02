@@ -1,0 +1,200 @@
+Zillions Save Game File Version 0.02 H
+RulesFile=levels_01_10.zrf
+VariantName=Sokoban (Level 1)
+1. Y m9 - m8
+2. Y m8 - j8
+3. Y j8 - j5
+4. Y j5 x i5 B i5 - h5
+5. Y i5 x h5 B h5 - g5
+6. Y h5 x h4 B h4 - h3
+7. Y h4 - f4
+8. Y f4 x f5 B f5 - f6
+9. Y f5 - d5
+10. Y d5 - d8
+11. Y d8 - e8
+12. Y e8 x f8 B f8 - g8
+13. Y f8 x g8 B g8 - h8
+14. Y g8 x h8 B h8 - i8
+15. Y h8 x i8 B i8 - j8
+16. Y i8 x j8 B j8 - k8
+17. Y j8 x k8 B k8 - l8
+18. Y k8 x l8 B l8 - m8
+19. Y l8 x m8 B m8 - n8
+20. Y m8 x n8 B n8 - o8
+21. Y n8 x o8 B o8 - p8
+22. Y o8 x p8 B p8 - q8
+23. Y p8 x q8 B q8 - r8
+24. Y q8 x r8 B r8 - s8
+25. Y r8 x s8 B s8 x t8 = b
+26. Y s8 - s9
+27. Y s9 x t9 = y
+28. y t9 x t8 b t8 x t7 You T t9 You y t8 = b on t7
+29. y t8 - s8 You T t8 = Y on s8
+30. Y s8 - s7
+31. Y s7 x t7 b t7 x u7 You y t7 = b on u7
+32. y t7 - s7 You T t7 = Y on s7
+33. Y s7 - s8
+34. Y s8 - j8
+35. Y j8 - j5
+36. Y j5 - h5
+37. Y h5 - h4
+38. Y h4 - f4
+39. Y f4 - f5
+40. Y f5 x f6 B f6 - f7
+41. Y f6 x f7 B f7 - f8
+42. Y f7 - f5
+43. Y f5 - d5
+44. Y d5 - d8
+45. Y d8 - e8
+46. Y e8 x f8 B f8 - g8
+47. Y f8 x g8 B g8 - h8
+48. Y g8 x h8 B h8 - i8
+49. Y h8 x i8 B i8 - j8
+50. Y i8 x j8 B j8 - k8
+51. Y j8 x k8 B k8 - l8
+52. Y k8 x l8 B l8 - m8
+53. Y l8 x m8 B m8 - n8
+54. Y m8 x n8 B n8 - o8
+55. Y n8 x o8 B o8 - p8
+56. Y o8 x p8 B p8 - q8
+57. Y p8 x q8 B q8 - r8
+58. Y q8 x r8 B r8 - s8
+59. Y r8 x s8 B s8 x t8 = b
+60. Y s8 x t8 b t8 x u8 You y t8 = b on u8
+61. y t8 - s8 You T t8 = Y on s8
+62. Y s8 - j8
+63. Y j8 - j5
+64. Y j5 - h5
+65. Y h5 x g5 B g5 - f5
+66. Y g5 - g4
+67. Y g4 - f4
+68. Y f4 x f5 B f5 - f6
+69. Y f5 x f6 B f6 - f7
+70. Y f6 x f7 B f7 - f8
+71. Y f7 - f5
+72. Y f5 - d5
+73. Y d5 - d8
+74. Y d8 - e8
+75. Y e8 x f8 B f8 - g8
+76. Y f8 x g8 B g8 - h8
+77. Y g8 x h8 B h8 - i8
+78. Y h8 x i8 B i8 - j8
+79. Y i8 x j8 B j8 - k8
+80. Y j8 x k8 B k8 - l8
+81. Y k8 x l8 B l8 - m8
+82. Y l8 x m8 B m8 - n8
+83. Y m8 x n8 B n8 - o8
+84. Y n8 x o8 B o8 - p8
+85. Y o8 x p8 B p8 - q8
+86. Y p8 x q8 B q8 - r8
+87. Y q8 x r8 B r8 - s8
+88. Y r8 - r7
+89. Y r7 - s7
+90. Y s7 x s8 B s8 - s9
+91. Y s8 - r8
+92. Y r8 - r9
+93. Y r9 x s9 B s9 x t9 = b
+94. Y s9 x t9 b t9 x u9 You y t9 = b on u9
+95. y t9 - s9 You T t9 = Y on s9
+96. Y s9 - s8
+97. Y s8 - j8
+98. Y j8 - j5
+99. Y j5 - g5
+100. Y g5 - g2
+101. Y g2 - f2
+102. Y f2 x f3 B f3 - f4
+103. Y f3 x f4 B f4 - f5
+104. Y f4 x f5 B f5 - f6
+105. Y f5 x f6 B f6 - f7
+106. Y f6 x f7 B f7 - f8
+107. Y f7 - f5
+108. Y f5 - d5
+109. Y d5 - d8
+110. Y d8 - e8
+111. Y e8 x f8 B f8 - g8
+112. Y f8 x g8 B g8 - h8
+113. Y g8 x h8 B h8 - i8
+114. Y h8 x i8 B i8 - j8
+115. Y i8 x j8 B j8 - k8
+116. Y j8 x k8 B k8 - l8
+117. Y k8 x l8 B l8 - m8
+118. Y l8 x m8 B m8 - n8
+119. Y m8 x n8 B n8 - o8
+120. Y n8 x o8 B o8 - p8
+121. Y o8 x p8 B p8 - q8
+122. Y p8 x q8 B q8 - r8
+123. Y q8 x r8 B r8 - s8
+124. Y r8 - r9
+125. Y r9 - s9
+126. Y s9 x s8 B s8 - s7
+127. Y s8 - r8
+128. Y r8 - r7
+129. Y r7 x s7 B s7 x t7 = b
+130. Y s7 - s8
+131. Y s8 - j8
+132. Y j8 - j5
+133. Y j5 - h5
+134. Y h5 - g5
+135. Y g5 - g2
+136. Y g2 - h2
+137. Y h2 x h3 B h3 - h4
+138. Y h3 x h4 B h4 - h5
+139. Y h4 - f4
+140. Y f4 - f10
+141. Y f10 - k10
+142. Y k10 - k8
+143. Y k8 - j8
+144. Y j8 - j5
+145. Y j5 - i5
+146. Y i5 x h5 B h5 - g5
+147. Y h5 x g5 B g5 - f5
+148. Y g5 - g4
+149. Y g4 - f4
+150. Y f4 x f5 B f5 - f6
+151. Y f5 x f6 B f6 - f7
+152. Y f6 x f7 B f7 - f8
+153. Y f7 - f5
+154. Y f5 - d5
+155. Y d5 - d8
+156. Y d8 - e8
+157. Y e8 x f8 B f8 - g8
+158. Y f8 x g8 B g8 - h8
+159. Y g8 x h8 B h8 - i8
+160. Y h8 x i8 B i8 - j8
+161. Y i8 x j8 B j8 - k8
+162. Y j8 x k8 B k8 - l8
+163. Y k8 x l8 B l8 - m8
+164. Y l8 x m8 B m8 - n8
+165. Y m8 x n8 B n8 - o8
+166. Y n8 x o8 B o8 - p8
+167. Y o8 x p8 B p8 - q8
+168. Y p8 x q8 B q8 - r8
+169. Y q8 x r8 B r8 - s8
+170. Y r8 - r7
+171. Y r7 - s7
+172. Y s7 x s8 B s8 - s9
+173. Y s8 - r8
+174. Y r8 - r9
+175. Y r9 x s9 B s9 x t9 = b
+176. Y s9 - s8
+177. Y s8 - d8
+178. Y d8 - d7
+179. Y d7 - b7
+180. Y b7 - b8
+181. Y b8 x c8 B c8 - d8
+182. Y c8 x d8 B d8 - e8
+183. Y d8 x e8 B e8 - f8
+184. Y e8 x f8 B f8 - g8
+185. Y f8 x g8 B g8 - h8
+186. Y g8 x h8 B h8 - i8
+187. Y h8 x i8 B i8 - j8
+188. Y i8 x j8 B j8 - k8
+189. Y j8 x k8 B k8 - l8
+190. Y k8 x l8 B l8 - m8
+191. Y l8 x m8 B m8 - n8
+192. Y m8 x n8 B n8 - o8
+193. Y n8 x o8 B o8 - p8
+194. Y o8 x p8 B p8 - q8
+195. Y p8 x q8 B q8 - r8
+196. Y q8 x r8 B r8 - s8
+197. Y r8 x s8 B s8 x t8 = b

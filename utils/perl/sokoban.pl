@@ -5,6 +5,7 @@ my $k = 0;
 my $x = 0;
 my $y = 0;
 my %p;
+my %b;
 
 while (<>) {
   chomp;
@@ -45,13 +46,15 @@ while (<>) {
          if ($n > 1) {
              printf $f "(variant\n";
          } else {
-             printf $f "(include \"sokoban.zrf\")\n\n";
+             printf $f "(include \"sokoban.inc\")\n\n";
              printf $f "(game\n";
          }
          printf $f "   (title \"Sokoban (Level $l)\")\n";
-         printf $f "   (common-level)\n";
+         if ($n == 1) {
+             printf $f "   (common-level)\n";
+         }
          printf $f "   (board\n";
-         printf $f "      (common-board)\n";
+         printf $f "      (image \"images/sokoban/black-${x}x${y}.bmp\")\n";
          printf $f "      (grid\n";
          printf $f "         (common-grid)\n";
          printf $f "         (dimensions\n";
@@ -68,7 +71,7 @@ while (<>) {
              }
              printf $f "$p";
          }
-         printf $f "\" (49 0)) ; files\n";
+         printf $f "\" (24 0)) ; files\n";
          printf $f "              (\"";
          for (my $i = 1; $i <= $y; $i++) {
              if ($i > 1) {
@@ -76,7 +79,7 @@ while (<>) {
              }
              printf $f "$i";
          }
-         printf $f "\" (0 49)) ; ranks\n";
+         printf $f "\" (0 24)) ; ranks\n";
          printf $f "         )\n";
          printf $f "      )\n";
          printf $f "   )\n";
@@ -113,6 +116,8 @@ while (<>) {
          printf $f "      )\n";
          printf $f "   )\n";
          printf $f ")\n\n";
+         $b{"black-${x}x${y}.bmp"}->{x} = $x * 24;
+         $b{"black-${x}x${y}.bmp"}->{y} = $y * 24;
          $x = 0;
          $y = 0;
          %p = ();
@@ -121,3 +126,7 @@ while (<>) {
 }
 
 close($f);
+
+foreach $b (keys %b) {
+  printf "$b - $b{$b}->{x} $b{$b}->{y}\n";
+}

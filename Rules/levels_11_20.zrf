@@ -1,0 +1,223 @@
+(include "sokoban.inc")
+
+(game
+   (title "Sokoban (Level 11)")
+   (common-level)
+   (board
+      (image "images/sokoban/black-19x15.bmp")
+      (grid
+         (common-grid)
+         (dimensions
+              ("a/b/c/d/e/f/g/h/i/j/k/l/m/n/o/p/q/r/s" (24 0)) ; files
+              ("1/2/3/4/5/6/7/8/9/10/11/12/13/14/15" (0 24)) ; ranks
+         )
+      )
+   )
+   (board-setup
+      (You
+         (W s8 c4 g10 n2 c10 n4 s10 k5 b6 a13 n1 h8 b8 q8 j12 d9 d4 n11 i2 l12 k2 m1 b5 g6 f10 l11 k1 d15 a15 a9 k7 f15 g13 m7 g15 r11 c5 f2 e15 m5 g11 b10 i11 c15 a10 e3 n7 a14 d3 o9 c9 b9 l1 a12 k3 h11 b7 j3 p8 s9 n3 q11 e6 g12 a11 i3 o7 h6 b15 n5 o11 i12 j5 s11 d7 g2 k8 e13 p11 r8 m11 f3 d10 g14 h2 n6 k12 o8 i9)
+         (B i5 i7 l3 i10 h7 m8 f7 h5 k4 l9 f8 m9 f5 f6)
+         (T c12 c14 f13 b13 e12 b12 c13 b14 f12 f14 d13 d14 e14 b11)
+         (Y h4)
+      )
+   )
+)
+
+(variant
+   (title "Sokoban (Level 12)")
+   (board
+      (image "images/sokoban/black-13x16.bmp")
+      (grid
+         (common-grid)
+         (dimensions
+              ("a/b/c/d/e/f/g/h/i/j/k/l/m" (24 0)) ; files
+              ("1/2/3/4/5/6/7/8/9/10/11/12/13/14/15/16" (0 24)) ; ranks
+         )
+      )
+   )
+   (board-setup
+      (You
+         (W c4 g1 l15 k5 i7 i15 b13 e8 d9 l12 k2 c16 c1 b12 b16 k1 i16 m10 h1 a9 k7 c6 f15 g15 c3 e16 h9 c5 e15 k9 k16 e7 m12 i8 l13 a10 j9 l16 e1 d1 b14 d16 c9 j16 b9 a12 c7 e9 k3 k4 c2 l9 f1 a11 b15 i1 k6 m9 d7 g2 f9 j7 m11 j1 l14 h15 i9)
+         (B j12 i13 h14 k11 g13 c11 c13 k13 g11 h12 e11 d12 i11 f12 f14 e13)
+         (T e2 i2 g6 h5 g4 i4 d3 d5 j3 i6 h3 e6 e4 j5 f3 f5)
+         (Y g14)
+      )
+   )
+)
+
+(variant
+   (title "Sokoban (Level 13)")
+   (board
+      (image "images/sokoban/black-20x13.bmp")
+      (grid
+         (common-grid)
+         (dimensions
+              ("a/b/c/d/e/f/g/h/i/j/k/l/m/n/o/p/q/r/s/t" (24 0)) ; files
+              ("1/2/3/4/5/6/7/8/9/10/11/12/13" (0 24)) ; ranks
+         )
+      )
+   )
+   (board-setup
+      (You
+         (W e2 n2 m4 t5 g1 k5 t3 t8 t12 j2 f13 o2 s12 b13 o12 i2 l12 g5 p2 m1 q12 b12 g6 k1 m2 k11 q2 j8 h1 a9 k7 n12 m7 a5 p12 d6 c3 c5 a7 m5 c13 g11 m12 b10 o5 d2 i11 t11 a10 j9 g4 e1 o9 b3 a6 t7 r3 t9 a8 j11 t10 a3 l1 f12 e9 j4 h11 j3 q11 q5 e6 c2 d13 f1 t6 q9 o7 q3 s3 r12 i1 f8 m3 k6 g8 j5 m9 q7 d7 f9 k8 t4 e13 p11 j1 f11 b11 a4 k12)
+         (B n8 i5 h4 i7 d4 l8 n9 c11 o10 h10 c9 c7 e4 h6 l10 e10 d10 f5)
+         (T r4 p10 p6 r6 q8 p9 q10 p4 q6 r9 p7 q4 r5 r7 p8 p5 r8 r10)
+         (Y h5)
+      )
+   )
+)
+
+(variant
+   (title "Sokoban (Level 14)")
+   (board
+      (image "images/sokoban/black-17x13.bmp")
+      (grid
+         (common-grid)
+         (dimensions
+              ("a/b/c/d/e/f/g/h/i/j/k/l/m/n/o/p/q" (24 0)) ; files
+              ("1/2/3/4/5/6/7/8/9/10/11/12/13" (0 24)) ; ranks
+         )
+      )
+   )
+   (board-setup
+      (You
+         (W c4 m4 c10 o13 a2 l7 g1 p1 j10 i10 n1 q8 g9 a1 e8 o12 i13 p2 l8 m1 c1 c8 k1 g3 m10 h1 j13 a9 q10 p4 c6 m7 a5 b1 q6 c3 c5 a7 m5 k13 g11 e11 b10 m8 i11 l13 a10 j9 e3 e1 d1 o1 a6 a8 d8 a3 l1 c7 h11 j3 p3 h3 q11 q5 e6 l9 f1 i3 q9 i1 n5 k6 o11 l6 i12 m9 q7 m13 l10 p5 p11 e10 j1 f3 f11 d10 m6 a4 n13 i9)
+         (B i5 h4 i7 j6 h8 g5 l4 j8 f4 j4 g7 h6 f8 g8 f6)
+         (T n8 p10 p6 p9 n9 o6 p7 o10 n10 n7 o9 p8 o7 n6 o8)
+         (Y h5)
+      )
+   )
+)
+
+(variant
+   (title "Sokoban (Level 15)")
+   (board
+      (image "images/sokoban/black-17x17.bmp")
+      (grid
+         (common-grid)
+         (dimensions
+              ("a/b/c/d/e/f/g/h/i/j/k/l/m/n/o/p/q" (24 0)) ; files
+              ("1/2/3/4/5/6/7/8/9/10/11/12/13/14/15/16/17" (0 24)) ; ranks
+         )
+      )
+   )
+   (board-setup
+      (You
+         (W e2 n8 o13 h17 k5 f13 b6 a13 a16 b8 q8 g9 e12 j15 e8 o12 i13 d4 k2 b5 c16 b12 b16 k1 d15 m10 h1 a15 j13 q10 k7 g13 g17 e16 h9 c5 f2 k9 m5 k13 f17 e7 b10 l13 j9 e3 n7 a14 d3 d16 c9 j16 b9 a12 e9 k3 k4 j17 d5 b7 p8 i6 h3 q11 q9 h6 i1 k10 n5 o11 g2 j14 m13 f9 i17 e13 p11 e10 m11 j1 l5 b11 f5 g14 h2 n13 n6 k12 o8 f16)
+         (B c14 i7 j6 g5 l8 l11 m7 e11 g4 i4 e6 d14 d10 i9)
+         (T g10 j10 i10 j12 f10 g11 h12 h10 j11 f12 h11 g12 i12 f11)
+         (Y g7)
+      )
+   )
+)
+
+(variant
+   (title "Sokoban (Level 16)")
+   (board
+      (image "images/sokoban/black-14x15.bmp")
+      (grid
+         (common-grid)
+         (dimensions
+              ("a/b/c/d/e/f/g/h/i/j/k/l/m/n" (24 0)) ; files
+              ("1/2/3/4/5/6/7/8/9/10/11/12/13/14/15" (0 24)) ; ranks
+         )
+      )
+   )
+   (board-setup
+      (You
+         (W e2 n8 c10 c12 a2 h4 c14 l3 f13 b6 h8 b8 g9 a1 i13 n11 c1 l4 d15 j8 j13 c6 n9 f15 g13 c11 n12 m7 a5 b1 f4 h9 f2 e15 c13 k13 n10 e7 h12 b10 f7 l13 c15 g4 n7 e1 d1 i4 a6 a3 b9 e9 k3 h13 f14 h11 b7 j3 l9 i3 k10 l6 g8 m13 l10 k8 f3 d10 l5 m6 a4 f6 n13)
+         (B c4 k5 i7 e12 g5 g6 k7 e5 h10 d8 f12 d5 f9 i9)
+         (T j10 i10 j12 l12 l11 k11 m10 m12 m8 i11 i12 m9 m11 k12)
+         (Y d6)
+      )
+   )
+)
+
+(variant
+   (title "Sokoban (Level 17)")
+   (board
+      (image "images/sokoban/black-18x16.bmp")
+      (grid
+         (common-grid)
+         (dimensions
+              ("a/b/c/d/e/f/g/h/i/j/k/l/m/n/o/p/q/r" (24 0)) ; files
+              ("1/2/3/4/5/6/7/8/9/10/11/12/13/14/15/16" (0 24)) ; ranks
+         )
+      )
+   )
+   (board-setup
+      (You
+         (W e2 n2 m4 m15 r4 o13 c12 n4 q15 p6 l15 n16 r6 o16 f13 b6 n1 h8 b8 i15 q8 o4 e12 j15 d9 o12 i13 b4 l8 m1 q12 b5 b12 k1 k11 l4 h1 j13 a9 q10 p4 g13 g15 f4 o10 f2 e5 m5 k13 n10 q4 e7 d12 i8 m8 f7 d2 i11 a10 q16 m14 q14 r5 o9 b3 k15 r7 a8 j11 l1 a12 k4 d5 j4 b7 q13 n3 h3 q11 c2 a11 q9 i1 k10 f8 n5 o11 g8 d7 g2 n15 b2 k8 p16 e13 r8 j1 f5 g14 h15 h2 m6 n6 o8 i9)
+         (B c4 g10 l3 d4 f10 l11 m10 g11 e11 h10 e9 j3 p8 l9 m11 d10 f6 k12)
+         (T i5 l7 k5 i7 j6 g5 g6 k7 h7 h5 i6 g7 h6 k6 l6 j5 j7 l5)
+         (Y k3)
+      )
+   )
+)
+
+(variant
+   (title "Sokoban (Level 18)")
+   (board
+      (image "images/sokoban/black-22x13.bmp")
+      (grid
+         (common-grid)
+         (dimensions
+              ("a/b/c/d/e/f/g/h/i/j/k/l/m/n/o/p/q/r/s/t/u/v" (24 0)) ; files
+              ("1/2/3/4/5/6/7/8/9/10/11/12/13" (0 24)) ; ranks
+         )
+      )
+   )
+   (board-setup
+      (You
+         (W s8 c4 n2 r4 c12 n4 t5 g1 s10 p6 k5 u10 p1 u8 r2 i10 n1 h8 b8 g9 e12 u12 j12 d9 r13 o12 d4 b4 l12 m1 q12 b5 c8 b12 k1 m2 s5 g3 v6 r1 j8 h1 s4 p4 k7 n12 m7 a5 p12 p7 f4 o10 e5 a7 m5 q4 v8 h12 d12 m12 b10 u9 g4 s7 i4 o1 a6 r7 c9 r3 a8 d8 b9 v5 l1 f12 t13 j4 u13 s9 s13 e6 g12 l9 e4 i3 o7 r12 i1 k10 f8 g8 q1 i12 j5 m9 g2 u11 v7 j7 u5 j1 l5 b11 f5 f6 k12 r10 o8)
+         (B g10 s6 e8 l8 p9 f10 m10 q10 c6 n9 i8 q9 n6)
+         (T m4 i5 j2 g5 g6 l4 h7 h5 k4 j3 i6 g7 h6)
+         (Y p3)
+      )
+   )
+)
+
+(variant
+   (title "Sokoban (Level 19)")
+   (board
+      (image "images/sokoban/black-28x20.bmp")
+      (grid
+         (common-grid)
+         (dimensions
+              ("a/b/c/d/e/f/g/h/i/j/k/l/m/n/o/p/q/r/s/t/u/v/w/x/y/z/A/B" (24 0)) ; files
+              ("1/2/3/4/5/6/7/8/9/10/11/12/13/14/15/16/17/18/19/20" (0 24)) ; ranks
+         )
+      )
+   )
+   (board-setup
+      (You
+         (W x19 g10 n8 n2 y13 r4 n18 h17 t5 p6 s14 k5 n16 r6 t8 t12 c14 i7 p18 o14 A19 o16 f13 o2 B14 j18 i10 e20 n1 a16 y12 B19 g9 o12 i2 l12 g5 p2 m1 h14 t19 p9 g6 B17 f19 l11 k1 u19 g3 k11 q2 l4 k18 i18 a15 w16 s4 d20 r15 x20 n12 p12 s16 g15 q6 g17 o6 A20 r9 B15 r11 w12 B13 v12 n10 q4 g11 k16 m12 b18 i14 z16 y20 o5 i11 g18 c18 t11 g4 h18 l16 y16 a14 t18 w17 B18 a17 b14 c19 r7 t7 t9 j11 t10 o15 l1 f12 o18 k3 k4 t13 s15 x12 u13 j3 p8 A13 v13 h3 q18 v15 g7 t6 i3 q3 d14 f20 c20 l18 r12 i1 n5 m18 k6 f18 v19 g8 j5 z20 B16 j14 l10 r18 t4 p16 e13 p11 r8 w19 e14 j1 s18 f11 b17 h15 m16 r16 n6 z13 r10 o8 i9)
+         (B i5 n14 l8 c16 m10 j8 k7 m7 e16 k13 q16 q14 d16 q13 m3 i12 m9 j7 l14 f16)
+         (T A15 A18 z14 y15 w15 z18 x15 w14 A14 y17 z15 x17 y14 A17 x18 A16 x14 x16 z17 y18)
+         (Y m2)
+      )
+   )
+)
+
+(variant
+   (title "Sokoban (Level 20)")
+   (board
+      (image "images/sokoban/black-20x20.bmp")
+      (grid
+         (common-grid)
+         (dimensions
+              ("a/b/c/d/e/f/g/h/i/j/k/l/m/n/o/p/q/r/s/t" (24 0)) ; files
+              ("1/2/3/4/5/6/7/8/9/10/11/12/13/14/15/16/17/18/19/20" (0 24)) ; ranks
+         )
+      )
+   )
+   (board-setup
+      (You
+         (W s8 n8 s6 n18 h17 m17 p6 s1 l15 r6 t12 p1 i7 l3 j6 j18 a13 n1 n14 b8 b13 d9 l20 l12 k20 m1 h14 q12 g6 f19 k1 s5 g3 t15 q19 k18 i18 d15 t14 r1 h1 s4 a9 n9 g13 n12 p12 n20 s16 q6 o6 e16 r17 f4 m20 s2 h9 q20 c13 f17 e7 h12 j20 m12 i8 i11 l13 t11 a10 j9 g20 h18 n7 o1 r7 d16 t9 h16 a8 t10 l1 f12 a12 c7 o18 t13 h13 h11 b7 j3 o20 q13 p3 s9 i6 n3 h3 q11 q18 e6 g12 l9 p20 d13 i20 t16 a11 o7 h6 d14 s3 f20 l18 i1 m18 k6 f18 q1 i12 m9 d7 d11 l10 f9 r8 j1 f3 q17 l14 f5 g14 h20 h15 h2 m16 m6 r16 f6 n6 k12 f16 i9)
+         (B c10 i5 p10 k5 e12 j15 j12 o12 o17 f10 r11 p14 m5 n10 k16 q14 h10 o9 j16 o15 e9 p8 g8 p16 e14 f11 r10)
+         (T n2 m4 r4 n4 j2 r2 o2 o4 i2 p2 k2 m2 q2 o3 l4 p4 q4 r5 r3 k3 k4 j4 l2 i3 q3 m3 p5)
+         (Y g5)
+      )
+   )
+)
+
