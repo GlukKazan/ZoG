@@ -1,16 +1,56 @@
-(define verify-king-on-board
-    mark
+(define set-owner-attribute
+    (set-attribute South (in-zone? end-zone  10y))
+    (set-attribute West  (in-zone? end-zone  IIo))
+    (set-attribute North (in-zone? end-zone   0n))
+    (set-attribute East  (in-zone? end-zone IIIx))
+)
+
+(define verify-king-on-battlefield
     START next
     (while (and (or empty? enemy? (not (piece? King))) (not-position? END)) next)
     (verify (and friend? (piece? King)))
+    (set-flag king-on-battlefield true)
+)
+
+(define verify-king-on-board
+    mark (verify-king-on-battlefield) back
+)
+
+(define verify-king-also-on-battlefield
+    (if (not-flag? king-on-battlefield) mark (verify-king-on-battlefield) back)
+)
+
+(define verify-king-set-owner
+    mark
+    (verify-king-on-battlefield)
+    (if (and (not South) (not West) (not North) (not East)) (set-owner-attribute))
+    back
+)
+
+(define verify-king-exists
+    mark
+    START to-hand
+    (while (and (or empty? enemy? (not (piece? King))) (not-in-zone? end-zone)) in-hand)
+    (if (or enemy? (not-piece? King))
+        (verify-king-on-battlefield)
+        (if (and (not South) (not West) (not North) (not East)) (set-owner-attribute))
+    )
     back
 )
 
 (define piece-drop
-  ( (if (not-piece? King)
-        (verify-king-on-board)
+  ( (verify (not-in-zone? board-zone))
+    (verify-king-on-board)
+    START next
+    (while (not-position? END)
+       (if empty? add)
+       next
     )
-    (verify (not-in-zone? board-zone))
+  )
+)
+
+(define king-drop
+  ( (verify (not-in-zone? board-zone))
     START next
     (while (not-position? END)
        (if empty? add)
@@ -33,8 +73,8 @@
 )
 
 (define pawn-drop
-  ( (verify-king-on-board)
-    (verify (not-in-zone? board-zone))
+  ( (verify (not-in-zone? board-zone))
+    (verify-king-on-board)
     START next
     (while (not-position? END)
        (if (and empty? (not (in-zone? stop-zone)))
@@ -56,8 +96,8 @@
 )
 
 (define lance-drop
-  ( (verify-king-on-board)
-    (verify (not (in-zone? board-zone)))
+  ( (verify (not (in-zone? board-zone)))
+    (verify-king-on-board)
     START next
     (while (not-position? END)
        (if (and empty? (not-in-zone? stop-zone)) add)
@@ -67,8 +107,8 @@
 )
 
 (define knight-drop
-  ( (verify-king-on-board)
-    (verify (not (in-zone? board-zone)))
+  ( (verify (not (in-zone? board-zone)))
+    (verify-king-on-board)
     START next
     (while (not-position? END)
        (if (and empty? (not-in-zone? stop-zone) (not-in-zone? stop-zone n)) add)
@@ -77,63 +117,118 @@
   )
 )
 
-(define first-empty-hand
-    START to-hand
-    (while (and not-empty? (not-in-zone? end-zone)) in-hand)
+(define take-ownership
+    change-owner
+    (set-owner-attribute)
 )
 
-(define identify-enemy
+(define convert-hand
+    (set-flag convert-South true)
+    (set-flag convert-West  true)
+    (set-flag convert-North true)
+    (set-flag convert-East  true)
+    next; from current marked position, begin checking for Kings on board.
+    (while (not-position? END)
+        (if (piece? King)
+            (if South (set-flag convert-South false))
+            (if West  (set-flag convert-West  false))
+            (if North (set-flag convert-North false))
+            (if East  (set-flag convert-East  false))
+        )
+        next
+    )
+    START next; continue checking for Kings on board.
+    (while not-marked?
+        (if (piece? King)
+            (if South (set-flag convert-South false))
+            (if West  (set-flag convert-West  false))
+            (if North (set-flag convert-North false))
+            (if East  (set-flag convert-East  false))
+        )
+        next
+    )
+    START to-hand; check for Kings in hand.
+    (while (not-in-zone? end-zone)
+        (if (piece? King)
+            (if South (set-flag convert-South false))
+            (if West  (set-flag convert-West  false))
+            (if North (set-flag convert-North false))
+            (if East  (set-flag convert-East  false))
+        )
+        in-hand
+    );  also check for King in hand end-zone.
+        (if (piece? King)
+            (if South (set-flag convert-South false))
+            (if West  (set-flag convert-West  false))
+            (if North (set-flag convert-North false))
+            (if East  (set-flag convert-East  false))
+        )
+    START to-hand; convert Kingless pieces in hand.
+    (while (not-in-zone? end-zone)
+        (if (and South (flag? convert-South)) (take-ownership))
+        (if (and West  (flag? convert-West )) (take-ownership))
+        (if (and North (flag? convert-North)) (take-ownership))
+        (if (and East  (flag? convert-East )) (take-ownership))
+        in-hand
+    );  also convert Kingless piece in hand end-zone.
+        (if (and South (flag? convert-South)) (take-ownership))
+        (if (and West  (flag? convert-West )) (take-ownership))
+        (if (and North (flag? convert-North)) (take-ownership))
+        (if (and East  (flag? convert-East )) (take-ownership))
+)
+
+(define convert-enemy
+    mark
+    (if (piece? King) (set-flag iKing true))
     (set-flag demote-Pawn   (piece? PawnP))
     (set-flag demote-Lance  (piece? LanceP))
     (set-flag demote-Knight (piece? KnightP))
     (set-flag demote-Silver (piece? SilverP))
     (set-flag demote-Bishop (piece? BishopP))
     (set-flag demote-Rook   (piece? RookP))
-)
-
-(define convert-enemy
-    (first-empty-hand)
+    START to-hand
+    (while (and not-empty? (not-in-zone? end-zone)) in-hand)
     to
-    change-owner
+    (take-ownership)
     (if (flag? demote-Pawn)   (change-type Pawn)   else
     (if (flag? demote-Lance)  (change-type Lance)  else
     (if (flag? demote-Knight) (change-type Knight) else
     (if (flag? demote-Silver) (change-type Silver) else
     (if (flag? demote-Bishop) (change-type Bishop) else
     (if (flag? demote-Rook)   (change-type Rook)  ))))))
-)
-
-(define eat-enemy
-    (identify-enemy)
-    cascade
-    mark
-;   (first-empty-hand)
-;   to
-    (convert-enemy)
+    back
+    (if (flag? iKing) (convert-hand))
     back
 )
 
 (define leap
-  ( (verify-king-on-board)
-    (verify (in-zone? board-zone))
+  ( (verify (in-zone? board-zone))
+    (verify-king-on-board)
     $1
     (verify (in-zone? board-zone))
     (verify not-friend?)
-    (if enemy? (eat-enemy))
+    (if enemy?
+        (verify-king-set-owner)
+        cascade (convert-enemy)
+     else
+        (verify-king-exists)
+    )
     add
   )
 )
 
 (define pawn-leap
-  ( (verify-king-on-board)
-    (verify (in-zone? board-zone))
+  ( (verify (in-zone? board-zone))
+    (verify-king-on-board)
     n
     (verify (in-zone? board-zone))
     (verify not-friend?)
     (if enemy?
-        (if (in-zone? promotion-zone) (change-type PawnP) (eat-enemy) add)
-        (if (not-in-zone? stop-zone) (if (in-zone? promotion-zone) (convert-enemy) else (eat-enemy)) add)
+        (verify-king-set-owner)
+        (if (in-zone? promotion-zone) (change-type PawnP) cascade (convert-enemy) add)
+        (if (not-in-zone? stop-zone) (if (not-in-zone? promotion-zone) cascade) (convert-enemy) add)
     else
+        (verify-king-exists)
         (if (in-zone? promotion-zone) (add PawnP))
         (if (not-in-zone? stop-zone) add)
     )
@@ -141,16 +236,20 @@
 )
 
 (define silver-leap
-  ( (verify-king-on-board)
-    (verify (in-zone? board-zone))
+  ( (verify (in-zone? board-zone))
+    (verify-king-on-board)
     (set-flag came-from-promotion-zone (in-zone? promotion-zone))
     $1
     (verify (in-zone? board-zone))
     (verify not-friend?)
-    (if enemy? 
-        (if (or (flag? came-from-promotion-zone) (in-zone? promotion-zone)) (change-type SilverP) (eat-enemy) add)
-        (if (or (flag? came-from-promotion-zone) (in-zone? promotion-zone)) (convert-enemy) else (eat-enemy)) add
+    (if enemy?
+        (verify-king-set-owner)
+        (if (or (flag? came-from-promotion-zone) (in-zone? promotion-zone))
+            (change-type SilverP) cascade (convert-enemy) add
+        )
+        (if (and (not-flag? came-from-promotion-zone) (not-in-zone? promotion-zone)) cascade) (convert-enemy) add
     else
+        (verify-king-exists)
         (if (or (flag? came-from-promotion-zone) (in-zone? promotion-zone)) (add SilverP))
         add
     )
@@ -158,17 +257,19 @@
 )
 
 (define knight-leap
-  ( (verify-king-on-board)
-    (verify (in-zone? board-zone))
+  ( (verify (in-zone? board-zone))
+    (verify-king-on-board)
     n $1
     (verify (in-zone? board-zone))
     (verify not-friend?)
     (if enemy?
-       (if (in-zone? promotion-zone) (change-type KnightP) (eat-enemy) add)
-       (if (not-in-zone? promotion-zone s) (if (in-zone? promotion-zone) (convert-enemy) else (eat-enemy)) add)
+        (verify-king-set-owner)
+        (if (in-zone? promotion-zone) (change-type KnightP) cascade (convert-enemy) add)
+        (if (not-in-zone? promotion-zone s) (if (not-in-zone? promotion-zone) cascade) (convert-enemy) add)
     else
-       (if (in-zone? promotion-zone) (add KnightP))
-       (if (not-in-zone? promotion-zone s) add)
+        (verify-king-exists)
+        (if (in-zone? promotion-zone) (add KnightP))
+        (if (not-in-zone? promotion-zone s) add)
     )
   )
 )
@@ -183,7 +284,8 @@
     )
     (verify (in-zone? board-zone))
     (verify enemy?)
-    (eat-enemy)
+    (verify-king-also-on-battlefield)
+    cascade (convert-enemy)
     add
   )
 )
@@ -200,15 +302,17 @@
     )
     (verify (in-zone? board-zone))
     (verify enemy?)
-    (if (or (flag? came-from-promotion-zone) (in-zone? promotion-zone)) (change-type $2P) (eat-enemy) add)
-    (if (or (flag? came-from-promotion-zone) (in-zone? promotion-zone)) (convert-enemy) else (eat-enemy)) add
+    (verify-king-also-on-battlefield)
+    (if (or (flag? came-from-promotion-zone) (in-zone? promotion-zone)) (change-type $2P) cascade (convert-enemy) add)
+    (if (and (not-flag? came-from-promotion-zone) (not-in-zone? promotion-zone)) cascade) (convert-enemy) add
   )
 )
 
 (define lance-slide
-  ( (verify-king-on-board)
-    (verify (in-zone? board-zone))
+  ( (verify (in-zone? board-zone))
+    (verify-king-on-board)
     n
+    (verify-king-exists)
     (while (and (in-zone? board-zone) empty?)
          (if (in-zone? promotion-zone) (add LanceP))
          (if (not-in-zone? stop-zone) add)
@@ -216,26 +320,103 @@
     )
     (verify (in-zone? board-zone))
     (verify enemy?)
-    (if (in-zone? promotion-zone) (change-type LanceP) (eat-enemy) add)
-    (if (not-in-zone? stop-zone) (if (in-zone? promotion-zone) (convert-enemy) else (eat-enemy)) add)
+    (verify-king-also-on-battlefield)
+    (if (in-zone? promotion-zone) (change-type LanceP) cascade (convert-enemy) add)
+    (if (not-in-zone? stop-zone) (if (not-in-zone? promotion-zone) cascade) (convert-enemy) add)
   )
 )
 
 (game
-  (title "Yonin Shogi 0.0.2 nine men")
+  (title "Yonin Shogi 0.0.5 nine men")
 
-  (description "Yonin Shogi, is a four-person variant of shogi (Japanese chess).")
+  (description "Yonin Shogi, is a four-person variant of shôgi (Japanese chess).\\
+                As in traditional shôgi, the Ôshô (Gyokushô or King) moves and captures as a chess King.\
+                The Hisha (Rook) and Kakugyô (Kaku or Bishop) move and capture as a chess Rook or Bishop.\
+                The Keima (Warhorse or Knight) moves and captures as one fourth of a chess Knight\
+                      having only the forwardmost two moves and captures.\
+                The Kyôsha (Yari or Spear) moves and captures as one fourth of a chess Rook\
+                      having only the straight forward moves and captures.\
+                The Fuhyô (Fuhei, Soldier or Pawn) moves and captures one space straight forward.\
+                The Fuhyô, Kyôsha, and Keima cannot back up.\
+                The Ginshô (Silver General) moves and captures one space diagonally (four directions)\
+                      or one space straight forward (five directions total).\
+                The Kinshô (Gold General) moves and captures one space orthogonally (four directions)\
+                      or one space diagonally forward (six directions total).\
+                When Fuhyô, Kyôsha, Keima, or Ginshô move or capture into or within\
+                      the last three rows of the battlefield,\
+                      they may choose to promote, giving up their ordinary powers and becoming like a Kinshô.\
+                When Fuhyô, Kyôsha, or Keima reach a position in which they would have no move, they must promote.\
+                When Hisha, Kakugyô, or Ginshô move or capture into, within, or out of\
+                      the last three rows of the battlefield,\
+                      they may choose to promote, Ginshô giving up its ordinary powers and becoming like a Kinshô,\
+                      Hisha and Kakugyô retaining their original powers and adding the power of Ôshô.\
+                When an enemy is captured, it is not destroyed, but retained off the battlefield in reserve.\
+                On any turn a player may do one of three actions:\
+                      move a piece on the battlefield to an empty space;\
+                      move a piece on the battlefield to capture an enemy;\
+                      drop a piece from the reserve onto an empty space.\
+                Dropping a piece into the last three rows does not confer an immediate promotion,\
+                      but the piece will have the option (or requirement) to promote on its next move or capture.\
+                You may not drop a piece into a position from which it could never move or capture.\
+                Two unpromoted Fuhyô must not occupy the same file.\\
+                In this game, Ôshô are not checkmated.  Ôshô are captured.\
+                The move generator will not prevent you from leaving your Ôshô in check.\
+                A player whose only Ôshô are off the battlefield cannot capture any enemy pieces\
+                      until the player drops an Ôshô onto the battlefield.\
+                When you capture an opponent's last and only Ôshô, you inherit all his reserve pieces.\
+                You must capture all four Ôsho to win.
+ ")
 
-  (history "This version of Yonin shogi was devised in 1993 by Ota Mitsuyasu,
-            former mayor of Hirata (present day Izumo) in Shimane Prefecture.\\
-        February  1961   weekly children's magazine published version (fifteen men).\
-                  1963   Ota Mituyasu popularized his rules and set-up (nine men).\
-0.0.1   July      2014   Valentin Chelnokov submitted version.\
-0.0.2   January   2015   included version and number of men in title of game and variant.\
-                         simplified script to allow play in version 1 of Zillions.\
-                         changed goal of game to that of capturing all four kings.\
-                         allowed array of captured pieces to overflow eighteen spaces.\
-")
+  (history "This version of Yonin shogi was devised in 1963 by Ota Mitsuyasu,\
+            a former mayor of Hirata (present day Izumo) in Shimane Prefecture.\\
+           February      1961   weekly children's magazine published version\
+                                           (fifteen men version).\
+                                1963   Ota Mituyasu popularized his rules and set-up\
+                                           (nine men version).\
+0.0.1   July               2014   Valentin Chelnokov's Zillons of Games version.\
+0.0.2   January        2015   Included version number and number of men\
+                                           in title of game and of variant.\
+                                           Simplified script to allow play in version 1 of Zillions.\
+                                           Changed goal of game\
+                                           to that of capturing all four kings.\
+                                           Allowed array of captured pieces\
+                                           to overflow around board.\
+0.0.5   September   2015  Added attribute to track ownership\
+                                           of king and of captured men.\
+                                           Used attribute to take ownership\
+                                           of all catured men when last king is captured.\
+                                           Expanded descriptions.  Added strategy.
+ ")
+
+  (strategy "Zillions is not strong strategically in a multiple player game.\
+             It should not be necessary for you to play two teams in a coalition.\
+             If you are playing a single side (default South) against three computer teams,\
+                   do not threaten opponents in a way that they respond by attacking you.\
+             Combinations requiring a follow up invite oportunistic attack from another team.\
+             Forking pieces belonging to different teams is stirring a hornet's nest.\
+             Take enemy Kaku (Bishop) and Hisha (Rook) as soon as the opportunity presents.\
+             Capture enemy pieces without further threatening other pieces\
+                   unless you also attack that enemy's King.\
+             Avoid cheap check.  Save your power for mate.\
+             Keep your own King well covered against discovered check or gang attack.\
+             The other three teams may gang up against you, if you offer opportunity,\
+                   or if you threaten them in a way that encourages an attacking response.\
+             Let the other three teams decimate each other before you pounce,\
+                   but do not allow another team to capture a second King.\
+             Be the first to capture another player's only King.\
+             You may allow an enemy to capture your pieces,\
+                   if you are sure you will be the first to capture his last and only King.\
+             Taking an enemy's only King will give you immediate ownership\
+                   of all of that enemy's captured pieces in reserve.\
+             Kingless enemy pieces deployed on the battlefield will remain motionless,\
+                   vulnerable to capture by anyone, blocking sliding moves, threatening no one.\
+             Deploying a second King will confer a kind of invulnerability,\
+                   because if your only battlefield King is captured,\
+                   you cannot capture any enemy pieces\
+                   until you drop another King onto the battlefield.\
+             You can use a second King to threaten mate,\
+                   if trading Kings will improve your position.
+ ")
 
   (players South West North East)
   (turn-order South West North East)
@@ -248,7 +429,7 @@
   (capture-sound "")
 
   (board
-        (image "../Images/YoninShogi/Board.bmp")
+        (image "Images/YoninShogi/Board.bmp")
         (grid
                (start-rectangle 14 14 54 59)
                (dimensions ("I/II/10/9/8/7/6/5/4/3/2/1/0/III/IV" (41 0))
@@ -535,10 +716,36 @@
 
   (piece
         (name  Pawn)
-        (image South "../Images/YoninShogi/Kanji/SPawn.bmp" "../Images/YoninShogi/Old/SPawn.bmp" "../Images/YoninShogi/Chess/SPawn.bmp" "../Images/YoninShogi/Alpha/SPawn.bmp" "../Images/YoninShogi/Draw/SPawn.bmp"
-               West  "../Images/YoninShogi/Kanji/WPawn.bmp" "../Images/YoninShogi/Old/WPawn.bmp" "../Images/YoninShogi/Chess/WPawn.bmp" "../Images/YoninShogi/Alpha/WPawn.bmp" "../Images/YoninShogi/Draw/WPawn.bmp"
-               North "../Images/YoninShogi/Kanji/NPawn.bmp" "../Images/YoninShogi/Old/NPawn.bmp" "../Images/YoninShogi/Chess/NPawn.bmp" "../Images/YoninShogi/Alpha/NPawn.bmp" "../Images/YoninShogi/Draw/NPawn.bmp"
-               East  "../Images/YoninShogi/Kanji/EPawn.bmp" "../Images/YoninShogi/Old/EPawn.bmp" "../Images/YoninShogi/Chess/EPawn.bmp" "../Images/YoninShogi/Alpha/EPawn.bmp" "../Images/YoninShogi/Draw/EPawn.bmp"
+        (description "Fuhyô (Fuhei, Soldier or Pawn)\
+                            moves and captures one space straight forward.\
+                      Fuhyô cannot back up or change files.\
+                      When Fuhyô moves or captures into or within\
+                            the last three rows of the battlefield,\
+                            it may choose to promote, becoming like a Kinshô.\
+                      When Fuhyô reaches the last row, it must promote.\
+                      You may not drop Fuhyô into the last row.\
+                      Two unpromoted Fuhyô must not occupy the same file."
+        )
+        (image South "Images/YoninShogi/Kanji/SPawn.bmp"
+                     "Images/YoninShogi/Old/SPawn.bmp"
+                     "Images/YoninShogi/Chess/SPawn.bmp"
+                     "Images/YoninShogi/Alpha/SPawn.bmp"
+                     "Images/YoninShogi/Draw/SPawn.bmp"
+               West  "Images/YoninShogi/Kanji/WPawn.bmp"
+                     "Images/YoninShogi/Old/WPawn.bmp"
+                     "Images/YoninShogi/Chess/WPawn.bmp"
+                     "Images/YoninShogi/Alpha/WPawn.bmp"
+                     "Images/YoninShogi/Draw/WPawn.bmp"
+               North "Images/YoninShogi/Kanji/NPawn.bmp"
+                     "Images/YoninShogi/Old/NPawn.bmp"
+                     "Images/YoninShogi/Chess/NPawn.bmp"
+                     "Images/YoninShogi/Alpha/NPawn.bmp"
+                     "Images/YoninShogi/Draw/NPawn.bmp"
+               East  "Images/YoninShogi/Kanji/EPawn.bmp"
+                     "Images/YoninShogi/Old/EPawn.bmp"
+                     "Images/YoninShogi/Chess/EPawn.bmp"
+                     "Images/YoninShogi/Alpha/EPawn.bmp"
+                     "Images/YoninShogi/Draw/EPawn.bmp"
         )
         (moves (pawn-leap)
                (pawn-drop)
@@ -546,10 +753,31 @@
   )
   (piece
         (name  PawnP)
-        (image South "../Images/YoninShogi/Kanji/SPawn+.bmp" "../Images/YoninShogi/Old/SPawn+.bmp" "../Images/YoninShogi/Chess/SPawn+.bmp" "../Images/YoninShogi/Alpha/SPawn+.bmp" "../Images/YoninShogi/Draw/SPawn+.bmp"
-               West  "../Images/YoninShogi/Kanji/WPawn+.bmp" "../Images/YoninShogi/Old/WPawn+.bmp" "../Images/YoninShogi/Chess/WPawn+.bmp" "../Images/YoninShogi/Alpha/WPawn+.bmp" "../Images/YoninShogi/Draw/WPawn+.bmp"
-               North "../Images/YoninShogi/Kanji/NPawn+.bmp" "../Images/YoninShogi/Old/NPawn+.bmp" "../Images/YoninShogi/Chess/NPawn+.bmp" "../Images/YoninShogi/Alpha/NPawn+.bmp" "../Images/YoninShogi/Draw/NPawn+.bmp"
-               East  "../Images/YoninShogi/Kanji/EPawn+.bmp" "../Images/YoninShogi/Old/EPawn+.bmp" "../Images/YoninShogi/Chess/EPawn+.bmp" "../Images/YoninShogi/Alpha/EPawn+.bmp" "../Images/YoninShogi/Draw/EPawn+.bmp"
+        (description "Tokin (promoted Fuhyô, Fuhei, Soldier or Pawn)\
+                            moves and captures one space orthogonally (four directions)\
+                            or diagonally forward (six directions total).\
+                      Reverts to Fuhyô when captured."
+        )
+        (image South "Images/YoninShogi/Kanji/SPawn+.bmp"
+                     "Images/YoninShogi/Old/SPawn+.bmp"
+                     "Images/YoninShogi/Chess/SPawn+.bmp"
+                     "Images/YoninShogi/Alpha/SPawn+.bmp"
+                     "Images/YoninShogi/Draw/SPawn+.bmp"
+               West  "Images/YoninShogi/Kanji/WPawn+.bmp"
+                     "Images/YoninShogi/Old/WPawn+.bmp"
+                     "Images/YoninShogi/Chess/WPawn+.bmp"
+                     "Images/YoninShogi/Alpha/WPawn+.bmp"
+                     "Images/YoninShogi/Draw/WPawn+.bmp"
+               North "Images/YoninShogi/Kanji/NPawn+.bmp"
+                     "Images/YoninShogi/Old/NPawn+.bmp"
+                     "Images/YoninShogi/Chess/NPawn+.bmp"
+                     "Images/YoninShogi/Alpha/NPawn+.bmp"
+                     "Images/YoninShogi/Draw/NPawn+.bmp"
+               East  "Images/YoninShogi/Kanji/EPawn+.bmp"
+                     "Images/YoninShogi/Old/EPawn+.bmp"
+                     "Images/YoninShogi/Chess/EPawn+.bmp"
+                     "Images/YoninShogi/Alpha/EPawn+.bmp"
+                     "Images/YoninShogi/Draw/EPawn+.bmp"
         )
         (moves (leap n)
                (leap s)
@@ -561,10 +789,33 @@
   )
   (piece
         (name  Silver)
-        (image South "../Images/YoninShogi/Kanji/SSilver.bmp" "../Images/YoninShogi/Old/SSilver.bmp" "../Images/YoninShogi/Chess/SSilver.bmp" "../Images/YoninShogi/Alpha/SSilver.bmp" "../Images/YoninShogi/Draw/SSilver.bmp"
-               West  "../Images/YoninShogi/Kanji/WSilver.bmp" "../Images/YoninShogi/Old/WSilver.bmp" "../Images/YoninShogi/Chess/WSilver.bmp" "../Images/YoninShogi/Alpha/WSilver.bmp" "../Images/YoninShogi/Draw/WSilver.bmp"
-               North "../Images/YoninShogi/Kanji/NSilver.bmp" "../Images/YoninShogi/Old/NSilver.bmp" "../Images/YoninShogi/Chess/NSilver.bmp" "../Images/YoninShogi/Alpha/NSilver.bmp" "../Images/YoninShogi/Draw/NSilver.bmp"
-               East  "../Images/YoninShogi/Kanji/ESilver.bmp" "../Images/YoninShogi/Old/ESilver.bmp" "../Images/YoninShogi/Chess/ESilver.bmp" "../Images/YoninShogi/Alpha/ESilver.bmp" "../Images/YoninShogi/Draw/ESilver.bmp"
+        (description "Ginshô (Silver General)\
+                            moves and captures one space diagonally (four directions)\
+                            or straight forward (five directions total).\
+                      When Ginshô moves or captures into, within, or out of\
+                            the last three rows of the battlefield,\
+                            it may choose to promote, giving up its ordinary powers and becoming like a Kinshô."
+        )
+        (image South "Images/YoninShogi/Kanji/SSilver.bmp"
+                     "Images/YoninShogi/Old/SSilver.bmp"
+                     "Images/YoninShogi/Chess/SSilver.bmp"
+                     "Images/YoninShogi/Alpha/SSilver.bmp"
+                     "Images/YoninShogi/Draw/SSilver.bmp"
+               West  "Images/YoninShogi/Kanji/WSilver.bmp"
+                     "Images/YoninShogi/Old/WSilver.bmp"
+                     "Images/YoninShogi/Chess/WSilver.bmp"
+                     "Images/YoninShogi/Alpha/WSilver.bmp"
+                     "Images/YoninShogi/Draw/WSilver.bmp"
+               North "Images/YoninShogi/Kanji/NSilver.bmp"
+                     "Images/YoninShogi/Old/NSilver.bmp"
+                     "Images/YoninShogi/Chess/NSilver.bmp"
+                     "Images/YoninShogi/Alpha/NSilver.bmp"
+                     "Images/YoninShogi/Draw/NSilver.bmp"
+               East  "Images/YoninShogi/Kanji/ESilver.bmp"
+                     "Images/YoninShogi/Old/ESilver.bmp"
+                     "Images/YoninShogi/Chess/ESilver.bmp"
+                     "Images/YoninShogi/Alpha/ESilver.bmp"
+                     "Images/YoninShogi/Draw/ESilver.bmp"
         )
         (moves (silver-leap n)
                (silver-leap nw)
@@ -576,10 +827,31 @@
   )
   (piece
         (name  SilverP)
-        (image South "../Images/YoninShogi/Kanji/SSilver+.bmp" "../Images/YoninShogi/Old/SSilver+.bmp" "../Images/YoninShogi/Chess/SSilver+.bmp" "../Images/YoninShogi/Alpha/SSilver+.bmp" "../Images/YoninShogi/Draw/SSilver+.bmp"
-               West  "../Images/YoninShogi/Kanji/WSilver+.bmp" "../Images/YoninShogi/Old/WSilver+.bmp" "../Images/YoninShogi/Chess/WSilver+.bmp" "../Images/YoninShogi/Alpha/WSilver+.bmp" "../Images/YoninShogi/Draw/WSilver+.bmp"
-               North "../Images/YoninShogi/Kanji/NSilver+.bmp" "../Images/YoninShogi/Old/NSilver+.bmp" "../Images/YoninShogi/Chess/NSilver+.bmp" "../Images/YoninShogi/Alpha/NSilver+.bmp" "../Images/YoninShogi/Draw/NSilver+.bmp"
-               East  "../Images/YoninShogi/Kanji/ESilver+.bmp" "../Images/YoninShogi/Old/ESilver+.bmp" "../Images/YoninShogi/Chess/ESilver+.bmp" "../Images/YoninShogi/Alpha/ESilver+.bmp" "../Images/YoninShogi/Draw/ESilver+.bmp"
+        (description "Narigin (promoted Silver General)\
+                            moves and captures one space orthogonally (four directions)\
+                            or diagonally forward (six directions total).\
+                      Reverts to Ginshô when captured."
+        )
+        (image South "Images/YoninShogi/Kanji/SSilver+.bmp"
+                     "Images/YoninShogi/Old/SSilver+.bmp"
+                     "Images/YoninShogi/Chess/SSilver+.bmp"
+                     "Images/YoninShogi/Alpha/SSilver+.bmp"
+                     "Images/YoninShogi/Draw/SSilver+.bmp"
+               West  "Images/YoninShogi/Kanji/WSilver+.bmp"
+                     "Images/YoninShogi/Old/WSilver+.bmp"
+                     "Images/YoninShogi/Chess/WSilver+.bmp"
+                     "Images/YoninShogi/Alpha/WSilver+.bmp"
+                     "Images/YoninShogi/Draw/WSilver+.bmp"
+               North "Images/YoninShogi/Kanji/NSilver+.bmp"
+                     "Images/YoninShogi/Old/NSilver+.bmp"
+                     "Images/YoninShogi/Chess/NSilver+.bmp"
+                     "Images/YoninShogi/Alpha/NSilver+.bmp"
+                     "Images/YoninShogi/Draw/NSilver+.bmp"
+               East  "Images/YoninShogi/Kanji/ESilver+.bmp"
+                     "Images/YoninShogi/Old/ESilver+.bmp"
+                     "Images/YoninShogi/Chess/ESilver+.bmp"
+                     "Images/YoninShogi/Alpha/ESilver+.bmp"
+                     "Images/YoninShogi/Draw/ESilver+.bmp"
         )
         (moves (leap n)
                (leap s)
@@ -591,10 +863,31 @@
   )
   (piece
         (name  Gold)
-        (image South "../Images/YoninShogi/Kanji/SGold.bmp" "../Images/YoninShogi/Old/SGold.bmp" "../Images/YoninShogi/Chess/SGold.bmp" "../Images/YoninShogi/Alpha/SGold.bmp" "../Images/YoninShogi/Draw/SGold.bmp"
-               West  "../Images/YoninShogi/Kanji/WGold.bmp" "../Images/YoninShogi/Old/WGold.bmp" "../Images/YoninShogi/Chess/WGold.bmp" "../Images/YoninShogi/Alpha/WGold.bmp" "../Images/YoninShogi/Draw/WGold.bmp"
-               North "../Images/YoninShogi/Kanji/NGold.bmp" "../Images/YoninShogi/Old/NGold.bmp" "../Images/YoninShogi/Chess/NGold.bmp" "../Images/YoninShogi/Alpha/NGold.bmp" "../Images/YoninShogi/Draw/NGold.bmp"
-               East  "../Images/YoninShogi/Kanji/EGold.bmp" "../Images/YoninShogi/Old/EGold.bmp" "../Images/YoninShogi/Chess/EGold.bmp" "../Images/YoninShogi/Alpha/EGold.bmp" "../Images/YoninShogi/Draw/EGold.bmp"
+        (description "Kinshô (Gold General)\
+                            moves and captures one space orthogonally (four directions)\
+                            or diagonally forward (six directions total).\
+                      Kinshô does not promote."
+        )
+        (image South "Images/YoninShogi/Kanji/SGold.bmp"
+                     "Images/YoninShogi/Old/SGold.bmp"
+                     "Images/YoninShogi/Chess/SGold.bmp"
+                     "Images/YoninShogi/Alpha/SGold.bmp"
+                     "Images/YoninShogi/Draw/SGold.bmp"
+               West  "Images/YoninShogi/Kanji/WGold.bmp"
+                     "Images/YoninShogi/Old/WGold.bmp"
+                     "Images/YoninShogi/Chess/WGold.bmp"
+                     "Images/YoninShogi/Alpha/WGold.bmp"
+                     "Images/YoninShogi/Draw/WGold.bmp"
+               North "Images/YoninShogi/Kanji/NGold.bmp"
+                     "Images/YoninShogi/Old/NGold.bmp"
+                     "Images/YoninShogi/Chess/NGold.bmp"
+                     "Images/YoninShogi/Alpha/NGold.bmp"
+                     "Images/YoninShogi/Draw/NGold.bmp"
+               East  "Images/YoninShogi/Kanji/EGold.bmp"
+                     "Images/YoninShogi/Old/EGold.bmp"
+                     "Images/YoninShogi/Chess/EGold.bmp"
+                     "Images/YoninShogi/Alpha/EGold.bmp"
+                     "Images/YoninShogi/Draw/EGold.bmp"
         )
         (moves (leap n)
                (leap s)
@@ -607,10 +900,36 @@
   )
   (piece
         (name  Knight)
-        (image South "../Images/YoninShogi/Kanji/SKnight.bmp" "../Images/YoninShogi/Old/SKnight.bmp" "../Images/YoninShogi/Chess/SKnight.bmp" "../Images/YoninShogi/Alpha/SKnight.bmp" "../Images/YoninShogi/Draw/SKnight.bmp"
-               West  "../Images/YoninShogi/Kanji/WKnight.bmp" "../Images/YoninShogi/Old/WKnight.bmp" "../Images/YoninShogi/Chess/WKnight.bmp" "../Images/YoninShogi/Alpha/WKnight.bmp" "../Images/YoninShogi/Draw/WKnight.bmp"
-               North "../Images/YoninShogi/Kanji/NKnight.bmp" "../Images/YoninShogi/Old/NKnight.bmp" "../Images/YoninShogi/Chess/NKnight.bmp" "../Images/YoninShogi/Alpha/NKnight.bmp" "../Images/YoninShogi/Draw/NKnight.bmp"
-               East  "../Images/YoninShogi/Kanji/EKnight.bmp" "../Images/YoninShogi/Old/EKnight.bmp" "../Images/YoninShogi/Chess/EKnight.bmp" "../Images/YoninShogi/Alpha/EKnight.bmp" "../Images/YoninShogi/Draw/EKnight.bmp"
+        (description "Keima (Warhorse or Knight)\
+                            moves and captures as one fourth of a chess Knight\
+                            having only the forwardmost two moves and captures.\
+                      Keima cannot back up.\
+                      When Keima moves or captures into or within\
+                            the last three rows of the battlefield,\
+                            it may choose to promote, becoming like a Kinshô.\
+                      When Keima reaches either of the last two rows, it must promote.\
+                      You may not drop Keima into the last two rows."
+        )
+        (image South "Images/YoninShogi/Kanji/SKnight.bmp"
+                     "Images/YoninShogi/Old/SKnight.bmp"
+                     "Images/YoninShogi/Chess/SKnight.bmp"
+                     "Images/YoninShogi/Alpha/SKnight.bmp"
+                     "Images/YoninShogi/Draw/SKnight.bmp"
+               West  "Images/YoninShogi/Kanji/WKnight.bmp"
+                     "Images/YoninShogi/Old/WKnight.bmp"
+                     "Images/YoninShogi/Chess/WKnight.bmp"
+                     "Images/YoninShogi/Alpha/WKnight.bmp"
+                     "Images/YoninShogi/Draw/WKnight.bmp"
+               North "Images/YoninShogi/Kanji/NKnight.bmp"
+                     "Images/YoninShogi/Old/NKnight.bmp"
+                     "Images/YoninShogi/Chess/NKnight.bmp"
+                     "Images/YoninShogi/Alpha/NKnight.bmp"
+                     "Images/YoninShogi/Draw/NKnight.bmp"
+               East  "Images/YoninShogi/Kanji/EKnight.bmp"
+                     "Images/YoninShogi/Old/EKnight.bmp"
+                     "Images/YoninShogi/Chess/EKnight.bmp"
+                     "Images/YoninShogi/Alpha/EKnight.bmp"
+                     "Images/YoninShogi/Draw/EKnight.bmp"
         )
         (moves (knight-leap nw)
                (knight-leap ne)
@@ -619,10 +938,31 @@
   )
   (piece
         (name  KnightP)
-        (image South "../Images/YoninShogi/Kanji/SKnight+.bmp" "../Images/YoninShogi/Old/SKnight+.bmp" "../Images/YoninShogi/Chess/SKnight+.bmp" "../Images/YoninShogi/Alpha/SKnight+.bmp" "../Images/YoninShogi/Draw/SKnight+.bmp"
-               West  "../Images/YoninShogi/Kanji/WKnight+.bmp" "../Images/YoninShogi/Old/WKnight+.bmp" "../Images/YoninShogi/Chess/WKnight+.bmp" "../Images/YoninShogi/Alpha/WKnight+.bmp" "../Images/YoninShogi/Draw/WKnight+.bmp"
-               North "../Images/YoninShogi/Kanji/NKnight+.bmp" "../Images/YoninShogi/Old/NKnight+.bmp" "../Images/YoninShogi/Chess/NKnight+.bmp" "../Images/YoninShogi/Alpha/NKnight+.bmp" "../Images/YoninShogi/Draw/NKnight+.bmp"
-               East  "../Images/YoninShogi/Kanji/EKnight+.bmp" "../Images/YoninShogi/Old/EKnight+.bmp" "../Images/YoninShogi/Chess/EKnight+.bmp" "../Images/YoninShogi/Alpha/EKnight+.bmp" "../Images/YoninShogi/Draw/EKnight+.bmp"
+        (description "Narikei (promoted Warhorse)\
+                            moves and captures one space orthogonally (four directions)\
+                            or diagonally forward (six directions total).\
+                      Reverts to Keima when captured."
+        )
+        (image South "Images/YoninShogi/Kanji/SKnight+.bmp"
+                     "Images/YoninShogi/Old/SKnight+.bmp"
+                     "Images/YoninShogi/Chess/SKnight+.bmp"
+                     "Images/YoninShogi/Alpha/SKnight+.bmp"
+                     "Images/YoninShogi/Draw/SKnight+.bmp"
+               West  "Images/YoninShogi/Kanji/WKnight+.bmp"
+                     "Images/YoninShogi/Old/WKnight+.bmp"
+                     "Images/YoninShogi/Chess/WKnight+.bmp"
+                     "Images/YoninShogi/Alpha/WKnight+.bmp"
+                     "Images/YoninShogi/Draw/WKnight+.bmp"
+               North "Images/YoninShogi/Kanji/NKnight+.bmp"
+                     "Images/YoninShogi/Old/NKnight+.bmp"
+                     "Images/YoninShogi/Chess/NKnight+.bmp"
+                     "Images/YoninShogi/Alpha/NKnight+.bmp"
+                     "Images/YoninShogi/Draw/NKnight+.bmp"
+               East  "Images/YoninShogi/Kanji/EKnight+.bmp"
+                     "Images/YoninShogi/Old/EKnight+.bmp"
+                     "Images/YoninShogi/Chess/EKnight+.bmp"
+                     "Images/YoninShogi/Alpha/EKnight+.bmp"
+                     "Images/YoninShogi/Draw/EKnight+.bmp"
         )
         (moves (leap n)
                (leap s)
@@ -634,10 +974,36 @@
   )
   (piece
         (name  Lance)
-        (image South "../Images/YoninShogi/Kanji/SLance.bmp" "../Images/YoninShogi/Old/SLance.bmp" "../Images/YoninShogi/Chess/SLance.bmp" "../Images/YoninShogi/Alpha/SLance.bmp" "../Images/YoninShogi/Draw/SLance.bmp"
-               West  "../Images/YoninShogi/Kanji/WLance.bmp" "../Images/YoninShogi/Old/WLance.bmp" "../Images/YoninShogi/Chess/WLance.bmp" "../Images/YoninShogi/Alpha/WLance.bmp" "../Images/YoninShogi/Draw/WLance.bmp"
-               North "../Images/YoninShogi/Kanji/NLance.bmp" "../Images/YoninShogi/Old/NLance.bmp" "../Images/YoninShogi/Chess/NLance.bmp" "../Images/YoninShogi/Alpha/NLance.bmp" "../Images/YoninShogi/Draw/NLance.bmp"
-               East  "../Images/YoninShogi/Kanji/ELance.bmp" "../Images/YoninShogi/Old/ELance.bmp" "../Images/YoninShogi/Chess/ELance.bmp" "../Images/YoninShogi/Alpha/ELance.bmp" "../Images/YoninShogi/Draw/ELance.bmp"
+        (description "Kyôsha (Yari or Spear)\
+                            moves and captures as one fourth of a chess Rook\
+                            having only the straight forward moves and captures.\
+                      Kyôsha cannot back up or change files.\
+                      When Kyôsha moves or captures into or within\
+                            the last three rows of the battlefield,\
+                            it may choose to promote, becoming like a Kinshô.\
+                      When Kyôsha reaches the last row, it must promote.\
+                      You may not drop Kyôsha into the last row."
+        )
+        (image South "Images/YoninShogi/Kanji/SLance.bmp"
+                     "Images/YoninShogi/Old/SLance.bmp"
+                     "Images/YoninShogi/Chess/SLance.bmp"
+                     "Images/YoninShogi/Alpha/SLance.bmp"
+                     "Images/YoninShogi/Draw/SLance.bmp"
+               West  "Images/YoninShogi/Kanji/WLance.bmp"
+                     "Images/YoninShogi/Old/WLance.bmp"
+                     "Images/YoninShogi/Chess/WLance.bmp"
+                     "Images/YoninShogi/Alpha/WLance.bmp"
+                     "Images/YoninShogi/Draw/WLance.bmp"
+               North "Images/YoninShogi/Kanji/NLance.bmp"
+                     "Images/YoninShogi/Old/NLance.bmp"
+                     "Images/YoninShogi/Chess/NLance.bmp"
+                     "Images/YoninShogi/Alpha/NLance.bmp"
+                     "Images/YoninShogi/Draw/NLance.bmp"
+               East  "Images/YoninShogi/Kanji/ELance.bmp"
+                     "Images/YoninShogi/Old/ELance.bmp"
+                     "Images/YoninShogi/Chess/ELance.bmp"
+                     "Images/YoninShogi/Alpha/ELance.bmp"
+                     "Images/YoninShogi/Draw/ELance.bmp"
         )
         (moves (lance-slide)
                (lance-drop)
@@ -645,10 +1011,31 @@
   )
   (piece
         (name  LanceP)
-        (image South "../Images/YoninShogi/Kanji/SLance+.bmp" "../Images/YoninShogi/Old/SLance+.bmp" "../Images/YoninShogi/Chess/SLance+.bmp" "../Images/YoninShogi/Alpha/SLance+.bmp" "../Images/YoninShogi/Draw/SLance+.bmp"
-               West  "../Images/YoninShogi/Kanji/WLance+.bmp" "../Images/YoninShogi/Old/WLance+.bmp" "../Images/YoninShogi/Chess/WLance+.bmp" "../Images/YoninShogi/Alpha/WLance+.bmp" "../Images/YoninShogi/Draw/WLance+.bmp"
-               North "../Images/YoninShogi/Kanji/NLance+.bmp" "../Images/YoninShogi/Old/NLance+.bmp" "../Images/YoninShogi/Chess/NLance+.bmp" "../Images/YoninShogi/Alpha/NLance+.bmp" "../Images/YoninShogi/Draw/NLance+.bmp"
-               East  "../Images/YoninShogi/Kanji/ELance+.bmp" "../Images/YoninShogi/Old/ELance+.bmp" "../Images/YoninShogi/Chess/ELance+.bmp" "../Images/YoninShogi/Alpha/ELance+.bmp" "../Images/YoninShogi/Draw/ELance+.bmp"
+        (description "Narikyô (promoted Spear)\
+                            moves and captures one space orthogonally (four directions)\
+                            or diagonally forward (six directions total).\
+                      Reverts to Kyôsha when captured."
+        )
+        (image South "Images/YoninShogi/Kanji/SLance+.bmp"
+                     "Images/YoninShogi/Old/SLance+.bmp"
+                     "Images/YoninShogi/Chess/SLance+.bmp"
+                     "Images/YoninShogi/Alpha/SLance+.bmp"
+                     "Images/YoninShogi/Draw/SLance+.bmp"
+               West  "Images/YoninShogi/Kanji/WLance+.bmp"
+                     "Images/YoninShogi/Old/WLance+.bmp"
+                     "Images/YoninShogi/Chess/WLance+.bmp"
+                     "Images/YoninShogi/Alpha/WLance+.bmp"
+                     "Images/YoninShogi/Draw/WLance+.bmp"
+               North "Images/YoninShogi/Kanji/NLance+.bmp"
+                     "Images/YoninShogi/Old/NLance+.bmp"
+                     "Images/YoninShogi/Chess/NLance+.bmp"
+                     "Images/YoninShogi/Alpha/NLance+.bmp"
+                     "Images/YoninShogi/Draw/NLance+.bmp"
+               East  "Images/YoninShogi/Kanji/ELance+.bmp"
+                     "Images/YoninShogi/Old/ELance+.bmp"
+                     "Images/YoninShogi/Chess/ELance+.bmp"
+                     "Images/YoninShogi/Alpha/ELance+.bmp"
+                     "Images/YoninShogi/Draw/ELance+.bmp"
         )
         (moves (leap n)
                (leap s)
@@ -660,10 +1047,32 @@
   )
   (piece
         (name  Bishop)
-        (image South "../Images/YoninShogi/Kanji/SBishop.bmp" "../Images/YoninShogi/Old/SBishop.bmp" "../Images/YoninShogi/Chess/SBishop.bmp" "../Images/YoninShogi/Alpha/SBishop.bmp" "../Images/YoninShogi/Draw/SBishop.bmp"
-               West  "../Images/YoninShogi/Kanji/WBishop.bmp" "../Images/YoninShogi/Old/WBishop.bmp" "../Images/YoninShogi/Chess/WBishop.bmp" "../Images/YoninShogi/Alpha/WBishop.bmp" "../Images/YoninShogi/Draw/WBishop.bmp"
-               North "../Images/YoninShogi/Kanji/NBishop.bmp" "../Images/YoninShogi/Old/NBishop.bmp" "../Images/YoninShogi/Chess/NBishop.bmp" "../Images/YoninShogi/Alpha/NBishop.bmp" "../Images/YoninShogi/Draw/NBishop.bmp"
-               East  "../Images/YoninShogi/Kanji/EBishop.bmp" "../Images/YoninShogi/Old/EBishop.bmp" "../Images/YoninShogi/Chess/EBishop.bmp" "../Images/YoninShogi/Alpha/EBishop.bmp" "../Images/YoninShogi/Draw/EBishop.bmp"
+        (description "Kakygyô (Kaku or Angle Mover or Bishop)\
+                            moves and captures diagonally as chess Bishop.\
+                      When Kakugyô moves or captures into, within, or out of\
+                            the last three rows of the battlefield,\
+                            it may promote, adding the power of a King."
+        )
+        (image South "Images/YoninShogi/Kanji/SBishop.bmp"
+                     "Images/YoninShogi/Old/SBishop.bmp"
+                     "Images/YoninShogi/Chess/SBishop.bmp"
+                     "Images/YoninShogi/Alpha/SBishop.bmp"
+                     "Images/YoninShogi/Draw/SBishop.bmp"
+               West  "Images/YoninShogi/Kanji/WBishop.bmp"
+                     "Images/YoninShogi/Old/WBishop.bmp"
+                     "Images/YoninShogi/Chess/WBishop.bmp"
+                     "Images/YoninShogi/Alpha/WBishop.bmp"
+                     "Images/YoninShogi/Draw/WBishop.bmp"
+               North "Images/YoninShogi/Kanji/NBishop.bmp"
+                     "Images/YoninShogi/Old/NBishop.bmp"
+                     "Images/YoninShogi/Chess/NBishop.bmp"
+                     "Images/YoninShogi/Alpha/NBishop.bmp"
+                     "Images/YoninShogi/Draw/NBishop.bmp"
+               East  "Images/YoninShogi/Kanji/EBishop.bmp"
+                     "Images/YoninShogi/Old/EBishop.bmp"
+                     "Images/YoninShogi/Chess/EBishop.bmp"
+                     "Images/YoninShogi/Alpha/EBishop.bmp"
+                     "Images/YoninShogi/Draw/EBishop.bmp"
         )
         (moves (piece-slide nw Bishop)
                (piece-slide sw Bishop)
@@ -674,10 +1083,31 @@
   )
   (piece
         (name  BishopP)
-        (image South "../Images/YoninShogi/Kanji/SBishop+.bmp" "../Images/YoninShogi/Old/SBishop+.bmp" "../Images/YoninShogi/Chess/SBishop+.bmp" "../Images/YoninShogi/Alpha/SBishop+.bmp" "../Images/YoninShogi/Draw/SBishop+.bmp"
-               West  "../Images/YoninShogi/Kanji/WBishop+.bmp" "../Images/YoninShogi/Old/WBishop+.bmp" "../Images/YoninShogi/Chess/WBishop+.bmp" "../Images/YoninShogi/Alpha/WBishop+.bmp" "../Images/YoninShogi/Draw/WBishop+.bmp"
-               North "../Images/YoninShogi/Kanji/NBishop+.bmp" "../Images/YoninShogi/Old/NBishop+.bmp" "../Images/YoninShogi/Chess/NBishop+.bmp" "../Images/YoninShogi/Alpha/NBishop+.bmp" "../Images/YoninShogi/Draw/NBishop+.bmp"
-               East  "../Images/YoninShogi/Kanji/EBishop+.bmp" "../Images/YoninShogi/Old/EBishop+.bmp" "../Images/YoninShogi/Chess/EBishop+.bmp" "../Images/YoninShogi/Alpha/EBishop+.bmp" "../Images/YoninShogi/Draw/EBishop+.bmp"
+        (description "Ryûma (Ryûme or Dragon Horse or promoted Bishop)\
+                            moves and captures diagonally as chess Bishop\
+                            or one space any direction as chess King.\
+                      Reverts to Kakugyô when captured."
+        )
+        (image South "Images/YoninShogi/Kanji/SBishop+.bmp"
+                     "Images/YoninShogi/Old/SBishop+.bmp"
+                     "Images/YoninShogi/Chess/SBishop+.bmp"
+                     "Images/YoninShogi/Alpha/SBishop+.bmp"
+                     "Images/YoninShogi/Draw/SBishop+.bmp"
+               West  "Images/YoninShogi/Kanji/WBishop+.bmp"
+                     "Images/YoninShogi/Old/WBishop+.bmp"
+                     "Images/YoninShogi/Chess/WBishop+.bmp"
+                     "Images/YoninShogi/Alpha/WBishop+.bmp"
+                     "Images/YoninShogi/Draw/WBishop+.bmp"
+               North "Images/YoninShogi/Kanji/NBishop+.bmp"
+                     "Images/YoninShogi/Old/NBishop+.bmp"
+                     "Images/YoninShogi/Chess/NBishop+.bmp"
+                     "Images/YoninShogi/Alpha/NBishop+.bmp"
+                     "Images/YoninShogi/Draw/NBishop+.bmp"
+               East  "Images/YoninShogi/Kanji/EBishop+.bmp"
+                     "Images/YoninShogi/Old/EBishop+.bmp"
+                     "Images/YoninShogi/Chess/EBishop+.bmp"
+                     "Images/YoninShogi/Alpha/EBishop+.bmp"
+                     "Images/YoninShogi/Draw/EBishop+.bmp"
         )
         (moves (slide nw)
                (slide sw)
@@ -691,10 +1121,32 @@
   )
   (piece
         (name  Rook)
-        (image South "../Images/YoninShogi/Kanji/SRook.bmp" "../Images/YoninShogi/Old/SRook.bmp" "../Images/YoninShogi/Chess/SRook.bmp" "../Images/YoninShogi/Alpha/SRook.bmp" "../Images/YoninShogi/Draw/SRook.bmp"
-               West  "../Images/YoninShogi/Kanji/WRook.bmp" "../Images/YoninShogi/Old/WRook.bmp" "../Images/YoninShogi/Chess/WRook.bmp" "../Images/YoninShogi/Alpha/WRook.bmp" "../Images/YoninShogi/Draw/WRook.bmp"
-               North "../Images/YoninShogi/Kanji/NRook.bmp" "../Images/YoninShogi/Old/NRook.bmp" "../Images/YoninShogi/Chess/NRook.bmp" "../Images/YoninShogi/Alpha/NRook.bmp" "../Images/YoninShogi/Draw/NRook.bmp"
-               East  "../Images/YoninShogi/Kanji/ERook.bmp" "../Images/YoninShogi/Old/ERook.bmp" "../Images/YoninShogi/Chess/ERook.bmp" "../Images/YoninShogi/Alpha/ERook.bmp" "../Images/YoninShogi/Draw/ERook.bmp"
+        (description "Hisha (Flying Chariot or Rook)\
+                            moves and captures orthogonally as chess Rook.\
+                      When Hisha moves or captures into, within, or out of\
+                            the last three rows of the battlefield,\
+                            it may promote, adding the power of a King."
+        )
+        (image South "Images/YoninShogi/Kanji/SRook.bmp"
+                     "Images/YoninShogi/Old/SRook.bmp"
+                     "Images/YoninShogi/Chess/SRook.bmp"
+                     "Images/YoninShogi/Alpha/SRook.bmp"
+                     "Images/YoninShogi/Draw/SRook.bmp"
+               West  "Images/YoninShogi/Kanji/WRook.bmp"
+                     "Images/YoninShogi/Old/WRook.bmp"
+                     "Images/YoninShogi/Chess/WRook.bmp"
+                     "Images/YoninShogi/Alpha/WRook.bmp"
+                     "Images/YoninShogi/Draw/WRook.bmp"
+               North "Images/YoninShogi/Kanji/NRook.bmp"
+                     "Images/YoninShogi/Old/NRook.bmp"
+                     "Images/YoninShogi/Chess/NRook.bmp"
+                     "Images/YoninShogi/Alpha/NRook.bmp"
+                     "Images/YoninShogi/Draw/NRook.bmp"
+               East  "Images/YoninShogi/Kanji/ERook.bmp"
+                     "Images/YoninShogi/Old/ERook.bmp"
+                     "Images/YoninShogi/Chess/ERook.bmp"
+                     "Images/YoninShogi/Alpha/ERook.bmp"
+                     "Images/YoninShogi/Draw/ERook.bmp"
         )
         (moves (piece-slide n Rook)
                (piece-slide s Rook)
@@ -705,10 +1157,31 @@
   )
   (piece
         (name  RookP)
-        (image South "../Images/YoninShogi/Kanji/SRook+.bmp" "../Images/YoninShogi/Old/SRook+.bmp" "../Images/YoninShogi/Chess/SRook+.bmp" "../Images/YoninShogi/Alpha/SRook+.bmp" "../Images/YoninShogi/Draw/SRook+.bmp"
-               West  "../Images/YoninShogi/Kanji/WRook+.bmp" "../Images/YoninShogi/Old/WRook+.bmp" "../Images/YoninShogi/Chess/WRook+.bmp" "../Images/YoninShogi/Alpha/WRook+.bmp" "../Images/YoninShogi/Draw/WRook+.bmp"
-               North "../Images/YoninShogi/Kanji/NRook+.bmp" "../Images/YoninShogi/Old/NRook+.bmp" "../Images/YoninShogi/Chess/NRook+.bmp" "../Images/YoninShogi/Alpha/NRook+.bmp" "../Images/YoninShogi/Draw/NRook+.bmp"
-               East  "../Images/YoninShogi/Kanji/ERook+.bmp" "../Images/YoninShogi/Old/ERook+.bmp" "../Images/YoninShogi/Chess/ERook+.bmp" "../Images/YoninShogi/Alpha/ERook+.bmp" "../Images/YoninShogi/Draw/ERook+.bmp"
+        (description "Ryûô (Dragon King or promoted Rook)\
+                            moves and captures diagonally as chess Rook\
+                            or one space any direction as chess King.\
+                      Reverts to Hisha when captured."
+        )
+        (image South "Images/YoninShogi/Kanji/SRook+.bmp"
+                     "Images/YoninShogi/Old/SRook+.bmp"
+                     "Images/YoninShogi/Chess/SRook+.bmp"
+                     "Images/YoninShogi/Alpha/SRook+.bmp"
+                     "Images/YoninShogi/Draw/SRook+.bmp"
+               West  "Images/YoninShogi/Kanji/WRook+.bmp"
+                     "Images/YoninShogi/Old/WRook+.bmp"
+                     "Images/YoninShogi/Chess/WRook+.bmp"
+                     "Images/YoninShogi/Alpha/WRook+.bmp"
+                     "Images/YoninShogi/Draw/WRook+.bmp"
+               North "Images/YoninShogi/Kanji/NRook+.bmp"
+                     "Images/YoninShogi/Old/NRook+.bmp"
+                     "Images/YoninShogi/Chess/NRook+.bmp"
+                     "Images/YoninShogi/Alpha/NRook+.bmp"
+                     "Images/YoninShogi/Draw/NRook+.bmp"
+               East  "Images/YoninShogi/Kanji/ERook+.bmp"
+                     "Images/YoninShogi/Old/ERook+.bmp"
+                     "Images/YoninShogi/Chess/ERook+.bmp"
+                     "Images/YoninShogi/Alpha/ERook+.bmp"
+                     "Images/YoninShogi/Draw/ERook+.bmp"
         )
         (moves (slide n)
                (slide s)
@@ -722,11 +1195,40 @@
   )
   (piece
         (name  King)
-        (image South "../Images/YoninShogi/Kanji/SKing.bmp" "../Images/YoninShogi/Old/SKing.bmp" "../Images/YoninShogi/Chess/SKing.bmp" "../Images/YoninShogi/Alpha/SKing.bmp" "../Images/YoninShogi/Draw/SKing.bmp"
-               West  "../Images/YoninShogi/Kanji/WKing.bmp" "../Images/YoninShogi/Old/WKing.bmp" "../Images/YoninShogi/Chess/WKing.bmp" "../Images/YoninShogi/Alpha/WKing.bmp" "../Images/YoninShogi/Draw/WKing.bmp"
-               North "../Images/YoninShogi/Kanji/NKing.bmp" "../Images/YoninShogi/Old/NKing.bmp" "../Images/YoninShogi/Chess/NKing.bmp" "../Images/YoninShogi/Alpha/NKing.bmp" "../Images/YoninShogi/Draw/NKing.bmp"
-               East  "../Images/YoninShogi/Kanji/EKing.bmp" "../Images/YoninShogi/Old/EKing.bmp" "../Images/YoninShogi/Chess/EKing.bmp" "../Images/YoninShogi/Alpha/EKing.bmp" "../Images/YoninShogi/Draw/EKing.bmp"
+        (description "Ôshô or Gyokushô (King General or Jewel General or King)\
+                            moves and captures one space (eight directions)\
+                            as chess King.\
+                      Ôshô must be on battlefield for any piece to capture enemies.\
+                      Ôshô only in reserve allows only drops and moves to open spaces.\
+                      If your last Ôshô is captured, you cannot play any further.\
+                      When you capture a player's last and only Ôshô,
+                      you inherit all pieces in that player's reserve."
         )
+        (image South "Images/YoninShogi/Kanji/SKing.bmp"
+                     "Images/YoninShogi/Old/SKing.bmp"
+                     "Images/YoninShogi/Chess/SKing.bmp"
+                     "Images/YoninShogi/Alpha/SKing.bmp"
+                     "Images/YoninShogi/Draw/SKing.bmp"
+               West  "Images/YoninShogi/Kanji/WKing.bmp"
+                     "Images/YoninShogi/Old/WKing.bmp"
+                     "Images/YoninShogi/Chess/WKing.bmp"
+                     "Images/YoninShogi/Alpha/WKing.bmp"
+                     "Images/YoninShogi/Draw/WKing.bmp"
+               North "Images/YoninShogi/Kanji/NKing.bmp"
+                     "Images/YoninShogi/Old/NKing.bmp"
+                     "Images/YoninShogi/Chess/NKing.bmp"
+                     "Images/YoninShogi/Alpha/NKing.bmp"
+                     "Images/YoninShogi/Draw/NKing.bmp"
+               East  "Images/YoninShogi/Kanji/EKing.bmp"
+                     "Images/YoninShogi/Old/EKing.bmp"
+                     "Images/YoninShogi/Chess/EKing.bmp"
+                     "Images/YoninShogi/Alpha/EKing.bmp"
+                     "Images/YoninShogi/Draw/EKing.bmp"
+        )
+        (attribute South false)
+        (attribute West  false)
+        (attribute North false)
+        (attribute East  false)
         (moves (leap n)
                (leap s)
                (leap w)
@@ -735,19 +1237,16 @@
                (leap ne)
                (leap sw)
                (leap se)
-               (piece-drop)
+               (king-drop)
         )
   )
 
- ;(loss-condition (South North West East) (captured   King))
- ;(loss-condition (South North West East) (checkmated King))
- ;(loss-condition (South North West East) (pieces-remaining 0 King))
   (win-condition  (South North West East) (pieces-remaining 4 King))
   (pass-turn forced)
 )
 
 (variant
-  (title "Yonin Shogi 0.0.2 fifteen men")
+  (title "Yonin Shogi 0.0.5 fifteen men")
 
   (board-setup
         ( South (King 5i)
