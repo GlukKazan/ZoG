@@ -327,7 +327,7 @@
 )
 
 (game
-  (title "Yonin Shogi 0.0.5 nine men")
+  (title "Yonin Shogi 0.0.6 nine men")
 
   (description "Yonin Shogi, is a four-person variant of shôgi (Japanese chess).\\
                 As in traditional shôgi, the Ôshô (Gyokushô or King) moves and captures as a chess King.\
@@ -385,7 +385,9 @@
                                            of king and of captured men.\
                                            Used attribute to take ownership\
                                            of all catured men when last king is captured.\
-                                           Expanded descriptions.  Added strategy.
+                                           Expanded descriptions.  Added strategy.\
+0.0.6   October        2015  Required player with no King on battlefield\
+                                           to drop King immediately.
  ")
 
   (strategy "Zillions is not strong strategically in a multiple player game.\
@@ -1246,7 +1248,7 @@
 )
 
 (variant
-  (title "Yonin Shogi 0.0.5 fifteen men")
+  (title "Yonin Shogi 0.0.6 fifteen men")
 
   (board-setup
         ( South (King 5i)
