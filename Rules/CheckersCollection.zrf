@@ -243,26 +243,6 @@
   capture
   $1
   (add-partial continuetype)
-  $1
-  (while empty?
-      (set-flag more-captures false)
-      (king-captured-find $1)
-      (king-captured-find $2)
-      (king-captured-find $3)
-      mark
-      (opposite $1)
-      (while empty?
-         (opposite $1)
-      )
-      (if enemy?
-          capture
-      )
-      back
-      (if (flag? more-captures)
-          (add-partial jumptype)
-      )
-      $1
-  )
 ))
 
 (define greek-king-continue (
@@ -276,26 +256,6 @@
   capture
   $1
   (add-partial continuetype)
-  $1
-  (while empty?
-      (set-flag more-captures false)
-      (king-captured-find $1)
-      (king-captured-find $2)
-      (king-captured-find $3)
-      mark
-      (opposite $1)
-      (while empty?
-         (opposite $1)
-      )
-      (if enemy?
-          capture
-      )
-      back
-      (if (flag? more-captures)
-          (add-partial jumptype)
-      )
-      $1
-  )
 ))
 
 (variant
@@ -312,16 +272,16 @@
      (attribute captured? false)
      (moves
         (move-type jumptype)
-           (greek-king-jump n e w)
-           (greek-king-jump e n s)
-           (greek-king-jump w n s)
-           (greek-king-jump s e w)
+           (greek-king-jump n)
+           (greek-king-jump e)
+           (greek-king-jump w)
+           (greek-king-jump s)
 
         (move-type continuetype)
-           (greek-king-continue n e w)
-           (greek-king-continue e n s)
-           (greek-king-continue w n s)
-           (greek-king-continue s e w)
+           (greek-king-continue n)
+           (greek-king-continue e)
+           (greek-king-continue w)
+           (greek-king-continue s)
 
         (move-type normaltype)
            (king-shift n)
@@ -1270,6 +1230,136 @@
   (board-setup
     (First (Checker a1 b1 c1 d1 e1 f1 g1 h1  a2 b2 c2 d2 e2 f2 g2 h2) )
     (Second (Checker a8 b8 c8 d8 e8 f8 g8 h8  a7 b7 c7 d7 e7 f7 g7 h7) )
+  )
+)
+
+(define turkthic-checker-jump (
+  $1
+  (verify enemy?)
+  capture
+  $1
+  (verify empty?)
+  (set-flag more-captures false)
+  (if (in-zone? promotion)
+      (king-captured-find $1)
+      (king-captured-find $2)
+      (king-captured-find $3)
+      (king-captured-find $4)
+      (king-captured-find $5)
+      (king-captured-find $6)
+      (king-captured-find $7)
+   else
+      (checker-captured-find $1)
+      (checker-captured-find $2)
+      (checker-captured-find $3)
+      (checker-captured-find $4)
+      (checker-captured-find $5)
+      (checker-captured-find $6)
+      (checker-captured-find $7)
+  )
+  (if (in-zone? promotion)
+      (if (flag? more-captures)
+          (add-partial King jumptype)
+       else
+          (add-partial King notype)
+      )
+   else
+      (if (flag? more-captures)
+          (add-partial jumptype)
+       else
+          (add-partial notype)
+      )
+  )
+))
+
+(define turkthic-king-jump (
+  (while (empty? $1)
+      $1
+  )
+  (verify (enemy? $1))
+  $1
+  (verify (empty? $1))
+  capture
+  $1
+  (add-partial continuetype)
+))
+
+(define turkthic-king-continue (
+  (while (empty? $1)
+      $1
+      (verify not-last-from?)
+  )
+  (verify (enemy? $1))
+  $1
+  (verify (empty? $1))
+  capture
+  $1
+  (add-partial continuetype)
+))
+
+(variant
+  (title "Turkthic Checkers (Turkish+Gothic)")
+
+  (option "maximal captures" false)
+
+  (piece
+     (name Checker)
+     (image First "../images/wiedem/CheckerWhite.bmp"
+            Second "../images/wiedem/CheckerBlack.bmp")
+     (attribute captured? false)
+     (moves
+        (move-type jumptype)
+           (turkthic-checker-jump n e w ne nw se sw)
+           (turkthic-checker-jump e n s ne nw se sw)
+           (turkthic-checker-jump w n s ne nw se sw)
+           (turkthic-checker-jump nw sw ne n e s w)
+           (turkthic-checker-jump ne nw se n e s w)
+
+        (move-type normaltype)
+           (checker-shift n)
+           (checker-shift e)
+           (checker-shift w)
+           (checker-shift nw)
+           (checker-shift ne)
+
+        (move-type notype)
+     )
+  )
+
+  (piece
+     (name King)
+     (image First "../images/wiedem/CheckerKingWhite.bmp"
+            Second "../images/wiedem/CheckerKingBlack.bmp")
+     (attribute captured? false)
+     (moves
+        (move-type jumptype)
+           (turkthic-king-jump n)
+           (turkthic-king-jump e)
+           (turkthic-king-jump w)
+           (turkthic-king-jump s)
+           (turkthic-king-jump nw)
+           (turkthic-king-jump ne)
+           (turkthic-king-jump se)
+           (turkthic-king-jump sw)
+
+        (move-type continuetype)
+           (turkthic-king-continue n)
+           (turkthic-king-continue e)
+           (turkthic-king-continue w)
+           (turkthic-king-continue s)
+           (turkthic-king-continue nw)
+           (turkthic-king-continue ne)
+           (turkthic-king-continue se)
+           (turkthic-king-continue sw)
+
+        (move-type normaltype)
+           (king-shift n) (king-shift nw)
+           (king-shift e) (king-shift ne)
+           (king-shift w) (king-shift sw)
+           (king-shift s) (king-shift se)
+
+        (move-type notype)
+     )
   )
 )
 
