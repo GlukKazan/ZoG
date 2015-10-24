@@ -1,0 +1,70 @@
+(define drop-piece (
+   (verify empty?)
+   add
+))
+
+(game
+   (title "Viruses")
+
+   (drop-sound "Audio/Pickup.wav")
+   (move-sound "Audio/Pickup.wav")
+   (release-sound "Audio/Pickup.wav")
+   (capture-sound "")
+
+   (option "prevent flipping" true)
+   (option "animate captures" false)
+   (option "animate drops"    false)
+
+   (players    Blue Green Red Yellow)
+   (turn-order Blue Blue Blue 
+               Green Green Green 
+               Red Red Red 
+               Yellow Yellow Yellow
+   )
+
+   (board
+      (image "Images/Viruses/board.bmp")
+      (grid
+         (start-rectangle 4 5 34 35)
+         (dimensions
+             ("a/b/c/d/e/f/g/h/i/j" (30 0)) ; files
+             ("10/9/8/7/6/5/4/3/2/1" (0 30)) ; ranks
+         )
+      )
+   )
+
+   (piece
+      (name Alive)
+      (image Blue   "Images/Viruses/ba.bmp"
+             Green  "Images/Viruses/ga.bmp"
+             Red    "Images/Viruses/ra.bmp"
+             Yellow "Images/Viruses/ya.bmp"
+      )
+      (drops
+         (drop-piece)
+      )
+   )
+   (piece
+      (name Dead)
+      (image Blue   "Images/Viruses/bd.bmp"
+             Green  "Images/Viruses/gd.bmp"
+             Red    "Images/Viruses/rd.bmp"
+             Yellow "Images/Viruses/yd.bmp"
+      )
+      (drops
+         (drop-piece)
+      )
+   )
+
+   ; The following dummy piece is required in order to placate the Zillions engine.
+   ; It appears as though Zillions must find at least one "moves" keyword somewhere
+   ; in the zrf in order for it to be happy and thus allow "moves" to work correctly.
+   (piece (name Dummy) (dummy) (moves (from)))
+
+   (board-setup
+      (Blue   (Alive off 10) )
+      (Green  (Alive off 10) )
+      (Red    (Alive off 10) )
+      (Yellow (Alive off 10) )
+   )
+)
