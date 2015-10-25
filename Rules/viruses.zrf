@@ -1,10 +1,7 @@
-(define drop-piece (
-   (verify empty?)
-   add
-))
-
 (game
    (title "Viruses")
+
+   (engine "../Axiom/Viruses/axiom.dll")
 
    (drop-sound "Audio/Pickup.wav")
    (move-sound "Audio/Pickup.wav")
@@ -15,15 +12,13 @@
    (option "animate captures" false)
    (option "animate drops"    false)
 
-   (players    Blue Green Red Yellow)
+   (players    Blue Red)
    (turn-order Blue Blue Blue 
-               Green Green Green 
                Red Red Red 
-               Yellow Yellow Yellow
    )
 
    (board
-      (image "Images/Viruses/board.bmp")
+      (image "../Images/Viruses/board.bmp")
       (grid
          (start-rectangle 4 5 34 35)
          (dimensions
@@ -33,26 +28,21 @@
       )
    )
 
+   (board-setup
+      (Blue   (Alive j1) )
+      (Red    (Alive a10) )
+   )
+
    (piece
       (name Alive)
-      (image Blue   "Images/Viruses/ba.bmp"
-             Green  "Images/Viruses/ga.bmp"
-             Red    "Images/Viruses/ra.bmp"
-             Yellow "Images/Viruses/ya.bmp"
-      )
-      (drops
-         (drop-piece)
+      (image Blue   "../Images/Viruses/ba.bmp"
+             Red    "../Images/Viruses/ra.bmp"
       )
    )
    (piece
       (name Dead)
-      (image Blue   "Images/Viruses/bd.bmp"
-             Green  "Images/Viruses/gd.bmp"
-             Red    "Images/Viruses/rd.bmp"
-             Yellow "Images/Viruses/yd.bmp"
-      )
-      (drops
-         (drop-piece)
+      (image Blue   "../Images/Viruses/bd.bmp"
+             Red    "../Images/Viruses/rd.bmp"
       )
    )
 
@@ -60,11 +50,4 @@
    ; It appears as though Zillions must find at least one "moves" keyword somewhere
    ; in the zrf in order for it to be happy and thus allow "moves" to work correctly.
    (piece (name Dummy) (dummy) (moves (from)))
-
-   (board-setup
-      (Blue   (Alive off 10) )
-      (Green  (Alive off 10) )
-      (Red    (Alive off 10) )
-      (Yellow (Alive off 10) )
-   )
 )

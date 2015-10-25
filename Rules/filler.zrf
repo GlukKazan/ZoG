@@ -1,0 +1,72 @@
+(game
+   (title "Filler")
+
+   (engine "../Axiom/Viruses/axiom.dll")
+
+   (drop-sound "Audio/Pickup.wav")
+   (move-sound "Audio/Pickup.wav")
+   (release-sound "Audio/Pickup.wav")
+   (capture-sound "")
+
+   (option "prevent flipping" true)
+   (option "animate captures" false)
+   (option "animate drops"    false)
+
+   (players    B R ?N)
+   (turn-order ?N ?N ?N ?N ?N ?N ?N ?N ?N ?N ?N ?N ?N ?N ?N ?N ?N ?N ?N ?N
+               ?N ?N ?N ?N ?N ?N ?N ?N ?N ?N ?N ?N ?N ?N ?N ?N ?N ?N ?N ?N
+               ?N ?N ?N ?N ?N ?N ?N ?N ?N ?N ?N ?N ?N ?N ?N ?N ?N ?N ?N ?N
+               ?N ?N ?N ?N ?N ?N ?N ?N ?N ?N ?N ?N ?N ?N ?N ?N ?N ?N ?N ?N
+               ?N ?N ?N ?N ?N ?N ?N ?N ?N ?N ?N ?N ?N ?N ?N ?N ?N ?N
+               repeat B R)
+
+   (board
+      (image "../Images/Viruses/board.bmp")
+      (grid
+         (start-rectangle 4 5 34 35)
+         (dimensions
+             ("a/b/c/d/e/f/g/h/i/j" (30 0)) ; files
+             ("10/9/8/7/6/5/4/3/2/1" (0 30)) ; ranks
+         )
+      )
+   )
+
+   (board-setup
+      (B (b j1) )
+      (R (r a10) )
+   )
+
+   (piece
+      (name r)
+      (image B  "../Images/Viruses/ra.bmp"
+             R  "../Images/Viruses/ra.bmp"
+             ?N "../Images/Viruses/rd.bmp"
+      )
+   )
+   (piece
+      (name b)
+      (image B  "../Images/Viruses/ba.bmp"
+             R  "../Images/Viruses/ba.bmp"
+             ?N "../Images/Viruses/bd.bmp"
+      )
+   )
+   (piece
+      (name g)
+      (image B  "../Images/Viruses/ga.bmp"
+             R  "../Images/Viruses/ga.bmp"
+             ?N "../Images/Viruses/gd.bmp"
+      )
+   )
+   (piece
+      (name y)
+      (image B  "../Images/Viruses/ya.bmp"
+             R  "../Images/Viruses/ya.bmp"
+             ?N "../Images/Viruses/yd.bmp"
+      )
+   )
+
+   ; The following dummy piece is required in order to placate the Zillions engine.
+   ; It appears as though Zillions must find at least one "moves" keyword somewhere
+   ; in the zrf in order for it to be happy and thus allow "moves" to work correctly.
+   (piece (name Dummy) (dummy) (moves (from)))
+)
