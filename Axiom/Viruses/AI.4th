@@ -8,7 +8,7 @@
 
 : Mobility ( -- mobilityScore )
 	move-count
-	current-player TRUE $GenerateMoves
+	current-player TRUE 0 $GenerateMoves
 	move-count -
 	$DeallocateMoves
 ;

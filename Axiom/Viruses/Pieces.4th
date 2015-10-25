@@ -66,7 +66,7 @@ DEFER	ALIVE
 ;
 
 : drop-dead ( -- )
-	enemy? piece ALIVE = AND verify
+	enemy? piece-type ALIVE = AND verify
 	drop
 	check-neighbors
 	add-move
