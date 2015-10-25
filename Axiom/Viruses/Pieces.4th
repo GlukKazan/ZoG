@@ -16,7 +16,7 @@ DEFER	ALIVE
 			ENDIF
 		ENDIF
 	UNTIL DROP
-	pieces-count @ TOTAL AND < IF
+	pieces-count @ TOTAL < AND IF
 		here pieces-count @ pieces[] !
 		pieces-count ++
 	ENDIF
@@ -46,11 +46,11 @@ DEFER	ALIVE
 		DUP pieces-count @ >= IF
 			TRUE
 		ELSE
-			DUP piece-at ALIVE = IF
+			DUP pieces[] @ piece-type-at ALIVE = IF
 				SWAP DROP TRUE SWAP
 				TRUE
 			ELSE
-				DUP to visit-neighbors
+				DUP pieces[] @ to visit-neighbors
 				1+ FALSE
 			ENDIF
 		ENDIF
