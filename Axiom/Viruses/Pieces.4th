@@ -8,7 +8,7 @@ DEFER	ALIVE
 		DUP pieces-count @ >= IF
 			TRUE
 		ELSE
-			DUP here = IF
+			DUP pieces[] @ here = IF
 				SWAP DROP FALSE SWAP
 				TRUE
 			ELSE
@@ -23,8 +23,8 @@ DEFER	ALIVE
 ;
 
 : visit-neigbor ( 'dir -- )
-	EXECUTE friend? AND IF
-		add-to-pieces
+	EXECUTE IF
+		friend? IF add-to-pieces ENDIF
 	ENDIF
 ;
 
@@ -46,11 +46,11 @@ DEFER	ALIVE
 		DUP pieces-count @ >= IF
 			TRUE
 		ELSE
-			DUP pieces[] @ piece-type-at ALIVE = IF
+			DUP pieces[] @ to visit-neighbors
+			piece-type ALIVE = IF
 				SWAP DROP TRUE SWAP
 				TRUE
 			ELSE
-				DUP pieces[] @ to visit-neighbors
 				1+ FALSE
 			ENDIF
 		ENDIF
