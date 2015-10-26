@@ -17,3 +17,7 @@
 	Mobility MOBILITY-WEIGHT *
 	current-player material-balance BALANCE-WEIGHT * +
 ;
+
+: OnNewGame ( -- )
+	RANDOMIZE
+;

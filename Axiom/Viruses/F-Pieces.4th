@@ -2,6 +2,8 @@ VARIABLE	current-color
 TOTAL []	pieces[]
 VARIABLE	pieces-count
 
+DEFER		INITP
+
 : add-to-pieces ( -- )
 	TRUE 0 BEGIN
 		DUP pieces-count @ >= IF
@@ -23,7 +25,7 @@ VARIABLE	pieces-count
 
 : visit-neigbor ( -- )
 	EXECUTE IF
-		player ? N = piece-type current-color = AND friend? OR IF
+		player ?N = piece-type current-color = AND friend? OR IF
 			add-to-pieces
 		ENDIF
 	ENDIF
@@ -68,11 +70,27 @@ VARIABLE	pieces-count
 	add-move
 ;
 
-: init-piece ( -- )
+: init-pieces ( -- )
+	10 pieces-count !
 	current-player ?N = verify
 	empty? verify
 	drop
+	0 BEGIN
+		DUP empty-at? OVER here <> AND IF
+			pieces-count --
+			pieces-count @ 0> IF
+				0 3 RAND-WITHIN
+				INITP +
+				OVER create-piece-type-at
+			ENDIF
+		ENDIF
+		1+ DUP TOTAL >=
+	UNTIL DROP
 	add-move
+;
+
+: OnNewGame ( -- )
+	RANDOMIZE
 ;
 
 {move-priorities
@@ -81,14 +99,19 @@ VARIABLE	pieces-count
 move-priorities}
 
 {moves drop-pieces
-	{move} init-piece  {move-type} normal-type
+	{move} init-pieces {move-type} normal-type
 	{move} drop-piece  {move-type} normal-type
 	{move} Pass	   {move-type} pass-type
 moves}
 
 {pieces
-	{piece}		r	{drops} drop-pieces
+	{piece}	r {drops} drop-pieces
+	{piece}	b {drops} drop-pieces
+	{piece}	g {drops} drop-pieces
+	{piece}	y {drops} drop-pieces
 pieces}
+
+' r	IS INITP
 
 {board-setup
 	{setup}	B 	b j1
