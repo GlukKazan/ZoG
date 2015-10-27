@@ -11,6 +11,7 @@
    (option "prevent flipping" true)
    (option "animate captures" false)
    (option "animate drops"    false)
+   (option "pass turn"        true)
 
    (players    B R ?N)
    (turn-order ?N ?N ?N ?N ?N ?N ?N ?N ?N ?N repeat B R)

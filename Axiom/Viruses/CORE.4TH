@@ -86,6 +86,10 @@
 	ENDIF
 ; IMMEDIATE
 
+: "APPEND ( str1 str2 -- )
+	DUP "COUNT + "MOVE
+;
+
 \ Compiler
 : [COMPILE]  ( Compiles an IMMEDIATE word. )
 	STATE @

@@ -1,15 +1,24 @@
 VARIABLE	current-color
+VARIABLE	result
 TOTAL []	pieces[]
 VARIABLE	pieces-count
 
 DEFER		INITP
+
+: passed++ ( -- )
+	passed ++
+;
+
+: clear-passed ( -- )
+	0 passed !
+;
 
 : add-to-pieces ( -- )
 	TRUE 0 BEGIN
 		DUP pieces-count @ >= IF
 			TRUE
 		ELSE
-			DUP here = IF
+			DUP pieces[] @ here = IF
 				SWAP DROP FALSE SWAP
 				TRUE
 			ELSE
@@ -17,43 +26,46 @@ DEFER		INITP
 			ENDIF
 		ENDIF
 	UNTIL DROP
-	pieces-count @ TOTAL AND < IF
+	pieces-count @ TOTAL < AND IF
 		here pieces-count @ pieces[] !
 		pieces-count ++
 	ENDIF
 ;
 
-: visit-neigbor ( -- )
+: visit-neighbor ( -- )
 	EXECUTE IF
-		player ?N = piece-type current-color = AND friend? OR IF
+		player ?N = piece-type current-color @ = AND friend? OR IF
 			add-to-pieces
 		ENDIF
 	ENDIF
 ;
 
-: visit-neigbors ( -- )
-	here ['] n  visit-neigbor to
-	here ['] s  visit-neigbor to
-	here ['] w  visit-neigbor to
-	here ['] e  visit-neigbor to
+: visit-neighbors ( -- )
+	here ['] n  visit-neighbor to
+	here ['] s  visit-neighbor to
+	here ['] w  visit-neighbor to
+	here ['] e  visit-neighbor to
 ;
 
 : change-color ( -- )
-	0 pieces[] to visit-neigbors
+	FALSE result !
+	0 pieces[] @ to visit-neighbors
 	1 BEGIN
 		DUP pieces-count @ >= IF
 			TRUE
 		ELSE
-			DUP pieces[] @ to
+			DUP pieces[] @ to visit-neighbors
 			player ?N = IF
 				create
 			ENDIF
-			friend? piece-type current-color <> AND IF
-				current-color change-type
+			friend? IF
+				TRUE result !
+				current-color @ change-type
 			ENDIF
 			1+ FALSE
 		ENDIF
 	UNTIL DROP
+	result @ verify
 ;
 
 : drop-piece ( -- )
@@ -64,6 +76,7 @@ DEFER		INITP
 	piece-type-at piece-type <> verify
 	piece-type current-color !
 	drop
+	COMPILE clear-passed
 	0 pieces-count !
 	add-to-pieces
 	change-color
@@ -89,7 +102,13 @@ DEFER		INITP
 	add-move
 ;
 
+: pass-move ( -- )
+	COMPILE passed++
+	Pass
+;
+
 : OnNewGame ( -- )
+	COMPILE clear-passed
 	RANDOMIZE
 ;
 
@@ -101,7 +120,7 @@ move-priorities}
 {moves drop-pieces
 	{move} init-pieces {move-type} normal-type
 	{move} drop-piece  {move-type} normal-type
-	{move} Pass	   {move-type} pass-type
+	{move} pass-move   {move-type} pass-type
 moves}
 
 {pieces

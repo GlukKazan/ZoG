@@ -5,7 +5,7 @@
 * by                          *
 *	Greg Schmidt          *
 *                             *
-* Copyright {c} 2010          *
+* Copyright {c} 2013          *
 *******************************
 )
 
@@ -14,11 +14,11 @@
 * System constants *
 ********************
 )
-150 CONSTANT #Version		\ Axiom version number.
+151 CONSTANT #Version		\ Axiom version number.
 128 CONSTANT #Directions	\ Maximum number of directions.
 128 CONSTANT #Moves		\ Maximum number of moves within a {moves ... moves} block.
 128 CONSTANT #MaxPriorities	\ Maximum number of move priorities.
-128 CONSTANT #Turns		\ Maximum number of turns.
+256 CONSTANT #Turns		\ Maximum number of turns.
 
 \ Search depth control
 3  CONSTANT #DepthLimit		\ Maximum number of plys searched.
@@ -137,6 +137,7 @@ VARIABLE $rootMoveIndex		\ The index of the root level move currently being sear
 VARIABLE $searchStatus		\ Controls the search.
 TIMER    $searchTimer		\ Internal search timer.
 VARIABLE $searching		\ TRUE during a search.
+VARIABLE $playerToMove		\ Player for which the search is being performed.
 
 \ Move Application - OnMakeAMove
 VARIABLE $moveAddr		\ The address of the move being applied.
@@ -415,14 +416,56 @@ DEFER $RAND-WITHIN
 
 \ Search engine invocation event
 : OnSearch
-	$searching ON
 	$engines @ $playerOffset @ + @ EXECUTE \ Invoke the search engine defined for this player.
-	$searching OFF
 ;
 
 \ Returns TRUE during a search
 : searching? ( -- ? )
 	$searching @
+;
+
+\ Player for which the search is being performed.
+: player-to-move ( --- playerToMove)
+	$playerToMove @
+;
+
+(
+***********
+* Zobrist *
+***********
+
+A Zobrist table is created for each piece x player x position combination.
+)
+
+: $MakeZobristTable ( n -- )
+	0
+	DO
+		HERE $Rand64!
+		[ 2 CELLS ] LITERAL ALLOT
+	LOOP
+;
+
+: $GeneratePiecePositionHash ( -- )
+	HERE $zobrist !
+
+	$pieceCount @ $playerCount @ *
+	0
+	DO
+		$positions @ $MakeZobristTable
+	LOOP
+;
+
+: $GeneratePlayerToMoveHash ( -- )
+	HERE $playerToMoveHash !
+	$playerCount @ $MakeZobristTable
+;
+
+: $GenerateZobristTables ( -- )
+	$zobrist @ 0= ( Don't regenerate when more than one {pieces ... pieces} block occurs. )
+	IF
+		$GeneratePiecePositionHash
+		$GeneratePlayerToMoveHash
+	ENDIF
 ;
 
 (
@@ -505,6 +548,11 @@ players here must match the zrf.
 	HERE $evals !
 	$playerCount @ CELLS ALLOT
 	$ClearEvals
+
+	$pieceCount @ 0>
+	IF
+		$GenerateZobristTables
+	ENDIF
 ;
 
 : player-index ( player -- 0BasedIndex )
@@ -531,7 +579,7 @@ turn order here must be equivalent to the zrf.
 : {turn-order
 	0 $repeatOffset !
 	HERE DUP $turnOrder !
-	#Turns CELLS ALLOT
+	[ #Turns #TurnOrderCells * ] LITERAL CELLS ALLOT
 ;
 
 : {turn}
@@ -849,43 +897,15 @@ given type.
 	OVER CELLSIZE - !
 ;
 
-\ A Zobrist table is created for each piece x player x position combination.
-: $MakeZobristTable ( n -- )
-	0
-	DO
-		HERE $Rand64!
-		[ 2 CELLS ] LITERAL ALLOT
-	LOOP
-;
-
-: $GeneratePiecePositionHash ( -- )
-	HERE $zobrist !
-
-	$pieceCount @ $playerCount @ *
-	0
-	DO
-		$positions @ $MakeZobristTable
-	LOOP
-;
-
-: $GeneratePlayerToMoveHash ( -- )
-	HERE $playerToMoveHash !
-	$playerCount @ $MakeZobristTable
-;
-
-: $GenerateZobristTables ( -- )
-	$zobrist @ 0= ( Don't regenerate when more than one {pieces ... pieces} block occurs. )
-	IF
-		$GeneratePiecePositionHash
-		$GeneratePlayerToMoveHash
-	ENDIF
-;
-
 : pieces}
 	DROP
 	$pieceCount @ 0= ABORT" Error: No pieces defined."
-	$GenerateZobristTables
 	$scanPieceCount @ 0= IF $pieceCount @ $scanPieceCount ! ENDIF
+
+	$playerCount @ 0>
+	IF
+		$GenerateZobristTables
+	ENDIF
 ;
 
 : piece-index ( piece -- 0BasedIndex )
@@ -1276,7 +1296,7 @@ VARIABLE _amount-in-reserve
 		DUP
 	WHILE
 		ASCII [ EMIT
-		DUP CELLSIZE + @ TYPE
+		DUP $MoveString TYPE
 		ASCII ] EMIT CR
 		$NextMove
 	REPEAT
