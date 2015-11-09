@@ -1709,6 +1709,7 @@
   (history  "Traditional game.")
 
   (option "maximal captures" 2)
+  (move-priorities prioritytype jumptype normaltype)
 
   (board
     (image "../images/sultan/italian.bmp" "../images/wiedem/italian.bmp")
@@ -1753,7 +1754,7 @@
      (image First "../images/wiedem/CheckerKingBlack.bmp"
             Second "../images/wiedem/CheckerKingWhite.bmp")
      (moves
-        (move-type jumptype)
+        (move-type prioritytype)
            (damone-jump nw)
            (damone-jump ne)
            (damone-jump sw)
