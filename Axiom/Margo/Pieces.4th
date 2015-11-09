@@ -223,33 +223,43 @@ DEFER	sw-piece
 
 : down ( -- ? ) ['] down-internal wrap-direction ;
 
+: get-height ( -- n )
+	here
+	1 BEGIN
+		up NOT empty? OR IF
+			TRUE
+		ELSE
+			1+
+			FALSE
+		ENDIF
+	UNTIL SWAP to
+;
+
 : common-internal ( 'dir -- ? )
 	here is-plane? IF
-		BEGIN d NOT empty? OR UNTIL
-		empty? IF
-			EXECUTE IF
-				empty? IF
-					BEGIN u NOT UNTIL
-				ENDIF
-				TRUE
+		get-height SWAP EXECUTE IF
+			get-height -
+			DUP 0= IF
+				DROP TRUE
 			ELSE
-				FALSE
+				0> IF
+					FALSE
+				ELSE
+					BEGIN up NOT UNTIL
+					TRUE
+				ENDIF			
 			ENDIF
 		ELSE
-			EXECUTE empty? NOT AND IF
-				BEGIN u NOT UNTIL
-				TRUE
-			ELSE
-				FALSE
-			ENDIF
+			DROP FALSE
 		ENDIF
 	ELSE
-		EXECUTE 
-		DUP empty? AND IF
-			BEGIN u NOT UNTIL
+		here OVER EXECUTE NOT empty? OR IF
+			to BEGIN up NOT UNTIL
+			EXECUTE
+		ELSE
+			2DROP TRUE
 		ENDIF
 	ENDIF
-	empty? NOT AND
 ;
 
 : north-internal ( -- ? ) ['] n common-internal ;
@@ -497,17 +507,9 @@ DEFER	sw-piece
 : drop-m ( -- )
 	here a1 = verify
 	drop
-	['] my-enemy?
-	init-alive
-        proceed-alive
-	check-zombies
-        capture-all
+	['] my-enemy? init-alive proceed-alive check-zombies capture-all
 	captured-tiles @ 0= IF
-		['] my-friend?
-		init-alive
-	        proceed-alive
-		check-zombies
-		capture-all
+		['] my-friend? init-alive proceed-alive check-zombies capture-all
 		captured-tiles @ NEGATE
 		update-variables
 	ELSE

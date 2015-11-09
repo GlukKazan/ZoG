@@ -146,7 +146,6 @@
 
 (variant
    (title "Lesson 2")
-   (default)
    (board
       (image "../images/margo/4x4.bmp")
       (grid
