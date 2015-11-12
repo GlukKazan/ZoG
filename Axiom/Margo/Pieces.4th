@@ -359,6 +359,61 @@ DEFER	sw-piece
 	ENDIF
 ;
 
+: proceed-zombies ( 'op -- )
+	BEGIN
+		down IF
+			DUP EXECUTE not-alive? AND IF
+				add-zombies
+				here
+				piece-type nw-piece equal-types? IF
+					south IF
+						add-zombies 
+						DUP to
+					ENDIF
+					east IF
+						add-zombies 
+						DUP to
+					ENDIF
+				ENDIF
+				piece-type ne-piece equal-types? IF
+					south IF
+						add-zombies 
+						DUP to
+					ENDIF
+					west IF
+						add-zombies 
+						DUP to
+					ENDIF
+				ENDIF
+				piece-type sw-piece equal-types? IF
+					north IF
+						add-zombies 
+						DUP to
+					ENDIF
+					east IF
+						add-zombies 
+						DUP to
+					ENDIF
+				ENDIF
+				piece-type se-piece equal-types? IF
+					north IF
+						add-zombies 
+						DUP to
+					ENDIF
+					west IF
+						add-zombies 
+						DUP to
+					ENDIF
+				ENDIF
+				DROP
+			ENDIF
+			FALSE
+		ELSE
+			TRUE
+		ENDIF
+	UNTIL DROP
+;
+
 : check-zombies ( 'op -- 'op )
 	0 zombies-count !
 	0 BEGIN
@@ -371,54 +426,9 @@ DEFER	sw-piece
 					down NOT
 				ENDIF
 			UNTIL
-			BEGIN
-				OVER EXECUTE not-alive? AND IF
-					add-zombies
-					here
-					piece-type nw-piece equal-types? IF
-						south IF
-							add-zombies 
-							DUP to
-						ENDIF
-						east IF
-							add-zombies 
-							DUP to
-						ENDIF
-					ENDIF
-					piece-type ne-piece equal-types? IF
-						south IF
-							add-zombies 
-							DUP to
-						ENDIF
-						west IF
-							add-zombies 
-							DUP to
-						ENDIF
-					ENDIF
-					piece-type sw-piece equal-types? IF
-						north IF
-							add-zombies 
-							DUP to
-						ENDIF
-						east IF
-							add-zombies 
-							DUP to
-						ENDIF
-					ENDIF
-					piece-type se-piece equal-types? IF
-						north IF
-							add-zombies 
-							DUP to
-						ENDIF
-						west IF
-							add-zombies 
-							DUP to
-						ENDIF
-					ENDIF
-					DROP
-				ENDIF
-				down NOT
-			UNTIL
+			OVER EXECUTE NOT not-alive? NOT OR IF
+				OVER proceed-zombies
+			ENDIF
 		ENDIF
 		1+ DUP PLANE >=
 	UNTIL DROP
