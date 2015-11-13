@@ -128,6 +128,7 @@
 
 (variant
    (title "Lesson 1")
+   (description "Atari")
    (board
       (image "../images/margo/9x9.bmp")
       (grid
@@ -146,6 +147,7 @@
 
 (variant
    (title "Lesson 2")
+   (description "Zombie")
    (board
       (image "../images/margo/4x4.bmp")
       (grid
@@ -159,5 +161,44 @@
    (board-setup
       (W (tw a16 c16 g16 a14) (ww b15) (zw g7) (tn b16 d16 h16 h14) (wn c15) (zn b7) (te d15 h15 h13 b13) (be c14) (ze b8) (ts a15 a13 g13) (ws b14) (zs c8 g8) )
       (B (tw e16 e14) (bw f15) (zw c7) (tn f16 d14) (wn g15) (zn f7) (te d13 f13) (we g14) (ze f8) (ts e15 c13 e13) (bs f14) )
+   )
+)
+
+(variant
+   (title "Lesson 3")
+   (description "Bridge cutting")
+   (default)
+   (board
+      (image "../images/margo/4x4.bmp")
+      (grid
+         (start-rectangle 30 30 59 59)
+         (dimensions
+             ("a/b/c/d/e/f/g/h" (30 0)) ; files
+             ("20/19/18/17/16/15/14/13/12/11/10/9/8/7/6/5/4/3/2/1" (0 30)) ; ranks
+         )
+      )
+   )
+   (board-setup
+      (W (tw a18 c18 e18 a14 c14 e14) (tn b18 d18 f18 b14 d14 f14) (ts a17 c17 a13 c13 e13) (te b17 f17 b13 d13 f13) (ww d17) (wn e17) (bs d16) (be e16) (ze d10) (zs e10) )
+      (B (tw a16 c16 g16) (tn b16 f16 h16) (ts a15 c15 e15 g15) (te b15 d15 f15 h15) (zn d9) (zw e9) )
+   )
+)
+
+(variant
+   (title "Lesson 4")
+   (description "Virtual group")
+   (board
+      (image "../images/margo/4x4.bmp")
+      (grid
+         (start-rectangle 30 30 59 59)
+         (dimensions
+             ("a/b/c/d/e/f/g/h" (30 0)) ; files
+             ("20/19/18/17/16/15/14/13/12/11/10/9/8/7/6/5/4/3/2/1" (0 30)) ; ranks
+         )
+      )
+   )
+   (board-setup
+      (W  (tw a18 c18 a14 a16) (tn b18 d18 d14) (te d17 b13 d13) (ts a13 c13 a17 a15) (ww b15) (bn c15) (we c14) (ws b14) (ze b10 b8) (zs c10) (zw c7) (zn b7 b9) )
+      (B  (tw e18 g16 e14) (tn f18 h16 f14 d16) (te d15 f17 h15 f13) (ts e17 g15 e13) (ww b17) (wn c17) (be c16) (ws b16) (zw c9) (zs c8) )
    )
 )

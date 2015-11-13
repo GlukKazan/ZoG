@@ -359,55 +359,52 @@ DEFER	sw-piece
 	ENDIF
 ;
 
-: proceed-zombies ( 'op -- )
-	BEGIN
-		down IF
-			DUP EXECUTE not-alive? AND IF
-				add-zombies
-				here
-				piece-type nw-piece equal-types? IF
-					south IF
-						add-zombies 
-						DUP to
-					ENDIF
-					east IF
-						add-zombies 
-						DUP to
-					ENDIF
+: proceed-zombies ( -- )
+	0 BEGIN
+		DUP zombies-count @ < IF
+			DUP zombies[] @ DUP to
+			piece-type nw-piece equal-types? IF
+				south IF
+					add-zombies 
+					DUP to
 				ENDIF
-				piece-type ne-piece equal-types? IF
-					south IF
-						add-zombies 
-						DUP to
-					ENDIF
-					west IF
-						add-zombies 
-						DUP to
-					ENDIF
+				east IF
+					add-zombies 
+					DUP to
 				ENDIF
-				piece-type sw-piece equal-types? IF
-					north IF
-						add-zombies 
-						DUP to
-					ENDIF
-					east IF
-						add-zombies 
-						DUP to
-					ENDIF
-				ENDIF
-				piece-type se-piece equal-types? IF
-					north IF
-						add-zombies 
-						DUP to
-					ENDIF
-					west IF
-						add-zombies 
-						DUP to
-					ENDIF
-				ENDIF
-				DROP
 			ENDIF
-			FALSE
+			piece-type ne-piece equal-types? IF
+				south IF
+					add-zombies 
+					DUP to
+				ENDIF
+				west IF
+					add-zombies 
+					DUP to
+				ENDIF
+			ENDIF
+			piece-type sw-piece equal-types? IF
+				north IF
+					add-zombies 
+					DUP to
+				ENDIF
+				east IF
+					add-zombies 
+					DUP to
+				ENDIF
+			ENDIF
+			piece-type se-piece equal-types? IF
+				north IF
+					add-zombies 
+					DUP to
+				ENDIF
+				west IF
+					add-zombies 
+					DUP to
+				ENDIF
+			ENDIF
+			DROP
+			1+ FALSE
 		ELSE
 			TRUE
 		ENDIF
@@ -427,11 +424,21 @@ DEFER	sw-piece
 				ENDIF
 			UNTIL
 			OVER EXECUTE NOT not-alive? NOT OR IF
-				OVER proceed-zombies
+				BEGIN
+					down IF
+						OVER EXECUTE not-alive? AND IF
+							add-zombies
+						ENDIF
+						FALSE
+					ELSE
+						TRUE
+					ENDIF
+				UNTIL
 			ENDIF
 		ENDIF
 		1+ DUP PLANE >=
 	UNTIL DROP
+	proceed-zombies
 ;
 
 : capture-column ( 'op -- ? )
@@ -456,7 +463,7 @@ DEFER	sw-piece
 	0 BEGIN
 		DUP to
 		empty? NOT IF
-			OVER EXECUTE not-alive? AND IF
+			OVER EXECUTE not-alive? AND not-zombies? AND IF
 				captured-tiles ++
 				down IF
 					OVER capture-column IF
