@@ -559,10 +559,10 @@
      (attribute captured? false)
      (moves
         (move-type jumptype)
-           (int-checker-jump n e w)
-           (int-checker-jump e n s)
-           (int-checker-jump w n s)
-           (int-checker-jump s e w)
+           (international-checker-jump n e w)
+           (international-checker-jump e n s)
+           (international-checker-jump w n s)
+           (international-checker-jump s e w)
 
         (move-type normaltype)
            (checker-shift n)
@@ -579,10 +579,10 @@
      (attribute captured? false)
      (moves
         (move-type jumptype)
-           (hzdm-king-jump n e w)
-           (hzdm-king-jump e n s)
-           (hzdm-king-jump w n s)
-           (hzdm-king-jump s e w)
+           (long-king-jump n e w)
+           (long-king-jump e n s)
+           (long-king-jump w n s)
+           (long-king-jump s e w)
 
         (move-type normaltype)
            (king-shift n)
@@ -702,24 +702,11 @@
   )
 ))
 
-(define king-captured-find
-   mark
-   (while (and (on-board? $1) (empty? $1))
-      $1
-   )
-   (if (on-board? $1)  
-      $1    
-      (if (and enemy? (empty? $1) (not captured?)) 
-          (set-flag more-captures true)
-      )
-   )
-   back
-)
-
 (define long-king-jump (
   (verify (not captured?))    
   (while (or (empty? $1) captured?)
       $1
+      (verify not-last-from?)
   )
   (verify (enemy? $1))
   $1
@@ -1945,8 +1932,7 @@
       (opposite $1)
       (markit)
       $1
-  )
-  (if (not (flag? more-captures))
+   else
       (opposite $1) 
       (if enemy?
           capture
@@ -2027,10 +2013,10 @@
      (attribute captured? false)
      (moves
         (move-type jumptype)
-           (int-checker-jump nw sw ne)
-           (int-checker-jump ne se nw)
-           (int-checker-jump sw se nw)
-           (int-checker-jump se ne sw)
+           (international-checker-jump nw sw ne)
+           (international-checker-jump ne se nw)
+           (international-checker-jump sw se nw)
+           (international-checker-jump se ne sw)
 
         (move-type normaltype)
            (checker-shift nw)
@@ -2047,10 +2033,10 @@
      (attribute captured? false)
      (moves
         (move-type jumptype)
-           (lng-king-jump nw sw ne)
-           (lng-king-jump ne se nw)
-           (lng-king-jump sw se nw)
-           (lng-king-jump se ne sw)
+           (long-king-jump nw sw ne)
+           (long-king-jump ne se nw)
+           (long-king-jump sw se nw)
+           (long-king-jump se ne sw)
 
         (move-type normaltype)
            (king-shift ne)
@@ -2511,17 +2497,6 @@
      )
   )
   back
-)
-
-(define checker-captured-find
-   mark
-   (if (on-board? $1)  
-      $1    
-      (if (and enemy? (empty? $1)) 
-          (set-flag more-captures true)
-      )
-   )
-   back
 )
 
 (define king-captured-find
