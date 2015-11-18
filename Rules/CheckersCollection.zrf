@@ -299,7 +299,7 @@
   (description "")
   (history  "Variant of the traditional game.")
 
-  (option "maximal captures" false)
+  (option "maximal captures" true)
 
   (piece
      (name King)
@@ -2513,6 +2513,31 @@
   back
 )
 
+(define damii-checker-captured-find
+   mark
+   (if (on-board? $1)  
+      $1    
+      (if (and enemy? (empty? $1)) 
+          (set-flag more-captures true)
+      )
+   )
+   back
+)
+
+(define damii-king-captured-find
+   mark
+   (while (and (on-board? $1) (empty? $1))
+      $1
+   )
+   (if (on-board? $1)  
+      $1    
+      (if (and enemy? (empty? $1)) 
+          (set-flag more-captures true)
+      )
+   )
+   back
+)
+
 (define king-jump-1 (
   (check-lock)
   (set-position-flag from? true)
@@ -2528,9 +2553,9 @@
   (clear-huffs)
   (clear-lock)
   (set-flag more-captures false)
-  (king-captured-find $1)
-  (king-captured-find $2)
-  (king-captured-find $3)
+  (damii-king-captured-find $1)
+  (damii-king-captured-find $2)
+  (damii-king-captured-find $3)
   (if (flag? more-captures)
       (set-attribute is-huff? true)
       (add-partial jumptype)
@@ -2558,9 +2583,9 @@
   (clear-huffs)
   (clear-lock)
   (set-flag more-captures false)
-  (king-captured-find $1)
-  (king-captured-find $2)
-  (king-captured-find $3)
+  (damii-king-captured-find $1)
+  (damii-king-captured-find $2)
+  (damii-king-captured-find $3)
   (if (flag? more-captures)
       (set-attribute is-huff? true)
       (add-partial jumptype)
@@ -2590,9 +2615,9 @@
   (clear-huffs)
   (clear-lock)
   (set-flag more-captures false)
-  (king-captured-find $1)
-  (king-captured-find $2)
-  (king-captured-find $3)
+  (damii-king-captured-find $1)
+  (damii-king-captured-find $2)
+  (damii-king-captured-find $3)
   (if (flag? more-captures)
       (set-attribute is-huff? true)
       (add-partial jumptype)
@@ -2624,9 +2649,9 @@
   (clear-huffs)
   (clear-lock)
   (set-flag more-captures false)
-  (king-captured-find $1)
-  (king-captured-find $2)
-  (king-captured-find $3)
+  (damii-king-captured-find $1)
+  (damii-king-captured-find $2)
+  (damii-king-captured-find $3)
   (if (flag? more-captures)
       (set-attribute is-huff? true)
       (add-partial jumptype)
@@ -2660,9 +2685,9 @@
   (clear-huffs)
   (clear-lock)
   (set-flag more-captures false)
-  (king-captured-find $1)
-  (king-captured-find $2)
-  (king-captured-find $3)
+  (damii-king-captured-find $1)
+  (damii-king-captured-find $2)
+  (damii-king-captured-find $3)
   (if (flag? more-captures)
       (set-attribute is-huff? true)
       (add-partial jumptype)
@@ -2698,9 +2723,9 @@
   (clear-huffs)
   (clear-lock)
   (set-flag more-captures false)
-  (king-captured-find $1)
-  (king-captured-find $2)
-  (king-captured-find $3)
+  (damii-king-captured-find $1)
+  (damii-king-captured-find $2)
+  (damii-king-captured-find $3)
   (if (flag? more-captures)
       (set-attribute is-huff? true)
       (add-partial jumptype)
@@ -2738,9 +2763,9 @@
   (clear-huffs)
   (clear-lock)
   (set-flag more-captures false)
-  (king-captured-find $1)
-  (king-captured-find $2)
-  (king-captured-find $3)
+  (damii-king-captured-find $1)
+  (damii-king-captured-find $2)
+  (damii-king-captured-find $3)
   (if (flag? more-captures)
       (set-attribute is-huff? true)
       (add-partial jumptype)
@@ -2780,9 +2805,9 @@
   (clear-huffs)
   (clear-lock)
   (set-flag more-captures false)
-  (king-captured-find $1)
-  (king-captured-find $2)
-  (king-captured-find $3)
+  (damii-king-captured-find $1)
+  (damii-king-captured-find $2)
+  (damii-king-captured-find $3)
   (if (flag? more-captures)
       (set-attribute is-huff? true)
       (add-partial jumptype)
@@ -2967,9 +2992,9 @@
   (clear-huffs)
   (clear-lock)
   (set-flag more-captures false)
-  (checker-captured-find $1)
-  (checker-captured-find $2)
-  (checker-captured-find $3)
+  (damii-checker-captured-find $1)
+  (damii-checker-captured-find $2)
+  (damii-checker-captured-find $3)
   (if (flag? more-captures)
       (set-attribute is-huff? true)
    else
@@ -3266,16 +3291,16 @@
      (attribute captured? false)
      (moves
         (move-type jumptype)
-           (king-jump nw)
-           (king-jump ne)
-           (king-jump sw)
-           (king-jump se)
+           (long-king-jump nw sw ne)
+           (long-king-jump ne se nw)
+           (long-king-jump sw se nw)
+           (long-king-jump se ne sw)
 
         (move-type continuetype)
-           (king-jump nw)
-           (king-jump ne)
-           (king-jump sw)
-           (king-jump se)
+           (long-king-jump nw sw ne)
+           (long-king-jump ne se nw)
+           (long-king-jump sw se nw)
+           (long-king-jump se ne sw)
 
         (move-type normaltype)
            (king-shift ne)
@@ -3294,6 +3319,48 @@
 )
 
 (define frisian-checker-jump (
+  (verify (not captured?))    
+  $1
+  (verify enemy?)
+  (verify (not captured?))
+  $1
+  (verify empty?)
+  (set-flag more-captures false)
+  (checker-captured-find $1)
+  (checker-captured-find $2)
+  (checker-captured-find $3)
+  (checker-captured-find $4)
+  (checker-captured-find $5)
+  (checker-captured-find $6)
+  (checker-captured-find $7)
+  (if (flag? more-captures)
+      (opposite $1)
+      (markit)
+      $1
+   else
+      (opposite $1) 
+      (if enemy?
+          capture
+      )
+      $1
+      (capture-all)
+  )
+  (if (in-zone? promotion)
+      (if (flag? more-captures)
+          (add-partial jumptype)
+       else
+          (add-partial King notype)
+      )
+   else
+      (if (flag? more-captures)
+          (add-partial jumptype)
+       else
+          (add-partial notype)
+      )
+  )
+))
+
+(define fris-checker-jump (
   $1
   (verify enemy?)
   capture
@@ -3323,6 +3390,53 @@
 ))
 
 (define frisian-king-jump (
+  (verify (not captured?))    
+  (while (or (empty? $1) captured?)
+      $1
+      (verify not-last-from?)
+  )
+  (verify (enemy? $1))
+  $1
+  (verify (not captured?))    
+  (verify (empty? $1))
+  $1
+  (while empty?
+      (set-flag more-captures false)
+      (king-captured-find $1)
+      (king-captured-find $2)
+      (king-captured-find $3)
+      (king-captured-find $4)
+      (king-captured-find $5)
+      (king-captured-find $6)
+      (king-captured-find $7)
+      mark
+      (while empty? 
+          (opposite $1)
+      ) 
+      (if (flag? more-captures)
+          (markit)
+      )
+      back
+      (if (flag? more-captures)
+          (add-partial jumptype)
+       else
+          mark
+          (opposite $1)
+          (while empty?
+             (opposite $1)
+          )
+          (if enemy?
+              capture
+          )
+          back
+          (capture-all)
+          (add-partial notype)
+      )
+      $1
+  )
+))
+
+(define fris-king-jump (
   (while (empty? $1)
       $1
   )
@@ -3452,10 +3566,11 @@
      (name Checker)
      (image First "../images/wiedem/CheckerWhite.bmp"
             Second "../images/wiedem/CheckerBlack.bmp")
+     (attribute captured? false)
      (moves
         (move-type jumptype)
-           (checker-jump nw)
-           (checker-jump ne)
+           (international-checker-jump nw ne ne)
+           (international-checker-jump ne nw nw)
 
         (move-type normaltype)
            (checker-shift nw)
@@ -3469,18 +3584,19 @@
      (name King)
      (image First "../images/wiedem/CheckerKingWhite.bmp"
             Second "../images/wiedem/CheckerKingBlack.bmp")
+     (attribute captured? false)
      (moves
         (move-type jumptype)
-           (king-jump nw)
-           (king-jump ne)
-           (king-jump sw)
-           (king-jump se)
+           (long-king-jump nw sw ne)
+           (long-king-jump ne se nw)
+           (long-king-jump sw se nw)
+           (long-king-jump se ne sw)
 
         (move-type continuetype)
-           (king-jump nw)
-           (king-jump ne)
-           (king-jump sw)
-           (king-jump se)
+           (long-king-jump nw sw ne)
+           (long-king-jump ne se nw)
+           (long-king-jump sw se nw)
+           (long-king-jump se ne sw)
 
         (move-type normaltype)
            (king-shift nw)
