@@ -39,7 +39,7 @@
   )
 
   (board-setup
-    (You (p2 a b c d) )
+    (You (q2 a b c d) )
   )
 
   (piece
@@ -65,7 +65,7 @@
   (title "Tchuka Ruma (4x6 stones)")
 
   (board-setup
-    (You (p6 a b c d) )
+    (You (q6 a b c d) )
   )
 )
 
@@ -83,6 +83,6 @@
   )
 
   (board-setup
-    (You (p4 a b c d e f) )
+    (You (q4 a b c d e f) )
   )
 )

@@ -3,8 +3,8 @@ LOAD Players.4th
 LOAD Pieces.4th
 
 {board-setup
-	{setup}	You	p2	a
-	{setup}	You	p2	b
-	{setup}	You	p2	c
-	{setup}	You	p2	d
+	{setup}	You	q2	a
+	{setup}	You	q2	b
+	{setup}	You	q2	c
+	{setup}	You	q2	d
 board-setup}
