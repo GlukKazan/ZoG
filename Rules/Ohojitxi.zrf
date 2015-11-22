@@ -1,0 +1,85 @@
+(define p
+  (piece
+     (name  p$1)
+     (image First  "../Images/Ohojitxi/p$1.bmp"
+            Second "../Images/Ohojitxi/p$1.bmp")
+  )
+)
+
+(game
+  (title "Ohojitxi 6x2")
+
+  (engine "../Axiom/Ohojitxi/axiom.dll")
+
+  (move-sound    "Audio/Pickup.wav")
+  (release-sound "Audio/Pickup.wav")
+  (drop-sound    "Audio/Pickup.wav")
+  (capture-sound "")
+
+  (option "prevent flipping" 2)
+  (option "animate captures" false)
+  (option "animate drops" false)
+
+  (players First Second)
+  (turn-order First Second)
+
+  (board 
+    (image "../Images/Ohojitxi/6x2.bmp")
+    (grid
+      (start-rectangle 6 4 73 89)
+      (dimensions
+        ("a/b" (67 0)) ; files
+        ("6/5/4/3/2/1" (0 85)) ; ranks
+      )
+    )
+  )
+
+  (board-setup
+    (First (p4 a1 a2 a3  b1 b2 b3) )
+    (Second (p4 a4 a5 a6  b4 b5 b6) )
+  )
+
+  (piece
+     (name  q)
+     (image First  "../Images/Ohojitxi/q4.bmp"
+            Second "../Images/Ohojitxi/q4.bmp")
+  )
+  (piece
+     (name  m)
+     (image First  "../Images/Ohojitxi/invisible.bmp"
+            Second "../Images/Ohojitxi/invisible.bmp")
+  )
+
+  (p 1)  (p 2)  (p 3)  (p 4)  (p 5)  (p 6)  (p 7)  (p 8)  (p 9)  (p 10)
+  (p 11) (p 12) (p 13) (p 14) (p 15) (p 16) (p 17) (p 18) (p 19) (p 20)    
+  (p 21) (p 22) (p 23) (p 24) (p 25) (p 26) (p 27) (p 28) (p 29) (p 30)    
+  (p 31) (p 32) (p 33) (p 34) (p 35) (p 36) (p 37) (p 38) (p 39) (p 40)    
+  (p 41) (p 42) (p 43) (p 44) (p 45) (p 46) (p 47) (p 48) (p 49) (p 50)    
+  (p 51) (p 52) (p 53) (p 54) (p 55) (p 56) (p 57) (p 58) (p 59) (p 60)    
+  (p 61) (p 62) (p 63) (p 64)
+
+  ; The following dummy piece is required in order to placate the Zillions engine.
+  ; It appears as though Zillions must find at least one "moves" keyword somewhere
+  ; in the zrf in order for it to be happy and thus allow "moves" to work correctly.
+  (piece (name Dummy) (dummy) (moves (from)))
+)
+
+(variant
+  (title "Ohojitxi 8x2")
+
+  (board 
+    (image "../Images/Ohojitxi/8x2.bmp")
+    (grid
+      (start-rectangle 6 4 73 89)
+      (dimensions
+        ("a/b" (67 0)) ; files
+        ("8/7/6/5/4/3/2/1" (0 85)) ; ranks
+      )
+    )
+  )
+
+  (board-setup
+    (First (p4 a1 a2 a3 a4  b1 b2 b3 b4) )
+    (Second (p4 a5 a6 a7 a8  b5 b6 b7 b8) )
+  )
+)
