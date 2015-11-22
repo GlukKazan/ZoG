@@ -72,10 +72,10 @@ printf "moves}\n\n";
 
 printf "{pieces\n";
 printf "\t{piece} mark\t{moves} clear-dices\n";
-printf "\t{piece} zero\t{moves} drop-dices\t{value} 0\n";
-printf "\t{piece} one\t{moves} drop-dices\t{value} 1\n";
+printf "\t{piece} zero\t{moves} drop-dices\t0\t{value}\n";
+printf "\t{piece} one\t{moves} drop-dices\t1\t{value}\n";
 foreach my $x (sort keys %nodes) {
-	printf "\t{piece} $nodes{$x}\t{moves} move-pieces\t{value} $values{$x}\n";
+	printf "\t{piece} $nodes{$x}\t{moves} move-pieces\t$values{$x}\t{value}\n";
 }
 printf "pieces}\n\n";
 
