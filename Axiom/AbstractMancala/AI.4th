@@ -61,19 +61,19 @@ VARIABLE	rand-index
 	RANDOMIZE
 ;
 
-: pices+ ( n -- ) 
+: pices++ ( -- ) 
 	current-player First = IF
-		FP +!
+		FP ++
 	ENDIF
 	current-player Second = IF
-		SP +!
+		SP ++
 	ENDIF
 
 ;
 
 : turns++ ( -- ) ;
 
-' pices+  IS p+
+' pices++ IS p++
 ' turns++ IS t++
 
 : ai-engine ( -- )
