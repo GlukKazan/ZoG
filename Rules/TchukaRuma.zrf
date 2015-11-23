@@ -62,6 +62,14 @@
 )
 
 (variant
+  (title "Tchuka Ruma (4x5 stones)")
+
+  (board-setup
+    (You (q5 a b c d) )
+  )
+)
+
+(variant
   (title "Tchuka Ruma (4x6 stones)")
 
   (board-setup
