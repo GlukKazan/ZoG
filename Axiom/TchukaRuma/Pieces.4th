@@ -1,9 +1,114 @@
-DEFER	MARK
+COLS []		trace[]
+VARIABLE	trace-count
+VARIABLE	stone-count
+
+DEFER		MARK
+
+: get-value ( -- value )
+	empty? IF
+		0
+	ELSE
+		piece piece-value
+	ENDIF
+;
+
+: build-trace ( -- )
+	0 trace-count !
+	0 BEGIN
+		DUP COLS >= IF
+			DROP 0
+		ENDIF
+		DUP trace-count @ < IF
+			DUP trace[] @
+		ELSE
+			trace-count ++
+			from here = IF
+				0
+			ELSE
+				get-value
+			ENDIF
+		ENDIF
+		1+ OVER trace[] !
+		stone-count --
+		stone-count @ 0= IF
+			TRUE
+		ELSE
+			1+ next verify
+			FALSE
+		ENDIF
+	UNTIL
+	trace-count @ 0> verify
+	here home = IF
+		0 BEGIN
+			DUP trace[] @ NEGATE
+			OVER trace[] !
+			1+ DUP trace-count @ >=
+		UNTIL DROP
+		BEGIN
+			trace-count @ COLS < IF
+				next verify
+				from here = IF
+					0
+				ELSE
+					get-value NEGATE
+				ENDIF
+				trace-count @ trace[] !
+				trace-count ++
+				FALSE
+			ELSE
+				TRUE
+			ENDIF
+		UNTIL
+	ELSE
+		empty? NOT IF
+			DUP trace[] @ NEGATE
+			OVER trace[] !
+		ENDIF
+		BEGIN
+			trace-count @ COLS < IF
+				next verify
+				from here = IF
+					0
+				ELSE
+					get-value
+				ENDIF
+				trace-count @ trace[] !
+				trace-count ++
+				FALSE
+			ELSE
+				TRUE
+			ENDIF
+		UNTIL
+	ENDIF
+	DROP
+;
+
+: use-trace ( -- )
+	0 BEGIN
+		next verify
+		DUP trace[] @
+		DUP 0 <> IF 
+			DUP 0< IF
+				NEGATE
+				here home <> IF	24 + ENDIF
+			ENDIF
+			MARK + create-piece-type
+		ELSE
+			DROP
+		ENDIF
+		1+ DUP trace-count @ >=
+	UNTIL DROP
+;
 
 : move-p ( -- )
-	here home <> verify
+	get-value 
+	DUP 0> verify
+	stone-count !
 	next verify
 	from here move
+	build-trace
+	trace-count @ 0> verify
+	from to use-trace
 	add-move
 ;
 

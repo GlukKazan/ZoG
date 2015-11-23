@@ -1,3 +1,5 @@
+7	CONSTANT	COLS
+
 {board
 	{position}	a
 	{position}	b
