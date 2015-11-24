@@ -1,6 +1,7 @@
 LOAD Board-8x2.4th
 LOAD Players.4th
 LOAD Pieces.4th
+LOAD AI.4th
 
 {board-setup
 	{setup}	First	p4	a1

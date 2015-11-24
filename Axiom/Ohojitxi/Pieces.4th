@@ -1,18 +1,147 @@
+$passTurnForced ON
+
+ROWS []		trace[]
+VARIABLE	trace-count
+VARIABLE	stone-count
+VARIABLE	target-pos
+
 DEFER	MARK
+
+: get-value ( -- value )
+	empty? IF
+		0
+	ELSE
+		piece piece-value
+	ENDIF
+;
+
+: build-trace ( -- )
+	0 trace-count !
+	0 BEGIN
+		DUP ROWS >= IF
+			DROP 0
+		ENDIF
+		DUP trace-count @ < IF
+			DUP trace[] @
+		ELSE
+			trace-count ++
+			from here = IF
+				0
+			ELSE
+				get-value
+			ENDIF
+		ENDIF
+		1+ OVER trace[] !
+		stone-count --
+		stone-count @ 0= IF
+			TRUE
+		ELSE
+			1+ next verify
+			FALSE
+		ENDIF
+	UNTIL
+	trace-count @ 0> verify
+	DUP trace[] @ 4 = IF
+		-1 OVER trace[] !
+	ENDIF
+	DROP
+;
+
+: use-trace ( -- )
+	0 BEGIN
+		next verify
+		DUP trace[] @
+		DUP 0< IF
+			DROP MARK 1- create-piece-type
+		ELSE
+			MARK + create-piece-type
+		ENDIF
+		1+ DUP trace-count @ >=
+	UNTIL DROP
+;
 
 : move-p ( -- )
 	friend? verify
+	piece piece-value stone-count !
 	next verify
 	from here move
+	build-trace
+	from to use-trace
 	add-move
 ;
 
+: build-drop ( -- )
+	0 stone-count !
+	from to
+	BEGIN
+		get-value 4 = IF
+			capture
+			stone-count @ 4 + stone-count !
+			prev verify
+			from here =
+		ELSE
+			TRUE
+		ENDIF
+	UNTIL
+;
+
+: use-drop ( -- )
+	target-pos @ to
+	next-player
+	get-value stone-count @ +
+	MARK + create-player-piece-type
+;
+
+: move-q ( n -- )
+	DUP ROWS < verify
+	a1 to to-s verify
+	BEGIN
+		DUP 0> IF
+			1- next verify
+			FALSE
+		ELSE
+			TRUE
+		ENDIF
+	UNTIL DROP
+	from here move
+	here target-pos !
+	build-drop 
+	use-drop
+	add-move
+;
+
+: move-q-0 ( -- ) 0 move-q ;
+: move-q-1 ( -- ) 1 move-q ;
+: move-q-2 ( -- ) 2 move-q ;
+: move-q-3 ( -- ) 3 move-q ;
+: move-q-4 ( -- ) 4 move-q ;
+: move-q-5 ( -- ) 5 move-q ;
+: move-q-6 ( -- ) 6 move-q ;
+: move-q-7 ( -- ) 7 move-q ;
+
+{move-priorities
+	{move-priority} normal
+	{move-priority} pass
+move-priorities}
+
 {moves p-moves
 	{move} move-p {move-type} normal
+	{move} Pass   {move-type} pass
+moves}
+
+{moves q-moves
+	{move} move-q-0 {move-type} additional
+	{move} move-q-1 {move-type} additional
+	{move} move-q-2 {move-type} additional
+	{move} move-q-3 {move-type} additional
+	{move} move-q-4 {move-type} additional
+	{move} move-q-5 {move-type} additional
+	{move} move-q-6 {move-type} additional
+	{move} move-q-7 {move-type} additional
 moves}
 
 {pieces
-	{piece}		q	{moves}	p-moves	4	{value}
+	{piece}		q	{moves}	q-moves	4	{value}
 	{piece}		m
 	{piece}		p1	{moves}	p-moves	1	{value}
 	{piece}		p2	{moves}	p-moves	2	{value}

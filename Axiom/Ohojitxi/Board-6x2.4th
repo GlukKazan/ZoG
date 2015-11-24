@@ -19,4 +19,6 @@ board}
 	{link} next a4 b4 {link} prev b4 a4
 	{link} next b4 b5 {link} prev b5 b4
 	{link} next b5 b6 {link} prev b6 b5
+
+	{link} to-s a1 a6 {link} to-f a1 b1
 directions}

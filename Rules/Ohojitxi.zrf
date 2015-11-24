@@ -16,12 +16,13 @@
   (drop-sound    "Audio/Pickup.wav")
   (capture-sound "")
 
+  (option "pass turn" forced)
   (option "prevent flipping" 2)
   (option "animate captures" false)
   (option "animate drops" false)
 
   (players First Second)
-  (turn-order First Second)
+  (turn-order First First Second Second)
 
   (board 
     (image "../Images/Ohojitxi/6x2.bmp")
