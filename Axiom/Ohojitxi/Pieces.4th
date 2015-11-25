@@ -85,6 +85,17 @@ DEFER	MARK
 	UNTIL
 ;
 
+: check-place ( -- )
+	target-pos @ to up verify
+	empty? verify
+	MARK create-piece-type
+	ROWS 1- BEGIN
+		next verify
+		empty? NOT IF capture ENDIF
+		1- DUP 0=
+	UNTIL DROP
+;
+
 : use-drop ( -- )
 	target-pos @ to
 	next-player
@@ -106,6 +117,7 @@ DEFER	MARK
 	from here move
 	here target-pos !
 	build-drop 
+	check-place
 	use-drop
 	add-move
 ;

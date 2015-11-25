@@ -5,7 +5,7 @@
 	ENDIF
 	ROWS COLS * BEGIN
 		1-
-		DUP enemy-at? IF
+		DUP enemy-at? OVER piece-type-at MARK <> AND IF
 			SWAP DROP #UnknownScore SWAP
 			TRUE
 		ELSE
