@@ -31,28 +31,37 @@
   (board 
      (image "../Images/Afrika/2x8.bmp")
      (positions 
-		(A 115  82 178 162)
-		(B 178  82 243 162)
-		(C 243  82 306 162)
-		(D 306  82 370 162)
-		(E 370  82 434 162)
-		(F 434  82 498 162)
-		(G 498  82 562 162)
-		(H 562  82 626 162)
-		(a 562   1 626  82)
-		(b 498   1 562  82)
-		(c 434   1 498  82)
-		(d 370   1 434  82)
-		(e 306   1 370  82)
-		(f 243   1 306  82)
-		(g 178   1 243  82)
-		(h 115   1 178  82))
+		(a1 115  82 178 162)
+		(b1 178  82 243 162)
+		(c1 243  82 306 162)
+		(d1 306  82 370 162)
+		(e1 370  82 434 162)
+		(f1 434  82 498 162)
+		(g1 498  82 562 162)
+		(h1 562  82 626 162)
+		(h2 562   1 626  82)
+		(g2 498   1 562  82)
+		(f2 434   1 498  82)
+		(e2 370   1 434  82)
+		(d2 306   1 370  82)
+		(c2 243   1 306  82)
+		(b2 178   1 243  82)
+		(a2 115   1 178  82)
+
+		(west 40  42 103 122)
+		(east 637 42 701 122)
+     )
   )
 
   (board-setup
-    (First (p8 A B C D E F G H) )
-    (Second (p8 a b c d e f g h) )
+    (First (p8 a1 b1 c1 d1 e1 f1 g1 h1) )
+    (Second (p8 a2 b2 c2 d2 e2 f2 g2 h2) )
   )
+
+  ; The following dummy piece is required in order to placate the Zillions engine.
+  ; It appears as though Zillions must find at least one "moves" keyword somewhere
+  ; in the zrf in order for it to be happy and thus allow "moves" to work correctly.
+  (piece (name Dummy) (dummy) (moves (from)))
 
   (p 1)  (p 2)  (p 3)  (p 4)  (p 5)  (p 6)  (p 7)  (p 8)  (p 9)  (p 10)
   (p 11) (p 12) (p 13) (p 14) (p 15) (p 16) (p 17) (p 18) (p 19) (p 20)    
@@ -64,9 +73,4 @@
   (p 71) (p 72) (p 73) (p 74)
 
   (q 1)  (q 2)  (q 3)  (q 4)  (q 5)  (q 6)  (q 7)  (q 8)  (q 9)  (q 10)
-
-  ; The following dummy piece is required in order to placate the Zillions engine.
-  ; It appears as though Zillions must find at least one "moves" keyword somewhere
-  ; in the zrf in order for it to be happy and thus allow "moves" to work correctly.
-  (piece (name Dummy) (dummy) (moves (from)))
 )
