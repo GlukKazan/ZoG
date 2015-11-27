@@ -17,6 +17,8 @@
 (game
   (title "Afrika")
 
+  (engine "../Axiom/Afrika/axiom.dll")
+
   (move-sound    "Audio/Pickup.wav")
   (release-sound "Audio/Pickup.wav")
   (drop-sound    "Audio/Pickup.wav")
@@ -31,6 +33,14 @@
   (board 
      (image "../Images/Afrika/2x8.bmp")
      (positions 
+		(a2 115   1 178  82)
+		(b2 178   1 243  82)
+		(c2 243   1 306  82)
+		(d2 306   1 370  82)
+		(e2 370   1 434  82)
+		(f2 434   1 498  82)
+		(g2 498   1 562  82)
+		(h2 562   1 626  82)
 		(a1 115  82 178 162)
 		(b1 178  82 243 162)
 		(c1 243  82 306 162)
@@ -39,14 +49,6 @@
 		(f1 434  82 498 162)
 		(g1 498  82 562 162)
 		(h1 562  82 626 162)
-		(h2 562   1 626  82)
-		(g2 498   1 562  82)
-		(f2 434   1 498  82)
-		(e2 370   1 434  82)
-		(d2 306   1 370  82)
-		(c2 243   1 306  82)
-		(b2 178   1 243  82)
-		(a2 115   1 178  82)
 
 		(west 40  42 103 122)
 		(east 637 42 701 122)
@@ -57,6 +59,8 @@
     (First (p8 a1 b1 c1 d1 e1 f1 g1 h1) )
     (Second (p8 a2 b2 c2 d2 e2 f2 g2 h2) )
   )
+
+  (q 10) (q 9)  (q 8)  (q 7)  (q 6)  (q 5)  (q 4)  (q 3)  (q 2)  (q 1)
 
   ; The following dummy piece is required in order to placate the Zillions engine.
   ; It appears as though Zillions must find at least one "moves" keyword somewhere
@@ -71,6 +75,4 @@
   (p 51) (p 52) (p 53) (p 54) (p 55) (p 56) (p 57) (p 58) (p 59) (p 60)    
   (p 61) (p 62) (p 63) (p 64) (p 65) (p 66) (p 67) (p 68) (p 69) (p 70)    
   (p 71) (p 72) (p 73) (p 74)
-
-  (q 1)  (q 2)  (q 3)  (q 4)  (q 5)  (q 6)  (q 7)  (q 8)  (q 9)  (q 10)
 )
