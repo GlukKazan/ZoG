@@ -1,5 +1,8 @@
 ROWS COLS * 	CONSTANT	TOTAL
+10		CONSTANT	MAXQ
+74		CONSTANT	MAXP
 
+TOTAL []	positions[]
 TOTAL []	trace[]
 VARIABLE	trace-count
 VARIABLE	stone-count
@@ -8,7 +11,7 @@ VARIABLE	min-target
 DEFER	MARK
 
 : get-value ( -- value )
-	empty? IF
+	empty? here from = OR IF
 		0
 	ELSE
 		piece piece-value
@@ -40,6 +43,7 @@ DEFER	MARK
 			ENDIF
 		ENDIF
 		1+ OVER trace[] !
+		here OVER positions[] !
 		stone-count --
 		stone-count @ 0= IF
 			TRUE
@@ -66,11 +70,30 @@ DEFER	MARK
 	ENDIF
 ;
 
+: not-in-positions? ( -- ? )
+	TRUE trace-count @ 
+	DUP 0> IF
+		BEGIN
+			1-
+			DUP positions[] @ here = IF
+				2DROP FALSE 0
+				TRUE
+			ELSE
+				DUP 0=
+			ENDIF
+		UNTIL DROP
+	ELSE
+		DROP
+	ENDIF
+;
+
 : check-target ( n -- n )
 	DUP 0> IF
 		here north verify
-		empty? IF
-			SWAP NEGATE SWAP
+		empty? here from = OR IF
+			not-in-positions? IF
+				SWAP NEGATE SWAP
+			ENDIF
 		ENDIF to
 	ENDIF
 ;
@@ -125,18 +148,34 @@ DEFER	MARK
 			SWAP DROP next-player SWAP
 		ENDIF
 		DUP 0> IF
-			DUP 74 <= verify
+			DUP MAXP <= verify
 		ELSE
-			DUP NEGATE 10 <= verify
+			DUP NEGATE MAXQ <= verify
 		ENDIF
-		MARK + create-player-piece-type
+		DUP 0 <> IF
+			MARK + create-player-piece-type
+		ELSE
+			2DROP
+		ENDIF
 		1+ DUP trace-count @ >=
 	UNTIL DROP
 	BEGIN
 		next verify
-		( TODO: )
-
-
+		get-value DUP 0> IF
+			get-player current-player = IF
+				check-target
+				DUP 0< IF
+					DUP NEGATE MAXQ <= verify
+					next-player SWAP MARK + create-player-piece-type
+				ELSE
+					get-player SWAP MARK + create-player-piece-type
+				ENDIF
+			ELSE
+				piece-type MARK < IF
+					get-player SWAP MARK + create-player-piece-type
+				ENDIF
+			ENDIF
+		ENDIF
 		here from =
 	UNTIL
 ;
