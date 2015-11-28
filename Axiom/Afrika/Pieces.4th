@@ -1,5 +1,5 @@
 ROWS COLS * 	CONSTANT	TOTAL
-10		CONSTANT	MAXQ
+24		CONSTANT	MAXQ
 74		CONSTANT	MAXP
 
 TOTAL []	positions[]
@@ -124,13 +124,17 @@ DEFER	MARK
 	UNTIL DROP
 	BEGIN
 		next verify
-		get-player current-player = IF
-			get-value DUP 0> IF
-				check-target
+		here from = IF
+			TRUE
+		ELSE
+			get-player current-player = IF
+				get-value DUP 0> IF
+					check-target
+				ENDIF
+				change-min-target
 			ENDIF
-			change-min-target
+			FALSE
 		ENDIF
-		here from =
 	UNTIL
 ;
 
@@ -161,22 +165,24 @@ DEFER	MARK
 	UNTIL DROP
 	BEGIN
 		next verify
-		get-value DUP 0> IF
-			get-player current-player = IF
-				check-target
-				DUP 0< IF
-					DUP NEGATE MAXQ <= verify
-					next-player SWAP MARK + create-player-piece-type
+		here from = IF
+			TRUE
+		ELSE
+			empty? NOT IF
+				get-player current-player = IF
+					get-value check-target
+					DUP 0< IF
+						DUP NEGATE MAXQ <= verify
+						next-player SWAP MARK + create-player-piece-type
+					ENDIF
 				ELSE
-					get-player SWAP MARK + create-player-piece-type
-				ENDIF
-			ELSE
-				piece-type MARK < IF
-					get-player SWAP MARK + create-player-piece-type
+					piece-type MARK < IF
+						get-player get-value MARK + create-player-piece-type
+					ENDIF
 				ENDIF
 			ENDIF
+			FALSE
 		ENDIF
-		here from =
 	UNTIL
 ;
 
@@ -196,6 +202,20 @@ DEFER	MARK
 moves}
 
 {pieces
+	{piece}		q24	24	{value}
+	{piece}		q23	23	{value}
+	{piece}		q22	22	{value}
+	{piece}		q21	21	{value}
+	{piece}		q20	20	{value}
+	{piece}		q19	19	{value}
+	{piece}		q18	18	{value}
+	{piece}		q17	17	{value}
+	{piece}		q16	16	{value}
+	{piece}		q15	15	{value}
+	{piece}		q14	14	{value}
+	{piece}		q13	13	{value}
+	{piece}		q12	12	{value}
+	{piece}		q11	11	{value}
 	{piece}		q10	10	{value}
 	{piece}		q9	9	{value}
 	{piece}		q8	8	{value}
