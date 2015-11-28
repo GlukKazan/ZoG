@@ -197,35 +197,61 @@ DEFER	MARK
 	add-move
 ;
 
+: move-q ( -- )
+	friend? verify
+	piece piece-value stone-count !
+	current-player First = IF
+		east to
+	ELSE
+		west to
+	ENDIF
+	from here move
+	current-player get-value stone-count @ +
+	DUP MAXP > IF
+		DROP MAXP
+	ENDIF
+	MARK + create-player-piece-type
+	add-move
+;
+
+{move-priorities
+	{move-priority} high
+	{move-priority} normal
+move-priorities}
+
 {moves p-moves
-	{move} move-p
+	{move} move-p {move-type} normal
+moves}
+
+{moves q-moves
+	{move} move-q {move-type} high
 moves}
 
 {pieces
-	{piece}		q24	24	{value}
-	{piece}		q23	23	{value}
-	{piece}		q22	22	{value}
-	{piece}		q21	21	{value}
-	{piece}		q20	20	{value}
-	{piece}		q19	19	{value}
-	{piece}		q18	18	{value}
-	{piece}		q17	17	{value}
-	{piece}		q16	16	{value}
-	{piece}		q15	15	{value}
-	{piece}		q14	14	{value}
-	{piece}		q13	13	{value}
-	{piece}		q12	12	{value}
-	{piece}		q11	11	{value}
-	{piece}		q10	10	{value}
-	{piece}		q9	9	{value}
-	{piece}		q8	8	{value}
-	{piece}		q7	7	{value}
-	{piece}		q6	6	{value}
-	{piece}		q5	5	{value}
-	{piece}		q4	4	{value}
-	{piece}		q3	3	{value}
-	{piece}		q2	2	{value}
-	{piece}		q1	1	{value}
+	{piece}		q24	{moves}	q-moves	24	{value}
+	{piece}		q23	{moves}	q-moves	23	{value}
+	{piece}		q22	{moves}	q-moves	22	{value}
+	{piece}		q21	{moves}	q-moves	21	{value}
+	{piece}		q20	{moves}	q-moves	20	{value}
+	{piece}		q19	{moves}	q-moves	19	{value}
+	{piece}		q18	{moves}	q-moves	18	{value}
+	{piece}		q17	{moves}	q-moves	17	{value}
+	{piece}		q16	{moves}	q-moves	16	{value}
+	{piece}		q15	{moves}	q-moves	15	{value}
+	{piece}		q14	{moves}	q-moves	14	{value}
+	{piece}		q13	{moves}	q-moves	13	{value}
+	{piece}		q12	{moves}	q-moves	12	{value}
+	{piece}		q11	{moves}	q-moves	11	{value}
+	{piece}		q10	{moves}	q-moves	10	{value}
+	{piece}		q9	{moves}	q-moves	9	{value}
+	{piece}		q8	{moves}	q-moves	8	{value}
+	{piece}		q7	{moves}	q-moves	7	{value}
+	{piece}		q6	{moves}	q-moves	6	{value}
+	{piece}		q5	{moves}	q-moves	5	{value}
+	{piece}		q4	{moves}	q-moves	4	{value}
+	{piece}		q3	{moves}	q-moves	3	{value}
+	{piece}		q2	{moves}	q-moves	2	{value}
+	{piece}		q1	{moves}	q-moves	1	{value}
 	{piece}		Dummy
 	{piece}		p1	{moves}	p-moves	1	{value}
 	{piece}		p2	{moves}	p-moves	2	{value}
