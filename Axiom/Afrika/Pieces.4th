@@ -1,5 +1,5 @@
 ROWS COLS * 	CONSTANT	TOTAL
-24		CONSTANT	MAXQ
+40		CONSTANT	MAXQ
 74		CONSTANT	MAXP
 
 TOTAL []	positions[]
@@ -169,7 +169,7 @@ DEFER	MARK
 			TRUE
 		ELSE
 			empty? NOT IF
-				get-player current-player = IF
+				get-player current-player = get-value min-target @ = AND IF
 					get-value check-target
 					DUP 0< IF
 						DUP NEGATE MAXQ <= verify
@@ -228,6 +228,22 @@ moves}
 moves}
 
 {pieces
+	{piece}		q40	{moves}	q-moves	40	{value}
+	{piece}		q39	{moves}	q-moves	39	{value}
+	{piece}		q38	{moves}	q-moves	38	{value}
+	{piece}		q37	{moves}	q-moves	37	{value}
+	{piece}		q36	{moves}	q-moves	36	{value}
+	{piece}		q35	{moves}	q-moves	35	{value}
+	{piece}		q34	{moves}	q-moves	34	{value}
+	{piece}		q33	{moves}	q-moves	33	{value}
+	{piece}		q32	{moves}	q-moves	32	{value}
+	{piece}		q31	{moves}	q-moves	31	{value}
+	{piece}		q30	{moves}	q-moves	30	{value}
+	{piece}		q29	{moves}	q-moves	29	{value}
+	{piece}		q28	{moves}	q-moves	28	{value}
+	{piece}		q27	{moves}	q-moves	27	{value}
+	{piece}		q26	{moves}	q-moves	26	{value}
+	{piece}		q25	{moves}	q-moves	25	{value}
 	{piece}		q24	{moves}	q-moves	24	{value}
 	{piece}		q23	{moves}	q-moves	23	{value}
 	{piece}		q22	{moves}	q-moves	22	{value}
