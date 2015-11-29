@@ -251,8 +251,6 @@ DEFER	MARK
 	ENDIF
 	MARK + create-player-piece-type
 	clear-q
-	( TODO: Mark Q-pieces! )
-
 	add-move
 ;
 
