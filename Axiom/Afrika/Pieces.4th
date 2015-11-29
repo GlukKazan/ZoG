@@ -112,7 +112,7 @@ DEFER	MARK
 ;
 
 : get-min-target ( -- )
-	10 min-target !
+	MAXQ min-target !
 	0 BEGIN
 		next verify
 		DUP trace[] @
@@ -197,6 +197,45 @@ DEFER	MARK
 	add-move
 ;
 
+: clear-q ( -- )
+	0 trace-count !
+	MAXQ min-target !
+	TOTAL BEGIN
+		1-
+		DUP to
+		get-player current-player = IF
+			get-value check-target 
+			DUP 0< IF
+				change-min-target
+			ELSE
+				DROP
+			ENDIF
+		ENDIF
+		DUP 0=
+	UNTIL DROP
+	TOTAL BEGIN
+		1-
+		DUP to
+		get-player current-player = IF
+			get-value 
+			DUP min-target @ = IF
+				check-target 0< IF
+					next-player get-value NEGATE MARK + create-player-piece-type
+				ENDIF
+			ELSE
+				DROP
+			ENDIF
+		ELSE
+			get-value 0> IF
+				piece-type MARK < IF
+					get-player get-value MARK + create-player-piece-type
+				ENDIF
+			ENDIF
+		ENDIF
+		DUP 0=
+	UNTIL DROP
+;
+
 : move-q ( -- )
 	friend? verify
 	piece piece-value stone-count !
@@ -211,6 +250,9 @@ DEFER	MARK
 		DROP MAXP
 	ENDIF
 	MARK + create-player-piece-type
+	clear-q
+	( TODO: Mark Q-pieces! )
+
 	add-move
 ;
 

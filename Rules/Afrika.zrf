@@ -79,3 +79,31 @@
   (p 61) (p 62) (p 63) (p 64) (p 65) (p 66) (p 67) (p 68) (p 69) (p 70)    
   (p 71) (p 72) (p 73) (p 74)
 )
+
+(variant
+  (title "Afrika (Losing-game)")
+)
+
+(variant
+  (title "-")
+)
+
+(variant
+  (title "Problem 1")
+  (description "See: http://mancala.wikia.com/wiki/Afrika_(game)")
+  (solution "Problem-1.zsg")
+  (board-setup
+    (First (p1 a1 b1) (p2 f1) (p3 d1) (p4 g1) (p54 east) )
+    (Second (p1 a2 b2) (p2 f2) (p3 g2) (p4 d2) (p52 west) )
+  )
+)
+
+(variant
+  (title "Problem 2")
+  (description "See: http://mancala.wikia.com/wiki/Afrika_(game)")
+  (solution "Problem-2.zsg")
+  (board-setup
+    (First (p1 a1 b1 h1) (p8 g1) (p12 f1) (p48 east) )
+    (Second (p1 a2 b2 c2 d2 h2) (p4 g2) (p7 f2) (p9 e2) (p32 west) )
+  )
+)
