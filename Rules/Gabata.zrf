@@ -1,0 +1,74 @@
+(define p
+  (piece
+     (name  p$1)
+     (image First  "../Images/Gabata/p$1.bmp"
+            Second "../Images/Gabata/p$1.bmp")
+  )
+)
+
+(define q
+  (piece
+     (name  q$1)
+     (image First  "../Images/Gabata/q$1.bmp"
+            Second "../Images/Gabata/q$1.bmp")
+  )
+)
+
+(define t
+  (piece
+     (name  t$1)
+     (image First  "../Images/Gabata/t$1.bmp"
+            Second "../Images/Gabata/t$1.bmp")
+  )
+)
+
+(game
+  (title "Gabata")
+
+  (move-sound    "Audio/Pickup.wav")
+  (release-sound "Audio/Pickup.wav")
+  (drop-sound    "Audio/Pickup.wav")
+  (capture-sound "")
+
+  (option "prevent flipping" 2)
+  (option "animate captures" false)
+  (option "animate drops" false)
+
+  (players First Second)
+  (turn-order First First Second Second)
+
+  (board 
+    (image "../Images/Gabata/board.bmp")
+    (grid
+      (start-rectangle 6 4 73 89)
+      (dimensions
+        ("a/b/c/d/e/f/g/h" (67 0)) ; files
+        ("3/2/1" (0 85)) ; ranks
+      )
+    )
+  )
+
+  (board-setup
+    (First (p3 b1 c1 d1 e1 f1 g1 b2 c2 d2) )
+    (Second (p3 b3 c3 d3 e3 f3 g3 e2 f2 g2) )
+  )
+
+  (q 54) (q 53) (q 52) (q 51)
+  (q 50) (q 49) (q 48) (q 47) (q 46) (q 45) (q 44) (q 43) (q 42) (q 41)
+  (q 40) (q 39) (q 38) (q 37) (q 36) (q 35) (q 34) (q 33) (q 32) (q 31)
+  (q 30) (q 29) (q 28) (q 27) (q 26) (q 25) (q 24) (q 23) (q 22) (q 21)
+  (q 20) (q 19) (q 18) (q 17) (q 16) (q 15) (q 14) (q 13) (q 12) (q 11)
+  (q 10) (q 9)  (q 8)  (q 7)  (q 6)  (q 5)  (q 4)  (q 3)  (q 2)  (q 1)
+
+  ; The following dummy piece is required in order to placate the Zillions engine.
+  ; It appears as though Zillions must find at least one "moves" keyword somewhere
+  ; in the zrf in order for it to be happy and thus allow "moves" to work correctly.
+  (piece (name Dummy) (dummy) (moves (from)))
+
+  (p 1)  (p 2)  (p 3)  (p 4)  (p 5)  (p 6)  (p 7)  (p 8)  (p 9)  (p 10)
+  (p 11) (p 12) (p 13) (p 14) (p 15) (p 16) (p 17) (p 18) (p 19) (p 20)    
+  (p 21) (p 22) (p 23) (p 24) (p 25) (p 26) (p 27) (p 28) (p 29) (p 30)    
+  (p 31) (p 32) (p 33) (p 34) (p 35) (p 36) (p 37) (p 38) (p 39) (p 40)    
+  (p 41) (p 42) (p 43) (p 44) (p 45) (p 46) (p 47) (p 48) (p 49) (p 50)    
+  (p 51) (p 52) (p 53) (p 54)
+)
