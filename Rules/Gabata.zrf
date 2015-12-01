@@ -25,17 +25,20 @@
 (game
   (title "Gabata")
 
+  (engine "../Axiom/Gabata/axiom.dll")
+
   (move-sound    "Audio/Pickup.wav")
   (release-sound "Audio/Pickup.wav")
   (drop-sound    "Audio/Pickup.wav")
   (capture-sound "")
 
+  (option "pass turn" forced)
   (option "prevent flipping" 2)
   (option "animate captures" false)
   (option "animate drops" false)
 
   (players First Second)
-  (turn-order First First Second Second)
+  (turn-order First Second)
 
   (board 
     (image "../Images/Gabata/board.bmp")
@@ -49,8 +52,8 @@
   )
 
   (board-setup
-    (First (p3 b1 c1 d1 e1 f1 g1 b2 c2 d2) )
-    (Second (p3 b3 c3 d3 e3 f3 g3 e2 f2 g2) )
+    (First (p3 b1 c1 d1 e1 f1 g1 e2 f2 g2) )
+    (Second (p3 b3 c3 d3 e3 f3 g3 b2 c2 d2) )
   )
 
   (q 54) (q 53) (q 52) (q 51)
@@ -63,7 +66,10 @@
   ; The following dummy piece is required in order to placate the Zillions engine.
   ; It appears as though Zillions must find at least one "moves" keyword somewhere
   ; in the zrf in order for it to be happy and thus allow "moves" to work correctly.
-  (piece (name Dummy) (dummy) (moves (from)))
+  (piece 
+     (name Dummy)
+     (dummy) (moves (from))
+  )
 
   (p 1)  (p 2)  (p 3)  (p 4)  (p 5)  (p 6)  (p 7)  (p 8)  (p 9)  (p 10)
   (p 11) (p 12) (p 13) (p 14) (p 15) (p 16) (p 17) (p 18) (p 19) (p 20)    
@@ -71,4 +77,10 @@
   (p 31) (p 32) (p 33) (p 34) (p 35) (p 36) (p 37) (p 38) (p 39) (p 40)    
   (p 41) (p 42) (p 43) (p 44) (p 45) (p 46) (p 47) (p 48) (p 49) (p 50)    
   (p 51) (p 52) (p 53) (p 54)
+
+  (piece 
+     (name trap)
+     (image First  "../Images/Gabata/invisible.bmp"
+            Second "../Images/Gabata/invisible.bmp")
+  )
 )
