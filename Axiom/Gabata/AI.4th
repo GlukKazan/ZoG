@@ -24,10 +24,10 @@ VARIABLE	total-count
 		ENDIF
 		DROP #LossScore
 		h1 BEGIN
-			DUP a2 <> IF
+			DUP a2 <> OVER h2 <> AND IF
 				DUP friend-at? IF
+					DUP get-value-at total-count @ + total-count !
 					SWAP DROP #UnknownScore SWAP
-					total-count ++
 				ENDIF
 			ENDIF
 			DUP a3 = IF
