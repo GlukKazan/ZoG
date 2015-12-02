@@ -52,8 +52,8 @@
   )
 
   (board-setup
-    (First (p3 b1 c1 d1 e1 f1 g1 e2 f2 g2) )
-    (Second (p3 b3 c3 d3 e3 f3 g3 b2 c2 d2) )
+    (First (p3 b1 c1 d1 e1 f1 g1 e2 f2 g2) (trap a1) )
+    (Second (p3 b3 c3 d3 e3 f3 g3 b2 c2 d2) (trap h1) )
   )
 
   (q 54) (q 53) (q 52) (q 51)

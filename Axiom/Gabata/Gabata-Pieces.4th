@@ -1,32 +1,64 @@
-6 3 * 	CONSTANT	TOTAL
+: check-normal ( -- )
+	a1 empty-at? h1 empty-at? AND 
+	h1 BEGIN
+		DUP enemy-at? IF
+			DUP piece-type-at MARK < IF
+				2DROP FALSE a3
+			ENDIF
+		ENDIF
+		DUP a3 = IF
+			TRUE
+		ELSE
+			1- FALSE
+		ENDIF
+	UNTIL DROP
+	verify
+;
 
-DEFER	MARK
-
-: get-value ( -- value )
-	empty? here from = OR IF
-		0
-	ELSE
-		piece piece-value
+: take-stone ( -- n )
+	0 get-player current-player <> from here <> AND IF
+		trace-count @ BEGIN
+			1-
+			DUP positions[] @ here = IF
+				DUP trace[] @
+				SWAP 0 SWAP trace[] !
+				+ 0
+			ENDIF
+			DUP 0=
+		UNTIL DROP
+		DUP 0= IF
+			get-value
+			DUP 0> from here <> AND IF
+				capture
+			ENDIF +
+		ENDIF
 	ENDIF
 ;
 
-: get-value-at ( pos -- value )
-	DUP empty-at? IF
-		DROP 0
+: take-stones ( -- )
+	side verify
+	take-stone
+	side verify
+	take-stone +
+	DUP 0> IF
+		current-player First = IF h2 ELSE a2 ENDIF to
+		get-value + MARK + 
+		current-player SWAP create-player-piece-type
 	ELSE
-		piece-at piece-value
+		DROP
 	ENDIF
 ;
 
 : move-p ( -- )
+	check-normal
+	piece piece-value stone-count !
 	next verify
 	from here move
-	add-move
-;
-
-: move-q ( -- )
-	next verify
-	from here move
+	build-trace
+	empty? IF
+		take-stones
+	ENDIF
+	from to use-trace
 	add-move
 ;
 
@@ -37,12 +69,14 @@ DEFER	MARK
 move-priorities}
 
 {moves p-moves
+	{move} zero-p	{move-type} normal-type
 	{move} move-p	{move-type} normal-type
 	{move} Pass	{move-type} pass-type
 moves}
 
 {moves q-moves
-	{move} move-q	{move-type} high-type
+	{move} zero-q	{move-type} high-type
+	{move} move-p	{move-type} high-type
 moves}
 
 {pieces
@@ -155,6 +189,8 @@ moves}
 	{piece}		p52	{moves}	p-moves	52	{value}
 	{piece}		p53	{moves}	p-moves	53	{value}
 	{piece}		p54	{moves}	p-moves	54	{value}
+	{piece}		trap
 pieces}
 
 ' Dummy	IS MARK
+' trap	IS TRAP

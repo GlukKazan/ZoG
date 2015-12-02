@@ -1,5 +1,6 @@
 LOAD Players.4th
 LOAD Board.4th
+LOAD Common-Pieces.4th
 LOAD Gabata-Pieces.4th
 LOAD AI.4th
 
@@ -13,6 +14,7 @@ LOAD AI.4th
 	{setup}	First  p3 e2
 	{setup}	First  p3 f2
 	{setup}	First  p3 g2
+	{setup}	First  trap a1
 
 	{setup}	Second p3 b3
 	{setup}	Second p3 c3
@@ -23,4 +25,5 @@ LOAD AI.4th
 	{setup}	Second p3 b2
 	{setup}	Second p3 c2
 	{setup}	Second p3 d2
+	{setup}	Second trap h1
 board-setup}
