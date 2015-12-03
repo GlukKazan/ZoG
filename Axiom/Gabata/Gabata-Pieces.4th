@@ -35,6 +35,17 @@
 	ENDIF
 ;
 
+: mark-last-stone ( -- )
+	trace-count @ BEGIN
+		1-
+		DUP positions[] @ target-pos @ = IF
+			DUP trace[] @ NEGATE SWAP trace[] !
+			0
+		ENDIF
+		DUP 0=
+	UNTIL DROP
+;
+
 : take-stones ( -- )
 	side verify
 	take-stone
@@ -44,6 +55,9 @@
 		current-player First = IF h2 ELSE a2 ENDIF to
 		get-value + MARK + 
 		current-player SWAP create-player-piece-type
+		SERIAL-CAPTURING IF
+			mark-last-stone
+		ENDIF
 	ELSE
 		DROP
 	ENDIF
