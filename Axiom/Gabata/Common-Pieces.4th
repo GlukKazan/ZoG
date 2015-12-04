@@ -5,6 +5,7 @@ TOTAL []	trace[]
 VARIABLE	trace-count
 VARIABLE	stone-count
 VARIABLE	target-pos
+VARIABLE	to-pos
 
 DEFER		MARK
 DEFER		TRAP
@@ -107,7 +108,7 @@ DEFER		TRAP
 			SWAP MARK + create-player-piece-type
 		ELSE
 			DROP
-			empty? NOT IF capture ENDIF
+			empty? NOT to-pos @ here = OR IF capture ENDIF
 		ENDIF
 		1+ DUP trace-count @ >=
 	UNTIL DROP
@@ -117,6 +118,7 @@ DEFER		TRAP
 	check-zero
 	piece piece-value stone-count !
 	next verify
+	here to-pos !
 	from here move
 	build-trace
 	from to use-trace
@@ -129,6 +131,7 @@ DEFER		TRAP
 	a3 empty-at? NOT IF 1- ENDIF
 	stone-count !
 	next verify
+	here to-pos !
 	from here move
 	build-trace
 	from to use-trace

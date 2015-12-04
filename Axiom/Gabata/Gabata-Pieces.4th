@@ -67,6 +67,7 @@
 	check-normal
 	piece piece-value stone-count !
 	next verify
+	here to-pos !
 	from here move
 	build-trace
 	empty? IF
