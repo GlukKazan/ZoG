@@ -84,3 +84,7 @@
             Second "../Images/Gabata/invisible.bmp")
   )
 )
+
+(variant
+  (title "Gabata (random)")
+)
