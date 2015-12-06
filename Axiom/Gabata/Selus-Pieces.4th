@@ -26,6 +26,10 @@ moves}
 	{move} move-p	{move-type} high-type
 moves}
 
+{moves t-moves
+	{move} Pass	{move-type} pass-type
+moves}
+
 {pieces
 	{piece}		q54	{moves}	q-moves	54	{value}
 	{piece}		q53	{moves}	q-moves	53	{value}
@@ -137,61 +141,61 @@ moves}
 	{piece}		p53	{moves}	p-moves	53	{value}
 	{piece}		p54	{moves}	p-moves	54	{value}
 
-	{piece}		t0	0	{value}
-	{piece}		t1	1	{value}
-	{piece}		t2	2	{value}
-	{piece}		t3	3	{value}
-	{piece}		t4	4	{value}
-	{piece}		t5	5	{value}
-	{piece}		t6	6	{value}
-	{piece}		t7	7	{value}
-	{piece}		t8	8	{value}
-	{piece}		t9	9	{value}
-	{piece}		t10	10	{value}
-	{piece}		t11	11	{value}
-	{piece}		t12	12	{value}
-	{piece}		t13	13	{value}
-	{piece}		t14	14	{value}
-	{piece}		t15	15	{value}
-	{piece}		t16	16	{value}
-	{piece}		t17	17	{value}
-	{piece}		t18	18	{value}
-	{piece}		t19	19	{value}
-	{piece}		t20	20	{value}
-	{piece}		t21	21	{value}
-	{piece}		t22	22	{value}
-	{piece}		t23	23	{value}
-	{piece}		t24	24	{value}
-	{piece}		t25	25	{value}
-	{piece}		t26	26	{value}
-	{piece}		t27	27	{value}
-	{piece}		t28	28	{value}
-	{piece}		t29	29	{value}
-	{piece}		t30	30	{value}
-	{piece}		t31	31	{value}
-	{piece}		t32	32	{value}
-	{piece}		t33	33	{value}
-	{piece}		t34	34	{value}
-	{piece}		t35	35	{value}
-	{piece}		t36	36	{value}
-	{piece}		t37	37	{value}
-	{piece}		t38	38	{value}
-	{piece}		t39	39	{value}
-	{piece}		t40	40	{value}
-	{piece}		t41	41	{value}
-	{piece}		t42	42	{value}
-	{piece}		t43	43	{value}
-	{piece}		t44	44	{value}
-	{piece}		t45	45	{value}
-	{piece}		t46	46	{value}
-	{piece}		t47	47	{value}
-	{piece}		t48	48	{value}
-	{piece}		t49	49	{value}
-	{piece}		t50	50	{value}
-	{piece}		t51	51	{value}
-	{piece}		t52	52	{value}
-	{piece}		t53	53	{value}
-	{piece}		t54	54	{value}
+	{piece}		t0	{moves}	t-moves	0	{value}
+	{piece}		t1	{moves}	t-moves	1	{value}
+	{piece}		t2	{moves}	t-moves	2	{value}
+	{piece}		t3	{moves}	t-moves	3	{value}
+	{piece}		t4	{moves}	t-moves	4	{value}
+	{piece}		t5	{moves}	t-moves	5	{value}
+	{piece}		t6	{moves}	t-moves	6	{value}
+	{piece}		t7	{moves}	t-moves	7	{value}
+	{piece}		t8	{moves}	t-moves	8	{value}
+	{piece}		t9	{moves}	t-moves	9	{value}
+	{piece}		t10	{moves}	t-moves	10	{value}
+	{piece}		t11	{moves}	t-moves	11	{value}
+	{piece}		t12	{moves}	t-moves	12	{value}
+	{piece}		t13	{moves}	t-moves	13	{value}
+	{piece}		t14	{moves}	t-moves	14	{value}
+	{piece}		t15	{moves}	t-moves	15	{value}
+	{piece}		t16	{moves}	t-moves	16	{value}
+	{piece}		t17	{moves}	t-moves	17	{value}
+	{piece}		t18	{moves}	t-moves	18	{value}
+	{piece}		t19	{moves}	t-moves	19	{value}
+	{piece}		t20	{moves}	t-moves	20	{value}
+	{piece}		t21	{moves}	t-moves	21	{value}
+	{piece}		t22	{moves}	t-moves	22	{value}
+	{piece}		t23	{moves}	t-moves	23	{value}
+	{piece}		t24	{moves}	t-moves	24	{value}
+	{piece}		t25	{moves}	t-moves	25	{value}
+	{piece}		t26	{moves}	t-moves	26	{value}
+	{piece}		t27	{moves}	t-moves	27	{value}
+	{piece}		t28	{moves}	t-moves	28	{value}
+	{piece}		t29	{moves}	t-moves	29	{value}
+	{piece}		t30	{moves}	t-moves	30	{value}
+	{piece}		t31	{moves}	t-moves	31	{value}
+	{piece}		t32	{moves}	t-moves	32	{value}
+	{piece}		t33	{moves}	t-moves	33	{value}
+	{piece}		t34	{moves}	t-moves	34	{value}
+	{piece}		t35	{moves}	t-moves	35	{value}
+	{piece}		t36	{moves}	t-moves	36	{value}
+	{piece}		t37	{moves}	t-moves	37	{value}
+	{piece}		t38	{moves}	t-moves	38	{value}
+	{piece}		t39	{moves}	t-moves	39	{value}
+	{piece}		t40	{moves}	t-moves	40	{value}
+	{piece}		t41	{moves}	t-moves	41	{value}
+	{piece}		t42	{moves}	t-moves	42	{value}
+	{piece}		t43	{moves}	t-moves	43	{value}
+	{piece}		t44	{moves}	t-moves	44	{value}
+	{piece}		t45	{moves}	t-moves	45	{value}
+	{piece}		t46	{moves}	t-moves	46	{value}
+	{piece}		t47	{moves}	t-moves	47	{value}
+	{piece}		t48	{moves}	t-moves	48	{value}
+	{piece}		t49	{moves}	t-moves	49	{value}
+	{piece}		t50	{moves}	t-moves	50	{value}
+	{piece}		t51	{moves}	t-moves	51	{value}
+	{piece}		t52	{moves}	t-moves	52	{value}
+	{piece}		t53	{moves}	t-moves	53	{value}
+	{piece}		t54	{moves}	t-moves	54	{value}
 pieces}
 
 ' m	IS MARK

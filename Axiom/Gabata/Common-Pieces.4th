@@ -106,6 +106,7 @@ DEFER		TRAP
 				ENDIF
 			ENDIF SWAP 
 			piece-type TRAP >= IF
+				DUP 0< IF NEGATE ENDIF
 				TRAP
 			ELSE
 				MARK 
