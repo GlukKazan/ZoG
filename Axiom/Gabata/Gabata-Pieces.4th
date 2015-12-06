@@ -1,3 +1,13 @@
+: gabata-init-trace ( -- ) ;
+
+' gabata-init-trace IS init-trace
+
+: gabata-get-mark ( player -- player piece-type )
+	MARK
+;
+
+' gabata-get-mark IS get-mark
+
 : take-stone ( -- n )
 	0 get-player current-player <> from here <> AND IF
 		trace-count @ BEGIN

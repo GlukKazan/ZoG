@@ -1,9 +1,45 @@
+VARIABLE	trap-pos
+
+: selus-init-trace ( -- ) 
+	0 trap-pos !
+;
+
+' selus-init-trace IS init-trace
+
+: selus-get-mark ( player -- player piece-type )
+	piece-type TRAP >= IF
+		SWAP DROP player SWAP
+	ENDIF
+	piece-type TRAP >= trap-pos @ here = OR IF
+		DUP 0< IF NEGATE ENDIF
+		TRAP
+	ELSE
+		MARK 
+	ENDIF
+;
+
+' selus-get-mark IS get-mark
+
+: create-trap ( -- )
+	0 BEGIN
+		DUP positions[] @ here = IF
+			DUP trace[] @ 4 NEGATE = IF
+				here trap-pos !
+			ENDIF
+		ENDIF
+		1+ DUP trace-count @ >=
+	UNTIL DROP
+;
+
 : move-p ( -- )
 	check-normal
 	piece piece-value stone-count !
 	next verify
 	from here move
 	build-trace
+	h3 empty-at? IF
+		create-trap
+	ENDIF
 	from to use-trace
 	h3 friend-at? target-pos @ empty-at? AND IF
 		h3 capture-at

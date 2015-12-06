@@ -50,7 +50,10 @@ DEFER		TRAP
 	ENDIF
 ;
 
+DEFER init-trace
+
 : build-trace ( -- )
+	init-trace
 	0 trace-count !
 	0 BEGIN
 		DUP TOTAL >= IF
@@ -91,6 +94,8 @@ DEFER		TRAP
 	DROP
 ;
 
+DEFER get-mark
+
 : use-trace ( -- )
 	0 BEGIN
 		next verify
@@ -105,13 +110,7 @@ DEFER		TRAP
 					next-player
 				ENDIF
 			ENDIF SWAP 
-			piece-type TRAP >= IF
-				DUP 0< IF NEGATE ENDIF
-				TRAP
-			ELSE
-				MARK 
-			ENDIF
-			+ create-player-piece-type
+			get-mark + create-player-piece-type
 		ELSE
 			DROP
 			empty? NOT to-pos @ here = OR IF capture ENDIF
