@@ -1,62 +1,13 @@
-: take-stone ( -- n )
-	0 get-player current-player <> from here <> AND IF
-		trace-count @ BEGIN
-			1-
-			DUP positions[] @ here = IF
-				DUP trace[] @
-				SWAP 0 SWAP trace[] !
-				+ 0
-			ENDIF
-			DUP 0=
-		UNTIL DROP
-		DUP 0= IF
-			get-value
-			DUP 0> from here <> AND IF
-				capture
-			ENDIF +
-		ENDIF
-	ENDIF
-;
-
-: mark-last-stone ( -- )
-	trace-count @ BEGIN
-		1-
-		DUP positions[] @ target-pos @ = IF
-			DUP trace[] @ NEGATE SWAP trace[] !
-			0
-		ENDIF
-		DUP 0=
-	UNTIL DROP
-;
-
-: take-stones ( -- )
-	side verify
-	take-stone
-	side verify
-	take-stone +
-	DUP 0> IF
-		current-player First = IF h2 ELSE a2 ENDIF to
-		get-value + MARK + 
-		current-player SWAP create-player-piece-type
-		SERIAL-CAPTURING IF
-			mark-last-stone
-		ENDIF
-	ELSE
-		DROP
-	ENDIF
-;
-
 : move-p ( -- )
 	check-normal
 	piece piece-value stone-count !
 	next verify
-	here to-pos !
 	from here move
 	build-trace
-	empty? IF
-		take-stones
-	ENDIF
 	from to use-trace
+	h3 friend-at? target-pos @ empty-at? AND IF
+		h3 capture-at
+	ENDIF
 	add-move
 ;
 
@@ -67,13 +18,11 @@
 move-priorities}
 
 {moves p-moves
-	{move} zero-p	{move-type} normal-type
 	{move} move-p	{move-type} normal-type
 	{move} Pass	{move-type} pass-type
 moves}
 
 {moves q-moves
-	{move} zero-q	{move-type} high-type
 	{move} move-p	{move-type} high-type
 moves}
 
@@ -132,7 +81,7 @@ moves}
 	{piece}		q3	{moves}	q-moves	3	{value}
 	{piece}		q2	{moves}	q-moves	2	{value}
 	{piece}		q1	{moves}	q-moves	1	{value}
-	{piece}		Dummy
+	{piece}		m
 	{piece}		p1	{moves}	p-moves	1	{value}
 	{piece}		p2	{moves}	p-moves	2	{value}
 	{piece}		p3	{moves}	p-moves	3	{value}
@@ -187,8 +136,63 @@ moves}
 	{piece}		p52	{moves}	p-moves	52	{value}
 	{piece}		p53	{moves}	p-moves	53	{value}
 	{piece}		p54	{moves}	p-moves	54	{value}
-	{piece}		trap
+
+	{piece}		t0	0	{value}
+	{piece}		t1	1	{value}
+	{piece}		t2	2	{value}
+	{piece}		t3	3	{value}
+	{piece}		t4	4	{value}
+	{piece}		t5	5	{value}
+	{piece}		t6	6	{value}
+	{piece}		t7	7	{value}
+	{piece}		t8	8	{value}
+	{piece}		t9	9	{value}
+	{piece}		t10	10	{value}
+	{piece}		t11	11	{value}
+	{piece}		t12	12	{value}
+	{piece}		t13	13	{value}
+	{piece}		t14	14	{value}
+	{piece}		t15	15	{value}
+	{piece}		t16	16	{value}
+	{piece}		t17	17	{value}
+	{piece}		t18	18	{value}
+	{piece}		t19	19	{value}
+	{piece}		t20	20	{value}
+	{piece}		t21	21	{value}
+	{piece}		t22	22	{value}
+	{piece}		t23	23	{value}
+	{piece}		t24	24	{value}
+	{piece}		t25	25	{value}
+	{piece}		t26	26	{value}
+	{piece}		t27	27	{value}
+	{piece}		t28	28	{value}
+	{piece}		t29	29	{value}
+	{piece}		t30	30	{value}
+	{piece}		t31	31	{value}
+	{piece}		t32	32	{value}
+	{piece}		t33	33	{value}
+	{piece}		t34	34	{value}
+	{piece}		t35	35	{value}
+	{piece}		t36	36	{value}
+	{piece}		t37	37	{value}
+	{piece}		t38	38	{value}
+	{piece}		t39	39	{value}
+	{piece}		t40	40	{value}
+	{piece}		t41	41	{value}
+	{piece}		t42	42	{value}
+	{piece}		t43	43	{value}
+	{piece}		t44	44	{value}
+	{piece}		t45	45	{value}
+	{piece}		t46	46	{value}
+	{piece}		t47	47	{value}
+	{piece}		t48	48	{value}
+	{piece}		t49	49	{value}
+	{piece}		t50	50	{value}
+	{piece}		t51	51	{value}
+	{piece}		t52	52	{value}
+	{piece}		t53	53	{value}
+	{piece}		t54	54	{value}
 pieces}
 
-' Dummy	IS MARK
-' trap	IS TRAP
+' m	IS MARK
+' t0	IS TRAP

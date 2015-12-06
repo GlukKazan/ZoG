@@ -104,14 +104,36 @@ DEFER		TRAP
 				ELSE
 					next-player
 				ENDIF
+			ENDIF SWAP 
+			piece-type TRAP >= IF
+				TRAP
+			ELSE
+				MARK 
 			ENDIF
-			SWAP MARK + create-player-piece-type
+			+ create-player-piece-type
 		ELSE
 			DROP
 			empty? NOT to-pos @ here = OR IF capture ENDIF
 		ENDIF
 		1+ DUP trace-count @ >=
 	UNTIL DROP
+;
+
+: check-normal ( -- )
+	a1 empty-at? h1 empty-at? AND 
+	h1 BEGIN
+		DUP enemy-at? IF
+			DUP piece-type-at MARK < IF
+				2DROP FALSE a3
+			ENDIF
+		ENDIF
+		DUP a3 = IF
+			TRUE
+		ELSE
+			1- FALSE
+		ENDIF
+	UNTIL DROP
+	verify
 ;
 
 : zero-p ( -- )

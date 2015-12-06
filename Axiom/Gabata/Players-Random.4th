@@ -1,5 +1,5 @@
 {players
-	{player} First
+	{player} First	{random}
 	{player} Second	{random}
 players}
 

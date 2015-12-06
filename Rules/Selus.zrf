@@ -14,8 +14,16 @@
   )
 )
 
+(define t
+  (piece
+     (name  t$1)
+     (image First  "../Images/Gabata/t$1.bmp"
+            Second "../Images/Gabata/t$1.bmp")
+  )
+)
+
 (game
-  (title "Gabata")
+  (title "Selus")
 
   (engine "../Axiom/Gabata/axiom.dll")
 
@@ -44,8 +52,8 @@
   )
 
   (board-setup
-    (First (p3 b1 c1 d1 e1 f1 g1 e2 f2 g2) (trap a1) )
-    (Second (p3 b3 c3 d3 e3 f3 g3 b2 c2 d2) (trap h1) )
+    (First (p3 b1 c1 d1 e1 f1 g1 e2 f2 g2) )
+    (Second (p3 b3 c3 d3 e3 f3 g3 b2 c2 d2) (m h3) )
   )
 
   (q 54) (q 53) (q 52) (q 51)
@@ -55,12 +63,10 @@
   (q 20) (q 19) (q 18) (q 17) (q 16) (q 15) (q 14) (q 13) (q 12) (q 11)
   (q 10) (q 9)  (q 8)  (q 7)  (q 6)  (q 5)  (q 4)  (q 3)  (q 2)  (q 1)
 
-  ; The following dummy piece is required in order to placate the Zillions engine.
-  ; It appears as though Zillions must find at least one "moves" keyword somewhere
-  ; in the zrf in order for it to be happy and thus allow "moves" to work correctly.
   (piece 
-     (name Dummy)
-     (dummy) (moves (from))
+     (name m)
+     (image First  "../Images/Gabata/invisible.bmp"
+            Second "../Images/Gabata/invisible.bmp")
   )
 
   (p 1)  (p 2)  (p 3)  (p 4)  (p 5)  (p 6)  (p 7)  (p 8)  (p 9)  (p 10)
@@ -70,15 +76,21 @@
   (p 41) (p 42) (p 43) (p 44) (p 45) (p 46) (p 47) (p 48) (p 49) (p 50)    
   (p 51) (p 52) (p 53) (p 54)
 
-  (piece 
-     (name trap)
-     (image First  "../Images/Gabata/invisible.bmp"
-            Second "../Images/Gabata/invisible.bmp")
-  )
-)
+  (t 0)
+  (t 1)  (t 2)  (t 3)  (t 4)  (t 5)  (t 6)  (t 7)  (t 8)  (t 9)  (t 10)
+  (t 11) (t 12) (t 13) (t 14) (t 15) (t 16) (t 17) (t 18) (t 19) (t 20)    
+  (t 21) (t 22) (t 23) (t 24) (t 25) (t 26) (t 27) (t 28) (t 29) (t 30)    
+  (t 31) (t 32) (t 33) (t 34) (t 35) (t 36) (t 37) (t 38) (t 39) (t 40)    
+  (t 41) (t 42) (t 43) (t 44) (t 45) (t 46) (t 47) (t 48) (t 49) (t 50)    
+  (t 51) (t 52) (t 53) (t 54)
 
-(variant
-  (title "Gabata (random)")
+  ; The following dummy piece is required in order to placate the Zillions engine.
+  ; It appears as though Zillions must find at least one "moves" keyword somewhere
+  ; in the zrf in order for it to be happy and thus allow "moves" to work correctly.
+  (piece 
+     (name Dummy)
+     (dummy) (moves (from))
+  )
 )
 
 (variant
@@ -86,9 +98,9 @@
 )
 
 (variant
-  (title "Gabata without serial capturing")
-)
-
-(variant
-  (title "Gabata without serial capturing (random)")
+  (title "Selus Problem")
+  (board-setup
+    (First (p1 b1 f1 f2) (p2 e2) (t1 f3) )
+    (Second (p1 d2 g3) (t0 c1) )
+  )
 )
