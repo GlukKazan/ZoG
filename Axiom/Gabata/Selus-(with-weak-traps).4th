@@ -1,4 +1,4 @@
-LOAD Selus-ST-TRUE.4th
+LOAD Selus-ST-FALSE.4th
 LOAD Players.4th
 LOAD Board.4th
 LOAD Common-Pieces.4th

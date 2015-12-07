@@ -50,7 +50,8 @@ DEFER		TRAP
 	ENDIF
 ;
 
-DEFER init-trace
+DEFER init-trace ( -- ) 
+DEFER race-condition ( -- )
 
 : build-trace ( -- )
 	init-trace
@@ -83,10 +84,7 @@ DEFER init-trace
 	here target-pos !
 	get-value 
 	0> IF
-		piece-type MARK < IF
-			TRAP a3 create-piece-type-at
-			next-player clear-zero
-		ENDIF
+		race-condition
 		DUP trace[] @ DUP 0> IF NEGATE ENDIF OVER trace[] !
 	ELSE
 		current-player clear-zero
@@ -94,7 +92,7 @@ DEFER init-trace
 	DROP
 ;
 
-DEFER get-mark
+DEFER get-mark ( player -- player piece-type )
 
 : use-trace ( -- )
 	0 BEGIN

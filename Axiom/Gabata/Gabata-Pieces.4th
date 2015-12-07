@@ -2,6 +2,15 @@
 
 ' gabata-init-trace IS init-trace
 
+: gabata-race-condition ( -- )
+	piece-type MARK < IF
+		TRAP a3 create-piece-type-at
+		next-player clear-zero
+	ENDIF
+;
+
+' gabata-race-condition IS race-condition
+
 : gabata-get-mark ( player -- player piece-type )
 	MARK
 ;

@@ -1,0 +1,24 @@
+Zillions Save Game File Version 0.02 CC
+RulesFile=Selus.zrf
+VariantName=Selus Problem
+1. p1 f1 - g1 x a1 First p1 g1
+1. p1 g3 x f3 Second p2 a2 First t0 f3
+2. p1 g1 - g2 x a1 First p1 g2
+2. p1 d2 x b1 Second q2 b1
+3. Pass
+3. q2 b1 x c1 x h1 Second t1 c1 First p1 d1
+4. p1 g2 x f2 First q2 f2
+4. Pass
+5. q2 f2 x e2 x a1 First p3 e2 Second p1 g3
+5. p1 g3 x f3 x h1 First t1 f3
+6. p1 d1 - e1 x a1 First p1 e1
+6. Pass
+7. p1 e1 - f1 x a1 First p1 f1
+7. Pass
+8. p1 f1 - g1 x a1 First p1 g1
+8. Pass
+9. p1 g1 - g2 x a1 First p1 g2
+9. Pass
+10. p1 g2 - f2 x a1 First p1 f2
+10. Pass
+11. p1 f2 x e2 First t4 e2

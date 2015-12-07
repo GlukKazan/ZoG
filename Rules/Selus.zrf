@@ -17,8 +17,8 @@
 (define t
   (piece
      (name  t$1)
-     (image First  "../Images/Gabata/t$1.bmp"
-            Second "../Images/Gabata/t$1.bmp")
+     (image First  "../Images/Gabata/f$1.bmp"
+            Second "../Images/Gabata/s$1.bmp")
   )
 )
 
@@ -94,11 +94,16 @@
 )
 
 (variant
+  (title "Selus (with weak traps)")
+)
+
+(variant
   (title "-")
 )
 
 (variant
   (title "Selus Problem")
+  (solution "Selus-Problem.zsg")
   (board-setup
     (First (p1 b1 f1 f2) (p2 e2) (t1 f3) )
     (Second (p1 d2 g3) (t0 c1) )

@@ -6,11 +6,16 @@ VARIABLE	trap-pos
 
 ' selus-init-trace IS init-trace
 
+: selus-race-condition ( -- ) ;
+
+' selus-race-condition IS race-condition
+
 : selus-get-mark ( player -- player piece-type )
 	piece-type TRAP >= IF
 		SWAP DROP player SWAP
 	ENDIF
 	piece-type TRAP >= trap-pos @ here = OR IF
+		DUP -1 = IF DROP 0 ENDIF
 		DUP 0< IF NEGATE ENDIF
 		TRAP
 	ELSE
@@ -19,6 +24,16 @@ VARIABLE	trap-pos
 ;
 
 ' selus-get-mark IS get-mark
+
+: get-x ( pos -- x )
+	COLS MOD
+;
+
+: on-board-at? ( pos -- ? )
+	get-x
+	DUP 0 >
+	SWAP 7 < AND
+;
 
 : create-trap ( -- )
 	0 BEGIN
@@ -31,6 +46,80 @@ VARIABLE	trap-pos
 	UNTIL DROP
 ;
 
+: is-enemy-ayemy? ( -- ? )
+	current-player First = IF
+		b1 here =
+	ELSE
+		g3 here =
+	ENDIF
+;
+
+: is-friend-ayemy? ( -- ? )
+	player current-player = IF
+		TRUE
+	ELSE
+		current-player First = IF
+			g3 here =
+		ELSE
+			b1 here =
+		ENDIF
+	ENDIF
+;
+
+: is-a-trap? ( -- ? )
+	piece-type TRAP >= IF
+		is-enemy-ayemy? IF
+			FALSE
+		ELSE
+			get-value 0> IF
+				is-friend-ayemy? IF
+					MARK a3 create-piece-type-at
+				ENDIF
+				TRUE
+			ELSE
+				FALSE
+			ENDIF
+		ENDIF
+	ELSE
+		FALSE
+	ENDIF
+;
+
+: trap-capture ( -- )
+	0 BEGIN
+		DUP positions[] @ here = IF
+			DUP trace[] @
+			DUP 0< IF NEGATE ENDIF
+			DUP 2 >= IF
+				2 - 
+				STRONG-TRAPS IF
+					DUP 0= IF 1- ENDIF
+				ENDIF
+				OVER trace[] !
+			ELSE
+				DROP
+			ENDIF
+		ENDIF
+		1+ DUP trace-count @ >=
+	UNTIL DROP
+	current-player First = IF h2 ELSE a2 ENDIF
+	get-value-at 2 + MARK + 
+	current-player First = IF h2 ELSE a2 ENDIF
+	create-piece-type-at
+;
+
+: not-enemies? ( -- ? )
+	TRUE h1 BEGIN
+		1-
+		DUP on-board-at? OVER enemy-at? AND IF
+			DUP piece-type-at TRAP < IF
+				2DROP FALSE 0
+			ENDIF
+		ENDIF
+		DUP 0=
+	UNTIL DROP
+;
+
 : move-p ( -- )
 	check-normal
 	piece piece-value stone-count !
@@ -38,9 +127,25 @@ VARIABLE	trap-pos
 	from here move
 	build-trace
 	h3 empty-at? IF
-		create-trap
+		is-a-trap? IF
+			trap-capture
+		ELSE
+			create-trap
+		ENDIF
 	ENDIF
 	from to use-trace
+	a3 enemy-at?
+	DUP IF
+		not-enemies? IF
+			a3 capture-at
+			DROP FALSE
+		ENDIF
+	ELSE
+		a3 friend-at? IF
+			a3 capture-at
+		ENDIF
+	ENDIF
+	NOT verify
 	h3 friend-at? target-pos @ empty-at? AND IF
 		h3 capture-at
 	ENDIF
