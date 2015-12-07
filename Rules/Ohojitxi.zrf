@@ -84,7 +84,7 @@ Jordi Climent Tondo in 2009, but this is a Catalanisation of the Ivorian spellin
     (grid
       (start-rectangle 6 4 73 89)
       (dimensions
-        ("a/b" (67 0)) ; files
+        ("a/b/c/d" (67 0)) ; files
         ("8/7/6/5/4/3/2/1" (0 85)) ; ranks
       )
     )
