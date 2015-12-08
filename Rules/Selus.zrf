@@ -24,6 +24,35 @@
 
 (game
   (title "Selus")
+  (description "Each move starts with a player emptying the contents of one of his holes that \
+is not a wegue (''wound''). Then, the seeds are dropped one by one into the following holes. \\
+If the last seed falls into an occupied hole other than a wegue, the player takes up its contents \
+and distributes these seeds in a new lap. The move ends if the last seed is dropped into an empty \
+hole. This is called kwah, an onomatopoetic word that imitates the sound of the stone alighting \
+on the board. \\
+It is not permitted to pass a move unless a player has no legal move left. \\
+Wegues are created when the last seed distributed falls into a hole of three, thus making \
+four seeds. The creator is called the owner of the wound who marks it in a distinctive way. \
+Creating a wegue ends the move. A wegue can be created on either side of the board. \\
+If the last seed of a move is dropped into a wegue, the player captures this seed and, \
+unless the wound was empty, one of the seeds it contained. Capturing is permitted from any wegue, \
+irrespective of the owner. The player must move again (beginning with any hole of his side which \
+is not a wegue) if he captured from a wegue he owns, but must stop moving, if he captured from \
+a wegue owned by his opponent. \\
+Exception: \\
+The two left-hand holes in a player's back row are called ayemi (''eye''). A player is not permitted \
+to capture from an eye on his side, only from the opponent's side. In that case, he must move again, \
+even if he has captured from an opponent's wegue. If the last seed fell into a wegue in your own ayemi, \
+the move ends. \\
+The creation of a wound is only permitted after the original set-up has been destroyed, i.e. after \
+the first move of a game. If, in the first move, the last seed makes four seeds, they are distributed \
+in another lap. \\
+The game ends when both players have no move left. Each player scores a point for each captured seed \
+and a point for each seed in a wegue owned by him. The player with most points wins.")
+  (history "Selus is a generic name given to mancala games which are played on three-row boards. Apparently, \
+the word derived from Geez selus which means ''three''.")
+  (strategy "Capturing wegue is crucial. A wegue in your own ayemi is bad for you unless the game has almost ended. \
+Avoid making a wegue in your opponent's holes. Players therefore always attempt to create a wegue in their own holes.")
 
   (engine "../Axiom/Gabata/axiom.dll")
 
