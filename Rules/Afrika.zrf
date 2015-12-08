@@ -1,21 +1,46 @@
 (define p
   (piece
      (name  p$1)
-     (image First  "Images/Afrika/p$1.bmp"
-            Second "Images/Afrika/p$1.bmp")
+     (image First  "../Images/Afrika/p$1.bmp"
+            Second "../Images/Afrika/p$1.bmp")
   )
 )
 
 (define q
   (piece
      (name  q$1)
-     (image First  "Images/Afrika/q$1.bmp"
-            Second "Images/Afrika/q$1.bmp")
+     (image First  "../Images/Afrika/q$1.bmp"
+            Second "../Images/Afrika/q$1.bmp")
   )
 )
 
 (game
   (title "Afrika")
+  (description "Play is counterclockwise and single-lap.\\
+If you have no empty holes which are opposite to a non-empty hole of your opponent, \
+you distribute the contents of one of your holes, one by one, into the following holes. \
+If there are enough stones, the starting hole is skipped. Then your turn ends without \
+anything being captured. \\
+If you have an empty hole which is opposite to a non-empty hole of your opponent, \
+you must capture its contents. If more than one capture is possible, you can capture \
+the contents of only one hole per move. You must capture the hole which contains \
+the smallest number of stones, but if there are several holes with the same minimum \
+number, you decide which contents you take first. If you can capture, you must capture. \
+You may not distribute the contents of a hole and capture in the same turn. \\
+The game ends when the board is empty. The player gaining the largest number \
+of stones is accounted the winner.")
+  (history "Afrika (German for: ''Africa''), a mancala game, was designed on March 2, 2004, \
+by Ralf Gering in Bad Breisig, Germany.")
+  (strategy "Several strategies are known:\\
+- Sacrifices and forced moves are crucial for winning the game. Often players try \
+to keep ''sente'' (a term borrowed from the Japanese game of go) by sacrificing \
+the contents of at least two holes by winning a larger number of stones from \
+just one hole.\\
+- In the opening the second player must play very carefull until he emptied \
+each of his holes at least once. Otherwise the first player might be able \
+to set up an advantageous 1 to 2 exchange and keep sente. \\
+- At the end of the game players try to move as many of his stones into \
+the opponent's camp so that they can be attacked by him.")
 
   (engine "../Axiom/Afrika/axiom.dll")
 
@@ -82,6 +107,10 @@
 
 (variant
   (title "Afrika (Losing-game)")
+  (description "The only change of rules is that the first player who captures \
+more than half of the stones loses.")
+  (history "Benedikt Rosenau from Gottingen, Germany, suggested Give-away Afrika \
+(a misere game) on November 10, 2010.")
 )
 
 (variant
