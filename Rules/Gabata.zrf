@@ -16,6 +16,19 @@
 
 (game
   (title "Gabata")
+  (description "At the start of the game, each player simultaneously picks up the pieces in his first hole, and sows \
+the pieces by dropping one in each subsequent hole along the route described above.\\
+This is a race, and it continues until one of the players drops their last piece into an empty hole. \
+The game proper then begins as below. From this point on, the players take turns, starting with the player \
+who dropped his last piece in the empty hole. \\
+To move, a player selects any one of his own holes, and sows it. If the last piece drops into an already-occupied \
+hole, all the pieces are picked up from that hole and the player continues to sow. This continues until the \
+last piece is dropped into an empty hole. At that point, the player captures any enemy pieces in the same column \
+of holes into which he dropped that last piece. If nothing is captured, the turn ends. \\
+At some point, one player's side will be empty of pieces.")
+  (history "One of the diverse mancala family of games is Gabata, played on three rows of six holes.\\
+Its antiquity is not known, but it was first recorded in western literature by J. T. Bent in 1893, \
+in his book Sacred City of the Ethiopians.")
 
   (engine "../Axiom/Gabata/axiom.dll")
 
