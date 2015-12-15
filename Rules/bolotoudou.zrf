@@ -21,6 +21,12 @@
    )
 )
 
+(define set-in-line
+   (if (in-zone? in-line-option $1)
+       (set-attribute in-line? true)
+   )
+)
+
 (define check-side
    (set-flag is-checked? false)
    (if (my-friend? $1)
@@ -38,6 +44,11 @@
        (if (flag? is-checked?)
            (set-position-flag is-marked? true $2)
            (set-position-flag is-marked? true $3)
+           mark
+           (set-in-line $4) $1
+           (set-in-line $4) $1
+           (set-in-line $4)
+           back
        )
    )
 )
@@ -45,11 +56,14 @@
 (define check-middle
    (if (and (my-friend? $1) (my-friend? $2))
        (set-flag is-accepted? false)
+       (set-in-line $5)
        mark
        $1
+       (set-in-line $5)
        (set-position-flag is-marked? true $3)
        (set-position-flag is-marked? true $4)
        $2 $2
+       (set-in-line $5)
        (set-position-flag is-marked? true $3)
        (set-position-flag is-marked? true $4)
        back
@@ -62,10 +76,10 @@
    (verify (in-zone? inner))
    (verify empty?)
    (set-flag is-accepted? true)
-   (check-side n w e) (check-side s w e)
-   (check-side w n s) (check-side e n s)
-   (check-middle n s w e)
-   (check-middle w e n s)
+   (check-side n w e $1) (check-side s w e $1)
+   (check-side w n s $1) (check-side e n s $1)
+   (check-middle n s w e $1)
+   (check-middle w e n s $1)
    (verify (flag? is-accepted?))
    (set-flag continue true)
    mark a0
@@ -80,17 +94,17 @@
    add
 ))
 
-(define shift-man (
+(define shift-common
    (set-position-flag from? true)
    (verify (in-zone? inner))
    $1
    (verify (in-zone? inner))
    (verify empty?)
    (set-flag is-accepted? true)
-   (check-side $1 $2 $4)
-   (check-side $2 $3 $1)
-   (check-side $4 $1 $3)
-   (check-middle $2 $4 $1 $3)
+   (check-side $1 $2 $4 $5)
+   (check-side $2 $3 $1 $5)
+   (check-side $4 $1 $3 $5)
+   (check-middle $2 $4 $1 $3 $5)
    (if (not-flag? is-accepted?)
         mark a0 
         (while (on-board? next) 
@@ -102,36 +116,35 @@
         back
    )
    add
+)
+
+(define clear-in-line
+   mark
+   $1 
+   (set-attribute in-line? false)
+   (set-position-flag is-from true)
+   a0 
+   (while (on-board? next) 
+        next
+        (if (and friend? in-line? (not-position-flag? is-from))
+            (set-attribute in-line? false)
+        )
+   )
+   back
+)
+
+(define shift-prior (
+   (verify in-line?)
+   (clear-in-line $1)
+   (shift-common $1 $2 $3 $4 $5)
 ))
 
-(game
-  (title "Bolotoudou")
-  (description "")
-  (history  "Traditional game.")
+(define shift-man (
+   (verify (not in-line?))
+   (shift-common $1 $2 $3 $4 $5)
+))
 
-  (move-sound    "Audio/Pickup.wav")
-  (release-sound "Audio/Pickup.wav")
-  (drop-sound    "Audio/Pickup.wav")
-  (capture-sound "")
-
-  (option "pass turn" forced)
-  (option "recycle captures" true)
-  (option "prevent flipping" 2)
-  (option "animate captures" false)
-  (option "animate drops" false)
-
-  (players    White Black)
-  (turn-order (White droptype) (White droptype) (Black droptype) (Black droptype)
-              (White droptype) (White droptype) (Black droptype) (Black droptype)
-              (White droptype) (White droptype) (Black droptype) (Black droptype)
-              (White droptype) (White droptype) (Black droptype) (Black droptype)
-              (White droptype) (White droptype) (Black droptype) (Black droptype)
-              (White droptype) (White droptype) (Black droptype) (Black droptype)
-              repeat 
-              (White normaltype) (White capturetype)
-              (Black normaltype) (Black capturetype)
-  )
-
+(define board-def
   (board
     (image "../images/yote/Yote.bmp")
     (grid
@@ -154,8 +167,40 @@
                      6a 6b 6c 6d 6e
           )
     )
+    (zone (name in-line-option) (players White Black) (positions $1))
   )
+)
 
+(game
+  (title "Bolotoudou")
+  (description "")
+  (history  "Traditional game.")
+
+  (move-sound    "Audio/Pickup.wav")
+  (release-sound "Audio/Pickup.wav")
+  (drop-sound    "Audio/Pickup.wav")
+  (capture-sound "")
+
+  (option "pass turn" forced)
+  (option "recycle captures" true)
+  (option "prevent flipping" 2)
+  (option "animate captures" false)
+  (option "animate drops" false)
+
+  (move-priorities prioritytype normaltype)
+
+  (players    White Black)
+  (turn-order (White droptype) (White droptype) (Black droptype) (Black droptype)
+              (White droptype) (White droptype) (Black droptype) (Black droptype)
+              (White droptype) (White droptype) (Black droptype) (Black droptype)
+              (White droptype) (White droptype) (Black droptype) (Black droptype)
+              (White droptype) (White droptype) (Black droptype) (Black droptype)
+              (White droptype) (White droptype) (Black droptype) (Black droptype)
+              repeat 
+              White (White capturetype)
+              Black (Black capturetype)
+  )
+  (board-def 1c)
   (piece
      (name  Lock)
      (image White "../images/other/pass.bmp"
@@ -169,17 +214,23 @@
      (name  Man)
      (image White "../images/Hasami_Shogi/WStone.bmp"
             Black "../images/Hasami_Shogi/BStone.bmp")
+     (attribute in-line? false)
      (attribute is-capturing? false)
      (drops
         (move-type droptype)
-           (drop-man)
+           (drop-man 1b)
      )
      (moves
+        (move-type prioritytype)
+           (shift-prior n e s w 1a)
+           (shift-prior e s w n 1a)
+           (shift-prior s w n e 1a)
+           (shift-prior w n e s 1a)
         (move-type normaltype)
-           (shift-man n e s w)
-           (shift-man e s w n)
-           (shift-man s w n e)
-           (shift-man w n e s)
+           (shift-man n e s w 1a)
+           (shift-man e s w n 1a)
+           (shift-man s w n e 1a)
+           (shift-man w n e s 1a)
      )
   )
 
@@ -189,4 +240,9 @@
   )
 
   (loss-condition (White Black) (pieces-remaining 2))
+)
+
+(variant
+  (title "Bolotoudou (variant)")
+  (board-def 1a)
 )
