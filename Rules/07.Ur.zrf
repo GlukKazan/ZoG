@@ -371,7 +371,7 @@
 )
 
 (define board-defs
-  (image "images/Ur/ur.bmp")
+  (image "../Images/Ur/ur.bmp")
   (grid
      (start-rectangle -483 27 -422 99)
      (dimensions
@@ -534,31 +534,31 @@
 
    (piece
 	  (name wdice)
-          (image ?Dice "images/Ur/wdice.bmp")
+          (image ?Dice "../Images/Ur/d110.bmp")
           (drops (move-type drop-type) (drop-dice) )
    )
    (piece
 	  (name bdice)
-          (image ?Dice "images/Ur/bdice.bmp")
+          (image ?Dice "../Images/Ur/d011.bmp")
           (drops (move-type drop-type) (drop-dice) )
    )
    (piece
 	  (name lock)
-          (image ?Dice "images/Ur/invisible.bmp")
+          (image ?Dice "../Images/Ur/invisible.bmp")
           (drops (move-type clear-type) (clear-dices) )
    )
    (piece
 	  (name ulock)
-          (image Up    "images/Ur/invisible.bmp")
+          (image Up    "../Images/Ur/invisible.bmp")
    )
    (piece
 	  (name dlock)
-          (image Down  "images/Ur/invisible.bmp")
+          (image Down  "../Images/Ur/invisible.bmp")
    )
 
    (piece
 	  (name  uinitial)
-          (image Up   "images/Ur/binit.bmp")
+          (image Up   "../Images/Ur/binit.bmp")
       (moves
           (step-1 anext Down dinitial upromouted dinitial dpromouted Up dlock)
           (step-2 anext Down dinitial upromouted dinitial dpromouted Up dlock)
@@ -568,7 +568,7 @@
    )
    (piece
 	  (name  upromouted)
-          (image Up   "images/Ur/bprom.bmp")
+          (image Up   "../Images/Ur/bprom.bmp")
       (moves
           (step-1 cnext Down dinitial upromouted dpromouted dpromouted Up dlock)
           (step-2 cnext Down dinitial upromouted dpromouted dpromouted Up dlock)
@@ -578,7 +578,7 @@
    )
    (piece
 	  (name  dinitial)
-          (image Down "images/Ur/winit.bmp")
+          (image Down "../Images/Ur/winit.bmp")
       (moves
           (step-1 anext Up uinitial dpromouted uinitial upromouted Up ulock)
           (step-2 anext Up uinitial dpromouted uinitial upromouted Up ulock)
@@ -588,7 +588,7 @@
    )
    (piece
 	  (name  dpromouted)
-          (image Down "images/Ur/wprom.bmp")
+          (image Down "../Images/Ur/wprom.bmp")
       (moves
           (step-1 cnext Up uinitial dpromouted upromouted upromouted Up ulock)
           (step-2 cnext Up uinitial dpromouted upromouted upromouted Up ulock)
@@ -617,12 +617,12 @@
 
    (piece
 	  (name ulock)
-          (image ?Up   "images/Ur/invisible.bmp")
+          (image ?Up   "../Images/Ur/invisible.bmp")
    )
 
    (piece
 	  (name  uinitial)
-          (image ?Up   "images/Ur/binit.bmp")
+          (image ?Up   "../Images/Ur/binit.bmp")
       (moves
           (step-1 anext Down dinitial upromouted dinitial dpromouted ?Up dlock)
           (step-2 anext Down dinitial upromouted dinitial dpromouted ?Up dlock)
@@ -632,7 +632,7 @@
    )
    (piece
 	  (name  upromouted)
-          (image ?Up   "images/Ur/bprom.bmp")
+          (image ?Up   "../Images/Ur/bprom.bmp")
       (moves
           (step-1 cnext Down dinitial upromouted dpromouted dpromouted ?Up dlock)
           (step-2 cnext Down dinitial upromouted dpromouted dpromouted ?Up dlock)
@@ -642,7 +642,7 @@
    )
    (piece
 	  (name  dinitial)
-          (image Down "images/Ur/winit.bmp")
+          (image Down "../Images/Ur/winit.bmp")
       (moves
           (step-1 anext ?Up uinitial dpromouted uinitial upromouted ?Up ulock)
           (step-2 anext ?Up uinitial dpromouted uinitial upromouted ?Up ulock)
@@ -652,7 +652,7 @@
    )
    (piece
 	  (name  dpromouted)
-          (image Down "images/Ur/wprom.bmp")
+          (image Down "../Images/Ur/wprom.bmp")
       (moves
           (step-1 cnext ?Up uinitial dpromouted upromouted upromouted ?Up ulock)
           (step-2 cnext ?Up uinitial dpromouted upromouted upromouted ?Up ulock)
@@ -723,12 +723,12 @@
 
    (piece
 	  (name ulock)
-          (image ?Up   "images/Ur/invisible.bmp")
+          (image ?Up   "../Images/Ur/invisible.bmp")
    )
 
    (piece
 	  (name  uinitial)
-          (image ?Up   "images/Ur/binit.bmp")
+          (image ?Up   "../Images/Ur/binit.bmp")
       (moves
           (step-1 anext Down dinitial upromouted dinitial dpromouted ?Up dlock)
           (step-2 anext Down dinitial upromouted dinitial dpromouted ?Up dlock)
@@ -738,7 +738,7 @@
    )
    (piece
 	  (name  upromouted)
-          (image ?Up   "images/Ur/bprom.bmp")
+          (image ?Up   "../Images/Ur/bprom.bmp")
       (moves
           (step-1 cnext Down dinitial upromouted dpromouted dpromouted ?Up dlock)
           (step-2 cnext Down dinitial upromouted dpromouted dpromouted ?Up dlock)
@@ -748,7 +748,7 @@
    )
    (piece
 	  (name  dinitial)
-          (image Down "images/Ur/winit.bmp")
+          (image Down "../Images/Ur/winit.bmp")
       (moves
           (step-1 anext ?Up uinitial dpromouted uinitial upromouted ?Up ulock)
           (step-2 anext ?Up uinitial dpromouted uinitial upromouted ?Up ulock)
@@ -758,7 +758,7 @@
    )
    (piece
 	  (name  dpromouted)
-          (image Down "images/Ur/wprom.bmp")
+          (image Down "../Images/Ur/wprom.bmp")
       (moves
           (step-1 cnext ?Up uinitial dpromouted upromouted upromouted ?Up ulock)
           (step-2 cnext ?Up uinitial dpromouted upromouted upromouted ?Up ulock)

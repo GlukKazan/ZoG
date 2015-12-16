@@ -490,18 +490,26 @@ move-priorities}
 	{piece}		lock	{moves} clears
 	{piece}		init	{moves} i-moves
 	{piece}		prom	{moves} p-moves
-	{piece}		wdice	{drops} drops 
+	{piece}		wdice-0	{drops} drops 
 					1 {value}
-	{piece}		bdice	{drops} drops 
+	{piece}		wdice-1	{drops} drops 
+					1 {value}
+	{piece}		wdice-2	{drops} drops 
+					1 {value}
+	{piece}		bdice-1	{drops} drops 
+					0 {value}
+	{piece}		bdice-2	{drops} drops 
+					0 {value}
+	{piece}		bdice-3	{drops} drops 
 					0 {value}
 pieces}
 
 ' lock	IS LOCK
 
 {board-setup
-	{setup}	?Dice wdice r4
-	{setup}	?Dice bdice r3
-	{setup}	?Dice bdice r2
+	{setup}	?Dice wdice-1 r4
+	{setup}	?Dice bdice-1 r3
+	{setup}	?Dice bdice-1 r2
 	{setup}	?Dice lock  r1
 
 	{setup}	Black init i5
