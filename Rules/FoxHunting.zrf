@@ -1,0 +1,52 @@
+(define dg
+  (piece
+     (name  d$1)
+     (help "$1 foxes")
+     (image You "../Images/FoxHunting/$1.bmp")
+  )
+)
+
+(game
+  (title "Fox Hunting")
+
+  (engine "../Axiom/FoxHunting/axiom.dll")
+
+  (option "animate drops" false)
+  (option "animate captures" false)
+  (option "show moves list" false)
+
+  (capture-sound "Audio/Click.WAV")
+  (drop-sound "Audio/Click.WAV")
+
+  (players ?S You)
+
+  (turn-order ?S ?S ?S ?S ?S ?S ?S ?S repeat You)
+
+  (board
+    (image "../Images/FoxHunting/Board10x10.bmp")
+    (grid
+      (start-rectangle 0 0 32 32)
+      (dimensions ; 16 rows, 16 columns
+        ("a/b/c/d/e/f/g/h/i/j"   (32 0)) ; files (columns)
+        ("10/9/8/7/6/5/4/3/2/1"  (0 32)) ; rank (rows)
+      )
+    )
+  )
+
+  (dg 0) (dg 1) (dg 2) (dg 3) (dg 4) (dg 5) (dg 6) (dg 7) (dg 8)
+
+  (piece
+     (name  fox)
+     (help " ")
+     (image ?S  "../Images/FoxHunting/invisible.bmp"
+            You "../Images/FoxHunting/fox.bmp")
+  )
+
+  ; The following dummy piece is required in order to placate the Zillions engine.
+  ; It appears as though Zillions must find at least one "moves" keyword somewhere
+  ; in the zrf in order for it to be happy and thus allow "moves" to work correctly.
+  (piece 
+     (name Dummy)
+     (dummy) (moves (from))
+  )
+)
