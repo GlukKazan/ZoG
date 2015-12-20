@@ -11,12 +11,14 @@
 
   (engine "../Axiom/FoxHunting/axiom.dll")
 
+  (option "pass turn" forced)
   (option "animate drops" false)
   (option "animate captures" false)
   (option "show moves list" false)
 
-  (capture-sound "Audio/Click.WAV")
   (drop-sound "Audio/Click.WAV")
+  (capture-sound "")
+  (move-sound "")
 
   (players ?S You)
 
@@ -49,4 +51,22 @@
      (name Dummy)
      (dummy) (moves (from))
   )
+)
+
+(variant
+  (title "Fox Hunting (transparent)")
+)
+
+(variant
+  (title "-")
+)
+
+(variant
+  (title "Moving Fox")
+  (turn-order ?S ?S ?S ?S ?S ?S ?S ?S repeat You ?S)
+)
+
+(variant
+  (title "Moving Fox (transparent)")
+  (turn-order ?S ?S ?S ?S ?S ?S ?S ?S repeat You ?S)
 )

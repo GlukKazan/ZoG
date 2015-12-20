@@ -1,13 +1,26 @@
 VARIABLE	fox-cnt
 VARIABLE	is-fox?
+VARIABLE	to-pos
 
 DEFER		ZERO
 DEFER		FOX
 
+: check-fox? ( -- ? )
+	here to-pos @ = IF
+		TRUE
+	ELSE
+		here from = empty? OR IF
+			FALSE
+		ELSE
+			piece-type FOX =
+		ENDIF
+	ENDIF
+;
+
 : calc-dir ( 'dir -- )
 	BEGIN
 		DUP EXECUTE IF
-			piece-type FOX = IF
+			check-fox? IF
 				fox-cnt ++
 				transparent? IF
 					FALSE
@@ -36,6 +49,22 @@ DEFER		FOX
 	fox-cnt @
 ;
 
+: recalc-all ( -- )
+	SZ SZ * BEGIN
+		1-
+		DUP player-at You = OVER piece-type-at FOX < AND IF
+			DUP to
+			calc-foxes ZERO +
+			DUP piece-type = IF
+				DROP
+			ELSE
+				You SWAP create-player-piece-type
+			ENDIF
+		ENDIF
+		DUP 0=
+	UNTIL DROP
+;
+
 : setup-drop ( -- )
 	empty? verify
 	drop
@@ -43,6 +72,7 @@ DEFER		FOX
 ;
 
 : normal-drop ( -- )
+	-1 to-pos !
 	friend? NOT verify
 	enemy? is-fox? !
 	drop
@@ -56,24 +86,17 @@ DEFER		FOX
 	add-move
 ;
 
-{moves fox-moves
-	{move} setup-drop	{move-type} setup
-	{move} normal-drop	{move-type} normal
-moves}
+: move-fox ( 'dir -- )
+	EXECUTE verify
+	empty? verify
+	here to-pos !
+	from here move
+	recalc-all
+	add-move
+;
 
-{pieces
-	{piece}		d0
-	{piece}		d1
-	{piece}		d2
-	{piece}		d3
-	{piece}		d4
-	{piece}		d5
-	{piece}		d6
-	{piece}		d7
-	{piece}		d8
+: move-n ( -- ) ['] n move-fox ;
+: move-s ( -- ) ['] s move-fox ;
+: move-w ( -- ) ['] w move-fox ;
+: move-e ( -- ) ['] e move-fox ;
 
-	{piece}		fox	{drops} fox-moves
-pieces}
-
-' d0	IS ZERO
-' fox	IS FOX
