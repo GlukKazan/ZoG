@@ -8,6 +8,10 @@
 
 (game
   (title "Fox Hunting")
+  (description "Find all 8 foxes.\\
+Try any square to get the number of foxes on the vertical, horizontal \
+and diagonals.\\
+ two foxes are in the same direction, one of which hides another.")
 
   (engine "../Axiom/FoxHunting/axiom.dll")
 
@@ -55,6 +59,10 @@
 
 (variant
   (title "Fox Hunting (transparent)")
+  (description "Find all 8 foxes.\\
+Try any square to get the number of foxes on the vertical, horizontal \
+and diagonals.")
+  (default)
 )
 
 (variant
@@ -63,10 +71,19 @@
 
 (variant
   (title "Moving Fox")
+  (description "Find all 8 foxes.\\
+Try any square to get the number of foxes on the vertical, horizontal \
+and diagonals.\\
+ two foxes are in the same direction, one of which hides another.\\
+Fox can move in one of four directions.")
   (turn-order ?S ?S ?S ?S ?S ?S ?S ?S repeat You ?S)
 )
 
 (variant
   (title "Moving Fox (transparent)")
+  (description "Find all 8 foxes.\\
+Try any square to get the number of foxes on the vertical, horizontal \
+and diagonals.\\
+Fox can move in one of four directions.")
   (turn-order ?S ?S ?S ?S ?S ?S ?S ?S repeat You ?S)
 )
