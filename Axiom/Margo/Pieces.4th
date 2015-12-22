@@ -225,13 +225,9 @@ DEFER	sw-piece
 
 : get-height ( -- n )
 	here
-	1 BEGIN
-		up NOT empty? OR IF
-			TRUE
-		ELSE
-			1+
-			FALSE
-		ENDIF
+	0 BEGIN
+		1+
+		up NOT
 	UNTIL SWAP to
 ;
 
@@ -245,7 +241,8 @@ DEFER	sw-piece
 				0> IF
 					FALSE
 				ELSE
-					BEGIN up NOT UNTIL
+					BEGIN d NOT empty? OR UNTIL
+					empty? IF u verify ENDIF
 					TRUE
 				ENDIF			
 			ENDIF
@@ -363,6 +360,10 @@ DEFER	sw-piece
 	0 BEGIN
 		DUP zombies-count @ < IF
 			DUP zombies[] @ DUP to
+			down IF
+				add-zombies 
+				DUP to
+			ENDIF
 			piece-type nw-piece equal-types? IF
 				south IF
 					add-zombies 
