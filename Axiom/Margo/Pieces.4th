@@ -316,15 +316,61 @@ DEFER	sw-piece
 	UNTIL DROP
 ;
 
+: is-covered? ( -- ? )
+	player up empty? NOT AND IF
+		player <>
+	ELSE
+		DROP FALSE
+	ENDIF
+;
+
+: check-bridge? ( 'dir piece-type -- ? )
+	piece-type SWAP equal-types? IF
+		here
+		is-covered? IF
+			SWAP OVER to
+			EXECUTE IF
+				is-covered?
+				SWAP to
+			ELSE
+				to FALSE
+			ENDIF
+		ELSE
+			to DROP FALSE
+		ENDIF
+	ELSE
+		DROP FALSE
+	ENDIF
+;
+
+: common-cutting ( 'dir 'dir piece-type 'dir piece-type -- ? )
+	BRIDGE-CUTTING IF
+		check-bridge? IF
+			2DROP TRUE
+		ELSE
+			check-bridge?
+		ENDIF
+	ELSE
+		2DROP 2DROP
+		FALSE
+	ENDIF
+	IF DROP FALSE ELSE EXECUTE ENDIF
+;
+
+: north-cutting ( -- ) ['] north ['] east  nw-piece ['] west  ne-piece common-cutting ;
+: south-cutting ( -- ) ['] south ['] east  sw-piece ['] west  se-piece common-cutting ;
+: west-cutting  ( -- ) ['] west  ['] south nw-piece ['] north sw-piece common-cutting ;
+: east-cutting  ( -- ) ['] east  ['] south ne-piece ['] north se-piece common-cutting ;
+
 : proceed-alive ( 'op -- 'op )
 	0 BEGIN
 		DUP alive-count @ < IF
-			DUP alive[] @ to OVER ['] north check-alive
-			DUP alive[] @ to OVER ['] south check-alive
-			DUP alive[] @ to OVER ['] west  check-alive
-			DUP alive[] @ to OVER ['] east  check-alive
-			DUP alive[] @ to OVER ['] up    check-alive
-			DUP alive[] @ to OVER ['] down  check-alive
+			DUP alive[] @ to OVER ['] north-cutting check-alive
+			DUP alive[] @ to OVER ['] south-cutting check-alive
+			DUP alive[] @ to OVER ['] west-cutting  check-alive
+			DUP alive[] @ to OVER ['] east-cutting  check-alive
+			DUP alive[] @ to OVER ['] up            check-alive
+			DUP alive[] @ to OVER ['] down          check-alive
 			1+ FALSE
 		ELSE
 			TRUE
