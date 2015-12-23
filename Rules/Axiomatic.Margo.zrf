@@ -167,7 +167,6 @@
 (variant
    (title "Lesson 3")
    (description "Bridge cutting")
-   (default)
    (board
       (image "../images/margo/4x4.bmp")
       (grid

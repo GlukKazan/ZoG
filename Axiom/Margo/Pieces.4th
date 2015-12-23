@@ -227,7 +227,7 @@ DEFER	sw-piece
 	here
 	0 BEGIN
 		1+
-		up NOT
+		d NOT empty? OR
 	UNTIL SWAP to
 ;
 
@@ -251,7 +251,7 @@ DEFER	sw-piece
 		ENDIF
 	ELSE
 		here OVER EXECUTE NOT empty? OR IF
-			to BEGIN up NOT UNTIL
+			to BEGIN u NOT UNTIL
 			EXECUTE
 		ELSE
 			2DROP TRUE
