@@ -12,6 +12,8 @@ LOAD Pieces.4th
 	{setup}	W	tw	g16
 	{setup}	W	tw	g18
 	{setup}	W	tw	e20
+	{setup}	W	tw	a14
+	{setup}	W	tw	g14
 	
 	{setup}	W	tn	b16
 	{setup}	W	tn	d14
@@ -19,6 +21,8 @@ LOAD Pieces.4th
 	{setup}	W	tn	h16
 	{setup}	W	tn	h18
 	{setup}	W	tn	f20
+	{setup}	W	tn	b14
+	{setup}	W	tn	h14
 
 	{setup}	W	te	b15
 	{setup}	W	te	d13
@@ -26,6 +30,8 @@ LOAD Pieces.4th
 	{setup}	W	te	h15
 	{setup}	W	te	h17
 	{setup}	W	te	f19
+	{setup}	W	te	b13
+	{setup}	W	te	h13
 
 	{setup}	W	te	a15
 	{setup}	W	te	c13
@@ -33,6 +39,8 @@ LOAD Pieces.4th
 	{setup}	W	te	g15
 	{setup}	W	te	g17
 	{setup}	W	te	e19
+	{setup}	W	te	a13
+	{setup}	W	te	g13
 
 	{setup}	B	tw	a18
 	{setup}	B	tw	c16

@@ -139,7 +139,7 @@
       )
    )
    (board-setup
-      (W (tw a16 c14 e14 g16 g18 e20) (tn b16 d14 f14 h16 h18 f20) (te b15 d13 f13 h15 h17 f19) (ts a15 c13 e13 g15 g17 e19) )
+      (W (tw a16 c14 e14 g16 g18 e20 a14 g14) (tn b16 d14 f14 h16 h18 f20 b14 h14) (te b15 d13 f13 h15 h17 f19 b13 h13) (ts a15 c13 e13 g15 g17 e19 a13 g13) )
       (B (tw a18 c16 c20 e16) (tn b18 d16 f16 d20) (te b17 d15 f15 d19) (ts a17 c15 e15 c19) )
    )
 )
