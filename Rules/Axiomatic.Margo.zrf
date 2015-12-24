@@ -2,14 +2,14 @@
 
 (define tile
    (name  $1$2)
-   (image W "../images/margo/$3.bmp"
-          B "../images/margo/$4.bmp")
+   (image W "../Images/margo/$3.bmp"
+          B "../Images/margo/$4.bmp")
 )
 
 (variant
    (title "MarGo 4x4")
    (board
-      (image "../images/margo/4x4.bmp")
+      (image "../Images/margo/4x4.bmp")
       (grid
          (start-rectangle 30 30 59 59)
          (dimensions
@@ -23,7 +23,7 @@
 (variant
    (title "MarGo 6x6")
    (board
-      (image "../images/margo/6x6.bmp")
+      (image "../Images/margo/6x6.bmp")
       (grid
          (start-rectangle 30 30 59 59)
          (dimensions
@@ -36,7 +36,7 @@
 
 (game 
    (title "MarGo 7x7")
-   (default)
+;  (default)
 
    (engine "../Axiom/Margo/axiom.dll")
 
@@ -52,7 +52,7 @@
    (turn-order (W normal) (?C W clean) (B normal) (?C B clean))
 
    (board
-      (image "../images/margo/7x7.bmp")
+      (image "../Images/margo/7x7.bmp")
       (grid
          (start-rectangle 30 30 59 59)
          (dimensions
@@ -64,27 +64,27 @@
 
    (piece
       (name  M)
-      (image W "../images/margo/m.bmp"
-             B "../images/margo/m.bmp")
+      (image W "../Images/margo/m.bmp"
+             B "../Images/margo/m.bmp")
    )
 
    (piece (tile t w wtnw btnw) )
-   (piece (tile z w m m) )
+   (piece (tile z w m    m) )
    (piece (tile w w wwnw bwnw) )
    (piece (tile b w wbnw bbnw) )
 
    (piece (tile t n wtne btne) )
-   (piece (tile z n m m) )
+   (piece (tile z n m    m) )
    (piece (tile w n wwne bwne) )
    (piece (tile b n wbne bbne) )
 
    (piece (tile t e wtse btse) )
-   (piece (tile z e m m) )
+   (piece (tile z e m    m) )
    (piece (tile w e wwse bwse) )
    (piece (tile b e wbse bbse) )
 
    (piece (tile t s wtsw btsw) )
-   (piece (tile z s m m) )
+   (piece (tile z s m    m) )
    (piece (tile w s wwsw bwsw) )
    (piece (tile b s wbsw bbsw) )
 
@@ -97,7 +97,7 @@
 (variant
    (title "MarGo 8x8")
    (board
-      (image "../images/margo/8x8.bmp")
+      (image "../Images/margo/8x8.bmp")
       (grid
          (start-rectangle 30 30 59 59)
          (dimensions
@@ -111,7 +111,7 @@
 (variant
    (title "MarGo 9x9")
    (board
-      (image "../images/margo/9x9.bmp")
+      (image "../Images/margo/9x9.bmp")
       (grid
          (start-rectangle 30 30 59 59)
          (dimensions
@@ -128,20 +128,19 @@
 
 (variant
    (title "Lesson 1")
-   (description "Atari")
    (board
-      (image "../images/margo/9x9.bmp")
+      (image "../Images/margo/4x4.bmp")
       (grid
          (start-rectangle 30 30 59 59)
          (dimensions
-             ("a/b/c/d/e/f/g/h/i/j/k/l/m/n/o/p/q/r" (30 0)) ; files
-             ("90/89/88/87/86/85/84/83/82/81/80/79/78/77/76/75/74/73/72/71/70/69/68/67/66/65/64/63/62/61/60/59/58/57/56/55/54/53/52/51/50/49/48/47/46/45/44/43/42/41/40/39/38/37/36/35/34/33/32/31/30/29/28/27/26/25/24/23/22/21/20/19/18/17/16/15/14/13/12/11/10/9/8/7/6/5/4/3/2/1" (0 30)) ; ranks
+             ("a/b/c/d/e/f/g/h" (30 0)) ; files
+             ("20/19/18/17/16/15/14/13/12/11/10/9/8/7/6/5/4/3/2/1" (0 30)) ; ranks
          )
       )
    )
    (board-setup
-      (W (tw m88 o86 o84) (tn n88 p86 p84) (te n87 p85 p83) (ts m87 o85 o83) )
-      (B (tw m86) (tn n86) (te n85) (ts m85) )
+      (W (tw a16 c14 e14 g16 g18 e20) (tn b16 d14 f14 h16 h18 f20) (te b15 d13 f13 h15 h17 f19) (ts a15 c13 e13 g15 g17 e19) )
+      (B (tw a18 c16 c20 e16) (tn b18 d16 f16 d20) (te b17 d15 f15 d19) (ts a17 c15 e15 c19) )
    )
 )
 
@@ -149,7 +148,7 @@
    (title "Lesson 2")
    (description "Zombie")
    (board
-      (image "../images/margo/4x4.bmp")
+      (image "../Images/margo/4x4.bmp")
       (grid
          (start-rectangle 30 30 59 59)
          (dimensions
@@ -168,7 +167,7 @@
    (title "Lesson 3")
    (description "Bridge cutting")
    (board
-      (image "../images/margo/4x4.bmp")
+      (image "../Images/margo/4x4.bmp")
       (grid
          (start-rectangle 30 30 59 59)
          (dimensions
@@ -187,7 +186,7 @@
    (title "Lesson 4")
    (description "Virtual group")
    (board
-      (image "../images/margo/4x4.bmp")
+      (image "../Images/margo/4x4.bmp")
       (grid
          (start-rectangle 30 30 59 59)
          (dimensions
@@ -199,5 +198,25 @@
    (board-setup
       (W  (tw a18 c18 a14 a16) (tn b18 d18 d14) (te d17 b13 d13) (ts a13 c13 a17 a15) (ww b15) (bn c15) (we c14) (ws b14) (ze b10 b8) (zs c10) (zw c7) (zn b7 b9) )
       (B  (tw e18 g16 e14) (tn f18 h16 f14 d16) (te d15 f17 h15 f13) (ts e17 g15 e13) (ww b17) (wn c17) (be c16) (ws b16) (zw c9) (zs c8) )
+   )
+)
+
+(variant
+   (title "Lesson 5")
+   (description "Ko")
+   (default)
+   (board
+      (image "../Images/margo/4x4.bmp")
+      (grid
+         (start-rectangle 30 30 59 59)
+         (dimensions
+             ("a/b/c/d/e/f/g/h" (30 0)) ; files
+             ("20/19/18/17/16/15/14/13/12/11/10/9/8/7/6/5/4/3/2/1" (0 30)) ; ranks
+         )
+      )
+   )
+   (board-setup
+      (W  (tw a16 c18 c14) (tn b16 d18 d14) (te b15 d17 d13) (ts a15 c17 c13) )
+      (B  (tw c16 e18 e14 g16) (tn d16 f18 f14 h16) (te d15 f17 f13 h15) (ts c15 e17 e13 g15) )
    )
 )

@@ -303,10 +303,26 @@ DEFER	sw-piece
 	ENDIF
 ;
 
+: my-empty-at? ( pos -- ? )
+	DUP curr-pos !
+	empty-at? IF
+		TRUE
+	ELSE
+		FALSE 0 BEGIN
+			DUP captured-count @ < IF
+				DUP captured[] @ curr-pos @ = IF
+					SWAP DROP TRUE SWAP
+				ENDIF
+			ENDIF
+			1+ DUP captured-count @ >=
+		UNTIL DROP
+	ENDIF
+;
+
 : init-alive ( 'op -- 'op )
 	0 alive-count !
 	0 BEGIN
-		DUP empty-at? IF
+		DUP my-empty-at? IF
 			DUP to OVER ['] n check-alive
 			DUP to OVER ['] s check-alive
 			DUP to OVER ['] w check-alive
@@ -505,12 +521,20 @@ DEFER	sw-piece
 	UNTIL SWAP DROP
 ;
 
+: add-captured ( -- )
+	captured-count @ TOTAL < IF
+		here captured-count @ captured[] !
+		captured-count ++
+	ENDIF
+;
+
 : capture-all ( 'op -- )
 	0 captured-tiles !
 	0 BEGIN
 		DUP to
 		empty? NOT IF
 			OVER EXECUTE not-alive? AND not-zombies? AND IF
+				add-captured
 				captured-tiles ++
 				down IF
 					OVER capture-column IF
@@ -528,6 +552,20 @@ DEFER	sw-piece
 		ENDIF
 		1+ DUP PLANE >=
 	UNTIL 2DROP
+;
+
+: check-alive ( 'op -- )
+	0 captured-tiles !
+	0 BEGIN
+		DUP to
+		empty? NOT IF
+			OVER EXECUTE not-alive? AND not-zombies? AND IF
+				captured-tiles ++
+			ENDIF
+		ENDIF
+		1+ DUP PLANE >=
+	UNTIL 2DROP
+	captured-tiles @ 0= verify
 ;
 
 : my-enemy? ( -- ? )
@@ -568,43 +606,59 @@ DEFER	sw-piece
 	ENDIF
 ;
 
-: drop-m ( -- )
+: clear-e ( -- )
+	0 captured-count !
 	here a1 = verify
 	drop
 	['] my-enemy? init-alive proceed-alive check-zombies capture-all
-	captured-tiles @ 0= IF
-		['] my-friend? init-alive proceed-alive check-zombies capture-all
+	captured-tiles @ 0> verify
+	captured-tiles @ update-variables
+	['] my-friend? init-alive proceed-alive check-zombies check-alive
+	add-move
+;
+
+: clear-f ( -- )
+	0 captured-count !
+	here a1 = verify
+	drop
+	['] my-friend? init-alive proceed-alive check-zombies capture-all
+	captured-tiles @ 0> IF
 		captured-tiles @ NEGATE
 		update-variables
 	ELSE
-		captured-tiles @
-		update-variables
+		DROP
 	ENDIF
 	add-move
 ;
 
+{move-priorities
+	{move-priority} normal-priority
+	{move-priority} low-priority
+move-priorities}
+
 {moves w-drop
-	{move} drop-w	{move-type} normal
-	{move} drop-nw	{move-type} normal
+	{move} drop-w	{move-type} high-priority
+	{move} drop-nw	{move-type} high-priority
 moves}
 
 {moves n-drop
-	{move} drop-n	{move-type} normal
-	{move} drop-ne	{move-type} normal
+	{move} drop-n	{move-type} high-priority
+	{move} drop-ne	{move-type} high-priority
 moves}
 
 {moves e-drop
-	{move} drop-e	{move-type} normal
-	{move} drop-se	{move-type} normal
+	{move} drop-e	{move-type} high-priority
+	{move} drop-se	{move-type} high-priority
 moves}
 
 {moves s-drop
-	{move} drop-s	{move-type} normal
-	{move} drop-sw	{move-type} normal
+	{move} drop-s	{move-type} high-priority
+	{move} drop-sw	{move-type} high-priority
 moves}
 
 {moves m-drop
-	{move} drop-m	{move-type} clean
+	{move} clear-e	{move-type} normal-priority
+	{move} clear-f	{move-type} low-priority
 moves}
 
 {pieces

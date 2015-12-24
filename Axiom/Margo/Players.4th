@@ -5,8 +5,8 @@
 players}
 
 {turn-order
-	{turn}	W	{of-type} normal
-	{turn}	?C	{for-player} W	{of-type} clean
-	{turn}	B	{of-type} normal
-	{turn}	?C	{for-player} B	{of-type} clean
+	{turn}	W	{of-type} high-priority
+	{turn}	?C	{for-player} W
+	{turn}	B	{of-type} high-priority
+	{turn}	?C	{for-player} B
 turn-order}

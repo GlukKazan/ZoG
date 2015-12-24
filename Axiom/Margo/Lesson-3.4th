@@ -4,8 +4,6 @@ LOAD Board.4th
 LOAD Dir-4x4.4th
 LOAD Players.4th
 LOAD Pieces.4th
-LOAD Atari.4th
-LOAD AI.4th
 
 {board-setup
 	{setup}	W	tw	a18

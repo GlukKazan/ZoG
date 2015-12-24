@@ -22,4 +22,7 @@ TOTAL []	alive[]
 VARIABLE	alive-count
 TOTAL []	zombies[]
 VARIABLE	zombies-count
+TOTAL []	captured[]
+VARIABLE	captured-count
 VARIABLE	captured-tiles
+VARIABLE	curr-pos
