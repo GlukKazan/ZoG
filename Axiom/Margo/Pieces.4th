@@ -1,3 +1,4 @@
+DEFER	mark
 DEFER	nw-piece
 DEFER	ne-piece
 DEFER	se-piece
@@ -103,6 +104,28 @@ DEFER	sw-piece
 : plane-ne-neighbors ( -- ) se-piece ['] e nw-piece ['] n ne-piece ['] ne create-plane-neighbors ;
 : plane-se-neighbors ( -- ) ne-piece ['] e sw-piece ['] s se-piece ['] se create-plane-neighbors ;
 
+: drop-marks ( -- )
+	0 BEGIN
+		DUP captured-count @ < IF
+			mark OVER captured[] @ create-piece-type-at
+			1+ FALSE
+		ELSE
+			TRUE
+		ENDIF
+	UNTIL DROP
+;
+
+: clear-marks ( -- )
+	0 BEGIN
+		DUP empty-at? NOT IF
+			DUP piece-type-at mark = IF
+				DUP capture-at
+			ENDIF
+		ENDIF
+		1+ DUP PLANE >=
+	UNTIL DROP
+;
+
 : add-to-plane ( x y -- )
 	2DUP
 	here is-plane? verify
@@ -116,6 +139,7 @@ DEFER	sw-piece
 	DUP 2 = IF plane-sw-neighbors ENDIF
 	DUP 3 = IF plane-nw-neighbors ENDIF
 	DROP
+	clear-marks
 	add-move
 ;
 
@@ -175,6 +199,7 @@ DEFER	sw-piece
 	DROP
 	push-piece
 	create-piece-type
+	clear-marks
 	add-move
 ;
 
@@ -305,7 +330,7 @@ DEFER	sw-piece
 
 : my-empty-at? ( pos -- ? )
 	DUP curr-pos !
-	empty-at? IF
+	DUP empty-at? SWAP piece-type-at mark = OR IF
 		TRUE
 	ELSE
 		FALSE 0 BEGIN
@@ -323,6 +348,19 @@ DEFER	sw-piece
 	0 alive-count !
 	0 BEGIN
 		DUP my-empty-at? IF
+			DUP to OVER ['] n check-alive
+			DUP to OVER ['] s check-alive
+			DUP to OVER ['] w check-alive
+			DUP to OVER ['] e check-alive 
+		ENDIF
+		1+ DUP PLANE >=
+	UNTIL DROP
+;
+
+: strong-init-alive ( 'op -- 'op )
+	0 alive-count !
+	0 BEGIN
+		DUP empty-at? IF
 			DUP to OVER ['] n check-alive
 			DUP to OVER ['] s check-alive
 			DUP to OVER ['] w check-alive
@@ -534,7 +572,11 @@ DEFER	sw-piece
 		DUP to
 		empty? NOT IF
 			OVER EXECUTE not-alive? AND not-zombies? AND IF
-				add-captured
+				here d empty? AND IF
+					to add-captured
+				ELSE
+					to
+				ENDIF
 				captured-tiles ++
 				down IF
 					OVER capture-column IF
@@ -554,7 +596,7 @@ DEFER	sw-piece
 	UNTIL 2DROP
 ;
 
-: check-alive ( 'op -- )
+: check-not-captured ( 'op -- )
 	0 captured-tiles !
 	0 BEGIN
 		DUP to
@@ -566,6 +608,23 @@ DEFER	sw-piece
 		1+ DUP PLANE >=
 	UNTIL 2DROP
 	captured-tiles @ 0= verify
+;
+
+: calc-sc ( 'op -- )
+	0 sc-count !
+	0 BEGIN
+		DUP to
+		empty? NOT IF
+			OVER EXECUTE not-alive? AND not-zombies? AND IF
+				here d empty? AND IF
+					to sc-count ++
+				ELSE
+					to
+				ENDIF
+			ENDIF
+		ENDIF
+		1+ DUP PLANE >=
+	UNTIL 2DROP
 ;
 
 : my-enemy? ( -- ? )
@@ -613,7 +672,11 @@ DEFER	sw-piece
 	['] my-enemy? init-alive proceed-alive check-zombies capture-all
 	captured-tiles @ 0> verify
 	captured-tiles @ update-variables
-	['] my-friend? init-alive proceed-alive check-zombies check-alive
+	['] my-friend? init-alive proceed-alive check-zombies check-not-captured
+	['] my-friend? strong-init-alive proceed-alive calc-sc
+	captured-count @ 4 = sc-count @ 4 = AND IF
+	        drop-marks
+	ENDIF
 	add-move
 ;
 
@@ -681,6 +744,7 @@ moves}
 	{piece}		bs
 pieces}
 
+' M	IS mark
 ' tw	IS nw-piece
 ' tn	IS ne-piece
 ' te	IS se-piece

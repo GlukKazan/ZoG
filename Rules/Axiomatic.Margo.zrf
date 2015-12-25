@@ -36,7 +36,7 @@
 
 (game 
    (title "MarGo 7x7")
-;  (default)
+   (default)
 
    (engine "../Axiom/Margo/axiom.dll")
 
@@ -204,7 +204,6 @@
 (variant
    (title "Lesson 5")
    (description "Ko")
-   (default)
    (board
       (image "../Images/margo/4x4.bmp")
       (grid

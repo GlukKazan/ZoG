@@ -25,4 +25,5 @@ VARIABLE	zombies-count
 TOTAL []	captured[]
 VARIABLE	captured-count
 VARIABLE	captured-tiles
+VARIABLE	sc-count
 VARIABLE	curr-pos
