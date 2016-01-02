@@ -4,6 +4,37 @@
    add
 ))
 
+(define board-def
+  (image "../Images/Mana/board-$1.bmp")
+  (grid
+    (start-rectangle 24 23 74 73)
+    (dimensions
+      ("a/b/c/d/e/f" (50 0)) ; files
+      ("X/6/5/4/3/2/1/Y" (0 50)) ; ranks
+    )
+    (directions (n 0 -1) (s 0 1) (e 1 0) (w -1 0) 
+                (next 0 -1) (to-home 1 0)
+    ) 
+  )
+  (dummy a0)
+  (links next (a0 a1) (a6 b1) (b6 c1) (c6 d1) (d6 e1) (e6 f1) )
+  (links to-home (a0 aX) )
+  (links to-home-black (a0 aY) )
+  (symmetry Black (to-home to-home-black) )
+  (zone (name all) (players White Black)
+        (positions a1 b1 c1 d1 e1 f1 a2 b2 c2 d2 e2 f2
+                   a3 b3 c3 d3 e3 f3 a4 b4 c4 d4 e4 f4
+                   a5 b5 c5 d5 e5 f5 a6 b6 c6 d6 e6 f6
+        )
+  )
+  (zone (name home) (players White)
+        (positions a1 b1 c1 d1 e1 f1 a2 b2 c2 d2 e2 f2)
+  )
+  (zone (name home) (players Black)
+        (positions a5 b5 c5 d5 e5 f5 a6 b6 c6 d6 e6 f6)
+  )
+)
+
 (game
   (title "Mana (SW)")
 
@@ -16,16 +47,15 @@
 
   (players    White Black)
   (turn-order White Black)
-
-  (board
-    (image "../Images/Mana/board-sw.bmp")
-    (grid
-      (start-rectangle 24 21 74 71)
-      (dimensions
-        ("a/b/c/d/e/f" (50 0)) ; files
-        ("6/5/4/3/2/1" (0 50)) ; ranks
-      )
-      (directions (n 0 -1) (s 0 1) (e 1 0) (w -1 0) ) 
+  (board (board-def sw) 
+    (zone (name one) (players White Black)
+          (positions a1 a5 b2 b4 c3 c5 d2 d6 e1 e3 e5 f4)
+    )
+    (zone (name two) (players White Black)
+          (positions a2 a3 a6 b6 c1 c4 d1 d4 e6 f2 f3 f6)
+    )
+    (zone (name three) (players White Black)
+          (positions a4 b1 b3 b5 c2 c6 d3 d5 e2 e4 f1 f5)
     )
   )
 
@@ -40,24 +70,59 @@
         (move-r e)
      )
   )
+  (piece
+     (name RoninMana)
+     (image White "../Images/Mana/ronin-wm.bmp"
+            Black "../Images/Mana/ronin-bm.bmp")
+     (moves
+        (move-r n)
+        (move-r s)
+        (move-r w)
+        (move-r e)
+     )
+  )
+  (piece
+     (name Damyo)
+     (image White "../Images/Mana/damyo-w.bmp"
+            Black "../Images/Mana/damyo-b.bmp")
+     (moves
+        (move-r n)
+        (move-r s)
+        (move-r w)
+        (move-r e)
+     )
+  )
+  (piece
+     (name DamyoMana)
+     (image White "../Images/Mana/damyo-wm.bmp"
+            Black "../Images/Mana/damyo-bm.bmp")
+     (moves
+        (move-r n)
+        (move-r s)
+        (move-r w)
+        (move-r e)
+     )
+  )
 
   (board-setup
-    (White (Ronin a1 b1 c1 d1 e1 f1  a2 b2 c2 d2 e2 f2) )
-    (Black (Ronin a6 b6 c6 d6 e6 f6  a5 b5 c5 d5 e5 f5) )
+    (White (Ronin aY bY cY dY eY) (Damyo fY) )
+    (Black (Ronin aX bX cX dX eX) (Damyo fX) )
   )
+
+  (loss-condition  (White Black) (and (pieces-remaining 0 Damyo) (pieces-remaining 0 DamyoMana) ) )
 )
 
 (variant
   (title "Mana (SE)")
-  (board
-    (image "../Images/Mana/board-se.bmp")
-    (grid
-      (start-rectangle 24 21 74 71)
-      (dimensions
-        ("a/b/c/d/e/f" (50 0)) ; files
-        ("6/5/4/3/2/1" (0 50)) ; ranks
-      )
-      (directions (n 0 -1) (s 0 1) (e 1 0) (w -1 0) ) 
+  (board (board-def se) 
+    (zone (name one) (players White Black)
+          (positions a2 a6 b3 b5 c2 c4 d1 d5 e2 e4 e6 f3)
+    )
+    (zone (name two) (players White Black)
+          (positions a3 a4 b1 b6 c1 c6 d3 d4 f1 f2 f5 f6)
+    )
+    (zone (name three) (players White Black)
+          (positions a1 a5 b2 b4 c3 c5 d2 d6 e1 e3 e5 f4)
     )
   )
 )
