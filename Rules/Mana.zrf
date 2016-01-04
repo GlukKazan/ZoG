@@ -1,7 +1,101 @@
-(define move-r (
+(define check-mana
+   mark a0
+   (while (on-board? next) 
+       next
+       (if (or (piece? RoninMana) (piece? DamyoMana))
+           (verify (in-zone? $1))
+       )
+   )
+   back
+)
+
+(define clear-mana
+   mark a0
+   (while (on-board? next) 
+       next
+       (if (piece? RoninMana)
+           (change-type Ronin)
+       )
+       (if (piece? DamyoMana)
+           (change-type Damyo)
+       )
+   )
+   back
+)
+
+(define drop-piece (
+   (verify (not-in-zone? all))
+   a0
+   (while (on-board? $1) 
+      $1
+      (if (and empty? (in-zone? all)) 
+          (clear-mana)
+          (add $2)
+      )
+   )   
+))
+
+(define common-stop
+   (verify not-friend?)
+   (if (or (piece? Ronin) (piece? RoninMana))
+       cascade (change-type $1)
+       a0 to-res
+       (while not-empty? to-res)
+       (add Ronin)
+     else
+       (add $1)
+   )
+)
+
+(define start-move (
+   (verify (in-zone? $2))
+   (check-mana $2)
+   (clear-mana)
    $1
+   (verify (in-zone? all))
    (verify empty?)
-   add
+   (add-partial $3)
+))
+
+(define start-any (
+   (verify (in-zone? $2))
+   (clear-mana)
+   $1
+   (verify (in-zone? all))
+   (verify empty?)
+   (add-partial $3)
+))
+
+(define once-move (
+   (verify (in-zone? one))
+   (check-mana one)
+   (clear-mana)
+   $1
+   (verify (in-zone? all))
+   (common-stop $2)
+))
+
+(define once-any (
+   (verify (in-zone? one))
+   (clear-mana)
+   $1
+   (verify (in-zone? all))
+   (common-stop $2)
+))
+
+(define cont-move (
+   $1
+   (verify (in-zone? all))
+   (verify not-last-from?)
+   (verify empty?)
+   (add-partial stop-mode)
+))
+
+(define stop-move (
+   $1
+   (verify (in-zone? all))
+   (verify not-last-from?)
+   (common-stop $2)
 ))
 
 (define board-def
@@ -13,30 +107,58 @@
       ("X/6/5/4/3/2/1/Y" (0 50)) ; ranks
     )
     (directions (n 0 -1) (s 0 1) (e 1 0) (w -1 0) 
-                (next 0 -1) (to-home 1 0)
+                (next 0 -1) (to-home 1 0) (enemy-home 1 0)
+                (to-res 1 0) (friend-res 1 0)
     ) 
   )
   (dummy a0)
   (links next (a0 a1) (a6 b1) (b6 c1) (c6 d1) (d6 e1) (e6 f1) )
-  (links to-home (a0 aX) )
-  (links to-home-black (a0 aY) )
-  (symmetry Black (to-home to-home-black) )
+  (links to-home (a0 a1) (f1 a2) )
+  (links enemy-home (a0 a6) (f6 a5) )
+  (links to-res (a0 aX) )
+  (links friend-res (a0 aY) )
+  (symmetry Black (to-home enemy-home) (to-res friend-res) )
   (zone (name all) (players White Black)
         (positions a1 b1 c1 d1 e1 f1 a2 b2 c2 d2 e2 f2
                    a3 b3 c3 d3 e3 f3 a4 b4 c4 d4 e4 f4
                    a5 b5 c5 d5 e5 f5 a6 b6 c6 d6 e6 f6
         )
   )
-  (zone (name home) (players White)
-        (positions a1 b1 c1 d1 e1 f1 a2 b2 c2 d2 e2 f2)
-  )
-  (zone (name home) (players Black)
-        (positions a5 b5 c5 d5 e5 f5 a6 b6 c6 d6 e6 f6)
-  )
 )
 
 (game
   (title "Mana (SW)")
+  (description "Each player controls one Damyo and five Ronin and tries to capture the opponent’s\
+Damyo with his own Damyo or one of his Ronin.\\
+Each player in turn moves one of his pieces.\\
+- A piece starting movement on a single square must move one square, a piece \
+on a double square must move two squares and a piece on a triple square must \
+move three squares.\
+- A piece can move horizontally or vertically but not diagonally.\
+- A piece can change direction during movement.\
+- A piece can not pass over an occupied square.\
+- A piece can not cross the same square twice during its movement.\
+- A piece ending its movement on a square with an opponent’s piece captures \
+that piece (the piece is removed from the gameboard). \
+NOTE: If the captured piece is the opponent’s Damyo the game ends!\\
+Mana is used to restrict the opponent’s movement. When the first player finishes \
+his first move he places the Mana on his just moved piece. The other player must \
+then move a piece (Ronin or Damyo) located on the same type of square as the first \
+player’s Mana carrying piece. When he finishes his move, he places in turn the Mana \
+on his just moved piece restricting other player’s next move, and so on. (So each \
+piece that has just moved becomes a Mana carrier).\\
+There are two exceptions:\\
+- No pieces are located on the same type of square as the Mana carrying piece, or...\
+- Pieces are located on the same type of square as the Mana carrying piece but they \
+can not move their full movement (because they are blocked by other pieces).\\
+In both of these cases the player has two choices:\\
+Move another piece (in that case that piece will move according to the type of square \
+that it occupies)\\
+or\\
+Take one of his captured Ronin and place it on any empty square. (Returning a captured \
+Ronin to the gameboard ends the player’s turn).")
+  (history "The Mana is an abstract strategy game has been invented by Claude Leroy in 2005.\
+This game inspiration using a Polynesian concept (the mana).")
 
   (move-sound "Audio/Pickup.wav")
   (release-sound "Audio/Pickup.wav")
@@ -45,8 +167,15 @@
   (option "prevent flipping" 2)
   (option "animate captures" false)
 
-  (players    White Black)
-  (turn-order White Black)
+  (move-priorities start-mode any-mode)
+  (players White Black)
+  (turn-order 
+     (White setup-mode) (White setup-mode) (White setup-mode)
+     (White setup-mode) (White setup-mode) (White setup-mode)
+     (Black setup-mode) (Black setup-mode) (Black setup-mode)
+     (Black setup-mode) (Black setup-mode) (Black setup-mode)
+     repeat White Black
+  )
   (board (board-def sw) 
     (zone (name one) (players White Black)
           (positions a1 a5 b2 b4 c3 c5 d2 d6 e1 e3 e5 f4)
@@ -64,44 +193,85 @@
      (image White "../Images/Mana/ronin-w.bmp"
             Black "../Images/Mana/ronin-b.bmp")
      (moves
-        (move-r n)
-        (move-r s)
-        (move-r w)
-        (move-r e)
+        (move-type setup-mode)
+          (drop-piece to-home Ronin)
+        (move-type start-mode)
+          (start-move n three cont-mode)
+          (start-move s three cont-mode)
+          (start-move w three cont-mode)
+          (start-move e three cont-mode)
+          (start-move n two   stop-mode)
+          (start-move s two   stop-mode)
+          (start-move w two   stop-mode)
+          (start-move e two   stop-mode)
+          (once-move n RoninMana) (once-move s RoninMana)
+          (once-move w RoninMana) (once-move e RoninMana)
+        (move-type cont-mode)
+          (cont-move n) (cont-move s)
+          (cont-move w) (cont-move e)
+        (move-type stop-mode)
+          (stop-move n RoninMana) (stop-move s RoninMana)
+          (stop-move w RoninMana) (stop-move e RoninMana)
+        (move-type any-mode)
+          (start-any n three cont-mode)
+          (start-any s three cont-mode)
+          (start-any w three cont-mode)
+          (start-any e three cont-mode)
+          (start-any n two   stop-mode)
+          (start-any s two   stop-mode)
+          (start-any w two   stop-mode)
+          (start-any e two   stop-mode)
+          (once-any n RoninMana) (once-any s RoninMana)
+          (once-any w RoninMana) (once-any e RoninMana)
+          (drop-piece next RoninMana)
      )
   )
   (piece
      (name RoninMana)
      (image White "../Images/Mana/ronin-wm.bmp"
             Black "../Images/Mana/ronin-bm.bmp")
-     (moves
-        (move-r n)
-        (move-r s)
-        (move-r w)
-        (move-r e)
-     )
   )
   (piece
      (name Damyo)
      (image White "../Images/Mana/damyo-w.bmp"
             Black "../Images/Mana/damyo-b.bmp")
      (moves
-        (move-r n)
-        (move-r s)
-        (move-r w)
-        (move-r e)
+        (move-type setup-mode)
+          (drop-piece to-home Damyo)
+        (move-type start-mode)
+          (start-move n three cont-mode)
+          (start-move s three cont-mode)
+          (start-move w three cont-mode)
+          (start-move e three cont-mode)
+          (start-move n two   stop-mode)
+          (start-move s two   stop-mode)
+          (start-move w two   stop-mode)
+          (start-move e two   stop-mode)
+          (once-move n DamyoMana) (once-move s DamyoMana)
+          (once-move w DamyoMana) (once-move e DamyoMana)
+        (move-type cont-mode)
+          (cont-move n) (cont-move s)
+          (cont-move w) (cont-move e)
+        (move-type stop-mode)
+          (stop-move n DamyoMana) (stop-move s DamyoMana)
+          (stop-move w DamyoMana) (stop-move e DamyoMana)
+        (move-type any-mode)
+          (start-any n three cont-mode)
+          (start-any s three cont-mode)
+          (start-any w three cont-mode)
+          (start-any e three cont-mode)
+          (start-any n two   stop-mode)
+          (start-any s two   stop-mode)
+          (start-any w two   stop-mode)
+          (start-any e two   stop-mode)
+          (once-any n DamyoMana) (once-any s DamyoMana)
+          (once-any w DamyoMana) (once-any e DamyoMana)
      )
   )
   (piece
      (name DamyoMana)
      (image White "../Images/Mana/damyo-wm.bmp"
             Black "../Images/Mana/damyo-bm.bmp")
-     (moves
-        (move-r n)
-        (move-r s)
-        (move-r w)
-        (move-r e)
-     )
   )
 
   (board-setup
