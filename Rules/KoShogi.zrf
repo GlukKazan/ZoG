@@ -1,0 +1,416 @@
+(define step (
+  $1
+  (verify not-friend?)
+  add
+))
+
+(game
+  (title "Ko Shogi")
+
+  (move-sound "Audio/Pickup.wav")
+  (release-sound "Audio/Pickup.wav")
+  (capture-sound "")
+
+  (option "prevent flipping" 2)
+  (option "animate captures" false)
+
+  (players Black White)
+  (turn-order Black White)
+
+  (board
+    (image "../Images/KoShogi/board.bmp")
+    (grid
+      (start-rectangle 40 33 79 67)
+      (dimensions
+        ("19/18/17/16/15/14/13/12/11/10/9/8/7/6/5/4/3/2/1" (39 0)) ; files
+        ("A/B/C/D/E/F/G/H/I/J/K/L/M/N/O/P/Q/R/S" (0 37)) ; ranks
+      )
+      (directions 
+        (n 0 -1) (s 0 1) (e 1 0) (w -1 0) 
+        (nw -1 -1) (sw -1 1) (ne 1 -1) (se 1 1) 
+      ) 
+    )
+  )
+
+  (piece
+     (name G)
+     (notation "General")
+     (image White "../Images/KoShogi/w.bmp"
+            Black "../Images/KoShogi/b.bmp")
+     (moves
+        (step n) (step s) (step w) (step e)
+     )
+  )
+  (piece
+     (name P)
+     (notation "Pawn")
+     (image White "../Images/KoShogi/w.bmp"
+            Black "../Images/KoShogi/b.bmp")
+     (moves
+        (step n) (step s) (step w) (step e)
+     )
+  )
+  (piece
+     (name FD)
+     (notation "Advance Guard")
+     (image White "../Images/KoShogi/w.bmp"
+            Black "../Images/KoShogi/b.bmp")
+     (moves
+        (step n) (step s) (step w) (step e)
+     )
+  )
+  (piece
+     (name SM)
+     (notation "Spiritual Monk")
+     (image White "../Images/KoShogi/w.bmp"
+            Black "../Images/KoShogi/b.bmp")
+     (moves
+        (step n) (step s) (step w) (step e)
+     )
+  )
+  (piece
+     (name TB)
+     (notation "Taoist Priest")
+     (image White "../Images/KoShogi/w.bmp"
+            Black "../Images/KoShogi/b.bmp")
+     (moves
+        (step n) (step s) (step w) (step e)
+     )
+  )
+  (piece
+     (name EN)
+     (notation "Engineer")
+     (image White "../Images/KoShogi/w.bmp"
+            Black "../Images/KoShogi/b.bmp")
+     (moves
+        (step n) (step s) (step w) (step e)
+     )
+  )
+  (piece
+     (name CS)
+     (notation "Chief of Staff")
+     (image White "../Images/KoShogi/w.bmp"
+            Black "../Images/KoShogi/b.bmp")
+     (moves
+        (step n) (step s) (step w) (step e)
+     )
+  )
+  (piece
+     (name GH)
+     (notation "Staff")
+     (image White "../Images/KoShogi/w.bmp"
+            Black "../Images/KoShogi/b.bmp")
+     (moves
+        (step n) (step s) (step w) (step e)
+     )
+  )
+  (piece
+     (name SR)
+     (notation "Aide")
+     (image White "../Images/KoShogi/w.bmp"
+            Black "../Images/KoShogi/b.bmp")
+     (moves
+        (step n) (step s) (step w) (step e)
+     )
+  )
+  (piece
+     (name WR)
+     (notation "Sumo wrestler")
+     (image White "../Images/KoShogi/w.bmp"
+            Black "../Images/KoShogi/b.bmp")
+     (moves
+        (step n) (step s) (step w) (step e)
+     )
+  )
+  (piece
+     (name A)
+     (notation "Aide de Camp")
+     (image White "../Images/KoShogi/w.bmp"
+            Black "../Images/KoShogi/b.bmp")
+     (moves
+        (step n) (step s) (step w) (step e)
+     )
+  )
+  (piece
+     (name SC)
+     (notation "Clerk")
+     (image White "../Images/KoShogi/w.bmp"
+            Black "../Images/KoShogi/b.bmp")
+     (moves
+        (step n) (step s) (step w) (step e)
+     )
+  )
+  (piece
+     (name PL)
+     (notation "Staff Officer")
+     (image White "../Images/KoShogi/w.bmp"
+            Black "../Images/KoShogi/b.bmp")
+     (moves
+        (step n) (step s) (step w) (step e)
+     )
+  )
+  (piece
+     (name R)
+     (notation "Rear Guard")
+     (image White "../Images/KoShogi/w.bmp"
+            Black "../Images/KoShogi/b.bmp")
+     (moves
+        (step n) (step s) (step w) (step e)
+     )
+  )
+  (piece
+     (name FH)
+     (notation "Centuria")
+     (image White "../Images/KoShogi/w.bmp"
+            Black "../Images/KoShogi/b.bmp")
+     (moves
+        (step n) (step s) (step w) (step e)
+     )
+  )
+  (piece
+     (name Q)
+     (notation "Quartermaster")
+     (image White "../Images/KoShogi/w.bmp"
+            Black "../Images/KoShogi/b.bmp")
+     (moves
+        (step n) (step s) (step w) (step e)
+     )
+  )
+  (piece
+     (name DU)
+     (notation "Millenary")
+     (image White "../Images/KoShogi/w.bmp"
+            Black "../Images/KoShogi/b.bmp")
+     (moves
+        (step n) (step s) (step w) (step e)
+     )
+  )
+  (piece
+     (name SN)
+     (notation "Sentry")
+     (image White "../Images/KoShogi/w.bmp"
+            Black "../Images/KoShogi/b.bmp")
+     (moves
+        (step n) (step s) (step w) (step e)
+     )
+  )
+  (piece
+     (name D)
+     (notation "Drum")
+     (image White "../Images/KoShogi/w.bmp"
+            Black "../Images/KoShogi/b.bmp")
+     (moves
+        (step n) (step s) (step w) (step e)
+     )
+  )
+  (piece
+     (name B)
+     (notation "Banner")
+     (image White "../Images/KoShogi/w.bmp"
+            Black "../Images/KoShogi/b.bmp")
+     (moves
+        (step n) (step s) (step w) (step e)
+     )
+  )
+  (piece
+     (name MA)
+     (notation "Middle Troop")
+     (image White "../Images/KoShogi/w.bmp"
+            Black "../Images/KoShogi/b.bmp")
+     (moves
+        (step n) (step s) (step w) (step e)
+     )
+  )
+  (piece
+     (name E)
+     (notation "Elephant")
+     (image White "../Images/KoShogi/w.bmp"
+            Black "../Images/KoShogi/b.bmp")
+     (moves
+        (step n) (step s) (step w) (step e)
+     )
+  )
+  (piece
+     (name C)
+     (notation "Cannon")
+     (image White "../Images/KoShogi/w.bmp"
+            Black "../Images/KoShogi/b.bmp")
+     (moves
+        (step n) (step s) (step w) (step e)
+     )
+  )
+  (piece
+     (name SB)
+     (notation "Crossbow")
+     (image White "../Images/KoShogi/w.bmp"
+            Black "../Images/KoShogi/b.bmp")
+     (moves
+        (step n) (step s) (step w) (step e)
+     )
+  )
+  (piece
+     (name LB)
+     (notation "Long Bow")
+     (image White "../Images/KoShogi/w.bmp"
+            Black "../Images/KoShogi/b.bmp")
+     (moves
+        (step n) (step s) (step w) (step e)
+     )
+  )
+  (piece
+     (name FW)
+     (notation "European Cannon")
+     (image White "../Images/KoShogi/w.bmp"
+            Black "../Images/KoShogi/b.bmp")
+     (moves
+        (step n) (step s) (step w) (step e)
+     )
+  )
+  (piece
+     (name CA)
+     (notation "Cavalry")
+     (image White "../Images/KoShogi/w.bmp"
+            Black "../Images/KoShogi/b.bmp")
+     (moves
+        (step n) (step s) (step w) (step e)
+     )
+  )
+  (piece
+     (name HS)
+     (notation "Cavalryman")
+     (image White "../Images/KoShogi/w.bmp"
+            Black "../Images/KoShogi/b.bmp")
+     (moves
+        (step n) (step s) (step w) (step e)
+     )
+  )
+  (piece
+     (name PU)
+     (notation "Patrol Unit")
+     (image White "../Images/KoShogi/w.bmp"
+            Black "../Images/KoShogi/b.bmp")
+     (moves
+        (step n) (step s) (step w) (step e)
+     )
+  )
+  (piece
+     (name CU)
+     (notation "Chariot Unit")
+     (image White "../Images/KoShogi/w.bmp"
+            Black "../Images/KoShogi/b.bmp")
+     (moves
+        (step n) (step s) (step w) (step e)
+     )
+  )
+  (piece
+     (name SU)
+     (notation "Shield Unit")
+     (image White "../Images/KoShogi/w.bmp"
+            Black "../Images/KoShogi/b.bmp")
+     (moves
+        (step n) (step s) (step w) (step e)
+     )
+  )
+  (piece
+     (name CH)
+     (notation "Chariot")
+     (image White "../Images/KoShogi/w.bmp"
+            Black "../Images/KoShogi/b.bmp")
+     (moves
+        (step n) (step s) (step w) (step e)
+     )
+  )
+  (piece
+     (name SP)
+     (notation "Shield")
+     (image White "../Images/KoShogi/w.bmp"
+            Black "../Images/KoShogi/b.bmp")
+     (moves
+        (step n) (step s) (step w) (step e)
+     )
+  )
+  (piece
+     (name VA)
+     (notation "Vanguard")
+     (image White "../Images/KoShogi/w.bmp"
+            Black "../Images/KoShogi/b.bmp")
+     (moves
+        (step n) (step s) (step w) (step e)
+     )
+  )
+
+  (board-setup
+     (Black
+        (FD 19S 1S)
+        (SM 18S)
+        (TB 2S)
+        (EN 17S 3S)
+        (CS 16S 4S)
+        (GH 15S 5S)
+        (SR 14S 6S)
+        (WR 13S 7S)
+        (A  12S 8S)
+        (SC 11S)
+        (PL 9S)
+        (G  10S)
+        (R  19R 1R)
+        (FH 18R 2R)
+        (Q  16R 4R)
+        (DU 14R 6R)
+        (SN 12R 8R)
+        (D  11R)
+        (B  9R)
+        (MA 10R)
+        (E  19Q 1Q 15Q 5Q 11Q 9Q)
+        (C  18Q 2Q 14Q 6Q)
+        (SB 17Q 3Q 13Q 7Q)
+        (LB 16Q 4Q 12Q 8Q)
+        (FW 10Q)
+        (CA 19P 1P)
+        (HS 17P 3P 15P 5P 13P 7P 11P 9P)
+        (P  18O 2O 16O 4O 14O 6O 12O 8O)
+        (PU 10O)
+        (CU 19N 1N)
+        (SU 18N 2N 10N)
+        (CH 17N 3N 15N 5N 13N 7N 11N 9N)
+        (SP 16N 4N 14N 6N 12N 8N)
+        (VA 10M)
+     )
+     (White
+        (FD 19A 1A)
+        (TB 18A)
+        (SM 2A)
+        (EN 17A 3A)
+        (CS 16A 4A)
+        (GH 15A 5A)
+        (SR 14A 6A)
+        (WR 13A 7A)
+        (A  12A 8A)
+        (PL 11A)
+        (SC 9A)
+        (G  10A)
+        (R  19B 1B)
+        (FH 18B 2B)
+        (Q  16B 4B)
+        (DU 14B 6B)
+        (SN 12B 8B)
+        (B  11B)
+        (D  9B)
+        (MA 10B)
+        (E  19C 1C 15C 5C 11C 9C)
+        (C  18C 2C 14C 6C)
+        (SB 17C 3C 13C 7C)
+        (LB 16C 4C 12C 8C)
+        (FW 10C)
+        (CA 19D 1D)
+        (HS 17D 3D 15D 5D 13D 7D 11D 9D)
+        (P  18E 2E 16E 4E 14E 6E 12E 8E)
+        (PU 10E)
+        (CU 19F 1F)
+        (SU 18F 2F 10F)
+        (CH 17F 3F 15F 5F 13F 7F 11F 9F)
+        (SP 16F 4F 14F 6F 12F 8F)
+        (VA 10G)
+     )
+  )
+)
