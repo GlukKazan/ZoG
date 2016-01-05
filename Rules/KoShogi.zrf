@@ -20,7 +20,7 @@
   (board
     (image "../Images/KoShogi/board.bmp")
     (grid
-      (start-rectangle 40 33 79 67)
+      (start-rectangle 39 33 81 67)
       (dimensions
         ("19/18/17/16/15/14/13/12/11/10/9/8/7/6/5/4/3/2/1" (39 0)) ; files
         ("A/B/C/D/E/F/G/H/I/J/K/L/M/N/O/P/Q/R/S" (0 37)) ; ranks
