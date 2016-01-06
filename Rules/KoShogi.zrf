@@ -89,6 +89,7 @@
         (nwnw -2 -2) (swsw -2  2) (nene  2 -2) (sese  2 2) 
       ) 
     )
+    (symmetry White (n s) (s n) (nw sw) (sw nw) (ne se) (se ne) )
   )
 
   (piece
