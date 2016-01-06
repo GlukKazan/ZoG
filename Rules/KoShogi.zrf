@@ -1,6 +1,60 @@
+(define my-not-friend?
+  (or not-friend? (piece? NO))
+)
+
+(define common-start
+)
+
+(define common-stop
+  (if (flag? can-promototion?)
+      (add $1 $2)
+   else
+      add
+  )
+)
+
+(define check-drum
+)
+
 (define step (
+  (common-start)
   $1
-  (verify not-friend?)
+  (verify (my-not-friend?))
+  (common-stop $2 $3)
+))
+
+(define g-step (
+  $1
+  (verify (my-not-friend?))
+  add
+))
+
+(define p-step (
+  (check-drum)
+  (common-start)
+  $1
+  (verify (my-not-friend?))
+  (common-stop $2 $3)
+))
+
+(define slide (
+  (common-start)
+  $1
+  (while empty? 
+    (common-stop $2 $3)
+    $1
+  )
+  (verify (my-not-friend?))
+  (common-stop $2 $3)
+))
+
+(define g-slide (
+  $1
+  (while empty? 
+    add
+    $1
+  )
+  (verify (my-not-friend?))
   add
 ))
 
@@ -13,6 +67,7 @@
 
   (option "prevent flipping" 2)
   (option "animate captures" false)
+  (option "pass partial" true)
 
   (players Black White)
   (turn-order Black White)
@@ -26,8 +81,12 @@
         ("A/B/C/D/E/F/G/H/I/J/K/L/M/N/O/P/Q/R/S" (0 37)) ; ranks
       )
       (directions 
-        (n 0 -1) (s 0 1) (e 1 0) (w -1 0) 
-        (nw -1 -1) (sw -1 1) (ne 1 -1) (se 1 1) 
+        (n     0 -1) (s     0  1) (e     1  0) (w    -1 0) 
+        (nn    0 -2) (ss    0  2) (ee    2  0) (ww   -2 0) 
+        (nw   -1 -1) (sw   -1  1) (ne    1 -1) (se    1 1) 
+        (nnw  -1 -2) (nne   1 -2) (een   2 -1) (ees   2 1)
+        (ssw  -1  2) (sse   1  2) (wwn  -2 -1) (wws  -2 1)
+        (nwnw -2 -2) (swsw -2  2) (nene  2 -2) (sese  2 2) 
       ) 
     )
   )
@@ -35,28 +94,57 @@
   (piece
      (name G)
      (notation "General")
+     (description "General (sho): can step one intersection in any direction, orthogonal or diagonal. (K)")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
      (moves
-        (step n) (step s) (step w) (step e)
+        (g-step n)  (g-step s)  (g-step w)  (g-step e)
+        (g-step nw) (g-step sw) (g-step ne) (g-step se)
+     )
+  )
+  (piece
+     (name GO)
+     (notation "Governor")
+     (description "Governor (sochi): can step one intersection in any direction, orthogonal or diagonal. (K)")
+     (image White "../Images/KoShogi/w.bmp"
+            Black "../Images/KoShogi/b.bmp")
+     (moves
+        (g-step n)  (g-step s)  (g-step w)  (g-step e)
+        (g-step nw) (g-step sw) (g-step ne) (g-step se)
      )
   )
   (piece
      (name P)
      (notation "Pawn")
+     (description "Pawn (fuhyo): \
+If the drum is killed, the pawns may no longer move forward.")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
      (moves
-        (step n) (step s) (step w) (step e)
+        (p-step n P PP) (step s P PP) (step w P PP) (step e P PP)
      )
+  )
+  (piece
+     (name PP)
+     (notation "Patrol unit (fuso)")
+     (image White "../Images/KoShogi/w.bmp"
+            Black "../Images/KoShogi/b.bmp")
+  )
+  (piece
+     (name HV)
+     (notation "Heaven's vengeance (temmo)")
+     (image White "../Images/KoShogi/w.bmp"
+            Black "../Images/KoShogi/b.bmp")
   )
   (piece
      (name FD)
      (notation "Advance Guard")
+     (description "Advance Guard (zen'ei): can move any number of free intersections directly forward or can step one intersection directly backwards. (fRbW)\
+This piece promotes if its clerk promotes.")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
      (moves
-        (step n) (step s) (step w) (step e)
+        (slide n FD HV) (step s FD HV)
      )
   )
   (piece
@@ -64,53 +152,83 @@
      (notation "Spiritual Monk")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
-     (moves
-        (step n) (step s) (step w) (step e)
-     )
   )
   (piece
-     (name TB)
+     (name TP)
      (notation "Taoist Priest")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
-     (moves
-        (step n) (step s) (step w) (step e)
-     )
+  )
+  (piece
+     (name PF)
+     (notation "Poison flame (dokka)")
+     (image White "../Images/KoShogi/w.bmp"
+            Black "../Images/KoShogi/b.bmp")
   )
   (piece
      (name EN)
      (notation "Engineer")
+     (description "Engineer (gunsho): can step one intersection directly forward or backward, or one intersection diagonally forward, giving it four possibilities. (fFfbW)\
+his is the move of the copper general in other shogi variants.")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
      (moves
-        (step n) (step s) (step w) (step e)
+        (step nw EN PF) (step ne EN PF)
+        (step n  EN PF) (step s  EN PF)
      )
+  )
+  (piece
+     (name VC)
+     (notation "Vice commander (fukushi)")
+     (image White "../Images/KoShogi/w.bmp"
+            Black "../Images/KoShogi/b.bmp")
   )
   (piece
      (name CS)
      (notation "Chief of Staff")
+     (description "Chief of Staff (gunri): can move one intersection in the four diagonal directions or one intersection orthogonally forward or backward. (FfbW)\
+This is the move of the ferocious leopard in other shogi variants.")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
      (moves
-        (step n) (step s) (step w) (step e)
+        (step nw CS VC) (step sw CS VC) (step ne CS VC) (step se CS VC)
+        (step n  CS VC) (step s  CS VC)
      )
+  )
+  (piece
+     (name VB)
+     (notation "Village brigade (hyakko)")
+     (image White "../Images/KoShogi/w.bmp"
+            Black "../Images/KoShogi/b.bmp")
   )
   (piece
      (name GH)
      (notation "Staff")
+     (description "Staff (shayo): can step one intersection in one of the four diagonal directions or one intersection straight forward, giving it five possibilities. (FfW)\
+This is the move of the silver general in other shogi variants.")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
      (moves
-        (step n) (step s) (step w) (step e)
+        (step nw GH VB) (step sw GH VB) (step ne GH VB) (step se GH VB)
+        (step n  GH VB)
      )
+  )
+  (piece
+     (name TB)
+     (notation "Town brigade (senko)")
+     (image White "../Images/KoShogi/w.bmp"
+            Black "../Images/KoShogi/b.bmp")
   )
   (piece
      (name SR)
      (notation "Aide")
+     (description "Aide (toneri): can step one intersection in one of the four orthogonal directions or one intersection diagonally forward, giving it six possibilities. (WfF)\
+This is the move of the gold general in other shogi variants.")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
      (moves
-        (step n) (step s) (step w) (step e)
+        (step n  SR TB) (step s  SR TB) (step w  SR TB) (step e SR TB)
+        (step nw SR TB) (step ne SR TB)
      )
   )
   (piece
@@ -118,35 +236,66 @@
      (notation "Sumo wrestler")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
+  )
+  (piece
+     (name AA)
+     (notation "Quartermaster")
+     (notation "Description (waso): can move any number of free intersections along any of the four orthogonal directions or one intersection in any diagonal direction. (FR)\
+This is the move of the dragon king in other shogi variants.")
+     (image White "../Images/KoShogi/w.bmp"
+            Black "../Images/KoShogi/b.bmp")
      (moves
-        (step n) (step s) (step w) (step e)
+        (g-slide n) (g-slide s) (g-slide w) (g-slide e)
+        (g-step nw) (g-step ne) (g-step sw) (g-step se)
      )
   )
   (piece
      (name A)
-     (notation "Aide de Camp")
+     (notation "Aide de camp")
+     (description "Aide de camp (shimpei): can step one intersection in any direction, orthogonal or diagonal, except directly backward. (FfrlW)\
+This is equivalent to the drunk elephant in other shogi variants.\
+However, it does not promote to a prince.")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
      (moves
-        (step n) (step s) (step w) (step e)
+        (step nw A AA) (step sw A AA) (step ne A AA) (step se A AA)
+        (step n  A AA) (step w  A AA) (step e  A AA)
      )
   )
   (piece
      (name SC)
      (notation "Clerk")
+     (description "Clerk (kishitsu): can step one intersection in one of the four diagonal directions and jump to the second intersection orthogonally. (FD)\
+This is the move of the kirin in other shogi variants.")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
      (moves
-        (step n) (step s) (step w) (step e)
+        (step nw SC MA) (step sw SC MA) (step ne SC MA) (step se SC MA)
+        (step nn SC MA) (step ss SC MA) (step ww SC MA) (step ee SC MA)
      )
+  )
+  (piece
+     (name MA)
+     (notation "Master at arms (gunshi)")
+     (image White "../Images/KoShogi/w.bmp"
+            Black "../Images/KoShogi/b.bmp")
+  )
+  (piece
+     (name BD)
+     (notation "Banner and drums (kiko)")
+     (image White "../Images/KoShogi/w.bmp"
+            Black "../Images/KoShogi/b.bmp")
   )
   (piece
      (name PL)
      (notation "Staff Officer")
+     (description "Staff Officer (sambo): can step one intersection in one of the four orthogonal directions or jump to the second intersection diagonally. (WA)\
+This is the move of the phoenix in other shogi variants.")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
      (moves
-        (step n) (step s) (step w) (step e)
+        (step n PL BD) (step s PL BD) (step w PL BD) (step e PL BD)
+        (step nwnw PL BD) (step swsw PL BD) (step nene PL BD) (step sese PL BD)
      )
   )
   (piece
@@ -154,71 +303,111 @@
      (notation "Rear Guard")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
-     (moves
-        (step n) (step s) (step w) (step e)
-     )
   )
   (piece
      (name FH)
-     (notation "Centuria")
+     (notation "Centuria (hyakuso)")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
-     (moves
-        (step n) (step s) (step w) (step e)
-     )
+  )
+  (piece
+     (name TW)
+     (notation "Tiger wing (koyoku)")
+     (image White "../Images/KoShogi/w.bmp"
+            Black "../Images/KoShogi/b.bmp")
   )
   (piece
      (name Q)
      (notation "Quartermaster")
+     (notation "Description (waso): can move any number of free intersections along any of the four orthogonal directions or one intersection in any diagonal direction. (FR)\
+This is the move of the dragon king in other shogi variants.")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
      (moves
-        (step n) (step s) (step w) (step e)
+        (slide n Q TW) (slide s Q TW) (slide w Q TW) (slide e Q TW)
+        (step nw Q TW) (step ne Q TW) (step sw Q TW) (step se Q TW)
      )
+  )
+  (piece
+     (name DA)
+     (notation "Dragon ascending (ryujo)")
+     (image White "../Images/KoShogi/w.bmp"
+            Black "../Images/KoShogi/b.bmp")
   )
   (piece
      (name DU)
      (notation "Millenary")
+     (description "Millenary (senso): can move any number of free intersections along any one of the eight orthogonal or diagonal directions. (Q)\
+This is the move of the free king in other shogi variants.")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
      (moves
-        (step n) (step s) (step w) (step e)
+        (slide n  DU DA) (slide s  DU DA) (slide w  DU DA) (slide e  DU DA)
+        (slide nw DU DA) (slide sw DU DA) (slide ne DU DA) (slide se DU DA)
      )
+  )
+  (piece
+     (name SS)
+     (notation "Centuria (hyakuso)")
+     (image White "../Images/KoShogi/w.bmp"
+            Black "../Images/KoShogi/b.bmp")
   )
   (piece
      (name SN)
      (notation "Sentry")
+     (description "Sentry (gohei): an step one intersection in any direction except orthogonally forward. (FrlbW)\
+This is the move of the blind tiger in other shogi variants.")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
      (moves
-        (step n) (step s) (step w) (step e)
+        (step nw SN SS) (step sw SN SS) (step ne SN SS) (step se SN SS)
+        (step w  SN SS) (step e  SN SS) (step s  SN SS)
      )
+  )
+  (piece
+     (name TC)
+     (notation "Thunderclap (hekireki)")
+     (image White "../Images/KoShogi/w.bmp"
+            Black "../Images/KoShogi/b.bmp")
   )
   (piece
      (name D)
      (notation "Drum")
+     (description "Drum (tsuzumi): can step one intersection in one of the four diagonal directions or either orthogonal sideways. (FrlW)\
+If the drum is killed, the pawns may no longer move forward.")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
      (moves
-        (step n) (step s) (step w) (step e)
+        (step nw D TC) (step sw D TC) (step ne D TC) (step se D TC)
+        (step w  D TC) (step e  D TC)
      )
+  )
+  (piece
+     (name RA)
+     (notation "Roaming assault (shoyo)")
+     (image White "../Images/KoShogi/w.bmp"
+            Black "../Images/KoShogi/b.bmp")
   )
   (piece
      (name B)
      (notation "Banner")
+     (description "Banner (hata): can step one intersection in one of the four diagonal directions or either orthogonal sideways. (FrlW)")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
      (moves
-        (step n) (step s) (step w) (step e)
+        (step nw B RA) (step sw B RA) (step ne B RA) (step se B RA)
+        (step w  B RA) (step e  B RA)
      )
   )
   (piece
-     (name MA)
+     (name MT)
      (notation "Middle Troop")
+     (description "Middle Troop (chogun): can step one intersection in any direction, orthogonal or diagonal. (K)")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
      (moves
-        (step n) (step s) (step w) (step e)
+        (step n MT GO)  (step s MT GO)  (step w MT GO)  (step e MT GO)
+        (step nw MT GO) (step sw MT GO) (step ne MT GO) (step se MT GO)
      )
   )
   (piece
@@ -226,124 +415,91 @@
      (notation "Elephant")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
-     (moves
-        (step n) (step s) (step w) (step e)
-     )
   )
   (piece
      (name C)
      (notation "Cannon")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
-     (moves
-        (step n) (step s) (step w) (step e)
-     )
   )
   (piece
      (name SB)
      (notation "Crossbow")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
-     (moves
-        (step n) (step s) (step w) (step e)
-     )
   )
   (piece
      (name LB)
      (notation "Long Bow")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
-     (moves
-        (step n) (step s) (step w) (step e)
-     )
   )
   (piece
      (name FW)
      (notation "European Cannon")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
-     (moves
-        (step n) (step s) (step w) (step e)
-     )
   )
   (piece
      (name CA)
      (notation "Cavalry")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
-     (moves
-        (step n) (step s) (step w) (step e)
-     )
   )
   (piece
      (name HS)
      (notation "Cavalryman")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
-     (moves
-        (step n) (step s) (step w) (step e)
-     )
   )
   (piece
      (name PU)
-     (notation "Patrol Unit")
+     (notation "Patrol Unit (fuso)")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
-     (moves
-        (step n) (step s) (step w) (step e)
-     )
   )
   (piece
      (name CU)
      (notation "Chariot Unit")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
-     (moves
-        (step n) (step s) (step w) (step e)
-     )
   )
   (piece
      (name SU)
      (notation "Shield Unit")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
-     (moves
-        (step n) (step s) (step w) (step e)
-     )
   )
   (piece
      (name CH)
      (notation "Chariot")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
-     (moves
-        (step n) (step s) (step w) (step e)
-     )
   )
   (piece
      (name SP)
      (notation "Shield")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
-     (moves
-        (step n) (step s) (step w) (step e)
-     )
   )
   (piece
      (name VA)
      (notation "Vanguard")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
-     (moves
-        (step n) (step s) (step w) (step e)
-     )
+  )
+  (piece
+     (name NO)
+     (notation " ")
+     (image White "../Images/KoShogi/e.bmp"
+            Black "../Images/KoShogi/e.bmp")
   )
 
   (board-setup
      (Black
         (FD 19S 1S)
         (SM 18S)
-        (TB 2S)
+        (TP 2S)
         (EN 17S 3S)
         (CS 16S 4S)
         (GH 15S 5S)
@@ -360,7 +516,7 @@
         (SN 12R 8R)
         (D  11R)
         (B  9R)
-        (MA 10R)
+        (MT 10R)
         (E  19Q 1Q 15Q 5Q 11Q 9Q)
         (C  18Q 2Q 14Q 6Q)
         (SB 17Q 3Q 13Q 7Q)
@@ -378,7 +534,7 @@
      )
      (White
         (FD 19A 1A)
-        (TB 18A)
+        (TP 18A)
         (SM 2A)
         (EN 17A 3A)
         (CS 16A 4A)
@@ -396,7 +552,7 @@
         (SN 12B 8B)
         (B  11B)
         (D  9B)
-        (MA 10B)
+        (MT 10B)
         (E  19C 1C 15C 5C 11C 9C)
         (C  18C 2C 14C 6C)
         (SB 17C 3C 13C 7C)
@@ -413,4 +569,7 @@
         (VA 10G)
      )
   )
+
+  (loss-condition  (Black White) (and (pieces-remaining 0 MT) (pieces-remaining 0 GO) (pieces-remaining 0 G) ) )
+  (loss-condition  (Black White) (and (pieces-remaining 0 MT) (pieces-remaining 0 B) (pieces-remaining 0 RA) ) )
 )
