@@ -2,6 +2,10 @@
   (or not-friend? (piece? NO))
 )
 
+(define my-empty?
+  (or empty? (piece? NO))
+)
+
 (define common-start
 )
 
@@ -23,7 +27,99 @@
   (common-stop $2 $3)
 ))
 
+(define step-2 (
+  (common-start)
+  $1
+  (verify (my-empty?))
+  $1
+  (verify (my-not-friend?))
+  (common-stop $2 $3)
+))
+
+(define step-3 (
+  (common-start)
+  $1
+  (verify (my-empty?))
+  $1
+  (verify (my-empty?))
+  $1
+  (verify (my-not-friend?))
+  (common-stop $2 $3)
+))
+
+(define step-4 (
+  (common-start)
+  $1
+  (verify (my-empty?))
+  $1
+  (verify (my-empty?))
+  $1
+  (verify (my-empty?))
+  $1
+  (verify (my-not-friend?))
+  (common-stop $2 $3)
+))
+
+(define step-5 (
+  (common-start)
+  $1
+  (verify (my-empty?))
+  $1
+  (verify (my-empty?))
+  $1
+  (verify (my-empty?))
+  $1
+  (verify (my-empty?))
+  $1
+  (verify (my-not-friend?))
+  (common-stop $2 $3)
+))
+
 (define g-step (
+  $1
+  (verify (my-not-friend?))
+  add
+))
+
+(define g-step-2 (
+  $1
+  (verify (my-empty?))
+  $1
+  (verify (my-not-friend?))
+  add
+))
+
+(define g-step-3 (
+  $1
+  (verify (my-empty?))
+  $1
+  (verify (my-empty?))
+  $1
+  (verify (my-not-friend?))
+  add
+))
+
+(define g-step-4 (
+  $1
+  (verify (my-empty?))
+  $1
+  (verify (my-empty?))
+  $1
+  (verify (my-empty?))
+  $1
+  (verify (my-not-friend?))
+  add
+))
+
+(define g-step-5 (
+  $1
+  (verify (my-empty?))
+  $1
+  (verify (my-empty?))
+  $1
+  (verify (my-empty?))
+  $1
+  (verify (my-empty?))
   $1
   (verify (my-not-friend?))
   add
@@ -40,7 +136,7 @@
 (define slide (
   (common-start)
   $1
-  (while empty? 
+  (while (my-empty?)
     (common-stop $2 $3)
     $1
   )
@@ -50,7 +146,7 @@
 
 (define g-slide (
   $1
-  (while empty? 
+  (while (my-empty?)
     add
     $1
   )
@@ -127,15 +223,27 @@ If the drum is killed, the pawns may no longer move forward.")
   )
   (piece
      (name PP)
-     (notation "Patrol unit (fuso)")
+     (notation "Patrol unit")
+     (description "Patrol unit (fuso): can move any number of free intersections orthogonally forward or backward or one intersection orthogonally sideways. (fbRW)\
+This is the move of the vertical mover in other shogi variants.")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
+     (moves
+        (g-slide n) (g-slide s)
+        (g-step w)  (g-step e)
+     )
   )
   (piece
      (name HV)
-     (notation "Heaven's vengeance (temmo)")
+     (notation "Heaven's vengeance")
+     (description "Heaven's vengeance (temmo): can move any number of free intersections along either of the forward diagonals, or directly to either side or step one intersection directly backward. (rlRfBbW)")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
+     (moves
+        (g-slide  w) (g-slide  e)
+        (g-slide nw) (g-slide ne)
+        (g-step   s)
+     )
   )
   (piece
      (name FD)
@@ -180,9 +288,15 @@ his is the move of the copper general in other shogi variants.")
   )
   (piece
      (name VC)
-     (notation "Vice commander (fukushi)")
+     (notation "Vice commander")
+     (description "Vice commander (fukushi): can move any number of free intersections along one of the four diagonal directions, or directly forward. (BfR)\
+This is the move of the free silver in other shogi variants.")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
+     (moves
+        (g-slide nw) (g-slide sw) (g-slide ne) (g-slide se)
+        (g-slide n)
+     )
   )
   (piece
      (name CS)
@@ -198,9 +312,16 @@ This is the move of the ferocious leopard in other shogi variants.")
   )
   (piece
      (name VB)
-     (notation "Village brigade (hyakko)")
+     (notation "Village brigade")
+     (description "Village brigade (hyakko): can move any number of free intersections directly to either side or step one intersection in any direction. (rlRK)")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
+     (moves
+        (g-slide e) (g-slide w)
+        (g-step nw) (g-step ne)
+        (g-step sw) (g-step se)
+        (g-step  n) (g-step  s)
+     )
   )
   (piece
      (name GH)
@@ -216,9 +337,17 @@ This is the move of the silver general in other shogi variants.")
   )
   (piece
      (name TB)
-     (notation "Town brigade (senko)")
+     (notation "Town brigade")
+     (description "Town brigade (senko): can move any number of free intersections directly forward or backward or step one intersection in any direction. (fbRK)\
+This is the move of the flying stag in chu shogi.")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
+     (moves
+        (g-slide n) (g-slide s)
+        (g-step nw) (g-step ne)
+        (g-step sw) (g-step se)
+        (g-step  w) (g-step  e)
+     )
   )
   (piece
      (name SR)
@@ -241,7 +370,7 @@ This is the move of the gold general in other shogi variants.")
   (piece
      (name AA)
      (notation "Quartermaster")
-     (notation "Description (waso): can move any number of free intersections along any of the four orthogonal directions or one intersection in any diagonal direction. (FR)\
+     (description "Description (waso): can move any number of free intersections along any of the four orthogonal directions or one intersection in any diagonal direction. (FR)\
 This is the move of the dragon king in other shogi variants.")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
@@ -300,16 +429,45 @@ This is the move of the phoenix in other shogi variants.")
      )
   )
   (piece
+     (name EV)
+     (notation "Earth's vengeance")
+     (description "Earth's vengeance (chimo): can move any number of free intersections along either of the rear diagonals, or directly to either side or step one intersection directly forward. (rlRbBfW)")
+     (image White "../Images/KoShogi/w.bmp"
+            Black "../Images/KoShogi/b.bmp")
+     (moves
+        (g-slide  w) (g-slide  e)
+        (g-slide sw) (g-slide se)
+        (g-step   n)
+     )
+  )
+  (piece
      (name R)
      (notation "Rear Guard")
+     (description "Rear Guard (koei): can move any number of free intersections directly backward or step one intersection directly forwards. (fWbR)\
+This piece promotes if its clerk promotes.")
+     (image White "../Images/KoShogi/w.bmp"
+            Black "../Images/KoShogi/b.bmp")
+     (moves
+        (slide s R EV) (step n R EV)
+     )
+  )
+  (piece
+     (name WH)
+     (notation "War hawk (yoyo)")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
   )
   (piece
      (name FH)
-     (notation "Centuria (hyakuso)")
+     (notation "Centuria")
+     (description "Centuria (hyakuso): can move any number of free intersections along any of the four diagonal directions or move one intersection in any orthogonal direction. (WB)\
+This is the move of the dragon horse in other shogi variants.")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
+     (moves
+        (slide nw FH WH) (slide ne FH WH) (slide sw FH WH) (slide se FH WH)
+        (step   n FH WH) (step   s FH WH) (step   w FH WH) (step   e FH WH)
+     )
   )
   (piece
      (name TW)
@@ -320,7 +478,7 @@ This is the move of the phoenix in other shogi variants.")
   (piece
      (name Q)
      (notation "Quartermaster")
-     (notation "Description (waso): can move any number of free intersections along any of the four orthogonal directions or one intersection in any diagonal direction. (FR)\
+     (description "Description (waso): can move any number of free intersections along any of the four orthogonal directions or one intersection in any diagonal direction. (FR)\
 This is the move of the dragon king in other shogi variants.")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
@@ -349,9 +507,15 @@ This is the move of the free king in other shogi variants.")
   )
   (piece
      (name SS)
-     (notation "Centuria (hyakuso)")
+     (notation "Centuria")
+     (description "Centuria (hyakuso): can move any number of free intersections along any of the four diagonal directions or move one intersection in any orthogonal direction. (WB)\
+This is the move of the dragon horse in other shogi variants.")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
+     (moves
+        (g-slide nw) (g-slide ne) (g-slide sw) (g-slide se)
+        (g-step   n) (g-step   s) (g-step   w) (g-step   e)
+     )
   )
   (piece
      (name SN)
@@ -385,9 +549,18 @@ If the drum is killed, the pawns may no longer move forward.")
   )
   (piece
      (name RA)
-     (notation "Roaming assault (shoyo)")
+     (notation "Roaming assault")
+     (description "Roaming assault (shoyo): can step up to five times per turn in any one orthogonal direction, potentially capturing up to five pieces. (WdhWdh3Wdh4Wdh5W)\
+If the allied priest is killed, the roaming assault reverts to a banner.")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
+     (moves
+        (g-step   n) (g-step   s) (g-step   w) (g-step   e)
+        (g-step-2 n) (g-step-2 s) (g-step-2 w) (g-step-2 e)
+        (g-step-3 n) (g-step-3 s) (g-step-3 w) (g-step-3 e)
+        (g-step-4 n) (g-step-4 s) (g-step-4 w) (g-step-4 e)
+        (g-step-5 n) (g-step-5 s) (g-step-5 w) (g-step-5 e)
+     )
   )
   (piece
      (name B)
@@ -414,8 +587,13 @@ If the drum is killed, the pawns may no longer move forward.")
   (piece
      (name E)
      (notation "Elephant")
+     (description "Elephant (zo): can move any number of free intersections along any of the four diagonal directions. (B)\
+This is the move of the bishop in other shogi variants.")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
+     (moves
+        (g-step nw) (g-step ne) (g-step sw) (g-step se)
+     )
   )
   (piece
      (name C)
@@ -448,46 +626,171 @@ If the drum is killed, the pawns may no longer move forward.")
             Black "../Images/KoShogi/b.bmp")
   )
   (piece
-     (name HS)
-     (notation "Cavalryman")
+     (name HH)
+     (notation "Cavalry (kiso)")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
+  )
+  (piece
+     (name HS)
+     (notation "Cavalryman")
+     (description "Cavalryman (bahei): can jump to one intersection orthogonally plus one intersection diagonally (N)\
+This is the move of the knight in Western chess.\
+The cavalryman promotes if it captures a European cannon.")
+     (image White "../Images/KoShogi/w.bmp"
+            Black "../Images/KoShogi/b.bmp")
+     (moves
+        (step nnw HS HH) (step nne HS HH)
+        (step een HS HH) (step ees HS HH)
+        (step wwn HS HH) (step wws HS HH)
+        (step ssw HS HH) (step sse HS HH)
+     )
+  )
+  (piece
+     (name CO)
+     (notation "Commissar")
+     (description "Commissar (toshi): can move any number of free intersections along one of the four diagonals or move any number of free intersections orthogonally forward or backward. (BfbR)\
+This is the move of the flying ox in chu shogi.")
+     (image White "../Images/KoShogi/w.bmp"
+            Black "../Images/KoShogi/b.bmp")
+     (moves
+        (g-slide nw) (g-slide sw) (g-slide ne) (g-slide se)
+        (g-slide  n) (g-slide  s) 
+     )
   )
   (piece
      (name PU)
-     (notation "Patrol Unit (fuso)")
+     (notation "Patrol unit")
+     (description "Patrol unit (fuso): can move any number of free intersections orthogonally forward or backward or one intersection orthogonally sideways. (fbRW)\
+This is the move of the vertical mover in other shogi variants.")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
+     (moves
+        (slide n PU CO) (slide s PU CO)
+        (step w PU CO)  (step e PU CO)
+     )
+  )
+  (piece
+     (name MM)
+     (notation "Millenary")
+     (description "Millenary (senso): can move any number of free intersections along any one of the eight orthogonal or diagonal directions. (Q)\
+This is the move of the free king in other shogi variants.")
+     (image White "../Images/KoShogi/w.bmp"
+            Black "../Images/KoShogi/b.bmp")
+     (moves
+        (g-slide n)  (g-slide s)  (g-slide w)  (g-slide e)
+        (g-slide nw) (g-slide sw) (g-slide ne) (g-slide se)
+     )
   )
   (piece
      (name CU)
-     (notation "Chariot Unit")
+     (notation "Chariot unit")
+     (description "Chariot unit (shaso): can move any number of free intersections along any of the four orthogonal directions. (R)\
+This is the move of the rook in other shogi variants.\
+It cannot capture the imperial base.\
+The chariot unit is unaffected by the bows.")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
+     (moves
+        (slide n CU MM) (slide s CU MM)
+        (slide w CU MM) (slide e CU MM)
+     )
+  )
+  (piece
+     (name IB)
+     (notation "Imperial base")
+     (description "Imperial base (tenrui): The imperial base can move any number of free intersections in the four diagonal directions, or directly to either side. (fbRB)\
+This is the move of the free boar in chu shogi.\
+The imperial base cannot be shot by the long bow, crossbow, cannon, gun carriage, European cannon or Chariot of the gods and can be killed by the chariot or chariot unit.")
+     (image White "../Images/KoShogi/w.bmp"
+            Black "../Images/KoShogi/b.bmp")
+     (moves
+        (g-slide nw) (g-slide sw) (g-slide ne) (g-slide se)
+        (g-slide  w) (g-slide  e) 
+     )
   )
   (piece
      (name SU)
-     (notation "Shield Unit")
+     (notation "Shield unit")
+     (description "Shield unit (haiso): can move any number of free intersections orthogonally to either side or one intersection in one of the four diagonal directions. (rlRF)\
+The shield unit is unaffected by the bows or the guns.")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
+     (moves
+        (step nw SU IB) (step ne SU IB) 
+        (step sw SU IB) (step se SU IB)
+        (slide w SU IB) (slide e SU IB)
+     )
+  )
+  (piece
+     (name CC)
+     (notation "Chariot unit")
+     (description "Chariot unit (shaso): can move any number of free intersections along any of the four orthogonal directions. (R)\
+This is the move of the rook in other shogi variants.\
+It cannot capture the imperial base.\
+The chariot unit is unaffected by the bows.")
+     (image White "../Images/KoShogi/w.bmp"
+            Black "../Images/KoShogi/b.bmp")
+     (moves
+        (g-slide n) (g-slide s)
+        (g-slide w) (g-slide e)
+     )
   )
   (piece
      (name CH)
      (notation "Chariot")
+     (description "Chariot (kuruma): can move one to five free intersections in one of the four orthogonal directions. (R5)\
+It cannot capture the imperial base.\
+The chariot unit is unaffected by the bows.")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
+     (moves
+        (step n   CH CC) (step s   CH CC) (step w   CH CC) (step e   CH CC)
+        (step-2 n CH CC) (step-2 s CH CC) (step-2 w CH CC) (step-2 e CH CC)
+        (step-3 n CH CC) (step-3 s CH CC) (step-3 w CH CC) (step-3 e CH CC)
+        (step-4 n CH CC) (step-4 s CH CC) (step-4 w CH CC) (step-4 e CH CC)
+        (step-5 n CH CC) (step-5 s CH CC) (step-5 w CH CC) (step-5 e CH CC)
+     )
+  )
+  (piece
+     (name UU)
+     (notation "Shield unit")
+     (description "Shield unit (haiso): can move any number of free intersections orthogonally to either side or one intersection in one of the four diagonal directions. (rlRF)\
+The shield unit is unaffected by the bows or the guns.")
+     (image White "../Images/KoShogi/w.bmp"
+            Black "../Images/KoShogi/b.bmp")
+     (moves
+        (g-step nw) (g-step ne) 
+        (g-step sw) (g-step se)
+        (g-slide w) (g-slide e)
+     )
   )
   (piece
      (name SP)
      (notation "Shield")
+     (description "Shield (hai): can step one intersection in one of the four diagonal directions. (F)\
+The shield is unaffected by the bows.\
+This is the move of the cat sword in dai shogi.")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
+     (moves
+        (step nw SP UU) (step ne SP UU) 
+        (step sw SP UU) (step se SP UU)
+     )
   )
   (piece
      (name VA)
      (notation "Vanguard")
+     (description "Vanguard (sempo): can move one to five free intersections directly forward. (fR5)")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
+     (moves
+        (step n   VA CO)
+        (step-2 n VA CO)
+        (step-3 n VA CO)
+        (step-4 n VA CO)
+        (step-5 n VA CO)
+     )
   )
   (piece
      (name NO)
