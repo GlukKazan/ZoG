@@ -20,6 +20,14 @@
 (define check-drum
 )
 
+(define ca-step (
+  (common-start)
+  $1
+  (verify (my-not-friend?))
+  ; TODO: Use from-enemy? attribute too
+  (common-stop $2 $3)
+))
+
 (define step (
   (common-start)
   $1
@@ -75,21 +83,40 @@
   (common-stop $2 $3)
 ))
 
-(define first-step (
-  $1
-  (verify (my-not-friend?))
-  (add-partial second-type)
-))
-
 (define next-step (
   $1
   (verify (my-not-friend?))
   (add-partial $2)
 ))
 
-(define g-step (
+(define ca-next-step (
+  ; TODO: setup from-enemy? attribute
   $1
   (verify (my-not-friend?))
+  (add-partial $2)
+))
+
+(define tc-step (
+  $1
+  (verify (my-not-friend?))
+  (verify not-last-from?)
+  (add-partial $2)
+))
+
+(define g-step (
+  (if igui?
+      (set-flag check-last-from false)
+   else
+      (set-flag check-last-from true)
+  )
+  $1
+  (verify (my-not-friend?))
+  (if empty?
+      (set-flag check-last-from true)
+  )
+  (if (flag? check-last-from)
+      (verify not-last-from?)
+  )
   add
 ))
 
@@ -219,6 +246,7 @@
      (description "General (sho): can step one intersection in any direction, orthogonal or diagonal. (K)")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
+     (attribute igui? true)
      (moves
         (move-type first-type)
         (g-step n)  (g-step s)  (g-step w)  (g-step e)
@@ -231,6 +259,7 @@
      (description "Governor (sochi): can step one intersection in any direction, orthogonal or diagonal. (K)")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
+     (attribute igui? true)
      (moves
         (move-type first-type)
         (g-step n)  (g-step s)  (g-step w)  (g-step e)
@@ -256,6 +285,7 @@ If the drum is killed, the pawns may no longer move forward.")
 This is the move of the vertical mover in other shogi variants.")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
+     (attribute igui? true)
      (moves
         (move-type first-type)
         (g-slide n) (g-slide s)
@@ -268,6 +298,7 @@ This is the move of the vertical mover in other shogi variants.")
      (description "Heaven's vengeance (temmo): can move any number of free intersections along either of the forward diagonals, or directly to either side or step one intersection directly backward. (rlRfBbW)")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
+     (attribute igui? true)
      (moves
         (move-type first-type)
         (g-slide  w) (g-slide  e)
@@ -350,6 +381,7 @@ This is the move of the ferocious leopard in other shogi variants.")
      (description "Village brigade (hyakko): can move any number of free intersections directly to either side or step one intersection in any direction. (rlRK)")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
+     (attribute igui? true)
      (moves
         (move-type first-type)
         (g-slide e) (g-slide w)
@@ -378,6 +410,7 @@ This is the move of the silver general in other shogi variants.")
 This is the move of the flying stag in chu shogi.")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
+     (attribute igui? true)
      (moves
         (move-type first-type)
         (g-slide n) (g-slide s)
@@ -406,10 +439,13 @@ This is the move of the gold general in other shogi variants.")
 The sumo wrestler cannot jump over an intervening friendly piece as a ''lion'' can in other shogi variants.")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
+     (attribute igui? true)
      (moves
         (move-type first-type)
-        (first-step n)  (first-step s)  (first-step w)  (first-step e)
-        (first-step nw) (first-step sw) (first-step ne) (first-step se)
+        (next-step n  second-type) (next-step s  second-type)  
+        (next-step w  second-type) (next-step e  second-type)
+        (next-step nw second-type) (next-step sw second-type) 
+        (next-step ne second-type) (next-step se second-type)
         (move-type second-type)
         (g-step n)  (g-step s)  (g-step w)  (g-step e)
         (g-step nw) (g-step sw) (g-step ne) (g-step se)
@@ -422,6 +458,7 @@ The sumo wrestler cannot jump over an intervening friendly piece as a ''lion'' c
 This is the move of the dragon king in other shogi variants.")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
+     (attribute igui? true)
      (moves
         (move-type first-type)
         (g-slide n) (g-slide s) (g-slide w) (g-slide e)
@@ -462,10 +499,13 @@ This is the move of the kirin in other shogi variants.")
 This is like a double kirin move in chu shogi and other shogi variants.")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
+     (attribute igui? false)
      (moves
         (move-type first-type)
-        (first-step nw) (first-step sw) (first-step ne) (first-step se)
-        (first-step nn) (first-step ss) (first-step ww) (first-step ee)
+        (next-step nw second-type) (next-step sw second-type) 
+        (next-step ne second-type) (next-step se second-type)
+        (next-step nn second-type) (next-step ss second-type) 
+        (next-step ww second-type) (next-step ee second-type)
         (move-type second-type)
         (g-step nw) (g-step sw) (g-step ne) (g-step se)
         (g-step nn) (g-step ss) (g-step ww) (g-step ee)
@@ -478,10 +518,13 @@ This is like a double kirin move in chu shogi and other shogi variants.")
 This is like a double phoenix move in other shogi variants.")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
+     (attribute igui? false)
      (moves
         (move-type first-type)
-        (first-step n) (first-step s) (first-step w) (first-step e)
-        (first-step nwnw) (first-step swsw) (first-step nene) (first-step sese)
+        (next-step n second-type) (next-step s second-type) 
+        (next-step w second-type) (next-step e second-type)
+        (next-step nwnw second-type) (next-step swsw second-type) 
+        (next-step nene second-type) (next-step sese second-type)
         (move-type second-type)
         (g-step n) (g-step s) (g-step w) (g-step e)
         (g-step nwnw) (g-step swsw) (g-step nene) (g-step sese)
@@ -506,6 +549,7 @@ This is the move of the phoenix in other shogi variants.")
      (description "Earth's vengeance (chimo): can move any number of free intersections along either of the rear diagonals, or directly to either side or step one intersection directly forward. (rlRbBfW)")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
+     (attribute igui? true)
      (moves
         (move-type first-type)
         (g-slide  w) (g-slide  e)
@@ -531,10 +575,12 @@ This piece promotes if its clerk promotes.")
      (description "War hawk (yoyo): can step one or two intersections in any orthogonal direction, potentially capturing a piece with each step or move any number of free intersections along any of the four diagonal directions. (BdW)")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
+     (attribute igui? false)
      (moves
         (move-type first-type)
         (d-slide nw) (d-slide sw) (d-slide ne) (d-slide se)
-        (first-step n) (first-step s) (first-step w) (first-step e)
+        (next-step n second-type) (next-step s second-type) 
+        (next-step w second-type) (next-step e second-type)
         (move-type second-type)
         (g-step n) (g-step s) (g-step w) (g-step e)
      )
@@ -558,10 +604,11 @@ This is the move of the dragon horse in other shogi variants.")
      (description "Tiger wing (koyoku): moves like a shield (one step diagonally) once or twice per turn. (FdF)")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
+     (attribute igui? false)
      (moves
         (move-type first-type)
-        (first-step nw) (first-step ne) 
-        (first-step sw) (first-step se)
+        (next-step nw second-type) (next-step ne second-type) 
+        (next-step sw second-type) (next-step se second-type)
         (move-type second-type)
         (g-step nw) (g-step ne) 
         (g-step sw) (g-step se)
@@ -586,12 +633,15 @@ This is the move of the dragon king in other shogi variants.")
      (description "Dragon ascending (ryujo): adds the moves of the sumo wrestler to those of the millenary. (QdK)")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
+     (attribute igui? false)
      (moves
         (move-type first-type)
-        (d-slide n ) (d-slide s ) (d-slide w ) (d-slide e )
-        (d-slide nw) (d-slide sw) (d-slide ne) (d-slide se)
-        (first-step n)  (first-step s)  (first-step w)  (first-step e)
-        (first-step nw) (first-step sw) (first-step ne) (first-step se)
+        (d-slide n ) (d-slide s )  (d-slide w ) (d-slide e )
+        (d-slide nw) (d-slide sw)  (d-slide ne) (d-slide se)
+        (next-step n second-type)  (next-step s second-type)  
+        (next-step w second-type)  (next-step e second-type)
+        (next-step nw second-type) (next-step sw second-type) 
+        (next-step ne second-type) (next-step se second-type)
         (move-type second-type)
         (g-step n)  (g-step s)  (g-step w)  (g-step e)
         (g-step nw) (g-step sw) (g-step ne) (g-step se)
@@ -617,6 +667,7 @@ This is the move of the free king in other shogi variants.")
 This is the move of the dragon horse in other shogi variants.")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
+     (attribute igui? true)
      (moves
         (move-type first-type)
         (g-slide nw) (g-slide ne) (g-slide sw) (g-slide se)
@@ -643,19 +694,20 @@ This is the move of the blind tiger in other shogi variants.")
 If the allied priest is killed, the thunderclap reverts to a drum.")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
+     (attribute igui? false)
      (moves
         (move-type first-type)
-        (next-step n second-type) (next-step s second-type) 
-        (next-step w second-type) (next-step e second-type)
+        (tc-step n second-type) (tc-step s second-type) 
+        (tc-step w second-type) (tc-step e second-type)
         (move-type second-type)
-        (next-step n third-type) (next-step s third-type) 
-        (next-step w third-type) (next-step e third-type)
+        (tc-step n third-type) (tc-step s third-type) 
+        (tc-step w third-type) (tc-step e third-type)
         (move-type third-type)
-        (next-step n fourth-type) (next-step s fourth-type) 
-        (next-step w fourth-type) (next-step e fourth-type)
+        (tc-step n fourth-type) (tc-step s fourth-type) 
+        (tc-step w fourth-type) (tc-step e fourth-type)
         (move-type fourth-type)
-        (next-step n fith-type) (next-step s fith-type) 
-        (next-step w fith-type) (next-step e fith-type)
+        (tc-step n fith-type) (tc-step s fith-type) 
+        (tc-step w fith-type) (tc-step e fith-type)
         (move-type fith-type)
         (g-step n) (g-step s) (g-step w) (g-step e)
      )
@@ -680,6 +732,7 @@ If the drum is killed, the pawns may no longer move forward.")
 If the allied priest is killed, the roaming assault reverts to a banner.")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
+     (attribute igui? true)
      (moves
         (move-type first-type)
         (next-step n n-second-type) (next-step s s-second-type) 
@@ -751,7 +804,7 @@ This is the move of the bishop in other shogi variants.")
             Black "../Images/KoShogi/b.bmp")
      (moves
         (move-type first-type)
-        (g-step nw) (g-step ne) (g-step sw) (g-step se)
+        (g-slide nw) (g-slide ne) (g-slide sw) (g-slide se)
      )
   )
   (piece
@@ -784,12 +837,13 @@ This is the move of the bishop in other shogi variants.")
      (description "Winged horse (temba): moves as a cavalry, but without any restriction on the direction of the second jump. That is, it moves twice like a knight in Western chess. (NdN)")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
+     (attribute igui? true)
      (moves
         (move-type first-type)
-        (first-step nnw) (first-step nne)
-        (first-step een) (first-step ees)
-        (first-step wwn) (first-step wws)
-        (first-step ssw) (first-step sse)
+        (next-step nnw second-type) (next-step nne second-type)
+        (next-step een second-type) (next-step ees second-type)
+        (next-step wwn second-type) (next-step wws second-type)
+        (next-step ssw second-type) (next-step sse second-type)
         (move-type second-type)
         (g-step nnw) (g-step nne)
         (g-step een) (g-step ees)
@@ -800,14 +854,55 @@ This is the move of the bishop in other shogi variants.")
   (piece
      (name CA)
      (notation "Cavalry")
+     (description "Cavalry (kiso): can jumps once or twice as a cavalryman in a single turn, potentially capturing two pieces. (NdhN)\
+If it jumps twice, both jumps must be in the same orthogonal direction (both forwards, backwards, to the left, or to the right). \
+That is, after the cavalry makes its first jump, it is restricted to only two landing squares for its second jump, similar to the restriction of a knight in other shogi variants or\
+For its second jump, it may return to its starting point. This gives the cavalry a power of igui and passing a turn similar to that of the sumo wrestler.")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
+     (attribute igui? true)
+     (attribute from-enemy? false)
+     (moves
+        (move-type first-type)
+        (ca-next-step nnw n-second-type) (ca-next-step nne n-second-type)
+        (ca-next-step een e-second-type) (ca-next-step ees e-second-type)
+        (ca-next-step wwn w-second-type) (ca-next-step wws w-second-type)
+        (ca-next-step ssw s-second-type) (ca-next-step sse s-second-type)
+        (move-type n-second-type)
+        (ca-step nnw CA WG) (ca-step nne CA WG)
+        (move-type e-second-type)
+        (ca-step een CA WG) (ca-step ees CA WG)
+        (move-type w-second-type)
+        (ca-step wwn CA WG) (ca-step wws CA WG)
+        (move-type s-second-type)
+        (ca-step ssw CA WG) (ca-step sse CA WG)
+     )
   )
   (piece
      (name HH)
-     (notation "Cavalry (kiso)")
+     (notation "Cavalry")
+     (description "Cavalry (kiso): can jumps once or twice as a cavalryman in a single turn, potentially capturing two pieces. (NdhN)\
+If it jumps twice, both jumps must be in the same orthogonal direction (both forwards, backwards, to the left, or to the right). \
+That is, after the cavalry makes its first jump, it is restricted to only two landing squares for its second jump, similar to the restriction of a knight in other shogi variants or\
+For its second jump, it may return to its starting point. This gives the cavalry a power of igui and passing a turn similar to that of the sumo wrestler.")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
+     (attribute igui? true)
+     (moves
+        (move-type first-type)
+        (next-step nnw n-second-type) (next-step nne n-second-type)
+        (next-step een e-second-type) (next-step ees e-second-type)
+        (next-step wwn w-second-type) (next-step wws w-second-type)
+        (next-step ssw s-second-type) (next-step sse s-second-type)
+        (move-type n-second-type)
+        (g-step nnw) (g-step nne)
+        (move-type e-second-type)
+        (g-step een) (g-step ees)
+        (move-type w-second-type)
+        (g-step wwn) (g-step wws)
+        (move-type s-second-type)
+        (g-step ssw) (g-step sse)
+     )
   )
   (piece
      (name HS)
@@ -946,6 +1041,7 @@ The chariot unit is unaffected by the bows.")
 The shield unit is unaffected by the bows or the guns.")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
+     (attribute igui? true)
      (moves
         (move-type first-type)
         (g-step nw) (g-step ne) 
