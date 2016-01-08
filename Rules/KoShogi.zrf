@@ -35,7 +35,7 @@
   (common-stop $2 $3)
 ))
 
-(define step (
+(define step-1 (
   (check-pass)
   (common-start)
   $1
@@ -121,7 +121,207 @@
   (add-partial $2)
 ))
 
+(define bow-step (
+  (common-start)
+  (check-pass)
+  $1
+  (verify empty?)
+  (if (flag? can-promototion?)
+      (add-partial $3 $4 $2)
+   else  
+      (add-partial $2)
+  )
+))
+
+(define check-target
+  (if enemy?
+      (if (flag? one-target?)
+          (set-flag two-targets? true)
+        else
+          (set-flag one-target? true)
+      )
+  )
+)
+
+(define calc-targets
+  (if (on-board? $1)
+      mark
+      $1 (check-target)
+      (if (and (on-board? $1) (or empty? enemy? (position-flag? from-pos?)))
+          $1 (check-target)
+          (if (and (on-board? $1) (or empty? enemy? (position-flag? from-pos?)))
+              $1 (check-target)
+              (if (and (on-board? $1) (or empty? enemy? (position-flag? from-pos?)))
+                  $1 (check-target)
+                  (if (and (on-board? $1) (or empty? enemy? (position-flag? from-pos?)))
+                      $1 (check-target)
+                      (if (and (on-board? $1) (or empty? enemy? (position-flag? from-pos?)))
+                          $1 (check-target)
+                          (if (and (on-board? $1) (or empty? enemy? (position-flag? from-pos?)))
+                              $1 (check-target)
+                          )
+                      )
+                  )
+              )
+          )
+      )
+      back
+  )
+)
+
+(define check-targets
+  (set-flag one-target? false)
+  (set-flag two-targets? false)
+  (calc-targets n)
+  (calc-targets s)
+  (calc-targets w)
+  (calc-targets e)
+  (calc-targets nw)
+  (calc-targets sw)
+  (calc-targets ne)
+  (calc-targets se)
+  (if (flag? two-targets?)
+      (set-attribute enemy-pass? true)
+      (create pass-flag)
+  )
+)
+
+(define ec-step (
+  (set-position-flag from-pos? true)
+  (common-start)
+  (check-pass)
+  $1
+  (verify empty?)
+  (check-targets)
+  (if (flag? can-promototion?)
+      (add-partial $3 $4 $2)
+   else  
+      (add-partial $2)
+  )
+))
+
+(define q-step-1 (
+  (check-pass)
+  $1
+  (verify empty?)
+  (add-partial $2)
+))
+
+(define q-step-2 (
+  (check-pass)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  (add-partial $2)
+))
+
+(define q-step-3 (
+  (check-pass)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  (add-partial $2)
+))
+
+(define q-step-4 (
+  (check-pass)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  (add-partial $2)
+))
+
+(define q-step-5 (
+  (check-pass)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  (add-partial $2)
+))
+
+(define qe-step-1 (
+  (set-position-flag from-pos? true)
+  (check-pass)
+  $1
+  (verify empty?)
+  (check-targets)
+  (add-partial $2)
+))
+
+(define qe-step-2 (
+  (set-position-flag from-pos? true)
+  (check-pass)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  (check-targets)
+  (add-partial $2)
+))
+
+(define qe-step-3 (
+  (set-position-flag from-pos? true)
+  (check-pass)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  (check-targets)
+  (add-partial $2)
+))
+
+(define qe-step-4 (
+  (set-position-flag from-pos? true)
+  (check-pass)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  (check-targets)
+  (add-partial $2)
+))
+
+(define qe-step-5 (
+  (set-position-flag from-pos? true)
+  (check-pass)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  (check-targets)
+  (add-partial $2)
+))
+
 (define monk-step (
+  (common-start)
   (check-pass)
   $1
   (verify (or empty? (and enemy? (or (piece? TP) (piece? SM) (piece? IL)))))
@@ -132,7 +332,7 @@
   )
 ))
 
-(define kill (
+(define shoot-1 (
   (if enemy-pass?
       (set-flag ep? true)
    else
@@ -148,6 +348,371 @@
       (set-attribute enemy-pass? true)
   )
   $1
+  add
+))
+
+(define shoot-2 (
+  (if enemy-pass?
+      (set-flag ep? true)
+   else
+      (set-flag ep? false)
+  )
+  mark
+  $1
+  (verify empty?)
+  $1
+  (verify enemy?)
+  capture
+  back
+  (create $2)
+  (if (flag? ep?)
+      (set-attribute enemy-pass? true)
+  )
+  $1 $1
+  add
+))
+
+(define shoot-3 (
+  (if enemy-pass?
+      (set-flag ep? true)
+   else
+      (set-flag ep? false)
+  )
+  mark
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify enemy?)
+  capture
+  back
+  (create $2)
+  (if (flag? ep?)
+      (set-attribute enemy-pass? true)
+  )
+  $1 $1 $1
+  add
+))
+
+(define shoot-4 (
+  (if enemy-pass?
+      (set-flag ep? true)
+   else
+      (set-flag ep? false)
+  )
+  mark
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify enemy?)
+  capture
+  back
+  (create $2)
+  (if (flag? ep?)
+      (set-attribute enemy-pass? true)
+  )
+  $1 $1 $1 $1
+  add
+))
+
+(define shoot-5 (
+  (if enemy-pass?
+      (set-flag ep? true)
+   else
+      (set-flag ep? false)
+  )
+  mark
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify enemy?)
+  capture
+  back
+  (create $2)
+  (if (flag? ep?)
+      (set-attribute enemy-pass? true)
+  )
+  $1 $1 $1 $1 $1
+  add
+))
+
+(define shoot-6 (
+  (if enemy-pass?
+      (set-flag ep? true)
+   else
+      (set-flag ep? false)
+  )
+  mark
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify enemy?)
+  capture
+  back
+  (create $2)
+  (if (flag? ep?)
+      (set-attribute enemy-pass? true)
+  )
+  $1 $1 $1 $1 $1 $1
+  add
+))
+
+(define shoot-7 (
+  (if enemy-pass?
+      (set-flag ep? true)
+   else
+      (set-flag ep? false)
+  )
+  mark
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify enemy?)
+  capture
+  back
+  (create $2)
+  (if (flag? ep?)
+      (set-attribute enemy-pass? true)
+  )
+  $1 $1 $1 $1 $1 $1 $1
+  add
+))
+
+(define ec-shoot-1 (
+  (verify enemy-pass?)
+  mark
+  $1
+  (verify enemy?)
+  capture
+  (capture pass-flag)
+  back
+  (create $2)
+  $1
+  add
+))
+
+(define ec-shoot-2 (
+  (verify enemy-pass?)
+  mark
+  $1
+  (verify empty?)
+  $1
+  (verify enemy?)
+  capture
+  (capture pass-flag)
+  back
+  (create $2)
+  $1 $1
+  add
+))
+
+(define ec-shoot-3 (
+  (verify enemy-pass?)
+  mark
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify enemy?)
+  capture
+  (capture pass-flag)
+  back
+  (create $2)
+  $1 $1 $1
+  add
+))
+
+(define ec-shoot-4 (
+  (verify enemy-pass?)
+  mark
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify enemy?)
+  capture
+  (capture pass-flag)
+  back
+  (create $2)
+  $1 $1 $1 $1
+  add
+))
+
+(define ec-shoot-5 (
+  (verify enemy-pass?)
+  mark
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify enemy?)
+  capture
+  (capture pass-flag)
+  back
+  (create $2)
+  $1 $1 $1 $1 $1
+  add
+))
+
+(define ec-shoot-6 (
+  (verify enemy-pass?)
+  mark
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify enemy?)
+  capture
+  (capture pass-flag)
+  back
+  (create $2)
+  $1 $1 $1 $1 $1 $1
+  add
+))
+
+(define ec-shoot-7 (
+  (verify enemy-pass?)
+  mark
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify enemy?)
+  capture
+  (capture pass-flag)
+  back
+  (create $2)
+  $1 $1 $1 $1 $1 $1 $1
+  add
+))
+
+(define throw-2 (
+  (if enemy-pass?
+      (set-flag ep? true)
+   else
+      (set-flag ep? false)
+  )
+  mark
+  $1 $1
+  (verify enemy?)
+  capture
+  back
+  (create $2)
+  (if (flag? ep?)
+      (set-attribute enemy-pass? true)
+  )
+  $1 $1
+  add
+))
+
+(define throw-3 (
+  (if enemy-pass?
+      (set-flag ep? true)
+   else
+      (set-flag ep? false)
+  )
+  mark
+  $1 $1 $1
+  (verify enemy?)
+  capture
+  back
+  (create $2)
+  (if (flag? ep?)
+      (set-attribute enemy-pass? true)
+  )
+  $1 $1 $1
+  add
+))
+
+(define throw-4 (
+  (if enemy-pass?
+      (set-flag ep? true)
+   else
+      (set-flag ep? false)
+  )
+  mark
+  $1 $1 $1 $1
+  (verify enemy?)
+  capture
+  back
+  (create $2)
+  (if (flag? ep?)
+      (set-attribute enemy-pass? true)
+  )
+  $1 $1 $1 $1
+  add
+))
+
+(define throw-5 (
+  (if enemy-pass?
+      (set-flag ep? true)
+   else
+      (set-flag ep? false)
+  )
+  mark
+  $1 $1 $1 $1 $1
+  (verify enemy?)
+  capture
+  back
+  (create $2)
+  (if (flag? ep?)
+      (set-attribute enemy-pass? true)
+  )
+  $1 $1 $1 $1 $1
   add
 ))
 
@@ -353,7 +918,7 @@ If the drum is killed, the pawns may no longer move forward.")
             Black "../Images/KoShogi/b.bmp")
      (moves
         (move-type first-type)
-        (p-step n P PP) (step s P PP) (step w P PP) (step e P PP)
+        (p-step n P PP) (step-1 s P PP) (step-1 w P PP) (step-1 e P PP)
      )
   )
   (piece
@@ -393,7 +958,7 @@ This piece promotes if its clerk promotes.")
             Black "../Images/KoShogi/b.bmp")
      (moves
         (move-type first-type)
-        (slide n FD HV) (step s FD HV)
+        (slide n FD HV) (step-1 s FD HV)
      )
   )
   (piece
@@ -411,8 +976,8 @@ If a twelve-mile fog and immaculate light ever find themselves within 5 intersec
         (sp-step nwnw second-type) (sp-step swsw second-type)
         (sp-step nene second-type) (sp-step sese second-type)
         (move-type second-type)
-        (kill n IL) (kill s IL) (kill nw IL) (kill sw IL)
-        (kill w IL) (kill e IL) (kill ne IL) (kill se IL)
+        (shoot-1 n IL) (shoot-1 s IL) (shoot-1 nw IL) (shoot-1 sw IL)
+        (shoot-1 w IL) (shoot-1 e IL) (shoot-1 ne IL) (shoot-1 se IL)
         (move-type priority-type)
         (cp-step nn second-type) (cp-step ss second-type)
         (cp-step ww second-type) (cp-step ee second-type)
@@ -435,14 +1000,14 @@ However, they can only capture an enemy priest or monk with such a jump.")
         (monk-step nwnw second-type SM IL) (monk-step swsw second-type SM IL)
         (monk-step nene second-type SM IL) (monk-step sese second-type SM IL)
         (move-type second-type)
-        (kill n TP) (kill s TP) (kill nw TP) (kill sw TP)
-        (kill w TP) (kill e TP) (kill ne TP) (kill se TP)
+        (shoot-1 n SM) (shoot-1 s SM) (shoot-1 nw SM) (shoot-1 sw SM)
+        (shoot-1 w SM) (shoot-1 e SM) (shoot-1 ne SM) (shoot-1 se SM)
      )
   )
   (piece
      (name TF)
      (notation "Twelve-mile fog")
-     (description "Twelve-mile fog (gorimu): can move twice per turn, including the option of shooting one adjacent piece after each move, and are still restricted from capturing by displacement. (t[d[DA]xK])\
+      (description "Twelve-mile fog (gorimu): can move twice per turn, including the option of shooting one adjacent piece after each move, and are still restricted from capturing by displacement. (t[d[DA]xK])\
 If a twelve-mile fog and immaculate light ever find themselves within 5 intersections of each other, the fog immediately reverts to a Taoist priest.\
 The fog cannot be shot from within a distance of five intersections. It can only be shot (by the European cannon) from a distance of six intersections or more.")
      (image White "../Images/KoShogi/w.bmp"
@@ -455,8 +1020,8 @@ The fog cannot be shot from within a distance of five intersections. It can only
         (sp-step nwnw second-type) (sp-step swsw second-type)
         (sp-step nene second-type) (sp-step sese second-type)
         (move-type second-type)
-        (kill n TF) (kill s TF) (kill nw TF) (kill sw TF)
-        (kill w TF) (kill e TF) (kill ne TF) (kill se TF)
+        (shoot-1 n TF) (shoot-1 s TF) (shoot-1 nw TF) (shoot-1 sw TF)
+        (shoot-1 w TF) (shoot-1 e TF) (shoot-1 ne TF) (shoot-1 se TF)
         (move-type priority-type)
         (cp-step nn second-type) (cp-step ss second-type)
         (cp-step ww second-type) (cp-step ee second-type)
@@ -479,8 +1044,8 @@ However, they can only capture an enemy priest or monk with such a jump.")
         (monk-step nwnw second-type TP TF) (monk-step swsw second-type TP TF)
         (monk-step nene second-type TP TF) (monk-step sese second-type TP TF)
         (move-type second-type)
-        (kill n TP) (kill s TP) (kill nw TP) (kill sw TP)
-        (kill w TP) (kill e TP) (kill ne TP) (kill se TP)
+        (shoot-1 n TP) (shoot-1 s TP) (shoot-1 nw TP) (shoot-1 sw TP)
+        (shoot-1 w TP) (shoot-1 e TP) (shoot-1 ne TP) (shoot-1 se TP)
      )
   )
   (piece
@@ -498,8 +1063,8 @@ his is the move of the copper general in other shogi variants.")
             Black "../Images/KoShogi/b.bmp")
      (moves
         (move-type first-type)
-        (step nw EN PF) (step ne EN PF)
-        (step n  EN PF) (step s  EN PF)
+        (step-1 nw EN PF) (step-1 ne EN PF)
+        (step-1 n  EN PF) (step-1 s  EN PF)
      )
   )
   (piece
@@ -524,8 +1089,8 @@ This is the move of the ferocious leopard in other shogi variants.")
             Black "../Images/KoShogi/b.bmp")
      (moves
         (move-type first-type)
-        (step nw CS VC) (step sw CS VC) (step ne CS VC) (step se CS VC)
-        (step n  CS VC) (step s  CS VC)
+        (step-1 nw CS VC) (step-1 sw CS VC) (step-1 ne CS VC) (step-1 se CS VC)
+        (step-1 n  CS VC) (step-1 s  CS VC)
      )
   )
   (piece
@@ -552,8 +1117,8 @@ This is the move of the silver general in other shogi variants.")
             Black "../Images/KoShogi/b.bmp")
      (moves
         (move-type first-type)
-        (step nw GH VB) (step sw GH VB) (step ne GH VB) (step se GH VB)
-        (step n  GH VB)
+        (step-1 nw GH VB) (step-1 sw GH VB) (step-1 ne GH VB) (step-1 se GH VB)
+        (step-1 n  GH VB)
      )
   )
   (piece
@@ -581,8 +1146,8 @@ This is the move of the gold general in other shogi variants.")
             Black "../Images/KoShogi/b.bmp")
      (moves
         (move-type first-type)
-        (step n  SR TB) (step s  SR TB) (step w  SR TB) (step e SR TB)
-        (step nw SR TB) (step ne SR TB)
+        (step-1 n  SR TB) (step-1 s  SR TB) (step-1 w SR TB) (step-1 e SR TB)
+        (step-1 nw SR TB) (step-1 ne SR TB)
      )
   )
   (piece
@@ -628,8 +1193,8 @@ However, it does not promote to a prince.")
             Black "../Images/KoShogi/b.bmp")
      (moves
         (move-type first-type)
-        (step nw A AA) (step sw A AA) (step ne A AA) (step se A AA)
-        (step n  A AA) (step w  A AA) (step e  A AA)
+        (step-1 nw A AA) (step-1 sw A AA) (step-1 ne A AA) (step-1 se A AA)
+        (step-1 n  A AA) (step-1 w  A AA) (step-1 e  A AA)
      )
   )
   (piece
@@ -641,8 +1206,8 @@ This is the move of the kirin in other shogi variants.")
             Black "../Images/KoShogi/b.bmp")
      (moves
         (move-type first-type)
-        (step nw SC MA) (step sw SC MA) (step ne SC MA) (step se SC MA)
-        (step nn SC MA) (step ss SC MA) (step ww SC MA) (step ee SC MA)
+        (step-1 nw SC MA) (step-1 sw SC MA) (step-1 ne SC MA) (step-1 se SC MA)
+        (step-1 nn SC MA) (step-1 ss SC MA) (step-1 ww SC MA) (step-1 ee SC MA)
      )
   )
   (piece
@@ -692,8 +1257,9 @@ This is the move of the phoenix in other shogi variants.")
             Black "../Images/KoShogi/b.bmp")
      (moves
         (move-type first-type)
-        (step n PL BD) (step s PL BD) (step w PL BD) (step e PL BD)
-        (step nwnw PL BD) (step swsw PL BD) (step nene PL BD) (step sese PL BD)
+        (step-1 n PL BD) (step-1 s PL BD) (step-1 w PL BD) (step-1 e PL BD)
+        (step-1 nwnw PL BD) (step-1 swsw PL BD) 
+        (step-1 nene PL BD) (step-1 sese PL BD)
      )
   )
   (piece
@@ -719,7 +1285,7 @@ This piece promotes if its clerk promotes.")
             Black "../Images/KoShogi/b.bmp")
      (moves
         (move-type first-type)
-        (slide s R EV) (step n R EV)
+        (slide s R EV) (step-1 n R EV)
      )
   )
   (piece
@@ -748,7 +1314,7 @@ This is the move of the dragon horse in other shogi variants.")
      (moves
         (move-type first-type)
         (slide nw FH WH) (slide ne FH WH) (slide sw FH WH) (slide se FH WH)
-        (step   n FH WH) (step   s FH WH) (step   w FH WH) (step   e FH WH)
+        (step-1 n FH WH) (step-1 s FH WH) (step-1 w FH WH) (step-1 e FH WH)
      )
   )
   (piece
@@ -777,7 +1343,7 @@ This is the move of the dragon king in other shogi variants.")
      (moves
         (move-type first-type)
         (slide n Q TW) (slide s Q TW) (slide w Q TW) (slide e Q TW)
-        (step nw Q TW) (step ne Q TW) (step sw Q TW) (step se Q TW)
+        (step-1 nw Q TW) (step-1 ne Q TW) (step-1 sw Q TW) (step-1 se Q TW)
      )
   )
   (piece
@@ -836,8 +1402,8 @@ This is the move of the blind tiger in other shogi variants.")
             Black "../Images/KoShogi/b.bmp")
      (moves
         (move-type first-type)
-        (step nw SN SS) (step sw SN SS) (step ne SN SS) (step se SN SS)
-        (step w  SN SS) (step e  SN SS) (step s  SN SS)
+        (step-1 nw SN SS) (step-1 sw SN SS) (step-1 ne SN SS) (step-1 se SN SS)
+        (step-1 w  SN SS) (step-1 e  SN SS) (step-1 s  SN SS)
      )
   )
   (piece
@@ -874,8 +1440,8 @@ If the drum is killed, the pawns may no longer move forward.")
             Black "../Images/KoShogi/b.bmp")
      (moves
         (move-type first-type)
-        (step nw D TC) (step sw D TC) (step ne D TC) (step se D TC)
-        (step w  D TC) (step e  D TC)
+        (step-1 nw D TC) (step-1 sw D TC) (step-1 ne D TC) (step-1 se D TC)
+        (step-1 w  D TC) (step-1 e  D TC)
      )
   )
   (piece
@@ -932,8 +1498,8 @@ If the allied priest is killed, the roaming assault reverts to a banner.")
             Black "../Images/KoShogi/b.bmp")
      (moves
         (move-type first-type)
-        (step nw B RA) (step sw B RA) (step ne B RA) (step se B RA)
-        (step w  B RA) (step e  B RA)
+        (step-1 nw B RA) (step-1 sw B RA) (step-1 ne B RA) (step-1 se B RA)
+        (step-1 w  B RA) (step-1 e  B RA)
      )
   )
   (piece
@@ -944,8 +1510,8 @@ If the allied priest is killed, the roaming assault reverts to a banner.")
             Black "../Images/KoShogi/b.bmp")
      (moves
         (move-type first-type)
-        (step n MT GO)  (step s MT GO)  (step w MT GO)  (step e MT GO)
-        (step nw MT GO) (step sw MT GO) (step ne MT GO) (step se MT GO)
+        (step-1 n MT GO)  (step-1 s MT GO)  (step-1 w MT GO)  (step-1 e MT GO)
+        (step-1 nw MT GO) (step-1 sw MT GO) (step-1 ne MT GO) (step-1 se MT GO)
      )
   )
   (piece
@@ -961,28 +1527,251 @@ This is the move of the bishop in other shogi variants.")
      )
   )
   (piece
-     (name C)
-     (notation "Cannon")
+     (name GC)
+     (notation "Gun carriage")
+     (description "Gun carriage (hosha): can move up to five free intersections along one of the four orthogonal directions and shoot as a cannon. (t[[mR5][cxQ5ppQ5]])\
+The gun carriage cannot shoot an imperial base.
+It cannot be shot by a long bow or crossbow.")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
+     (attribute enemy-pass? false)
+     (moves
+        (move-type first-type)
+        (q-step-1 n second-type) (q-step-1 s second-type) 
+        (q-step-1 w second-type) (q-step-1 e second-type) 
+        (q-step-2 n second-type) (q-step-2 s second-type) 
+        (q-step-2 w second-type) (q-step-2 e second-type) 
+        (q-step-3 n second-type) (q-step-3 s second-type) 
+        (q-step-3 w second-type) (q-step-3 e second-type) 
+        (q-step-4 n second-type) (q-step-4 s second-type) 
+        (q-step-4 w second-type) (q-step-4 e second-type) 
+        (q-step-5 n second-type) (q-step-5 s second-type) 
+        (q-step-5 w second-type) (q-step-5 e second-type) 
+        (move-type second-type)
+        (shoot-1 n GC) (shoot-1 nw GC) (shoot-1 w GC) (shoot-1 sw GC)
+        (shoot-1 s GC) (shoot-1 se GC) (shoot-1 e GC) (shoot-1 ne GC)
+        (throw-2 n GC) (throw-2 nw GC) (throw-2 w GC) (throw-2 sw GC)
+        (throw-2 s GC) (throw-2 se GC) (throw-2 e GC) (throw-2 ne GC)
+        (throw-3 n GC) (throw-3 nw GC) (throw-3 w GC) (throw-3 sw GC)
+        (throw-3 s GC) (throw-3 se GC) (throw-3 e GC) (throw-3 ne GC)
+        (throw-4 n GC) (throw-4 nw GC) (throw-4 w GC) (throw-4 sw GC)
+        (throw-4 s GC) (throw-4 se GC) (throw-4 e GC) (throw-4 ne GC)
+        (throw-5 n GC) (throw-5 nw GC) (throw-5 w GC) (throw-5 sw GC)
+        (throw-5 s GC) (throw-5 se GC) (throw-5 e GC) (throw-5 ne GC)
+     )
+  )
+  (piece
+     (name C)
+     (notation "Cannon")
+     (description "Cannon (ho): can move one intersection in one of the four diagonal directions and shoot one enemy piece up to five free or occupied intersections away from its landing point in any of the eight prime directions. (t[[mF][cxQ5ppQ5]])\
+It cannot shoot an imperial base, shield unit, or twelve-mile fog.")
+     (image White "../Images/KoShogi/w.bmp"
+            Black "../Images/KoShogi/b.bmp")
+     (attribute enemy-pass? false)
+     (moves
+        (move-type first-type)
+        (bow-step nw second-type C GC) (bow-step ne second-type C GC)
+        (bow-step sw second-type C GC) (bow-step se second-type C GC)
+        (move-type second-type)
+        (shoot-1 n C) (shoot-1 nw C) (shoot-1 w C) (shoot-1 sw C)
+        (shoot-1 s C) (shoot-1 se C) (shoot-1 e C) (shoot-1 ne C)
+        (throw-2 n C) (throw-2 nw C) (throw-2 w C) (throw-2 sw C)
+        (throw-2 s C) (throw-2 se C) (throw-2 e C) (throw-2 ne C)
+        (throw-3 n C) (throw-3 nw C) (throw-3 w C) (throw-3 sw C)
+        (throw-3 s C) (throw-3 se C) (throw-3 e C) (throw-3 ne C)
+        (throw-4 n C) (throw-4 nw C) (throw-4 w C) (throw-4 sw C)
+        (throw-4 s C) (throw-4 se C) (throw-4 e C) (throw-4 ne C)
+        (throw-5 n C) (throw-5 nw C) (throw-5 w C) (throw-5 sw C)
+        (throw-5 s C) (throw-5 se C) (throw-5 e C) (throw-5 ne C)
+     )
+  )
+  (piece
+     (name CB)
+     (notation "Crossbow cavalryman")
+     (description "Crossbow cavalryman (kokyuki): can jump as a cavalryman to any of its eight destinations and shoot one enemy piece up to five free intersections away from its landing point in any prime direction. (t[[mN][cxQ5]])")
+     (image White "../Images/KoShogi/w.bmp"
+            Black "../Images/KoShogi/b.bmp")
+     (attribute enemy-pass? false)
+     (moves
+        (move-type first-type)
+        (q-step-1 nnw second-type) (q-step-1 nne second-type) 
+        (q-step-1 ssw second-type) (q-step-1 sse second-type) 
+        (q-step-1 een second-type) (q-step-1 ees second-type) 
+        (q-step-1 wwn second-type) (q-step-1 wws second-type) 
+        (move-type second-type)
+        (shoot-1 n CB) (shoot-1 nw CB) (shoot-1 w CB) (shoot-1 sw CB)
+        (shoot-1 s CB) (shoot-1 se CB) (shoot-1 e CB) (shoot-1 ne CB)
+        (shoot-2 n CB) (shoot-2 nw CB) (shoot-2 w CB) (shoot-2 sw CB)
+        (shoot-2 s CB) (shoot-2 se CB) (shoot-2 e CB) (shoot-2 ne CB)
+        (shoot-3 n CB) (shoot-3 nw CB) (shoot-3 w CB) (shoot-3 sw CB)
+        (shoot-3 s CB) (shoot-3 se CB) (shoot-3 e CB) (shoot-3 ne CB)
+        (shoot-4 n CB) (shoot-4 nw CB) (shoot-4 w CB) (shoot-4 sw CB)
+        (shoot-4 s CB) (shoot-4 se CB) (shoot-4 e CB) (shoot-4 ne CB)
+        (shoot-5 n CB) (shoot-5 nw CB) (shoot-5 w CB) (shoot-5 sw CB)
+        (shoot-5 s CB) (shoot-5 se CB) (shoot-5 e CB) (shoot-5 ne CB)
+     )
   )
   (piece
      (name SB)
      (notation "Crossbow")
+     (description "Crossbow (yumi): is identical to the long bow, except that it can shoot up to five free intersections away. (t[[mF][cxQ5]])")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
+     (attribute enemy-pass? false)
+     (moves
+        (move-type first-type)
+        (bow-step nw second-type SB CB) (bow-step ne second-type SB CB)
+        (bow-step sw second-type SB CB) (bow-step se second-type SB CB)
+        (move-type second-type)
+        (shoot-1 n SB) (shoot-1 nw SB) (shoot-1 w SB) (shoot-1 sw SB)
+        (shoot-1 s SB) (shoot-1 se SB) (shoot-1 e SB) (shoot-1 ne SB)
+        (shoot-2 n SB) (shoot-2 nw SB) (shoot-2 w SB) (shoot-2 sw SB)
+        (shoot-2 s SB) (shoot-2 se SB) (shoot-2 e SB) (shoot-2 ne SB)
+        (shoot-3 n SB) (shoot-3 nw SB) (shoot-3 w SB) (shoot-3 sw SB)
+        (shoot-3 s SB) (shoot-3 se SB) (shoot-3 e SB) (shoot-3 ne SB)
+        (shoot-4 n SB) (shoot-4 nw SB) (shoot-4 w SB) (shoot-4 sw SB)
+        (shoot-4 s SB) (shoot-4 se SB) (shoot-4 e SB) (shoot-4 ne SB)
+        (shoot-5 n SB) (shoot-5 nw SB) (shoot-5 w SB) (shoot-5 sw SB)
+        (shoot-5 s SB) (shoot-5 se SB) (shoot-5 e SB) (shoot-5 ne SB)
+     )
+  )
+  (piece
+     (name LC)
+     (notation "Longbow cavalryman")
+     (description "Longbow cavalryman (kokyuki): can jump as a cavalryman to any of its eight destinations and shoot one enemy piece up to three free intersections away from its landing point in any prime direction. (t[[mN][cxQ3]])")
+     (image White "../Images/KoShogi/w.bmp"
+            Black "../Images/KoShogi/b.bmp")
+     (attribute enemy-pass? false)
+     (moves
+        (move-type first-type)
+        (q-step-1 nnw second-type) (q-step-1 nne second-type) 
+        (q-step-1 ssw second-type) (q-step-1 sse second-type) 
+        (q-step-1 een second-type) (q-step-1 ees second-type) 
+        (q-step-1 wwn second-type) (q-step-1 wws second-type) 
+        (move-type second-type)
+        (shoot-1 n LC) (shoot-1 nw LC) (shoot-1 w LC) (shoot-1 sw LC)
+        (shoot-1 s LC) (shoot-1 se LC) (shoot-1 e LC) (shoot-1 ne LC)
+        (shoot-2 n LC) (shoot-2 nw LC) (shoot-2 w LC) (shoot-2 sw LC)
+        (shoot-2 s LC) (shoot-2 se LC) (shoot-2 e LC) (shoot-2 ne LC)
+        (shoot-3 n LC) (shoot-3 nw LC) (shoot-3 w LC) (shoot-3 sw LC)
+        (shoot-3 s LC) (shoot-3 se LC) (shoot-3 e LC) (shoot-3 ne LC)
+     )
   )
   (piece
      (name LB)
      (notation "Long Bow")
+     (description "Long Bow (yumi): can move one intersection in one of the four diagonal directions and shoot one enemy piece up to three free intersections from its landing point, in any of the eight prime directions. (t[[mF][cxQ3]])\
+It cannot shoot an imperial base, shield, shield unit, chariot, chariot unit, gun carriage, or twelve-mile fog.")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
+     (attribute enemy-pass? false)
+     (moves
+        (move-type first-type)
+        (bow-step nw second-type LB LC) (bow-step ne second-type LB LC)
+        (bow-step sw second-type LB LC) (bow-step se second-type LB LC)
+        (move-type second-type)
+        (shoot-1 n LB) (shoot-1 nw LB) (shoot-1 w LB) (shoot-1 sw LB)
+        (shoot-1 s LB) (shoot-1 se LB) (shoot-1 e LB) (shoot-1 ne LB)
+        (shoot-2 n LB) (shoot-2 nw LB) (shoot-2 w LB) (shoot-2 sw LB)
+        (shoot-2 s LB) (shoot-2 se LB) (shoot-2 e LB) (shoot-2 ne LB)
+        (shoot-3 n LB) (shoot-3 nw LB) (shoot-3 w LB) (shoot-3 sw LB)
+        (shoot-3 s LB) (shoot-3 se LB) (shoot-3 e LB) (shoot-3 ne LB)
+     )
   )
   (piece
-     (name FW)
-     (notation "European Cannon")
+     (name CG)
+     (notation "Chariot of the gods")
+     (description "Chariot of the gods (shinkisha): can move up to five free intersections along one of the four orthogonal directions and shoot two enemy pieces up to 7 free intersections from its landing point in any of the eight prime directions. (t[[mR5][cx2Q7]])")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
+     (attribute enemy-pass? false)
+     (moves
+        (move-type first-type)
+        (qe-step-1 n second-type) (qe-step-1 s second-type) 
+        (qe-step-1 w second-type) (qe-step-1 e second-type) 
+        (qe-step-2 n second-type) (qe-step-2 s second-type) 
+        (qe-step-2 w second-type) (qe-step-2 e second-type) 
+        (qe-step-3 n second-type) (qe-step-3 s second-type) 
+        (qe-step-3 w second-type) (qe-step-3 e second-type) 
+        (qe-step-4 n second-type) (qe-step-4 s second-type) 
+        (qe-step-4 w second-type) (qe-step-4 e second-type) 
+        (qe-step-5 n second-type) (qe-step-5 s second-type) 
+        (qe-step-5 w second-type) (qe-step-5 e second-type) 
+        (move-type second-type)
+        (shoot-1 n CG) (shoot-1 nw CG) (shoot-1 w CG) (shoot-1 sw CG)
+        (shoot-1 s CG) (shoot-1 se CG) (shoot-1 e CG) (shoot-1 ne CG)
+        (shoot-2 n CG) (shoot-2 nw CG) (shoot-2 w CG) (shoot-2 sw CG)
+        (shoot-2 s CG) (shoot-2 se CG) (shoot-2 e CG) (shoot-2 ne CG)
+        (shoot-3 n CG) (shoot-3 nw CG) (shoot-3 w CG) (shoot-3 sw CG)
+        (shoot-3 s CG) (shoot-3 se CG) (shoot-3 e CG) (shoot-3 ne CG)
+        (shoot-4 n CG) (shoot-4 nw CG) (shoot-4 w CG) (shoot-4 sw CG)
+        (shoot-4 s CG) (shoot-4 se CG) (shoot-4 e CG) (shoot-4 ne CG)
+        (shoot-5 n CG) (shoot-5 nw CG) (shoot-5 w CG) (shoot-5 sw CG)
+        (shoot-5 s CG) (shoot-5 se CG) (shoot-5 e CG) (shoot-5 ne CG)
+        (shoot-6 n CG) (shoot-6 nw CG) (shoot-6 w CG) (shoot-6 sw CG)
+        (shoot-6 s CG) (shoot-6 se CG) (shoot-6 e CG) (shoot-6 ne CG)
+        (shoot-7 n CG) (shoot-7 nw CG) (shoot-7 w CG) (shoot-7 sw CG)
+        (shoot-7 s CG) (shoot-7 se CG) (shoot-7 e CG) (shoot-7 ne CG)
+        (move-type priority-type)
+        (ec-shoot-1 n CG) (ec-shoot-1 nw CG) (ec-shoot-1 w CG) (ec-shoot-1 sw CG)
+        (ec-shoot-1 s CG) (ec-shoot-1 se CG) (ec-shoot-1 e CG) (ec-shoot-1 ne CG)
+        (ec-shoot-2 n CG) (ec-shoot-2 nw CG) (ec-shoot-2 w CG) (ec-shoot-2 sw CG)
+        (ec-shoot-2 s CG) (ec-shoot-2 se CG) (ec-shoot-2 e CG) (ec-shoot-2 ne CG)
+        (ec-shoot-3 n CG) (ec-shoot-3 nw CG) (ec-shoot-3 w CG) (ec-shoot-3 sw CG)
+        (ec-shoot-3 s CG) (ec-shoot-3 se CG) (ec-shoot-3 e CG) (ec-shoot-3 ne CG)
+        (ec-shoot-4 n CG) (ec-shoot-4 nw CG) (ec-shoot-4 w CG) (ec-shoot-4 sw CG)
+        (ec-shoot-4 s CG) (ec-shoot-4 se CG) (ec-shoot-4 e CG) (ec-shoot-4 ne CG)
+        (ec-shoot-5 n CG) (ec-shoot-5 nw CG) (ec-shoot-5 w CG) (ec-shoot-5 sw CG)
+        (ec-shoot-5 s CG) (ec-shoot-5 se CG) (ec-shoot-5 e CG) (ec-shoot-5 ne CG)
+        (ec-shoot-6 n CG) (ec-shoot-6 nw CG) (ec-shoot-6 w CG) (ec-shoot-6 sw CG)
+        (ec-shoot-6 s CG) (ec-shoot-6 se CG) (ec-shoot-6 e CG) (ec-shoot-6 ne CG)
+        (ec-shoot-7 n CG) (ec-shoot-7 nw CG) (ec-shoot-7 w CG) (ec-shoot-7 sw CG)
+        (ec-shoot-7 s CG) (ec-shoot-7 se CG) (ec-shoot-7 e CG) (ec-shoot-7 ne CG)
+     )
+  )
+  (piece
+     (name EC)
+     (notation "European Cannon")
+     (description "European Cannon (butsuroki): can move one intersection in one of the four diagonal directions and shoot two enemy pieces up to 7 free intersections from its landing point in any of the eight prime directions. (t[[mF][cx2Q7]])\
+It cannot shoot a shield unit or an imperial base. It can only shoot at a twelve-mile fog that is at least six intersections away.")
+     (image White "../Images/KoShogi/w.bmp"
+            Black "../Images/KoShogi/b.bmp")
+     (attribute enemy-pass? false)
+     (moves
+        (move-type first-type)
+        (ec-step nw second-type EC CG) (ec-step ne second-type EC CG)
+        (ec-step sw second-type EC CG) (ec-step se second-type EC CG)
+        (move-type second-type)
+        (shoot-1 n EC) (shoot-1 nw EC) (shoot-1 w EC) (shoot-1 sw EC)
+        (shoot-1 s EC) (shoot-1 se EC) (shoot-1 e EC) (shoot-1 ne EC)
+        (shoot-2 n EC) (shoot-2 nw EC) (shoot-2 w EC) (shoot-2 sw EC)
+        (shoot-2 s EC) (shoot-2 se EC) (shoot-2 e EC) (shoot-2 ne EC)
+        (shoot-3 n EC) (shoot-3 nw EC) (shoot-3 w EC) (shoot-3 sw EC)
+        (shoot-3 s EC) (shoot-3 se EC) (shoot-3 e EC) (shoot-3 ne EC)
+        (shoot-4 n EC) (shoot-4 nw EC) (shoot-4 w EC) (shoot-4 sw EC)
+        (shoot-4 s EC) (shoot-4 se EC) (shoot-4 e EC) (shoot-4 ne EC)
+        (shoot-5 n EC) (shoot-5 nw EC) (shoot-5 w EC) (shoot-5 sw EC)
+        (shoot-5 s EC) (shoot-5 se EC) (shoot-5 e EC) (shoot-5 ne EC)
+        (shoot-6 n EC) (shoot-6 nw EC) (shoot-6 w EC) (shoot-6 sw EC)
+        (shoot-6 s EC) (shoot-6 se EC) (shoot-6 e EC) (shoot-6 ne EC)
+        (shoot-7 n EC) (shoot-7 nw EC) (shoot-7 w EC) (shoot-7 sw EC)
+        (shoot-7 s EC) (shoot-7 se EC) (shoot-7 e EC) (shoot-7 ne EC)
+        (move-type priority-type)
+        (ec-shoot-1 n EC) (ec-shoot-1 nw EC) (ec-shoot-1 w EC) (ec-shoot-1 sw EC)
+        (ec-shoot-1 s EC) (ec-shoot-1 se EC) (ec-shoot-1 e EC) (ec-shoot-1 ne EC)
+        (ec-shoot-2 n EC) (ec-shoot-2 nw EC) (ec-shoot-2 w EC) (ec-shoot-2 sw EC)
+        (ec-shoot-2 s EC) (ec-shoot-2 se EC) (ec-shoot-2 e EC) (ec-shoot-2 ne EC)
+        (ec-shoot-3 n EC) (ec-shoot-3 nw EC) (ec-shoot-3 w EC) (ec-shoot-3 sw EC)
+        (ec-shoot-3 s EC) (ec-shoot-3 se EC) (ec-shoot-3 e EC) (ec-shoot-3 ne EC)
+        (ec-shoot-4 n EC) (ec-shoot-4 nw EC) (ec-shoot-4 w EC) (ec-shoot-4 sw EC)
+        (ec-shoot-4 s EC) (ec-shoot-4 se EC) (ec-shoot-4 e EC) (ec-shoot-4 ne EC)
+        (ec-shoot-5 n EC) (ec-shoot-5 nw EC) (ec-shoot-5 w EC) (ec-shoot-5 sw EC)
+        (ec-shoot-5 s EC) (ec-shoot-5 se EC) (ec-shoot-5 e EC) (ec-shoot-5 ne EC)
+        (ec-shoot-6 n EC) (ec-shoot-6 nw EC) (ec-shoot-6 w EC) (ec-shoot-6 sw EC)
+        (ec-shoot-6 s EC) (ec-shoot-6 se EC) (ec-shoot-6 e EC) (ec-shoot-6 ne EC)
+        (ec-shoot-7 n EC) (ec-shoot-7 nw EC) (ec-shoot-7 w EC) (ec-shoot-7 sw EC)
+        (ec-shoot-7 s EC) (ec-shoot-7 se EC) (ec-shoot-7 e EC) (ec-shoot-7 ne EC)
+     )
   )
   (piece
      (name WG)
@@ -1067,10 +1856,10 @@ The cavalryman promotes if it captures a European cannon.")
             Black "../Images/KoShogi/b.bmp")
      (moves
         (move-type first-type)
-        (step nnw HS HH) (step nne HS HH)
-        (step een HS HH) (step ees HS HH)
-        (step wwn HS HH) (step wws HS HH)
-        (step ssw HS HH) (step sse HS HH)
+        (step-1 nnw HS HH) (step-1 nne HS HH)
+        (step-1 een HS HH) (step-1 ees HS HH)
+        (step-1 wwn HS HH) (step-1 wws HS HH)
+        (step-1 ssw HS HH) (step-1 sse HS HH)
      )
   )
   (piece
@@ -1096,7 +1885,7 @@ This is the move of the vertical mover in other shogi variants.")
      (moves
         (move-type first-type)
         (slide n PU CO) (slide s PU CO)
-        (step w PU CO)  (step e PU CO)
+        (step-1 w PU CO)  (step-1 e PU CO)
      )
   )
   (piece
@@ -1150,8 +1939,8 @@ The shield unit is unaffected by the bows or the guns.")
             Black "../Images/KoShogi/b.bmp")
      (moves
         (move-type first-type)
-        (step nw SU IB) (step ne SU IB) 
-        (step sw SU IB) (step se SU IB)
+        (step-1 nw SU IB) (step-1 ne SU IB) 
+        (step-1 sw SU IB) (step-1 se SU IB)
         (slide w SU IB) (slide e SU IB)
      )
   )
@@ -1180,7 +1969,7 @@ The chariot unit is unaffected by the bows.")
             Black "../Images/KoShogi/b.bmp")
      (moves
         (move-type first-type)
-        (step n   CH CC) (step s   CH CC) (step w   CH CC) (step e   CH CC)
+        (step-1 n CH CC) (step-1 s CH CC) (step-1 w CH CC) (step-1 e CH CC)
         (step-2 n CH CC) (step-2 s CH CC) (step-2 w CH CC) (step-2 e CH CC)
         (step-3 n CH CC) (step-3 s CH CC) (step-3 w CH CC) (step-3 e CH CC)
         (step-4 n CH CC) (step-4 s CH CC) (step-4 w CH CC) (step-4 e CH CC)
@@ -1212,8 +2001,8 @@ This is the move of the cat sword in dai shogi.")
             Black "../Images/KoShogi/b.bmp")
      (moves
         (move-type first-type)
-        (step nw SP UU) (step ne SP UU) 
-        (step sw SP UU) (step se SP UU)
+        (step-1 nw SP UU) (step-1 ne SP UU) 
+        (step-1 sw SP UU) (step-1 se SP UU)
      )
   )
   (piece
@@ -1224,7 +2013,7 @@ This is the move of the cat sword in dai shogi.")
             Black "../Images/KoShogi/b.bmp")
      (moves
         (move-type first-type)
-        (step n   VA CO)
+        (step-1 n VA CO)
         (step-2 n VA CO)
         (step-3 n VA CO)
         (step-4 n VA CO)
@@ -1258,7 +2047,7 @@ This is the move of the cat sword in dai shogi.")
         (C  18Q 2Q 14Q 6Q)
         (SB 17Q 3Q 13Q 7Q)
         (LB 16Q 4Q 12Q 8Q)
-        (FW 10Q)
+        (EC 10Q)
         (CA 19P 1P)
         (HS 17P 3P 15P 5P 13P 7P 11P 9P)
         (P  18O 2O 16O 4O 14O 6O 12O 8O)
@@ -1294,7 +2083,7 @@ This is the move of the cat sword in dai shogi.")
         (C  18C 2C 14C 6C)
         (SB 17C 3C 13C 7C)
         (LB 16C 4C 12C 8C)
-        (FW 10C)
+        (EC 10C)
         (CA 19D 1D)
         (HS 17D 3D 15D 5D 13D 7D 11D 9D)
         (P  18E 2E 16E 4E 14E 6E 12E 8E)
