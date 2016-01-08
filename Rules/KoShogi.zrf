@@ -1,11 +1,3 @@
-(define my-not-friend?
-  (or not-friend? (piece? NO))
-)
-
-(define my-empty?
-  (or empty? (piece? NO))
-)
-
 (define common-start
 )
 
@@ -23,7 +15,7 @@
 (define ca-step (
   (common-start)
   $1
-  (verify (my-not-friend?))
+  (verify not-friend?)
   ; TODO: Use from-enemy? attribute too
   (common-stop $2 $3)
 ))
@@ -31,74 +23,95 @@
 (define step (
   (common-start)
   $1
-  (verify (my-not-friend?))
+  (verify not-friend?)
   (common-stop $2 $3)
 ))
 
 (define step-2 (
   (common-start)
   $1
-  (verify (my-empty?))
+  (verify empty?)
   $1
-  (verify (my-not-friend?))
+  (verify not-friend?)
   (common-stop $2 $3)
 ))
 
 (define step-3 (
   (common-start)
   $1
-  (verify (my-empty?))
+  (verify empty?)
   $1
-  (verify (my-empty?))
+  (verify empty?)
   $1
-  (verify (my-not-friend?))
+  (verify not-friend?)
   (common-stop $2 $3)
 ))
 
 (define step-4 (
   (common-start)
   $1
-  (verify (my-empty?))
+  (verify empty?)
   $1
-  (verify (my-empty?))
+  (verify empty?)
   $1
-  (verify (my-empty?))
+  (verify empty?)
   $1
-  (verify (my-not-friend?))
+  (verify not-friend?)
   (common-stop $2 $3)
 ))
 
 (define step-5 (
   (common-start)
   $1
-  (verify (my-empty?))
+  (verify empty?)
   $1
-  (verify (my-empty?))
+  (verify empty?)
   $1
-  (verify (my-empty?))
+  (verify empty?)
   $1
-  (verify (my-empty?))
+  (verify empty?)
   $1
-  (verify (my-not-friend?))
+  (verify not-friend?)
   (common-stop $2 $3)
 ))
 
 (define next-step (
   $1
-  (verify (my-not-friend?))
+  (verify not-friend?)
   (add-partial $2)
+))
+
+(define monk-step (
+  $1
+  (verify (or empty? (and enemy? (or (piece? TP) (piece? SM) (piece? TF) (piece? IL)))))
+  (if (flag? can-promototion?)
+      (add-partial $3 $4 $2)
+   else  
+      (add-partial $2)
+  )
+))
+
+(define kill (
+  mark
+  $1
+  (verify enemy?)
+  capture
+  back
+  (create $2)
+  $1
+  add
 ))
 
 (define ca-next-step (
   ; TODO: setup from-enemy? attribute
   $1
-  (verify (my-not-friend?))
+  (verify not-friend?)
   (add-partial $2)
 ))
 
 (define tc-step (
   $1
-  (verify (my-not-friend?))
+  (verify not-friend?)
   (verify not-last-from?)
   (add-partial $2)
 ))
@@ -110,7 +123,7 @@
       (set-flag check-last-from true)
   )
   $1
-  (verify (my-not-friend?))
+  (verify not-friend?)
   (if empty?
       (set-flag check-last-from true)
   )
@@ -122,45 +135,45 @@
 
 (define g-step-2 (
   $1
-  (verify (my-empty?))
+  (verify empty?)
   $1
-  (verify (my-not-friend?))
+  (verify not-friend?)
   add
 ))
 
 (define g-step-3 (
   $1
-  (verify (my-empty?))
+  (verify empty?)
   $1
-  (verify (my-empty?))
+  (verify empty?)
   $1
-  (verify (my-not-friend?))
+  (verify not-friend?)
   add
 ))
 
 (define g-step-4 (
   $1
-  (verify (my-empty?))
+  (verify empty?)
   $1
-  (verify (my-empty?))
+  (verify empty?)
   $1
-  (verify (my-empty?))
+  (verify empty?)
   $1
-  (verify (my-not-friend?))
+  (verify not-friend?)
   add
 ))
 
 (define g-step-5 (
   $1
-  (verify (my-empty?))
+  (verify empty?)
   $1
-  (verify (my-empty?))
+  (verify empty?)
   $1
-  (verify (my-empty?))
+  (verify empty?)
   $1
-  (verify (my-empty?))
+  (verify empty?)
   $1
-  (verify (my-not-friend?))
+  (verify not-friend?)
   add
 ))
 
@@ -168,40 +181,40 @@
   (check-drum)
   (common-start)
   $1
-  (verify (my-not-friend?))
+  (verify not-friend?)
   (common-stop $2 $3)
 ))
 
 (define slide (
   (common-start)
   $1
-  (while (my-empty?)
+  (while empty?
     (common-stop $2 $3)
     $1
   )
-  (verify (my-not-friend?))
+  (verify not-friend?)
   (common-stop $2 $3)
 ))
 
 (define g-slide (
   $1
-  (while (my-empty?)
+  (while empty?
     add
     $1
   )
-  (verify (my-not-friend?))
+  (verify not-friend?)
   add
 ))
 
 (define d-slide (
   $1
-  (verify (my-empty?))
+  (verify empty?)
   $1
-  (while (my-empty?)
+  (while empty?
     add
     $1
   )
-  (verify (my-not-friend?))
+  (verify not-friend?)
   add
 ))
 
@@ -319,16 +332,52 @@ This piece promotes if its clerk promotes.")
      )
   )
   (piece
+     (name IL)
+     (notation "Immaculate light (seito)")
+     (image White "../Images/KoShogi/w.bmp"
+            Black "../Images/KoShogi/b.bmp")
+  )
+  (piece
      (name SM)
      (notation "Spiritual Monk")
+     (description "Spiritual Monk (shinzo): can jump to the second intersection in any direction, orthogonal or diagonal. They can shoot any one enemy piece on any intersection adjacent to their arrival point. (t[[DA]xK])\
+However, they can only capture an enemy priest or monk with such a jump.")
+     (image White "../Images/KoShogi/w.bmp"
+            Black "../Images/KoShogi/b.bmp")
+     (moves
+        (move-type first-type)
+        (monk-step nn second-type SM IL) (monk-step ss second-type SM IL)
+        (monk-step ww second-type SM IL) (monk-step ee second-type SM IL)
+        (monk-step nwnw second-type SM IL) (monk-step swsw second-type SM IL)
+        (monk-step nene second-type SM IL) (monk-step sese second-type SM IL)
+        (move-type second-type)
+        (kill n TP) (kill s TP) (kill nw TP) (kill sw TP)
+        (kill w TP) (kill e TP) (kill ne TP) (kill se TP)
+     )
+  )
+  (piece
+     (name TF)
+     (notation "Twelve-mile fog (gorimu)")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
   )
   (piece
      (name TP)
      (notation "Taoist Priest")
+     (description "Taoist Priest (takamichi): can jump to the second intersection in any direction, orthogonal or diagonal. They can shoot any one enemy piece on any intersection adjacent to their arrival point. (t[[DA]xK])\
+However, they can only capture an enemy priest or monk with such a jump.")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
+     (moves
+        (move-type first-type)
+        (monk-step nn second-type TP TF) (monk-step ss second-type TP TF)
+        (monk-step ww second-type TP TF) (monk-step ee second-type TP TF)
+        (monk-step nwnw second-type TP TF) (monk-step swsw second-type TP TF)
+        (monk-step nene second-type TP TF) (monk-step sese second-type TP TF)
+        (move-type second-type)
+        (kill n TP) (kill s TP) (kill nw TP) (kill sw TP)
+        (kill w TP) (kill e TP) (kill ne TP) (kill se TP)
+     )
   )
   (piece
      (name PF)
@@ -1077,12 +1126,6 @@ This is the move of the cat sword in dai shogi.")
         (step-4 n VA CO)
         (step-5 n VA CO)
      )
-  )
-  (piece
-     (name NO)
-     (notation " ")
-     (image White "../Images/KoShogi/e.bmp"
-            Black "../Images/KoShogi/e.bmp")
   )
 
   (board-setup
