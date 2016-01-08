@@ -10,9 +10,24 @@
 )
 
 (define check-drum
+  (set-flag drum-exists? false)
+  mark a0
+  (while (on-board? next)
+      next
+      (if (and friend? (or (piece? D) (piece? TC) (piece? BD)))
+          (set-flag drum-exists? true)
+      )
+  )
+  back
+  (verify (flag? drum-exists?))
 )
 
+(define check-pass
+  (verify (not-enemy? pass-flag))
+)
+ 
 (define ca-step (
+  (check-pass)
   (common-start)
   $1
   (verify not-friend?)
@@ -21,6 +36,7 @@
 ))
 
 (define step (
+  (check-pass)
   (common-start)
   $1
   (verify not-friend?)
@@ -28,6 +44,7 @@
 ))
 
 (define step-2 (
+  (check-pass)
   (common-start)
   $1
   (verify empty?)
@@ -37,6 +54,7 @@
 ))
 
 (define step-3 (
+  (check-pass)
   (common-start)
   $1
   (verify empty?)
@@ -48,6 +66,7 @@
 ))
 
 (define step-4 (
+  (check-pass)
   (common-start)
   $1
   (verify empty?)
@@ -61,6 +80,7 @@
 ))
 
 (define step-5 (
+  (check-pass)
   (common-start)
   $1
   (verify empty?)
@@ -76,14 +96,35 @@
 ))
 
 (define next-step (
+  (check-pass)
   $1
   (verify not-friend?)
   (add-partial $2)
 ))
 
-(define monk-step (
+(define sp-step (
+  (check-pass)
   $1
-  (verify (or empty? (and enemy? (or (piece? TP) (piece? SM) (piece? TF) (piece? IL)))))
+  (verify (or empty? (and enemy? (or (piece? TP) (piece? SM) (piece? IL)))))
+  (set-attribute enemy-pass? true)
+  (create pass-flag)
+  (add-partial $2)
+))
+
+(define cp-step (
+  (check-pass)
+  (verify enemy-pass?)
+  $1
+  (verify (or empty? (and enemy? (or (piece? TP) (piece? SM) (piece? IL)))))
+  (set-attribute enemy-pass? false)
+  (capture pass-flag)
+  (add-partial $2)
+))
+
+(define monk-step (
+  (check-pass)
+  $1
+  (verify (or empty? (and enemy? (or (piece? TP) (piece? SM) (piece? IL)))))
   (if (flag? can-promototion?)
       (add-partial $3 $4 $2)
    else  
@@ -92,17 +133,26 @@
 ))
 
 (define kill (
+  (if enemy-pass?
+      (set-flag ep? true)
+   else
+      (set-flag ep? false)
+  )
   mark
   $1
   (verify enemy?)
   capture
   back
   (create $2)
+  (if (flag? ep?)
+      (set-attribute enemy-pass? true)
+  )
   $1
   add
 ))
 
 (define ca-next-step (
+  (check-pass)
   ; TODO: setup from-enemy? attribute
   $1
   (verify not-friend?)
@@ -110,6 +160,7 @@
 ))
 
 (define tc-step (
+  (check-pass)
   $1
   (verify not-friend?)
   (verify not-last-from?)
@@ -117,6 +168,7 @@
 ))
 
 (define g-step (
+  (check-pass)
   (if igui?
       (set-flag check-last-from false)
    else
@@ -134,6 +186,7 @@
 ))
 
 (define g-step-2 (
+  (check-pass)
   $1
   (verify empty?)
   $1
@@ -142,6 +195,7 @@
 ))
 
 (define g-step-3 (
+  (check-pass)
   $1
   (verify empty?)
   $1
@@ -152,6 +206,7 @@
 ))
 
 (define g-step-4 (
+  (check-pass)
   $1
   (verify empty?)
   $1
@@ -164,6 +219,7 @@
 ))
 
 (define g-step-5 (
+  (check-pass)
   $1
   (verify empty?)
   $1
@@ -178,6 +234,7 @@
 ))
 
 (define p-step (
+  (check-pass)
   (check-drum)
   (common-start)
   $1
@@ -186,6 +243,7 @@
 ))
 
 (define slide (
+  (check-pass)
   (common-start)
   $1
   (while empty?
@@ -197,6 +255,7 @@
 ))
 
 (define g-slide (
+  (check-pass)
   $1
   (while empty?
     add
@@ -207,6 +266,7 @@
 ))
 
 (define d-slide (
+  (check-pass)
   $1
   (verify empty?)
   $1
@@ -228,10 +288,11 @@
   (option "prevent flipping" 2)
   (option "animate captures" false)
   (option "pass partial" true)
+  (option "pass turn" forced)
 
   (players Black White)
   (turn-order Black White)
-  (move-priorities first-type)
+  (move-priorities priority-type first-type)
 
   (board
     (image "../Images/KoShogi/board.bmp")
@@ -248,8 +309,12 @@
         (nnw  -1 -2) (nne   1 -2) (een   2 -1) (ees   2 1)
         (ssw  -1  2) (sse   1  2) (wwn  -2 -1) (wws  -2 1)
         (nwnw -2 -2) (swsw -2  2) (nene  2 -2) (sese  2 2) 
+        (next -1  0)
       ) 
     )
+    (positions (pass-flag -80 -80 0 0) )
+    (dummy a0)
+    (links next (a0 1A) (19A 1B) (19B 1C) (19C 1D) (19D 1E) (19E 1F) (19F 1G) (19G 1H) (19H 1I) (19I 1J) (19J 1K) (19K 1L) (19L 1M) (19M 1N) (19N 1O) (19O 1P) (19P 1Q) (19Q 1R) (19R 1S) )
     (symmetry White (n s) (s n) (nw sw) (sw nw) (ne se) (se ne) )
   )
 
@@ -333,9 +398,27 @@ This piece promotes if its clerk promotes.")
   )
   (piece
      (name IL)
-     (notation "Immaculate light (seito)")
+     (notation "Immaculate light")
+     (description "Immaculate light (seito): can move twice per turn, including the option of shooting one adjacent piece after each move, and are still restricted from capturing by displacement. (t[d[DA]xK])\
+If a twelve-mile fog and immaculate light ever find themselves within 5 intersections of each other, the fog immediately reverts to a Taoist priest.")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
+     (attribute enemy-pass? false)
+     (moves
+        (move-type first-type)
+        (sp-step nn second-type) (sp-step ss second-type)
+        (sp-step ww second-type) (sp-step ee second-type)
+        (sp-step nwnw second-type) (sp-step swsw second-type)
+        (sp-step nene second-type) (sp-step sese second-type)
+        (move-type second-type)
+        (kill n IL) (kill s IL) (kill nw IL) (kill sw IL)
+        (kill w IL) (kill e IL) (kill ne IL) (kill se IL)
+        (move-type priority-type)
+        (cp-step nn second-type) (cp-step ss second-type)
+        (cp-step ww second-type) (cp-step ee second-type)
+        (cp-step nwnw second-type) (cp-step swsw second-type)
+        (cp-step nene second-type) (cp-step sese second-type)
+     )
   )
   (piece
      (name SM)
@@ -344,6 +427,7 @@ This piece promotes if its clerk promotes.")
 However, they can only capture an enemy priest or monk with such a jump.")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
+     (attribute enemy-pass? false)
      (moves
         (move-type first-type)
         (monk-step nn second-type SM IL) (monk-step ss second-type SM IL)
@@ -357,9 +441,28 @@ However, they can only capture an enemy priest or monk with such a jump.")
   )
   (piece
      (name TF)
-     (notation "Twelve-mile fog (gorimu)")
+     (notation "Twelve-mile fog")
+     (description "Twelve-mile fog (gorimu): can move twice per turn, including the option of shooting one adjacent piece after each move, and are still restricted from capturing by displacement. (t[d[DA]xK])\
+If a twelve-mile fog and immaculate light ever find themselves within 5 intersections of each other, the fog immediately reverts to a Taoist priest.\
+The fog cannot be shot from within a distance of five intersections. It can only be shot (by the European cannon) from a distance of six intersections or more.")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
+     (attribute enemy-pass? false)
+     (moves
+        (move-type first-type)
+        (sp-step nn second-type) (sp-step ss second-type)
+        (sp-step ww second-type) (sp-step ee second-type)
+        (sp-step nwnw second-type) (sp-step swsw second-type)
+        (sp-step nene second-type) (sp-step sese second-type)
+        (move-type second-type)
+        (kill n TF) (kill s TF) (kill nw TF) (kill sw TF)
+        (kill w TF) (kill e TF) (kill ne TF) (kill se TF)
+        (move-type priority-type)
+        (cp-step nn second-type) (cp-step ss second-type)
+        (cp-step ww second-type) (cp-step ee second-type)
+        (cp-step nwnw second-type) (cp-step swsw second-type)
+        (cp-step nene second-type) (cp-step sese second-type)
+     )
   )
   (piece
      (name TP)
@@ -368,6 +471,7 @@ However, they can only capture an enemy priest or monk with such a jump.")
 However, they can only capture an enemy priest or monk with such a jump.")
      (image White "../Images/KoShogi/w.bmp"
             Black "../Images/KoShogi/b.bmp")
+     (attribute enemy-pass? false)
      (moves
         (move-type first-type)
         (monk-step nn second-type TP TF) (monk-step ss second-type TP TF)
