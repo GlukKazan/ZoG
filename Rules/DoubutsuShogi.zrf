@@ -123,9 +123,9 @@
   (board
         (image "../Images/DoubutsuShogi/board.BMP")
         (grid
-               (start-rectangle 24 24 230 210)
-               (dimensions ("r/a/b/c/g" (185 0))
-                           ("4/3/2/1" (0 188))
+               (start-rectangle 12 12 115 105)
+               (dimensions ("r/a/b/c/g" (93 0))
+                           ("4/3/2/1" (0 94))
                )
                (directions (n 0 -1) (e 1 0) (s 0 1) (w -1 0) 
                            (ne 1 -1) (nw -1 -1) (se 1 1) (sw -1 1)
@@ -276,9 +276,9 @@
   (board
         (image "../Images/DoubutsuShogi/board.BMP")
         (grid
-               (start-rectangle 24 24 230 210)
-               (dimensions ("r/a/b/c/g" (185 0))
-                           ("4/3/2/1" (0 188))
+               (start-rectangle 12 12 115 105)
+               (dimensions ("r/a/b/c/g" (93 0))
+                           ("4/3/2/1" (0 94))
                )
                (directions (n 0 -1) (e 1 0) (s 0 1) (w -1 0) 
                            (ne 1 -1) (nw -1 -1) (se 1 1) (sw -1 1)
