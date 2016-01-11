@@ -34,12 +34,36 @@
   )
 )
 
-(define flame-in
-  mark $1
-  (if (piece? PF)
-      (set-flag is-burned? true)
+(define set-bow
+  (if is-bow?
+      (set-flag bow? true)
+   else
+      (set-flag bow? false)
   )
-  back
+  (if (piece? LB)
+      (set-flag long-bow? true)
+   else
+      (set-flag long-bow? false)
+  )
+)
+
+(define check-bow
+  (if (flag? bow?)
+      (verify (and (not-piece? CU) (not-piece? CC) (not-piece? SH) (not-piece? GC)))
+  )
+  (if (flag? long-bow?)
+      (verify (not-piece? CH))
+  )
+)
+
+(define flame-in
+  (if (on-board? $1)
+      mark $1
+      (if (piece? PF)
+          (set-flag is-burned? true)
+      )
+      back
+  )
 )
 
 (define check-flame
@@ -58,12 +82,19 @@
 )
 
 (define burn
-  mark
-  $1
-  (if (and not-empty? (not-piece? PF))
-      capture
+  (if (on-board? $1)
+      mark $1
+      (if (and not-empty? (not-piece? PF))
+          (if (and friend? (or (piece? TP) (piece? TF)))
+              (set-flag tp-friend-killed? true)
+          )
+          (if (and enemy? (or (piece? TP) (piece? TF)))
+              (set-flag tp-killed? true)
+          )
+          capture
+      )
+      back
   )
-  back
 )
 
 (define burn-all
@@ -71,6 +102,62 @@
   (burn w) (burn sw)
   (burn s) (burn se)
   (burn e) (burn ne)
+)
+
+(define check-tp
+  (set-flag tp-exists? false)
+  mark a0
+  (while (on-board? next)
+      next
+      (if (and friend? (or (piece? TP) (piece? TF)))
+          (set-flag tp-exists? true)
+      )
+  )
+  back
+)
+
+(define unprom-db
+  mark a0
+  (while (on-board? next)
+      next
+      (if $1
+          (if (piece? TC)
+              (change-type D)
+          )
+          (if (piece? RA)
+              (change-type B)
+          )
+      )
+  )
+  back
+)
+
+(define check-enemy-flame
+  (set-flag no-enemy-flame? true)
+  mark a0
+  (while (on-board? next)
+      next
+      (if (and enemy? (piece? PF))
+          (set-flag no-enemy-flame? false)
+      )
+  )
+  back
+)
+
+(define promote-guards
+  mark a0
+  (while (on-board? next)
+      next
+      (if friend?
+          (if (piece? AG)
+              (change-type HV)
+          )
+          (if (piece? RG)
+              (change-type EV)
+          )
+      )
+  )
+  back
 )
 
 (define check-drum
@@ -89,8 +176,85 @@
 (define check-pass
   (verify (not-enemy? pass-flag))
 )
+
+(define check-light
+  (if (piece? TF)
+      (change-type TP)
+  )
+)
+
+(define light
+  (if (on-board? $1)
+      mark
+      $1 (check-light)
+      (if (and (on-board? $1) empty?)
+          $1 (check-light)
+          (if (and (on-board? $1) empty?)
+              $1 (check-light)
+              (if (and (on-board? $1) empty?)
+                  $1 (check-light)
+                  (if (and (on-board? $1) empty?)
+                      $1 (check-light)
+                  )
+              )
+          )
+      )
+      back
+  )
+)
+
+(define light-all
+  (light n) (light nw)
+  (light w) (light sw)
+  (light s) (light se)
+  (light e) (light ne)
+)
+
+(define check-dark
+  (if (piece? IL)
+      (set-flag is-lighting? true)
+  )
+)
+
+(define dark
+  (if (on-board? $1)
+      mark
+      $1 (check-dark)
+      (if (and (on-board? $1) empty?)
+          $1 (check-dark)
+          (if (and (on-board? $1) empty?)
+              $1 (check-dark)
+              (if (and (on-board? $1) empty?)
+                  $1 (check-dark)
+                  (if (and (on-board? $1) empty?)
+                      $1 (check-dark)
+                  )
+              )
+          )
+      )
+      back
+  )
+)
+
+(define dark-all
+  (set-flag is-lighting? false)
+  (dark n) (dark nw)
+  (dark w) (dark sw)
+  (dark s) (dark se)
+  (dark e) (dark ne)
+)
  
 (define check-target
+  (if (and enemy? (not-piece? TF))
+      (if (flag? one-target?)
+          (set-flag two-targets? true)
+        else
+          (set-flag one-target? true)
+      )
+  )
+)
+
+(define check-target-tf
   (if enemy?
       (if (flag? one-target?)
           (set-flag two-targets? true)
@@ -113,9 +277,9 @@
                   (if (and (on-board? $1) (or empty? enemy? (position-flag? from-pos?)))
                       $1 (check-target)
                       (if (and (on-board? $1) (or empty? enemy? (position-flag? from-pos?)))
-                          $1 (check-target)
+                          $1 (check-target-tf)
                           (if (and (on-board? $1) (or empty? enemy? (position-flag? from-pos?)))
-                              $1 (check-target)
+                              $1 (check-target-tf)
                           )
                       )
                   )
@@ -148,6 +312,9 @@
   (common-start)
   $1
   (verify not-friend?)
+  (if (or (piece? TP) (piece? TF))
+      (unprom-db enemy?)
+  )
   (if (and enemy? (piece? EC))
       (set-flag can-promototion? true)
   )
@@ -155,11 +322,68 @@
   (common-stop $2 $3)
 ))
 
+(define sc-step (
+  (check-pass)
+  (common-start)
+  $1
+  (verify not-friend?)
+  (if (or (piece? TP) (piece? TF))
+      (unprom-db enemy?)
+  )
+  (check-flame)
+  (if (in-zone? promotion)
+      (set-flag can-promototion? true)
+  )
+  (check-commander)
+  (if (flag? can-promototion?)
+      (check-enemy-flame)
+      (if (flag? no-enemy-flame?)
+          (promote-guards)
+      )
+      (add $2)
+   else
+      add
+  )
+))
+
+(define db-step (
+  (check-pass)
+  (common-start)
+  $1
+  (verify not-friend?)
+  (if (or (piece? TP) (piece? TF))
+      (unprom-db enemy?)
+  )
+  (check-tp)
+  (check-flame)
+  (if (in-zone? promotion)
+      (set-flag can-promototion? true)
+  )
+  (if (flag? is-step-mover?)
+      (if (and enemy? (or (piece? WR) (piece? DA) (piece? RA) (piece? TC)))
+          (set-flag can-promototion? true)
+      )
+  )
+  (check-commander)
+  (if (not-flag? tp-exists?)
+      (set-flag can-promototion? false)
+  )
+  (if (flag? can-promototion?)
+      (add $2 $3)
+   else
+      add
+  )
+))
+
+
 (define step-1 (
   (check-pass)
   (common-start)
   $1
   (verify not-friend?)
+  (if (or (piece? TP) (piece? TF))
+      (unprom-db enemy?)
+  )
   (check-flame)
   (common-stop $2 $3)
 ))
@@ -171,6 +395,9 @@
   (verify empty?)
   $1
   (verify not-friend?)
+  (if (or (piece? TP) (piece? TF))
+      (unprom-db enemy?)
+  )
   (check-flame)
   (common-stop $2 $3)
 ))
@@ -184,6 +411,9 @@
   (verify empty?)
   $1
   (verify not-friend?)
+  (if (or (piece? TP) (piece? TF))
+      (unprom-db enemy?)
+  )
   (check-flame)
   (common-stop $2 $3)
 ))
@@ -199,6 +429,9 @@
   (verify empty?)
   $1
   (verify not-friend?)
+  (if (or (piece? TP) (piece? TF))
+      (unprom-db enemy?)
+  )
   (check-flame)
   (common-stop $2 $3)
 ))
@@ -216,6 +449,94 @@
   (verify empty?)
   $1
   (verify not-friend?)
+  (if (or (piece? TP) (piece? TF))
+      (unprom-db enemy?)
+  )
+  (check-flame)
+  (common-stop $2 $3)
+))
+
+(define ch-step-1 (
+  (check-pass)
+  (common-start)
+  $1
+  (verify not-friend?)
+  (if (or (piece? TP) (piece? TF))
+      (unprom-db enemy?)
+  )
+  (verify (not-piece? IB))
+  (check-flame)
+  (common-stop $2 $3)
+))
+
+(define ch-step-2 (
+  (check-pass)
+  (common-start)
+  $1
+  (verify empty?)
+  $1
+  (verify not-friend?)
+  (if (or (piece? TP) (piece? TF))
+      (unprom-db enemy?)
+  )
+  (verify (not-piece? IB))
+  (check-flame)
+  (common-stop $2 $3)
+))
+
+(define ch-step-3 (
+  (check-pass)
+  (common-start)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify not-friend?)
+  (if (or (piece? TP) (piece? TF))
+      (unprom-db enemy?)
+  )
+  (verify (not-piece? IB))
+  (check-flame)
+  (common-stop $2 $3)
+))
+
+(define ch-step-4 (
+  (check-pass)
+  (common-start)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify not-friend?)
+  (if (or (piece? TP) (piece? TF))
+      (unprom-db enemy?)
+  )
+  (verify (not-piece? IB))
+  (check-flame)
+  (common-stop $2 $3)
+))
+
+(define ch-step-5 (
+  (check-pass)
+  (common-start)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify not-friend?)
+  (if (or (piece? TP) (piece? TF))
+      (unprom-db enemy?)
+  )
+  (verify (not-piece? IB))
   (check-flame)
   (common-stop $2 $3)
 ))
@@ -224,6 +545,9 @@
   (check-pass)
   $1
   (verify not-friend?)
+  (if (or (piece? TP) (piece? TF))
+      (unprom-db enemy?)
+  )
   (check-flame)
   (add-partial $2)
 ))
@@ -236,6 +560,9 @@
   )
   $1
   (verify not-friend?)
+  (if (or (piece? TP) (piece? TF))
+      (unprom-db enemy?)
+  )
   (if (in-zone? promotion)
       (set-flag can-promototion? true)
   )
@@ -251,29 +578,123 @@
   )
 ))
 
-(define sp-step (
+(define il-step (
   (check-pass)
   $1
-  (verify (or empty? (and enemy? (or (piece? TP) (piece? SM) (piece? IL)))))
+  (verify (or empty? (and enemy? (or (piece? TP) (piece? TF) (piece? SM) (piece? IL)))))
+  (if (or (piece? TP) (piece? TF))
+      (unprom-db enemy?)
+  )
   (check-flame)
   (if (not-flag? is-burned?)
       (set-attribute enemy-pass? true)
       (create pass-flag)
   )
+  (light-all)
   (add-partial $2)
 ))
 
-(define cp-step (
+(define tf-step (
+  (check-pass)
+  $1
+  (verify (or empty? (and enemy? (or (piece? TP) (piece? TF) (piece? SM) (piece? IL)))))
+  (if (or (piece? TP) (piece? TF))
+      (unprom-db enemy?)
+  )
+  (check-flame)
+  (dark-all)
+  (if (flag? is-lighting?)
+      (add-partial TP $2)
+   else
+      (if (not-flag? is-burned?)
+          (set-attribute enemy-pass? true)
+          (create pass-flag)
+       else
+          (unprom-db friend?)
+      )
+      (add-partial $2)
+  )
+))
+
+(define lp-step (
   (check-pass)
   (verify enemy-pass?)
   $1
-  (verify (or empty? (and enemy? (or (piece? TP) (piece? SM) (piece? IL)))))
+  (verify (or empty? (and enemy? (or (piece? TP) (piece? TF) (piece? SM) (piece? IL)))))
+  (if (or (piece? TP) (piece? TF))
+      (unprom-db enemy?)
+  )
   (check-flame)
   (if (not-flag? is-burned?)
       (set-attribute enemy-pass? false)
   )
   (capture pass-flag)
+  (light-all)
   (add-partial $2)
+))
+
+(define fp-step (
+  (check-pass)
+  (verify enemy-pass?)
+  $1
+  (verify (or empty? (and enemy? (or (piece? TP) (piece? TF) (piece? SM) (piece? IL)))))
+  (if (or (piece? TP) (piece? TF))
+      (unprom-db enemy?)
+  )
+  (check-flame)
+  (if (not-flag? is-burned?)
+      (set-attribute enemy-pass? false)
+   else
+      (unprom-db friend?)
+  )
+  (capture pass-flag)
+  (dark-all)
+  (if (flag? is-lighting?)
+      (add-partial TP $2)
+   else
+      (add-partial $2)
+  )
+))
+
+(define sm-step (
+  (common-start)
+  (check-pass)
+  $1
+  (verify (or empty? (and enemy? (or (piece? TP) (piece? TF) (piece? SM) (piece? IL)))))
+  (if (or (piece? TP) (piece? TF))
+      (unprom-db enemy?)
+  )
+  (check-flame)
+  (if (in-zone? promotion)
+      (set-flag can-promototion? true)
+  )
+  (if (flag? can-promototion?)
+      (add-partial $3 $4 $2)
+   else  
+      (add-partial $2)
+  )
+))
+
+(define tp-step (
+  (common-start)
+  (check-pass)
+  $1
+  (verify (or empty? (and enemy? (or (piece? TP) (piece? TF) (piece? SM) (piece? IL)))))
+  (if (or (piece? TP) (piece? TF))
+      (unprom-db enemy?)
+  )
+  (check-flame)
+  (if (flag? is-burned?)
+      (unprom-db friend?)
+  )
+  (if (in-zone? promotion)
+      (set-flag can-promototion? true)
+  )
+  (if (flag? can-promototion?)
+      (add-partial $3 $4 $2)
+   else  
+      (add-partial $2)
+  )
 ))
 
 (define bow-step (
@@ -452,22 +873,6 @@
   (add-partial $2)
 ))
 
-(define monk-step (
-  (common-start)
-  (check-pass)
-  $1
-  (verify (or empty? (and enemy? (or (piece? TP) (piece? SM) (piece? IL)))))
-  (check-flame)
-  (if (in-zone? promotion)
-      (set-flag can-promototion? true)
-  )
-  (if (flag? can-promototion?)
-      (add-partial $3 $4 $2)
-   else  
-      (add-partial $2)
-  )
-))
-
 (define ca-next-step (
   (check-pass)
   (common-start)
@@ -493,11 +898,68 @@
   $1
   (verify not-friend?)
   (verify not-last-from?)
+  (if (or (piece? TP) (piece? TF))
+      (unprom-db enemy?)
+  )
   (check-flame)
   (add-partial $2)
 ))
 
-(define g-step (
+(define en-step (
+  (check-pass)
+  (common-start)
+  $1
+  (verify not-friend?)
+  (set-flag tp-friend-killed? false)
+  (set-flag tp-killed? false)
+  (if (or (piece? TP) (piece? TF))
+      (set-flag tp-killed? true)
+  )
+  (if (in-zone? promotion)
+      (set-flag can-promototion? true)
+  )
+  (if (and enemy? (or (piece? WR) (piece? DA) (piece? RA) (piece? TC)))
+      (set-flag can-promototion? true)
+  )
+  (check-commander)
+  (if (flag? can-promototion?)
+      (burn-all)
+      (if (flag? tp-killed?)
+          (unprom-db enemy?)
+      )
+      (if (flag? tp-friend-killed?)
+          (unprom-db friend?)
+      )
+      (add $2)
+   else
+      (check-flame)
+      (if (flag? tp-killed?)
+          (unprom-db enemy?)
+      )
+      add
+  )
+))
+
+(define pf-step (
+  (check-pass)
+  $1
+  (verify not-friend?)
+  (set-flag tp-friend-killed? false)
+  (set-flag tp-killed? false)
+  (if (or (piece? TP) (piece? TF))
+      (set-flag tp-killed? true)
+  )
+  (burn-all)
+  (if (flag? tp-killed?)
+      (unprom-db enemy?)
+  )
+  (if (flag? tp-friend-killed?)
+      (unprom-db friend?)
+  )
+  add
+))
+
+(define g-step-1 (
   (check-pass)
   (if igui?
       (set-flag check-last-from false)
@@ -506,6 +968,9 @@
   )
   $1
   (verify not-friend?)
+  (if (or (piece? TP) (piece? TF))
+      (unprom-db enemy?)
+  )
   (check-flame)
   (if empty?
       (set-flag check-last-from true)
@@ -516,41 +981,15 @@
   add
 ))
 
-(define en-step (
-  (check-pass)
-  (common-start)
-  $1
-  (verify not-friend?)
-  (if (in-zone? promotion)
-      (set-flag can-promototion? true)
-  )
-  (if (and enemy? (or (piece? WR) (piece? DA) (piece? RA) (piece? TC)))
-      (set-flag can-promototion? true)
-  )
-  (check-commander)
-  (if (flag? can-promototion?)
-      (burn-all)
-      (add $2)
-   else
-      (check-flame)
-      add
-  )
-))
-
-(define pf-step (
-  (check-pass)
-  $1
-  (verify not-friend?)
-  (burn-all)
-  add
-))
-
 (define g-step-2 (
   (check-pass)
   $1
   (verify empty?)
   $1
   (verify not-friend?)
+  (if (or (piece? TP) (piece? TF))
+      (unprom-db enemy?)
+  )
   (check-flame)
   add
 ))
@@ -563,6 +1002,9 @@
   (verify empty?)
   $1
   (verify not-friend?)
+  (if (or (piece? TP) (piece? TF))
+      (unprom-db enemy?)
+  )
   (check-flame)
   add
 ))
@@ -577,6 +1019,9 @@
   (verify empty?)
   $1
   (verify not-friend?)
+  (if (or (piece? TP) (piece? TF))
+      (unprom-db enemy?)
+  )
   (check-flame)
   add
 ))
@@ -593,6 +1038,9 @@
   (verify empty?)
   $1
   (verify not-friend?)
+  (if (or (piece? TP) (piece? TF))
+      (unprom-db enemy?)
+  )
   (check-flame)
   add
 ))
@@ -603,6 +1051,9 @@
   (common-start)
   $1
   (verify not-friend?)
+  (if (or (piece? TP) (piece? TF))
+      (unprom-db enemy?)
+  )
   (check-flame)
   (common-stop $2 $3)
 ))
@@ -617,6 +1068,27 @@
     $1
   )
   (verify not-friend?)
+  (if (or (piece? TP) (piece? TF))
+      (unprom-db enemy?)
+  )
+  (check-flame)
+  (common-stop $2 $3)
+))
+
+(define ch-slide (
+  (check-pass)
+  (common-start)
+  $1
+  (while empty?
+    (check-flame)
+    (common-stop $2 $3)
+    $1
+  )
+  (verify not-friend?)
+  (if (or (piece? TP) (piece? TF))
+      (unprom-db enemy?)
+  )
+  (verify (not-piece? IB))
   (check-flame)
   (common-stop $2 $3)
 ))
@@ -630,6 +1102,26 @@
     $1
   )
   (verify not-friend?)
+  (if (or (piece? TP) (piece? TF))
+      (unprom-db enemy?)
+  )
+  (check-flame)
+  add
+))
+
+(define gch-slide (
+  (check-pass)
+  $1
+  (while empty?
+    (check-flame)
+    add
+    $1
+  )
+  (verify not-friend?)
+  (if (or (piece? TP) (piece? TF))
+      (unprom-db enemy?)
+  )
+  (verify (not-piece? IB))
   (check-flame)
   add
 ))
@@ -645,12 +1137,16 @@
     $1
   )
   (verify not-friend?)
+  (if (or (piece? TP) (piece? TF))
+      (unprom-db enemy?)
+  )
   (check-flame)
   add
 ))
 
 (define shoot-1 (
   (check-pass)
+  (set-bow)
   (if enemy-pass?
       (set-flag ep? true)
    else
@@ -659,8 +1155,17 @@
   mark
   $1
   (verify enemy?)
+  (verify (and (not-piece? SU) (not-piece? UU) (not-piece? IB) (not-piece? TF)))
+  (set-flag tp-killed? false)
+  (if (or (piece? TP))
+      (set-flag tp-killed? true)
+  )
+  (check-bow)
   capture
   back
+  (if (flag? tp-killed?)
+      (unprom-db enemy?)
+  )
   (create $2)
   (if (flag? ep?)
       (set-attribute enemy-pass? true)
@@ -671,6 +1176,7 @@
 
 (define shoot-2 (
   (check-pass)
+  (set-bow)
   (if enemy-pass?
       (set-flag ep? true)
    else
@@ -681,8 +1187,17 @@
   (verify empty?)
   $1
   (verify enemy?)
+  (verify (and (not-piece? SU) (not-piece? UU) (not-piece? IB) (not-piece? TF)))
+  (set-flag tp-killed? false)
+  (if (or (piece? TP))
+      (set-flag tp-killed? true)
+  )
+  (check-bow)
   capture
   back
+  (if (flag? tp-killed?)
+      (unprom-db enemy?)
+  )
   (create $2)
   (if (flag? ep?)
       (set-attribute enemy-pass? true)
@@ -693,6 +1208,7 @@
 
 (define shoot-3 (
   (check-pass)
+  (set-bow)
   (if enemy-pass?
       (set-flag ep? true)
    else
@@ -705,8 +1221,17 @@
   (verify empty?)
   $1
   (verify enemy?)
+  (verify (and (not-piece? SU) (not-piece? UU) (not-piece? IB) (not-piece? TF)))
+  (set-flag tp-killed? false)
+  (if (or (piece? TP))
+      (set-flag tp-killed? true)
+  )
+  (check-bow)
   capture
   back
+  (if (flag? tp-killed?)
+      (unprom-db enemy?)
+  )
   (create $2)
   (if (flag? ep?)
       (set-attribute enemy-pass? true)
@@ -717,6 +1242,7 @@
 
 (define shoot-4 (
   (check-pass)
+  (set-bow)
   (if enemy-pass?
       (set-flag ep? true)
    else
@@ -731,8 +1257,17 @@
   (verify empty?)
   $1
   (verify enemy?)
+  (verify (and (not-piece? SU) (not-piece? UU) (not-piece? IB) (not-piece? TF)))
+  (set-flag tp-killed? false)
+  (if (or (piece? TP))
+      (set-flag tp-killed? true)
+  )
+  (check-bow)
   capture
   back
+  (if (flag? tp-killed?)
+      (unprom-db enemy?)
+  )
   (create $2)
   (if (flag? ep?)
       (set-attribute enemy-pass? true)
@@ -743,6 +1278,7 @@
 
 (define shoot-5 (
   (check-pass)
+  (set-bow)
   (if enemy-pass?
       (set-flag ep? true)
    else
@@ -759,8 +1295,17 @@
   (verify empty?)
   $1
   (verify enemy?)
+  (verify (and (not-piece? SU) (not-piece? UU) (not-piece? IB) (not-piece? TF)))
+  (set-flag tp-killed? false)
+  (if (or (piece? TP))
+      (set-flag tp-killed? true)
+  )
+  (check-bow)
   capture
   back
+  (if (flag? tp-killed?)
+      (unprom-db enemy?)
+  )
   (create $2)
   (if (flag? ep?)
       (set-attribute enemy-pass? true)
@@ -771,6 +1316,7 @@
 
 (define shoot-6 (
   (check-pass)
+  (set-bow)
   (if enemy-pass?
       (set-flag ep? true)
    else
@@ -789,8 +1335,17 @@
   (verify empty?)
   $1
   (verify enemy?)
+  (verify (and (not-piece? SU) (not-piece? UU) (not-piece? IB)))
+  (set-flag tp-killed? false)
+  (if (or (piece? TP) (piece? TF))
+      (set-flag tp-killed? true)
+  )
+  (check-bow)
   capture
   back
+  (if (flag? tp-killed?)
+      (unprom-db enemy?)
+  )
   (create $2)
   (if (flag? ep?)
       (set-attribute enemy-pass? true)
@@ -801,6 +1356,7 @@
 
 (define shoot-7 (
   (check-pass)
+  (set-bow)
   (if enemy-pass?
       (set-flag ep? true)
    else
@@ -821,8 +1377,17 @@
   (verify empty?)
   $1
   (verify enemy?)
+  (verify (and (not-piece? SU) (not-piece? UU) (not-piece? IB)))
+  (set-flag tp-killed? false)
+  (if (or (piece? TP) (piece? TF))
+      (set-flag tp-killed? true)
+  )
+  (check-bow)
   capture
   back
+  (if (flag? tp-killed?)
+      (unprom-db enemy?)
+  )
   (create $2)
   (if (flag? ep?)
       (set-attribute enemy-pass? true)
@@ -833,6 +1398,7 @@
 
 (define p-shoot-1 (
   (check-pass)
+  (set-bow)
   (common-start)
   (if enemy-pass?
       (set-flag ep? true)
@@ -842,9 +1408,18 @@
   mark
   $1
   (verify enemy?)
+  (verify (and (not-piece? SU) (not-piece? UU) (not-piece? IB) (not-piece? TF)))
+  (set-flag tp-killed? false)
+  (if (or (piece? TP))
+      (set-flag tp-killed? true)
+  )
+  (check-bow)
   (check-commander)
   capture
   back
+  (if (flag? tp-killed?)
+      (unprom-db enemy?)
+  )
   (if (flag? can-promototion?)
       (create $3)
    else
@@ -859,6 +1434,7 @@
 
 (define p-shoot-2 (
   (check-pass)
+  (set-bow)
   (common-start)
   (if enemy-pass?
       (set-flag ep? true)
@@ -870,9 +1446,18 @@
   (verify empty?)
   $1
   (verify enemy?)
+  (verify (and (not-piece? SU) (not-piece? UU) (not-piece? IB) (not-piece? TF)))
+  (set-flag tp-killed? false)
+  (if (or (piece? TP))
+      (set-flag tp-killed? true)
+  )
+  (check-bow)
   (check-commander)
   capture
   back
+  (if (flag? ep?)
+      (set-attribute enemy-pass? true)
+  )
   (if (flag? can-promototion?)
       (create $3)
    else
@@ -887,6 +1472,7 @@
 
 (define p-shoot-3 (
   (check-pass)
+  (set-bow)
   (common-start)
   (if enemy-pass?
       (set-flag ep? true)
@@ -900,9 +1486,18 @@
   (verify empty?)
   $1
   (verify enemy?)
+  (verify (and (not-piece? SU) (not-piece? UU) (not-piece? IB) (not-piece? TF)))
+  (set-flag tp-killed? false)
+  (if (or (piece? TP))
+      (set-flag tp-killed? true)
+  )
+  (check-bow)
   (check-commander)
   capture
   back
+  (if (flag? tp-killed?)
+      (unprom-db enemy?)
+  )
   (if (flag? can-promototion?)
       (create $3)
    else
@@ -917,6 +1512,7 @@
 
 (define p-shoot-4 (
   (check-pass)
+  (set-bow)
   (common-start)
   (if enemy-pass?
       (set-flag ep? true)
@@ -932,9 +1528,18 @@
   (verify empty?)
   $1
   (verify enemy?)
+  (verify (and (not-piece? SU) (not-piece? UU) (not-piece? IB) (not-piece? TF)))
+  (set-flag tp-killed? false)
+  (if (or (piece? TP))
+      (set-flag tp-killed? true)
+  )
+  (check-bow)
   (check-commander)
   capture
   back
+  (if (flag? tp-killed?)
+      (unprom-db enemy?)
+  )
   (if (flag? can-promototion?)
       (create $3)
    else
@@ -949,6 +1554,7 @@
 
 (define p-shoot-5 (
   (check-pass)
+  (set-bow)
   (common-start)
   (if enemy-pass?
       (set-flag ep? true)
@@ -966,9 +1572,18 @@
   (verify empty?)
   $1
   (verify enemy?)
+  (verify (and (not-piece? SU) (not-piece? UU) (not-piece? IB) (not-piece? TF)))
+  (set-flag tp-killed? false)
+  (if (or (piece? TP))
+      (set-flag tp-killed? true)
+  )
+  (check-bow)
   (check-commander)
   capture
   back
+  (if (flag? tp-killed?)
+      (unprom-db enemy?)
+  )
   (if (flag? can-promototion?)
       (create $3)
    else
@@ -983,6 +1598,7 @@
 
 (define p-shoot-6 (
   (check-pass)
+  (set-bow)
   (common-start)
   (if enemy-pass?
       (set-flag ep? true)
@@ -1002,9 +1618,18 @@
   (verify empty?)
   $1
   (verify enemy?)
+  (verify (and (not-piece? SU) (not-piece? UU) (not-piece? IB)))
+  (set-flag tp-killed? false)
+  (if (or (piece? TP) (piece? TF))
+      (set-flag tp-killed? true)
+  )
+  (check-bow)
   (check-commander)
   capture
   back
+  (if (flag? tp-killed?)
+      (unprom-db enemy?)
+  )
   (if (flag? can-promototion?)
       (create $3)
    else
@@ -1019,6 +1644,7 @@
 
 (define p-shoot-7 (
   (check-pass)
+  (set-bow)
   (common-start)
   (if enemy-pass?
       (set-flag ep? true)
@@ -1040,9 +1666,18 @@
   (verify empty?)
   $1
   (verify enemy?)
+  (verify (and (not-piece? SU) (not-piece? UU) (not-piece? IB)))
+  (set-flag tp-killed? false)
+  (if (or (piece? TP) (piece? TF))
+      (set-flag tp-killed? true)
+  )
+  (check-bow)
   (check-commander)
   capture
   back
+  (if (flag? tp-killed?)
+      (unprom-db enemy?)
+  )
   (if (flag? can-promototion?)
       (create $3)
    else
@@ -1061,9 +1696,17 @@
   mark
   $1
   (verify enemy?)
+  (verify (and (not-piece? SU) (not-piece? UU) (not-piece? IB) (not-piece? TF)))
+  (set-flag tp-killed? false)
+  (if (or (piece? TP))
+      (set-flag tp-killed? true)
+  )
   capture
   (capture pass-flag)
   back
+  (if (flag? tp-killed?)
+      (unprom-db enemy?)
+  )
   (create $2)
   $1
   add
@@ -1077,9 +1720,17 @@
   (verify empty?)
   $1
   (verify enemy?)
+  (verify (and (not-piece? SU) (not-piece? UU) (not-piece? IB) (not-piece? TF)))
+  (set-flag tp-killed? false)
+  (if (or (piece? TP))
+      (set-flag tp-killed? true)
+  )
   capture
   (capture pass-flag)
   back
+  (if (flag? tp-killed?)
+      (unprom-db enemy?)
+  )
   (create $2)
   $1 $1
   add
@@ -1095,9 +1746,17 @@
   (verify empty?)
   $1
   (verify enemy?)
+  (verify (and (not-piece? SU) (not-piece? UU) (not-piece? IB) (not-piece? TF)))
+  (set-flag tp-killed? false)
+  (if (or (piece? TP))
+      (set-flag tp-killed? true)
+  )
   capture
   (capture pass-flag)
   back
+  (if (flag? tp-killed?)
+      (unprom-db enemy?)
+  )
   (create $2)
   $1 $1 $1
   add
@@ -1115,9 +1774,17 @@
   (verify empty?)
   $1
   (verify enemy?)
+  (verify (and (not-piece? SU) (not-piece? UU) (not-piece? IB) (not-piece? TF)))
+  (set-flag tp-killed? false)
+  (if (or (piece? TP))
+      (set-flag tp-killed? true)
+  )
   capture
   (capture pass-flag)
   back
+  (if (flag? tp-killed?)
+      (unprom-db enemy?)
+  )
   (create $2)
   $1 $1 $1 $1
   add
@@ -1137,9 +1804,17 @@
   (verify empty?)
   $1
   (verify enemy?)
+  (verify (and (not-piece? SU) (not-piece? UU) (not-piece? IB) (not-piece? TF)))
+  (set-flag tp-killed? false)
+  (if (or (piece? TP))
+      (set-flag tp-killed? true)
+  )
   capture
   (capture pass-flag)
   back
+  (if (flag? tp-killed?)
+      (unprom-db enemy?)
+  )
   (create $2)
   $1 $1 $1 $1 $1
   add
@@ -1161,9 +1836,17 @@
   (verify empty?)
   $1
   (verify enemy?)
+  (verify (and (not-piece? SU) (not-piece? UU) (not-piece? IB)))
+  (set-flag tp-killed? false)
+  (if (or (piece? TP) (piece? TF))
+      (set-flag tp-killed? true)
+  )
   capture
   (capture pass-flag)
   back
+  (if (flag? tp-killed?)
+      (unprom-db enemy?)
+  )
   (create $2)
   $1 $1 $1 $1 $1 $1
   add
@@ -1187,9 +1870,17 @@
   (verify empty?)
   $1
   (verify enemy?)
+  (verify (and (not-piece? SU) (not-piece? UU) (not-piece? IB)))
+  (set-flag tp-killed? false)
+  (if (or (piece? TP) (piece? TF))
+      (set-flag tp-killed? true)
+  )
   capture
   (capture pass-flag)
   back
+  (if (flag? tp-killed?)
+      (unprom-db enemy?)
+  )
   (create $2)
   $1 $1 $1 $1 $1 $1 $1
   add
@@ -1202,10 +1893,18 @@
   mark
   $1
   (verify enemy?)
+  (verify (and (not-piece? SU) (not-piece? UU) (not-piece? IB) (not-piece? TF)))
+  (set-flag tp-killed? false)
+  (if (or (piece? TP))
+      (set-flag tp-killed? true)
+  )
   (check-commander)
   capture
   (capture pass-flag)
   back
+  (if (flag? tp-killed?)
+      (unprom-db enemy?)
+  )
   (if (flag? can-promototion?)
       (create $3)
    else
@@ -1224,10 +1923,18 @@
   (verify empty?)
   $1
   (verify enemy?)
+  (verify (and (not-piece? SU) (not-piece? UU) (not-piece? IB) (not-piece? TF)))
+  (set-flag tp-killed? false)
+  (if (or (piece? TP))
+      (set-flag tp-killed? true)
+  )
   (check-commander)
   capture
   (capture pass-flag)
   back
+  (if (flag? tp-killed?)
+      (unprom-db enemy?)
+  )
   (if (flag? can-promototion?)
       (create $3)
    else
@@ -1248,10 +1955,18 @@
   (verify empty?)
   $1
   (verify enemy?)
+  (verify (and (not-piece? SU) (not-piece? UU) (not-piece? IB) (not-piece? TF)))
+  (set-flag tp-killed? false)
+  (if (or (piece? TP))
+      (set-flag tp-killed? true)
+  )
   (check-commander)
   capture
   (capture pass-flag)
   back
+  (if (flag? tp-killed?)
+      (unprom-db enemy?)
+  )
   (if (flag? can-promototion?)
       (create $3)
    else
@@ -1274,10 +1989,18 @@
   (verify empty?)
   $1
   (verify enemy?)
+  (verify (and (not-piece? SU) (not-piece? UU) (not-piece? IB) (not-piece? TF)))
+  (set-flag tp-killed? false)
+  (if (or (piece? TP))
+      (set-flag tp-killed? true)
+  )
   (check-commander)
   capture
   (capture pass-flag)
   back
+  (if (flag? tp-killed?)
+      (unprom-db enemy?)
+  )
   (if (flag? can-promototion?)
       (create $3)
    else
@@ -1302,10 +2025,18 @@
   (verify empty?)
   $1
   (verify enemy?)
+  (verify (and (not-piece? SU) (not-piece? UU) (not-piece? IB) (not-piece? TF)))
+  (set-flag tp-killed? false)
+  (if (or (piece? TP))
+      (set-flag tp-killed? true)
+  )
   (check-commander)
   capture
   (capture pass-flag)
   back
+  (if (flag? tp-killed?)
+      (unprom-db enemy?)
+  )
   (if (flag? can-promototion?)
       (create $3)
    else
@@ -1332,10 +2063,18 @@
   (verify empty?)
   $1
   (verify enemy?)
+  (verify (and (not-piece? SU) (not-piece? UU) (not-piece? IB)))
+  (set-flag tp-killed? false)
+  (if (or (piece? TP) (piece? TF))
+      (set-flag tp-killed? true)
+  )
   (check-commander)
   capture
   (capture pass-flag)
   back
+  (if (flag? tp-killed?)
+      (unprom-db enemy?)
+  )
   (if (flag? can-promototion?)
       (create $3)
    else
@@ -1364,16 +2103,52 @@
   (verify empty?)
   $1
   (verify enemy?)
+  (verify (and (not-piece? SU) (not-piece? UU) (not-piece? IB)))
+  (set-flag tp-killed? false)
+  (if (or (piece? TP) (piece? TF))
+      (set-flag tp-killed? true)
+  )
   (check-commander)
   capture
   (capture pass-flag)
   back
+  (if (flag? tp-killed?)
+      (unprom-db enemy?)
+  )
   (if (flag? can-promototion?)
       (create $3)
    else
       (create $2)
   )
   $1 $1 $1 $1 $1 $1 $1
+  add
+))
+
+(define throw-1 (
+  (check-pass)
+  (if enemy-pass?
+      (set-flag ep? true)
+   else
+      (set-flag ep? false)
+  )
+  mark
+  $1
+  (verify enemy?)
+  (verify (and (not-piece? SU) (not-piece? UU) (not-piece? IB) (not-piece? TF)))
+  (set-flag tp-killed? false)
+  (if (or (piece? TP))
+      (set-flag tp-killed? true)
+  )
+  capture
+  back
+  (if (flag? tp-killed?)
+      (unprom-db enemy?)
+  )
+  (create $2)
+  (if (flag? ep?)
+      (set-attribute enemy-pass? true)
+  )
+  $1
   add
 ))
 
@@ -1387,8 +2162,16 @@
   mark
   $1 $1
   (verify enemy?)
+  (verify (and (not-piece? SU) (not-piece? UU) (not-piece? IB) (not-piece? TF)))
+  (set-flag tp-killed? false)
+  (if (or (piece? TP))
+      (set-flag tp-killed? true)
+  )
   capture
   back
+  (if (flag? tp-killed?)
+      (unprom-db enemy?)
+  )
   (create $2)
   (if (flag? ep?)
       (set-attribute enemy-pass? true)
@@ -1407,8 +2190,16 @@
   mark
   $1 $1 $1
   (verify enemy?)
+  (verify (and (not-piece? SU) (not-piece? UU) (not-piece? IB) (not-piece? TF)))
+  (set-flag tp-killed? false)
+  (if (or (piece? TP))
+      (set-flag tp-killed? true)
+  )
   capture
   back
+  (if (flag? tp-killed?)
+      (unprom-db enemy?)
+  )
   (create $2)
   (if (flag? ep?)
       (set-attribute enemy-pass? true)
@@ -1427,8 +2218,16 @@
   mark
   $1 $1 $1 $1
   (verify enemy?)
+  (verify (and (not-piece? SU) (not-piece? UU) (not-piece? IB) (not-piece? TF)))
+  (set-flag tp-killed? false)
+  (if (or (piece? TP))
+      (set-flag tp-killed? true)
+  )
   capture
   back
+  (if (flag? tp-killed?)
+      (unprom-db enemy?)
+  )
   (create $2)
   (if (flag? ep?)
       (set-attribute enemy-pass? true)
@@ -1447,13 +2246,55 @@
   mark
   $1 $1 $1 $1 $1
   (verify enemy?)
+  (verify (and (not-piece? SU) (not-piece? UU) (not-piece? IB) (not-piece? TF)))
+  (set-flag tp-killed? false)
+  (if (or (piece? TP))
+      (set-flag tp-killed? true)
+  )
   capture
   back
+  (if (flag? tp-killed?)
+      (unprom-db enemy?)
+  )
   (create $2)
   (if (flag? ep?)
       (set-attribute enemy-pass? true)
   )
   $1 $1 $1 $1 $1
+  add
+))
+
+(define p-throw-1 (
+  (check-pass)
+  (common-start)
+  (if enemy-pass?
+      (set-flag ep? true)
+   else
+      (set-flag ep? false)
+  )
+  mark
+  $1
+  (verify enemy?)
+  (verify (and (not-piece? SU) (not-piece? UU) (not-piece? IB) (not-piece? TF)))
+  (set-flag tp-killed? false)
+  (if (or (piece? TP))
+      (set-flag tp-killed? true)
+  )
+  (check-commander)
+  capture
+  back
+  (if (flag? tp-killed?)
+      (unprom-db enemy?)
+  )
+  (if (flag? can-promototion?)
+      (create $3)
+   else
+      (create $2)
+  )
+  (if (flag? ep?)
+      (set-attribute enemy-pass? true)
+  )
+  $1
   add
 ))
 
@@ -1468,9 +2309,17 @@
   mark
   $1 $1
   (verify enemy?)
+  (verify (and (not-piece? SU) (not-piece? UU) (not-piece? IB) (not-piece? TF)))
+  (set-flag tp-killed? false)
+  (if (or (piece? TP))
+      (set-flag tp-killed? true)
+  )
   (check-commander)
   capture
   back
+  (if (flag? tp-killed?)
+      (unprom-db enemy?)
+  )
   (if (flag? can-promototion?)
       (create $3)
    else
@@ -1494,9 +2343,17 @@
   mark
   $1 $1 $1
   (verify enemy?)
+  (verify (and (not-piece? SU) (not-piece? UU) (not-piece? IB) (not-piece? TF)))
+  (set-flag tp-killed? false)
+  (if (or (piece? TP))
+      (set-flag tp-killed? true)
+  )
   (check-commander)
   capture
   back
+  (if (flag? tp-killed?)
+      (unprom-db enemy?)
+  )
   (if (flag? can-promototion?)
       (create $3)
    else
@@ -1520,9 +2377,17 @@
   mark
   $1 $1 $1 $1
   (verify enemy?)
+  (verify (and (not-piece? SU) (not-piece? UU) (not-piece? IB) (not-piece? TF)))
+  (set-flag tp-killed? false)
+  (if (or (piece? TP))
+      (set-flag tp-killed? true)
+  )
   (check-commander)
   capture
   back
+  (if (flag? tp-killed?)
+      (unprom-db enemy?)
+  )
   (if (flag? can-promototion?)
       (create $3)
    else
@@ -1546,9 +2411,17 @@
   mark
   $1 $1 $1 $1 $1
   (verify enemy?)
+  (verify (and (not-piece? SU) (not-piece? UU) (not-piece? IB) (not-piece? TF)))
+  (set-flag tp-killed? false)
+  (if (or (piece? TP))
+      (set-flag tp-killed? true)
+  )
   (check-commander)
   capture
   back
+  (if (flag? tp-killed?)
+      (unprom-db enemy?)
+  )
   (if (flag? can-promototion?)
       (create $3)
    else
@@ -1568,7 +2441,7 @@
   (release-sound "Audio/Pickup.wav")
   (capture-sound "")
 
-  (option "prevent flipping" 2)
+  (option "prevent flipping" true)
   (option "animate captures" false)
   (option "pass partial" true)
   (option "pass turn" forced)
@@ -1625,26 +2498,26 @@
      (name G)
      (notation "General")
      (description "General (sho): can step one intersection in any direction, orthogonal or diagonal. (K)")
-     (image White "../Images/KoShogi/w.bmp"
-            Black "../Images/KoShogi/b.bmp")
+     (image White "../Images/KoShogi/wg.bmp"
+            Black "../Images/KoShogi/bg.bmp")
      (attribute igui? true)
      (moves
         (move-type first-type)
-        (g-step n)  (g-step s)  (g-step w)  (g-step e)
-        (g-step nw) (g-step sw) (g-step ne) (g-step se)
+        (g-step-1 n)  (g-step-1 s)  (g-step-1 w)  (g-step-1 e)
+        (g-step-1 nw) (g-step-1 sw) (g-step-1 ne) (g-step-1 se)
      )
   )
   (piece
      (name GO)
      (notation "Governor")
      (description "Governor (sochi): can step one intersection in any direction, orthogonal or diagonal. (K)")
-     (image White "../Images/KoShogi/w.bmp"
-            Black "../Images/KoShogi/b.bmp")
+     (image White "../Images/KoShogi/wgo.bmp"
+            Black "../Images/KoShogi/bgo.bmp")
      (attribute igui? true)
      (moves
         (move-type first-type)
-        (g-step n)  (g-step s)  (g-step w)  (g-step e)
-        (g-step nw) (g-step sw) (g-step ne) (g-step se)
+        (g-step-1 n)  (g-step-1 s)  (g-step-1 w)  (g-step-1 e)
+        (g-step-1 nw) (g-step-1 sw) (g-step-1 ne) (g-step-1 se)
      )
   )
   (piece
@@ -1652,13 +2525,13 @@
      (notation "Patrol unit")
      (description "Patrol unit (fuso): can move any number of free intersections orthogonally forward or backward or one intersection orthogonally sideways. (fbRW)\
 This is the move of the vertical mover in other shogi variants.")
-     (image White "../Images/KoShogi/w.bmp"
-            Black "../Images/KoShogi/b.bmp")
+     (image White "../Images/KoShogi/wpu.bmp"
+            Black "../Images/KoShogi/bpu.bmp")
      (attribute igui? true)
      (moves
         (move-type first-type)
         (g-slide n) (g-slide s)
-        (g-step w)  (g-step e)
+        (g-step-1 w)  (g-step-1 e)
      )
   )
   (piece
@@ -1666,8 +2539,8 @@ This is the move of the vertical mover in other shogi variants.")
      (notation "Pawn")
      (description "Pawn (fuhyo): \
 If the drum is killed, the pawns may no longer move forward.")
-     (image White "../Images/KoShogi/w.bmp"
-            Black "../Images/KoShogi/b.bmp")
+     (image White "../Images/KoShogi/wp.bmp"
+            Black "../Images/KoShogi/bp.bmp")
      (attribute step-mover? true)
      (moves
         (move-type first-type)
@@ -1678,27 +2551,27 @@ If the drum is killed, the pawns may no longer move forward.")
      (name HV)
      (notation "Heaven's vengeance")
      (description "Heaven's vengeance (temmo): can move any number of free intersections along either of the forward diagonals, or directly to either side or step one intersection directly backward. (rlRfBbW)")
-     (image White "../Images/KoShogi/w.bmp"
-            Black "../Images/KoShogi/b.bmp")
+     (image White "../Images/KoShogi/whv.bmp"
+            Black "../Images/KoShogi/bhv.bmp")
      (attribute igui? true)
      (moves
         (move-type first-type)
         (g-slide  w) (g-slide  e)
         (g-slide nw) (g-slide ne)
-        (g-step   s)
+        (g-step-1 s)
      )
   )
   (piece
-     (name FD)
+     (name AG)
      (notation "Advance Guard")
      (description "Advance Guard (zen'ei): can move any number of free intersections directly forward or can step one intersection directly backwards. (fRbW)\
 This piece promotes if its clerk promotes.")
-     (image White "../Images/KoShogi/w.bmp"
-            Black "../Images/KoShogi/b.bmp")
+     (image White "../Images/KoShogi/wag.bmp"
+            Black "../Images/KoShogi/bag.bmp")
      (attribute step-mover? false)
      (moves
         (move-type first-type)
-        (slide n FD HV) (step-1 s FD HV)
+        (slide n AG HV) (step-1 s AG HV)
      )
   )
   (piece
@@ -1706,23 +2579,23 @@ This piece promotes if its clerk promotes.")
      (notation "Immaculate light")
      (description "Immaculate light (seito): can move twice per turn, including the option of shooting one adjacent piece after each move, and are still restricted from capturing by displacement. (t[d[DA]xK])\
 If a twelve-mile fog and immaculate light ever find themselves within 5 intersections of each other, the fog immediately reverts to a Taoist priest.")
-     (image White "../Images/KoShogi/w.bmp"
-            Black "../Images/KoShogi/b.bmp")
+     (image White "../Images/KoShogi/wil.bmp"
+            Black "../Images/KoShogi/bil.bmp")
      (attribute enemy-pass? false)
      (moves
         (move-type first-type)
-        (sp-step nn second-type) (sp-step ss second-type)
-        (sp-step ww second-type) (sp-step ee second-type)
-        (sp-step nwnw second-type) (sp-step swsw second-type)
-        (sp-step nene second-type) (sp-step sese second-type)
+        (il-step nn second-type) (il-step ss second-type)
+        (il-step ww second-type) (il-step ee second-type)
+        (il-step nwnw second-type) (il-step swsw second-type)
+        (il-step nene second-type) (il-step sese second-type)
         (move-type second-type)
         (shoot-1 n IL) (shoot-1 s IL) (shoot-1 nw IL) (shoot-1 sw IL)
         (shoot-1 w IL) (shoot-1 e IL) (shoot-1 ne IL) (shoot-1 se IL)
         (move-type priority-type)
-        (cp-step nn second-type) (cp-step ss second-type)
-        (cp-step ww second-type) (cp-step ee second-type)
-        (cp-step nwnw second-type) (cp-step swsw second-type)
-        (cp-step nene second-type) (cp-step sese second-type)
+        (lp-step nn second-type) (lp-step ss second-type)
+        (lp-step ww second-type) (lp-step ee second-type)
+        (lp-step nwnw second-type) (lp-step swsw second-type)
+        (lp-step nene second-type) (lp-step sese second-type)
      )
   )
   (piece
@@ -1730,16 +2603,16 @@ If a twelve-mile fog and immaculate light ever find themselves within 5 intersec
      (notation "Spiritual Monk")
      (description "Spiritual Monk (shinzo): can jump to the second intersection in any direction, orthogonal or diagonal. They can shoot any one enemy piece on any intersection adjacent to their arrival point. (t[[DA]xK])\
 However, they can only capture an enemy priest or monk with such a jump.")
-     (image White "../Images/KoShogi/w.bmp"
-            Black "../Images/KoShogi/b.bmp")
+     (image White "../Images/KoShogi/wsm.bmp"
+            Black "../Images/KoShogi/bsm.bmp")
      (attribute enemy-pass? false)
      (attribute step-mover? false)
      (moves
         (move-type first-type)
-        (monk-step nn second-type SM IL) (monk-step ss second-type SM IL)
-        (monk-step ww second-type SM IL) (monk-step ee second-type SM IL)
-        (monk-step nwnw second-type SM IL) (monk-step swsw second-type SM IL)
-        (monk-step nene second-type SM IL) (monk-step sese second-type SM IL)
+        (sm-step nn second-type SM IL) (sm-step ss second-type SM IL)
+        (sm-step ww second-type SM IL) (sm-step ee second-type SM IL)
+        (sm-step nwnw second-type SM IL) (sm-step swsw second-type SM IL)
+        (sm-step nene second-type SM IL) (sm-step sese second-type SM IL)
         (move-type second-type)
         (p-shoot-1 n SM IL) (p-shoot-1 s SM IL) (p-shoot-1 nw SM IL) (p-shoot-1 sw SM IL)
         (p-shoot-1 w SM IL) (p-shoot-1 e SM IL) (p-shoot-1 ne SM IL) (p-shoot-1 se SM IL)
@@ -1751,23 +2624,23 @@ However, they can only capture an enemy priest or monk with such a jump.")
       (description "Twelve-mile fog (gorimu): can move twice per turn, including the option of shooting one adjacent piece after each move, and are still restricted from capturing by displacement. (t[d[DA]xK])\
 If a twelve-mile fog and immaculate light ever find themselves within 5 intersections of each other, the fog immediately reverts to a Taoist priest.\
 The fog cannot be shot from within a distance of five intersections. It can only be shot (by the European cannon) from a distance of six intersections or more.")
-     (image White "../Images/KoShogi/w.bmp"
-            Black "../Images/KoShogi/b.bmp")
+     (image White "../Images/KoShogi/wtf.bmp"
+            Black "../Images/KoShogi/btf.bmp")
      (attribute enemy-pass? false)
      (moves
         (move-type first-type)
-        (sp-step nn second-type) (sp-step ss second-type)
-        (sp-step ww second-type) (sp-step ee second-type)
-        (sp-step nwnw second-type) (sp-step swsw second-type)
-        (sp-step nene second-type) (sp-step sese second-type)
+        (tf-step nn second-type) (tf-step ss second-type)
+        (tf-step ww second-type) (tf-step ee second-type)
+        (tf-step nwnw second-type) (tf-step swsw second-type)
+        (tf-step nene second-type) (tf-step sese second-type)
         (move-type second-type)
         (shoot-1 n TF) (shoot-1 s TF) (shoot-1 nw TF) (shoot-1 sw TF)
         (shoot-1 w TF) (shoot-1 e TF) (shoot-1 ne TF) (shoot-1 se TF)
         (move-type priority-type)
-        (cp-step nn second-type) (cp-step ss second-type)
-        (cp-step ww second-type) (cp-step ee second-type)
-        (cp-step nwnw second-type) (cp-step swsw second-type)
-        (cp-step nene second-type) (cp-step sese second-type)
+        (fp-step nn second-type) (fp-step ss second-type)
+        (fp-step ww second-type) (fp-step ee second-type)
+        (fp-step nwnw second-type) (fp-step swsw second-type)
+        (fp-step nene second-type) (fp-step sese second-type)
      )
   )
   (piece
@@ -1775,16 +2648,16 @@ The fog cannot be shot from within a distance of five intersections. It can only
      (notation "Taoist Priest")
      (description "Taoist Priest (takamichi): can jump to the second intersection in any direction, orthogonal or diagonal. They can shoot any one enemy piece on any intersection adjacent to their arrival point. (t[[DA]xK])\
 However, they can only capture an enemy priest or monk with such a jump.")
-     (image White "../Images/KoShogi/w.bmp"
-            Black "../Images/KoShogi/b.bmp")
+     (image White "../Images/KoShogi/wtp.bmp"
+            Black "../Images/KoShogi/btp.bmp")
      (attribute enemy-pass? false)
      (attribute step-mover? false)
      (moves
         (move-type first-type)
-        (monk-step nn second-type TP TF) (monk-step ss second-type TP TF)
-        (monk-step ww second-type TP TF) (monk-step ee second-type TP TF)
-        (monk-step nwnw second-type TP TF) (monk-step swsw second-type TP TF)
-        (monk-step nene second-type TP TF) (monk-step sese second-type TP TF)
+        (tp-step nn second-type TP TF) (tp-step ss second-type TP TF)
+        (tp-step ww second-type TP TF) (tp-step ee second-type TP TF)
+        (tp-step nwnw second-type TP TF) (tp-step swsw second-type TP TF)
+        (tp-step nene second-type TP TF) (tp-step sese second-type TP TF)
         (move-type second-type)
         (p-shoot-1 n TP TF) (p-shoot-1 s TP TF) (p-shoot-1 nw TP TF) (p-shoot-1 sw TP TF)
         (p-shoot-1 w TP TF) (p-shoot-1 e TP TF) (p-shoot-1 ne TP TF) (p-shoot-1 se TP TF)
@@ -1795,8 +2668,8 @@ However, they can only capture an enemy priest or monk with such a jump.")
      (notation "Poison flame")
      (description "Poison flame (dokka): can step one intersection directly forward or backward, or one intersection diagonally forward, giving it four possibilities. (fFfbW)\
 Wherever it lands, all adjacent enemy pieces are 'burned' and removed from the board.")
-     (image White "../Images/KoShogi/w.bmp"
-            Black "../Images/KoShogi/b.bmp")
+     (image White "../Images/KoShogi/wpf.bmp"
+            Black "../Images/KoShogi/bpf.bmp")
      (moves
         (move-type first-type)
         (pf-step nw) (pf-step ne)
@@ -1808,8 +2681,8 @@ Wherever it lands, all adjacent enemy pieces are 'burned' and removed from the b
      (notation "Engineer")
      (description "Engineer (gunsho): can step one intersection directly forward or backward, or one intersection diagonally forward, giving it four possibilities. (fFfbW)\
 his is the move of the copper general in other shogi variants.")
-     (image White "../Images/KoShogi/w.bmp"
-            Black "../Images/KoShogi/b.bmp")
+     (image White "../Images/KoShogi/wen.bmp"
+            Black "../Images/KoShogi/ben.bmp")
      (attribute step-mover? true)
      (moves
         (move-type first-type)
@@ -1822,8 +2695,8 @@ his is the move of the copper general in other shogi variants.")
      (notation "Vice commander")
      (description "Vice commander (fukushi): can move any number of free intersections along one of the four diagonal directions, or directly forward. (BfR)\
 This is the move of the free silver in other shogi variants.")
-     (image White "../Images/KoShogi/w.bmp"
-            Black "../Images/KoShogi/b.bmp")
+     (image White "../Images/KoShogi/wvc.bmp"
+            Black "../Images/KoShogi/bvc.bmp")
      (moves
         (move-type first-type)
         (g-slide nw) (g-slide sw) (g-slide ne) (g-slide se)
@@ -1835,8 +2708,8 @@ This is the move of the free silver in other shogi variants.")
      (notation "Chief of Staff")
      (description "Chief of Staff (gunri): can move one intersection in the four diagonal directions or one intersection orthogonally forward or backward. (FfbW)\
 This is the move of the ferocious leopard in other shogi variants.")
-     (image White "../Images/KoShogi/w.bmp"
-            Black "../Images/KoShogi/b.bmp")
+     (image White "../Images/KoShogi/wcs.bmp"
+            Black "../Images/KoShogi/bcs.bmp")
      (attribute step-mover? true)
      (moves
         (move-type first-type)
@@ -1848,29 +2721,29 @@ This is the move of the ferocious leopard in other shogi variants.")
      (name VB)
      (notation "Village brigade")
      (description "Village brigade (hyakko): can move any number of free intersections directly to either side or step one intersection in any direction. (rlRK)")
-     (image White "../Images/KoShogi/w.bmp"
-            Black "../Images/KoShogi/b.bmp")
+     (image White "../Images/KoShogi/wvb.bmp"
+            Black "../Images/KoShogi/bvb.bmp")
      (attribute igui? true)
      (moves
         (move-type first-type)
         (g-slide e) (g-slide w)
-        (g-step nw) (g-step ne)
-        (g-step sw) (g-step se)
-        (g-step  n) (g-step  s)
+        (g-step-1 nw) (g-step-1 ne)
+        (g-step-1 sw) (g-step-1 se)
+        (g-step-1  n) (g-step-1  s)
      )
   )
   (piece
-     (name GH)
+     (name S)
      (notation "Staff")
      (description "Staff (shayo): can step one intersection in one of the four diagonal directions or one intersection straight forward, giving it five possibilities. (FfW)\
 This is the move of the silver general in other shogi variants.")
-     (image White "../Images/KoShogi/w.bmp"
-            Black "../Images/KoShogi/b.bmp")
+     (image White "../Images/KoShogi/ws.bmp"
+            Black "../Images/KoShogi/bs.bmp")
      (attribute step-mover? true)
      (moves
         (move-type first-type)
-        (step-1 nw GH VB) (step-1 sw GH VB) (step-1 ne GH VB) (step-1 se GH VB)
-        (step-1 n  GH VB)
+        (step-1 nw S VB) (step-1 sw S VB) (step-1 ne S VB) (step-1 se S VB)
+        (step-1 n  S VB)
      )
   )
   (piece
@@ -1878,29 +2751,29 @@ This is the move of the silver general in other shogi variants.")
      (notation "Town brigade")
      (description "Town brigade (senko): can move any number of free intersections directly forward or backward or step one intersection in any direction. (fbRK)\
 This is the move of the flying stag in chu shogi.")
-     (image White "../Images/KoShogi/w.bmp"
-            Black "../Images/KoShogi/b.bmp")
+     (image White "../Images/KoShogi/wtb.bmp"
+            Black "../Images/KoShogi/btb.bmp")
      (attribute igui? true)
      (moves
         (move-type first-type)
         (g-slide n) (g-slide s)
-        (g-step nw) (g-step ne)
-        (g-step sw) (g-step se)
-        (g-step  w) (g-step  e)
+        (g-step-1 nw) (g-step-1 ne)
+        (g-step-1 sw) (g-step-1 se)
+        (g-step-1  w) (g-step-1  e)
      )
   )
   (piece
-     (name SR)
+     (name A)
      (notation "Aide")
      (description "Aide (toneri): can step one intersection in one of the four orthogonal directions or one intersection diagonally forward, giving it six possibilities. (WfF)\
 This is the move of the gold general in other shogi variants.")
-     (image White "../Images/KoShogi/w.bmp"
-            Black "../Images/KoShogi/b.bmp")
+     (image White "../Images/KoShogi/wa.bmp"
+            Black "../Images/KoShogi/ba.bmp")
      (attribute step-mover? true)
      (moves
         (move-type first-type)
-        (step-1 n  SR TB) (step-1 s  SR TB) (step-1 w SR TB) (step-1 e SR TB)
-        (step-1 nw SR TB) (step-1 ne SR TB)
+        (step-1 n  A TB) (step-1 s  A TB) (step-1 w A TB) (step-1 e A TB)
+        (step-1 nw A TB) (step-1 ne A TB)
      )
   )
   (piece
@@ -1908,8 +2781,8 @@ This is the move of the gold general in other shogi variants.")
      (notation "Sumo wrestler")
      (description "Sumo wrestler (rikishi): can move in one turn as a general does in two. A similar move without capturing leaves the board unchanged, which is a way to pass a turn. (KdK)\
 The sumo wrestler cannot jump over an intervening friendly piece as a ''lion'' can in other shogi variants.")
-     (image White "../Images/KoShogi/w.bmp"
-            Black "../Images/KoShogi/b.bmp")
+     (image White "../Images/KoShogi/wwr.bmp"
+            Black "../Images/KoShogi/bwr.bmp")
      (attribute igui? true)
      (moves
         (move-type first-type)
@@ -1918,8 +2791,8 @@ The sumo wrestler cannot jump over an intervening friendly piece as a ''lion'' c
         (next-step nw second-type) (next-step sw second-type) 
         (next-step ne second-type) (next-step se second-type)
         (move-type second-type)
-        (g-step n)  (g-step s)  (g-step w)  (g-step e)
-        (g-step nw) (g-step sw) (g-step ne) (g-step se)
+        (g-step-1 n)  (g-step-1 s)  (g-step-1 w)  (g-step-1 e)
+        (g-step-1 nw) (g-step-1 sw) (g-step-1 ne) (g-step-1 se)
      )
   )
   (piece
@@ -1927,28 +2800,28 @@ The sumo wrestler cannot jump over an intervening friendly piece as a ''lion'' c
      (notation "Quartermaster")
      (description "Description (waso): can move any number of free intersections along any of the four orthogonal directions or one intersection in any diagonal direction. (FR)\
 This is the move of the dragon king in other shogi variants.")
-     (image White "../Images/KoShogi/w.bmp"
-            Black "../Images/KoShogi/b.bmp")
+     (image White "../Images/KoShogi/wq.bmp"
+            Black "../Images/KoShogi/bq.bmp")
      (attribute igui? true)
      (moves
         (move-type first-type)
         (g-slide n) (g-slide s) (g-slide w) (g-slide e)
-        (g-step nw) (g-step ne) (g-step sw) (g-step se)
+        (g-step-1 nw) (g-step-1 ne) (g-step-1 sw) (g-step-1 se)
      )
   )
   (piece
-     (name A)
+     (name AC)
      (notation "Aide de camp")
      (description "Aide de camp (shimpei): can step one intersection in any direction, orthogonal or diagonal, except directly backward. (FfrlW)\
 This is equivalent to the drunk elephant in other shogi variants.\
 However, it does not promote to a prince.")
-     (image White "../Images/KoShogi/w.bmp"
-            Black "../Images/KoShogi/b.bmp")
+     (image White "../Images/KoShogi/wac.bmp"
+            Black "../Images/KoShogi/bac.bmp")
      (attribute step-mover? true)
      (moves
         (move-type first-type)
-        (step-1 nw A AA) (step-1 sw A AA) (step-1 ne A AA) (step-1 se A AA)
-        (step-1 n  A AA) (step-1 w  A AA) (step-1 e  A AA)
+        (step-1 nw AC AA) (step-1 sw AC AA) (step-1 ne AC AA) (step-1 se AC AA)
+        (step-1 n  AC AA) (step-1 w  AC AA) (step-1 e  AC AA)
      )
   )
   (piece
@@ -1956,8 +2829,8 @@ However, it does not promote to a prince.")
      (notation "Master at arms")
      (description "Master at arms (gunshi): Upon promotion, the clerk gains the power to move twice per turn. (FDd[FD])\
 This is like a double kirin move in chu shogi and other shogi variants.")
-     (image White "../Images/KoShogi/w.bmp"
-            Black "../Images/KoShogi/b.bmp")
+     (image White "../Images/KoShogi/wma.bmp"
+            Black "../Images/KoShogi/bma.bmp")
      (attribute igui? false)
      (moves
         (move-type first-type)
@@ -1966,22 +2839,22 @@ This is like a double kirin move in chu shogi and other shogi variants.")
         (next-step nn second-type) (next-step ss second-type) 
         (next-step ww second-type) (next-step ee second-type)
         (move-type second-type)
-        (g-step nw) (g-step sw) (g-step ne) (g-step se)
-        (g-step nn) (g-step ss) (g-step ww) (g-step ee)
+        (g-step-1 nw) (g-step-1 sw) (g-step-1 ne) (g-step-1 se)
+        (g-step-1 nn) (g-step-1 ss) (g-step-1 ww) (g-step-1 ee)
      )
   )
   (piece
-     (name SC)
+     (name CL)
      (notation "Clerk")
      (description "Clerk (kishitsu): can step one intersection in one of the four diagonal directions and jump to the second intersection orthogonally. (FD)\
 This is the move of the kirin in other shogi variants.")
-     (image White "../Images/KoShogi/w.bmp"
-            Black "../Images/KoShogi/b.bmp")
+     (image White "../Images/KoShogi/wcl.bmp"
+            Black "../Images/KoShogi/bcl.bmp")
      (attribute step-mover? false)
      (moves
         (move-type first-type)
-        (step-1 nw SC MA) (step-1 sw SC MA) (step-1 ne SC MA) (step-1 se SC MA)
-        (step-1 nn SC MA) (step-1 ss SC MA) (step-1 ww SC MA) (step-1 ee SC MA)
+        (sc-step nw MA) (sc-step sw MA) (sc-step ne MA) (sc-step se MA)
+        (sc-step nn MA) (sc-step ss MA) (sc-step ww MA) (sc-step ee MA)
      )
   )
   (piece
@@ -1989,8 +2862,8 @@ This is the move of the kirin in other shogi variants.")
      (notation "Banner and drums")
      (description "Banner and drums (kiko): Upon promotion, the staff officer gains the power to move twice per turn. (WAd[WA])\
 This is like a double phoenix move in other shogi variants.")
-     (image White "../Images/KoShogi/w.bmp"
-            Black "../Images/KoShogi/b.bmp")
+     (image White "../Images/KoShogi/wbd.bmp"
+            Black "../Images/KoShogi/bbd.bmp")
      (attribute igui? false)
      (moves
         (move-type first-type)
@@ -1999,58 +2872,58 @@ This is like a double phoenix move in other shogi variants.")
         (next-step nwnw second-type) (next-step swsw second-type) 
         (next-step nene second-type) (next-step sese second-type)
         (move-type second-type)
-        (g-step n) (g-step s) (g-step w) (g-step e)
-        (g-step nwnw) (g-step swsw) (g-step nene) (g-step sese)
+        (g-step-1 n) (g-step-1 s) (g-step-1 w) (g-step-1 e)
+        (g-step-1 nwnw) (g-step-1 swsw) (g-step-1 nene) (g-step-1 sese)
      )
   )
   (piece
-     (name PL)
+     (name SO)
      (notation "Staff Officer")
      (description "Staff Officer (sambo): can step one intersection in one of the four orthogonal directions or jump to the second intersection diagonally. (WA)\
 This is the move of the phoenix in other shogi variants.")
-     (image White "../Images/KoShogi/w.bmp"
-            Black "../Images/KoShogi/b.bmp")
+     (image White "../Images/KoShogi/wso.bmp"
+            Black "../Images/KoShogi/bso.bmp")
      (attribute step-mover? false)
      (moves
         (move-type first-type)
-        (step-1 n PL BD) (step-1 s PL BD) (step-1 w PL BD) (step-1 e PL BD)
-        (step-1 nwnw PL BD) (step-1 swsw PL BD) 
-        (step-1 nene PL BD) (step-1 sese PL BD)
+        (step-1 n SO BD) (step-1 s SO BD) (step-1 w SO BD) (step-1 e SO BD)
+        (step-1 nwnw SO BD) (step-1 swsw SO BD) 
+        (step-1 nene SO BD) (step-1 sese SO BD)
      )
   )
   (piece
      (name EV)
      (notation "Earth's vengeance")
      (description "Earth's vengeance (chimo): can move any number of free intersections along either of the rear diagonals, or directly to either side or step one intersection directly forward. (rlRbBfW)")
-     (image White "../Images/KoShogi/w.bmp"
-            Black "../Images/KoShogi/b.bmp")
+     (image White "../Images/KoShogi/wev.bmp"
+            Black "../Images/KoShogi/bev.bmp")
      (attribute igui? true)
      (moves
         (move-type first-type)
         (g-slide  w) (g-slide  e)
         (g-slide sw) (g-slide se)
-        (g-step   n)
+        (g-step-1   n)
      )
   )
   (piece
-     (name R)
+     (name RG)
      (notation "Rear Guard")
      (description "Rear Guard (koei): can move any number of free intersections directly backward or step one intersection directly forwards. (fWbR)\
 This piece promotes if its clerk promotes.")
-     (image White "../Images/KoShogi/w.bmp"
-            Black "../Images/KoShogi/b.bmp")
+     (image White "../Images/KoShogi/wrg.bmp"
+            Black "../Images/KoShogi/brg.bmp")
      (attribute step-mover? false)
      (moves
         (move-type first-type)
-        (slide s R EV) (step-1 n R EV)
+        (slide s RG EV) (step-1 n RG EV)
      )
   )
   (piece
      (name WH)
      (notation "War hawk")
      (description "War hawk (yoyo): can step one or two intersections in any orthogonal direction, potentially capturing a piece with each step or move any number of free intersections along any of the four diagonal directions. (BdW)")
-     (image White "../Images/KoShogi/w.bmp"
-            Black "../Images/KoShogi/b.bmp")
+     (image White "../Images/KoShogi/wwh.bmp"
+            Black "../Images/KoShogi/bwh.bmp")
      (attribute igui? false)
      (moves
         (move-type first-type)
@@ -2058,37 +2931,37 @@ This piece promotes if its clerk promotes.")
         (next-step n second-type) (next-step s second-type) 
         (next-step w second-type) (next-step e second-type)
         (move-type second-type)
-        (g-step n) (g-step s) (g-step w) (g-step e)
+        (g-step-1 n) (g-step-1 s) (g-step-1 w) (g-step-1 e)
      )
   )
   (piece
-     (name FH)
+     (name CR)
      (notation "Centuria")
      (description "Centuria (hyakuso): can move any number of free intersections along any of the four diagonal directions or move one intersection in any orthogonal direction. (WB)\
 This is the move of the dragon horse in other shogi variants.")
-     (image White "../Images/KoShogi/w.bmp"
-            Black "../Images/KoShogi/b.bmp")
+     (image White "../Images/KoShogi/wcr.bmp"
+            Black "../Images/KoShogi/bcr.bmp")
      (attribute step-mover? false)
      (moves
         (move-type first-type)
-        (slide nw FH WH) (slide ne FH WH) (slide sw FH WH) (slide se FH WH)
-        (step-1 n FH WH) (step-1 s FH WH) (step-1 w FH WH) (step-1 e FH WH)
+        (slide nw CR WH) (slide ne CR WH) (slide sw CR WH) (slide se CR WH)
+        (step-1 n CR WH) (step-1 s CR WH) (step-1 w CR WH) (step-1 e CR WH)
      )
   )
   (piece
      (name TW)
      (notation "Tiger wing")
      (description "Tiger wing (koyoku): moves like a shield (one step diagonally) once or twice per turn. (FdF)")
-     (image White "../Images/KoShogi/w.bmp"
-            Black "../Images/KoShogi/b.bmp")
+     (image White "../Images/KoShogi/wtw.bmp"
+            Black "../Images/KoShogi/btw.bmp")
      (attribute igui? false)
      (moves
         (move-type first-type)
         (next-step nw second-type) (next-step ne second-type) 
         (next-step sw second-type) (next-step se second-type)
         (move-type second-type)
-        (g-step nw) (g-step ne) 
-        (g-step sw) (g-step se)
+        (g-step-1 nw) (g-step-1 ne) 
+        (g-step-1 sw) (g-step-1 se)
      )
   )
   (piece
@@ -2096,8 +2969,8 @@ This is the move of the dragon horse in other shogi variants.")
      (notation "Quartermaster")
      (description "Description (waso): can move any number of free intersections along any of the four orthogonal directions or one intersection in any diagonal direction. (FR)\
 This is the move of the dragon king in other shogi variants.")
-     (image White "../Images/KoShogi/w.bmp"
-            Black "../Images/KoShogi/b.bmp")
+     (image White "../Images/KoShogi/wq.bmp"
+            Black "../Images/KoShogi/bq.bmp")
      (attribute step-mover? false)
      (moves
         (move-type first-type)
@@ -2109,9 +2982,9 @@ This is the move of the dragon king in other shogi variants.")
      (name DA)
      (notation "Dragon ascending")
      (description "Dragon ascending (ryujo): adds the moves of the sumo wrestler to those of the millenary. (QdK)")
-     (image White "../Images/KoShogi/w.bmp"
-            Black "../Images/KoShogi/b.bmp")
-     (attribute igui? false)
+     (image White "../Images/KoShogi/wda.bmp"
+            Black "../Images/KoShogi/bda.bmp")
+     (attribute igui? true)
      (moves
         (move-type first-type)
         (d-slide n ) (d-slide s )  (d-slide w ) (d-slide e )
@@ -2121,22 +2994,22 @@ This is the move of the dragon king in other shogi variants.")
         (next-step nw second-type) (next-step sw second-type) 
         (next-step ne second-type) (next-step se second-type)
         (move-type second-type)
-        (g-step n)  (g-step s)  (g-step w)  (g-step e)
-        (g-step nw) (g-step sw) (g-step ne) (g-step se)
+        (g-step-1 n)  (g-step-1 s)  (g-step-1 w)  (g-step-1 e)
+        (g-step-1 nw) (g-step-1 sw) (g-step-1 ne) (g-step-1 se)
      )
   )
   (piece
-     (name DU)
+     (name M)
      (notation "Millenary")
      (description "Millenary (senso): can move any number of free intersections along any one of the eight orthogonal or diagonal directions. (Q)\
 This is the move of the free king in other shogi variants.")
-     (image White "../Images/KoShogi/w.bmp"
-            Black "../Images/KoShogi/b.bmp")
+     (image White "../Images/KoShogi/wm.bmp"
+            Black "../Images/KoShogi/bm.bmp")
      (attribute step-mover? false)
      (moves
         (move-type first-type)
-        (slide n  DU DA) (slide s  DU DA) (slide w  DU DA) (slide e  DU DA)
-        (slide nw DU DA) (slide sw DU DA) (slide ne DU DA) (slide se DU DA)
+        (slide n  M DA) (slide s  M DA) (slide w  M DA) (slide e  M DA)
+        (slide nw M DA) (slide sw M DA) (slide ne M DA) (slide se M DA)
      )
   )
   (piece
@@ -2144,13 +3017,13 @@ This is the move of the free king in other shogi variants.")
      (notation "Centuria")
      (description "Centuria (hyakuso): can move any number of free intersections along any of the four diagonal directions or move one intersection in any orthogonal direction. (WB)\
 This is the move of the dragon horse in other shogi variants.")
-     (image White "../Images/KoShogi/w.bmp"
-            Black "../Images/KoShogi/b.bmp")
+     (image White "../Images/KoShogi/wcr.bmp"
+            Black "../Images/KoShogi/bcr.bmp")
      (attribute igui? true)
      (moves
         (move-type first-type)
         (g-slide nw) (g-slide ne) (g-slide sw) (g-slide se)
-        (g-step   n) (g-step   s) (g-step   w) (g-step   e)
+        (g-step-1   n) (g-step-1   s) (g-step-1   w) (g-step-1   e)
      )
   )
   (piece
@@ -2158,8 +3031,8 @@ This is the move of the dragon horse in other shogi variants.")
      (notation "Sentry")
      (description "Sentry (gohei): an step one intersection in any direction except orthogonally forward. (FrlbW)\
 This is the move of the blind tiger in other shogi variants.")
-     (image White "../Images/KoShogi/w.bmp"
-            Black "../Images/KoShogi/b.bmp")
+     (image White "../Images/KoShogi/wsn.bmp"
+            Black "../Images/KoShogi/bsn.bmp")
      (attribute step-mover? true)
      (moves
         (move-type first-type)
@@ -2172,8 +3045,8 @@ This is the move of the blind tiger in other shogi variants.")
      (notation "Thunderclap")
      (description "Thunderclap (hekireki): steps five times per turn in an orthogonal direction, with the choice of changing directions after each step, potentially capturing up to five pieces. (d5W)\
 If the allied priest is killed, the thunderclap reverts to a drum.")
-     (image White "../Images/KoShogi/w.bmp"
-            Black "../Images/KoShogi/b.bmp")
+     (image White "../Images/KoShogi/wtc.bmp"
+            Black "../Images/KoShogi/btc.bmp")
      (attribute igui? false)
      (moves
         (move-type first-type)
@@ -2189,7 +3062,7 @@ If the allied priest is killed, the thunderclap reverts to a drum.")
         (tc-step n fith-type)   (tc-step s fith-type) 
         (tc-step w fith-type)   (tc-step e fith-type)
         (move-type fith-type)
-        (g-step n) (g-step s)   (g-step w) (g-step e)
+        (g-step-1 n) (g-step-1 s)   (g-step-1 w) (g-step-1 e)
      )
   )
   (piece
@@ -2197,13 +3070,13 @@ If the allied priest is killed, the thunderclap reverts to a drum.")
      (notation "Drum")
      (description "Drum (tsuzumi): can step one intersection in one of the four diagonal directions or either orthogonal sideways. (FrlW)\
 If the drum is killed, the pawns may no longer move forward.")
-     (image White "../Images/KoShogi/w.bmp"
-            Black "../Images/KoShogi/b.bmp")
+     (image White "../Images/KoShogi/wd.bmp"
+            Black "../Images/KoShogi/bd.bmp")
      (attribute step-mover? true)
      (moves
         (move-type first-type)
-        (step-1 nw D TC) (step-1 sw D TC) (step-1 ne D TC) (step-1 se D TC)
-        (step-1 w  D TC) (step-1 e  D TC)
+        (db-step nw D TC) (db-step sw D TC) (db-step ne D TC) (db-step se D TC)
+        (db-step w  D TC) (db-step e  D TC)
      )
   )
   (piece
@@ -2211,8 +3084,8 @@ If the drum is killed, the pawns may no longer move forward.")
      (notation "Roaming assault")
      (description "Roaming assault (shoyo): can step up to five times per turn in any one orthogonal direction, potentially capturing up to five pieces. (WdhWdh3Wdh4Wdh5W)\
 If the allied priest is killed, the roaming assault reverts to a banner.")
-     (image White "../Images/KoShogi/w.bmp"
-            Black "../Images/KoShogi/b.bmp")
+     (image White "../Images/KoShogi/wra.bmp"
+            Black "../Images/KoShogi/bra.bmp")
      (attribute igui? true)
      (moves
         (move-type first-type)
@@ -2227,7 +3100,7 @@ If the allied priest is killed, the roaming assault reverts to a banner.")
         (move-type n-fourth-type)
         (next-step n n-fith-type)
         (move-type n-fith-type)
-        (g-step n)
+        (g-step-1 n)
         (move-type s-second-type)
         (next-step s s-third-type)
         (move-type s-third-type)
@@ -2235,7 +3108,7 @@ If the allied priest is killed, the roaming assault reverts to a banner.")
         (move-type s-fourth-type)
         (next-step s s-fith-type)
         (move-type s-fith-type)
-        (g-step s)
+        (g-step-1 s)
         (move-type w-second-type)
         (next-step w w-third-type)
         (move-type w-third-type)
@@ -2243,7 +3116,7 @@ If the allied priest is killed, the roaming assault reverts to a banner.")
         (move-type w-fourth-type)
         (next-step w w-fith-type)
         (move-type w-fith-type)
-        (g-step w)
+        (g-step-1 w)
         (move-type e-second-type)
         (next-step e e-third-type)
         (move-type e-third-type)
@@ -2251,28 +3124,28 @@ If the allied priest is killed, the roaming assault reverts to a banner.")
         (move-type e-fourth-type)
         (next-step e e-fith-type)
         (move-type e-fith-type)
-        (g-step e)
+        (g-step-1 e)
      )
   )
   (piece
      (name B)
      (notation "Banner")
      (description "Banner (hata): can step one intersection in one of the four diagonal directions or either orthogonal sideways. (FrlW)")
-     (image White "../Images/KoShogi/w.bmp"
-            Black "../Images/KoShogi/b.bmp")
+     (image White "../Images/KoShogi/wb.bmp"
+            Black "../Images/KoShogi/bb.bmp")
      (attribute step-mover? true)
      (moves
         (move-type first-type)
-        (step-1 nw B RA) (step-1 sw B RA) (step-1 ne B RA) (step-1 se B RA)
-        (step-1 w  B RA) (step-1 e  B RA)
+        (db-step nw B RA) (db-step sw B RA) (db-step ne B RA) (db-step se B RA)
+        (db-step w  B RA) (db-step e  B RA)
      )
   )
   (piece
      (name MT)
      (notation "Middle Troop")
      (description "Middle Troop (chogun): can step one intersection in any direction, orthogonal or diagonal. (K)")
-     (image White "../Images/KoShogi/w.bmp"
-            Black "../Images/KoShogi/b.bmp")
+     (image White "../Images/KoShogi/wmt.bmp"
+            Black "../Images/KoShogi/bmt.bmp")
      (attribute step-mover? true)
      (moves
         (move-type first-type)
@@ -2285,8 +3158,8 @@ If the allied priest is killed, the roaming assault reverts to a banner.")
      (notation "Elephant")
      (description "Elephant (zo): can move any number of free intersections along any of the four diagonal directions. (B)\
 This is the move of the bishop in other shogi variants.")
-     (image White "../Images/KoShogi/w.bmp"
-            Black "../Images/KoShogi/b.bmp")
+     (image White "../Images/KoShogi/we.bmp"
+            Black "../Images/KoShogi/be.bmp")
      (moves
         (move-type first-type)
         (g-slide nw) (g-slide ne) (g-slide sw) (g-slide se)
@@ -2298,8 +3171,8 @@ This is the move of the bishop in other shogi variants.")
      (description "Gun carriage (hosha): can move up to five free intersections along one of the four orthogonal directions and shoot as a cannon. (t[[mR5][cxQ5ppQ5]])\
 The gun carriage cannot shoot an imperial base.
 It cannot be shot by a long bow or crossbow.")
-     (image White "../Images/KoShogi/w.bmp"
-            Black "../Images/KoShogi/b.bmp")
+     (image White "../Images/KoShogi/wgc.bmp"
+            Black "../Images/KoShogi/bgc.bmp")
      (attribute enemy-pass? false)
      (moves
         (move-type first-type)
@@ -2314,8 +3187,8 @@ It cannot be shot by a long bow or crossbow.")
         (q-step-5 n second-type) (q-step-5 s second-type) 
         (q-step-5 w second-type) (q-step-5 e second-type) 
         (move-type second-type)
-        (shoot-1 n GC) (shoot-1 nw GC) (shoot-1 w GC) (shoot-1 sw GC)
-        (shoot-1 s GC) (shoot-1 se GC) (shoot-1 e GC) (shoot-1 ne GC)
+        (throw-1 n GC) (throw-1 nw GC) (throw-1 w GC) (throw-1 sw GC)
+        (throw-1 s GC) (throw-1 se GC) (throw-1 e GC) (throw-1 ne GC)
         (throw-2 n GC) (throw-2 nw GC) (throw-2 w GC) (throw-2 sw GC)
         (throw-2 s GC) (throw-2 se GC) (throw-2 e GC) (throw-2 ne GC)
         (throw-3 n GC) (throw-3 nw GC) (throw-3 w GC) (throw-3 sw GC)
@@ -2331,8 +3204,8 @@ It cannot be shot by a long bow or crossbow.")
      (notation "Cannon")
      (description "Cannon (ho): can move one intersection in one of the four diagonal directions and shoot one enemy piece up to five free or occupied intersections away from its landing point in any of the eight prime directions. (t[[mF][cxQ5ppQ5]])\
 It cannot shoot an imperial base, shield unit, or twelve-mile fog.")
-     (image White "../Images/KoShogi/w.bmp"
-            Black "../Images/KoShogi/b.bmp")
+     (image White "../Images/KoShogi/wc.bmp"
+            Black "../Images/KoShogi/bc.bmp")
      (attribute enemy-pass? false)
      (attribute step-mover? false)
      (moves
@@ -2340,8 +3213,8 @@ It cannot shoot an imperial base, shield unit, or twelve-mile fog.")
         (bow-step nw second-type C GC) (bow-step ne second-type C GC)
         (bow-step sw second-type C GC) (bow-step se second-type C GC)
         (move-type second-type)
-        (p-shoot-1 n C GC) (p-shoot-1 nw C GC) (p-shoot-1 w C GC) (p-shoot-1 sw C GC)
-        (p-shoot-1 s C GC) (p-shoot-1 se C GC) (p-shoot-1 e C GC) (p-shoot-1 ne C GC)
+        (p-throw-1 n C GC) (p-throw-1 nw C GC) (p-throw-1 w C GC) (p-throw-1 sw C GC)
+        (p-throw-1 s C GC) (p-throw-1 se C GC) (p-throw-1 e C GC) (p-throw-1 ne C GC)
         (p-throw-2 n C GC) (p-throw-2 nw C GC) (p-throw-2 w C GC) (p-throw-2 sw C GC)
         (p-throw-2 s C GC) (p-throw-2 se C GC) (p-throw-2 e C GC) (p-throw-2 ne C GC)
         (p-throw-3 n C GC) (p-throw-3 nw C GC) (p-throw-3 w C GC) (p-throw-3 sw C GC)
@@ -2353,12 +3226,13 @@ It cannot shoot an imperial base, shield unit, or twelve-mile fog.")
      )
   )
   (piece
-     (name CB)
+     (name SC)
      (notation "Crossbow cavalryman")
      (description "Crossbow cavalryman (kokyuki): can jump as a cavalryman to any of its eight destinations and shoot one enemy piece up to five free intersections away from its landing point in any prime direction. (t[[mN][cxQ5]])")
-     (image White "../Images/KoShogi/w.bmp"
-            Black "../Images/KoShogi/b.bmp")
+     (image White "../Images/KoShogi/wsc.bmp"
+            Black "../Images/KoShogi/bsc.bmp")
      (attribute enemy-pass? false)
+     (attribute is-bow? true)
      (moves
         (move-type first-type)
         (q-step-1 nnw second-type) (q-step-1 nne second-type) 
@@ -2366,50 +3240,52 @@ It cannot shoot an imperial base, shield unit, or twelve-mile fog.")
         (q-step-1 een second-type) (q-step-1 ees second-type) 
         (q-step-1 wwn second-type) (q-step-1 wws second-type) 
         (move-type second-type)
-        (shoot-1 n CB) (shoot-1 nw CB) (shoot-1 w CB) (shoot-1 sw CB)
-        (shoot-1 s CB) (shoot-1 se CB) (shoot-1 e CB) (shoot-1 ne CB)
-        (shoot-2 n CB) (shoot-2 nw CB) (shoot-2 w CB) (shoot-2 sw CB)
-        (shoot-2 s CB) (shoot-2 se CB) (shoot-2 e CB) (shoot-2 ne CB)
-        (shoot-3 n CB) (shoot-3 nw CB) (shoot-3 w CB) (shoot-3 sw CB)
-        (shoot-3 s CB) (shoot-3 se CB) (shoot-3 e CB) (shoot-3 ne CB)
-        (shoot-4 n CB) (shoot-4 nw CB) (shoot-4 w CB) (shoot-4 sw CB)
-        (shoot-4 s CB) (shoot-4 se CB) (shoot-4 e CB) (shoot-4 ne CB)
-        (shoot-5 n CB) (shoot-5 nw CB) (shoot-5 w CB) (shoot-5 sw CB)
-        (shoot-5 s CB) (shoot-5 se CB) (shoot-5 e CB) (shoot-5 ne CB)
+        (shoot-1 n SC) (shoot-1 nw SC) (shoot-1 w SC) (shoot-1 sw SC)
+        (shoot-1 s SC) (shoot-1 se SC) (shoot-1 e SC) (shoot-1 ne SC)
+        (shoot-2 n SC) (shoot-2 nw SC) (shoot-2 w SC) (shoot-2 sw SC)
+        (shoot-2 s SC) (shoot-2 se SC) (shoot-2 e SC) (shoot-2 ne SC)
+        (shoot-3 n SC) (shoot-3 nw SC) (shoot-3 w SC) (shoot-3 sw SC)
+        (shoot-3 s SC) (shoot-3 se SC) (shoot-3 e SC) (shoot-3 ne SC)
+        (shoot-4 n SC) (shoot-4 nw SC) (shoot-4 w SC) (shoot-4 sw SC)
+        (shoot-4 s SC) (shoot-4 se SC) (shoot-4 e SC) (shoot-4 ne SC)
+        (shoot-5 n SC) (shoot-5 nw SC) (shoot-5 w SC) (shoot-5 sw SC)
+        (shoot-5 s SC) (shoot-5 se SC) (shoot-5 e SC) (shoot-5 ne SC)
      )
   )
   (piece
      (name SB)
      (notation "Crossbow")
      (description "Crossbow (yumi): is identical to the long bow, except that it can shoot up to five free intersections away. (t[[mF][cxQ5]])")
-     (image White "../Images/KoShogi/w.bmp"
-            Black "../Images/KoShogi/b.bmp")
+     (image White "../Images/KoShogi/wsb.bmp"
+            Black "../Images/KoShogi/bsb.bmp")
      (attribute enemy-pass? false)
      (attribute step-mover? false)
+     (attribute is-bow? true)
      (moves
         (move-type first-type)
-        (bow-step nw second-type SB CB) (bow-step ne second-type SB CB)
-        (bow-step sw second-type SB CB) (bow-step se second-type SB CB)
+        (bow-step nw second-type SB SC) (bow-step ne second-type SB SC)
+        (bow-step sw second-type SB SC) (bow-step se second-type SB SC)
         (move-type second-type)
-        (p-shoot-1 n SB CB) (p-shoot-1 nw SB CB) (p-shoot-1 w SB CB) (p-shoot-1 sw SB CB)
-        (p-shoot-1 s SB CB) (p-shoot-1 se SB CB) (p-shoot-1 e SB CB) (p-shoot-1 ne SB CB)
-        (p-shoot-2 n SB CB) (p-shoot-2 nw SB CB) (p-shoot-2 w SB CB) (p-shoot-2 sw SB CB)
-        (p-shoot-2 s SB CB) (p-shoot-2 se SB CB) (p-shoot-2 e SB CB) (p-shoot-2 ne SB CB)
-        (p-shoot-3 n SB CB) (p-shoot-3 nw SB CB) (p-shoot-3 w SB CB) (p-shoot-3 sw SB CB)
-        (p-shoot-3 s SB CB) (p-shoot-3 se SB CB) (p-shoot-3 e SB CB) (p-shoot-3 ne SB CB)
-        (p-shoot-4 n SB CB) (p-shoot-4 nw SB CB) (p-shoot-4 w SB CB) (p-shoot-4 sw SB CB)
-        (p-shoot-4 s SB CB) (p-shoot-4 se SB CB) (p-shoot-4 e SB CB) (p-shoot-4 ne SB CB)
-        (p-shoot-5 n SB CB) (p-shoot-5 nw SB CB) (p-shoot-5 w SB CB) (p-shoot-5 sw SB CB)
-        (p-shoot-5 s SB CB) (p-shoot-5 se SB CB) (p-shoot-5 e SB CB) (p-shoot-5 ne SB CB)
+        (p-shoot-1 n SB SC) (p-shoot-1 nw SB SC) (p-shoot-1 w SB SC) (p-shoot-1 sw SB SC)
+        (p-shoot-1 s SB SC) (p-shoot-1 se SB SC) (p-shoot-1 e SB SC) (p-shoot-1 ne SB SC)
+        (p-shoot-2 n SB SC) (p-shoot-2 nw SB SC) (p-shoot-2 w SB SC) (p-shoot-2 sw SB SC)
+        (p-shoot-2 s SB SC) (p-shoot-2 se SB SC) (p-shoot-2 e SB SC) (p-shoot-2 ne SB SC)
+        (p-shoot-3 n SB SC) (p-shoot-3 nw SB SC) (p-shoot-3 w SB SC) (p-shoot-3 sw SB SC)
+        (p-shoot-3 s SB SC) (p-shoot-3 se SB SC) (p-shoot-3 e SB SC) (p-shoot-3 ne SB SC)
+        (p-shoot-4 n SB SC) (p-shoot-4 nw SB SC) (p-shoot-4 w SB SC) (p-shoot-4 sw SB SC)
+        (p-shoot-4 s SB SC) (p-shoot-4 se SB SC) (p-shoot-4 e SB SC) (p-shoot-4 ne SB SC)
+        (p-shoot-5 n SB SC) (p-shoot-5 nw SB SC) (p-shoot-5 w SB SC) (p-shoot-5 sw SB SC)
+        (p-shoot-5 s SB SC) (p-shoot-5 se SB SC) (p-shoot-5 e SB SC) (p-shoot-5 ne SB SC)
      )
   )
   (piece
      (name LC)
      (notation "Longbow cavalryman")
      (description "Longbow cavalryman (kokyuki): can jump as a cavalryman to any of its eight destinations and shoot one enemy piece up to three free intersections away from its landing point in any prime direction. (t[[mN][cxQ3]])")
-     (image White "../Images/KoShogi/w.bmp"
-            Black "../Images/KoShogi/b.bmp")
+     (image White "../Images/KoShogi/wlc.bmp"
+            Black "../Images/KoShogi/blc.bmp")
      (attribute enemy-pass? false)
+     (attribute is-bow? true)
      (moves
         (move-type first-type)
         (q-step-1 nnw second-type) (q-step-1 nne second-type) 
@@ -2430,10 +3306,11 @@ It cannot shoot an imperial base, shield unit, or twelve-mile fog.")
      (notation "Long Bow")
      (description "Long Bow (yumi): can move one intersection in one of the four diagonal directions and shoot one enemy piece up to three free intersections from its landing point, in any of the eight prime directions. (t[[mF][cxQ3]])\
 It cannot shoot an imperial base, shield, shield unit, chariot, chariot unit, gun carriage, or twelve-mile fog.")
-     (image White "../Images/KoShogi/w.bmp"
-            Black "../Images/KoShogi/b.bmp")
+     (image White "../Images/KoShogi/wlb.bmp"
+            Black "../Images/KoShogi/blb.bmp")
      (attribute enemy-pass? false)
      (attribute step-mover? false)
+     (attribute is-bow? true)
      (moves
         (move-type first-type)
         (bow-step nw second-type LB LC) (bow-step ne second-type LB LC)
@@ -2451,9 +3328,10 @@ It cannot shoot an imperial base, shield, shield unit, chariot, chariot unit, gu
      (name CG)
      (notation "Chariot of the gods")
      (description "Chariot of the gods (shinkisha): can move up to five free intersections along one of the four orthogonal directions and shoot two enemy pieces up to 7 free intersections from its landing point in any of the eight prime directions. (t[[mR5][cx2Q7]])")
-     (image White "../Images/KoShogi/w.bmp"
-            Black "../Images/KoShogi/b.bmp")
+     (image White "../Images/KoShogi/wcg.bmp"
+            Black "../Images/KoShogi/bcg.bmp")
      (attribute enemy-pass? false)
+     (attribute is-bow? false)
      (moves
         (move-type first-type)
         (qe-step-1 n second-type) (qe-step-1 s second-type) 
@@ -2503,10 +3381,11 @@ It cannot shoot an imperial base, shield, shield unit, chariot, chariot unit, gu
      (notation "European Cannon")
      (description "European Cannon (butsuroki): can move one intersection in one of the four diagonal directions and shoot two enemy pieces up to 7 free intersections from its landing point in any of the eight prime directions. (t[[mF][cx2Q7]])\
 It cannot shoot a shield unit or an imperial base. It can only shoot at a twelve-mile fog that is at least six intersections away.")
-     (image White "../Images/KoShogi/w.bmp"
-            Black "../Images/KoShogi/b.bmp")
+     (image White "../Images/KoShogi/wec.bmp"
+            Black "../Images/KoShogi/bec.bmp")
      (attribute enemy-pass? false)
      (attribute step-mover? false)
+     (attribute is-bow? false)
      (moves
         (move-type first-type)
         (ec-step nw second-type EC CG) (ec-step ne second-type EC CG)
@@ -2547,8 +3426,8 @@ It cannot shoot a shield unit or an imperial base. It can only shoot at a twelve
      (name WG)
      (notation "Winged horse")
      (description "Winged horse (temba): moves as a cavalry, but without any restriction on the direction of the second jump. That is, it moves twice like a knight in Western chess. (NdN)")
-     (image White "../Images/KoShogi/w.bmp"
-            Black "../Images/KoShogi/b.bmp")
+     (image White "../Images/KoShogi/wwg.bmp"
+            Black "../Images/KoShogi/bwg.bmp")
      (attribute igui? true)
      (moves
         (move-type first-type)
@@ -2557,10 +3436,10 @@ It cannot shoot a shield unit or an imperial base. It can only shoot at a twelve
         (next-step wwn second-type) (next-step wws second-type)
         (next-step ssw second-type) (next-step sse second-type)
         (move-type second-type)
-        (g-step nnw) (g-step nne)
-        (g-step een) (g-step ees)
-        (g-step wwn) (g-step wws)
-        (g-step ssw) (g-step sse)
+        (g-step-1 nnw) (g-step-1 nne)
+        (g-step-1 een) (g-step-1 ees)
+        (g-step-1 wwn) (g-step-1 wws)
+        (g-step-1 ssw) (g-step-1 sse)
      )
   )
   (piece
@@ -2570,8 +3449,8 @@ It cannot shoot a shield unit or an imperial base. It can only shoot at a twelve
 If it jumps twice, both jumps must be in the same orthogonal direction (both forwards, backwards, to the left, or to the right). \
 That is, after the cavalry makes its first jump, it is restricted to only two landing squares for its second jump, similar to the restriction of a knight in other shogi variants or\
 For its second jump, it may return to its starting point. This gives the cavalry a power of igui and passing a turn similar to that of the sumo wrestler.")
-     (image White "../Images/KoShogi/w.bmp"
-            Black "../Images/KoShogi/b.bmp")
+     (image White "../Images/KoShogi/wca.bmp"
+            Black "../Images/KoShogi/bca.bmp")
      (attribute igui? true)
      (attribute from-enemy? false)
      (attribute step-mover? false)
@@ -2598,8 +3477,8 @@ For its second jump, it may return to its starting point. This gives the cavalry
 If it jumps twice, both jumps must be in the same orthogonal direction (both forwards, backwards, to the left, or to the right). \
 That is, after the cavalry makes its first jump, it is restricted to only two landing squares for its second jump, similar to the restriction of a knight in other shogi variants or\
 For its second jump, it may return to its starting point. This gives the cavalry a power of igui and passing a turn similar to that of the sumo wrestler.")
-     (image White "../Images/KoShogi/w.bmp"
-            Black "../Images/KoShogi/b.bmp")
+     (image White "../Images/KoShogi/wca.bmp"
+            Black "../Images/KoShogi/bca.bmp")
      (attribute igui? true)
      (moves
         (move-type first-type)
@@ -2608,13 +3487,13 @@ For its second jump, it may return to its starting point. This gives the cavalry
         (next-step wwn w-second-type) (next-step wws w-second-type)
         (next-step ssw s-second-type) (next-step sse s-second-type)
         (move-type n-second-type)
-        (g-step nnw) (g-step nne)
+        (g-step-1 nnw) (g-step-1 nne)
         (move-type e-second-type)
-        (g-step een) (g-step ees)
+        (g-step-1 een) (g-step-1 ees)
         (move-type w-second-type)
-        (g-step wwn) (g-step wws)
+        (g-step-1 wwn) (g-step-1 wws)
         (move-type s-second-type)
-        (g-step ssw) (g-step sse)
+        (g-step-1 ssw) (g-step-1 sse)
      )
   )
   (piece
@@ -2623,8 +3502,8 @@ For its second jump, it may return to its starting point. This gives the cavalry
      (description "Cavalryman (bahei): can jump to one intersection orthogonally plus one intersection diagonally (N)\
 This is the move of the knight in Western chess.\
 The cavalryman promotes if it captures a European cannon.")
-     (image White "../Images/KoShogi/w.bmp"
-            Black "../Images/KoShogi/b.bmp")
+     (image White "../Images/KoShogi/whs.bmp"
+            Black "../Images/KoShogi/bhs.bmp")
      (attribute step-mover? false)
      (moves
         (move-type first-type)
@@ -2639,8 +3518,8 @@ The cavalryman promotes if it captures a European cannon.")
      (notation "Commissar")
      (description "Commissar (toshi): can move any number of free intersections along one of the four diagonals or move any number of free intersections orthogonally forward or backward. (BfbR)\
 This is the move of the flying ox in chu shogi.")
-     (image White "../Images/KoShogi/w.bmp"
-            Black "../Images/KoShogi/b.bmp")
+     (image White "../Images/KoShogi/wco.bmp"
+            Black "../Images/KoShogi/bco.bmp")
      (moves
         (move-type first-type)
         (g-slide nw) (g-slide sw) (g-slide ne) (g-slide se)
@@ -2652,8 +3531,8 @@ This is the move of the flying ox in chu shogi.")
      (notation "Patrol unit")
      (description "Patrol unit (fuso): can move any number of free intersections orthogonally forward or backward or one intersection orthogonally sideways. (fbRW)\
 This is the move of the vertical mover in other shogi variants.")
-     (image White "../Images/KoShogi/w.bmp"
-            Black "../Images/KoShogi/b.bmp")
+     (image White "../Images/KoShogi/wpu.bmp"
+            Black "../Images/KoShogi/bpu.bmp")
      (attribute step-mover? false)
      (moves
         (move-type first-type)
@@ -2666,8 +3545,8 @@ This is the move of the vertical mover in other shogi variants.")
      (notation "Millenary")
      (description "Millenary (senso): can move any number of free intersections along any one of the eight orthogonal or diagonal directions. (Q)\
 This is the move of the free king in other shogi variants.")
-     (image White "../Images/KoShogi/w.bmp"
-            Black "../Images/KoShogi/b.bmp")
+     (image White "../Images/KoShogi/wm.bmp"
+            Black "../Images/KoShogi/bm.bmp")
      (moves
         (move-type first-type)
         (g-slide n)  (g-slide s)  (g-slide w)  (g-slide e)
@@ -2681,13 +3560,13 @@ This is the move of the free king in other shogi variants.")
 This is the move of the rook in other shogi variants.\
 It cannot capture the imperial base.\
 The chariot unit is unaffected by the bows.")
-     (image White "../Images/KoShogi/w.bmp"
-            Black "../Images/KoShogi/b.bmp")
+     (image White "../Images/KoShogi/wcu.bmp"
+            Black "../Images/KoShogi/bcu.bmp")
      (attribute step-mover? false)
      (moves
         (move-type first-type)
-        (slide n CU MM) (slide s CU MM)
-        (slide w CU MM) (slide e CU MM)
+        (ch-slide n CU MM) (ch-slide s CU MM)
+        (ch-slide w CU MM) (ch-slide e CU MM)
      )
   )
   (piece
@@ -2696,8 +3575,8 @@ The chariot unit is unaffected by the bows.")
      (description "Imperial base (tenrui): The imperial base can move any number of free intersections in the four diagonal directions, or directly to either side. (fbRB)\
 This is the move of the free boar in chu shogi.\
 The imperial base cannot be shot by the long bow, crossbow, cannon, gun carriage, European cannon or Chariot of the gods and can be killed by the chariot or chariot unit.")
-     (image White "../Images/KoShogi/w.bmp"
-            Black "../Images/KoShogi/b.bmp")
+     (image White "../Images/KoShogi/wib.bmp"
+            Black "../Images/KoShogi/bib.bmp")
      (moves
         (move-type first-type)
         (g-slide nw) (g-slide sw) (g-slide ne) (g-slide se)
@@ -2709,8 +3588,8 @@ The imperial base cannot be shot by the long bow, crossbow, cannon, gun carriage
      (notation "Shield unit")
      (description "Shield unit (haiso): can move any number of free intersections orthogonally to either side or one intersection in one of the four diagonal directions. (rlRF)\
 The shield unit is unaffected by the bows or the guns.")
-     (image White "../Images/KoShogi/w.bmp"
-            Black "../Images/KoShogi/b.bmp")
+     (image White "../Images/KoShogi/wsu.bmp"
+            Black "../Images/KoShogi/bsu.bmp")
      (attribute step-mover? false)
      (moves
         (move-type first-type)
@@ -2726,12 +3605,12 @@ The shield unit is unaffected by the bows or the guns.")
 This is the move of the rook in other shogi variants.\
 It cannot capture the imperial base.\
 The chariot unit is unaffected by the bows.")
-     (image White "../Images/KoShogi/w.bmp"
-            Black "../Images/KoShogi/b.bmp")
+     (image White "../Images/KoShogi/wcu.bmp"
+            Black "../Images/KoShogi/bcu.bmp")
      (moves
         (move-type first-type)
-        (g-slide n) (g-slide s)
-        (g-slide w) (g-slide e)
+        (gch-slide n) (gch-slide s)
+        (gch-slide w) (gch-slide e)
      )
   )
   (piece
@@ -2740,16 +3619,16 @@ The chariot unit is unaffected by the bows.")
      (description "Chariot (kuruma): can move one to five free intersections in one of the four orthogonal directions. (R5)\
 It cannot capture the imperial base.\
 The chariot unit is unaffected by the bows.")
-     (image White "../Images/KoShogi/w.bmp"
-            Black "../Images/KoShogi/b.bmp")
+     (image White "../Images/KoShogi/wch.bmp"
+            Black "../Images/KoShogi/bch.bmp")
      (attribute step-mover? false)
      (moves
         (move-type first-type)
-        (step-1 n CH CC) (step-1 s CH CC) (step-1 w CH CC) (step-1 e CH CC)
-        (step-2 n CH CC) (step-2 s CH CC) (step-2 w CH CC) (step-2 e CH CC)
-        (step-3 n CH CC) (step-3 s CH CC) (step-3 w CH CC) (step-3 e CH CC)
-        (step-4 n CH CC) (step-4 s CH CC) (step-4 w CH CC) (step-4 e CH CC)
-        (step-5 n CH CC) (step-5 s CH CC) (step-5 w CH CC) (step-5 e CH CC)
+        (ch-step-1 n CH CC) (ch-step-1 s CH CC) (ch-step-1 w CH CC) (ch-step-1 e CH CC)
+        (ch-step-2 n CH CC) (ch-step-2 s CH CC) (ch-step-2 w CH CC) (ch-step-2 e CH CC)
+        (ch-step-3 n CH CC) (ch-step-3 s CH CC) (ch-step-3 w CH CC) (ch-step-3 e CH CC)
+        (ch-step-4 n CH CC) (ch-step-4 s CH CC) (ch-step-4 w CH CC) (ch-step-4 e CH CC)
+        (ch-step-5 n CH CC) (ch-step-5 s CH CC) (ch-step-5 w CH CC) (ch-step-5 e CH CC)
      )
   )
   (piece
@@ -2757,66 +3636,66 @@ The chariot unit is unaffected by the bows.")
      (notation "Shield unit")
      (description "Shield unit (haiso): can move any number of free intersections orthogonally to either side or one intersection in one of the four diagonal directions. (rlRF)\
 The shield unit is unaffected by the bows or the guns.")
-     (image White "../Images/KoShogi/w.bmp"
-            Black "../Images/KoShogi/b.bmp")
+     (image White "../Images/KoShogi/wsu.bmp"
+            Black "../Images/KoShogi/bsu.bmp")
      (attribute igui? true)
      (moves
         (move-type first-type)
-        (g-step nw) (g-step ne) 
-        (g-step sw) (g-step se)
+        (g-step-1 nw) (g-step-1 ne) 
+        (g-step-1 sw) (g-step-1 se)
         (g-slide w) (g-slide e)
      )
   )
   (piece
-     (name SP)
+     (name SH)
      (notation "Shield")
      (description "Shield (hai): can step one intersection in one of the four diagonal directions. (F)\
 The shield is unaffected by the bows.\
 This is the move of the cat sword in dai shogi.")
-     (image White "../Images/KoShogi/w.bmp"
-            Black "../Images/KoShogi/b.bmp")
+     (image White "../Images/KoShogi/wsh.bmp"
+            Black "../Images/KoShogi/bsh.bmp")
      (attribute step-mover? true)
      (moves
         (move-type first-type)
-        (step-1 nw SP UU) (step-1 ne SP UU) 
-        (step-1 sw SP UU) (step-1 se SP UU)
+        (step-1 nw SH UU) (step-1 ne SH UU) 
+        (step-1 sw SH UU) (step-1 se SH UU)
      )
   )
   (piece
-     (name VA)
+     (name V)
      (notation "Vanguard")
      (description "Vanguard (sempo): can move one to five free intersections directly forward. (fR5)")
-     (image White "../Images/KoShogi/w.bmp"
-            Black "../Images/KoShogi/b.bmp")
+     (image White "../Images/KoShogi/wv.bmp"
+            Black "../Images/KoShogi/bv.bmp")
      (attribute step-mover? false)
      (moves
         (move-type first-type)
-        (step-1 n VA CO)
-        (step-2 n VA CO)
-        (step-3 n VA CO)
-        (step-4 n VA CO)
-        (step-5 n VA CO)
+        (step-1 n V CO)
+        (step-2 n V CO)
+        (step-3 n V CO)
+        (step-4 n V CO)
+        (step-5 n V CO)
      )
   )
 
   (board-setup
      (Black
-        (FD 19S 1S)
+        (AG 19S 1S)
         (SM 18S)
         (TP 2S)
         (EN 17S 3S)
         (CS 16S 4S)
-        (GH 15S 5S)
-        (SR 14S 6S)
+        (S  15S 5S)
+        (A  14S 6S)
         (WR 13S 7S)
-        (A  12S 8S)
-        (SC 11S)
-        (PL 9S)
+        (AC 12S 8S)
+        (CL 11S)
+        (SO 9S)
         (G  10S)
-        (R  19R 1R)
-        (FH 18R 2R)
+        (RG 19R 1R)
+        (CR 18R 2R)
         (Q  16R 4R)
-        (DU 14R 6R)
+        (M  14R 6R)
         (SN 12R 8R)
         (D  11R)
         (B  9R)
@@ -2833,26 +3712,26 @@ This is the move of the cat sword in dai shogi.")
         (CU 19N 1N)
         (SU 18N 2N 10N)
         (CH 17N 3N 15N 5N 13N 7N 11N 9N)
-        (SP 16N 4N 14N 6N 12N 8N)
-        (VA 10M)
+        (SH 16N 4N 14N 6N 12N 8N)
+        (V  10M)
      )
      (White
-        (FD 19A 1A)
+        (AG 19A 1A)
         (TP 18A)
         (SM 2A)
         (EN 17A 3A)
         (CS 16A 4A)
-        (GH 15A 5A)
-        (SR 14A 6A)
+        (S  15A 5A)
+        (A  14A 6A)
         (WR 13A 7A)
-        (A  12A 8A)
-        (PL 11A)
-        (SC 9A)
+        (AC 12A 8A)
+        (SO 11A)
+        (CL 9A)
         (G  10A)
-        (R  19B 1B)
-        (FH 18B 2B)
+        (RG 19B 1B)
+        (CR 18B 2B)
         (Q  16B 4B)
-        (DU 14B 6B)
+        (M  14B 6B)
         (SN 12B 8B)
         (B  11B)
         (D  9B)
@@ -2869,8 +3748,8 @@ This is the move of the cat sword in dai shogi.")
         (CU 19F 1F)
         (SU 18F 2F 10F)
         (CH 17F 3F 15F 5F 13F 7F 11F 9F)
-        (SP 16F 4F 14F 6F 12F 8F)
-        (VA 10G)
+        (SH 16F 4F 14F 6F 12F 8F)
+        (V  10G)
      )
   )
   (loss-condition  (Black White) (and (pieces-remaining 0 MT) (pieces-remaining 0 GO) (pieces-remaining 0 G) ) )
