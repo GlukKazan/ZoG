@@ -2455,7 +2455,7 @@
     (positions (pass-flag -80 -80 0 0) )
     (dummy a0)
     (links next (a0 1A) (19A 1B) (19B 1C) (19C 1D) (19D 1E) (19E 1F) (19F 1G) (19G 1H) (19H 1I) (19I 1J) (19J 1K) (19K 1L) (19L 1M) (19M 1N) (19N 1O) (19O 1P) (19P 1Q) (19Q 1R) (19R 1S) )
-    (symmetry White (n s) (s n) (nw sw) (sw nw) (ne se) (se ne) )
+    (symmetry White (n s) (s n) (nw sw) (sw nw) (ne se) (se ne) (nn ss) )
 )
 
 (define bless (
