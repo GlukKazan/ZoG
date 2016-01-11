@@ -165,7 +165,7 @@
   mark a0
   (while (on-board? next)
       next
-      (if (and friend? (or (piece? D) (piece? TC) (piece? BD)))
+      (if (and friend? (or (piece? $1) (piece? $2) (piece? BD)))
           (set-flag drum-exists? true)
       )
   )
@@ -1047,7 +1047,7 @@
 
 (define p-step (
   (check-pass)
-  (check-drum)
+  (check-drum $4 $5)
   (common-start)
   $1
   (verify not-friend?)
@@ -2434,23 +2434,7 @@
   add
 ))
 
-(game
-  (title "Ko Shogi")
-
-  (move-sound "Audio/Pickup.wav")
-  (release-sound "Audio/Pickup.wav")
-  (capture-sound "")
-
-  (option "prevent flipping" true)
-  (option "animate captures" false)
-  (option "pass partial" true)
-  (option "pass turn" forced)
-
-  (players Black White)
-  (turn-order Black White)
-  (move-priorities priority-type first-type)
-
-  (board
+(define common-board
     (image "../Images/KoShogi/board.bmp")
     (grid
       (start-rectangle 39 33 81 67)
@@ -2472,6 +2456,36 @@
     (dummy a0)
     (links next (a0 1A) (19A 1B) (19B 1C) (19C 1D) (19D 1E) (19E 1F) (19F 1G) (19G 1H) (19H 1I) (19I 1J) (19J 1K) (19K 1L) (19L 1M) (19M 1N) (19N 1O) (19O 1P) (19P 1Q) (19Q 1R) (19R 1S) )
     (symmetry White (n s) (s n) (nw sw) (sw nw) (ne se) (se ne) )
+)
+
+(define bless (
+  mark
+  $1
+  (verify (piece? $2))
+  back
+  (create EN)
+  $1
+  (add $3)
+))
+
+(game
+  (title "Ko Shogi")
+
+  (move-sound "Audio/Pickup.wav")
+  (release-sound "Audio/Pickup.wav")
+  (capture-sound "")
+
+  (option "prevent flipping" true)
+  (option "animate captures" false)
+  (option "pass partial" true)
+  (option "pass turn" forced)
+
+  (players Black White)
+  (turn-order Black White)
+  (move-priorities priority-type first-type)
+
+  (board
+    (common-board)
     (zone (name promotion) (players Black)
         (positions 
            1A 2A 3A 4A 5A 6A 7A 8A 9A 10A 11A 12A 13A 14A 15A 16A 17A 18A 19A
@@ -2544,7 +2558,8 @@ If the drum is killed, the pawns may no longer move forward.")
      (attribute step-mover? true)
      (moves
         (move-type first-type)
-        (p-step n P PP) (step-1 s P PP) (step-1 w P PP) (step-1 e P PP)
+        (p-step n P PP B TC)
+        (step-1 s P PP) (step-1 w P PP) (step-1 e P PP)
      )
   )
   (piece
@@ -3754,4 +3769,162 @@ This is the move of the cat sword in dai shogi.")
   )
   (loss-condition  (Black White) (and (pieces-remaining 0 MT) (pieces-remaining 0 GO) (pieces-remaining 0 G) ) )
   (loss-condition  (Black White) (and (pieces-remaining 0 G) (pieces-remaining 0 GO) (pieces-remaining 0 B) (pieces-remaining 0 RA) (pieces-remaining 0 BD) ) )
+)
+
+(variant
+  (title "Ko Shogi (alternative version)")
+  (default)
+
+  (board
+    (common-board)
+    (zone (name promotion) (players Black)
+        (positions 
+           1A 2A 3A 4A 5A 6A 7A 8A 9A 10A 11A 12A 13A 14A 15A 16A 17A 18A 19A
+           1B 2B 3B 4B 5B 6B 7B 8B 9B 10B 11B 12B 13B 14B 15B 16B 17B 18B 19B
+           1C 2C 3C 4C 5C 6C 7C 8C 9C 10C 11C 12C 13C 14C 15C 16C 17C 18C 19C
+           1D 2D 3D 4D 5D 6D 7D 8D 9D 10D 11D 12D 13D 14D 15D 16D 17D 18D 19D
+           1E 2E 3E 4E 5E 6E 7E 8E 9E 10E 11E 12E 13E 14E 15E 16E 17E 18E 19E
+           1F 2F 3F 4F 5F 6F 7F 8F 9F 10F 11F 12F 13F 14F 15F 16F 17F 18F 19F
+           1G 2G 3G 4G 5G 6G 7G 8G 9G 10G 11G 12G 13G 14G 15G 16G 17G 18G 19G
+           1H 2H 3H 4H 5H 6H 7H 8H 9H 10H 11H 12H 13H 14H 15H 16H 17H 18H 19H
+           1I 2I 3I 4I 5I 6I 7I 8I 9I 10I 11I 12I 13I 14I 15I 16I 17I 18I 19I
+        )
+    )
+    (zone (name promotion) (players White)
+        (positions 
+           1S 2S 3S 4S 5S 6S 7S 8S 9S 10S 11S 12S 13S 14S 15S 16S 17S 18S 19S
+           1R 2R 3R 4R 5R 6R 7R 8R 9R 10R 11R 12R 13R 14R 15R 16R 17R 18R 19R
+           1Q 2Q 3Q 4Q 5Q 6Q 7Q 8Q 9Q 10Q 11Q 12Q 13Q 14Q 15Q 16Q 17Q 18Q 19Q
+           1P 2P 3P 4P 5P 6P 7P 8P 9P 10P 11P 12P 13P 14P 15P 16P 17P 18P 19P
+           1O 2O 3O 4O 5O 6O 7O 8O 9O 10O 11O 12O 13O 14O 15O 16O 17O 18O 19O
+           1N 2N 3N 4N 5N 6N 7N 8N 9N 10N 11N 12N 13N 14N 15N 16N 17N 18N 19N
+           1M 2M 3M 4M 5M 6M 7M 8M 9M 10M 11M 12M 13M 14M 15M 16M 17M 18M 19M
+           1L 2L 3L 4L 5L 6L 7L 8L 9L 10L 11L 12L 13L 14L 15L 16L 17L 18L 19L
+           1K 2K 3K 4K 5K 6K 7K 8K 9K 10K 11K 12K 13K 14K 15K 16K 17K 18K 19K
+        )
+    )
+  )
+
+  (piece
+     (name P)
+     (notation "Pawn")
+     (description "Pawn (fuhyo): \
+If the drum is killed, the pawns may no longer move forward.")
+     (image White "../Images/KoShogi/wp.bmp"
+            Black "../Images/KoShogi/bp.bmp")
+     (attribute step-mover? true)
+     (moves
+        (move-type first-type)
+        (p-step n P PP B TC) (p-step nn P PP TC TC)
+        (step-1 s P PP) (step-1 w P PP) (step-1 e P PP)
+     )
+  )
+  (piece
+     (name RG)
+     (notation "Rear Guard")
+     (description "Rear Guard (koei): can move any number of free intersections directly backward or step one intersection directly forwards. (fWbR)\
+This piece promotes if its clerk promotes.")
+     (image White "../Images/KoShogi/wrg.bmp"
+            Black "../Images/KoShogi/brg.bmp")
+     (attribute step-mover? false)
+     (moves
+        (move-type first-type)
+        (slide s RG EV) (step-1 n RG EV) (step-1 nn RG EV)
+     )
+  )
+  (piece
+     (name EN)
+     (notation "Engineer")
+     (description "Engineer (gunsho): can step one intersection directly forward or backward, or one intersection diagonally forward, giving it four possibilities. (fFfbW)\
+his is the move of the copper general in other shogi variants.")
+     (image White "../Images/KoShogi/wen.bmp"
+            Black "../Images/KoShogi/ben.bmp")
+     (attribute step-mover? true)
+     (moves
+        (move-type first-type)
+        (en-step nw PF) (en-step ne PF)
+        (en-step n  PF) (en-step s  PF)
+        (bless n CH CU) (bless s CH CU)
+        (bless e CH CU) (bless w CH CU)
+        (bless n SH SU) (bless s SH SU)
+        (bless e SH SU) (bless w SH SU)
+        (bless n LB SB) (bless s LB SB)
+        (bless e LB SB) (bless w LB SB)
+        (bless n C  GC) (bless s C  GC)
+        (bless e C  GC) (bless w C  GC)
+        (bless n EC CG) (bless s EC CG)
+        (bless e EC CG) (bless w EC CG)
+     )
+  )
+
+  (board-setup
+     (Black
+        (AG 19S 1S)
+        (SM 18S)
+        (TP 2S)
+        (EN 17S 3S)
+        (A  17Q 3Q)
+        (S  15S 5S)
+        (CS 14S 6S)
+        (WR 13Q 7Q)
+        (AC 12S 8S)
+        (CL 11S)
+        (SO 9S)
+        (G  10S)
+        (RG 19R 1R)
+        (CR 18R 2R)
+        (Q  16R 4R)
+        (M  14R 6R)
+        (SN 12R 8R)
+        (D  11R)
+        (B  9R)
+        (MT 10R)
+        (E  19Q 1Q 15Q 5Q 11Q 9Q)
+        (C  18Q 2Q)
+        (LB 12Q 8Q)
+        (EC 10Q)
+        (CA 19P 1P)
+        (HS 17P 3P 15P 5P 13P 7P 11P 9P)
+        (P  18O 2O 16O 4O 14O 6O 12O 8O)
+        (PU 10O)
+        (SU 18N 2N 10N)
+        (CH 19N 1N 17N 3N 15N 5N 13N 7N 11N 9N)
+        (SH 16N 4N 14N 6N 12N 8N)
+        (V  10M)
+     )
+     (White
+        (AG 19A 1A)
+        (TP 18A)
+        (SM 2A)
+        (EN 17A 3A)
+        (A  17C 3C)
+        (S  15A 5A)
+        (CS 14A 6A)
+        (WR 13C 7C)
+        (AC 12A 8A)
+        (SO 11A)
+        (CL 9A)
+        (G  10A)
+        (RG 19B 1B)
+        (CR 18B 2B)
+        (Q  16B 4B)
+        (M  14B 6B)
+        (SN 12B 8B)
+        (B  11B)
+        (D  9B)
+        (MT 10B)
+        (E  19C 1C 15C 5C 11C 9C)
+        (C  18C 2C)
+        (LB 12C 8C)
+        (EC 10C)
+        (CA 19D 1D)
+        (HS 17D 3D 15D 5D 13D 7D 11D 9D)
+        (P  18E 2E 16E 4E 14E 6E 12E 8E)
+        (PU 10E)
+        (SU 18F 2F 10F)
+        (CH 19F 1F 17F 3F 15F 5F 13F 7F 11F 9F)
+        (SH 16F 4F 14F 6F 12F 8F)
+        (V  10G)
+     )
+  )
 )
