@@ -1,3 +1,5 @@
+(version "2.0")
+
 (define check-commander
   (if (and enemy? (or (piece? G) (piece? GO) (piece? MT) (piece? BD) (piece? BD)))
       (set-flag can-promototion? true)
@@ -669,7 +671,8 @@
       (set-flag can-promototion? true)
   )
   (if (flag? can-promototion?)
-      (add-partial $3 $4 $2)
+      (light-all)
+      (add-partial $3 $2)
    else  
       (add-partial $2)
   )
@@ -1144,6 +1147,33 @@
   add
 ))
 
+(define kill (
+  (check-pass)
+  (if enemy-pass?
+      (set-flag ep? true)
+   else
+      (set-flag ep? false)
+  )
+  mark
+  $1
+  (verify enemy?)
+  (set-flag tp-killed? false)
+  (if (or (piece? TP))
+      (set-flag tp-killed? true)
+  )
+  capture
+  back
+  (if (flag? tp-killed?)
+      (unprom-db enemy?)
+  )
+  (create $2)
+  (if (flag? ep?)
+      (set-attribute enemy-pass? true)
+  )
+  $1
+  add
+))
+
 (define shoot-1 (
   (check-pass)
   (set-bow)
@@ -1393,6 +1423,39 @@
       (set-attribute enemy-pass? true)
   )
   $1 $1 $1 $1 $1 $1 $1
+  add
+))
+
+(define p-kill (
+  (check-pass)
+  (common-start)
+  (if enemy-pass?
+      (set-flag ep? true)
+   else
+      (set-flag ep? false)
+  )
+  mark
+  $1
+  (verify enemy?)
+  (set-flag tp-killed? false)
+  (if (or (piece? TP))
+      (set-flag tp-killed? true)
+  )
+  (check-commander)
+  capture
+  back
+  (if (flag? tp-killed?)
+      (unprom-db enemy?)
+  )
+  (if (flag? can-promototion?)
+      (create $3)
+   else
+      (create $2)
+  )
+  (if (flag? ep?)
+      (set-attribute enemy-pass? true)
+  )
+  $1
   add
 ))
 
@@ -2455,7 +2518,7 @@
     (positions (pass-flag -80 -80 0 0) )
     (dummy a0)
     (links next (a0 1A) (19A 1B) (19B 1C) (19C 1D) (19D 1E) (19E 1F) (19F 1G) (19G 1H) (19H 1I) (19I 1J) (19J 1K) (19K 1L) (19L 1M) (19M 1N) (19N 1O) (19O 1P) (19P 1Q) (19Q 1R) (19R 1S) )
-    (symmetry White (n s) (s n) (nw sw) (sw nw) (ne se) (se ne) (nn ss) )
+    (symmetry White (n s) (s n) (nw sw) (sw nw) (ne se) (se ne) (nn ss) (ss nn) )
 )
 
 (define bless (
@@ -2465,11 +2528,30 @@
   back
   (create EN)
   $1
+  (if (or (piece? B) (piece? D))
+      (check-tp)
+      (verify (flag? tp-exists?))
+  )
   (add $3)
 ))
 
 (game
   (title "Ko Shogi")
+  (description "The objective is to capture the opponent's commanding pieces: The General, plus, if present, the Governor; otherwise, the Banner or Middle troop.\\
+A player's promotion zone is the enemy camp, consisting of the six farthest ranks that comprise the opponent's territory at setup. If a piece moves within this \
+promotion zone, including moves into, out of, or wholly within the zone, then that player may promote the piece at the end of the turn.\\
+However, there are other ways of promoting than entering the enemy camp:\\
+- A piece that captures a commanding piece (the General, Governor, Middle troop, or Banner) promotes on the spot.\
+- A step mover which captures a Sumo wrestler, Dragon ascending, Roaming assault, or Thunderclap, promotes on the spot.\
+- The Cavalryman promotes if it captures a European cannon.\
+- When the Clerk promotes to Master at arms, the Advance guards and Rear guards, promote as well, while no enemy poison flame.\\
+There are other circumstances that may prevent or revert promotion:\\
+- If the Taoist priest is captured, the Drum and Banner can no longer promote, and if either or both have already promoted, then they immediately revert to Drum or Banner.\
+- Whenever the Immaculate light is within 5 intersections of the Twelve-mile fog along one of the eight prime directions, the fog reverts back to a Taoist priest.")
+  (history "Ko shogi (or 'broad chess') is a large-board variant of shogi, or Japanese chess.\
+The game dates back to the turn of the 18th century and is based on xiangqi and \
+go as well as shogi. \\
+Credit for its invention has been given to Confucian scholar Ogyu Sorai.")
 
   (move-sound "Audio/Pickup.wav")
   (release-sound "Audio/Pickup.wav")
@@ -2604,8 +2686,8 @@ If a twelve-mile fog and immaculate light ever find themselves within 5 intersec
         (il-step nwnw second-type) (il-step swsw second-type)
         (il-step nene second-type) (il-step sese second-type)
         (move-type second-type)
-        (shoot-1 n IL) (shoot-1 s IL) (shoot-1 nw IL) (shoot-1 sw IL)
-        (shoot-1 w IL) (shoot-1 e IL) (shoot-1 ne IL) (shoot-1 se IL)
+        (kill n IL) (kill s IL) (kill nw IL) (kill sw IL)
+        (kill w IL) (kill e IL) (kill ne IL) (kill se IL)
         (move-type priority-type)
         (lp-step nn second-type) (lp-step ss second-type)
         (lp-step ww second-type) (lp-step ee second-type)
@@ -2624,13 +2706,13 @@ However, they can only capture an enemy priest or monk with such a jump.")
      (attribute step-mover? false)
      (moves
         (move-type first-type)
-        (sm-step nn second-type SM IL) (sm-step ss second-type SM IL)
-        (sm-step ww second-type SM IL) (sm-step ee second-type SM IL)
-        (sm-step nwnw second-type SM IL) (sm-step swsw second-type SM IL)
-        (sm-step nene second-type SM IL) (sm-step sese second-type SM IL)
+        (sm-step nn second-type IL) (sm-step ss second-type IL)
+        (sm-step ww second-type IL) (sm-step ee second-type IL)
+        (sm-step nwnw second-type IL) (sm-step swsw second-type IL)
+        (sm-step nene second-type IL) (sm-step sese second-type IL)
         (move-type second-type)
-        (p-shoot-1 n SM IL) (p-shoot-1 s SM IL) (p-shoot-1 nw SM IL) (p-shoot-1 sw SM IL)
-        (p-shoot-1 w SM IL) (p-shoot-1 e SM IL) (p-shoot-1 ne SM IL) (p-shoot-1 se SM IL)
+        (p-kill n SM IL) (p-kill s SM IL) (p-kill nw SM IL) (p-kill sw SM IL)
+        (p-kill w SM IL) (p-kill e SM IL) (p-kill ne SM IL) (p-kill se SM IL)
      )
   )
   (piece
@@ -2649,8 +2731,8 @@ The fog cannot be shot from within a distance of five intersections. It can only
         (tf-step nwnw second-type) (tf-step swsw second-type)
         (tf-step nene second-type) (tf-step sese second-type)
         (move-type second-type)
-        (shoot-1 n TF) (shoot-1 s TF) (shoot-1 nw TF) (shoot-1 sw TF)
-        (shoot-1 w TF) (shoot-1 e TF) (shoot-1 ne TF) (shoot-1 se TF)
+        (kill n TF) (kill s TF) (kill nw TF) (kill sw TF)
+        (kill w TF) (kill e TF) (kill ne TF) (kill se TF)
         (move-type priority-type)
         (fp-step nn second-type) (fp-step ss second-type)
         (fp-step ww second-type) (fp-step ee second-type)
@@ -2674,8 +2756,8 @@ However, they can only capture an enemy priest or monk with such a jump.")
         (tp-step nwnw second-type TP TF) (tp-step swsw second-type TP TF)
         (tp-step nene second-type TP TF) (tp-step sese second-type TP TF)
         (move-type second-type)
-        (p-shoot-1 n TP TF) (p-shoot-1 s TP TF) (p-shoot-1 nw TP TF) (p-shoot-1 sw TP TF)
-        (p-shoot-1 w TP TF) (p-shoot-1 e TP TF) (p-shoot-1 ne TP TF) (p-shoot-1 se TP TF)
+        (p-kill n TP TF) (p-kill s TP TF) (p-kill nw TP TF) (p-kill sw TP TF)
+        (p-kill w TP TF) (p-kill e TP TF) (p-kill ne TP TF) (p-kill se TP TF)
      )
   )
   (piece
@@ -3772,8 +3854,14 @@ This is the move of the cat sword in dai shogi.")
 )
 
 (variant
-  (title "Ko Shogi (alternative version)")
-  (default)
+  (title "Ko Shogi (advanced version)")
+  (description "Differences from the official version:\\
+- Alternative setup\
+- The promotion zone increased\
+- The Pawns cannot step to backward\
+- The Pawns can step on two points to forward, if the Drum upgraded (Thunderclap or Banner and drums exists)\
+- The Rear Guard step on two points to forward\
+- The Engineers can upgrade the technical units (Chariot, Shield, Long bow, Cannon, European Cannon, Banner and Drum)")
 
   (board
     (common-board)
@@ -3816,7 +3904,7 @@ If the drum is killed, the pawns may no longer move forward.")
      (moves
         (move-type first-type)
         (p-step n P PP B TC) (p-step nn P PP TC TC)
-        (step-1 s P PP) (step-1 w P PP) (step-1 e P PP)
+        (step-1 w P PP) (step-1 e P PP)
      )
   )
   (piece
