@@ -1,0 +1,108 @@
+Zillions Save Game File Version 0.02 HH
+RulesFile=KoShogi.zrf
+VariantName=Empty
+(Black AG 1P)
+(Black RG 19J)
+(Black AG 19O)
+(White AG 1B)
+(White RG 1D)
+(White AG 19C)
+(White RG 19E)
+(White MT 4M)
+(Black M 5J)
+(White TP 18A)
+(Black TP 13H)
+(White SH 14F)
+(White D 10C)
+(Black CL 17H)
+(White EN 16M)
+(Black E 10J)
+(Black D 8N)
+(White WR 7K)
+(Black IB 6L)
+(Black C 7M)
+(White HH 9M)
+(White PU 11M)
+(White B 11D)
+(Black WR 15O)
+(Black SO 14O)
+(Black S 14O)
+(Black CR 15O)
+(Black A 16P)
+(Black MT 14P)
+(Black B 8N)
+(White EC 11E)
+(White SM 15L)
+(Black RG 1F)
+(White SU 10G)
+(Black SH 11L)
+(Black HS 8J)
+(White SB 4D)
+(White SB 4D)
+(White CH 7F)
+(White P 4G)
+(White P 7G)
+(Black PU 9J)
+(Black PP 12B)
+(Black HH 13C)
+(Black CU 12R)
+(White P 2J)
+(White P 17K)
+(White P 13J)
+(White P 5I)
+1. M 5J x 11D = DA
+1. D 10C x 11D = TC
+2. AG 19O - 19N
+2. partial 7 WR 7K x 6L
+2. WR 6L x 7M
+3. B 8N x 7M = RA
+3. EN 16M - 15N x 15O x 16M x 14O = PF on 15N
+4. partial 7 TP 13H - 13F = TF
+4. TF 13F x 14F Black TF 13F x 14F
+4. PF 15N - 15O x 16P x 14P
+5. E 10J x 15O x 15O
+5. MT 4M - 4N = GO
+6. partial 5 RA 7M - 8M
+6. partial 14 RA 8M x 9M
+6. partial 15 RA 9M - 10M
+6. partial 16 RA 10M x 11M
+6. RA 11M - 12M
+6. partial 7 EC 11E - 12F @ 12F 4 1 White EC pass-flag
+6. EC 12F x 12M White EC 12F @ 12F 4 1 x 12M
+7. Pass
+7. EC 12F x 8J White EC 12F x pass-flag x 8J
+8. CL 17H - 17F = EV on 1F 19J = HV on 19N 1P = MA on 17F
+8. partial 7 EC 12F - 11G
+8. EC 11G x 11L White EC 11G x 11L
+9. HV 19N x 4N
+9. partial 7 EC 11G - 10H
+9. EC 10H x 4N White EC 10H x 4N
+10. partial 7 TF 13F - 11F @ 11F 4 1 Black TF pass-flag
+10. TF 11F x 10G Black TF 11F @ 11F 4 1 x 10G
+10. Pass
+11. partial 7 TF 11F - 9H @ 9H 4 0 x pass-flag
+11. TF 9H x 10H Black TF 9H x 10H
+11. partial 7 SM 15L - 13N = IL
+12. partial 7 TF 9H - 7H @ 7H 4 1 Black TF pass-flag
+12. TF 7H x 7G Black TF 7H @ 7H 4 1 x 7G
+12. Pass
+13. partial 7 TF 7H - 5H @ 5H 4 0 x pass-flag
+13. TF 5H x 4G Black TF 5H x 4G
+13. partial 7 IL 13N - 11N @ 11N 4 1 White IL pass-flag
+14. Pass
+14. partial 7 IL 11N - 9L @ 9L 4 0 = TP on 5H x pass-flag
+15. PU 9J x 9L
+15. partial 7 SB 4D - 5E
+15. SB 5E x 5H White SB 5E x 5H
+16. HV 1P - 13D
+16. partial 7 TC 11D - 12D
+16. partial 20 TC 12D x 13D
+16. partial 21 TC 13D x 13C
+16. partial 22 TC 13C - 13B
+16. TC 13B x 12B
+17. CU 12R x 12B = MM
+17. partial 7 SB 5E - 4F
+17. SB 4F x 1F White SB 4F x 1F
+18. PU 9L - 9B = CO
+18. G 10A x 9B
+19. MM 12B x 9B

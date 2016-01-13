@@ -4020,3 +4020,20 @@ his is the move of the copper general in other shogi variants.")
      )
   )
 )
+
+(variant
+  (title "-")
+)
+
+(variant
+  (title "Empty")
+  (default)
+  (board-setup
+     (Black
+        (G  10S)
+     )
+     (White
+        (G  10A)
+     )
+  )
+)
