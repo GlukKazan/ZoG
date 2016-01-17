@@ -1,0 +1,250 @@
+(define my-not-friend?
+  (or empty?
+      (and enemy?
+           (not-piece? D)
+           (not-piece? I)
+      )
+  )
+)
+
+(define step (
+  $1
+  (verify (my-not-friend?))
+  add
+))
+
+(define jump (
+  $1
+  (verify empty?)
+  $2
+  (verify (my-not-friend?))
+  add
+))
+
+(define slide (
+  $1
+  (while empty?
+    add
+    $1
+  )
+  (verify (my-not-friend?))
+  add
+))
+
+(define glide (
+  $1
+  (while empty?
+    add
+    $1
+  )
+))
+
+(define shoot (
+  $1
+  (while empty?
+    add
+    $1
+  )
+  (verify not-empty?)
+  $1
+  (while empty? $1)
+  (verify (my-not-friend?))
+  add
+))
+
+(game
+  (title "Xiangqi of the Seven Kingdoms")
+
+  (move-sound "Audio/Pickup.wav")
+  (release-sound "Audio/Pickup.wav")
+  (capture-sound "")
+
+  (option "prevent flipping" true)
+  (option "animate captures" false)
+  (option "pass partial" false)
+  (option "pass turn" false)
+
+  (players Chu Han Qi Wei Zhao Yan Qin ?Zhou)
+  (turn-order Chu Han Qi Wei Zhao Yan Qin)
+
+  (board
+    (image "../Images/7Kingdoms/board.bmp")
+    (grid
+      (start-rectangle 39 33 81 67)
+      (dimensions
+        ("19/18/17/16/15/14/13/12/11/10/9/8/7/6/5/4/3/2/1" (39 0)) ; files
+        ("A/B/C/D/E/F/G/H/I/J/K/L/M/N/O/P/Q/R/S" (0 37)) ; ranks
+      )
+      (directions 
+        (n     0 -1) (s     0  1) (e     1  0) (w    -1 0) 
+        (nw   -1 -1) (sw   -1  1) (ne    1 -1) (se    1 1) 
+        (next -1  0)
+      ) 
+    )
+    (positions (pass-flag -80 -80 0 0) )
+    (dummy a0)
+    (links next (a0 1A) (19A 1B) (19B 1C) (19C 1D) (19D 1E) (19E 1F) (19F 1G) (19G 1H) (19H 1I) (19I 1J) (19J 1K) (19K 1L) (19L 1M) (19M 1N) (19N 1O) (19O 1P) (19P 1Q) (19Q 1R) (19R 1S) )
+  )
+
+  (piece
+     (name I)
+     (notation "I")
+     (image ?Zhou "../Images/7Kingdoms/y.bmp")
+  )
+  (piece
+     (name Q)
+     (notation "Q")
+     (image Chu   "../Images/7Kingdoms/rq.bmp"
+            Han   "../Images/7Kingdoms/oq.bmp"
+            Qi    "../Images/7Kingdoms/i.bmp"
+            Wei   "../Images/7Kingdoms/g.bmp"
+            Zhao  "../Images/7Kingdoms/p.bmp"
+            Yan   "../Images/7Kingdoms/bq.bmp"
+            Qin   "../Images/7Kingdoms/wq.bmp")
+     (moves
+        (slide n)  (slide s)  (slide w)  (slide e)
+        (slide nw) (slide sw) (slide se) (slide ne)
+     )
+  )
+  (piece
+     (name R)
+     (notation "R")
+     (image Chu   "../Images/7Kingdoms/rr.bmp"
+            Han   "../Images/7Kingdoms/or.bmp"
+            Qi    "../Images/7Kingdoms/i.bmp"
+            Wei   "../Images/7Kingdoms/g.bmp"
+            Zhao  "../Images/7Kingdoms/p.bmp"
+            Yan   "../Images/7Kingdoms/br.bmp"
+            Qin   "../Images/7Kingdoms/wr.bmp")
+     (moves
+        (slide n)  (slide s)  (slide w)  (slide e)
+     )
+  )
+  (piece
+     (name B)
+     (notation "B")
+     (image Chu   "../Images/7Kingdoms/rb.bmp"
+            Han   "../Images/7Kingdoms/ob.bmp"
+            Qi    "../Images/7Kingdoms/i.bmp"
+            Wei   "../Images/7Kingdoms/g.bmp"
+            Zhao  "../Images/7Kingdoms/p.bmp"
+            Yan   "../Images/7Kingdoms/bb.bmp"
+            Qin   "../Images/7Kingdoms/wb.bmp")
+     (moves
+        (slide nw) (slide sw) (slide se) (slide ne)
+     )
+  )
+  (piece
+     (name D)
+     (notation "D")
+     (image Chu   "../Images/7Kingdoms/rd.bmp"
+            Han   "../Images/7Kingdoms/od.bmp"
+            Qi    "../Images/7Kingdoms/i.bmp"
+            Wei   "../Images/7Kingdoms/g.bmp"
+            Zhao  "../Images/7Kingdoms/p.bmp"
+            Yan   "../Images/7Kingdoms/bd.bmp"
+            Qin   "../Images/7Kingdoms/wd.bmp")
+     (moves
+        (glide n)  (glide s)  (glide w)  (glide e)
+        (glide nw) (glide sw) (glide se) (glide ne)
+     )
+  )
+  (piece
+     (name P)
+     (notation "P")
+     (image Chu   "../Images/7Kingdoms/rp.bmp"
+            Han   "../Images/7Kingdoms/op.bmp"
+            Qi    "../Images/7Kingdoms/i.bmp"
+            Wei   "../Images/7Kingdoms/g.bmp"
+            Zhao  "../Images/7Kingdoms/p.bmp"
+            Yan   "../Images/7Kingdoms/bp.bmp"
+            Qin   "../Images/7Kingdoms/wp.bmp")
+     (moves
+        (shoot n)  (shoot s)  (shoot w)  (shoot e)
+     )
+  )
+  (piece
+     (name N)
+     (notation "N")
+     (image Chu   "../Images/7Kingdoms/rn.bmp"
+            Han   "../Images/7Kingdoms/on.bmp"
+            Qi    "../Images/7Kingdoms/in.bmp"
+            Wei   "../Images/7Kingdoms/g.bmp"
+            Zhao  "../Images/7Kingdoms/p.bmp"
+            Yan   "../Images/7Kingdoms/bn.bmp"
+            Qin   "../Images/7Kingdoms/wn.bmp")
+     (moves
+        (jump n nw) (jump n ne) (jump e ne) (jump e se)
+        (jump s sw) (jump s se) (jump w nw) (jump w sw)
+     )
+  )
+  (piece
+     (name L)
+     (notation "L")
+     (image Chu   "../Images/7Kingdoms/rl.bmp"
+            Han   "../Images/7Kingdoms/ol.bmp"
+            Qi    "../Images/7Kingdoms/i.bmp"
+            Wei   "../Images/7Kingdoms/g.bmp"
+            Zhao  "../Images/7Kingdoms/p.bmp"
+            Yan   "../Images/7Kingdoms/bl.bmp"
+            Qin   "../Images/7Kingdoms/wl.bmp")
+     (moves
+        (step n) (step s) (step w) (step e)
+     )
+  )
+  (piece
+     (name S)
+     (notation "S")
+     (image Chu   "../Images/7Kingdoms/rs.bmp"
+            Han   "../Images/7Kingdoms/os.bmp"
+            Qi    "../Images/7Kingdoms/i.bmp"
+            Wei   "../Images/7Kingdoms/g.bmp"
+            Zhao  "../Images/7Kingdoms/p.bmp"
+            Yan   "../Images/7Kingdoms/bs.bmp"
+            Qin   "../Images/7Kingdoms/ws.bmp")
+     (moves
+        (step n) (step s) (step w) (step e)
+     )
+  )
+  (piece
+     (name K)
+     (notation "K")
+     (image Chu   "../Images/7Kingdoms/rk.bmp"
+            Han   "../Images/7Kingdoms/ok.bmp"
+            Qi    "../Images/7Kingdoms/i.bmp"
+            Wei   "../Images/7Kingdoms/g.bmp"
+            Zhao  "../Images/7Kingdoms/p.bmp"
+            Yan   "../Images/7Kingdoms/bk.bmp"
+            Qin   "../Images/7Kingdoms/wk.bmp")
+     (moves
+        (step nw) (step sw) (step ne) (step se)
+     )
+  )
+  (piece
+     (name C)
+     (notation "C")
+     (image Chu   "../Images/7Kingdoms/rc.bmp"
+            Han   "../Images/7Kingdoms/oc.bmp"
+            Qi    "../Images/7Kingdoms/i.bmp"
+            Wei   "../Images/7Kingdoms/g.bmp"
+            Zhao  "../Images/7Kingdoms/p.bmp"
+            Yan   "../Images/7Kingdoms/bc.bmp"
+            Qin   "../Images/7Kingdoms/wc.bmp")
+     (moves
+        (step n) (step s) (step w) (step e)
+     )
+  )
+
+  (board-setup
+     (?Zhou (I 10J))
+     (Chu (Q 14S) (R 15S) (B 13S) (P 14R) (C 12S 16S 13R 15R) (S 14Q) (K 13Q 15Q) (N 11S 17S 12R 16R) (L 14P) (D 14O) )
+     (Han (Q 6S) (R 7S) (B 5S) (P 6R) (C 4S 8S 5R 7R) (S 6Q) (K 5Q 7Q) (N 3S 9S 4R 8R) (L 6P) (D 6O) )
+     (Qi (Q 1N) (R 1O) (B 1M) (P 2N) (C 1P 1L 2O 2M) (S 3N) (K 3O 3M) (N 1K 1Q 2L 2P) (L 4N) (D 5N) )
+     (Wei (Q 1F) (R 1G) (B 1E) (P 2F) (C 1H 1D 2G 2E) (S 3F) (K 3G 3E) (N 1C 1I 2D 2H) (L 4F) (D 5F) )
+     (Zhao (Q 6A) (R 5A) (B 7A) (P 6B) (C 4A 8A 5B 7B) (S 6C) (K 5C 7C) (N 3A 9A 4B 8B) (L 6D) (D 6E) )
+     (Yan (Q 14A) (R 13A) (B 15A) (P 14B) (C 12A 16A 13B 15B) (S 14C) (K 13C 15C) (N 11A 17A 12B 16B) (L 14D) (D 14E) )
+     (Qin (Q 19J) (R 19I) (B 19K) (P 18J) (C 19H 19L 18I 18K) (S 17J) (K 17K 17I) (N 19G 19M 18H 18L) (L 16J) (D 15J) )
+  )
+
+  (loss-condition  (Chu Han Qi Wei Zhao Yan Qin ) (pieces-remaining 0 Q) )
+)
