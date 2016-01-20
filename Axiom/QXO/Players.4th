@@ -5,7 +5,5 @@ players}
 
 {turn-order
 	{turn}	X
-	{turn}	X
-	{turn}	O
 	{turn}	O
 turn-order}
