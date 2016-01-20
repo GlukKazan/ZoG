@@ -96,7 +96,7 @@
      (notation "Q")
      (image Chu   "../Images/7Kingdoms/rq.bmp"
             Han   "../Images/7Kingdoms/oq.bmp"
-            Qi    "../Images/7Kingdoms/i.bmp"
+            Qi    "../Images/7Kingdoms/iq.bmp"
             Wei   "../Images/7Kingdoms/g.bmp"
             Zhao  "../Images/7Kingdoms/p.bmp"
             Yan   "../Images/7Kingdoms/bq.bmp"
@@ -111,7 +111,7 @@
      (notation "R")
      (image Chu   "../Images/7Kingdoms/rr.bmp"
             Han   "../Images/7Kingdoms/or.bmp"
-            Qi    "../Images/7Kingdoms/i.bmp"
+            Qi    "../Images/7Kingdoms/ir.bmp"
             Wei   "../Images/7Kingdoms/g.bmp"
             Zhao  "../Images/7Kingdoms/p.bmp"
             Yan   "../Images/7Kingdoms/br.bmp"
@@ -125,7 +125,7 @@
      (notation "B")
      (image Chu   "../Images/7Kingdoms/rb.bmp"
             Han   "../Images/7Kingdoms/ob.bmp"
-            Qi    "../Images/7Kingdoms/i.bmp"
+            Qi    "../Images/7Kingdoms/ib.bmp"
             Wei   "../Images/7Kingdoms/g.bmp"
             Zhao  "../Images/7Kingdoms/p.bmp"
             Yan   "../Images/7Kingdoms/bb.bmp"
@@ -139,7 +139,7 @@
      (notation "D")
      (image Chu   "../Images/7Kingdoms/rd.bmp"
             Han   "../Images/7Kingdoms/od.bmp"
-            Qi    "../Images/7Kingdoms/i.bmp"
+            Qi    "../Images/7Kingdoms/id.bmp"
             Wei   "../Images/7Kingdoms/g.bmp"
             Zhao  "../Images/7Kingdoms/p.bmp"
             Yan   "../Images/7Kingdoms/bd.bmp"
@@ -154,7 +154,7 @@
      (notation "P")
      (image Chu   "../Images/7Kingdoms/rp.bmp"
             Han   "../Images/7Kingdoms/op.bmp"
-            Qi    "../Images/7Kingdoms/i.bmp"
+            Qi    "../Images/7Kingdoms/ip.bmp"
             Wei   "../Images/7Kingdoms/g.bmp"
             Zhao  "../Images/7Kingdoms/p.bmp"
             Yan   "../Images/7Kingdoms/bp.bmp"
@@ -183,7 +183,7 @@
      (notation "L")
      (image Chu   "../Images/7Kingdoms/rl.bmp"
             Han   "../Images/7Kingdoms/ol.bmp"
-            Qi    "../Images/7Kingdoms/i.bmp"
+            Qi    "../Images/7Kingdoms/il.bmp"
             Wei   "../Images/7Kingdoms/g.bmp"
             Zhao  "../Images/7Kingdoms/p.bmp"
             Yan   "../Images/7Kingdoms/bl.bmp"
@@ -197,7 +197,7 @@
      (notation "S")
      (image Chu   "../Images/7Kingdoms/rs.bmp"
             Han   "../Images/7Kingdoms/os.bmp"
-            Qi    "../Images/7Kingdoms/i.bmp"
+            Qi    "../Images/7Kingdoms/is.bmp"
             Wei   "../Images/7Kingdoms/g.bmp"
             Zhao  "../Images/7Kingdoms/p.bmp"
             Yan   "../Images/7Kingdoms/bs.bmp"
@@ -211,7 +211,7 @@
      (notation "K")
      (image Chu   "../Images/7Kingdoms/rk.bmp"
             Han   "../Images/7Kingdoms/ok.bmp"
-            Qi    "../Images/7Kingdoms/i.bmp"
+            Qi    "../Images/7Kingdoms/ik.bmp"
             Wei   "../Images/7Kingdoms/g.bmp"
             Zhao  "../Images/7Kingdoms/p.bmp"
             Yan   "../Images/7Kingdoms/bk.bmp"
@@ -225,7 +225,7 @@
      (notation "C")
      (image Chu   "../Images/7Kingdoms/rc.bmp"
             Han   "../Images/7Kingdoms/oc.bmp"
-            Qi    "../Images/7Kingdoms/i.bmp"
+            Qi    "../Images/7Kingdoms/ic.bmp"
             Wei   "../Images/7Kingdoms/g.bmp"
             Zhao  "../Images/7Kingdoms/p.bmp"
             Yan   "../Images/7Kingdoms/bc.bmp"
@@ -247,4 +247,5 @@
   )
 
   (loss-condition  (Chu Han Qi Wei Zhao Yan Qin ) (pieces-remaining 0 Q) )
+  (loss-condition  (Chu Han Qi Wei Zhao Yan Qin ) (pieces-remaining 7) )
 )
