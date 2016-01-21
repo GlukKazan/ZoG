@@ -1,0 +1,73 @@
+(define drop-piece (
+  (verify empty?)
+  add
+))
+
+(game
+  (title "QXO")
+
+  (move-sound "Audio/Pickup.wav")
+  (drop-sound "Audio/Pickup.wav")
+  (release-sound "Audio/Pickup.wav")
+  (capture-sound "")
+
+  (option "prevent flipping" true)
+  (option "animate captures" false)
+  (option "animate drops" false)
+  (option "pass turn" forced)
+
+  (players First Second)
+  (turn-order First Second)
+
+  (board
+        (image "../Images/QXO/board.bmp")
+        (grid
+            (start-rectangle 13 10 50 47)
+            (dimensions
+                ("a/b/c/d/e/f/g/h/i" (37 0))
+                ("9/8/7/6/5/4/3/2/1" (0 37))
+            )
+        )
+        (grid
+            (start-rectangle 16 16 112 112)
+            (dimensions
+                ("3/2/1" (0 112))
+                ("A/B/C" (112 0))
+            )
+        )
+  )
+  (piece
+     (name X)
+     (image First "../Images/QXO/X.bmp")
+     (drops
+        (drop-piece)
+     )
+  )
+  (piece
+     (name O)
+     (image Second "../Images/QXO/O.bmp")
+     (drops
+        (drop-piece)
+     )
+  )
+  (piece
+     (name XX)
+     (image First "../Images/QXO/XX.bmp")
+     (drops
+        (drop-piece)
+     )
+  )
+  (piece
+     (name OO)
+     (image Second "../Images/QXO/OO.bmp")
+     (drops
+        (drop-piece)
+     )
+  )
+
+  (board-setup
+       (First (X off 5) (XX 2B 3C) )
+       (Second (O off 5) (OO 2A) )
+  )
+)
+
