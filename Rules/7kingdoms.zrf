@@ -1,13 +1,57 @@
 (define my-not-friend?
   (or empty?
       (and enemy?
-           (not-piece? D)
-           (not-piece? I)
+           (not-piece? L)
+           (not-piece? Z)
       )
   )
 )
 
 (define step (
+  $1
+  (verify (my-not-friend?))
+  add
+))
+
+(define step-2 (
+  $1
+  (verify empty?)
+  $1
+  (verify (my-not-friend?))
+  add
+))
+
+(define step-3 (
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify (my-not-friend?))
+  add
+))
+
+(define step-4 (
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify (my-not-friend?))
+  add
+))
+
+(define step-5 (
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
+  $1
+  (verify empty?)
   $1
   (verify (my-not-friend?))
   add
@@ -53,7 +97,10 @@
 ))
 
 (game
-  (title "Xiangqi of the Seven Kingdoms")
+  (title "Qiguo Xiangqi")
+  (description "There are a total of 120 pieces used in this variant symbolizing the seven Warring States (403-221 B.C.) period.")
+  (history "Game of the Seven Kingdoms (Qiguo Xiangqi) is a seven-player variant of the game Xiangqi (''Chinese chess'').\
+It was invented by Sima Guang (1019-1086).")
 
   (move-sound "Audio/Pickup.wav")
   (release-sound "Audio/Pickup.wav")
@@ -87,13 +134,15 @@
   )
 
   (piece
-     (name I)
-     (notation "I")
+     (name Z)
+     (notation "Zhou King")
+     (description "Zhou King")
      (image ?Zhou "../Images/7Kingdoms/y.bmp")
   )
   (piece
-     (name Q)
-     (notation "Q")
+     (name G)
+     (notation "General")
+     (description "General (Jiang): moves vertically, horizontally, or diagonally with no limit on distance.")
      (image Chu   "../Images/7Kingdoms/rq.bmp"
             Han   "../Images/7Kingdoms/oq.bmp"
             Qi    "../Images/7Kingdoms/iq.bmp"
@@ -107,8 +156,9 @@
      )
   )
   (piece
-     (name R)
-     (notation "R")
+     (name D)
+     (notation "Deputy General")
+     (description "Deputy General: moves vertically or horizontally with no limit on distance.")
      (image Chu   "../Images/7Kingdoms/rr.bmp"
             Han   "../Images/7Kingdoms/or.bmp"
             Qi    "../Images/7Kingdoms/ir.bmp"
@@ -121,8 +171,9 @@
      )
   )
   (piece
-     (name B)
-     (notation "B")
+     (name O)
+     (notation "Officer")
+     (description "Officer: moves diagonally without limit.")
      (image Chu   "../Images/7Kingdoms/rb.bmp"
             Han   "../Images/7Kingdoms/ob.bmp"
             Qi    "../Images/7Kingdoms/ib.bmp"
@@ -135,8 +186,10 @@
      )
   )
   (piece
-     (name D)
-     (notation "D")
+     (name L)
+     (notation "Diplomat")
+     (description "Diplomat (Liaison Officer): moves vertically, horizontally, or diagonally without limit. \
+But he may not engage in combat, and may not be killed.")
      (image Chu   "../Images/7Kingdoms/rd.bmp"
             Han   "../Images/7Kingdoms/od.bmp"
             Qi    "../Images/7Kingdoms/id.bmp"
@@ -151,7 +204,9 @@
   )
   (piece
      (name P)
-     (notation "P")
+     (notation "Cannon")
+     (description "Cannon (Pao): moves vertically or horizontally without limit.\
+There must be an intervening piece for it to attack another piece.")
      (image Chu   "../Images/7Kingdoms/rp.bmp"
             Han   "../Images/7Kingdoms/op.bmp"
             Qi    "../Images/7Kingdoms/ip.bmp"
@@ -164,8 +219,9 @@
      )
   )
   (piece
-     (name N)
-     (notation "N")
+     (name H)
+     (notation "Horsemen")
+     (description "Horsemen (Cavalry): moves 4 spaces and moves similar to a knight.")
      (image Chu   "../Images/7Kingdoms/rn.bmp"
             Han   "../Images/7Kingdoms/on.bmp"
             Qi    "../Images/7Kingdoms/in.bmp"
@@ -179,8 +235,9 @@
      )
   )
   (piece
-     (name L)
-     (notation "L")
+     (name A)
+     (notation "Archer")
+     (description "Archer: moves 4 spaces (on each move) vertically, horizontally, or diagonally.")
      (image Chu   "../Images/7Kingdoms/rl.bmp"
             Han   "../Images/7Kingdoms/ol.bmp"
             Qi    "../Images/7Kingdoms/il.bmp"
@@ -189,12 +246,20 @@
             Yan   "../Images/7Kingdoms/bl.bmp"
             Qin   "../Images/7Kingdoms/wl.bmp")
      (moves
-        (step n) (step s) (step w) (step e)
+        (step n)    (step s)    (step w)    (step e)
+        (step nw)   (step sw)   (step ne)   (step se)
+        (step-2 n)  (step-2 s)  (step-2 w)  (step-2 e)
+        (step-2 nw) (step-2 sw) (step-2 ne) (step-2 se)
+        (step-3 n)  (step-3 s)  (step-3 w)  (step-3 e)
+        (step-3 nw) (step-3 sw) (step-3 ne) (step-3 se)
+        (step-4 n)  (step-4 s)  (step-4 w)  (step-4 e)
+        (step-4 nw) (step-4 sw) (step-4 ne) (step-4 se)
      )
   )
   (piece
-     (name S)
-     (notation "S")
+     (name C)
+     (notation "Crossbowmen")
+     (description "Crossbowmen: moves 5 spaces vertically, horizontally, or diagonally.")
      (image Chu   "../Images/7Kingdoms/rs.bmp"
             Han   "../Images/7Kingdoms/os.bmp"
             Qi    "../Images/7Kingdoms/is.bmp"
@@ -203,12 +268,22 @@
             Yan   "../Images/7Kingdoms/bs.bmp"
             Qin   "../Images/7Kingdoms/ws.bmp")
      (moves
-        (step n) (step s) (step w) (step e)
+        (step n)    (step s)    (step w)    (step e)
+        (step nw)   (step sw)   (step ne)   (step se)
+        (step-2 n)  (step-2 s)  (step-2 w)  (step-2 e)
+        (step-2 nw) (step-2 sw) (step-2 ne) (step-2 se)
+        (step-3 n)  (step-3 s)  (step-3 w)  (step-3 e)
+        (step-3 nw) (step-3 sw) (step-3 ne) (step-3 se)
+        (step-4 n)  (step-4 s)  (step-4 w)  (step-4 e)
+        (step-4 nw) (step-4 sw) (step-4 ne) (step-4 se)
+        (step-5 n)  (step-5 s)  (step-5 w)  (step-5 e)
+        (step-5 nw) (step-5 sw) (step-5 ne) (step-5 se)
      )
   )
   (piece
-     (name K)
-     (notation "K")
+     (name S)
+     (notation "Swordsmen")
+     (description "Swordsmen: moves 1 space diagonally.")
      (image Chu   "../Images/7Kingdoms/rk.bmp"
             Han   "../Images/7Kingdoms/ok.bmp"
             Qi    "../Images/7Kingdoms/ik.bmp"
@@ -221,8 +296,9 @@
      )
   )
   (piece
-     (name C)
-     (notation "C")
+     (name B)
+     (notation "Broadswordsmen")
+     (description "Broadswordsmen: moves 1 space vertically or horizontally.")
      (image Chu   "../Images/7Kingdoms/rc.bmp"
             Han   "../Images/7Kingdoms/oc.bmp"
             Qi    "../Images/7Kingdoms/ic.bmp"
@@ -236,16 +312,16 @@
   )
 
   (board-setup
-     (?Zhou (I 10J))
-     (Chu (Q 14S) (R 15S) (B 13S) (P 14R) (C 12S 16S 13R 15R) (S 14Q) (K 13Q 15Q) (N 11S 17S 12R 16R) (L 14P) (D 14O) )
-     (Han (Q 6S) (R 7S) (B 5S) (P 6R) (C 4S 8S 5R 7R) (S 6Q) (K 5Q 7Q) (N 3S 9S 4R 8R) (L 6P) (D 6O) )
-     (Qi (Q 1N) (R 1O) (B 1M) (P 2N) (C 1P 1L 2O 2M) (S 3N) (K 3O 3M) (N 1K 1Q 2L 2P) (L 4N) (D 5N) )
-     (Wei (Q 1F) (R 1G) (B 1E) (P 2F) (C 1H 1D 2G 2E) (S 3F) (K 3G 3E) (N 1C 1I 2D 2H) (L 4F) (D 5F) )
-     (Zhao (Q 6A) (R 5A) (B 7A) (P 6B) (C 4A 8A 5B 7B) (S 6C) (K 5C 7C) (N 3A 9A 4B 8B) (L 6D) (D 6E) )
-     (Yan (Q 14A) (R 13A) (B 15A) (P 14B) (C 12A 16A 13B 15B) (S 14C) (K 13C 15C) (N 11A 17A 12B 16B) (L 14D) (D 14E) )
-     (Qin (Q 19J) (R 19I) (B 19K) (P 18J) (C 19H 19L 18I 18K) (S 17J) (K 17K 17I) (N 19G 19M 18H 18L) (L 16J) (D 15J) )
+     (?Zhou (Z 10J))
+     (Chu (G 14S) (D 15S) (O 13S) (P 14R) (B 12S 16S 13R 15R) (C 14Q) (S 13Q 15Q) (H 11S 17S 12R 16R) (A 14P) (L 14O) )
+     (Han (G 6S) (D 7S) (O 5S) (P 6R) (B 4S 8S 5R 7R) (C 6Q) (S 5Q 7Q) (H 3S 9S 4R 8R) (A 6P) (L 6O) )
+     (Qi (G 1N) (D 1O) (O 1M) (P 2N) (B 1P 1L 2O 2M) (C 3N) (S 3O 3M) (H 1K 1Q 2L 2P) (A 4N) (L 5N) )
+     (Wei (G 1F) (D 1G) (O 1E) (P 2F) (B 1H 1D 2G 2E) (C 3F) (S 3G 3E) (H 1C 1I 2D 2H) (A 4F) (L 5F) )
+     (Zhao (G 6A) (D 5A) (O 7A) (P 6B) (B 4A 8A 5B 7B) (C 6C) (S 5C 7C) (H 3A 9A 4B 8B) (A 6D) (L 6E) )
+     (Yan (G 14A) (D 13A) (O 15A) (P 14B) (B 12A 16A 13B 15B) (C 14C) (S 13C 15C) (H 11A 17A 12B 16B) (A 14D) (L 14E) )
+     (Qin (G 19J) (D 19I) (O 19K) (P 18J) (B 19H 19L 18I 18K) (C 17J) (S 17K 17I) (H 19G 19M 18H 18L) (A 16J) (L 15J) )
   )
 
-  (loss-condition  (Chu Han Qi Wei Zhao Yan Qin ) (pieces-remaining 0 Q) )
+  (loss-condition  (Chu Han Qi Wei Zhao Yan Qin ) (pieces-remaining 0 G) )
   (loss-condition  (Chu Han Qi Wei Zhao Yan Qin ) (pieces-remaining 7) )
 )
