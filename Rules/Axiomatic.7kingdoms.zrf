@@ -1,0 +1,181 @@
+(game
+  (title "Qiguo Xiangqi")
+  (description "There are a total of 120 pieces used in this variant symbolizing the seven Warring States (403-221 B.C.) period.")
+  (history "Game of the Seven Kingdoms (Qiguo Xiangqi) is a seven-player variant of the game Xiangqi (''Chinese chess'').\
+It was invented by Sima Guang (1019-1086).")
+
+  (engine "../Axiom/7Kingdoms/axiom.dll")
+
+  (move-sound "Audio/Pickup.wav")
+  (release-sound "Audio/Pickup.wav")
+  (capture-sound "")
+
+  (option "prevent flipping" true)
+  (option "animate captures" false)
+  (option "pass partial" false)
+  (option "pass turn" false)
+
+  (players Chu Han Qi Wei Zhao Yan Qin ?Zhou)
+  (turn-order Chu Han Qi Wei Zhao Yan Qin)
+
+  (board
+    (image "../Images/7Kingdoms/board.bmp")
+    (grid
+      (start-rectangle 39 33 81 67)
+      (dimensions
+        ("a/b/c/d/e/f/g/h/i/j/k/l/m/n/o/p/q/r/s" (39 0))
+        ("19/18/17/16/15/14/13/12/11/10/9/8/7/6/5/4/3/2/1" (0 37))
+      )
+    )
+  )
+
+  (board-setup
+     (?Zhou (Z j10))
+     (Chu (G f1) (D e1) (O g1) (P f2) (B h1 g2 d1 e2) (C f3) (S e3 g3) (H i1 h2 c1 d2) (A f4) (L f5) )
+     (Han (G n1) (D m1) (O o1) (P n2) (B p1 o2 l1 m2) (C n3) (S m3 o3) (H q1 p2 k1 l2) (A n4) (L n5) )
+     (Qi (G s6) (D s5) (O s7) (P r6) (B s8 r7 s4 r5) (C q6) (S q5 q7) (H s3 r4 s9 r8) (A p6) (L o6) )
+     (Wei (G s14) (D s13) (O s15) (P r14) (B s16 r15 s12 r13) (C q14) (S q13 q15) (H s17 r16 s11 r12) (A p14) (L o14) )
+     (Zhao (G n19) (D o19) (O m19) (P n18) (B l19 m18 p19 o18) (C n17) (S m17 o17) (H k19 l18 q19 p18) (A n16) (L n15) )
+     (Yan (G f19) (D g19) (O e19) (P f18) (B d19 e18 h19 g18) (C f17) (S g17 e17) (H c19 d18 i19 h18) (A f16) (L f15) )
+     (Qin (G a10) (D a11) (O a9) (P b10) (B a12 b11 a8 b9) (C c10) (S c9 c11) (H a13 b12 a7 b8) (A d10) (L e10) )
+  )
+
+  (piece
+     (name Z)
+     (notation "Zhou King")
+     (description "Zhou King")
+     (image ?Zhou "../Images/7Kingdoms/y.bmp")
+  )
+  (piece
+     (name L)
+     (notation "Diplomat")
+     (description "Diplomat (Liaison Officer): moves vertically, horizontally, or diagonally without limit. \
+But he may not engage in combat, and may not be killed.")
+     (image Chu   "../Images/7Kingdoms/rd.bmp"
+            Han   "../Images/7Kingdoms/od.bmp"
+            Qi    "../Images/7Kingdoms/id.bmp"
+            Wei   "../Images/7Kingdoms/gd.bmp"
+            Zhao  "../Images/7Kingdoms/pd.bmp"
+            Yan   "../Images/7Kingdoms/bd.bmp"
+            Qin   "../Images/7Kingdoms/wd.bmp")
+  )
+  (piece
+     (name G)
+     (notation "General")
+     (description "General (Jiang): moves vertically, horizontally, or diagonally with no limit on distance.")
+     (image Chu   "../Images/7Kingdoms/rq.bmp"
+            Han   "../Images/7Kingdoms/oq.bmp"
+            Qi    "../Images/7Kingdoms/iq.bmp"
+            Wei   "../Images/7Kingdoms/gq.bmp"
+            Zhao  "../Images/7Kingdoms/pq.bmp"
+            Yan   "../Images/7Kingdoms/bq.bmp"
+            Qin   "../Images/7Kingdoms/wq.bmp")
+  )
+  (piece
+     (name D)
+     (notation "Deputy General")
+     (description "Deputy General: moves vertically or horizontally with no limit on distance.")
+     (image Chu   "../Images/7Kingdoms/rr.bmp"
+            Han   "../Images/7Kingdoms/or.bmp"
+            Qi    "../Images/7Kingdoms/ir.bmp"
+            Wei   "../Images/7Kingdoms/gr.bmp"
+            Zhao  "../Images/7Kingdoms/pr.bmp"
+            Yan   "../Images/7Kingdoms/br.bmp"
+            Qin   "../Images/7Kingdoms/wr.bmp")
+  )
+  (piece
+     (name O)
+     (notation "Officer")
+     (description "Officer: moves diagonally without limit.")
+     (image Chu   "../Images/7Kingdoms/rb.bmp"
+            Han   "../Images/7Kingdoms/ob.bmp"
+            Qi    "../Images/7Kingdoms/ib.bmp"
+            Wei   "../Images/7Kingdoms/gb.bmp"
+            Zhao  "../Images/7Kingdoms/pb.bmp"
+            Yan   "../Images/7Kingdoms/bb.bmp"
+            Qin   "../Images/7Kingdoms/wb.bmp")
+  )
+  (piece
+     (name P)
+     (notation "Cannon")
+     (description "Cannon (Pao): moves vertically or horizontally without limit.\
+There must be an intervening piece for it to attack another piece.")
+     (image Chu   "../Images/7Kingdoms/rp.bmp"
+            Han   "../Images/7Kingdoms/op.bmp"
+            Qi    "../Images/7Kingdoms/ip.bmp"
+            Wei   "../Images/7Kingdoms/gp.bmp"
+            Zhao  "../Images/7Kingdoms/pp.bmp"
+            Yan   "../Images/7Kingdoms/bp.bmp"
+            Qin   "../Images/7Kingdoms/wp.bmp")
+  )
+  (piece
+     (name H)
+     (notation "Horsemen")
+     (description "Horsemen (Cavalry): moves 4 spaces and moves similar to a knight.")
+     (image Chu   "../Images/7Kingdoms/rn.bmp"
+            Han   "../Images/7Kingdoms/on.bmp"
+            Qi    "../Images/7Kingdoms/in.bmp"
+            Wei   "../Images/7Kingdoms/gn.bmp"
+            Zhao  "../Images/7Kingdoms/pn.bmp"
+            Yan   "../Images/7Kingdoms/bn.bmp"
+            Qin   "../Images/7Kingdoms/wn.bmp")
+  )
+  (piece
+     (name A)
+     (notation "Archer")
+     (description "Archer: moves 4 spaces (on each move) vertically, horizontally, or diagonally.")
+     (image Chu   "../Images/7Kingdoms/rl.bmp"
+            Han   "../Images/7Kingdoms/ol.bmp"
+            Qi    "../Images/7Kingdoms/il.bmp"
+            Wei   "../Images/7Kingdoms/gl.bmp"
+            Zhao  "../Images/7Kingdoms/pl.bmp"
+            Yan   "../Images/7Kingdoms/bl.bmp"
+            Qin   "../Images/7Kingdoms/wl.bmp")
+  )
+  (piece
+     (name C)
+     (notation "Crossbowmen")
+     (description "Crossbowmen: moves 5 spaces vertically, horizontally, or diagonally.")
+     (image Chu   "../Images/7Kingdoms/rs.bmp"
+            Han   "../Images/7Kingdoms/os.bmp"
+            Qi    "../Images/7Kingdoms/is.bmp"
+            Wei   "../Images/7Kingdoms/gs.bmp"
+            Zhao  "../Images/7Kingdoms/ps.bmp"
+            Yan   "../Images/7Kingdoms/bs.bmp"
+            Qin   "../Images/7Kingdoms/ws.bmp")
+  )
+  (piece
+     (name S)
+     (notation "Swordsmen")
+     (description "Swordsmen: moves 1 space diagonally.")
+     (image Chu   "../Images/7Kingdoms/rk.bmp"
+            Han   "../Images/7Kingdoms/ok.bmp"
+            Qi    "../Images/7Kingdoms/ik.bmp"
+            Wei   "../Images/7Kingdoms/gk.bmp"
+            Zhao  "../Images/7Kingdoms/pk.bmp"
+            Yan   "../Images/7Kingdoms/bk.bmp"
+            Qin   "../Images/7Kingdoms/wk.bmp")
+  )
+  (piece
+     (name B)
+     (notation "Broadswordsmen")
+     (description "Broadswordsmen: moves 1 space vertically or horizontally.")
+     (image Chu   "../Images/7Kingdoms/rc.bmp"
+            Han   "../Images/7Kingdoms/oc.bmp"
+            Qi    "../Images/7Kingdoms/ic.bmp"
+            Wei   "../Images/7Kingdoms/gc.bmp"
+            Zhao  "../Images/7Kingdoms/pc.bmp"
+            Yan   "../Images/7Kingdoms/bc.bmp"
+            Qin   "../Images/7Kingdoms/wc.bmp")
+  )
+
+  ; The following dummy piece is required in order to placate the Zillions engine.
+  ; It appears as though Zillions must find at least one "moves" keyword somewhere
+  ; in the zrf in order for it to be happy and thus allow "moves" to work correctly.
+  (piece (name Dummy) (dummy) (moves (from)))
+)
+
+(variant
+  (title "Mad Emperor")
+  (turn-order Chu Han Qi Wei Zhao Yan Qin ?Zhou)
+)
