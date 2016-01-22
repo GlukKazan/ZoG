@@ -64,11 +64,14 @@ DEFER	General
 : common-shoot ( 'dir -- )
 	DUP
 	common-move
-	empty? NOT verify
+	empty? NOT  verify
 	DUP EXECUTE verify
-	BEGIN
-		DUP EXECUTE empty? AND NOT 
-	UNTIL DROP
+	friend? NOT verify
+	empty? IF
+		BEGIN
+			DUP EXECUTE empty? AND NOT 
+		UNTIL DROP
+	ENDIF
 	common-end
 ;
 
@@ -102,7 +105,7 @@ DEFER	General
 		ELSE
 			TRUE
 		ENDIF
-	UNTIL > verify DROP
+	UNTIL 0> verify DROP
 	common-end
 ;
 

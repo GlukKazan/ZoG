@@ -97,7 +97,7 @@ moves}
 	{piece}		P	{moves} p-moves
 	{piece}		H	{moves} h-moves
 	{piece}		A	{moves} a-moves
-	{piece}		C	{moves} c-moves
+	{piece}		C	{moves} c-moves 
 	{piece}		S	{moves} s-moves
 	{piece}		B	{moves} b-moves
 pieces}
