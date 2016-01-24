@@ -1,11 +1,41 @@
 DEFER	General
 
+: count-pieces ( -- n )
+	0 0 BEGIN
+		DUP empty-at? NOT OVER here <> AND IF
+			DUP player-at player = IF
+				SWAP 1+ SWAP
+			ENDIF
+		ENDIF
+		1+ DUP ALL >=
+	UNTIL DROP
+	piece-type General = IF
+		DROP 0
+	ENDIF
+;
+
+: capture-pieces ( -- )
+	0 BEGIN
+		DUP empty-at? NOT OVER here <> AND IF
+			DUP player-at player = IF
+				DUP capture-at
+			ENDIF
+		ENDIF
+		1+ DUP ALL >=
+	UNTIL DROP
+;
+
 : common-end ( -- )
 	friend? NOT verify
 	empty? NOT IF
 		piece-type General >= verify
 	ENDIF
 	from here move
+	enemy? IF
+		count-pieces 7 <= IF
+			capture-pieces
+		ENDIF
+	ENDIF
 	add-move
 ;
 
@@ -72,6 +102,7 @@ DEFER	General
 			DUP EXECUTE empty? AND NOT 
 		UNTIL DROP
 	ENDIF
+	enemy? verify
 	common-end
 ;
 

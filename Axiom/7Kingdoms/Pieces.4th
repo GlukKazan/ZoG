@@ -1,96 +1,105 @@
+{move-priorities
+	{move-priority} normal-type
+	{move-priority} pass-type
+move-priorities}
+
 {moves g-moves
-	{move} slide-n
-	{move} slide-s
-	{move} slide-w
-	{move} slide-e
-	{move} slide-nw
-	{move} slide-sw
-	{move} slide-se
-	{move} slide-ne
+	{move} slide-n	{move-type} normal-type
+	{move} slide-s	{move-type} normal-type
+	{move} slide-w	{move-type} normal-type
+	{move} slide-e	{move-type} normal-type
+	{move} slide-nw	{move-type} normal-type
+	{move} slide-sw	{move-type} normal-type
+	{move} slide-se	{move-type} normal-type
+	{move} slide-ne	{move-type} normal-type
 moves}
 
 {moves d-moves
-	{move} slide-n
-	{move} slide-s
-	{move} slide-w
-	{move} slide-e
+	{move} slide-n	{move-type} normal-type
+	{move} slide-s	{move-type} normal-type
+	{move} slide-w	{move-type} normal-type
+	{move} slide-e	{move-type} normal-type
 moves}
 
 {moves o-moves
-	{move} slide-nw
-	{move} slide-sw
-	{move} slide-se
-	{move} slide-ne
+	{move} slide-nw	{move-type} normal-type
+	{move} slide-sw	{move-type} normal-type
+	{move} slide-se	{move-type} normal-type
+	{move} slide-ne	{move-type} normal-type
 moves}
 
 {moves l-moves
-	{move} move-n
-	{move} move-s
-	{move} move-w
-	{move} move-e
-	{move} move-nw
-	{move} move-sw
-	{move} move-se
-	{move} move-ne
+	{move} move-n	{move-type} normal-type
+	{move} move-s	{move-type} normal-type
+	{move} move-w	{move-type} normal-type
+	{move} move-e	{move-type} normal-type
+	{move} move-nw	{move-type} normal-type
+	{move} move-sw	{move-type} normal-type
+	{move} move-se	{move-type} normal-type
+	{move} move-ne	{move-type} normal-type
 moves}
 
 {moves p-moves
-	{move} shoot-n
-	{move} shoot-s
-	{move} shoot-w
-	{move} shoot-e
+	{move} shoot-n	{move-type} normal-type
+	{move} shoot-s	{move-type} normal-type
+	{move} shoot-w	{move-type} normal-type
+	{move} shoot-e	{move-type} normal-type
 moves}
 
 {moves h-moves
-	{move} jump-nnw
-	{move} jump-nne
-	{move} jump-ssw
-	{move} jump-sse
-	{move} jump-wws
-	{move} jump-wwn
-	{move} jump-ees
-	{move} jump-een
+	{move} jump-nnw	{move-type} normal-type
+	{move} jump-nne	{move-type} normal-type
+	{move} jump-ssw	{move-type} normal-type
+	{move} jump-sse	{move-type} normal-type
+	{move} jump-wws	{move-type} normal-type
+	{move} jump-wwn	{move-type} normal-type
+	{move} jump-ees	{move-type} normal-type
+	{move} jump-een	{move-type} normal-type
 moves}
 
 {moves a-moves
-	{move} slide-4-n
-	{move} slide-4-s
-	{move} slide-4-w
-	{move} slide-4-e
-	{move} slide-4-nw
-	{move} slide-4-sw
-	{move} slide-4-se
-	{move} slide-4-ne
+	{move} slide-4-n  {move-type} normal-type
+	{move} slide-4-s  {move-type} normal-type
+	{move} slide-4-w  {move-type} normal-type
+	{move} slide-4-e  {move-type} normal-type
+	{move} slide-4-nw {move-type} normal-type
+	{move} slide-4-sw {move-type} normal-type
+	{move} slide-4-se {move-type} normal-type
+	{move} slide-4-ne {move-type} normal-type
 moves}
 
 {moves c-moves
-	{move} slide-5-n
-	{move} slide-5-s
-	{move} slide-5-w
-	{move} slide-5-e
-	{move} slide-5-nw
-	{move} slide-5-sw
-	{move} slide-5-se
-	{move} slide-5-ne
+	{move} slide-5-n  {move-type} normal-type
+	{move} slide-5-s  {move-type} normal-type
+	{move} slide-5-w  {move-type} normal-type
+	{move} slide-5-e  {move-type} normal-type
+	{move} slide-5-nw {move-type} normal-type
+	{move} slide-5-sw {move-type} normal-type
+	{move} slide-5-se {move-type} normal-type
+	{move} slide-5-ne {move-type} normal-type
 moves}
 
 {moves s-moves
-	{move} step-nw
-	{move} step-ne
-	{move} step-sw
-	{move} step-se
+	{move} step-nw	{move-type} normal-type
+	{move} step-ne	{move-type} normal-type
+	{move} step-sw	{move-type} normal-type
+	{move} step-se	{move-type} normal-type
 moves}
 
 {moves b-moves
-	{move} step-n
-	{move} step-s
-	{move} step-w
-	{move} step-e
+	{move} step-n	{move-type} normal-type
+	{move} step-s	{move-type} normal-type
+	{move} step-w	{move-type} normal-type
+	{move} step-e	{move-type} normal-type
+moves}
+
+{moves p-drops
+	{move} Pass	{move-type} pass-type
 moves}
 
 {pieces
 	{piece}		Z	{moves} g-moves
-	{piece}		L	{moves} l-moves
+	{piece}		L	{moves} l-moves {drops} p-drops
 	{piece}		G	{moves} g-moves 10 {value}
 	{piece}		D	{moves} d-moves
 	{piece}		O	{moves} o-moves
@@ -102,4 +111,4 @@ moves}
 	{piece}		B	{moves} b-moves
 pieces}
 
-' G	IS General
+' G IS General

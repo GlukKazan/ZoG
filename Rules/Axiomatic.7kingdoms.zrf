@@ -4,7 +4,7 @@
   (history "Game of the Seven Kingdoms (Qiguo Xiangqi) is a seven-player variant of the game Xiangqi (''Chinese chess'').\
 It was invented by Sima Guang (1019-1086).")
 
-  (engine "../Axiom/7Kingdoms/axiom.dll")
+  (engine "Axiom/7Kingdoms/axiom.dll")
 
   (move-sound "Audio/Pickup.wav")
   (release-sound "Audio/Pickup.wav")
@@ -12,8 +12,7 @@ It was invented by Sima Guang (1019-1086).")
 
   (option "prevent flipping" true)
   (option "animate captures" false)
-  (option "pass partial" false)
-  (option "pass turn" false)
+  (option "pass turn" forced)
 
   (players Chu Han Qi Wei Zhao Yan Qin ?Zhou)
   (turn-order Chu Han Qi Wei Zhao Yan Qin)

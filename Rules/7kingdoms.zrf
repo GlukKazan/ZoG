@@ -108,7 +108,6 @@ It was invented by Sima Guang (1019-1086).")
 
   (option "prevent flipping" true)
   (option "animate captures" false)
-  (option "pass partial" false)
   (option "pass turn" false)
 
   (players Chu Han Qi Wei Zhao Yan Qin ?Zhou)
