@@ -37,8 +37,14 @@ VARIABLE	curr-ix
 ;
 
 : get-ix ( pos - ix )
-	DUP  get-y get-y DIM *
-	SWAP get-x get-y +
+	DUP ALL < IF
+		DUP  get-y get-y DIM *
+		SWAP get-x get-y +
+	ELSE
+		ALL  -
+		DUP  get-y DIM *
+		SWAP get-x +
+	ENDIF
 ;
 
 : find-mark ( -- ix )
@@ -114,6 +120,7 @@ VARIABLE	curr-ix
 ;
 
 : clear-mark ( -- )
+	here get-ix curr-ix !
 	0 BEGIN
 		DUP piece-type-at mark = OVER get-ix curr-ix @ <> AND IF
 			DUP capture-at
@@ -139,7 +146,6 @@ VARIABLE	curr-ix
 ;
 
 : change-mark ( -- )
-	here get-ix curr-ix !
 	pass-flag empty-at? IF
 		mark pass-flag create-piece-type-at
 	ELSE
@@ -163,13 +169,21 @@ VARIABLE	curr-ix
 	curr-type create-player-piece-type-at
 ;
 
+: check-empty ( -- )
+	down   verify
+	bg     verify
+	empty? verify
+	from to
+;
+
 : drop-half ( -- )
+	check-empty
+	here ALL < verify
 	pass-flag enemy-at? NOT verify
 	check-curr-type
 	drop
 	change-mark
 	pass-flag empty-at? NOT IF
-		from to
 		down verify
 		mr   verify
 		mark create-piece-type
@@ -188,7 +202,7 @@ VARIABLE	curr-ix
 ;
 
 : find-half ( -- ? )
-	from to	down verify
+	down verify
 	FALSE BEGIN
 		empty? IF
 			TRUE
@@ -198,7 +212,7 @@ VARIABLE	curr-ix
 				DROP TRUE
 				TRUE
 			ELSE
-				FALSE
+				up NOT
 			ENDIF
 		ENDIF
 	UNTIL
@@ -211,12 +225,13 @@ VARIABLE	curr-ix
 			TRUE
 		ELSE
 			capture
-			FALSE
+			up NOT
 		ENDIF
 	UNTIL
 ;
 
 : drop-piece ( -- )
+	here ALL < verify
 	pass-flag enemy-at? NOT verify
 	check-curr-type
 	drop
@@ -225,8 +240,9 @@ VARIABLE	curr-ix
 	clear-all
 	from to
 	down verify
-	mr   verify
+	bg   verify
 	current-piece-type 9 + create-piece-type
+	from to capture
 	change-curr-type
 	add-move
 ;
