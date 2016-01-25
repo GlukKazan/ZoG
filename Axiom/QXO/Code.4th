@@ -5,11 +5,27 @@ VARIABLE	curr-size
 VARIABLE	collision-size
 VARIABLE	curr-ix
 
+: my-empty? ( -- ? )
+	empty? IF
+		TRUE
+	ELSE
+		piece-type mark =
+	ENDIF
+;
+
+: my-empty-at? ( pos -- ? )
+	DUP empty-at? IF
+		DROP TRUE
+	ELSE
+		piece-type-at mark =
+	ENDIF
+;
+
 : common-dir ( 'dir -- ? )
 	down verify
 	EXECUTE verify
 	FALSE BEGIN
-		empty? IF
+		my-empty? IF
 			DROP TRUE
 			TRUE
 		ELSE
@@ -61,7 +77,7 @@ VARIABLE	curr-ix
 
 : pieces-equals-at? ( pos -- ? )
 	curr-size @ 0> verify
-	DUP curr-size @ 1- pos[] @ = OVER empty-at? OR IF
+	DUP curr-size @ 1- pos[] @ = OVER my-empty-at? OR IF
 		DROP FALSE
 	ELSE
 		piece-type-at
@@ -99,7 +115,7 @@ VARIABLE	curr-ix
 : try-ix ( -- )
 	0 BEGIN
 		DUP get-ix curr-size @ ix[] @ = IF
-			empty-at? NOT OVER piece-type-at mark > AND IF
+			my-empty-at? NOT OVER piece-type-at mark > AND IF
 				DUP curr-size @ pos[] !
 				curr-size ++
 				find-pair IF
@@ -129,14 +145,28 @@ VARIABLE	curr-ix
 	UNTIL DROP
 ;
 
+: get-curr-type ( -- piece-type )
+	curr-type empty-at? IF
+		mark 1+
+	ELSE
+		curr-type piece-type-at
+	ENDIF
+;
+
+: change-curr-type ( -- )
+	next-player
+	get-curr-type 1+
+	curr-type create-player-piece-type-at
+;
+
 : find-empty ( -- ? )
 	from to	down verify
 	FALSE BEGIN
-		empty? IF
+		my-empty? IF
 			DROP TRUE
 			TRUE
 		ELSE
-			piece-type current-piece-type = IF
+			piece-type get-curr-type = IF
 				TRUE
 			ELSE
 				up NOT
@@ -154,21 +184,6 @@ VARIABLE	curr-ix
 	clear-mark
 ;
 
-: check-curr-type ( -- )
-	curr-type empty-at? IF
-		mark 1+
-	ELSE
-		curr-type piece-type-at
-	ENDIF
-	current-piece-type = verify
-;
-
-: change-curr-type ( -- )
-	next-player
-	current-piece-type 1+
-	curr-type create-player-piece-type-at
-;
-
 : check-empty ( -- )
 	down   verify
 	bg     verify
@@ -180,7 +195,6 @@ VARIABLE	curr-ix
 	check-empty
 	here ALL < verify
 	pass-flag enemy-at? NOT verify
-	check-curr-type
 	drop
 	change-mark
 	pass-flag empty-at? NOT IF
@@ -190,11 +204,10 @@ VARIABLE	curr-ix
 		change-curr-type
 	ENDIF
 	find-empty verify
+	get-curr-type create-piece-type
 	here from <> IF
-		create from to
-		empty? IF
-			capture
-		ELSE
+		from to
+		empty? NOT IF
 			player piece-type create-player-piece-type
 		ENDIF
 	ENDIF
@@ -204,10 +217,10 @@ VARIABLE	curr-ix
 : find-half ( -- ? )
 	down verify
 	FALSE BEGIN
-		empty? IF
+		my-empty? IF
 			TRUE
 		ELSE
-			piece-type current-piece-type = IF
+			piece-type get-curr-type = IF
 				capture
 				DROP TRUE
 				TRUE
@@ -233,7 +246,6 @@ VARIABLE	curr-ix
 : drop-piece ( -- )
 	here ALL < verify
 	pass-flag enemy-at? NOT verify
-	check-curr-type
 	drop
 	change-mark
 	find-half verify
@@ -241,8 +253,8 @@ VARIABLE	curr-ix
 	from to
 	down verify
 	bg   verify
-	current-piece-type 9 + create-piece-type
-	from to capture
+	get-curr-type 9 + create-piece-type
+(	TODO: Resolve collisions )
 	change-curr-type
 	add-move
 ;

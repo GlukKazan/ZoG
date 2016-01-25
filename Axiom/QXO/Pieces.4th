@@ -11,16 +11,16 @@ move-priorities}
 moves}
 
 {pieces
-	{piece}		M
-	{piece}		x1	{drops} p-drop
-	{piece}		o1	{drops} p-drop
-	{piece}		x2	{drops} p-drop
-	{piece}		o2	{drops} p-drop
-	{piece}		x3	{drops} p-drop
-	{piece}		o3	{drops} p-drop
-	{piece}		x4	{drops} p-drop
-	{piece}		o4	{drops} p-drop
-	{piece}		x5	{drops} p-drop
+	{piece}		M	{drops} p-drop
+	{piece}		x1
+	{piece}		o1
+	{piece}		x2
+	{piece}		o2
+	{piece}		x3
+	{piece}		o3
+	{piece}		x4
+	{piece}		o4
+	{piece}		x5
 	{piece}		X1
 	{piece}		O1
 	{piece}		X2
