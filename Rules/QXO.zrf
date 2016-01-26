@@ -25,7 +25,7 @@
   (board
         (image "../Images/QXO/board.bmp")
         (grid
-            (start-rectangle 13 10 50 47)
+            (start-rectangle 16 10 53 47)
             (dimensions
                 ("a/b/c/d/e/f/g/h/i" (37 0))
                 ("9/8/7/6/5/4/3/2/1" (0 37))
@@ -73,3 +73,6 @@
   (piece (name Dummy) (dummy) (moves (from)))
 )
 
+(variant
+  (title "QXO (No determenistic)")
+)

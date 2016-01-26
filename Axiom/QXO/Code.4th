@@ -4,6 +4,7 @@ ALL []		ix[]
 VARIABLE	curr-size
 VARIABLE	collision-size
 VARIABLE	curr-ix
+VARIABLE	curr-pos
 
 : my-empty? ( -- ? )
 	empty? IF
@@ -221,7 +222,6 @@ VARIABLE	curr-ix
 			TRUE
 		ELSE
 			piece-type get-curr-type = IF
-				capture
 				DROP TRUE
 				TRUE
 			ELSE
@@ -231,16 +231,63 @@ VARIABLE	curr-ix
 	UNTIL
 ;
 
+: not-in-position? ( pos -- )
+	TRUE SWAP 0 BEGIN
+		DUP curr-size @ < IF
+			DUP pos[] @ OVER = IF
+				2DROP DROP FALSE
+				0 0 TRUE
+			ELSE
+				1+ FALSE
+			ENDIF
+		ELSE
+			TRUE
+		ENDIF
+	UNTIL 2DROP
+;
+
+: add-position ( -- )
+	0 BEGIN
+		DUP here <> OVER empty-at? NOT AND IF
+			DUP piece-type-at piece-type = OVER not-in-position? AND curr-size @ ALL < AND IF
+				DUP curr-size @ pos[] !
+				curr-size ++
+			ENDIF
+		ENDIF
+		1+ DUP ALL >=
+	UNTIL DROP
+;
+
+
 : clear-all ( -- )
-	from to	down verify
+	here curr-pos !
+	down DROP
 	BEGIN
 		empty? IF
 			TRUE
 		ELSE
+			here curr-pos @ <> piece-type mark > AND IF
+				add-position
+			ENDIF
 			capture
 			up NOT
 		ENDIF
 	UNTIL
+;
+
+: untangle ( -- )
+	0 BEGIN
+		DUP curr-size @ < IF
+			DUP pos[] @
+			to player piece-type clear-all
+			down DROP
+			bg   verify
+			DIM + create-player-piece-type
+			1+ FALSE
+		ELSE
+			TRUE
+		ENDIF
+	UNTIL DROP
 ;
 
 : drop-piece ( -- )
@@ -249,12 +296,11 @@ VARIABLE	curr-ix
 	drop
 	change-mark
 	find-half verify
-	clear-all
-	from to
-	down verify
-	bg   verify
-	get-curr-type 9 + create-piece-type
-(	TODO: Resolve collisions )
+	0 curr-size !
+	from to	clear-all
+	from to	down verify
+	bg verify get-curr-type DIM + create-piece-type
 	change-curr-type
+	untangle
 	add-move
 ;
