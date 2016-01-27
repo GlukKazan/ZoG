@@ -21,15 +21,15 @@ moves}
 	{piece}		x4
 	{piece}		o4
 	{piece}		x5
-	{piece}		X1
-	{piece}		O1
-	{piece}		X2
-	{piece}		O2
-	{piece}		X3
-	{piece}		O3
-	{piece}		X4
-	{piece}		O4
-	{piece}		X5
+	{piece}		X1	1 {value}
+	{piece}		O1	1 {value}
+	{piece}		X2	2 {value}
+	{piece}		O2	2 {value}
+	{piece}		X3	3 {value}
+	{piece}		O3	3 {value}
+	{piece}		X4	4 {value}
+	{piece}		O4	4 {value}
+	{piece}		X5	5 {value}
 pieces}
 
 ' M	IS mark

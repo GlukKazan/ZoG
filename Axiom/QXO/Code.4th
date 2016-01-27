@@ -23,7 +23,7 @@ VARIABLE	curr-pos
 ;
 
 : common-dir ( 'dir -- ? )
-	down verify
+	down DROP
 	EXECUTE verify
 	FALSE BEGIN
 		my-empty? IF
@@ -136,11 +136,18 @@ VARIABLE	curr-pos
 	try-ix
 ;
 
+: is-not-big? ( pos -- ? )
+	here SWAP to
+	down DROP bg verify
+	empty? SWAP to
+;
+
 : clear-mark ( -- )
-	here get-ix curr-ix !
 	0 BEGIN
-		DUP piece-type-at mark = OVER get-ix curr-ix @ <> AND IF
-			DUP capture-at
+		DUP piece-type-at mark = IF
+			DUP is-not-big? IF
+				DUP capture-at
+			ENDIF
 		ENDIF
 		1+ DUP ALL >=
 	UNTIL DROP
@@ -161,7 +168,7 @@ VARIABLE	curr-pos
 ;
 
 : find-empty ( -- ? )
-	from to	down verify
+	from to	down DROP
 	FALSE BEGIN
 		my-empty? IF
 			DROP TRUE
@@ -177,16 +184,15 @@ VARIABLE	curr-pos
 ;
 
 : change-mark ( -- )
-	pass-flag empty-at? IF
-		mark pass-flag create-piece-type-at
+	pass-flag my-empty-at? IF
+		get-curr-type pass-flag create-piece-type-at
 	ELSE
 		pass-flag capture-at
 	ENDIF
-	clear-mark
 ;
 
 : check-empty ( -- )
-	down   verify
+	down   DROP
 	bg     verify
 	empty? verify
 	from to
@@ -199,7 +205,8 @@ VARIABLE	curr-pos
 	drop
 	change-mark
 	pass-flag empty-at? NOT IF
-		down verify
+		clear-mark
+		down DROP
 		mr   verify
 		mark create-piece-type
 		change-curr-type
@@ -216,7 +223,7 @@ VARIABLE	curr-pos
 ;
 
 : find-half ( -- ? )
-	down verify
+	down DROP
 	FALSE BEGIN
 		my-empty? IF
 			TRUE
@@ -290,6 +297,20 @@ VARIABLE	curr-pos
 	UNTIL DROP
 ;
 
+: mark-all ( -- )
+	here curr-pos !
+	down DROP
+	mr   verify mark create-piece-type
+	down DROP
+	BEGIN
+		empty? NOT here curr-pos @ <> AND piece-type mark > AND IF
+			add-position
+		ENDIF
+		mark create-piece-type
+		up NOT
+	UNTIL
+;
+
 : drop-piece ( -- )
 	here ALL < verify
 	pass-flag enemy-at? NOT verify
@@ -297,8 +318,8 @@ VARIABLE	curr-pos
 	change-mark
 	find-half verify
 	0 curr-size !
-	from to	clear-all
-	from to	down verify
+	from to	mark-all
+	from to	down DROP
 	bg verify get-curr-type DIM + create-piece-type
 	change-curr-type
 	untangle
