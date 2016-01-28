@@ -1,6 +1,6 @@
 DEFER		mark
-ALL []		pos[]
-ALL []		ix[]
+TOTAL []	pos[]
+TOTAL []	ix[]
 VARIABLE	curr-size
 VARIABLE	collision-size
 VARIABLE	curr-ix
@@ -64,18 +64,6 @@ VARIABLE	curr-pos
 	ENDIF
 ;
 
-: find-mark ( -- ix )
-	0 BEGIN
-		DUP piece-type-at mark = IF
-			TRUE
-		ELSE
-			1+ ALL >=
-		ENDIF
-	UNTIL
-	DUP ALL < verify
-	get-ix
-;
-
 : pieces-equals-at? ( pos -- ? )
 	curr-size @ 0> verify
 	DUP curr-size @ 1- pos[] @ = OVER my-empty-at? OR IF
@@ -89,13 +77,8 @@ VARIABLE	curr-pos
 
 : is-looped? ( -- ? )
 	curr-size @ 0> verify
-	FALSE curr-size @ BEGIN
-		1-
-		DUP ix[] @ curr-size @ ix[] @ = IF
-			2DROP TRUE 0
-		ENDIF
-		DUP 0=
-	UNTIL DROP
+	curr-size @ ix[] @
+	0 ix[] @ =
 ;
 
 : find-pair ( -- ? )
@@ -109,14 +92,14 @@ VARIABLE	curr-pos
 				2DROP TRUE ALL
 			ENDIF
 		ENDIF
-		1+ ALL >=
+		1+ DUP ALL >=
 	UNTIL DROP
 ;
 
 : try-ix ( -- )
 	0 BEGIN
 		DUP get-ix curr-size @ ix[] @ = IF
-			my-empty-at? NOT OVER piece-type-at mark > AND IF
+			DUP my-empty-at? NOT OVER piece-type-at mark > AND IF
 				DUP curr-size @ pos[] !
 				curr-size ++
 				find-pair IF
@@ -129,11 +112,29 @@ VARIABLE	curr-pos
 	UNTIL DROP
 ;
 
+: check-mark ( pos -- )
+	DUP empty-at? NOT OVER piece-type-at mark = AND IF
+		curr-size @ 0< verify
+		get-ix 0 ix[] !
+		0 curr-size !
+	ELSE
+		DROP
+	ENDIF
+;
+
+: find-mark ( -- )
+	-1 curr-size !
+	c7 check-mark c4 check-mark c1 check-mark
+	f7 check-mark f4 check-mark f1 check-mark
+	i7 check-mark i4 check-mark i1 check-mark
+	curr-size @ 0= verify
+;
+
 : find-collision ( -- )
 	0 collision-size !
-	0 curr-size !
-	find-mark 0 ix[] !
+	find-mark
 	try-ix
+	collision-size @ 1 > verify
 ;
 
 : is-not-big? ( pos -- ? )
@@ -324,4 +325,15 @@ VARIABLE	curr-pos
 	change-curr-type
 	untangle
 	add-move
+;
+
+: in-collision? ( -- ? )
+	FALSE 0 BEGIN
+		DUP pos[] @ here = IF
+			2DROP TRUE
+			TRUE
+		ELSE
+			1+ DUP collision-size @ >=
+		ENDIF
+	UNTIL DROP
 ;
