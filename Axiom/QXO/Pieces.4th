@@ -5,9 +5,10 @@
 move-priorities}
 
 {moves p-drop
-	{move} drop-half  {move-type} normal-priority
-	{move} drop-piece {move-type} normal-priority
-	{move} Pass	  {move-type} low-priority
+	{move} select-piece	{move-type} high-priority
+	{move} drop-half 	{move-type} normal-priority
+	{move} drop-piece	{move-type} normal-priority
+	{move} Pass		{move-type} low-priority
 moves}
 
 {pieces

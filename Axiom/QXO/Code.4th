@@ -1,10 +1,8 @@
 DEFER		mark
 TOTAL []	pos[]
-TOTAL []	ix[]
 VARIABLE	curr-size
-VARIABLE	collision-size
-VARIABLE	curr-ix
 VARIABLE	curr-pos
+VARIABLE	collision-size
 
 : my-empty? ( -- ? )
 	empty? IF
@@ -44,98 +42,6 @@ VARIABLE	curr-pos
 : sw ( -- ? ) ['] sw-internal common-dir ;
 : ne ( -- ? ) ['] ne-internal common-dir ;
 : se ( -- ? ) ['] se-internal common-dir ;
-
-: get-x ( pos -- x )
-	DIM MOD
-;
-
-: get-y ( pos -- y )
-	DIM /
-;
-
-: get-ix ( pos - ix )
-	DUP ALL < IF
-		DUP  get-y get-y DIM *
-		SWAP get-x get-y +
-	ELSE
-		ALL  -
-		DUP  get-y DIM *
-		SWAP get-x +
-	ENDIF
-;
-
-: pieces-equals-at? ( pos -- ? )
-	curr-size @ 0> verify
-	DUP curr-size @ 1- pos[] @ = OVER my-empty-at? OR IF
-		DROP FALSE
-	ELSE
-		piece-type-at
-		curr-size @ 1- pos[] @
-		piece-type-at =
-	ENDIF
-;
-
-: is-looped? ( -- ? )
-	curr-size @ 0> verify
-	curr-size @ ix[] @
-	0 ix[] @ =
-;
-
-: find-pair ( -- ? )
-	FALSE 0 BEGIN
-		DUP pieces-equals-at? IF
-			DUP get-ix curr-size @ ix[] !
-			is-looped? IF
-				curr-size @ collision-size !
-				DROP ALL
-			ELSE
-				2DROP TRUE ALL
-			ENDIF
-		ENDIF
-		1+ DUP ALL >=
-	UNTIL DROP
-;
-
-: try-ix ( -- )
-	0 BEGIN
-		DUP get-ix curr-size @ ix[] @ = IF
-			DUP my-empty-at? NOT OVER piece-type-at mark > AND IF
-				DUP curr-size @ pos[] !
-				curr-size ++
-				find-pair IF
-					RECURSE
-				ENDIF
-				curr-size --
-			ENDIF
-		ENDIF
-		1+ ALL >=
-	UNTIL DROP
-;
-
-: check-mark ( pos -- )
-	DUP empty-at? NOT OVER piece-type-at mark = AND IF
-		curr-size @ 0< verify
-		get-ix 0 ix[] !
-		0 curr-size !
-	ELSE
-		DROP
-	ENDIF
-;
-
-: find-mark ( -- )
-	-1 curr-size !
-	c7 check-mark c4 check-mark c1 check-mark
-	f7 check-mark f4 check-mark f1 check-mark
-	i7 check-mark i4 check-mark i1 check-mark
-	curr-size @ 0= verify
-;
-
-: find-collision ( -- )
-	0 collision-size !
-	find-mark
-	try-ix
-	collision-size @ 1 > verify
-;
 
 : is-not-big? ( pos -- ? )
 	here SWAP to
@@ -205,7 +111,7 @@ VARIABLE	curr-pos
 	pass-flag enemy-at? NOT verify
 	drop
 	change-mark
-	pass-flag empty-at? NOT IF
+	pass-flag my-empty-at? NOT IF
 		clear-mark
 		down DROP
 		mr   verify
@@ -327,13 +233,108 @@ VARIABLE	curr-pos
 	add-move
 ;
 
+: check-mark ( pos -- )
+	DUP empty-at? NOT OVER piece-type-at mark = AND IF
+		DUP is-not-big? IF to ENDIF
+	ELSE
+		DROP
+	ENDIF
+;
+
+: find-mark ( -- )
+	0 to
+	0 curr-size !
+	0 collision-size !
+	c7 check-mark f7 check-mark i7 check-mark
+	c4 check-mark f4 check-mark i4 check-mark
+	c1 check-mark f1 check-mark i1 check-mark
+	here 0> verify
+;
+
 : in-collision? ( -- ? )
 	FALSE 0 BEGIN
-		DUP pos[] @ here = IF
-			2DROP TRUE
-			TRUE
+		DUP curr-size @ < IF
+			DUP pos[] @ here = IF
+				2DROP TRUE 0
+				TRUE
+			ELSE
+				1+ FALSE
+			ENDIF
 		ELSE
-			1+ DUP collision-size @ >=
+			TRUE
 		ENDIF
 	UNTIL DROP
+;
+
+: pair-found? ( -- ? )
+	FALSE 0 BEGIN
+		DUP empty-at? NOT OVER piece-type-at piece-type = AND IF
+			DUP here <> IF
+				DUP 0 pos[] @ = IF
+					collision-size @ 0= IF
+						curr-size @
+						collision-size !
+					ENDIF
+					DROP ALL
+				ELSE
+					DUP to
+					here curr-size @ pos[] !
+					curr-size ++
+					2DROP TRUE ALL
+				ENDIF
+			ENDIF
+		ENDIF
+		1+ DUP ALL >=
+	UNTIL DROP
+;
+
+: not-prev? ( -- ? )
+	curr-size @ 0> IF
+		curr-size @ 1- pos[] @ here <>
+	ELSE
+		TRUE
+	ENDIF
+;
+
+: try-pos ( -- )
+	down DROP
+	BEGIN	here
+		my-empty? NOT not-prev? AND IF
+			here curr-size @ pos[] !
+			curr-size ++
+			pair-found? curr-size @ TOTAL < AND IF
+				RECURSE
+				curr-size --
+			ENDIF
+			curr-size --
+		ENDIF
+		to up NOT my-empty? OR collision-size @ 0> OR
+	UNTIL
+;
+
+: check-collision ( -- )
+	find-mark
+	try-pos
+	collision-size @ 
+	DUP 2 > verify
+	curr-size !
+	from to
+	in-collision? verify
+;
+
+: select-piece ( -- )
+	here ALL < verify
+	pass-flag enemy-at? NOT verify
+	empty? NOT verify
+	piece-type mark > verify
+	check-collision
+	drop
+	mark pass-flag create-piece-type-at
+	0 curr-size !
+	from to	mark-all
+	from to player piece-type
+	down DROP bg verify
+	DIM + create-player-piece-type
+(	untangle )
+	add-move
 ;

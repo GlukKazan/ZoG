@@ -76,3 +76,15 @@
 (variant
   (title "QXO (No determenistic)")
 )
+
+(variant
+  (title "-")
+)
+
+(variant
+  (title "Loosing QXO")
+)
+
+(variant
+  (title "Loosing QXO (No determenistic)")
+)
