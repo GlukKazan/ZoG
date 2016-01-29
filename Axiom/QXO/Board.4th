@@ -15,8 +15,8 @@ ALL 1+		CONSTANT	TOTAL
 	{position} 1B
 	{position} 1C
 
-	{position} pass-flag
-	{position} curr-type
+	{position} PF
+	{position} CT
 board}
 
 {directions

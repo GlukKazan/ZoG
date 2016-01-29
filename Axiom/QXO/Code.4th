@@ -61,17 +61,17 @@ VARIABLE	collision-size
 ;
 
 : get-curr-type ( -- piece-type )
-	curr-type empty-at? IF
+	CT empty-at? IF
 		mark 1+
 	ELSE
-		curr-type piece-type-at
+		CT piece-type-at
 	ENDIF
 ;
 
 : change-curr-type ( -- )
 	next-player
 	get-curr-type 1+
-	curr-type create-player-piece-type-at
+	CT create-player-piece-type-at
 ;
 
 : find-empty ( -- ? )
@@ -91,10 +91,10 @@ VARIABLE	collision-size
 ;
 
 : change-mark ( -- )
-	pass-flag my-empty-at? IF
-		get-curr-type pass-flag create-piece-type-at
+	PF my-empty-at? IF
+		get-curr-type PF create-piece-type-at
 	ELSE
-		pass-flag capture-at
+		PF capture-at
 	ENDIF
 ;
 
@@ -108,10 +108,10 @@ VARIABLE	collision-size
 : drop-half ( -- )
 	check-empty
 	here ALL < verify
-	pass-flag enemy-at? NOT verify
+	PF enemy-at? NOT verify
 	drop
 	change-mark
-	pass-flag my-empty-at? NOT IF
+	PF my-empty-at? NOT IF
 		clear-mark
 		down DROP
 		mr   verify
@@ -220,7 +220,7 @@ VARIABLE	collision-size
 
 : drop-piece ( -- )
 	here ALL < verify
-	pass-flag enemy-at? NOT verify
+	PF enemy-at? NOT verify
 	drop
 	change-mark
 	find-half verify
@@ -324,12 +324,12 @@ VARIABLE	collision-size
 
 : select-piece ( -- )
 	here ALL < verify
-	pass-flag enemy-at? NOT verify
+	PF enemy-at? NOT verify
 	empty? NOT verify
 	piece-type mark > verify
 	check-collision
 	drop
-	mark pass-flag create-piece-type-at
+	mark PF create-piece-type-at
 	0 curr-size !
 	from to	mark-all
 	from to player piece-type

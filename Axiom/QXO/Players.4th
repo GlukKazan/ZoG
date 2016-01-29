@@ -1,9 +1,9 @@
 {players
-	{player}	First
-	{player}	Second
+	{player}	X
+	{player}	O
 players}
 
 {turn-order
-	{turn}	First
-	{turn}	Second
+	{turn}	X
+	{turn}	O
 turn-order}
