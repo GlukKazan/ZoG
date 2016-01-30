@@ -12,12 +12,12 @@
 
 (define za-drop
   ( (verify (not (in-zone? board-zone)))
-    START za-next
+    START to-next
     (while (not-position? END)
        (if empty?
            add
        )
-       za-next
+       to-next
     )
   )
 )
@@ -68,7 +68,7 @@
   (  (verify (in-zone? board-zone))
      $1
      (if (in-zone? promotion-zone)
-         (verify not-attacked?)
+         (verify (or (piece? King) not-attacked?))
      )
      (verify (in-zone? board-zone))
      (verify not-friend?)
@@ -99,21 +99,62 @@
 (game
   (title "Doubutsu Shogi (original)")
 
-  (description "Object: Checkmate your opponent's King.\\
-                When a piece is captured it is added to the capturer's `reserve`, an
-
-                army of pieces which can be reintroduced into play on the capturer's
-
-                side (pieces in reserve are also said to be `in hand`).")
-  (history "Dobutsu shogi (Animal chess) is a small shogi variant for young children.
-
-            It was invented by female professional shogi player Madoka Kitao.")
+  (description "The object of the game is to capture the enemy King (Lion)\
+                or to have one's own King (Lion) be the first King (Lion)\
+                to move or capture onto a non-threatened square on the last row.\\
+                All pieces move and capture (by displacement) to adjacent squares\
+                in the directions indicated by the little arrows on the face of each piece.\\
+                When a piece is captured it is added to the captor's reserve,\
+                an army of pieces that can be reintroduced into play on the captor's side\
+                (pieces in reserve are also said to be `in hand`).\\
+                On each turn, a player must choose one of three options:\
+                1.  Move a piece already on the board to an adjacent empty space.\
+                2.  Capture an adjacent enemy piece.\
+                3.  Enter a previously captured piece onto an empty square as one's own.\
+                A player is never allowed to skip a turn.\\
+                The King (Lion) moves or captures one adjacent space in any direction.\
+                The Jang (Giraffe) moves or captures one adjacent space like a rook.\
+                The Sang (Elephant) moves or captures one adjacent space like a bishop.\
+                The Za (Chick) moves or captures one adjacent space straight forward.\
+                If Za (Chick) is dropped onto the last row, Za (Chick) may never move.\
+                The Za (Chick) is the only piece that promotes.\
+                When Za (Chick) moves (not by being dropped) or captures\
+                onto any square on the last row, the Za (Chick) promotes to Hu (Hen).\
+                The Hu (Hen) moves or captures one adjacent space\
+                in any direction except diagonally backward, like the Shogi Gold General.
+ ")
+  (history "Dobutsu Shogi (Animal chess) is a small Shogi variant for young children.\
+            This game was invented by professional Shogi player Madoka Kitao.\\
+            October      2003   Madoka Kitao (at age 23)\
+                                           is promoted to first Dan in ladies Shogi.\
+            March         2008   Madoka Kitao invents Dobutsu Shogi\
+                                           (young girl's version).\
+0.0.1   February      2015   Valentin Chelnokov creates Zillons of Games version.\
+0.0.2   March          2015   Moved (no checks) variant to become (original) game.\
+                                           Moved (original) game to become (no checks) variant.\
+0.0.3   January        2016   Reduced size of board and pieces.\
+0.0.4   February      2016   Included version number in title of game and of variant.\
+                                           Prevented King from moving into check by enemy King\
+                                           in an attempt to attack the enemy King\
+                                           from a protected space on his own back row.\
+                                           Increased to six the maximum captured pieces in hand\
+                                           by allowing hand to overflow to other side of board.\
+                                           Expanded game description and history.\
+                                           Added strategy and piece descriptions.
+ ")
+  (strategy "According to <en.wikipedia.org/wiki/Dobutsu_Shogi>,\
+             the game of Dobutsu Shogi has been completely analyzed and strongly resolved.\
+             The game brgins in a symmetrical zugzwang position\
+             (in which whoever moves first will lose against an impeccable player).\
+             However, the Zillions A. I. is not strong enough to do the complete analysis,\
+             so it is still possible to win against the Zillions A. I.\
+             The included sample game was played and won against the Zillions A. I.
+ ")
 
   (players Green Red)
   (turn-order Green Red)
 
-;  (option "animate captures" false)
-;  (option "animate drops" false)
+  (animate-captures false)
 
   (move-sound "Audio\Pickup.wav")
   (release-sound "Audio\Pickup.wav")
@@ -139,23 +180,25 @@
                (a3 b3) (b3 c3) (c3 a4)
                (a4 b4) (b4 c4) (c4 END)
         )
-	(links za-next
+	(links to-next
                (START a1)
                (a1 b1) (b1 c1) (c1 a2)
                (a2 b2) (b2 c2) (c2 a3)
                (a3 b3) (b3 c3) (c3 END)
         )
-	(links r-next
+	(links red-next
                (START a2)
                (a2 b2) (b2 c2) (c2 a3)
                (a3 b3) (b3 c3) (c3 a4)
                (a4 b4) (b4 c4) (c4 END)
         )
         (links to-hand
-               (START g1) (g1 g2) (g2 g3) (g3 g4) (g4 END)
+               (START g1) (g1 g2) (g2 g3) (g3 g4)
+                  (g4 r1) (r1 r2) (r2 r3) (r3 r4) (r4 END)
         )
-        (links r-hand
-               (START r4) (r4 r3) (r3 r2) (r2 r1) (r1 END)
+        (links red-hand
+               (START r4) (r4 r3) (r3 r2) (r2 r1)
+                  (r1 g4) (g4 g3) (g3 g2) (g2 g1) (g1 END)
         )
         (zone (name board-zone) (players Green Red)
               (positions a1 b1 c1
@@ -164,12 +207,6 @@
                          a4 b4 c4
               )
         )
-        (zone (name hand-zone) (players Green)
-              (positions g1 g2 g3 g4)
-        )
-        (zone (name hand-zone) (players Red)
-              (positions r1 r2 r3 r4)
-        )
         (zone (name promotion-zone) (players Green)
               (positions a4 b4 c4)
         )
@@ -177,12 +214,21 @@
               (positions a1 b1 c1)
         )
         (symmetry Red (n s) (s n) (nw sw) (sw nw) (ne se) (se ne) 
-                  (to-hand r-hand) (za-next r-next))
+                  (to-hand red-hand) (to-next red-next))
   )
 
   (piece
         (name  King)
         (help  "Lion: steps 1 square in any direction to a safe square")
+	(description "King (Lion) Laion:\
+                      Moves or captures one space\
+                      in any of eight directions,\
+                      like Shogi or Chess King.\
+                      Upon capture (checkmate or stalemate)\
+                      game is lost.\
+                      Upon moving or capturing into last row\
+                      game is won."
+        )
         (image Green "../Images/DoubutsuShogi/king-green.BMP"
                Red   "../Images/DoubutsuShogi/king-red.BMP"
         )
@@ -200,6 +246,13 @@
   (piece
         (name  Za)
         (help  "Chick: steps 1 square to forward, promote on last row")
+	(description "Za (Chick) Hyoko:\
+                      Moves or captures one space straight forward.\
+                      If dropped onto last row,\
+                      can never move or capture, only be captured.\
+                      Upon moving or capturing into last row\
+                      promotes to Hu (Hen) Niwatori."
+        )
         (image Green "../Images/DoubutsuShogi/za-green.BMP"
                Red   "../Images/DoubutsuShogi/za-red.BMP"
         )
@@ -211,6 +264,14 @@
   (piece
         (name  Sang)
         (help  "Elephant: steps 1 square on any diagonal")
+	(description "Sang (Elephant) Zo:\
+                      Moves or captures one space diagonally\
+                      four directions like Firz,\
+                      or like Shogi Kaku or Chess Bishop,\
+                      but only one space.\
+                      Does not promote.\
+                      May be dropped onto any open space."
+        )
         (image Green "../Images/DoubutsuShogi/sang-green.BMP"
                Red   "../Images/DoubutsuShogi/sang-red.BMP"
         )
@@ -225,6 +286,14 @@
   (piece
         (name  Jang)
         (help  "Giraffe: steps 1 square on any orthogonal")
+	(description "Jang (Giraffe) Kirin:\
+                      Moves or captures one space orthogonally\
+                      four directions like Wazir,\
+                      or like Shogi Hisha or Chess Rook,\
+                      but only one space.\
+                      Does not promote.\
+                      May be dropped onto any open space."
+        )
         (image Green "../Images/DoubutsuShogi/jang-green.BMP"
                Red   "../Images/DoubutsuShogi/jang-red.BMP"
         )
@@ -239,6 +308,13 @@
   (piece
         (name  Hu)
         (help  "Hen: steps 1 square in any direction except diagonally backwards")
+	(description "Hu (Hen) Niwatori:\
+                      Promoted form of Za (Chick) Hyoko.\
+                      Moves or captures one space diagonally forward\
+                      or orthogonally four directions,\
+                      six directions like Shogi Gold General.\
+                      Upon capture, reverts to Za (Chick) Hyoko."
+        )
         (image Green "../Images/DoubutsuShogi/hu-green.BMP"
                Red   "../Images/DoubutsuShogi/hu-red.BMP"
         )
@@ -273,6 +349,33 @@
 (variant
   (title "Doubutsu Shogi (with checks)")
 
+  (description "The object of the game is to checkmate or stalemate the enemy King (Lion)\
+                or to have one's own King (Lion) be the first King (Lion)\
+                to move or capture onto a non-threatened square on the last row.\\
+                When a piece is captured it is added to the capturer's `reserve`, an\
+                army of pieces which can be reintroduced into play on the capturer's\
+                side (pieces in reserve are also said to be `in hand`).\\
+                All pieces move and capture (by displacement) to adjacent squares\
+                in the directions indicated by the litte arrows on the face of each piece.\\
+                On each turn, a player must choose one of three options:\
+                1.  Move a piece already on the board to an adjacent empty space.\
+                2.  Capture an adjacent enemy piece.\
+                3.  Enter a previously captured piece onto an empty square as one's own.\
+                A player is never allowed to skip a turn.\
+                If a player cannot make a legal move, that player loses.\\
+                The King (Lion) moves or captures one adjacent space in any direction\
+                but never onto a square that is under attack by any enemy piece.\
+                The Jang (Giraffe) moves or captures one adjacent space like a rook.\
+                The Sang (Elephant) moves or captures one adjacent space like a bishop.\
+                The Za (Chick) moves or captures one adjacent space straight forward.\
+                The Za (Chick) cannot be dropped onto the last row.\
+                The Za (Chick) is the only piece that promotes.\
+                When Za (Chick) moves or captures onto any square on the last row,\
+                the Za (Chick) promotes to Hu (Hen).\
+                The Hu (Hen) moves or captures one adjacent space\
+                in any direction except diagonally backward, like the Shogi Gold General.
+ ")
+
   (board
         (image "../Images/DoubutsuShogi/board.BMP")
         (grid
@@ -292,13 +395,13 @@
                (a3 b3) (b3 c3) (c3 a4)
                (a4 b4) (b4 c4) (c4 END)
         )
-	(links za-next
+	(links to-next
                (START a1)
                (a1 b1) (b1 c1) (c1 a2)
                (a2 b2) (b2 c2) (c2 a3)
                (a3 b3) (b3 c3) (c3 END)
         )
-	(links r-next
+	(links red-next
                (START a2)
                (a2 b2) (b2 c2) (c2 a3)
                (a3 b3) (b3 c3) (c3 a4)
@@ -307,7 +410,7 @@
         (links to-hand
                (START g1) (g1 g2) (g2 g3) (g3 g4) (g4 END)
         )
-        (links r-hand
+        (links red-hand
                (START r4) (r4 r3) (r3 r2) (r2 r1) (r1 END)
         )
         (zone (name board-zone) (players Green Red)
@@ -330,12 +433,18 @@
               (positions a1 b1 c1)
         )
         (symmetry Red (n s) (s n) (nw sw) (sw nw) (ne se) (se ne) 
-                  (to-hand r-hand) (za-next r-next))
+                  (to-hand red-hand) (to-next red-next))
   )
 
   (piece
         (name  Za)
         (help  "Chick: steps 1 square to forward, promote on last row")
+	(description "Za (Chick) Hyoko:\
+                      Moves or captures one space straight forward.\
+                      Cannot be dropped onto last row.\
+                      Upon moving or capturing into last row\
+                      promotes to Hu (Hen) Niwatori."
+        )
         (image Green "../Images/DoubutsuShogi/za-green.BMP"
                Red   "../Images/DoubutsuShogi/za-red.BMP"
         )
@@ -346,6 +455,7 @@
   )
 
   (loss-condition (Green Red) (checkmated King))
+  (loss-condition (Green Red) stalemated)
   (win-condition  (Green Red) (absolute-config King (promotion-zone)))
   (loss-condition (Green Red) repetition)
 )
