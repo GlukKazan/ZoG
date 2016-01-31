@@ -3,6 +3,7 @@ TOTAL []	pos[]
 VARIABLE	curr-size
 VARIABLE	curr-pos
 VARIABLE	collision-size
+VARIABLE	marked-pos
 
 : my-empty? ( -- ? )
 	empty? IF
@@ -146,18 +147,24 @@ VARIABLE	collision-size
 ;
 
 : not-in-position? ( pos -- )
-	TRUE SWAP 0 BEGIN
+	marked-pos !
+	TRUE 0 BEGIN
 		DUP curr-size @ < IF
-			DUP pos[] @ OVER = IF
-				2DROP DROP FALSE
-				0 0 TRUE
+			DUP pos[] @ marked-pos @ = IF
+				2DROP FALSE
+				0 TRUE
 			ELSE
 				1+ FALSE
 			ENDIF
 		ELSE
 			TRUE
 		ENDIF
-	UNTIL 2DROP
+	UNTIL DROP
+;
+
+: init-position ( -- )
+	here curr-size @ pos[] !
+	curr-size ++
 ;
 
 : add-position ( -- )
@@ -169,38 +176,6 @@ VARIABLE	collision-size
 			ENDIF
 		ENDIF
 		1+ DUP ALL >=
-	UNTIL DROP
-;
-
-
-: clear-all ( -- )
-	here curr-pos !
-	down DROP
-	BEGIN
-		empty? IF
-			TRUE
-		ELSE
-			here curr-pos @ <> piece-type mark > AND IF
-				add-position
-			ENDIF
-			capture
-			up NOT
-		ENDIF
-	UNTIL
-;
-
-: untangle ( -- )
-	0 BEGIN
-		DUP curr-size @ < IF
-			DUP pos[] @
-			to player piece-type clear-all
-			down DROP
-			bg   verify
-			DIM + create-player-piece-type
-			1+ FALSE
-		ELSE
-			TRUE
-		ENDIF
 	UNTIL DROP
 ;
 
@@ -216,6 +191,21 @@ VARIABLE	collision-size
 		mark create-piece-type
 		up NOT
 	UNTIL
+;
+
+: untangle ( -- )
+	0 BEGIN
+		DUP curr-size @ < IF
+			DUP pos[] @
+			to player piece-type mark-all
+			down DROP
+			bg   verify
+			DIM + create-player-piece-type
+			1+ FALSE
+		ELSE
+			TRUE
+		ENDIF
+	UNTIL DROP
 ;
 
 : drop-piece ( -- )
@@ -331,10 +321,10 @@ VARIABLE	collision-size
 	drop
 	mark PF create-piece-type-at
 	0 curr-size !
-	from to	mark-all
+	from to	init-position mark-all
 	from to player piece-type
 	down DROP bg verify
 	DIM + create-player-piece-type
-(	untangle )
+	untangle
 	add-move
 ;
