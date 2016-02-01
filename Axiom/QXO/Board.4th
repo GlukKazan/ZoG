@@ -27,6 +27,11 @@ board}
 directions}
 
 {directions
+	{link} nw-internal g3 d6 {link} se-internal d6 g3
+	{link} nw-internal d6 a9 {link} se-internal a9 d6
+	{link} ne-internal c3 f6 {link} sw-internal f6 c3
+	{link} ne-internal f6 i9 {link} sw-internal i9 f6
+
 	{link} up a9 a8 {link} down a8 a9
 	{link} up a8 a7 {link} down a7 a9
 	{link} up a7 b9 {link} down b9 a9

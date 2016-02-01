@@ -38,10 +38,15 @@ VARIABLE	marked-player
 	UNTIL
 ;
 
-: n ( -- ? ) ['] n-internal common-dir ;
-: s ( -- ? ) ['] s-internal common-dir ;
-: w ( -- ? ) ['] w-internal common-dir ;
-: e ( -- ? ) ['] e-internal common-dir ;
+: n  ( -- ? ) ['] n-internal common-dir ;
+: s  ( -- ? ) ['] s-internal common-dir ;
+: w  ( -- ? ) ['] w-internal common-dir ;
+: e  ( -- ? ) ['] e-internal common-dir ;
+
+: nw ( -- ? ) ['] nw-internal common-dir ;
+: sw ( -- ? ) ['] sw-internal common-dir ;
+: ne ( -- ? ) ['] ne-internal common-dir ;
+: se ( -- ? ) ['] se-internal common-dir ;
 
 : is-not-big? ( pos -- ? )
 	here SWAP to
@@ -392,6 +397,11 @@ VARIABLE	marked-player
 : move-half-w ( -- ) ['] w move-half ;
 : move-half-e ( -- ) ['] e move-half ;
 
+: move-half-nw ( -- ) ['] nw move-half ;
+: move-half-sw ( -- ) ['] sw move-half ;
+: move-half-ne ( -- ) ['] ne move-half ;
+: move-half-se ( -- ) ['] se move-half ;
+
 : check-big ( -- )
 	from to
 	down DROP bg verify
@@ -432,6 +442,11 @@ VARIABLE	marked-player
 : split-piece-w ( -- ) ['] w split-piece ;
 : split-piece-e ( -- ) ['] e split-piece ;
 
+: split-piece-nw ( -- ) ['] nw split-piece ;
+: split-piece-sw ( -- ) ['] sw split-piece ;
+: split-piece-ne ( -- ) ['] ne split-piece ;
+: split-piece-se ( -- ) ['] se split-piece ;
+
 : is-joined? ( -- ? )
 	down DROP
 	FALSE BEGIN
@@ -469,3 +484,8 @@ VARIABLE	marked-player
 : join-piece-s ( -- ) ['] s join-piece ;
 : join-piece-w ( -- ) ['] w join-piece ;
 : join-piece-e ( -- ) ['] e join-piece ;
+
+: join-piece-nw ( -- ) ['] nw join-piece ;
+: join-piece-sw ( -- ) ['] sw join-piece ;
+: join-piece-ne ( -- ) ['] ne join-piece ;
+: join-piece-se ( -- ) ['] se join-piece ;

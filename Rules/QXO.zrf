@@ -15,6 +15,7 @@
   (release-sound "Audio/Pickup.wav")
   (capture-sound "")
 
+  (option "show moves list" false)
   (option "prevent flipping" true)
   (option "animate captures" false)
   (option "animate drops" false)
@@ -106,4 +107,20 @@
 (variant
   (title "Three Men's Morris (variant 3)")
   (default)
+)
+
+(variant
+  (title "-")
+)
+
+(variant
+  (title "Three Men's Morris (variant 4)")
+)
+
+(variant
+  (title "Three Men's Morris (variant 5)")
+)
+
+(variant
+  (title "Three Men's Morris (variant 6)")
 )
