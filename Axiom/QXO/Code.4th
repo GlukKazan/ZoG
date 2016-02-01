@@ -367,10 +367,8 @@ VARIABLE	marked-player
 	BEGIN
 		my-empty? NOT IF
 			piece-type curr-piece @ <> verify
-			up NOT
-		ELSE
-			TRUE
 		ENDIF
+		up NOT
 	UNTIL
 ;
 
