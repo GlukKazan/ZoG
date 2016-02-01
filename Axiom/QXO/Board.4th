@@ -24,10 +24,6 @@ board}
 	 3	 0	{direction} s-internal
 	 0	 3	{direction} e-internal
 	 0	-3	{direction} w-internal
-	-3	-3	{direction} nw-internal
-	 3	-3	{direction} sw-internal
-	-3	 3	{direction} ne-internal
-	 3	 3	{direction} se-internal
 directions}
 
 {directions

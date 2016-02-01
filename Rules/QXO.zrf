@@ -1,12 +1,13 @@
 (define def-piece
   (piece
      (name $1$2)
+     (notation " ")
      (image $4 "../Images/QXO/$3_$2.bmp")
   )
 )
 
 (game
-  (title "QXO")
+  (title "Quantum tic-tac-toe (variant 1)")
   (engine "../Axiom/QXO/axiom.dll")
 
   (move-sound "Audio/Pickup.wav")
@@ -45,6 +46,7 @@
   )
   (piece
      (name M)
+     (notation " ")
      (image X  "../Images/QXO/invisible.bmp"
             O "../Images/QXO/invisible.bmp")
   )
@@ -74,7 +76,7 @@
 )
 
 (variant
-  (title "QXO (No determenistic)")
+  (title "Quantum tic-tac-toe (variant 2)")
 )
 
 (variant
@@ -82,9 +84,26 @@
 )
 
 (variant
-  (title "Loosing QXO")
+  (title "Loosing game (variant 1)")
 )
 
 (variant
-  (title "Loosing QXO (No determenistic)")
+  (title "Loosing game (variant 2)")
+)
+
+(variant
+  (title "-")
+)
+
+(variant
+  (title "Three Men's Morris (variant 1)")
+)
+
+(variant
+  (title "Three Men's Morris (variant 2)")
+)
+
+(variant
+  (title "Three Men's Morris (variant 3)")
+  (default)
 )
