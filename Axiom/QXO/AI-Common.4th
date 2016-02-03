@@ -30,8 +30,8 @@
 
 : my-line ( pos pos pos -- n )
 	my-piece
-	SWAP my-piece add
-	SWAP my-piece add
+	SWAP my-piece max
+	SWAP my-piece max
 ;
 
 : min ( n n -- n )
