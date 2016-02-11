@@ -195,6 +195,7 @@
   (move-sound "Audio\Pickup.wav")
   (release-sound "Audio\Pickup.wav")
   (capture-sound "")
+  (drop-sound "")
   (board
         (image "../Images/GuFuuShogi/Board.bmp")
         (grid
