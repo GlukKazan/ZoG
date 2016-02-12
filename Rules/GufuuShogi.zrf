@@ -279,6 +279,9 @@
   (check-attacked)
   (verify (not-position-flag? is-self?))
   $1
+  (if (not-position-flag? is-self?)
+      (check-mated)
+  )
   (common-step)
   (add $2)
 ))
@@ -308,6 +311,7 @@
   (verify (in-zone? board-zone))
   (check-attacked)
   (verify (not-position-flag? is-self?))
+  (check-mated)
   (add $1)
 ))
 
@@ -573,4 +577,5 @@
        )
   )
   (loss-condition (South North) stalemated)
+  (loss-condition (South North) repetition)
 )
