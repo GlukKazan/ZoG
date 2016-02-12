@@ -1,0 +1,30 @@
+Zillions Save Game File Version 0.02 HHC
+RulesFile=GufuuShogi.zrf
+VariantName=GuFuu Shogi
+1. SKing IIIb - 1c South SKaze IIIb South WKaze IVb South NKaze IVc South EKaze IIIc
+1. NKing IIb - 2c North NArashi IIb North EArashi Ib North SArashi Ia North WArashi IIa
+1. NKaze IVc - 1b North NKaze 1b x IVb x IIIc x IIIb
+2. EArashi Ib - 2b x IIb x IIa x Ia
+2. North Mark Ic South NKaze 1b South EArashi 2b
+2. SKing 1c x 2b North NArashi IIb North EArashi Ib North SArashi Ia North WArashi IIa = WKing on 2b
+2. South Mark Ic North NKaze 1b
+3. NKaze 1b - 2a = EKaze
+3. North Mark Ic South EKaze 2a South SArashi Ia South EArashi Ib South WArashi IIa South NArashi IIb
+3. WArashi IIa - 1a x IIb x Ib x Ia
+3. South Mark Ic North WArashi 1a North EKaze 2a
+4. = EKing on 2c
+4. North Mark Ic South WArashi 1a South EKaze 2a
+4. EKaze 2a - 1b = SKaze
+4. South Mark Ic North WArashi 1a North SKaze 1b
+5. = WKaze on 1b
+5. North Mark Ic South WArashi 1a South WKaze 1b
+5. WKing 2b - 2a = NKing
+5. South Mark Ic North WArashi 1a North WKaze 1b
+6. EKing 2c - 1c = SKing
+6. North Mark Ic South WArashi 1a South WKaze 1b
+6. = NKaze on 1b
+6. South Mark Ic North WArashi 1a North NKaze 1b
+7. WArashi 1a x 1b South SKaze IIIb South WKaze IVb South NKaze IVc South EKaze IIIc = NArashi on 1b
+7. North Mark Ic South NArashi 1b
+7. NKing 2a - 2b = EKing
+7. South Mark Ic North NArashi 1b North SKaze IIIb North EKaze IIIc North WKaze IVb North NKaze IVc
