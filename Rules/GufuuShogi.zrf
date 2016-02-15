@@ -391,8 +391,8 @@
   (piece
         (name  SKing)
         (notation "K")
-        (image South "../Images/GuFuuShogi/Alpha/SKingS.bmp" "../Images/GuFuuShogi/Draw/SKingS.bmp"
-               North "../Images/GuFuuShogi/Alpha/SKingN.bmp" "../Images/GuFuuShogi/Draw/SKingN.bmp")
+        (image South "../Images/GuFuuShogi/Kanji/SKingS.bmp" "../Images/GuFuuShogi/Alpha/SKingS.bmp" "../Images/GuFuuShogi/Draw/SKingS.bmp"
+               North "../Images/GuFuuShogi/Kanji/SKingN.bmp" "../Images/GuFuuShogi/Alpha/SKingN.bmp" "../Images/GuFuuShogi/Draw/SKingN.bmp")
         (moves
            (move-type normal)
            (add-king 1a n NKing) (add-king 1b n NKing) (add-king 1c n NKing)
@@ -407,8 +407,8 @@
   (piece
         (name  WKing)
         (notation "K")
-        (image South "../Images/GuFuuShogi/Alpha/WKingS.bmp" "../Images/GuFuuShogi/Draw/WKingS.bmp"
-               North "../Images/GuFuuShogi/Alpha/WKingN.bmp" "../Images/GuFuuShogi/Draw/WKingN.bmp")
+        (image South "../Images/GuFuuShogi/Kanji/WKingS.bmp" "../Images/GuFuuShogi/Alpha/WKingS.bmp" "../Images/GuFuuShogi/Draw/WKingS.bmp"
+               North "../Images/GuFuuShogi/Kanji/WKingN.bmp" "../Images/GuFuuShogi/Alpha/WKingN.bmp" "../Images/GuFuuShogi/Draw/WKingN.bmp")
         (moves
            (move-type normal)
            (add-king 1a e EKing) (add-king 1b e EKing) (add-king 1c e EKing)
@@ -423,8 +423,8 @@
   (piece
         (name  NKing)
         (notation "K")
-        (image South "../Images/GuFuuShogi/Alpha/NKingS.bmp" "../Images/GuFuuShogi/Draw/NKingS.bmp"
-               North "../Images/GuFuuShogi/Alpha/NKingN.bmp" "../Images/GuFuuShogi/Draw/NKingN.bmp")
+        (image South "../Images/GuFuuShogi/Kanji/NKingS.bmp" "../Images/GuFuuShogi/Alpha/NKingS.bmp" "../Images/GuFuuShogi/Draw/NKingS.bmp"
+               North "../Images/GuFuuShogi/Kanji/NKingN.bmp" "../Images/GuFuuShogi/Alpha/NKingN.bmp" "../Images/GuFuuShogi/Draw/NKingN.bmp")
         (moves
            (move-type normal)
            (add-king 1a s SKing) (add-king 1b s SKing) (add-king 1c s SKing)
@@ -439,8 +439,8 @@
   (piece
         (name  EKing)
         (notation "K")
-        (image South "../Images/GuFuuShogi/Alpha/EKingS.bmp" "../Images/GuFuuShogi/Draw/EKingS.bmp"
-               North "../Images/GuFuuShogi/Alpha/EKingN.bmp" "../Images/GuFuuShogi/Draw/EKingN.bmp")
+        (image South "../Images/GuFuuShogi/Kanji/EKingS.bmp" "../Images/GuFuuShogi/Alpha/EKingS.bmp" "../Images/GuFuuShogi/Draw/EKingS.bmp"
+               North "../Images/GuFuuShogi/Kanji/EKingN.bmp" "../Images/GuFuuShogi/Alpha/EKingN.bmp" "../Images/GuFuuShogi/Draw/EKingN.bmp")
         (moves
            (move-type normal)
            (add-king 1a w WKing) (add-king 1b w WKing) (add-king 1c w WKing)
@@ -455,8 +455,8 @@
   (piece
         (name  SKaze)
         (notation "W")
-        (image South "../Images/GuFuuShogi/Alpha/SKaze.bmp" "../Images/GuFuuShogi/Draw/SKaze.bmp"
-               North "../Images/GuFuuShogi/Alpha/SKaze.bmp" "../Images/GuFuuShogi/Draw/SKaze.bmp")
+        (image South "../Images/GuFuuShogi/Kanji/SKaze.bmp" "../Images/GuFuuShogi/Alpha/SKaze.bmp" "../Images/GuFuuShogi/Draw/SKaze.bmp"
+               North "../Images/GuFuuShogi/Kanji/SKaze.bmp" "../Images/GuFuuShogi/Alpha/SKaze.bmp" "../Images/GuFuuShogi/Draw/SKaze.bmp")
         (moves
            (move-type normal)
            (add-kaze 1a) (add-kaze 1b) (add-kaze 1c)
@@ -468,8 +468,8 @@
   (piece
         (name  WKaze)
         (notation "W")
-        (image South "../Images/GuFuuShogi/Alpha/WKaze.bmp" "../Images/GuFuuShogi/Draw/WKaze.bmp"
-               North "../Images/GuFuuShogi/Alpha/WKaze.bmp" "../Images/GuFuuShogi/Draw/WKaze.bmp")
+        (image South "../Images/GuFuuShogi/Kanji/WKaze.bmp" "../Images/GuFuuShogi/Alpha/WKaze.bmp" "../Images/GuFuuShogi/Draw/WKaze.bmp"
+               North "../Images/GuFuuShogi/Kanji/WKaze.bmp" "../Images/GuFuuShogi/Alpha/WKaze.bmp" "../Images/GuFuuShogi/Draw/WKaze.bmp")
         (moves
            (move-type normal)
            (add-kaze 1a) (add-kaze 1b) (add-kaze 1c)
@@ -481,8 +481,8 @@
   (piece
         (name  NKaze)
         (notation "W")
-        (image South "../Images/GuFuuShogi/Alpha/NKaze.bmp" "../Images/GuFuuShogi/Draw/NKaze.bmp"
-               North "../Images/GuFuuShogi/Alpha/NKaze.bmp" "../Images/GuFuuShogi/Draw/NKaze.bmp")
+        (image South "../Images/GuFuuShogi/Kanji/NKaze.bmp" "../Images/GuFuuShogi/Alpha/NKaze.bmp" "../Images/GuFuuShogi/Draw/NKaze.bmp"
+               North "../Images/GuFuuShogi/Kanji/NKaze.bmp" "../Images/GuFuuShogi/Alpha/NKaze.bmp" "../Images/GuFuuShogi/Draw/NKaze.bmp")
         (moves
            (move-type normal)
            (add-kaze 1a) (add-kaze 1b) (add-kaze 1c)
@@ -494,8 +494,8 @@
   (piece
         (name  EKaze)
         (notation "W")
-        (image South "../Images/GuFuuShogi/Alpha/EKaze.bmp" "../Images/GuFuuShogi/Draw/EKaze.bmp"
-               North "../Images/GuFuuShogi/Alpha/EKaze.bmp" "../Images/GuFuuShogi/Draw/EKaze.bmp")
+        (image South "../Images/GuFuuShogi/Kanji/EKaze.bmp" "../Images/GuFuuShogi/Alpha/EKaze.bmp" "../Images/GuFuuShogi/Draw/EKaze.bmp"
+               North "../Images/GuFuuShogi/Kanji/EKaze.bmp" "../Images/GuFuuShogi/Alpha/EKaze.bmp" "../Images/GuFuuShogi/Draw/EKaze.bmp")
         (moves
            (move-type normal)
            (add-kaze 1a) (add-kaze 1b) (add-kaze 1c)
@@ -507,8 +507,8 @@
   (piece
         (name  SArashi)
         (notation "S")
-        (image South "../Images/GuFuuShogi/Alpha/SArashi.bmp" "../Images/GuFuuShogi/Draw/SArashi.bmp"
-               North "../Images/GuFuuShogi/Alpha/SArashi.bmp" "../Images/GuFuuShogi/Draw/SArashi.bmp")
+        (image South "../Images/GuFuuShogi/Kanji/SArashi.bmp" "../Images/GuFuuShogi/Alpha/SArashi.bmp" "../Images/GuFuuShogi/Draw/SArashi.bmp"
+               North "../Images/GuFuuShogi/Kanji/SArashi.bmp" "../Images/GuFuuShogi/Alpha/SArashi.bmp" "../Images/GuFuuShogi/Draw/SArashi.bmp")
         (moves
            (move-type normal)
            (add-arashi 1a) (add-arashi 1b) (add-arashi 1c)
@@ -521,8 +521,8 @@
   (piece
         (name  WArashi)
         (notation "S")
-        (image South "../Images/GuFuuShogi/Alpha/WArashi.bmp" "../Images/GuFuuShogi/Draw/WArashi.bmp"
-               North "../Images/GuFuuShogi/Alpha/WArashi.bmp" "../Images/GuFuuShogi/Draw/WArashi.bmp")
+        (image South "../Images/GuFuuShogi/Kanji/WArashi.bmp" "../Images/GuFuuShogi/Alpha/WArashi.bmp" "../Images/GuFuuShogi/Draw/WArashi.bmp"
+               North "../Images/GuFuuShogi/Kanji/WArashi.bmp" "../Images/GuFuuShogi/Alpha/WArashi.bmp" "../Images/GuFuuShogi/Draw/WArashi.bmp")
         (moves
            (move-type normal)
            (add-arashi 1a) (add-arashi 1b) (add-arashi 1c)
@@ -535,8 +535,8 @@
   (piece
         (name  NArashi)
         (notation "S")
-        (image South "../Images/GuFuuShogi/Alpha/NArashi.bmp" "../Images/GuFuuShogi/Draw/NArashi.bmp"
-               North "../Images/GuFuuShogi/Alpha/NArashi.bmp" "../Images/GuFuuShogi/Draw/NArashi.bmp")
+        (image South "../Images/GuFuuShogi/Kanji/NArashi.bmp" "../Images/GuFuuShogi/Alpha/NArashi.bmp" "../Images/GuFuuShogi/Draw/NArashi.bmp"
+               North "../Images/GuFuuShogi/Kanji/NArashi.bmp" "../Images/GuFuuShogi/Alpha/NArashi.bmp" "../Images/GuFuuShogi/Draw/NArashi.bmp")
         (moves
            (move-type normal)
            (add-arashi 1a) (add-arashi 1b) (add-arashi 1c)
@@ -549,8 +549,8 @@
   (piece
         (name  EArashi)
         (notation "S")
-        (image South "../Images/GuFuuShogi/Alpha/EArashi.bmp" "../Images/GuFuuShogi/Draw/EArashi.bmp"
-               North "../Images/GuFuuShogi/Alpha/EArashi.bmp" "../Images/GuFuuShogi/Draw/EArashi.bmp")
+        (image South "../Images/GuFuuShogi/Kanji/EArashi.bmp" "../Images/GuFuuShogi/Alpha/EArashi.bmp" "../Images/GuFuuShogi/Draw/EArashi.bmp"
+               North "../Images/GuFuuShogi/Kanji/EArashi.bmp" "../Images/GuFuuShogi/Alpha/EArashi.bmp" "../Images/GuFuuShogi/Draw/EArashi.bmp")
         (moves
            (move-type normal)
            (add-arashi 1a) (add-arashi 1b) (add-arashi 1c)
