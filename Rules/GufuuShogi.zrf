@@ -1,5 +1,6 @@
 (define check-attacked-kaze
-  (if (and (or (and (enemy? $1)
+  (if (and (not-position-flag? is-from?)
+           (or (and (enemy? $1)
                (or (piece? SKing $1) (piece? WKing $1) (piece? NKing $1) (piece? EKing $1)))
                (and (enemy? $2)
                (or (piece? SKing $2) (piece? WKing $2) (piece? NKing $2) (piece? EKing $2)))
@@ -11,15 +12,16 @@
                (or (piece? SKing $2) (piece? WKing $2) (piece? NKing $2) (piece? EKing $2)))
                (and (friend? $3)
                (or (piece? SKing $3) (piece? WKing $3) (piece? NKing $3) (piece? EKing $3)))))
-      (set-position-flag is-self? true)
-      (set-position-flag is-checked? true $1)
-      (set-position-flag is-checked? true $2)
-      (set-position-flag is-checked? true $3)
+      (set-position-flag $4 true)
+      (set-position-flag $5 true $1)
+      (set-position-flag $5 true $2)
+      (set-position-flag $5 true $3)
   )
 )
 
 (define check-attacked-arashi
-  (if (and (or (and (enemy? $1)
+  (if (and (not-position-flag? is-from?)
+           (or (and (enemy? $1)
                (or (piece? SKing $1) (piece? WKing $1) (piece? NKing $1) (piece? EKing $1)))
                (and (enemy? $2)
                (or (piece? SKing $2) (piece? WKing $2) (piece? NKing $2) (piece? EKing $2)))
@@ -39,12 +41,12 @@
                (or (piece? SKing $4) (piece? WKing $4) (piece? NKing $4) (piece? EKing $4)))
                (and (friend? $5)
                (or (piece? SKing $5) (piece? WKing $5) (piece? NKing $5) (piece? EKing $5)))))
-      (set-position-flag is-self? true)
-      (set-position-flag is-checked? true $1)
-      (set-position-flag is-checked? true $2)
-      (set-position-flag is-checked? true $3)
-      (set-position-flag is-checked? true $4)
-      (set-position-flag is-checked? true $5)
+      (set-position-flag $6 true)
+      (set-position-flag $7 true $1)
+      (set-position-flag $7 true $2)
+      (set-position-flag $7 true $3)
+      (set-position-flag $7 true $4)
+      (set-position-flag $7 true $5)
   )
 )
 
@@ -54,28 +56,28 @@
      next
      (if (and (in-zone? board-zone) not-empty?)
          (if (piece? SKaze) 
-             (check-attacked-kaze n sw se)
+             (check-attacked-kaze n sw se $1 $2)
          )
          (if (piece? WKaze) 
-             (check-attacked-kaze e nw sw)
+             (check-attacked-kaze e nw sw $1 $2)
          )
          (if (piece? NKaze) 
-             (check-attacked-kaze s ne nw)
+             (check-attacked-kaze s ne nw $1 $2)
          )
          (if (piece? EKaze) 
-             (check-attacked-kaze w se ne)
+             (check-attacked-kaze w se ne $1 $2)
          )
          (if (piece? SArashi) 
-             (check-attacked-arashi n w e nw ne)
+             (check-attacked-arashi n w e nw ne $1 $2)
          )
          (if (piece? WArashi) 
-             (check-attacked-arashi e s n ne se)
+             (check-attacked-arashi e s n ne se $1 $2)
          )
          (if (piece? NArashi) 
-             (check-attacked-arashi s e w sw se)
+             (check-attacked-arashi s e w sw se $1 $2)
          )
          (if (piece? EArashi) 
-             (check-attacked-arashi w s n sw nw)
+             (check-attacked-arashi w s n sw nw $1 $2)
          )
      )
   )
@@ -194,13 +196,97 @@
   back
 )
 
+(define check-piece
+  (set-flag to-n? false) (set-flag to-nw? false)
+  (set-flag to-s? false) (set-flag to-ne? false)
+  (set-flag to-w? false) (set-flag to-sw? false)
+  (set-flag to-e? false) (set-flag to-se? false)  
+  (if (piece? SKaze)
+      (set-flag to-n?  true)
+      (set-flag to-se? true)
+      (set-flag to-sw? true)
+  )  
+  (if (piece? WKaze)
+      (set-flag to-e?  true)
+      (set-flag to-sw? true)
+      (set-flag to-nw? true)
+  )
+  (if (piece? NKaze)
+      (set-flag to-s?  true)
+      (set-flag to-nw? true)
+      (set-flag to-ne? true)
+  )  
+  (if (piece? EKaze)
+      (set-flag to-w?  true)
+      (set-flag to-ne? true)
+      (set-flag to-se? true)
+  )  
+  (if (piece? SArashi)
+      (set-flag to-n?  true)
+      (set-flag to-w?  true)
+      (set-flag to-e?  true)
+      (set-flag to-nw? true)
+      (set-flag to-ne? true)
+  )  
+  (if (piece? WArashi)
+      (set-flag to-e?  true)
+      (set-flag to-n?  true)
+      (set-flag to-s?  true)
+      (set-flag to-ne? true)
+      (set-flag to-se? true)
+  )
+  (if (piece? NArashi)
+      (set-flag to-s?  true)
+      (set-flag to-e?  true)
+      (set-flag to-w?  true)
+      (set-flag to-se? true)
+      (set-flag to-sw? true)
+  )
+  (if (piece? EArashi)
+      (set-flag to-w?  true)
+      (set-flag to-s?  true)
+      (set-flag to-n?  true)
+      (set-flag to-sw? true)
+      (set-flag to-nw? true)
+  )
+)
+
+(define find-king
+  (if (and (flag? $3) (on-board? $4))
+      mark $4
+      (if (and $2
+               (or (piece? SKing) (piece? WKing) (piece? NKing) (piece? EKing)))
+          (set-flag $1 true)
+      )
+      back
+  )
+)
+
+(define check-drop
+  (set-flag  friend-king-found? false)
+  (find-king friend-king-found? friend? to-n? n) (find-king friend-king-found? friend? to-nw? nw)
+  (find-king friend-king-found? friend? to-s? s) (find-king friend-king-found? friend? to-sw? sw)
+  (find-king friend-king-found? friend? to-w? w) (find-king friend-king-found? friend? to-se? se)
+  (find-king friend-king-found? friend? to-e? e) (find-king friend-king-found? friend? to-ne? ne)
+  (if (flag? friend-king-found?)
+      (set-flag  enemy-king-found? false)
+      (find-king enemy-king-found? enemy? to-n? n) (find-king enemy-king-found? enemy? to-nw? nw)
+      (find-king enemy-king-found? enemy? to-s? s) (find-king enemy-king-found? enemy? to-sw? sw)
+      (find-king enemy-king-found? enemy? to-w? w) (find-king enemy-king-found? enemy? to-se? se)
+      (find-king enemy-king-found? enemy? to-e? e) (find-king enemy-king-found? enemy? to-ne? ne)
+      (verify (not-flag? enemy-king-found?))
+  )
+)
+
 (define add-kaze (
+  (check-piece)
   (set-position-flag f true)
   (verify (not-in-zone? board-zone))
-  (check-attacked)
-  (check-mated)
+  (check-attacked is-self? is-checked?)
   $1
   (verify empty?)
+  (check-drop)
+  (check-mated)
   (if (not-position-flag? f IIIb)
       (capture IIIb)
   )
@@ -222,12 +308,14 @@
 ))
 
 (define add-arashi (
+  (check-piece)
   (set-position-flag f true)
   (verify (not-in-zone? board-zone))
-  (check-attacked)
-  (check-mated)
+  (check-attacked is-self? is-checked?)
   $1
   (verify empty?)
+  (check-drop)
+  (check-mated)
   (if (not-position-flag? f IIb)
       (capture IIb)
   )
@@ -276,7 +364,7 @@
 )
 
 (define step (
-  (check-attacked)
+  (check-attacked is-self? is-checked?)
   (verify (not-position-flag? is-self?))
   $1
   (if (not-position-flag? is-self?)
@@ -287,7 +375,7 @@
 ))
 
 (define step-king (
-  (check-attacked)
+  (check-attacked is-self? is-checked?)
   (set-flag start-checked? (position-flag? is-checked?))
   $1
   (if (flag? start-checked?)
@@ -301,7 +389,7 @@
 
 (define rotate-king (
   (verify (in-zone? board-zone))
-  (check-attacked)
+  (check-attacked is-self? is-checked?)
   (verify (not-position-flag? is-checked?))
   (check-opposite $2 $3)
   (add $1)
@@ -309,17 +397,25 @@
 
 (define rotate (
   (verify (in-zone? board-zone))
-  (check-attacked)
+  (check-attacked is-self? is-checked?)
   (verify (not-position-flag? is-self?))
   (check-mated)
   (add $1)
 ))
 
 (game
-  (title "GuFuu Shogi")
+  (title "Gufuu Shogi")
+  (description "Four modes to do the move:\\
+1. Dropping: A piece in hand can be dropped to the board to any free square. When drop the piece there is four directions choose to set the piece on the square, North(N), East(E), South(S) and West(W).\
+2. Ordinary move: After the move to empty square, the face of piece has to rotate 90 degrees to clockwise.\
+3. Capture move: After the capture, the face of piece has to rotate 90 degrees to clockwise.\
+4. Rotation only: The piece can be rotated in current without moving other square. The face of piece has to rotate 90 degrees to clockwise.\\
+Coming from the small board Kings are allowed to stay side by side. The only limitation is that Kings can't be next to each other face-to-face position.")
+  (history "Gufuu Shogi is a modern variant of shogi invented by Georg Dunkel in 1998.")
   (players South North ?N)
   (turn-order (South normal) (North normal) (South normal) repeat 
       (North normal) (?N North support) (South normal) (?N South support))
+  (option "prevent flipping" true)
   (recycle-captures true)
   (animate-drops false)
   (animate-captures false)
@@ -328,7 +424,7 @@
   (capture-sound "")
   (drop-sound "")
   (board
-        (image "../Images/GuFuuShogi/Board.bmp")
+        (image "../Images/GufuuShogi/Board.bmp")
         (grid
                (start-rectangle 12 14 52 59)
                (dimensions ("I/II/O/2/1/Q/III/IV" (41 0))
@@ -380,9 +476,9 @@
   )
   (piece
         (name  Mark)
-        (notation " ")
-        (image South "../Images/GuFuuShogi/mark.bmp"
-               North "../Images/GuFuuShogi/mark.bmp")
+        (help " ")
+        (image South "../Images/GufuuShogi/mark.bmp"
+               North "../Images/GufuuShogi/mark.bmp")
         (drops
            (move-type support)
            (drop-mark)
@@ -390,9 +486,9 @@
   )
   (piece
         (name  SKing)
-        (notation "K")
-        (image South "../Images/GuFuuShogi/Kanji/SKingS.bmp" "../Images/GuFuuShogi/Alpha/SKingS.bmp" "../Images/GuFuuShogi/Draw/SKingS.bmp"
-               North "../Images/GuFuuShogi/Kanji/SKingN.bmp" "../Images/GuFuuShogi/Alpha/SKingN.bmp" "../Images/GuFuuShogi/Draw/SKingN.bmp")
+        (help "King")
+        (image South "../Images/GufuuShogi/Kanji/SKingS.bmp" "../Images/GufuuShogi/Alpha/SKingS.bmp" "../Images/GufuuShogi/Draw/SKingS.bmp"
+               North "../Images/GufuuShogi/Kanji/SKingN.bmp" "../Images/GufuuShogi/Alpha/SKingN.bmp" "../Images/GufuuShogi/Draw/SKingN.bmp")
         (moves
            (move-type normal)
            (add-king 1a n NKing) (add-king 1b n NKing) (add-king 1c n NKing)
@@ -406,9 +502,9 @@
   )
   (piece
         (name  WKing)
-        (notation "K")
-        (image South "../Images/GuFuuShogi/Kanji/WKingS.bmp" "../Images/GuFuuShogi/Alpha/WKingS.bmp" "../Images/GuFuuShogi/Draw/WKingS.bmp"
-               North "../Images/GuFuuShogi/Kanji/WKingN.bmp" "../Images/GuFuuShogi/Alpha/WKingN.bmp" "../Images/GuFuuShogi/Draw/WKingN.bmp")
+        (help "King")
+        (image South "../Images/GufuuShogi/Kanji/WKingS.bmp" "../Images/GufuuShogi/Alpha/WKingS.bmp" "../Images/GufuuShogi/Draw/WKingS.bmp"
+               North "../Images/GufuuShogi/Kanji/WKingN.bmp" "../Images/GufuuShogi/Alpha/WKingN.bmp" "../Images/GufuuShogi/Draw/WKingN.bmp")
         (moves
            (move-type normal)
            (add-king 1a e EKing) (add-king 1b e EKing) (add-king 1c e EKing)
@@ -422,9 +518,9 @@
   )
   (piece
         (name  NKing)
-        (notation "K")
-        (image South "../Images/GuFuuShogi/Kanji/NKingS.bmp" "../Images/GuFuuShogi/Alpha/NKingS.bmp" "../Images/GuFuuShogi/Draw/NKingS.bmp"
-               North "../Images/GuFuuShogi/Kanji/NKingN.bmp" "../Images/GuFuuShogi/Alpha/NKingN.bmp" "../Images/GuFuuShogi/Draw/NKingN.bmp")
+        (help "King")
+        (image South "../Images/GufuuShogi/Kanji/NKingS.bmp" "../Images/GufuuShogi/Alpha/NKingS.bmp" "../Images/GufuuShogi/Draw/NKingS.bmp"
+               North "../Images/GufuuShogi/Kanji/NKingN.bmp" "../Images/GufuuShogi/Alpha/NKingN.bmp" "../Images/GufuuShogi/Draw/NKingN.bmp")
         (moves
            (move-type normal)
            (add-king 1a s SKing) (add-king 1b s SKing) (add-king 1c s SKing)
@@ -438,9 +534,9 @@
   )
   (piece
         (name  EKing)
-        (notation "K")
-        (image South "../Images/GuFuuShogi/Kanji/EKingS.bmp" "../Images/GuFuuShogi/Alpha/EKingS.bmp" "../Images/GuFuuShogi/Draw/EKingS.bmp"
-               North "../Images/GuFuuShogi/Kanji/EKingN.bmp" "../Images/GuFuuShogi/Alpha/EKingN.bmp" "../Images/GuFuuShogi/Draw/EKingN.bmp")
+        (help "King")
+        (image South "../Images/GufuuShogi/Kanji/EKingS.bmp" "../Images/GufuuShogi/Alpha/EKingS.bmp" "../Images/GufuuShogi/Draw/EKingS.bmp"
+               North "../Images/GufuuShogi/Kanji/EKingN.bmp" "../Images/GufuuShogi/Alpha/EKingN.bmp" "../Images/GufuuShogi/Draw/EKingN.bmp")
         (moves
            (move-type normal)
            (add-king 1a w WKing) (add-king 1b w WKing) (add-king 1c w WKing)
@@ -454,9 +550,9 @@
   )
   (piece
         (name  SKaze)
-        (notation "W")
-        (image South "../Images/GuFuuShogi/Kanji/SKaze.bmp" "../Images/GuFuuShogi/Alpha/SKaze.bmp" "../Images/GuFuuShogi/Draw/SKaze.bmp"
-               North "../Images/GuFuuShogi/Kanji/SKaze.bmp" "../Images/GuFuuShogi/Alpha/SKaze.bmp" "../Images/GuFuuShogi/Draw/SKaze.bmp")
+        (help "Kaze")
+        (image South "../Images/GufuuShogi/Kanji/SKaze.bmp" "../Images/GufuuShogi/Alpha/SKaze.bmp" "../Images/GufuuShogi/Draw/SKaze.bmp"
+               North "../Images/GufuuShogi/Kanji/SKaze.bmp" "../Images/GufuuShogi/Alpha/SKaze.bmp" "../Images/GufuuShogi/Draw/SKaze.bmp")
         (moves
            (move-type normal)
            (add-kaze 1a) (add-kaze 1b) (add-kaze 1c)
@@ -467,9 +563,9 @@
   )
   (piece
         (name  WKaze)
-        (notation "W")
-        (image South "../Images/GuFuuShogi/Kanji/WKaze.bmp" "../Images/GuFuuShogi/Alpha/WKaze.bmp" "../Images/GuFuuShogi/Draw/WKaze.bmp"
-               North "../Images/GuFuuShogi/Kanji/WKaze.bmp" "../Images/GuFuuShogi/Alpha/WKaze.bmp" "../Images/GuFuuShogi/Draw/WKaze.bmp")
+        (help "Kaze")
+        (image South "../Images/GufuuShogi/Kanji/WKaze.bmp" "../Images/GufuuShogi/Alpha/WKaze.bmp" "../Images/GufuuShogi/Draw/WKaze.bmp"
+               North "../Images/GufuuShogi/Kanji/WKaze.bmp" "../Images/GufuuShogi/Alpha/WKaze.bmp" "../Images/GufuuShogi/Draw/WKaze.bmp")
         (moves
            (move-type normal)
            (add-kaze 1a) (add-kaze 1b) (add-kaze 1c)
@@ -480,9 +576,9 @@
   )
   (piece
         (name  NKaze)
-        (notation "W")
-        (image South "../Images/GuFuuShogi/Kanji/NKaze.bmp" "../Images/GuFuuShogi/Alpha/NKaze.bmp" "../Images/GuFuuShogi/Draw/NKaze.bmp"
-               North "../Images/GuFuuShogi/Kanji/NKaze.bmp" "../Images/GuFuuShogi/Alpha/NKaze.bmp" "../Images/GuFuuShogi/Draw/NKaze.bmp")
+        (help "Kaze")
+        (image South "../Images/GufuuShogi/Kanji/NKaze.bmp" "../Images/GufuuShogi/Alpha/NKaze.bmp" "../Images/GufuuShogi/Draw/NKaze.bmp"
+               North "../Images/GufuuShogi/Kanji/NKaze.bmp" "../Images/GufuuShogi/Alpha/NKaze.bmp" "../Images/GufuuShogi/Draw/NKaze.bmp")
         (moves
            (move-type normal)
            (add-kaze 1a) (add-kaze 1b) (add-kaze 1c)
@@ -493,9 +589,9 @@
   )
   (piece
         (name  EKaze)
-        (notation "W")
-        (image South "../Images/GuFuuShogi/Kanji/EKaze.bmp" "../Images/GuFuuShogi/Alpha/EKaze.bmp" "../Images/GuFuuShogi/Draw/EKaze.bmp"
-               North "../Images/GuFuuShogi/Kanji/EKaze.bmp" "../Images/GuFuuShogi/Alpha/EKaze.bmp" "../Images/GuFuuShogi/Draw/EKaze.bmp")
+        (help "Kaze")
+        (image South "../Images/GufuuShogi/Kanji/EKaze.bmp" "../Images/GufuuShogi/Alpha/EKaze.bmp" "../Images/GufuuShogi/Draw/EKaze.bmp"
+               North "../Images/GufuuShogi/Kanji/EKaze.bmp" "../Images/GufuuShogi/Alpha/EKaze.bmp" "../Images/GufuuShogi/Draw/EKaze.bmp")
         (moves
            (move-type normal)
            (add-kaze 1a) (add-kaze 1b) (add-kaze 1c)
@@ -506,9 +602,9 @@
   )
   (piece
         (name  SArashi)
-        (notation "S")
-        (image South "../Images/GuFuuShogi/Kanji/SArashi.bmp" "../Images/GuFuuShogi/Alpha/SArashi.bmp" "../Images/GuFuuShogi/Draw/SArashi.bmp"
-               North "../Images/GuFuuShogi/Kanji/SArashi.bmp" "../Images/GuFuuShogi/Alpha/SArashi.bmp" "../Images/GuFuuShogi/Draw/SArashi.bmp")
+        (help "Arashi")
+        (image South "../Images/GufuuShogi/Kanji/SArashi.bmp" "../Images/GufuuShogi/Alpha/SArashi.bmp" "../Images/GufuuShogi/Draw/SArashi.bmp"
+               North "../Images/GufuuShogi/Kanji/SArashi.bmp" "../Images/GufuuShogi/Alpha/SArashi.bmp" "../Images/GufuuShogi/Draw/SArashi.bmp")
         (moves
            (move-type normal)
            (add-arashi 1a) (add-arashi 1b) (add-arashi 1c)
@@ -520,9 +616,9 @@
   )
   (piece
         (name  WArashi)
-        (notation "S")
-        (image South "../Images/GuFuuShogi/Kanji/WArashi.bmp" "../Images/GuFuuShogi/Alpha/WArashi.bmp" "../Images/GuFuuShogi/Draw/WArashi.bmp"
-               North "../Images/GuFuuShogi/Kanji/WArashi.bmp" "../Images/GuFuuShogi/Alpha/WArashi.bmp" "../Images/GuFuuShogi/Draw/WArashi.bmp")
+        (help "Arashi")
+        (image South "../Images/GufuuShogi/Kanji/WArashi.bmp" "../Images/GufuuShogi/Alpha/WArashi.bmp" "../Images/GufuuShogi/Draw/WArashi.bmp"
+               North "../Images/GufuuShogi/Kanji/WArashi.bmp" "../Images/GufuuShogi/Alpha/WArashi.bmp" "../Images/GufuuShogi/Draw/WArashi.bmp")
         (moves
            (move-type normal)
            (add-arashi 1a) (add-arashi 1b) (add-arashi 1c)
@@ -534,9 +630,9 @@
   )
   (piece
         (name  NArashi)
-        (notation "S")
-        (image South "../Images/GuFuuShogi/Kanji/NArashi.bmp" "../Images/GuFuuShogi/Alpha/NArashi.bmp" "../Images/GuFuuShogi/Draw/NArashi.bmp"
-               North "../Images/GuFuuShogi/Kanji/NArashi.bmp" "../Images/GuFuuShogi/Alpha/NArashi.bmp" "../Images/GuFuuShogi/Draw/NArashi.bmp")
+        (help "Arashi")
+        (image South "../Images/GufuuShogi/Kanji/NArashi.bmp" "../Images/GufuuShogi/Alpha/NArashi.bmp" "../Images/GufuuShogi/Draw/NArashi.bmp"
+               North "../Images/GufuuShogi/Kanji/NArashi.bmp" "../Images/GufuuShogi/Alpha/NArashi.bmp" "../Images/GufuuShogi/Draw/NArashi.bmp")
         (moves
            (move-type normal)
            (add-arashi 1a) (add-arashi 1b) (add-arashi 1c)
@@ -548,9 +644,9 @@
   )
   (piece
         (name  EArashi)
-        (notation "S")
-        (image South "../Images/GuFuuShogi/Kanji/EArashi.bmp" "../Images/GuFuuShogi/Alpha/EArashi.bmp" "../Images/GuFuuShogi/Draw/EArashi.bmp"
-               North "../Images/GuFuuShogi/Kanji/EArashi.bmp" "../Images/GuFuuShogi/Alpha/EArashi.bmp" "../Images/GuFuuShogi/Draw/EArashi.bmp")
+        (help "Arashi")
+        (image South "../Images/GufuuShogi/Kanji/EArashi.bmp" "../Images/GufuuShogi/Alpha/EArashi.bmp" "../Images/GufuuShogi/Draw/EArashi.bmp"
+               North "../Images/GufuuShogi/Kanji/EArashi.bmp" "../Images/GufuuShogi/Alpha/EArashi.bmp" "../Images/GufuuShogi/Draw/EArashi.bmp")
         (moves
            (move-type normal)
            (add-arashi 1a) (add-arashi 1b) (add-arashi 1c)
@@ -578,4 +674,232 @@
   )
   (loss-condition (South North) stalemated)
   (loss-condition (South North) repetition)
+)
+
+(define check-piece-ex
+  (set-flag to-n? false) (set-flag to-nw? false)
+  (set-flag to-s? false) (set-flag to-ne? false)
+  (set-flag to-w? false) (set-flag to-sw? false)
+  (set-flag to-e? false) (set-flag to-se? false)  
+  (if (piece? SKaze)
+      (set-flag to-e?  true)
+      (set-flag to-sw? true)
+      (set-flag to-nw? true)
+  )  
+  (if (piece? WKaze)
+      (set-flag to-s?  true)
+      (set-flag to-nw? true)
+      (set-flag to-ne? true)
+  )
+  (if (piece? NKaze)
+      (set-flag to-w?  true)
+      (set-flag to-ne? true)
+      (set-flag to-se? true)
+  )  
+  (if (piece? EKaze)
+      (set-flag to-n?  true)
+      (set-flag to-se? true)
+      (set-flag to-sw? true)
+  )  
+  (if (piece? SArashi)
+      (set-flag to-e?  true)
+      (set-flag to-n?  true)
+      (set-flag to-s?  true)
+      (set-flag to-ne? true)
+      (set-flag to-se? true)
+  )  
+  (if (piece? WArashi)
+      (set-flag to-s?  true)
+      (set-flag to-e?  true)
+      (set-flag to-w?  true)
+      (set-flag to-se? true)
+      (set-flag to-sw? true)
+  )
+  (if (piece? NArashi)
+      (set-flag to-w?  true)
+      (set-flag to-s?  true)
+      (set-flag to-n?  true)
+      (set-flag to-sw? true)
+      (set-flag to-nw? true)
+  )
+  (if (piece? EArashi)
+      (set-flag to-n?  true)
+      (set-flag to-w?  true)
+      (set-flag to-e?  true)
+      (set-flag to-nw? true)
+      (set-flag to-ne? true)
+  )
+)
+
+(define check-mated-ex
+  mark START
+  (while (on-board? next)
+     next
+     (if (and friend?
+              (or (piece? SKing) (piece? WKing) (piece? NKing) (piece? EKing)))
+         (if (position-flag? before-checked?)
+             (verify (not-position-flag? after-checked?))
+         )
+     )
+  )
+  back
+)
+
+(define mark-checked
+  (if (and (flag? $2) (on-board? $3))
+      mark $3
+      (set-position-flag $1 true)
+      back
+  )
+)
+
+(define mark-all
+  (mark-checked $1 to-n? n) (mark-checked $1 to-nw? nw)
+  (mark-checked $1 to-s? s) (mark-checked $1 to-sw? sw)
+  (mark-checked $1 to-w? w) (mark-checked $1 to-se? se)
+  (mark-checked $1 to-e? e) (mark-checked $1 to-ne? ne)
+)
+
+(define rotate-ex (
+  (verify (in-zone? board-zone))
+  (check-attacked before-self? before-checked?)
+  (set-position-flag is-from? true)
+  (check-attacked after-self? after-checked?)
+  (check-piece-ex)
+  (mark-all after-checked?)
+  (check-mated-ex)
+  (add $1)
+))
+
+(define set-killed
+  mark $1
+  (set-position-flag is-from? true)
+  back
+)
+
+(define step-ex (
+  (set-killed $1)
+  (check-attacked is-self? is-checked?)
+  (check-attacked before-self? before-checked?)
+  (set-position-flag is-from? true)
+  (check-attacked after-self? after-checked?)
+  (check-piece-ex)
+  $1
+  (mark-all after-checked?)
+  (check-mated-ex)
+  (common-step)
+  (add $2)
+))
+
+(variant
+  (title "Gufuu Shogi (variant)")
+  (default)
+  (piece
+        (name  SKaze)
+        (help "Kaze")
+        (image South "../Images/GufuuShogi/Kanji/SKaze.bmp" "../Images/GufuuShogi/Alpha/SKaze.bmp" "../Images/GufuuShogi/Draw/SKaze.bmp"
+               North "../Images/GufuuShogi/Kanji/SKaze.bmp" "../Images/GufuuShogi/Alpha/SKaze.bmp" "../Images/GufuuShogi/Draw/SKaze.bmp")
+        (moves
+           (move-type normal)
+           (add-kaze 1a) (add-kaze 1b) (add-kaze 1c)
+           (add-kaze 2a) (add-kaze 2b) (add-kaze 2c)
+           (step-ex n WKaze) (step-ex sw WKaze) (step-ex se WKaze)
+           (rotate-ex WKaze)
+        )
+  )
+  (piece
+        (name  WKaze)
+        (help "Kaze")
+        (image South "../Images/GufuuShogi/Kanji/WKaze.bmp" "../Images/GufuuShogi/Alpha/WKaze.bmp" "../Images/GufuuShogi/Draw/WKaze.bmp"
+               North "../Images/GufuuShogi/Kanji/WKaze.bmp" "../Images/GufuuShogi/Alpha/WKaze.bmp" "../Images/GufuuShogi/Draw/WKaze.bmp")
+        (moves
+           (move-type normal)
+           (add-kaze 1a) (add-kaze 1b) (add-kaze 1c)
+           (add-kaze 2a) (add-kaze 2b) (add-kaze 2c)
+           (step-ex e NKaze) (step-ex nw NKaze) (step-ex sw NKaze)
+           (rotate-ex NKaze)
+        )
+  )
+  (piece
+        (name  NKaze)
+        (help "Kaze")
+        (image South "../Images/GufuuShogi/Kanji/NKaze.bmp" "../Images/GufuuShogi/Alpha/NKaze.bmp" "../Images/GufuuShogi/Draw/NKaze.bmp"
+               North "../Images/GufuuShogi/Kanji/NKaze.bmp" "../Images/GufuuShogi/Alpha/NKaze.bmp" "../Images/GufuuShogi/Draw/NKaze.bmp")
+        (moves
+           (move-type normal)
+           (add-kaze 1a) (add-kaze 1b) (add-kaze 1c)
+           (add-kaze 2a) (add-kaze 2b) (add-kaze 2c)
+           (step-ex s EKaze) (step-ex nw EKaze) (step-ex ne EKaze)
+           (rotate-ex EKaze)
+        )
+  )
+  (piece
+        (name  EKaze)
+        (help "Kaze")
+        (image South "../Images/GufuuShogi/Kanji/EKaze.bmp" "../Images/GufuuShogi/Alpha/EKaze.bmp" "../Images/GufuuShogi/Draw/EKaze.bmp"
+               North "../Images/GufuuShogi/Kanji/EKaze.bmp" "../Images/GufuuShogi/Alpha/EKaze.bmp" "../Images/GufuuShogi/Draw/EKaze.bmp")
+        (moves
+           (move-type normal)
+           (add-kaze 1a) (add-kaze 1b) (add-kaze 1c)
+           (add-kaze 2a) (add-kaze 2b) (add-kaze 2c)
+           (step-ex w SKaze) (step-ex ne SKaze) (step-ex se SKaze)
+           (rotate-ex SKaze)
+        )
+  )
+  (piece
+        (name  SArashi)
+        (help "Arashi")
+        (image South "../Images/GufuuShogi/Kanji/SArashi.bmp" "../Images/GufuuShogi/Alpha/SArashi.bmp" "../Images/GufuuShogi/Draw/SArashi.bmp"
+               North "../Images/GufuuShogi/Kanji/SArashi.bmp" "../Images/GufuuShogi/Alpha/SArashi.bmp" "../Images/GufuuShogi/Draw/SArashi.bmp")
+        (moves
+           (move-type normal)
+           (add-arashi 1a) (add-arashi 1b) (add-arashi 1c)
+           (add-arashi 2a) (add-arashi 2b) (add-arashi 2c)
+           (step-ex n WArashi) (step-ex w WArashi) (step-ex e WArashi)
+           (step-ex nw WArashi) (step-ex ne WArashi)
+           (rotate-ex WArashi)
+        )
+  )
+  (piece
+        (name  WArashi)
+        (help "Arashi")
+        (image South "../Images/GufuuShogi/Kanji/WArashi.bmp" "../Images/GufuuShogi/Alpha/WArashi.bmp" "../Images/GufuuShogi/Draw/WArashi.bmp"
+               North "../Images/GufuuShogi/Kanji/WArashi.bmp" "../Images/GufuuShogi/Alpha/WArashi.bmp" "../Images/GufuuShogi/Draw/WArashi.bmp")
+        (moves
+           (move-type normal)
+           (add-arashi 1a) (add-arashi 1b) (add-arashi 1c)
+           (add-arashi 2a) (add-arashi 2b) (add-arashi 2c)
+           (step-ex e NArashi) (step-ex n NArashi) (step-ex s NArashi)
+           (step-ex ne NArashi) (step-ex se NArashi)
+           (rotate-ex NArashi)
+        )
+  )
+  (piece
+        (name  NArashi)
+        (help "Arashi")
+        (image South "../Images/GufuuShogi/Kanji/NArashi.bmp" "../Images/GufuuShogi/Alpha/NArashi.bmp" "../Images/GufuuShogi/Draw/NArashi.bmp"
+               North "../Images/GufuuShogi/Kanji/NArashi.bmp" "../Images/GufuuShogi/Alpha/NArashi.bmp" "../Images/GufuuShogi/Draw/NArashi.bmp")
+        (moves
+           (move-type normal)
+           (add-arashi 1a) (add-arashi 1b) (add-arashi 1c)
+           (add-arashi 2a) (add-arashi 2b) (add-arashi 2c)
+           (step-ex s EArashi) (step-ex w EArashi) (step-ex e EArashi)
+           (step-ex sw EArashi) (step-ex se EArashi)
+           (rotate-ex EArashi)
+        )
+  )
+  (piece
+        (name  EArashi)
+        (help "Arashi")
+        (image South "../Images/GufuuShogi/Kanji/EArashi.bmp" "../Images/GufuuShogi/Alpha/EArashi.bmp" "../Images/GufuuShogi/Draw/EArashi.bmp"
+               North "../Images/GufuuShogi/Kanji/EArashi.bmp" "../Images/GufuuShogi/Alpha/EArashi.bmp" "../Images/GufuuShogi/Draw/EArashi.bmp")
+        (moves
+           (move-type normal)
+           (add-arashi 1a) (add-arashi 1b) (add-arashi 1c)
+           (add-arashi 2a) (add-arashi 2b) (add-arashi 2c)
+           (step-ex w SArashi) (step-ex n SArashi) (step-ex s SArashi)
+           (step-ex nw SArashi) (step-ex sw SArashi)
+           (rotate-ex SArashi)
+        )
+  )
 )
