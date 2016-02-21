@@ -1,0 +1,105 @@
+(define step (
+  $1
+  (verify empty?)
+  add
+))
+
+(define dice
+   (piece
+      (name D$1)
+      (image Red   "../Images/Chase/d$1r.bmp"
+             White "../Images/Chase/d$1w.bmp")
+      (moves
+         (step nw) (step ne) (step w)
+         (step sw) (step se) (step e)
+      )
+   )
+)
+
+(game
+   (title "Chase")
+
+   (option "prevent flipping" true)
+   (animate-captures false)
+
+   (move-sound "Audio\Pickup.wav")
+   (release-sound "Audio\Pickup.wav")
+   (capture-sound "")
+   (drop-sound "")
+
+   (players Red White)
+   (turn-order Red White)
+
+   (board
+      (image "../Images/Chase/board.bmp")
+      (grid
+        (start-rectangle 48 32 108 82)
+        (dimensions
+            ("a/b/c/d/e/f/g/h/i/j/k/l/m" (60 0))
+            ("1/2/3/4/5/6/7/8/9" (-30 52))
+        )
+        (directions (se 1 1) (w 1 0) (sw 0 1)
+                    (nw -1 -1)  (e -1 0) (ne 0 -1))
+      )
+      (kill-positions
+         j1 k1 l1 m1 j2 k2 l2 m2 a3 k3 l3 m3 
+         a4 k4 l4 m4 a5 b5 l5 m5 a6 b6 l6 m6 
+         a7 b7 c7 m7 a8 b8 c8 m8 a9 b9 c9 d9
+      )
+   )
+
+   (dice 1) (dice 2) (dice 3) (dice 4) (dice 5) (dice 6)
+
+   (board-setup
+      (White 
+         (D1 a1 i1)
+         (D2 b1 h1)
+         (D3 c1 g1)
+         (D4 d1 f1)
+         (D5 e1)
+      )
+      (Red   
+         (D1 e9 m9)
+         (D2 f9 l9)
+         (D3 g9 k9)
+         (D4 h9 j9)
+         (D5 i9)
+      )
+   )
+)
+
+(variant
+   (title "-")
+)
+
+(variant
+   (title "Problem 1")
+   (board-setup
+      (White 
+         (D4 c3 h4 d8)
+         (D5 e4 j4)
+         (D3 l7)
+      )
+      (Red   
+         (D6 c1 g1 e3 g3)
+         (D1 f5)
+      )
+   )
+)
+
+(variant
+   (title "Problem 2")
+   (board-setup
+      (White 
+         (D6 c1 e7)
+         (D5 c5)
+         (D4 j9 k9)
+      )
+      (Red   
+         (D4 f1 c3 i7)
+         (D5 h1)
+         (D2 i5)
+         (D6 d7)
+      )
+   )
+)
