@@ -129,7 +129,7 @@
                                            is promoted to first Dan in ladies Shogi.\
             March         2008   Madoka Kitao invents Dobutsu Shogi\
                                            (young girl's version).\
-0.0.1   February      2015   Valentin Chelnokov creates Zillons of Games version.\
+0.0.1   February      2015   Valentin Chelnokov creates Zillions of Games version.\
 0.0.2   March          2015   Moved (no checks) variant to become (original) game.\
                                            Moved (original) game to become (no checks) variant.\
 0.0.3   January        2016   Reduced size of board and pieces.\
@@ -140,7 +140,16 @@
                                            Increased to six the maximum captured pieces in hand\
                                            by allowing hand to overflow to other side of board.\
                                            Expanded game description and history.\
-                                           Added strategy and piece descriptions.
+                                           Added strategy and piece descriptions.\
+0.0.5   February      2016   Disallowed dropping of chick onto last row\
+                                           in (check and mate) variant only.\
+                                           Made stalemate a win for the stalemator\
+                                           in (check and mate) variant only.\
+                                           Restored limit on captures to four in hand\
+                                           in (check and mate) variant only.\
+                                           This means your opponent will be invulnerable to capture\
+                                           when you hold four pieces in hand.\
+                                           Removed game version number from titles of game and variant.
  ")
   (strategy "According to <en.wikipedia.org/wiki/Dobutsu_Shogi>,\
              the game of Dobutsu Shogi has been completely analyzed and strongly resolved.\
@@ -347,14 +356,17 @@
 )
 
 (variant
-  (title "Doubutsu Shogi (with checks)")
+  (title "Doubutsu Shogi (with check and mate)")
 
   (description "The object of the game is to checkmate or stalemate the enemy King (Lion)\
                 or to have one's own King (Lion) be the first King (Lion)\
                 to move or capture onto a non-threatened square on the last row.\\
                 When a piece is captured it is added to the capturer's `reserve`, an\
                 army of pieces which can be reintroduced into play on the capturer's\
-                side (pieces in reserve are also said to be `in hand`).\\
+                side (pieces in reserve are also said to be `in hand`).\
+                In this variant you may hold a maximum of four pieces `in hand`.\
+                When you have four captives `in hand`,\
+                your opponent will enjoy complete invulnerability to capture.\\
                 All pieces move and capture (by displacement) to adjacent squares\
                 in the directions indicated by the litte arrows on the face of each piece.\\
                 On each turn, a player must choose one of three options:\
