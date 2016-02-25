@@ -82,6 +82,19 @@ DEFER	mark
 	ENDIF
 ;
 
+: bump ( 'dir -- )
+	BEGIN
+		here E5 <> verify
+		friend? here from <> AND IF
+			piece-type SWAP step SWAP
+			create-piece-type
+			FALSE
+		ELSE
+			TRUE
+		ENDIF
+	UNTIL DROP
+;
+
 : slide ( 'dir -- )
 	val SWAP BEGIN
 		step
@@ -91,9 +104,10 @@ DEFER	mark
 			my-empty? verify
 			SWAP FALSE
 		ENDIF
-	UNTIL 2DROP
-	my-empty? verify
+	UNTIL DROP
+	my-empty? friend? OR verify
 	from here move
+	bump
 	add-move
 ;
 
