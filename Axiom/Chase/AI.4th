@@ -10,10 +10,6 @@
 	current-player material-balance 3 * +
 ;
 
-: val-at ( pos -- n )
-	piece-type-at mark -
-;
-
 : OnIsGameOver ( -- gameResult )
 	#UnknownScore
 	0 0 BEGIN

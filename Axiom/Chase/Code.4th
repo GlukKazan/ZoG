@@ -1,7 +1,18 @@
-DEFER	mark
+VARIABLE	alloc-path
+VARIABLE	alloc-val
+VARIABLE	alloc-target
+VARIABLE	alloc-pos
+VARIABLE	pos-count
+7 []		pos[]
+
+DEFER		mark
 
 : val ( -- n )
 	piece-type mark -
+;
+
+: val-at ( pos -- n )
+	piece-type-at mark -
 ;
 
 : mirror ( 'dir  -- 'dir )
@@ -95,7 +106,70 @@ DEFER	mark
 	UNTIL DROP
 ;
 
+: add-pos ( pos -- )
+	pos-count @ pos[] !
+	pos-count ++
+;
+
+: not-in-pos? ( pos -- ? )
+	TRUE SWAP
+	0 BEGIN
+		OVER OVER pos[] @ = IF
+			2DROP DROP FALSE
+			0 0 TRUE
+		ELSE
+			1+ DUP pos-count @ >=
+		ENDIF
+	UNTIL 2DROP
+;
+
+: alloc-to ( pos -- )
+	DUP add-pos
+	DUP val-at 6 SWAP -
+	DUP alloc-val @ > IF
+		DROP alloc-val @
+		0 alloc-val !
+	ELSE
+		alloc-val @ OVER - alloc-val !
+	ENDIF
+	next-player ROT ROT
+	OVER piece-type-at + SWAP
+	create-player-piece-type-at
+;
+
+: alloc ( -- )
+	6 0 BEGIN
+		DUP enemy-at? OVER not-in-pos? AND IF
+			SWAP OVER val-at MIN SWAP
+		ENDIF
+		1+ DUP A9 >
+	UNTIL DROP
+	DUP 6 < verify
+	alloc-target !
+	alloc-path @ 10 MOD alloc-pos !
+	0 BEGIN
+		DUP enemy-at? OVER not-in-pos? AND IF
+			DUP val-at alloc-target @ = IF
+				alloc-pos @ 0= IF
+					DUP alloc-to
+					0 alloc-target !
+					DROP A9
+				ELSE
+					alloc-pos --
+				ENDIF
+			ENDIF
+		ENDIF
+		1+ DUP A9 >
+	UNTIL DROP
+	alloc-target @ 0= verify
+	alloc-val @ 0> IF
+		alloc-path @ 10 / alloc-path !
+		RECURSE
+	ENDIF
+;
+
 : slide ( 'dir -- )
+	0 alloc-path !
 	val SWAP BEGIN
 		step
 		SWAP 1- DUP 0= IF
@@ -105,9 +179,15 @@ DEFER	mark
 			SWAP FALSE
 		ENDIF
 	UNTIL DROP
-	my-empty? friend? OR verify
 	from here move
-	bump
+	bump enemy? IF
+		val alloc-val !
+		0 pos-count !
+		here add-pos
+		alloc
+	ELSE
+		alloc-path @ 0= verify
+	ENDIF
 	add-move
 ;
 
