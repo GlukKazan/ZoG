@@ -144,32 +144,35 @@ DEFER		mark
 		ENDIF
 		1+ DUP A9 >
 	UNTIL DROP
-	DUP 6 < verify
-	alloc-target !
-	alloc-path @ 10 MOD alloc-pos !
-	0 BEGIN
-		DUP enemy-at? OVER not-in-pos? AND IF
-			DUP val-at alloc-target @ = IF
-				alloc-pos @ 0= IF
-					DUP alloc-to
-					0 alloc-target !
-					DROP A9
-				ELSE
-					alloc-pos --
+	DUP 6 < IF
+		alloc-target !
+		alloc-path @ 10 MOD alloc-pos !
+		0 BEGIN
+			DUP enemy-at? OVER not-in-pos? AND IF
+				DUP val-at alloc-target @ = IF
+					alloc-pos @ 0= IF
+						DUP alloc-to
+						0 alloc-target !
+						DROP A9
+					ELSE
+						alloc-pos --
+					ENDIF
 				ENDIF
 			ENDIF
+			1+ DUP A9 >
+		UNTIL DROP
+		alloc-target @ 0= verify
+		alloc-val @ 0> IF
+			alloc-path @ 10 / alloc-path !
+			RECURSE
 		ENDIF
-		1+ DUP A9 >
-	UNTIL DROP
-	alloc-target @ 0= verify
-	alloc-val @ 0> IF
-		alloc-path @ 10 / alloc-path !
-		RECURSE
+	ELSE
+		DROP
 	ENDIF
 ;
 
-: slide ( 'dir -- )
-	0 alloc-path !
+: slide ( 'dir n -- )
+	alloc-path !
 	val SWAP BEGIN
 		step
 		SWAP 1- DUP 0= IF
@@ -191,9 +194,16 @@ DEFER		mark
 	add-move
 ;
 
-: slide-nw ( -- ) ['] nw slide ;
-: slide-sw ( -- ) ['] sw slide ;
-: slide-ne ( -- ) ['] ne slide ;
-: slide-se ( -- ) ['] se slide ;
-: slide-w  ( -- ) ['] w  slide ;
-: slide-e  ( -- ) ['] e  slide ;
+: slide-nw-0 ( -- ) ['] nw 0 slide ;
+: slide-sw-0 ( -- ) ['] sw 0 slide ;
+: slide-ne-0 ( -- ) ['] ne 0 slide ;
+: slide-se-0 ( -- ) ['] se 0 slide ;
+: slide-w-0  ( -- ) ['] w  0 slide ;
+: slide-e-0  ( -- ) ['] e  0 slide ;
+
+: slide-nw-1 ( -- ) ['] nw 1 slide ;
+: slide-sw-1 ( -- ) ['] sw 1 slide ;
+: slide-ne-1 ( -- ) ['] ne 1 slide ;
+: slide-se-1 ( -- ) ['] se 1 slide ;
+: slide-w-1  ( -- ) ['] w  1 slide ;
+: slide-e-1  ( -- ) ['] e  1 slide ;

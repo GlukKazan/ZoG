@@ -1,10 +1,16 @@
 {moves p-moves
-	{move} slide-nw
-	{move} slide-ne
-	{move} slide-sw
-	{move} slide-se
-	{move} slide-w
-	{move} slide-e
+	{move} slide-nw-0
+	{move} slide-ne-0
+	{move} slide-sw-0
+	{move} slide-se-0
+	{move} slide-w-0
+	{move} slide-e-0
+	{move} slide-nw-1
+	{move} slide-ne-1
+	{move} slide-sw-1
+	{move} slide-se-1
+	{move} slide-w-1
+	{move} slide-e-1
 	{move} exchange-1-nw
 	{move} exchange-1-ne
 	{move} exchange-1-sw
