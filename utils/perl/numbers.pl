@@ -9,10 +9,22 @@ sub out {
   printf "\n";
 }
 
+sub proc {
+  my ($x, $r, $m) = @_;
+  if ($x == 0) {
+      $s{$r}++;
+  } else {
+     my $n = $x % 10;
+     for (my $i = 0; $i < $n; $i++) {
+        proc(int($x / 10), $r + $i * $m, $m * 10);
+     }
+  }
+}
+
 sub alloc {
   my ($x, $deep, $res) = @_;
   if ($x == 0) {
-      $s{$res}++;
+      proc($res, 0, 1);
   } else {
       my $vl = 6;
       for (my $i = 0; $i < $deep; $i++) {
