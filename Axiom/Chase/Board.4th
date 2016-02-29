@@ -80,6 +80,9 @@
 	{position}	A7
 	{position}	A8
 	{position}	A9
+
+	{position}	pass-flag
+	{position}	op-flag
 board}
 
 {directions

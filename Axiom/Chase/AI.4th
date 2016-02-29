@@ -12,7 +12,7 @@
 
 : OnIsGameOver ( -- gameResult )
 	#UnknownScore
-	0 0 BEGIN
+(	0 0 BEGIN
 		DUP friend-at? IF
 			SWAP OVER val-at + SWAP
 		ENDIF
@@ -31,5 +31,5 @@
 	25 < IF
 		DROP
 		#WinScore
-	ENDIF
+	ENDIF )
 ;

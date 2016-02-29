@@ -39,7 +39,28 @@ DEFER		mark
 	ENDIF
 ;
 
+: check-pass ( -- )
+	pass-flag enemy-at? NOT verify
+;
+
+: check-empty-pass ( -- )
+	pass-flag empty-at? verify
+;
+
+: set-pass ( -- )
+	mark pass-flag create-piece-type-at
+;
+
+: clear-pass ( -- )
+	pass-flag empty-at? NOT IF
+		pass-flag player-at for-player = IF
+			pass-flag capture-at
+		ENDIF
+	ENDIF
+;
+
 : exchange ( n 'dir -- )
+	check-empty-pass
 	OVER val < verify
 	EXECUTE verify
 	friend? verify
@@ -86,7 +107,7 @@ DEFER		mark
 : exchange-5-e  ( -- ) 5 ['] e  exchange ;
 
 : my-empty? ( -- ? )
-	empty? NOT IF
+	empty? here from = OR NOT IF
 		FALSE
 	ELSE
 		here E5 <>
@@ -123,6 +144,14 @@ DEFER		mark
 	UNTIL 2DROP
 ;
 
+: my-next-player ( -- player )
+	current-player Red = IF
+		White
+	ELSE
+		Red
+	ENDIF
+;
+
 : alloc-to ( pos -- )
 	DUP add-pos
 	DUP val-at 6 SWAP -
@@ -132,7 +161,7 @@ DEFER		mark
 	ELSE
 		alloc-val @ OVER - alloc-val !
 	ENDIF
-	next-player ROT ROT
+	my-next-player ROT ROT
 	OVER piece-type-at + SWAP
 	create-player-piece-type-at
 ;
@@ -171,7 +200,39 @@ DEFER		mark
 	ENDIF
 ;
 
-: slide ( 'dir n -- )
+: slide ( 'dir -- )
+	check-empty-pass
+	val SWAP BEGIN
+		step
+		SWAP 1- DUP 0= IF
+			TRUE
+		ELSE
+			my-empty? verify
+			SWAP FALSE
+		ENDIF
+	UNTIL DROP
+	from here move
+	bump
+	my-empty? verify
+	add-move
+;
+
+: slide-nw ( -- ) ['] nw slide ;
+: slide-sw ( -- ) ['] sw slide ;
+: slide-ne ( -- ) ['] ne slide ;
+: slide-se ( -- ) ['] se slide ;
+: slide-w  ( -- ) ['] w  slide ;
+: slide-e  ( -- ) ['] e  slide ;
+
+: alloc-all ( -- )
+	val alloc-val !
+	0 pos-count !
+	here add-pos
+	alloc
+;
+
+: eat ( 'dir n -- )
+	check-pass
 	alloc-path !
 	val SWAP BEGIN
 		step
@@ -183,27 +244,30 @@ DEFER		mark
 		ENDIF
 	UNTIL DROP
 	from here move
-	bump enemy? IF
-		val alloc-val !
-		0 pos-count !
-		here add-pos
-		alloc
-	ELSE
-		alloc-path @ 0= verify
-	ENDIF
+	bump
+	enemy? verify
+	set-pass
+	alloc-all
 	add-move
 ;
 
-: slide-nw-0 ( -- ) ['] nw 0 slide ;
-: slide-sw-0 ( -- ) ['] sw 0 slide ;
-: slide-ne-0 ( -- ) ['] ne 0 slide ;
-: slide-se-0 ( -- ) ['] se 0 slide ;
-: slide-w-0  ( -- ) ['] w  0 slide ;
-: slide-e-0  ( -- ) ['] e  0 slide ;
+: eat-nw-0 ( -- ) ['] nw 0 eat ;
+: eat-sw-0 ( -- ) ['] sw 0 eat ;
+: eat-ne-0 ( -- ) ['] ne 0 eat ;
+: eat-se-0 ( -- ) ['] se 0 eat ;
+: eat-w-0  ( -- ) ['] w  0 eat ;
+: eat-e-0  ( -- ) ['] e  0 eat ;
 
-: slide-nw-1 ( -- ) ['] nw 1 slide ;
-: slide-sw-1 ( -- ) ['] sw 1 slide ;
-: slide-ne-1 ( -- ) ['] ne 1 slide ;
-: slide-se-1 ( -- ) ['] se 1 slide ;
-: slide-w-1  ( -- ) ['] w  1 slide ;
-: slide-e-1  ( -- ) ['] e  1 slide ;
+: eat-nw-1 ( -- ) ['] nw 1 eat ;
+: eat-sw-1 ( -- ) ['] sw 1 eat ;
+: eat-ne-1 ( -- ) ['] ne 1 eat ;
+: eat-se-1 ( -- ) ['] se 1 eat ;
+: eat-w-1  ( -- ) ['] w  1 eat ;
+: eat-e-1  ( -- ) ['] e  1 eat ;
+
+: drop-m ( -- )
+	op-flag here = verify
+	drop
+	clear-pass
+	add-move
+;

@@ -2,7 +2,9 @@
    (title "Chase")
    (engine "../Axiom/Chase/axiom.dll")
 
+   (option "show moves list" false)
    (option "prevent flipping" true)
+   (option "pass turn" forced)
    (animate-captures false)
 
    (move-sound "Audio\Pickup.wav")
@@ -10,8 +12,8 @@
    (capture-sound "")
    (drop-sound "")
 
-   (players Red White)
-   (turn-order Red White)
+   (players Red White ?R)
+   (turn-order Red (?R White) White (?R Red))
 
    (board
       (image "../Images/Chase/board.bmp")
@@ -105,10 +107,16 @@
              (A7 408 447 468 497)
              (A8 468 447 528 497)
              (A9 528 447 588 497)
+
+             (pass-flag -130 -60 -70 -10)
+             (op-flag   -70  -60 -10 -10)
       )
    )
 
-   (piece (name MARK) (dummy) (moves (from)))
+   (piece (name m) (dummy) (moves (from))
+      (image Red   "../Images/Chase/invisible.bmp"
+             White "../Images/Chase/invisible.bmp")
+   )
 
    (piece
       (name p1)
