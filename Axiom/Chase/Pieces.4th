@@ -60,6 +60,12 @@ moves}
 moves}
 
 {pieces
+	{piece}		q6	{moves} p-moves 1   {value}
+	{piece}		q5	{moves} p-moves 2   {value}
+	{piece}		q4	{moves} p-moves 3   {value}
+	{piece}		q3	{moves} p-moves 4   {value}
+	{piece}		q2	{moves} p-moves 5   {value}
+	{piece}		q1	{moves} p-moves 6   {value}
 	{piece}		m	{drops} m-drop
 	{piece}		p1	{moves} p-moves 6   {value}
 	{piece}		p2	{moves} p-moves 5   {value}

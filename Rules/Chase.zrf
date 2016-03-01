@@ -7,8 +7,8 @@
    (option "pass turn" forced)
    (animate-captures false)
 
-   (move-sound "Audio\Pickup.wav")
-   (release-sound "Audio\Pickup.wav")
+   (move-sound "Audio/Pickup.wav")
+   (release-sound "Audio/Pickup.wav")
    (capture-sound "")
    (drop-sound "")
 
@@ -113,11 +113,40 @@
       )
    )
 
+   (piece
+      (name q6)
+      (image Red   "../Images/Chase/d6r.bmp"
+             White "../Images/Chase/d6w.bmp")
+   )
+   (piece
+      (name q5)
+      (image Red   "../Images/Chase/d5r.bmp"
+             White "../Images/Chase/d5w.bmp")
+   )
+   (piece
+      (name q4)
+      (image Red   "../Images/Chase/d4r.bmp"
+             White "../Images/Chase/d4w.bmp")
+   )
+   (piece
+      (name q3)
+      (image Red   "../Images/Chase/d3r.bmp"
+             White "../Images/Chase/d3w.bmp")
+   )
+   (piece
+      (name q2)
+      (image Red   "../Images/Chase/d2r.bmp"
+             White "../Images/Chase/d2w.bmp")
+   )
+   (piece
+      (name q1)
+      (image Red   "../Images/Chase/d1r.bmp"
+             White "../Images/Chase/d1w.bmp")
+   )
    (piece (name m) (dummy) (moves (from))
       (image Red   "../Images/Chase/invisible.bmp"
              White "../Images/Chase/invisible.bmp")
    )
-
    (piece
       (name p1)
       (image Red   "../Images/Chase/d1r.bmp"

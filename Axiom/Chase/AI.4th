@@ -10,10 +10,26 @@
 	current-player material-balance 3 * +
 ;
 
+: for-friend-at? ( pos -- ? )
+	DUP empty-at? IF
+		DROP FALSE
+	ELSE
+		player-at for-player =
+	ENDIF
+;
+
+: for-enemy-at? ( pos -- ? )
+	DUP empty-at? IF
+		DROP FALSE
+	ELSE
+		player-at for-player <>
+	ENDIF
+;
+
 : OnIsGameOver ( -- gameResult )
 	#UnknownScore
-(	0 0 BEGIN
-		DUP friend-at? IF
+	0 0 BEGIN
+		DUP for-friend-at? IF
 			SWAP OVER val-at + SWAP
 		ENDIF
 		1+ DUP A9 >
@@ -23,7 +39,7 @@
 		#LossScore
 	ENDIF
 	0 0 BEGIN
-		DUP enemy-at? IF
+		DUP for-enemy-at? IF
 			SWAP OVER val-at + SWAP
 		ENDIF
 		1+ DUP A9 >
@@ -31,5 +47,5 @@
 	25 < IF
 		DROP
 		#WinScore
-	ENDIF )
+	ENDIF
 ;

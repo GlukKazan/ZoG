@@ -2,17 +2,50 @@ VARIABLE	alloc-path
 VARIABLE	alloc-val
 VARIABLE	alloc-target
 VARIABLE	alloc-pos
+VARIABLE	is-neg?
 VARIABLE	pos-count
 7 []		pos[]
 
 DEFER		mark
 
 : val ( -- n )
-	piece-type mark -
+	piece-type mark - ABS
 ;
 
 : val-at ( pos -- n )
-	piece-type-at mark -
+	piece-type-at mark - ABS
+;
+
+: add-pos ( pos -- )
+	pos-count @ pos[] !
+	pos-count ++
+;
+
+: not-in-pos? ( pos -- ? )
+	TRUE SWAP
+	0 BEGIN
+		OVER OVER pos[] @ = IF
+			2DROP DROP FALSE
+			0 0 TRUE
+		ELSE
+			1+ DUP pos-count @ >=
+		ENDIF
+	UNTIL 2DROP
+;
+
+: clear-neg ( -- )
+	0 BEGIN
+		DUP friend-at? OVER not-in-pos? AND IF
+			DUP piece-type-at mark -
+			DUP 0< IF
+				NEGATE mark +
+				OVER create-piece-type-at
+			ELSE
+				DROP
+			ENDIF
+		ENDIF
+		1+ DUP A9 >
+	UNTIL DROP
 ;
 
 : mirror ( 'dir  -- 'dir )
@@ -60,14 +93,18 @@ DEFER		mark
 ;
 
 : exchange ( n 'dir -- )
+	0 pos-count !
+	here add-pos
 	check-empty-pass
 	OVER val < verify
 	EXECUTE verify
 	friend? verify
 	DUP val + 6 <= verify
 	from here move
-	DUP piece-type + create-piece-type
-	from to piece-type SWAP - create-piece-type
+	here add-pos
+	clear-neg
+	DUP piece-type mark - ABS mark + + create-piece-type
+	from to piece-type mark - ABS mark + SWAP - create-piece-type
 	add-move
 ;
 
@@ -118,30 +155,14 @@ DEFER		mark
 	BEGIN
 		here E5 <> verify
 		friend? here from <> AND IF
+			here add-pos
 			piece-type SWAP step SWAP
-			create-piece-type
+			mark - ABS mark + create-piece-type
 			FALSE
 		ELSE
 			TRUE
 		ENDIF
 	UNTIL DROP
-;
-
-: add-pos ( pos -- )
-	pos-count @ pos[] !
-	pos-count ++
-;
-
-: not-in-pos? ( pos -- ? )
-	TRUE SWAP
-	0 BEGIN
-		OVER OVER pos[] @ = IF
-			2DROP DROP FALSE
-			0 0 TRUE
-		ELSE
-			1+ DUP pos-count @ >=
-		ENDIF
-	UNTIL 2DROP
 ;
 
 : my-next-player ( -- player )
@@ -201,7 +222,10 @@ DEFER		mark
 ;
 
 : slide ( 'dir -- )
+	0 pos-count !
 	check-empty-pass
+	here add-pos
+	piece-type mark - is-neg? !
 	val SWAP BEGIN
 		step
 		SWAP 1- DUP 0= IF
@@ -212,7 +236,10 @@ DEFER		mark
 		ENDIF
 	UNTIL DROP
 	from here move
-	bump
+	is-neg? @ mark - 0< IF
+		is-neg? @ ABS mark + create-piece-type
+	ENDIF
+	bump clear-neg
 	my-empty? verify
 	add-move
 ;
@@ -232,8 +259,11 @@ DEFER		mark
 ;
 
 : eat ( 'dir n -- )
+	0 pos-count !
 	check-pass
 	alloc-path !
+	here add-pos
+	piece-type mark - is-neg? !
 	val SWAP BEGIN
 		step
 		SWAP 1- DUP 0= IF
@@ -244,7 +274,10 @@ DEFER		mark
 		ENDIF
 	UNTIL DROP
 	from here move
-	bump
+	is-neg? @ mark - 0< IF
+		is-neg? @ ABS mark + create-piece-type
+	ENDIF
+	bump clear-neg
 	enemy? verify
 	set-pass
 	alloc-all
