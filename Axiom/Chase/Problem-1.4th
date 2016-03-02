@@ -1,3 +1,5 @@
+FALSE CONSTANT LITE-VERSION
+
 LOAD Board.4th
 LOAD Players.4th
 LOAD Code.4th

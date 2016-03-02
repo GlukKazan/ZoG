@@ -198,6 +198,11 @@
 )
 
 (variant
+   (title "Chase Lite")
+   (turn-order Red White)
+)
+
+(variant
    (title "-")
 )
 
@@ -220,15 +225,16 @@
    (title "Problem 2")
    (board-setup
       (White 
-         (p6 I3 C2)
-         (p5 E1)
-         (p4 A6 A7)
+         (p1 H3 E6)
+         (p2 B2 G2 C4 H6 H8)
+         (p3 G6)
+         (p4 G8)
+         (p6 G4)
       )
       (Red   
-         (p4 I6 G2 C6)
-         (p5 I8)
-         (p2 E7)
-         (p6 C1)
+         (p2 F7)
+         (p5 F5)
+         (p6 B1 G3 C6)
       )
    )
 )
