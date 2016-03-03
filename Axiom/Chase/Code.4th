@@ -2,6 +2,7 @@ VARIABLE	alloc-path
 VARIABLE	alloc-val
 VARIABLE	alloc-target
 VARIABLE	alloc-pos
+VARIABLE	split-val
 VARIABLE	pos-count
 7 []		pos[]
 
@@ -169,10 +170,10 @@ DEFER		mark
 	ENDIF
 ;
 
-: bump ( 'dir -- )
+: bump ( 'dir -- 'dir )
 	BEGIN
-		here E5 <> verify
-		friend? here from <> AND IF
+		friend? here from <> AND here E5 <> AND IF
+			val split-val !
 			piece-type SWAP step SWAP
 			mark - ABS mark
 			LITE-VERSION NOT enemy? AND IF
@@ -185,7 +186,7 @@ DEFER		mark
 		ELSE
 			TRUE
 		ENDIF
-	UNTIL DROP
+	UNTIL
 ;
 
 : my-next-player ( -- player )
@@ -259,7 +260,8 @@ DEFER		mark
 		ENDIF
 	UNTIL DROP
 	from here move
-	bump 
+	bump DROP
+	here E5 <> verify
 	LITE-VERSION NOT IF
 		clear-neg
 	ENDIF
@@ -275,7 +277,6 @@ DEFER		mark
 : slide-e  ( -- ) ['] e  slide ;
 
 : alloc-all ( -- )
-	val alloc-val !
 	0 pos-count !
 	here add-pos
 	alloc
@@ -301,12 +302,14 @@ DEFER		mark
 		from piece-type-at mark - ABS
 		mark SWAP - create-piece-type
 	ENDIF
-	bump 
+	bump DROP
+	here E5 <> verify
 	enemy? verify
 	LITE-VERSION NOT IF
 		clear-neg
 		set-pass
 	ENDIF
+	val alloc-val !
 	alloc-all
 	add-move
 ;
@@ -329,5 +332,157 @@ DEFER		mark
 	op-flag here = verify
 	drop
 	clear-pass
+	add-move
+;
+
+: to-left ( 'dir  -- 'dir )
+	MY-VERSION IF
+		DUP ['] nw = IF
+			DROP ['] w
+		ELSE
+			DUP ['] ne = IF
+				DROP ['] nw
+			ELSE
+				DUP ['] e = IF
+					DROP ['] ne
+				ELSE
+					DUP ['] se = IF
+						DROP ['] e
+					ELSE
+						DUP ['] sw = IF
+							DROP ['] se
+						ELSE
+							DROP ['] sw
+						ENDIF
+					ENDIF
+				ENDIF
+			ENDIF
+		ENDIF
+	ELSE
+		DUP ['] nw = IF
+			DROP ['] sw
+		ELSE
+			DUP ['] ne = IF
+				DROP ['] w
+			ELSE
+				DUP ['] e = IF
+					DROP ['] nw
+				ELSE
+					DUP ['] se = IF
+						DROP ['] ne
+					ELSE
+						DUP ['] sw = IF
+							DROP ['] e
+						ELSE
+							DROP ['] se
+						ENDIF
+					ENDIF
+				ENDIF
+			ENDIF
+		ENDIF
+	ENDIF
+;
+
+: to-right ( 'dir  -- 'dir )
+	MY-VERSION IF
+		DUP ['] nw = IF
+			DROP ['] ne
+		ELSE
+			DUP ['] ne = IF
+				DROP ['] e
+			ELSE
+				DUP ['] e = IF
+					DROP ['] se
+				ELSE
+					DUP ['] se = IF
+						DROP ['] sw
+					ELSE
+						DUP ['] sw = IF
+							DROP ['] w
+						ELSE
+							DROP ['] nw
+						ENDIF
+					ENDIF
+				ENDIF
+			ENDIF
+		ENDIF
+	ELSE
+		DUP ['] nw = IF
+			DROP ['] e
+		ELSE
+			DUP ['] ne = IF
+				DROP ['] nw
+			ELSE
+				DUP ['] e = IF
+					DROP ['] sw
+				ELSE
+					DUP ['] se = IF
+						DROP ['] w
+					ELSE
+						DUP ['] sw = IF
+							DROP ['] nw
+						ELSE
+							DROP ['] ne
+						ENDIF
+					ENDIF
+				ENDIF
+			ENDIF
+		ENDIF
+	ENDIF
+;
+
+: move-part ( 'dir n -- )
+	MY-VERSION NOT IF
+		DROP 1
+	ENDIF
+(	TODO: bump )
+(	TODO: fill alloc-val )
+
+( 	DEBUG : ) 2DROP
+;
+
+: split ( 'dir n -- )
+	LITE-VERSION NOT IF
+		check-pass
+		check-neg
+	ENDIF
+	alloc-path !
+	val split-val !
+	val SWAP BEGIN
+		step
+		SWAP 1- DUP 0= IF
+			TRUE
+		ELSE
+			my-empty? verify
+			SWAP FALSE
+		ENDIF
+	UNTIL DROP
+	empty? IF
+		E5 here = verify
+		capture
+	ENDIF
+	from here move
+	bump 
+	here E5 = verify
+	empty? verify
+	DUP to-left
+	split-val @
+	MY-VERSION IF
+		DUP 1 > verify
+	ENDIF
+	1+ / split-val @ OVER - split-val !
+	move-part
+	to-right split-val @ move-part
+
+	alloc-val @ 0> IF
+		alloc-all
+	ELSE
+		alloc-path @ 0= verify
+	ENDIF
+
+	LITE-VERSION NOT IF
+		clear-neg
+		set-pass
+	ENDIF
 	add-move
 ;
