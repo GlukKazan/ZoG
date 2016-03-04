@@ -173,7 +173,7 @@ DEFER		mark
 
 : bump ( 'dir -- 'dir )
 	BEGIN
-		friend? here from <> AND ( here E5 <> AND ) IF
+		friend? here from <> AND IF
 			val split-val !
 			piece-type SWAP step SWAP
 			mark - ABS mark
