@@ -236,6 +236,7 @@
 
 (variant
    (title "Problem 2")
+   (solution "Problem 2.zsg")
    (board-setup
       (White 
          (p1 H3 E6)

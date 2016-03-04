@@ -470,7 +470,18 @@ DEFER		mark
 	ENDIF DROP
 ;
 
+: check-ten ( -- )
+	0 0 BEGIN
+		DUP friend-at? IF
+			SWAP 1+ SWAP
+		ENDIF
+		1+ DUP A9 >
+	UNTIL DROP
+	10 < verify
+;
+
 : split ( 'dir n -- )
+	check-ten
 	LITE-VERSION NOT IF
 		check-pass
 		check-neg
@@ -494,15 +505,14 @@ DEFER		mark
 	bump
 	here E5 = verify
 	empty? verify
-	DUP to-left
+	DUP to-right SWAP to-left
 	split-val @
 	MY-VERSION IF
 		DUP 1 > verify
 	ENDIF
-	1+ 2 / split-val @ OVER - split-val !
+	1+ 2/ split-val @ OVER - ROT ROT
 	0 alloc-val !
-	move-part
-	E5 to to-right split-val @ 
+	move-part E5 to
 	DUP 0> IF
 		move-part
 	ELSE
