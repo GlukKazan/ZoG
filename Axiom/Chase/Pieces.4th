@@ -4,6 +4,18 @@
 move-priorities}
 
 {moves p-moves
+	{move} split-nw-0	{move-type} normal-priority
+	{move} split-ne-0	{move-type} normal-priority
+	{move} split-sw-0	{move-type} normal-priority
+	{move} split-se-0	{move-type} normal-priority
+	{move} split-w-0	{move-type} normal-priority
+	{move} split-e-0	{move-type} normal-priority
+	{move} split-nw-1	{move-type} normal-priority
+	{move} split-ne-1	{move-type} normal-priority
+	{move} split-sw-1	{move-type} normal-priority
+	{move} split-se-1	{move-type} normal-priority
+	{move} split-w-1	{move-type} normal-priority
+	{move} split-e-1	{move-type} normal-priority
 	{move} eat-nw-0		{move-type} normal-priority
 	{move} eat-ne-0		{move-type} normal-priority
 	{move} eat-sw-0		{move-type} normal-priority
@@ -55,6 +67,18 @@ move-priorities}
 moves}
 
 {moves q-moves
+	{move} split-nw-0	{move-type} normal-priority
+	{move} split-ne-0	{move-type} normal-priority
+	{move} split-sw-0	{move-type} normal-priority
+	{move} split-se-0	{move-type} normal-priority
+	{move} split-w-0	{move-type} normal-priority
+	{move} split-e-0	{move-type} normal-priority
+	{move} split-nw-1	{move-type} normal-priority
+	{move} split-ne-1	{move-type} normal-priority
+	{move} split-sw-1	{move-type} normal-priority
+	{move} split-se-1	{move-type} normal-priority
+	{move} split-w-1	{move-type} normal-priority
+	{move} split-e-1	{move-type} normal-priority
 	{move} eat-nw-0		{move-type} normal-priority
 	{move} eat-ne-0		{move-type} normal-priority
 	{move} eat-sw-0		{move-type} normal-priority

@@ -3,6 +3,7 @@ VARIABLE	alloc-val
 VARIABLE	alloc-target
 VARIABLE	alloc-pos
 VARIABLE	split-val
+VARIABLE	split-target
 VARIABLE	pos-count
 7 []		pos[]
 
@@ -172,7 +173,7 @@ DEFER		mark
 
 : bump ( 'dir -- 'dir )
 	BEGIN
-		friend? here from <> AND here E5 <> AND IF
+		friend? here from <> AND ( here E5 <> AND ) IF
 			val split-val !
 			piece-type SWAP step SWAP
 			mark - ABS mark
@@ -181,7 +182,11 @@ DEFER		mark
 			ELSE
 				+
 			ENDIF
-			create-piece-type
+			here E5 <> IF
+				create-piece-type
+			ELSE
+				DROP
+			ENDIF
 			FALSE
 		ELSE
 			TRUE
@@ -352,7 +357,8 @@ DEFER		mark
 						DUP ['] sw = IF
 							DROP ['] se
 						ELSE
-							DROP ['] sw
+							['] w = verify
+							['] sw
 						ENDIF
 					ENDIF
 				ENDIF
@@ -374,7 +380,8 @@ DEFER		mark
 						DUP ['] sw = IF
 							DROP ['] e
 						ELSE
-							DROP ['] se
+							['] w = verify
+							['] se
 						ENDIF
 					ENDIF
 				ENDIF
@@ -400,7 +407,8 @@ DEFER		mark
 						DUP ['] sw = IF
 							DROP ['] w
 						ELSE
-							DROP ['] nw
+							['] w = verify
+							['] nw
 						ENDIF
 					ENDIF
 				ENDIF
@@ -422,7 +430,8 @@ DEFER		mark
 						DUP ['] sw = IF
 							DROP ['] nw
 						ELSE
-							DROP ['] ne
+							['] w = verify
+							['] ne
 						ENDIF
 					ENDIF
 				ENDIF
@@ -432,13 +441,33 @@ DEFER		mark
 ;
 
 : move-part ( 'dir n -- )
+	DUP split-target !
 	MY-VERSION NOT IF
 		DROP 1
 	ENDIF
-(	TODO: bump )
-(	TODO: fill alloc-val )
-
-( 	DEBUG : ) 2DROP
+	SWAP BEGIN
+		step
+		SWAP 1- DUP 0= IF
+			TRUE
+		ELSE
+			my-empty? verify
+			SWAP FALSE
+		ENDIF
+	UNTIL DROP
+	split-target @
+	enemy? IF
+		val alloc-val @ + alloc-val !
+		LITE-VERSION NOT IF
+			NEGATE
+		ENDIF
+	ENDIF
+	mark + create-piece-type
+	friend? IF
+		bump
+		enemy? IF
+			val alloc-val @ + alloc-val !
+		ENDIF
+	ENDIF DROP
 ;
 
 : split ( 'dir n -- )
@@ -453,16 +482,16 @@ DEFER		mark
 		SWAP 1- DUP 0= IF
 			TRUE
 		ELSE
-			my-empty? verify
+			empty? verify
 			SWAP FALSE
 		ENDIF
 	UNTIL DROP
+	from here move
 	empty? IF
 		E5 here = verify
 		capture
 	ENDIF
-	from here move
-	bump 
+	bump
 	here E5 = verify
 	empty? verify
 	DUP to-left
@@ -470,19 +499,41 @@ DEFER		mark
 	MY-VERSION IF
 		DUP 1 > verify
 	ENDIF
-	1+ / split-val @ OVER - split-val !
+	1+ 2 / split-val @ OVER - split-val !
+	0 alloc-val !
 	move-part
-	to-right split-val @ move-part
-
+	E5 to to-right split-val @ 
+	DUP 0> IF
+		move-part
+	ELSE
+		2DROP
+	ENDIF
 	alloc-val @ 0> IF
 		alloc-all
+		LITE-VERSION NOT IF
+			set-pass
+		ENDIF
 	ELSE
 		alloc-path @ 0= verify
+		check-empty-pass
+		neg-exists? NOT verify
 	ENDIF
-
 	LITE-VERSION NOT IF
 		clear-neg
-		set-pass
 	ENDIF
 	add-move
 ;
+
+: split-nw-0 ( -- ) ['] nw 0 split ;
+: split-sw-0 ( -- ) ['] sw 0 split ;
+: split-ne-0 ( -- ) ['] ne 0 split ;
+: split-se-0 ( -- ) ['] se 0 split ;
+: split-w-0  ( -- ) ['] w  0 split ;
+: split-e-0  ( -- ) ['] e  0 split ;
+
+: split-nw-1 ( -- ) ['] nw 1 split ;
+: split-sw-1 ( -- ) ['] sw 1 split ;
+: split-ne-1 ( -- ) ['] ne 1 split ;
+: split-se-1 ( -- ) ['] se 1 split ;
+: split-w-1  ( -- ) ['] w  1 split ;
+: split-e-1  ( -- ) ['] e  1 split ;

@@ -198,7 +198,20 @@
 )
 
 (variant
+   (title "Chase (variant)")
+)
+
+(variant
+   (title "-")
+)
+
+(variant
    (title "Chase Lite")
+   (turn-order Red White)
+)
+
+(variant
+   (title "Chase Lite (variant)")
    (turn-order Red White)
 )
 
