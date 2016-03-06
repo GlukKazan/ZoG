@@ -185,6 +185,7 @@ DEFER		mark
 			here E5 <> IF
 				create-piece-type
 			ELSE
+				MY-VERSION verify
 				DROP
 			ENDIF
 			FALSE
@@ -333,6 +334,13 @@ DEFER		mark
 : eat-w-1  ( -- ) ['] w  1 eat ;
 : eat-e-1  ( -- ) ['] e  1 eat ;
 
+: eat-nw-2 ( -- ) ['] nw 2 eat ;
+: eat-sw-2 ( -- ) ['] sw 2 eat ;
+: eat-ne-2 ( -- ) ['] ne 2 eat ;
+: eat-se-2 ( -- ) ['] se 2 eat ;
+: eat-w-2  ( -- ) ['] w  2 eat ;
+: eat-e-2  ( -- ) ['] e  2 eat ;
+
 : drop-m ( -- )
 	op-flag here = verify
 	drop
@@ -470,18 +478,20 @@ DEFER		mark
 	ENDIF DROP
 ;
 
-: check-ten ( -- )
+: check-ten ( -- n )
 	0 0 BEGIN
 		DUP friend-at? IF
 			SWAP 1+ SWAP
 		ENDIF
 		1+ DUP A9 >
 	UNTIL DROP
-	10 < verify
 ;
 
 : split ( 'dir n -- )
-	check-ten
+	MY-VERSION IF
+		check-ten
+		10 < verify
+	ENDIF
 	LITE-VERSION NOT IF
 		check-pass
 		check-neg
@@ -510,7 +520,10 @@ DEFER		mark
 	MY-VERSION IF
 		DUP 1 > verify
 	ENDIF
-	1+ 2/ split-val @ OVER - ROT ROT
+	check-ten 10 < IF
+		1+ 2/
+	ENDIF
+	split-val @ OVER - ROT ROT
 	0 alloc-val !
 	move-part E5 to
 	DUP 0> IF
