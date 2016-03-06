@@ -28,19 +28,13 @@ move-priorities}
 	{move} eat-se-1		{move-type} normal-priority
 	{move} eat-w-1		{move-type} normal-priority
 	{move} eat-e-1		{move-type} normal-priority
-	{move} eat-nw-2		{move-type} normal-priority
-	{move} eat-ne-2		{move-type} normal-priority
-	{move} eat-sw-2		{move-type} normal-priority
-	{move} eat-se-2		{move-type} normal-priority
-	{move} eat-w-2		{move-type} normal-priority
-	{move} eat-e-2		{move-type} normal-priority
 	{move} slide-nw		{move-type} normal-priority
 	{move} slide-ne		{move-type} normal-priority
 	{move} slide-sw		{move-type} normal-priority
 	{move} slide-se		{move-type} normal-priority
 	{move} slide-w		{move-type} normal-priority
 	{move} slide-e		{move-type} normal-priority
-(	{move} exchange-1-nw	{move-type} normal-priority
+	{move} exchange-1-nw	{move-type} normal-priority
 	{move} exchange-1-ne	{move-type} normal-priority
 	{move} exchange-1-sw	{move-type} normal-priority
 	{move} exchange-1-se	{move-type} normal-priority
@@ -69,7 +63,7 @@ move-priorities}
 	{move} exchange-5-sw	{move-type} normal-priority
 	{move} exchange-5-se	{move-type} normal-priority
 	{move} exchange-5-w	{move-type} normal-priority
-	{move} exchange-5-e	{move-type} normal-priority )
+	{move} exchange-5-e	{move-type} normal-priority
 moves}
 
 {moves q-moves
@@ -97,12 +91,6 @@ moves}
 	{move} eat-se-1		{move-type} normal-priority
 	{move} eat-w-1		{move-type} normal-priority
 	{move} eat-e-1		{move-type} normal-priority
-(	{move} eat-nw-2		{move-type} normal-priority
-	{move} eat-ne-2		{move-type} normal-priority
-	{move} eat-sw-2		{move-type} normal-priority
-	{move} eat-se-2		{move-type} normal-priority
-	{move} eat-w-2		{move-type} normal-priority
-	{move} eat-e-2		{move-type} normal-priority )
 	{move} slide-nw		{move-type} normal-priority
 	{move} slide-ne		{move-type} normal-priority
 	{move} slide-sw		{move-type} normal-priority

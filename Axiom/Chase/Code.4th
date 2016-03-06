@@ -334,13 +334,6 @@ DEFER		mark
 : eat-w-1  ( -- ) ['] w  1 eat ;
 : eat-e-1  ( -- ) ['] e  1 eat ;
 
-: eat-nw-2 ( -- ) ['] nw 2 eat ;
-: eat-sw-2 ( -- ) ['] sw 2 eat ;
-: eat-ne-2 ( -- ) ['] ne 2 eat ;
-: eat-se-2 ( -- ) ['] se 2 eat ;
-: eat-w-2  ( -- ) ['] w  2 eat ;
-: eat-e-2  ( -- ) ['] e  2 eat ;
-
 : drop-m ( -- )
 	op-flag here = verify
 	drop
