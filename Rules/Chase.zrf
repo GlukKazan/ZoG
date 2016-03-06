@@ -1,0 +1,557 @@
+(define am-i-white?
+   (in-zone? player-id A1)
+)
+
+(define step
+   (if (flag? is-up?)
+       (if (on-board? $1) $1 else (set-flag is-up? false) $2)
+    else
+       (if (on-board? $2) $2 else (set-flag is-up? true) $1)
+   )
+)
+
+(define clear
+   (set-flag $1-8 false) (set-flag $1-4 false)
+   (set-flag $1-2 false) (set-flag $1-1 false)
+)
+
+(define inc
+   (if (flag? $1-1)
+       (set-flag $1-1 false)
+       (if (flag? $1-2)
+           (set-flag $1-2 false)
+           (if (flag? $1-4)
+               (set-flag $1-4 false)
+               (if (flag? $1-8)
+                   (set-flag $1-8 false)
+                else
+                   (set-flag $1-8 true)
+               )
+            else
+               (set-flag $1-4 true)
+           )
+        else
+           (set-flag $1-2 true)
+       )
+    else
+       (set-flag $1-1 true)
+   )
+)
+
+(define dec
+   (if (not-flag? $1-1)
+       (set-flag $1-1 true)
+       (if (not-flag? $1-2)
+           (set-flag $1-2 true)
+           (if (not-flag? $1-4)
+               (set-flag $1-4 true)
+               (if (not-flag? $1-8)
+                   (set-flag $1-8 true)
+                else
+                   (set-flag $1-8 false)
+               )
+            else
+               (set-flag $1-4 false)
+           )
+        else
+           (set-flag $1-2 false)
+       )
+    else
+       (set-flag $1-1 false)
+   )
+)
+
+(define not-10?
+   (or (not-flag? $1-8)
+       (flag? $1-4)
+       (not-flag? $1-2)
+       (flag? $1-1)
+   )
+)
+
+(define not-0?
+  (or (flag? $1-8)
+      (flag? $1-4)
+      (flag? $1-2)
+      (flag? $1-1)
+  )
+)
+
+(define is-0?
+  (and (not-flag? $1-8)
+       (not-flag? $1-4)
+       (not-flag? $1-2)
+       (not-flag? $1-1)
+  )
+)
+
+(define is-1?
+  (and (not-flag? $1-8)
+       (not-flag? $1-4)
+       (not-flag? $1-2)
+       (flag? $1-1)
+  )
+)
+
+(define is-2?
+  (and (not-flag? $1-8)
+       (not-flag? $1-4)
+       (flag? $1-2)
+       (not-flag? $1-1)
+  )
+)
+
+(define is-3?
+  (and (not-flag? $1-8)
+       (not-flag? $1-4)
+       (flag? $1-2)
+       (flag? $1-1)
+  )
+)
+
+(define check-10
+   (clear x)
+   mark
+   (while (on-board? next) 
+      next
+      (if friend?
+          (inc x)
+          (verify (not-10? x))
+      )
+   )
+   back
+)
+
+(define init
+   (clear $1)
+   (if (or (piece? p1) (piece? p3) (piece? p5))
+       (set-flag $1-1 true)
+   )
+   (if (or (piece? p2) (piece? p3) (piece? p6))
+       (set-flag $1-2 true)
+   )
+   (if (or (piece? p4) (piece? p5) (piece? p6))
+       (set-flag $1-4 true)
+   )
+)
+
+(define sum
+   (init y)
+   (while (not-0? y)
+       (inc x)
+       (dec y)
+   )
+)
+
+(define try-alloc
+   (if (is-0? x)
+       (inc y)
+    else
+       (dec x)
+   )
+)
+
+(define set-piece
+   (if (am-i-white?)
+       (create Red $1)
+    else
+       (create White $1)
+   )
+)
+
+(define alloc-to
+   (clear y)
+   (if (piece? p1)
+       (try-alloc) (try-alloc) (try-alloc) (try-alloc) (try-alloc)
+   )
+   (if (piece? p2)
+       (try-alloc) (try-alloc) (try-alloc) (try-alloc)
+   )
+   (if (piece? p3)
+       (try-alloc) (try-alloc) (try-alloc)
+   )
+   (if (piece? p4)
+       (try-alloc) (try-alloc)
+   )
+   (if (piece? p5)
+       (try-alloc)
+   )
+   (if (is-0? y)
+       (set-piece p6)
+    else
+       (if (is-1? y)
+           (set-piece p5)
+        else
+           (if (is-2? y)
+               (set-piece p4)
+            else
+               (if (is-3? y)
+                   (set-piece p3)
+                else
+                   (set-piece p2)
+               )
+           )
+       )
+   )
+)
+
+(define alloc
+   (if (not-0? x)
+       mark
+       (while (on-board? $2) 
+           $2
+           (if (and enemy? (piece? $1) (not-0? x) 
+                    (not-position-flag? is-captured?))
+               (alloc-to)
+           )
+       )
+       back
+   )
+)
+
+(define alloc-all
+   (alloc p1 $1) (alloc p2 $1) (alloc p3 $1) (alloc p4 $1) (alloc p5 $1)
+)
+
+(define my-empty?
+   (and empty? (not-zone? chamber))
+)
+
+(define common-slide
+   (while friend?
+       cascade
+       (step $1 $2)
+   )
+   (verify (not-zone? chamber))
+   (if enemy?
+       (set-position-flag is-captured? true)
+       (init x) 
+       (alloc-all)
+   )
+   add
+)
+
+(define slide-1 (
+   (set-flag is-up? true)
+   (step $1 $2)
+   (common-slide $1 $2)
+))
+
+(define slide-2 (
+   (set-flag is-up? true)
+   (step $1 $2) (verify (my-empty?))
+   (step $1 $2) 
+   (common-slide $1 $2)
+))
+
+(define slide-3 (
+   (set-flag is-up? true)
+   (step $1 $2) (verify (my-empty?))
+   (step $1 $2) (verify (my-empty?))
+   (step $1 $2) 
+   (common-slide $1 $2)
+))
+
+(define slide-4 (
+   (set-flag is-up? true)
+   (step $1 $2) (verify (my-empty?))
+   (step $1 $2) (verify (my-empty?))
+   (step $1 $2) (verify (my-empty?))
+   (step $1 $2) 
+   (common-slide $1 $2)
+))
+
+(define slide-5 (
+   (set-flag is-up? true)
+   (step $1 $2) (verify (my-empty?))
+   (step $1 $2) (verify (my-empty?))
+   (step $1 $2) (verify (my-empty?))
+   (step $1 $2) (verify (my-empty?))
+   (step $1 $2) 
+   (common-slide $1 $2)
+))
+
+(define slide-6 (
+   (set-flag is-up? true)
+   (step $1 $2) (verify (my-empty?))
+   (step $1 $2) (verify (my-empty?))
+   (step $1 $2) (verify (my-empty?))
+   (step $1 $2) (verify (my-empty?))
+   (step $1 $2) (verify (my-empty?))
+   (step $1 $2) 
+   (common-slide $1 $2)
+))
+
+(define exchange-1 (
+   (create $2) $1 
+   (verify friend?)
+   (verify (not-piece? p6))
+   (if (piece? p1) (create p2))
+   (if (piece? p2) (create p3))
+   (if (piece? p3) (create p4))
+   (if (piece? p4) (create p5))
+   (if (piece? p5) (create p6))
+   add
+))
+
+(define exchange-2 (
+   (create $2) $1 
+   (verify friend?)
+   (verify (not-piece? p6))
+   (verify (not-piece? p5))
+   (if (piece? p1) (create p3))
+   (if (piece? p2) (create p4))
+   (if (piece? p3) (create p5))
+   (if (piece? p4) (create p6))
+   add
+))
+
+(define exchange-3 (
+   (create $2) $1 
+   (verify friend?)
+   (verify (not-piece? p6))
+   (verify (not-piece? p5))
+   (verify (not-piece? p4))
+   (if (piece? p1) (create p4))
+   (if (piece? p2) (create p5))
+   (if (piece? p3) (create p6))
+   add
+))
+
+(define exchange-4 (
+   (create $2) $1 
+   (verify friend?)
+   (verify (not-piece? p6))
+   (verify (not-piece? p5))
+   (verify (not-piece? p4))
+   (verify (not-piece? p3))
+   (if (piece? p1) (create p5))
+   (if (piece? p2) (create p6))
+   add
+))
+
+(define exchange-5 (
+   (create $2) $1 
+   (verify friend?)
+   (verify (piece? p1))
+   (create p6)
+   add
+))
+
+(game
+   (title "Chase")
+
+   (option "prevent flipping" true)
+   (option "pass partial" true)
+   (animate-captures false)
+
+   (move-sound "Audio/Pickup.wav")
+   (release-sound "Audio/Pickup.wav")
+   (capture-sound "")
+   (drop-sound "")
+
+   (players Red White)
+   (turn-order Red White)
+
+   (board
+      (image "../Images/Chase/board.bmp")
+      (positions  
+             (I1 48  33  108 83)
+             (I2 108 33  168 83)
+             (I3 168 33  228 83)
+             (I4 228 33  288 83)
+             (I5 288 33  348 83)
+             (I6 348 33  408 83)
+             (I7 408 33  468 83)
+             (I8 468 33  528 83)
+             (I9 528 33  588 83)
+
+             (H1 18  84  78  134)
+             (H2 78  84  138 134)
+             (H3 138 84  198 134)
+             (H4 198 84  258 134)
+             (H5 258 84  318 134)
+             (H6 318 84  378 134)
+             (H7 378 84  438 134)
+             (H8 438 84  498 134)
+             (H9 498 84  558 134)
+
+             (G1 48  136 108 186)
+             (G2 108 136 168 186)
+             (G3 168 136 228 186)
+             (G4 228 136 288 186)
+             (G5 288 136 348 186)
+             (G6 348 136 408 186)
+             (G7 408 136 468 186)
+             (G8 468 136 528 186)
+             (G9 528 136 588 186)
+
+             (F1 18  188 78  238)
+             (F2 78  188 138 238)
+             (F3 138 188 198 238)
+             (F4 198 188 258 238)
+             (F5 258 188 318 238)
+             (F6 318 188 378 238)
+             (F7 378 188 438 238)
+             (F8 438 188 498 238)
+             (F9 498 188 558 238)
+
+             (E1 48  240 108 290)
+             (E2 108 240 168 290)
+             (E3 168 240 228 290)
+             (E4 228 240 288 290)
+             (E5 288 240 348 290)
+             (E6 348 240 408 290)
+             (E7 408 240 468 290)
+             (E8 468 240 528 290)
+             (E9 528 240 588 290)
+
+             (D1 18  292 78  342)
+             (D2 78  292 138 342)
+             (D3 138 292 198 342)
+             (D4 198 292 258 342)
+             (D5 258 292 318 342)
+             (D6 318 292 378 342)
+             (D7 378 292 438 342)
+             (D8 438 292 498 342)
+             (D9 498 292 558 342)
+
+             (C1 48  344 108 394)
+             (C2 108 344 168 394)
+             (C3 168 344 228 394)
+             (C4 228 344 288 394)
+             (C5 288 344 348 394)
+             (C6 348 344 408 394)
+             (C7 408 344 468 394)
+             (C8 468 344 528 394)
+             (C9 528 344 588 394)
+
+             (B1 18  396 78  446)
+             (B2 78  396 138 446)
+             (B3 138 396 198 446)
+             (B4 198 396 258 446)
+             (B5 258 396 318 446)
+             (B6 318 396 378 446)
+             (B7 378 396 438 446)
+             (B8 438 396 498 446)
+             (B9 498 396 558 446)
+
+             (A1 48  447 108 497)
+             (A2 108 447 168 497)
+             (A3 168 447 228 497)
+             (A4 228 447 288 497)
+             (A5 288 447 348 497)
+             (A6 348 447 408 497)
+             (A7 408 447 468 497)
+             (A8 468 447 528 497)
+             (A9 528 447 588 497)
+      )
+      (zone (name player-id) (players Red) (positions A1))
+      (zone (name chamber) (players Red White) (positions E9))
+   )
+
+   (piece
+      (name p1)
+      (image Red   "../Images/Chase/d1r.bmp"
+             White "../Images/Chase/d1w.bmp")
+      (moves
+         (slide-1 w w) (slide-1 nw sw) (slide-1 sw nw)
+         (slide-1 e e) (slide-1 ne se) (slide-1 se ne)
+      )
+   )
+   (piece
+      (name p2)
+      (image Red   "../Images/Chase/d2r.bmp"
+             White "../Images/Chase/d2w.bmp")
+      (moves
+         (slide-2 w w) (slide-2 nw sw) (slide-2 sw nw)
+         (slide-2 e e) (slide-2 ne se) (slide-2 se ne)
+         (exchange-1 w p1) (exchange-1 nw p1) (exchange-1 sw p1)
+         (exchange-1 e p1) (exchange-1 ne p1) (exchange-1 se p1)
+      )
+   )
+   (piece
+      (name p3)
+      (image Red   "../Images/Chase/d3r.bmp"
+             White "../Images/Chase/d3w.bmp")
+      (moves
+         (slide-3 w w) (slide-3 nw sw) (slide-3 sw nw)
+         (slide-3 e e) (slide-3 ne se) (slide-3 se ne)
+         (exchange-2 w p1) (exchange-2 nw p1) (exchange-2 sw p1)
+         (exchange-2 e p1) (exchange-2 ne p1) (exchange-2 se p1)
+         (exchange-1 w p2) (exchange-1 nw p2) (exchange-1 sw p2)
+         (exchange-1 e p2) (exchange-1 ne p2) (exchange-1 se p2)
+      )
+   )
+   (piece
+      (name p4)
+      (image Red   "../Images/Chase/d4r.bmp"
+             White "../Images/Chase/d4w.bmp")
+      (moves
+         (slide-4 w w) (slide-4 nw sw) (slide-4 sw nw)
+         (slide-4 e e) (slide-4 ne se) (slide-4 se ne)
+         (exchange-3 w p1) (exchange-3 nw p1) (exchange-3 sw p1)
+         (exchange-3 e p1) (exchange-3 ne p1) (exchange-3 se p1)
+         (exchange-2 w p2) (exchange-2 nw p2) (exchange-2 sw p2)
+         (exchange-2 e p2) (exchange-2 ne p2) (exchange-2 se p2)
+         (exchange-1 w p3) (exchange-1 nw p3) (exchange-1 sw p3)
+         (exchange-1 e p3) (exchange-1 ne p3) (exchange-1 se p3)
+      )
+   )
+   (piece
+      (name p5)
+      (image Red   "../Images/Chase/d5r.bmp"
+             White "../Images/Chase/d5w.bmp")
+      (moves
+         (slide-5 w w) (slide-5 nw sw) (slide-5 sw nw)
+         (slide-5 e e) (slide-5 ne se) (slide-5 se ne)
+         (exchange-4 w p1) (exchange-4 nw p1) (exchange-4 sw p1)
+         (exchange-4 e p1) (exchange-4 ne p1) (exchange-4 se p1)
+         (exchange-3 w p2) (exchange-3 nw p2) (exchange-3 sw p2)
+         (exchange-3 e p2) (exchange-3 ne p2) (exchange-3 se p2)
+         (exchange-2 w p3) (exchange-2 nw p3) (exchange-2 sw p3)
+         (exchange-2 e p3) (exchange-2 ne p3) (exchange-2 se p3)
+         (exchange-1 w p4) (exchange-1 nw p4) (exchange-1 sw p4)
+         (exchange-1 e p4) (exchange-1 ne p4) (exchange-1 se p4)
+      )
+   )
+   (piece
+      (name p6)
+      (image Red   "../Images/Chase/d6r.bmp"
+             White "../Images/Chase/d6w.bmp")
+      (moves
+         (slide-6 w w) (slide-6 nw sw) (slide-6 sw nw)
+         (slide-6 e e) (slide-6 ne se) (slide-6 se ne)
+         (exchange-5 w p1) (exchange-5 nw p1) (exchange-5 sw p1)
+         (exchange-5 e p1) (exchange-5 ne p1) (exchange-5 se p1)
+         (exchange-4 w p2) (exchange-4 nw p2) (exchange-4 sw p2)
+         (exchange-4 e p2) (exchange-4 ne p2) (exchange-4 se p2)
+         (exchange-3 w p3) (exchange-3 nw p3) (exchange-3 sw p3)
+         (exchange-3 e p3) (exchange-3 ne p3) (exchange-3 se p3)
+         (exchange-2 w p4) (exchange-2 nw p4) (exchange-2 sw p4)
+         (exchange-2 e p4) (exchange-2 ne p4) (exchange-2 se p4)
+         (exchange-1 w p5) (exchange-1 nw p5) (exchange-1 sw p5)
+         (exchange-1 e p5) (exchange-1 ne p5) (exchange-1 se p5)
+      )
+   )
+
+   (board-setup
+      (White 
+         (p1 I1 I9)
+         (p2 I2 I8)
+         (p3 I3 I7)
+         (p4 I4 I6)
+         (p5 I5)
+      )
+      (Red   
+         (p1 A1 A9)
+         (p2 A2 A8)
+         (p3 A3 A7)
+         (p4 A4 A6)
+         (p5 A5)
+      )
+   )
+   
+   (loss-condition (Red White) (pieces-remaining 4) )
+   (loss-condition (Red White) (pieces-remaining 3) )
+)
