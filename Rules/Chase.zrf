@@ -218,7 +218,7 @@
 )
 
 (define common-slide
-   (while friend?
+   (while (and friend? (not-position-flag? is-from?))
        cascade
        (step $1 $2)
    )
@@ -233,12 +233,14 @@
 
 (define slide-1 (
    (set-flag is-up? true)
+   (set-position-flag is-from? true)
    (step $1 $2)
    (common-slide $1 $2)
 ))
 
 (define slide-2 (
    (set-flag is-up? true)
+   (set-position-flag is-from? true)
    (step $1 $2) (verify (my-empty?))
    (step $1 $2) 
    (common-slide $1 $2)
@@ -246,6 +248,7 @@
 
 (define slide-3 (
    (set-flag is-up? true)
+   (set-position-flag is-from? true)
    (step $1 $2) (verify (my-empty?))
    (step $1 $2) (verify (my-empty?))
    (step $1 $2) 
@@ -254,6 +257,7 @@
 
 (define slide-4 (
    (set-flag is-up? true)
+   (set-position-flag is-from? true)
    (step $1 $2) (verify (my-empty?))
    (step $1 $2) (verify (my-empty?))
    (step $1 $2) (verify (my-empty?))
@@ -263,6 +267,7 @@
 
 (define slide-5 (
    (set-flag is-up? true)
+   (set-position-flag is-from? true)
    (step $1 $2) (verify (my-empty?))
    (step $1 $2) (verify (my-empty?))
    (step $1 $2) (verify (my-empty?))
@@ -273,6 +278,7 @@
 
 (define slide-6 (
    (set-flag is-up? true)
+   (set-position-flag is-from? true)
    (step $1 $2) (verify (my-empty?))
    (step $1 $2) (verify (my-empty?))
    (step $1 $2) (verify (my-empty?))
@@ -530,11 +536,8 @@
       (image Red   "../Images/Chase/d1r.bmp"
              White "../Images/Chase/d1w.bmp")
       (moves
-;        cascade don't working
-;        (slide-1 w w)
-;        (slide-1 e e)
-         (slide-1 nw sw) (slide-1 sw nw)
-         (slide-1 ne se) (slide-1 se ne)
+         (slide-1 w w) (slide-1 nw sw) (slide-1 sw nw)
+         (slide-1 e e) (slide-1 ne se) (slide-1 se ne)
       )
    )
    (piece
