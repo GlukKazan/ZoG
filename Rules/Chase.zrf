@@ -135,10 +135,9 @@
 )
 
 (define sum
-   (init y)
-   (while (not-0? y)
-       (inc x)
-       (dec y)
+   (while (not-0? $2)
+       (inc $1)
+       (dec $2)
    )
 )
 
@@ -344,16 +343,26 @@
 ))
 
 (define common-turn
-  ; TODO: Bumping, Capturing
   (step $2 $3)
   (create $1)
+  (while (and friend? (not-position-flag? is-from?))
+      cascade from
+      (step $2 $3)
+      to
+  )
+  (if enemy?
+      (set-position-flag is-captured? true)
+      (init y)
+      (sum x y)
+  )
 )
 
 (define common-split
    (verify (in-zone? chamber))
-   capture
+   to capture
    (calc x)
    (if (not-10? x)
+       (clear x)
        (if (flag? is-up?)
            (common-turn $1 $2 $3)
         else
@@ -364,14 +373,17 @@
         else
            (common-turn $4 $2 $3)
        )
+       (alloc-all)
     else
+       (clear x)
        (if (flag? is-up?)
            (common-turn $7 $2 $3)
         else
            (common-turn $7 $5 $6)
        )
+       (alloc-all)
    )
-   E5 add
+   add
 )
 
 (define split-1 (
@@ -380,11 +392,13 @@
    (step $1 $2)
    (verify (in-zone? chamber))
    capture
+   (clear x)
    (if (flag? is-up?)
        (common-turn $3 $4 $5)
     else
        (common-turn $3 $6 $7)
    )
+   (alloc-all)
    E5 add
 ))
 
