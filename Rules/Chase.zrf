@@ -109,14 +109,13 @@
   )
 )
 
-(define check-10
-   (clear x)
+(define calc
+   (clear $1)
    mark ST
    (while (on-board? next) 
       next
       (if friend?
-          (inc x)
-          (verify (not-10? x))
+          (inc $1)
       )
    )
    back
@@ -344,6 +343,96 @@
    add
 ))
 
+(define common-turn
+  ; TODO: Bumping, Capturing
+  (step $2 $3)
+  (create $1)
+)
+
+(define common-split
+   (verify (in-zone? chamber))
+   capture
+   (calc x)
+   (if (not-10? x)
+       (if (flag? is-up?)
+           (common-turn $1 $2 $3)
+        else
+           (common-turn $1 $5 $6)
+       ) E5
+       (if (flag? is-up?)
+           (common-turn $4 $5 $6)
+        else
+           (common-turn $4 $2 $3)
+       )
+    else
+       (if (flag? is-up?)
+           (common-turn $7 $2 $3)
+        else
+           (common-turn $7 $5 $6)
+       )
+   )
+   E5 add
+)
+
+(define split-1 (
+   (set-flag is-up? true)
+   (set-position-flag is-from? true)
+   (step $1 $2)
+   (verify (in-zone? chamber))
+   capture
+   (if (flag? is-up?)
+       (common-turn $3 $4 $5)
+    else
+       (common-turn $3 $6 $7)
+   )
+   E5 add
+))
+
+(define split-2 (
+   (set-flag is-up? true)
+   (set-position-flag is-from? true)
+   (step $1 $2) (verify (my-empty?))
+   (step $1 $2) (common-split $3 $4 $5 $6 $7 $8 $9)
+))
+
+(define split-3 (
+   (set-flag is-up? true)
+   (set-position-flag is-from? true)
+   (step $1 $2) (verify (my-empty?))
+   (step $1 $2) (verify (my-empty?))
+   (step $1 $2) (common-split $3 $4 $5 $6 $7 $8 $9)
+))
+
+(define split-4 (
+   (set-flag is-up? true)
+   (set-position-flag is-from? true)
+   (step $1 $2) (verify (my-empty?))
+   (step $1 $2) (verify (my-empty?))
+   (step $1 $2) (verify (my-empty?))
+   (step $1 $2) (common-split $3 $4 $5 $6 $7 $8 $9)
+))
+
+(define split-5 (
+   (set-flag is-up? true)
+   (set-position-flag is-from? true)
+   (step $1 $2) (verify (my-empty?))
+   (step $1 $2) (verify (my-empty?))
+   (step $1 $2) (verify (my-empty?))
+   (step $1 $2) (verify (my-empty?))
+   (step $1 $2) (common-split $3 $4 $5 $6 $7 $8 $9)
+))
+
+(define split-6 (
+   (set-flag is-up? true)
+   (set-position-flag is-from? true)
+   (step $1 $2) (verify (my-empty?))
+   (step $1 $2) (verify (my-empty?))
+   (step $1 $2) (verify (my-empty?))
+   (step $1 $2) (verify (my-empty?))
+   (step $1 $2) (verify (my-empty?))
+   (step $1 $2) (common-split $3 $4 $5 $6 $7 $8 $9)
+))
+
 (game
    (title "Chase")
 
@@ -527,7 +616,6 @@
          (I9 H1) (I1 H2) (I2 H3) (I3 H4) (I4 H5) (I5 H6) (I6 H7) (I7 H8) (I8 H9)
       )
       (zone (name player-id) (players Red) (positions A1))
-;     (zone (name player-id) (players White) (positions I9))
       (zone (name chamber) (players Red White) (positions E5))
    )
 
@@ -538,6 +626,12 @@
       (moves
          (slide-1 w w) (slide-1 nw sw) (slide-1 sw nw)
          (slide-1 e e) (slide-1 ne se) (slide-1 se ne)
+         (split-1 ne se p1 w w se ne)
+         (split-1 e e p1 nw sw sw nw)
+         (split-1 se ne p1 ne se w w)
+         (split-1 sw nw p1 e e nw sw)
+         (split-1 w w p1 se ne ne se)
+         (split-1 nw sw p1 sw nw e e)
       )
    )
    (piece
@@ -549,6 +643,12 @@
          (slide-2 e e) (slide-2 ne se) (slide-2 se ne)
          (exchange-1 w p1) (exchange-1 nw p1) (exchange-1 sw p1)
          (exchange-1 e p1) (exchange-1 ne p1) (exchange-1 se p1)
+         (split-2 ne se p1 w w p1 se ne p2)
+         (split-2 e e p1 nw sw p1 sw nw p2)
+         (split-2 se ne p1 ne se p1 w w p2)
+         (split-2 sw nw p1 e e p1 nw sw p2)
+         (split-2 w w p1 se ne p1 ne se p2)
+         (split-2 nw sw p1 sw nw p1 e e p2)
       )
    )
    (piece
@@ -562,6 +662,12 @@
          (exchange-2 e p1) (exchange-2 ne p1) (exchange-2 se p1)
          (exchange-1 w p2) (exchange-1 nw p2) (exchange-1 sw p2)
          (exchange-1 e p2) (exchange-1 ne p2) (exchange-1 se p2)
+         (split-3 ne se p2 w w p1 se ne p3)
+         (split-3 e e p2 nw sw p1 sw nw p3)
+         (split-3 se ne p2 ne se p1 w w p3)
+         (split-3 sw nw p2 e e p1 nw sw p3)
+         (split-3 w w p2 se ne p1 ne se p3)
+         (split-3 nw sw p2 sw nw p1 e e p3)
       )
    )
    (piece
@@ -577,6 +683,12 @@
          (exchange-2 e p2) (exchange-2 ne p2) (exchange-2 se p2)
          (exchange-1 w p3) (exchange-1 nw p3) (exchange-1 sw p3)
          (exchange-1 e p3) (exchange-1 ne p3) (exchange-1 se p3)
+         (split-4 ne se p2 w w p2 se ne p4)
+         (split-4 e e p2 nw sw p2 sw nw p4)
+         (split-4 se ne p2 ne se p2 w w p4)
+         (split-4 sw nw p2 e e p2 nw sw p4)
+         (split-4 w w p2 se ne p2 ne se p4)
+         (split-4 nw sw p2 sw nw p2 e e p4)
       )
    )
    (piece
@@ -594,6 +706,12 @@
          (exchange-2 e p3) (exchange-2 ne p3) (exchange-2 se p3)
          (exchange-1 w p4) (exchange-1 nw p4) (exchange-1 sw p4)
          (exchange-1 e p4) (exchange-1 ne p4) (exchange-1 se p4)
+         (split-5 ne se p3 w w p2 se ne p5)
+         (split-5 e e p3 nw sw p2 sw nw p5)
+         (split-5 se ne p3 ne se p2 w w p5)
+         (split-5 sw nw p3 e e p2 nw sw p5)
+         (split-5 w w p3 se ne p2 ne se p5)
+         (split-5 nw sw p3 sw nw p2 e e p5)
       )
    )
    (piece
@@ -613,6 +731,12 @@
          (exchange-2 e p4) (exchange-2 ne p4) (exchange-2 se p4)
          (exchange-1 w p5) (exchange-1 nw p5) (exchange-1 sw p5)
          (exchange-1 e p5) (exchange-1 ne p5) (exchange-1 se p5)
+         (split-6 ne se p3 w w p3 se ne p6)
+         (split-6 e e p3 nw sw p3 sw nw p6)
+         (split-6 se ne p3 ne se p3 w w p6)
+         (split-6 sw nw p3 e e p3 nw sw p6)
+         (split-6 w w p3 se ne p3 ne se p6)
+         (split-6 nw sw p3 sw nw p3 e e p6)
       )
    )
 
