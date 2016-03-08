@@ -1,0 +1,68 @@
+Zillions Save Game File Version 0.02 CC
+RulesFile=Chase.zrf
+VariantName=Chase
+1. p2 A8 x A7 Red p1 A8 Red p4 A7
+1. p2 I8 x I7 White p1 I8 White p4 I7
+2. p3 A3 x A2 Red p1 A3 Red p4 A2
+2. p3 I3 x I2 White p1 I3 White p4 I2
+3. p5 A5 x A4 Red p4 A5 Red p5 A4
+3. p1 I9 - H1
+4. p1 A1 x A2 p4 A2 x A3 p1 A3 x A4 p5 A4 x A5 p4 A5 x A6 p4 A6 x A7 p4 A7 x A8 p1 A8 x A9 p1 A9 x A1
+4. p4 I7 - E9
+5. p4 A7 - E5 Red p2 D5 Red p2 E6 x E5
+5. p4 E9 x A2 Red p2 A1
+6. p1 A9 x A1 p2 A1 x A2 White p5 H1
+6. p4 I2 - E9
+7. p4 A8 x E6 p2 E6 - F6
+7. p4 I4 x I5 White p3 I4 White p6 I5
+8. p4 A3 - E1
+8. p3 I4 x F6 Red p3 A1
+9. p2 A2 - C1
+9. p4 E9 - I7
+10. p4 E6 x I8 White p2 I1
+10. p2 I1 x I8 Red p5 A4
+11. p4 E1 x I8 White p3 I3
+11. p3 F6 - C7
+12. p4 I8 x I3 White p6 C7
+12. p4 I7 - E5 White p2 E6 White p2 F5 x E5
+13. p3 A1 x A4 p5 A4 x A5 p5 A5 x A6 p4 A6 - A7
+13. p2 E6 - C5
+14. p4 A7 - E5 p2 D5 - C4 Red p2 D5 Red p2 E6 x E5
+14. p2 C5 x E6 Red p4 C1
+15. p2 D5 - B6
+15. p2 E6 - C5
+16. p5 A5 x B6 Red p1 A5 Red p6 B6
+16. p2 C5 x A4 Red p4 A5
+17. p2 C4 - E5 Red p1 E4 Red p1 D6 x E5
+17. p6 C7 x C1 Red p5 D6
+18. p1 E4 - E5 Red p1 F5 White p4 A4 x E5
+18. p6 I5 - C2
+19. p5 D6 - D1
+19. p4 I6 - E8
+20. p5 A6 - A2
+20. p6 C2 x E8 p4 E8 - F8
+21. p6 B6 - B9
+21. p4 F8 x H1 p5 H1 - G1
+22. p6 B9 - F6
+22. p4 H1 - H6
+23. p4 A5 - E3
+23. p6 E8 - C2
+24. p4 I3 - E1
+24. p4 H6 - H1
+25. p5 A2 - A6
+25. p5 G1 x H1 White p3 G1 White p6 H1
+26. p5 D1 - C7
+26. p6 C2 - E5 White p3 E4 White p3 D6 x E5
+27. p5 C7 x H1 White p6 D6 White p6 E4
+27. p6 E4 x C1 p6 C1 - D1
+28. p5 A6 - F4
+28. p3 G1 - D3
+29. p1 F5 - E4
+29. p4 A4 - A9
+30. p4 E1 - I3
+30. p6 C1 - I4
+31. p4 I3 - E5 p6 F6 - G6 p1 E4 x E3 p4 E3 - E2 Red p2 F6 Red p2 E4 x E5
+31. p4 A9 x E2 Red p5 E3
+32. p5 E3 x E4 Red p1 E3 Red p6 E4
+32. p3 D3 x E2 White p1 D3 White p6 E2
+33. p1 E3 x D3
