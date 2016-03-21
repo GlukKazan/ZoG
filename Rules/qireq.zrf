@@ -20,6 +20,17 @@
     )
 ))
 
+(define man-jump-promote (
+    $1 (verify enemy?) 
+    capture 
+    $1 (verify empty?) 	
+    (if (in-zone? promotion-zone)
+        (add-partial Mullah jumptype)
+     else
+        (add-partial jumptype)
+    )
+))
+
 (define man-captured-find
    mark
    (if (on-board? $1)  
@@ -82,7 +93,11 @@
 (game
     (title "Qireq (Fetaix) I")
 
-    (description "")
+    (description "Qireq (Fetaix) I\\
+[A] Capture is mandatory\
+[B] Pieces can move sideways and forward only ( w e n ne nw)\
+[C] Pieces can also capture sideways and forward only ( w e n ne nw)\
+[D] There is promotion to a long king")
     (history "")
 
     (players Black White)
@@ -98,7 +113,7 @@
     (capture-sound "")
 
     (board
-            (image "../images/MedievalAlquerque/Alquerque.bmp")
+            (image "../Images/MedievalAlquerque/Alquerque.bmp")
             (grid
                  (start-rectangle 0 3 62 65) ; top-left position
                  (dimensions ;5x5
@@ -130,8 +145,8 @@
 
     (piece
         (name Man)
-        (image White "../images/MedievalAlquerque/RChecker.bmp"
-               Black "../images/MedievalAlquerque/BChecker.bmp")
+        (image White "../Images/MedievalAlquerque/RChecker.bmp"
+               Black "../Images/MedievalAlquerque/BChecker.bmp")
 	(help "")
         (description "")
 
@@ -154,8 +169,8 @@
 
     (piece
         (name Mullah)
-        (image White "../images/MedievalAlquerque/KingRed.bmp"
-               Black "../images/MedievalAlquerque/KingBlack.bmp")		   
+        (image White "../Images/MedievalAlquerque/KingRed.bmp"
+               Black "../Images/MedievalAlquerque/KingBlack.bmp")		   
 	(help "")
         (description "")
         (moves
@@ -192,70 +207,16 @@
 
 (variant
     (title "Qireq (Fetaix) II")
+    (description "Qireq (Fetaix) II\\
+[A] Capture is mandatory\
+[B] Pieces can move sideways and forward only ( w e n ne nw)\
+[C] Pieces can also capture in all directions ( w e n ne nw s se sw)\
+[D] There is promotion to a long king. A man can jump uncrowned in the last row if there is a chance for capture.")
 
     (piece
         (name Man)
-        (image White "../images/MedievalAlquerque/RChecker.bmp"
-               Black "../images/MedievalAlquerque/BChecker.bmp")
-	(help "")
-        (description "")
-
-	(moves
-            (move-type normaltype)
-                  (man-shift ne)
-                  (man-shift nw)
-                  (man-shift n)	
-                  (man-shift e)
-                  (man-shift w)			
-
-            (move-type jumptype)
-                  (man-jump ne)
-                  (man-jump nw)
-                  (man-jump se)
-                  (man-jump sw)
-                  (man-jump n)
-                  (man-jump e)
-                  (man-jump w)
-                  (man-jump s)
-	)
-    )
-)
-
-(variant
-    (title "Qireq (Fetaix) III")
-
-    (piece
-        (name Man)
-        (image White "../images/MedievalAlquerque/RChecker.bmp"
-               Black "../images/MedievalAlquerque/BChecker.bmp")
-	(help "")
-        (description "")
-
-	(moves
-            (move-type normaltype)
-                  (man-shift ne)
-                  (man-shift nw)
-                  (man-shift n)	
-                  (man-shift e)
-                  (man-shift w)			
-
-            (move-type jumptype)
-                  (man-jump-with-check ne e w e w e)
-                  (man-jump-with-check nw e w e w e)
-                  (man-jump-with-check n  e w e w e)
-                  (man-jump-with-check e  e w e w e)
-                  (man-jump-with-check w  e w e w e)
-	)
-    )
-)
-
-(variant
-    (title "Qireq (Fetaix) IV")
-
-    (piece
-        (name Man)
-        (image White "../images/MedievalAlquerque/RChecker.bmp"
-               Black "../images/MedievalAlquerque/BChecker.bmp")
+        (image White "../Images/MedievalAlquerque/RChecker.bmp"
+               Black "../Images/MedievalAlquerque/BChecker.bmp")
 	(help "")
         (description "")
 
@@ -276,6 +237,42 @@
                   (man-jump-with-check e  e w se sw s)
                   (man-jump-with-check w  e w se sw s)
                   (man-jump-with-check s  e w se sw s)
+	)
+    )
+)
+
+(variant
+    (title "Qireq (Fetaix) III")
+    (description "Qireq (Fetaix) II\\
+[A] Capture is mandatory\
+[B] Pieces can move sideways and forward only ( w e n ne nw)\
+[C] Pieces can also capture in all directions ( w e n ne nw s se sw)\
+[D] There is promotion to a long king.")
+
+    (piece
+        (name Man)
+        (image White "../Images/MedievalAlquerque/RChecker.bmp"
+               Black "../Images/MedievalAlquerque/BChecker.bmp")
+	(help "")
+        (description "")
+
+	(moves
+            (move-type normaltype)
+                  (man-shift ne)
+                  (man-shift nw)
+                  (man-shift n)	
+                  (man-shift e)
+                  (man-shift w)			
+
+            (move-type jumptype)
+                  (man-jump-promote ne)
+                  (man-jump-promote nw)
+                  (man-jump-promote se)
+                  (man-jump-promote sw)
+                  (man-jump-promote n)
+                  (man-jump-promote e)
+                  (man-jump-promote w)
+                  (man-jump-promote s)
 	)
     )
 )
