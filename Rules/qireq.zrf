@@ -25,7 +25,7 @@
     capture 
     $1 (verify empty?) 	
     (if (in-zone? promotion-zone)
-        (add-partial Mullah jumptype)
+        (add-partial Mullah conttype)
      else
         (add-partial jumptype)
     )
@@ -86,6 +86,26 @@
       capture
       back
       (add-partial jumptype)
+      $1
+  )
+))
+
+(define mullah-jump-cont (
+  (while (empty? $1)
+      $1
+  )
+  (verify (enemy? $1))
+  $1
+  (verify (empty? $1))
+  $1
+  (while empty?
+      mark
+      (while empty? 
+        (opposite $1)
+      ) 
+      capture
+      back
+      (add-partial conttype)
       $1
   )
 ))
@@ -247,7 +267,7 @@
 [A] Capture is mandatory\
 [B] Pieces can move sideways and forward only ( w e n ne nw)\
 [C] Pieces can also capture in all directions ( w e n ne nw s se sw)\
-[D] There is promotion to a long king.")
+[D] There is promotion to a long king. A man can jump crowned in the last row if there is a chance for capture.")
 
     (piece
         (name Man)
@@ -274,5 +294,38 @@
                   (man-jump-promote w)
                   (man-jump-promote s)
 	)
+    )
+
+    (piece
+        (name Mullah)
+        (image White "../Images/MedievalAlquerque/KingRed.bmp"
+               Black "../Images/MedievalAlquerque/KingBlack.bmp")		   
+	(help "")
+        (description "")
+        (moves
+            (move-type normaltype)
+                  (mullah-slide ne)
+                  (mullah-slide nw)
+                  (mullah-slide se)
+                  (mullah-slide sw)
+                  (mullah-slide n)
+                  (mullah-slide s)
+                  (mullah-slide e)
+                  (mullah-slide w)
+
+            (move-type jumptype)
+                  (mullah-jump ne)
+                  (mullah-jump nw)
+                  (mullah-jump se)
+                  (mullah-jump sw)
+                  (mullah-jump n)
+                  (mullah-jump s)
+                  (mullah-jump e)
+                  (mullah-jump w)
+
+            (move-type conttype)
+                  (mullah-jump-cont e)
+                  (mullah-jump-cont w)
+        )
     )
 )
