@@ -7,6 +7,6 @@ while (<>) {
      if (!$im) {
         $im = $nm;
      }
-     print "  (p $im $nm) ; $vl\n";
+     print "\t{piece}	$nm\t{moves} common-moves\t$vl\t{value}\n";
   }
 }

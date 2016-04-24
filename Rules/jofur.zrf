@@ -1,22 +1,14 @@
-(define step (
-  $1
-  (verify empty?)
-  add
-))
-
 (define p
   (piece
      (name $1)
      (help " ")
      (image ?Owner "../images/jofur/$2.bmp")
-     (moves
-        (step n) (step s) (step w) (step e)
-     )
   )
 )
 
 (game
   (title "Jofur")
+  (engine "../Axiom/jofur/axiom.dll")
 
   (move-sound "Audio/Pickup.wav")
   (release-sound "Audio/Pickup.wav")
@@ -33,7 +25,6 @@
         ("a/b/c/d/e/f/g/h/i/j" (49 0)) ; files
         ("10/9/8/7/6/5/4/3/2/1" (0 49)) ; ranks
       )
-      (directions (n 0 -1) (s 0 1) (e 1 0) (w -1 0))
     )
   )
 
@@ -281,4 +272,9 @@
   (board-setup
     (?Owner (L j1) (D a10))
   )
+
+  ; The following dummy piece is required in order to placate the Zillions engine.
+  ; It appears as though Zillions must find at least one "moves" keyword somewhere
+  ; in the zrf in order for it to be happy and thus allow "moves" to work correctly.
+  (piece (name Dummy) (dummy) (moves (from)))
 )
