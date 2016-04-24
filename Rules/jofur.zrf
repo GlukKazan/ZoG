@@ -1,0 +1,284 @@
+(define step (
+  $1
+  (verify empty?)
+  add
+))
+
+(define p
+  (piece
+     (name $1)
+     (help " ")
+     (image ?Owner "../images/jofur/$2.bmp")
+     (moves
+        (step n) (step s) (step w) (step e)
+     )
+  )
+)
+
+(game
+  (title "Jofur")
+
+  (move-sound "Audio/Pickup.wav")
+  (release-sound "Audio/Pickup.wav")
+  (capture-sound "")
+
+  (players Light Dark ?Owner)
+  (turn-order (Light ?Owner) (Dark ?Owner))
+
+  (board
+    (image "../images/jofur/board.bmp")
+    (grid
+      (start-rectangle 5 5 54 54)
+      (dimensions
+        ("a/b/c/d/e/f/g/h/i/j" (49 0)) ; files
+        ("10/9/8/7/6/5/4/3/2/1" (0 49)) ; ranks
+      )
+      (directions (n 0 -1) (s 0 1) (e 1 0) (w -1 0))
+    )
+  )
+
+  (p U r) ; 1
+  (p U b) ; 2
+  (p U y) ; 5
+  (p U z) ; 6
+  (p _U _f) ; 7
+  (p _U _s) ; 14
+  (p _U _y) ; 35
+  (p _U _z) ; 42
+  (p __U __v) ; 49
+  (p __U __y) ; 245
+  (p __U __z) ; 294
+  (p B B) ; 1
+  (p R R) ; 2
+  (p L L) ; 3
+  (p D D) ; 4
+  (p Y Y) ; 5
+  (p Z Z) ; 6
+  (p _F _F) ; 7
+  (p BF BF) ; 8
+  (p RF RF) ; 9
+  (p LF LF) ; 10
+  (p DF DF) ; 11
+  (p YF YF) ; 12
+  (p ZF ZF) ; 13
+  (p _S _S) ; 14
+  (p BS BS) ; 15
+  (p RS RS) ; 16
+  (p LS LS) ; 17
+  (p DS DS) ; 18
+  (p YS YS) ; 19
+  (p ZS ZS) ; 20
+  (p _L _L) ; 21
+  (p BL BL) ; 22
+  (p RL RL) ; 23
+  (p YL YL) ; 26
+  (p ZL ZL) ; 27
+  (p _D _D) ; 28
+  (p BD BD) ; 29
+  (p RD RD) ; 30
+  (p YD YD) ; 33
+  (p ZD ZD) ; 34
+  (p _Y _Y) ; 35
+  (p BY BY) ; 36
+  (p RY RY) ; 37
+  (p LY LY) ; 38
+  (p DY DY) ; 39
+  (p YY YY) ; 40
+  (p ZY ZY) ; 41
+  (p _Z _Z) ; 42
+  (p BZ BZ) ; 43
+  (p RZ RZ) ; 44
+  (p LZ LZ) ; 34
+  (p DZ DZ) ; 46
+  (p YZ YZ) ; 47
+  (p ZZ ZZ) ; 48
+  (p __V __V) ; 49
+  (p B_V B_V) ; 50
+  (p R_V R_V) ; 51
+  (p L_V L_V) ; 52
+  (p D_V D_V) ; 53
+  (p Y_V Y_V) ; 54
+  (p Z_V Z_V) ; 55
+  (p _FV _FV) ; 56
+  (p BFV BFV) ; 57
+  (p RFV RFV) ; 58
+  (p LFV LFV) ; 59
+  (p DFV DFV) ; 60
+  (p YFV YFV) ; 61
+  (p ZFV ZFV) ; 62
+  (p _SV _SV) ; 63
+  (p BSV BSV) ; 64
+  (p RSV RSV) ; 65
+  (p LSV LSV) ; 66
+  (p DSV DSV) ; 67
+  (p YSV YSV) ; 68
+  (p ZSV ZSV) ; 69
+  (p _LV _LV) ; 70
+  (p BLV BLV) ; 71
+  (p RLV RLV) ; 72
+  (p YLV YLV) ; 75
+  (p ZLV ZLV) ; 76
+  (p _DV _DV) ; 77
+  (p BDV BDV) ; 78
+  (p RDV RDV) ; 79
+  (p YDV YDV) ; 82
+  (p ZDV ZDV) ; 83
+  (p _YV _YV) ; 84
+  (p BYV BYV) ; 85
+  (p RYV RYV) ; 86
+  (p LYV LYV) ; 87
+  (p DYV DYV) ; 88
+  (p YYV YYV) ; 89
+  (p ZYV ZYV) ; 90
+  (p _ZV _ZV) ; 91
+  (p BZV BZV) ; 92
+  (p RZV RZV) ; 93
+  (p LZV LZV) ; 94
+  (p DZV DZV) ; 95
+  (p YZV YZV) ; 96
+  (p ZZV ZZV) ; 97
+  (p __L __L) ; 147
+  (p B_L B_L) ; 148
+  (p R_L R_L) ; 149
+  (p Y_L Y_L) ; 152
+  (p Z_L Z_L) ; 153
+  (p _FL _FL) ; 154
+  (p BFL BFL) ; 155
+  (p RFL RFL) ; 156
+  (p YFL YFL) ; 159
+  (p ZFL ZFL) ; 160
+  (p _SL _SL) ; 161
+  (p BSL BSL) ; 162
+  (p RSL RSL) ; 163
+  (p YSL YSL) ; 166
+  (p ZSL ZSL) ; 167
+  (p _YL _YL) ; 182
+  (p BYL BYL) ; 183
+  (p RYL RYL) ; 184
+  (p YYL YYL) ; 187
+  (p ZYL ZYL) ; 188
+  (p _ZL _ZL) ; 189
+  (p BZL BZL) ; 190
+  (p RZL RZL) ; 191
+  (p YZL YZL) ; 194
+  (p ZZL ZZL) ; 195
+  (p __D __D) ; 196
+  (p B_D B_D) ; 197
+  (p R_D R_D) ; 198
+  (p Y_D Y_D) ; 201
+  (p Z_D Z_D) ; 202
+  (p _FD _FD) ; 203
+  (p BFD BFD) ; 204
+  (p RFD RFD) ; 205
+  (p YFD YFD) ; 208
+  (p ZFD ZFD) ; 209
+  (p _SD _SD) ; 210
+  (p BSD BSD) ; 211
+  (p RSD RSD) ; 212
+  (p YSD YSD) ; 215
+  (p ZSD ZSD) ; 216
+  (p _YD _YD) ; 231
+  (p BYD BYD) ; 232
+  (p RYD RYD) ; 233
+  (p YYD YYD) ; 236
+  (p ZYD ZYD) ; 237
+  (p _ZD _ZD) ; 238
+  (p BZD BZD) ; 239
+  (p RZD RZD) ; 240
+  (p YZD YZD) ; 243
+  (p ZZD ZZD) ; 244
+  (p __Y __Y) ; 245
+  (p B_Y B_Y) ; 246
+  (p R_Y R_Y) ; 247
+  (p L_Y L_Y) ; 248
+  (p D_Y D_Y) ; 249
+  (p Y_Y Y_Y) ; 250
+  (p Z_Y Z_Y) ; 251
+  (p _FY _FY) ; 252
+  (p BFY BFY) ; 253
+  (p RFY RFY) ; 254
+  (p LFY LFY) ; 255
+  (p DFY DFY) ; 256
+  (p YFY YFY) ; 257
+  (p ZFY ZFY) ; 258
+  (p _SY _SY) ; 259
+  (p BSY BSY) ; 260
+  (p RSY RSY) ; 261
+  (p LSY LSY) ; 262
+  (p DSY DSY) ; 263
+  (p YSY YSY) ; 264
+  (p ZSY ZSY) ; 265
+  (p _LY _LY) ; 266
+  (p BLY BLY) ; 267
+  (p RLY RLY) ; 268
+  (p YLY YLY) ; 271
+  (p ZLY ZLY) ; 272
+  (p _DY _DY) ; 273
+  (p BDY BDY) ; 274
+  (p RDY RDY) ; 275
+  (p YDY YDY) ; 278
+  (p ZDY ZDY) ; 279
+  (p _YY _YY) ; 280
+  (p BYY BYY) ; 281
+  (p RYY RYY) ; 282
+  (p LYY LYY) ; 283
+  (p DYY DYY) ; 284
+  (p YYY YYY) ; 285
+  (p ZYY ZYY) ; 286
+  (p _ZY _ZY) ; 287
+  (p BZY BZY) ; 288
+  (p RZY RZY) ; 289
+  (p LZY LZY) ; 290
+  (p DZY DZY) ; 291
+  (p YZY YZY) ; 292
+  (p ZZY ZZY) ; 293
+  (p __Z __Z) ; 294
+  (p B_Z B_Z) ; 295
+  (p R_Z R_Z) ; 296
+  (p L_Z L_Z) ; 297
+  (p D_Z D_Z) ; 298
+  (p Y_Z Y_Z) ; 299
+  (p Z_Z Z_Z) ; 300
+  (p _FZ _FZ) ; 301
+  (p BFZ BFZ) ; 302
+  (p RFZ RFZ) ; 303
+  (p LFZ LFZ) ; 304
+  (p DFZ DFZ) ; 305
+  (p YFZ YFZ) ; 306
+  (p ZFZ ZFZ) ; 307
+  (p _SZ _SZ) ; 308
+  (p BSZ BSZ) ; 309
+  (p RSZ RSZ) ; 310
+  (p LSZ LSZ) ; 311
+  (p DSZ DSZ) ; 312
+  (p YSZ YSZ) ; 313
+  (p ZSZ ZSZ) ; 314
+  (p _LZ _LZ) ; 315
+  (p BLZ BLZ) ; 316
+  (p RLZ RLZ) ; 317
+  (p YLZ YLZ) ; 320
+  (p ZLZ ZLZ) ; 321
+  (p _DZ _DZ) ; 322
+  (p BDZ BDZ) ; 323
+  (p RDZ RDZ) ; 324
+  (p YDZ YDZ) ; 327
+  (p ZDZ ZDZ) ; 328
+  (p _YZ _YZ) ; 329
+  (p BYZ BYZ) ; 330
+  (p RYZ RYZ) ; 331
+  (p LYZ LYZ) ; 332
+  (p DYZ DYZ) ; 333
+  (p YYZ YYZ) ; 334
+  (p ZYZ ZYZ) ; 335
+  (p _ZZ _ZZ) ; 336
+  (p BZZ BZZ) ; 337
+  (p RZZ RZZ) ; 338
+  (p LZZ LZZ) ; 339
+  (p DZZ DZZ) ; 340
+  (p YZZ YZZ) ; 341
+  (p ZZZ ZZZ) ; 342
+
+  (board-setup
+    (?Owner (L j1) (D a10))
+  )
+)
