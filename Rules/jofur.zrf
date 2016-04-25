@@ -39,6 +39,9 @@
   (p __U __v) ; 49
   (p __U __y) ; 245
   (p __U __z) ; 294
+
+  (piece (name MARK) (dummy) (moves (from)))
+
   (p B B) ; 1
   (p R R) ; 2
   (p L L) ; 3
@@ -272,9 +275,4 @@
   (board-setup
     (?Owner (L j1) (D a10))
   )
-
-  ; The following dummy piece is required in order to placate the Zillions engine.
-  ; It appears as though Zillions must find at least one "moves" keyword somewhere
-  ; in the zrf in order for it to be happy and thus allow "moves" to work correctly.
-  (piece (name Dummy) (dummy) (moves (from)))
 )
