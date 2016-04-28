@@ -14,6 +14,9 @@
   (release-sound "Audio/Pickup.wav")
   (capture-sound "")
 
+  (option "animate drops"    false)
+  (option "animate captures" false)
+
   (players Light Dark ?Owner)
   (turn-order (Light ?Owner) (Dark ?Owner))
 
