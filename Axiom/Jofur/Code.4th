@@ -8,7 +8,7 @@ VARIABLE is-smelled?
 
 : get-smelled ( -- )
 	TRUE not-smelled !
-	piece piece-value
+	piece piece-value ABS
 	7 / 7 MOD 2 = IF
 		FALSE not-smelled !
 	ENDIF
@@ -28,7 +28,7 @@ VARIABLE is-smelled?
 
 : check-friend ( -- )
 	FALSE is-friend? !
-	piece piece-value
+	piece piece-value ABS
 	DUP 7 MOD get-friend
 	7 / DUP 7 MOD get-friend
 	7 / get-friend
@@ -50,7 +50,7 @@ VARIABLE is-smelled?
 	FALSE is-enemy? !
 	FALSE is-smelled? !
 	EXECUTE from here <> AND empty? NOT AND IF
-		piece piece-value
+		piece piece-value ABS
 		DUP 7 MOD get-enemy
 		7 / DUP 7 MOD DUP get-enemy
 		2 = IF
@@ -178,7 +178,7 @@ VARIABLE is-smelled?
 	empty? IF
 		0
 	ELSE
-		piece piece-value
+		piece piece-value ABS
 	ENDIF
 	OVER OVER 7 MOD SWAP part[] ! 7 / SWAP 1+ SWAP
 	OVER OVER 7 MOD SWAP part[] ! 7 / SWAP 1+ SWAP
