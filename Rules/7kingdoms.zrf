@@ -1,24 +1,118 @@
-(define my-not-friend?
-  (or empty?
-      (and enemy?
-           (not-piece? L)
-           (not-piece? Z)
-      )
+(version "1.3");[ This version of this game uses multiple grids.   Multiple grids fail in Zillions before version 1.3.
+               ;  If you are still running Zillions 1.0, 1.1, or 1.2, you must upgrade to 1.3 to run this game.
+               ;  To upgrade Zillions 1.0, 1.1, or 1.2, follow the instructions at Zillions-of-games.com/patches-131.html.]
+
+(define assign
+   cascade
+   from
+        (if Chu?  ChuB
+   else (if Han?  HanB
+   else (if Qi?   QiB
+   else (if Wei?  WeiB
+   else (if Zhao? ZhaoB
+   else (if Yan?  YanB
+   else (if Qin?  QinB)))))))
+  (while (or not-empty? (position-flag? to-be-filled?)) next)
+                    (set-position-flag  to-be-filled?   true)
+   to
+)
+
+(define archive
+  (assign)
+  (set-attribute just-captured? true)
+  (go from)
+)
+
+(define capture-all
+   ChuB
+  (while (not-position? end)
+     (if (and enemy? General?) change-owner)
+     next
+  )
+   1A
+  (while (not-position? end)
+     (if $1? (if (and enemy? General?) (assign) change-owner else (assign)) (go from))
+      next
   )
 )
 
+(define initialize
+ ( dee
+   to
+   1A
+  (while (not-position? end)
+           (if    enemy?
+           (if (in-zone?  Han-zone) (set-attribute  Han? true) (set-attribute  Qin? false)
+      else (if (in-zone?   Qi-zone) (set-attribute   Qi? true) (set-attribute  Qin? false)
+      else (if (in-zone?  Wei-zone) (set-attribute  Wei? true) (set-attribute  Qin? false)
+      else (if (in-zone? Zhao-zone) (set-attribute Zhao? true) (set-attribute  Qin? false)
+      else (if (in-zone?  Yan-zone) (set-attribute  Yan? true) (set-attribute  Qin? false))))))
+      else (if   friend?            (set-attribute  Chu? true) (set-attribute  Qin? false)))
+      next
+  )
+   add
+))
+
+(define twiddle
+ ( dee
+   to
+   ChuB
+  (while (and (not just-captured?) (not-position? end)) next)
+  (if just-captured? (set-attribute just-captured? false))
+  (if (or General? (in-zone? end-zone))
+        (if Chu?  (capture-all Chu)
+   else (if Han?  (capture-all Han)
+   else (if Qi?   (capture-all Qi)
+   else (if Wei?  (capture-all Wei)
+   else (if Zhao? (capture-all Zhao)
+   else (if Yan?  (capture-all Yan)
+   else (if Qin?  (capture-all Qin))))))))
+  )
+   add
+))
+
+(define available?
+  (or empty? (and enemy? (not Diplomat?)))
+)
+
+(define slide
+ ( $1
+  (while empty? add $1)
+  (verify (available?))
+  (if enemy? (archive))
+   add
+))
+
+(define glide (
+  $1
+  (while empty? add $1)
+))
+
+(define shoot
+ ($1
+  (while empty? add $1)
+  (verify not-empty?)
+  $1
+  (while empty? $1)
+  (verify (available?))
+  (archive)
+   add
+))
+
 (define step (
   $1
-  (verify (my-not-friend?))
-  add
+  (verify (available?))
+  (archive)
+   add
 ))
 
 (define step-2 (
   $1
   (verify empty?)
   $1
-  (verify (my-not-friend?))
-  add
+  (verify (available?))
+  (archive)
+   add
 ))
 
 (define step-3 (
@@ -27,8 +121,9 @@
   $1
   (verify empty?)
   $1
-  (verify (my-not-friend?))
-  add
+  (verify (available?))
+  (archive)
+   add
 ))
 
 (define step-4 (
@@ -39,8 +134,9 @@
   $1
   (verify empty?)
   $1
-  (verify (my-not-friend?))
-  add
+  (verify (available?))
+  (archive)
+   add
 ))
 
 (define step-5 (
@@ -53,194 +149,399 @@
   $1
   (verify empty?)
   $1
-  (verify (my-not-friend?))
-  add
+  (verify (available?))
+  (archive)
+   add
 ))
 
 (define jump (
   $1
   (verify empty?)
   $2
-  (verify (my-not-friend?))
-  add
-))
-
-(define slide (
-  $1
-  (while empty?
-    add
-    $1
-  )
-  (verify (my-not-friend?))
-  add
-))
-
-(define glide (
-  $1
-  (while empty?
-    add
-    $1
-  )
-))
-
-(define shoot (
-  $1
-  (while empty?
-    add
-    $1
-  )
-  (verify not-empty?)
-  $1
-  (while empty? $1)
-  (verify (my-not-friend?))
-  add
+  (verify empty?)
+  $2
+  (verify empty?)
+  $2
+  (verify (available?))
+  (archive)
+   add
 ))
 
 (game
-  (title "Qiguo Xiangqi")
-  (description "There are a total of 120 pieces used in this variant symbolizing the seven Warring States (403-221 B.C.) period.")
-  (history "Game of the Seven Kingdoms (Qiguo Xiangqi) is a seven-player variant of the game Xiangqi (''Chinese chess'').\
-It was invented by Sima Guang (1019-1086).")
+  (title "Qiquo Xiangqi")
+  (description "Seven armies in this game symbolize the seven Warring States (403-221 B.C.).\
+                Each of seven kingdoms: Qin (white), Chu (red), Han (orange), Qi (indigo),\
+                Wei (green), Zhao (purple), Yan (black) has a team of seventeen pieces:\
+                one  General (Jiang) - moves like the Queen in modern Western Chess.\
+                one  Deputy General (Pian) - moves like the Rook in modern Western Chess.\
+                one  Officer (Bai)   - moves like the Bishop in modern Western Chess.\
+                one  Diplomat (Xing ren) - like Queen, but cannot capture or be captured.\
+                one  Cannon (Pao)   - like the Cannon (Pao) in XiangQi (moves like the Rook),\
+                                      (but captures vaulting over one intervening piece).\
+                one  Archer (Gong)  - moves like the Queen; captures only up to four spaces.\
+                one  Crossbow (Nu)  - moves like the Queen; captures only up to five spaces.\
+                two  Scimitar (Dao) - moves one space diagonally.\
+                four Straightsword (Jian) - moves one space vertically or horizontally.\
+                four Horseman (Qi)  - moves one space in a straight line and then three spaces diagonally.\
+                One  Zhou Emperor (Huang Di) sits in the center of the board.\
+                The  Zhou Emperor (Huang Di) does not move, is invulnerable to capture,\
+                                      and does not participate in the game\
+                                      other than to block any movement through the center of the board,\
+                                      except for the Cannon (Pao)'s vaulting capturing leap.\\
+                A player wins over another state\
+                by capturing its General or by reducing his army to seven pieces.\
+                When either a player's General or a player's tenth piece is captured,\
+                all of that player's remaining pieces are removed from the board.\\
+                In the traditional game, the winner is the player capturing the most pieces.\
+                The winner takes a special victory drink.  Then the losers each take a drink.\
+                A player capturing two Generals, or thirty lesser pieces, is declared Hegemon.\
+                All the other states avow their submission to him,\
+                and everyone drinks another round."
+  )
+  (history "The Game of the Seven Kingdoms (Qiquo XiangQi)\
+            is a seven-player variant of the game XiangQi (Chinese Chess).\
+            Qiquo XiangQi was invented by Sima Guang (1019-1086),\
+            historian and high Chancellor of the Southern Song dynasty.\
+            Retired scholar Pei Zixi from Yizheng\
+            obtained a copy of the text of this game's rules\
+            and had them engraved on wooden blocks\
+            so that they would be widely transmitted.\
+            Qiquo XiangQi rules were printed on 24 February 1206,\
+            the day of the Lantern Festival, in the second year of the Kaixi era,\
+            under the reign of Emperor Ningzong of Southern Song dynasty.\\
+            Qiquo Xiangxi has special importance in the history of Chess.\
+            Qiquo Xiangxi is the earliest known game containing the Cannon (Pao).\
+            Qiquo Xiangxi is the first Chinese Chess game whose complete rules are known.\
+            Qiquo Xiangxi is the earliest known game\
+                                with pieces moving like modern European Queen and Bishop.\
+            The Courier, moving like the modern Bishop,\
+                                first appears in Europe in the Courier Game.\
+            The Courier Game is mentioned in Wigalois, a German poem dated from 1205.\
+            The Queen first appears in European Chess in place of the Firzan around 1475.\\
+            references: http://history.chess.free.fr/qiguoxiangxi.htm\
+                                http://www.chessvariants.com/old.dir/ochin7.html"
+  )
+  (strategy "You can win this game against the Zillions A-I without trying.\
+             You only need to play one team.\
+             The default red Chu team has the best positional advantage and the first turn.\
+             Zillions of Games is very weak at strategy with more than two players.\\
+             Avoid trading pieces.  If you lose any ten pieces, you lose the game.\
+             Use you Diplomat to protect your team from trades.\
+             Stay out of conflict.  Allow the other armies to weaken each other.\\
+             Your Cannon can capture an enemy General and eliminate his entire army.\
+             Capturing the tenth piece of any army also eliminates that whole army.\
+             But be careful that removing an army does not expose you to capture by others.\\
+             Anticipate likely combinations of moves from your multiple enemies.\
+             Do not depend on enemy pieces blocking each other.\
+             Each enemy will move or capture one piece before it is your turn again."
+  )
 
   (move-sound "Audio/Pickup.wav")
   (release-sound "Audio/Pickup.wav")
   (capture-sound "")
 
-  (option "prevent flipping" true)
-  (option "animate captures" false)
-  (option "pass turn" false)
+  (animate-captures true )
+  (recycle-captures true )
+  (allow-flipping  false )
+  (pass-turn       forced)
 
-  (players Chu Han Qi Wei Zhao Yan Qin ?Zhou)
-  (turn-order Chu Han Qi Wei Zhao Yan Qin)
+;[ *********************************************************************************************************  .
+;  The amount of code required to archive captured pieces for counting to determine whether a Kingdom         .
+;  is defeated, the counting thereof, and the removal of the remaining pieces from the battle board           .
+;  exceeds the maximum buffer size for Zillions of Games.                                                     .
+;  Zillions of Games will either issue "an unknown error has occurred" or will crash with no error message.   .
+;  In order to work around this Zillions weakness, it becomes necessary to divide the above code              .
+;  between the seven real players and seven corresponding random players.                                     .
+;  *********************************************************************************************************  ]
+  (players Chu ?Chu Han ?Han Qi ?Qi Wei ?Wei Zhao ?Zhao Yan ?Yan Qin ?Qin Zhou)
+  (turn-order (Chu  normal) (?Chu  Chu  start)
+              (Han  normal) (?Han  Han  check)
+              (Qi   normal) (?Qi   Qi   check)
+              (Wei  normal) (?Wei  Wei  check)
+              (Zhao normal) (?Zhao Zhao check)
+              (Yan  normal) (?Yan  Yan  check)
+              (Qin  normal) (?Qin  Qin  check)
+       repeat (Chu  normal) (?Chu  Chu  check)
+              (Han  normal) (?Han  Han  check)
+              (Qi   normal) (?Qi   Qi   check)
+              (Wei  normal) (?Wei  Wei  check)
+              (Zhao normal) (?Zhao Zhao check)
+              (Yan  normal) (?Yan  Yan  check)
+              (Qin  normal) (?Qin  Qin  check)
+  )
+
+  (win-condition (Chu Han Qi Wei Zhao Yan Qin) (pieces-remaining 7 Jiang))
 
   (board
-    (image "../Images/7Kingdoms/board.bmp")
-    (grid
-      (start-rectangle 39 33 81 67)
+    (image "../images/7Kingdoms/Board.bmp")
+    (grid ; game board
+      (start-rectangle 35 28 70 63)
       (dimensions
-        ("19/18/17/16/15/14/13/12/11/10/9/8/7/6/5/4/3/2/1" (39 0)) ; files
-        ("A/B/C/D/E/F/G/H/I/J/K/L/M/N/O/P/Q/R/S" (0 37)) ; ranks
+        ("19/18/17/16/15/14/13/12/11/10/9/8/7/6/5/4/3/2/1" (34 0)) ; files
+        ("A/B/C/D/E/F/G/H/I/J/K/L/M/N/O/P/Q/R/S"           (0 34)) ; ranks
       )
       (directions 
-        (n     0 -1) (s     0  1) (e     1  0) (w    -1 0) 
-        (nw   -1 -1) (sw   -1  1) (ne    1 -1) (se    1 1) 
+        (n    0 -1) (s   0  1) (e   1  0) (w  -1  0) 
+        (nw  -1 -1) (sw -1  1) (ne  1 -1) (se  1  1) 
+        (next 0  1)
       ) 
+    )
+    (zone
+      (name beginning-zone)
+      (players Chu ?Chu)
+      (positions  14S  15S  13S  14R  12S 16S 13R 15R  14Q  13Q 15Q  11S 17S 12R 16R  14P  14O )
+    )
+    (zone
+      (name beginning-zone)
+      (players Han ?Han)
+      (positions   6S   7S   5S   6R   4S  8S  5R  7R   6Q   5Q  7Q   3S  9S  4R  8R   6P   6O )
+    )
+    (zone
+      (name beginning-zone)
+      (players Qi ?Qi)
+      (positions   1N   1O   1M   2N   1P  1L  2O  2M   3N   3O  3M   1K  1Q  2L  2P   4N   5N )
+    )
+    (zone
+      (name beginning-zone)
+      (players Wei ?Wei)
+      (positions   1F   1G   1E   2F   1H  1D  2G  2E   3F   3G  3E   1C  1I  2D  2H   4F   5F )
+    )
+    (zone
+      (name beginning-zone)
+      (players Zhao ?Zhao)
+      (positions   6A   5A   7A   6B   4A  8A  5B  7B   6C   5C  7C   3A  9A  4B  8B   6D   6E )
+    )
+    (zone
+      (name beginning-zone)
+      (players Yan ?Yan)
+      (positions  14A  13A  15A  14B  12A 16A 13B 15B  14C  13C 15C  11A 17A 12B 16B  14D  14E )
+    )
+    (zone
+      (name beginning-zone)
+      (players Qin ?Qin)
+      (positions  19J  19I  19K  18J  19H 19L 18I 18K  17J  17K 17I  19G 19M 18H 18L  16J  15J )
+    )
+    (zone
+      (name Chu-zone)
+      (players Chu ?Chu Han ?Han Qi ?Qi Wei ?Wei Zhao ?Zhao Yan ?Yan Qin ?Qin Zhou)
+      (positions 14S 15S 13S 14R 12S 16S 13R 15R 14Q 13Q 15Q 11S 17S 12R 16R 14P 14O)
+    )
+    (zone
+      (name Han-zone)
+      (players Chu ?Chu Han ?Han Qi ?Qi Wei ?Wei Zhao ?Zhao Yan ?Yan Qin ?Qin Zhou)
+      (positions  6S  7S  5S  6R  4S  8S  5R  7R  6Q  5Q  7Q  3S  9S  4R  8R  6P  6O)
+    )
+    (zone
+      (name Qi-zone)
+      (players Chu ?Chu Han ?Han Qi ?Qi Wei ?Wei Zhao ?Zhao Yan ?Yan Qin ?Qin Zhou)
+      (positions  1N  1O  1M  2N  1P  1L  2O  2M  3N  3O  3M  1K  1Q  2L  2P  4N  5N)
+    )
+    (zone
+      (name Wei-zone)
+      (players Chu ?Chu Han ?Han Qi ?Qi Wei ?Wei Zhao ?Zhao Yan ?Yan Qin ?Qin Zhou)
+      (positions  1F  1G  1E  2F  1H  1D  2G  2E  3F  3G  3E  1C  1I  2D  2H  4F  5F)
+    )
+    (zone
+      (name Zhao-zone)
+      (players Chu ?Chu Han ?Han Qi ?Qi Wei ?Wei Zhao ?Zhao Yan ?Yan Qin ?Qin Zhou)
+      (positions  6A  5A  7A  6B  4A  8A  5B  7B  6C  5C  7C  3A  9A  4B  8B  6D  6E)
+    )
+    (zone
+      (name Yan-zone)
+      (players Chu ?Chu Han ?Han Qi ?Qi Wei ?Wei Zhao ?Zhao Yan ?Yan Qin ?Qin Zhou)
+      (positions 14A 13A 15A 14B 12A 16A 13B 15B 14C 13C 15C 11A 17A 12B 16B 14D 14E)
+    )
+    (zone
+      (name Qin-zone)
+      (players Chu ?Chu Han ?Han Qi ?Qi Wei ?Wei Zhao ?Zhao Yan ?Yan Qin ?Qin Zhou)
+      (positions 19J 19I 19K 18J 19H 19L 18I 18K 17J 17K 17I 19G 19M 18H 18L 16J 15J)
+    )
+    (grid ; captured pieces
+      (start-rectangle -287 28 -252 63)
+      (dimensions
+        ("Chu/Han/Qi/Wei/Zhao/Yan/Qin"           (34 0)) ; files
+        ("A/B/C/D/E/F/G/H/I/J/K/L/M/N/O/P/Q/R/S" (0 34)) ; ranks
+      )
+      (directions (next 0 1)
+      )
+    )
+    (unlink      ChuA HanA QiA WeiA ZhaoA YanA QinA
+                 ChuS HanS QiS WeiS ZhaoS YanS QinS
+    )
+    (links dee  (ChuA ChuS) (HanA HanS) (QiA QiS) (WeiA WeiS) (ZhaoA ZhaoS) (YanA YanS) (QinA QinS)
+                (ChuS ChuA) (HanS HanA) (QiS QiA) (WeiS WeiA) (ZhaoS ZhaoA) (YanS YanA) (QinS QinA)
+    )
+    (zone
+      (name end-zone)
+      (players Chu ?Chu Han ?Han Qi ?Qi Wei ?Wei Zhao ?Zhao Yan ?Yan Qin ?Qin)
+      (positions ChuK HanK QiK WeiK ZhaoK YanK QinK
+                 ChuL HanL QiL WeiL ZhaoL YanL QinL
+                 ChuM HanM QiM WeiM ZhaoM YanM QinM
+                 ChuN HanN QiN WeiN ZhaoN YanN QinN
+                 ChuO HanO QiO WeiO ZhaoO YanO QinO
+                 ChuP HanP QiP WeiP ZhaoP YanP QinP
+                 ChuQ HanQ QiQ WeiQ ZhaoQ YanQ QinQ
+                 ChuR HanR QiR WeiR ZhaoR YanR QinR
+      )
+    )
+    (dummy end)
+    (links next            (1S 2A) (2S 3A) (3S 4A) (4S 5A) (5S 6A) (6S 7A)
+        (7S 8A) (8S 9A) (9S 10A) (10S 11A) (11S 12A) (12S 13A) (13S 14A)
+        (14S 15A) (15S 16A) (16S 17A) (17S 18A) (18S 19A)
+        (19S end)
+        (ChuR HanB) (HanR QiB) (QiR WeiB) (WeiR ZhaoB) (ZhaoR YanB) (YanR QinB) (QinR end)
     )
   )
 
   (piece
-     (name Z)
-     (notation "Zhou King")
-     (description "Zhou King")
-     (image ?Zhou "../Images/7Kingdoms/y.bmp")
+     (name oo)
+     (moves (move-type check) (twiddle) (move-type start) (initialize) )
+  )
+ 
+  (piece
+     (name Di)
+     (notation    "Emperor (Huang Di)")
+     (help        "Emperor (Huang Di):  Invulnerable.  Remains in center of board.")
+     (description "Emperor (Huang Di):  Invulnerable.  Remains in center of board.")
+     (image Zhou  "../images/7Kingdoms/y.bmp")
+     (attribute Chu?  false)
+     (attribute Han?  false)
+     (attribute Qi?   false)
+     (attribute Wei?  false)
+     (attribute Zhao? false)
+     (attribute Yan?  false)
+     (attribute Qin?  false)
+     (attribute Zhou?  true)
+     (attribute Diplomat?       true)
+     (attribute just-captured? false)
   )
   (piece
-     (name G)
-     (notation "General")
-     (description "General (Jiang): moves vertically, horizontally, or diagonally with no limit on distance.")
-     (image Chu   "../Images/7Kingdoms/rq.bmp"
-            Han   "../Images/7Kingdoms/oq.bmp"
-            Qi    "../Images/7Kingdoms/iq.bmp"
-            Wei   "../Images/7Kingdoms/gq.bmp"
-            Zhao  "../Images/7Kingdoms/pq.bmp"
-            Yan   "../Images/7Kingdoms/bq.bmp"
-            Qin   "../Images/7Kingdoms/wq.bmp")
-     (moves
-        (slide n)  (slide s)  (slide w)  (slide e)
-        (slide nw) (slide sw) (slide se) (slide ne)
+     (name Jiang)
+     (notation    "General (Jiang)")
+     (help        "General (Jiang):  Moves or captures vertically, horizontally, or diagonally with no limit on distance.")
+     (description "General (Jiang):  Moves or captures vertically, horizontally, or diagonally\
+                   with no limit on distance.\
+                   When moving more than one space,\
+                   all intermediate spaces must be empty.")
+     (image Chu   "../images/7Kingdoms/rq.bmp")
+     (image Han   "../images/7Kingdoms/oq.bmp")
+     (image Qi    "../images/7Kingdoms/iq.bmp")
+     (image Wei   "../images/7Kingdoms/gq.bmp")
+     (image Zhao  "../images/7Kingdoms/pq.bmp")
+     (image Yan   "../images/7Kingdoms/bq.bmp")
+     (image Qin   "../images/7Kingdoms/wq.bmp")
+     (attribute Qin?     true)
+     (attribute General? true)
+     (moves (move-type normal)
+        (slide e)  (slide s)  (slide w)  (slide n)
+        (slide ne) (slide se) (slide sw) (slide nw)
      )
   )
   (piece
-     (name D)
-     (notation "Deputy General")
-     (description "Deputy General: moves vertically or horizontally with no limit on distance.")
-     (image Chu   "../Images/7Kingdoms/rr.bmp"
-            Han   "../Images/7Kingdoms/or.bmp"
-            Qi    "../Images/7Kingdoms/ir.bmp"
-            Wei   "../Images/7Kingdoms/gr.bmp"
-            Zhao  "../Images/7Kingdoms/pr.bmp"
-            Yan   "../Images/7Kingdoms/br.bmp"
-            Qin   "../Images/7Kingdoms/wr.bmp")
-     (moves
-        (slide n)  (slide s)  (slide w)  (slide e)
+     (name Pian)
+     (notation    "Deputy General (Pian)")
+     (help        "Deputy General (Pian):  Moves or captures vertically or horizontally with no limit on distance.")
+     (description "Deputy General (Pian):  Moves or captures vertically or horizontally\
+                   with no limit on distance.\
+                   When moving more than one space,\
+                   all intermediate spaces must be empty.")
+     (image Chu   "../images/7Kingdoms/rr.bmp")
+     (image Han   "../images/7Kingdoms/or.bmp")
+     (image Qi    "../images/7Kingdoms/ir.bmp")
+     (image Wei   "../images/7Kingdoms/gr.bmp")
+     (image Zhao  "../images/7Kingdoms/pr.bmp")
+     (image Yan   "../images/7Kingdoms/br.bmp")
+     (image Qin   "../images/7Kingdoms/wr.bmp")
+     (attribute Qin? true)
+     (moves (move-type normal)
+        (slide e)  (slide s)  (slide w)  (slide n)
      )
   )
   (piece
-     (name O)
-     (notation "Officer")
-     (description "Officer: moves diagonally without limit.")
-     (image Chu   "../Images/7Kingdoms/rb.bmp"
-            Han   "../Images/7Kingdoms/ob.bmp"
-            Qi    "../Images/7Kingdoms/ib.bmp"
-            Wei   "../Images/7Kingdoms/gb.bmp"
-            Zhao  "../Images/7Kingdoms/pb.bmp"
-            Yan   "../Images/7Kingdoms/bb.bmp"
-            Qin   "../Images/7Kingdoms/wb.bmp")
-     (moves
-        (slide nw) (slide sw) (slide se) (slide ne)
+     (name Bai)
+     (notation    "Officer (Bai)")
+     (help        "Officer (Bai):  Moves or captures diagonally with no limit on distance.")
+     (description "Officer (Bai):  Moves or captures diagonally\
+                   with no limit on distance.\
+                   When moving more than one space,\
+                   all intermediate spaces must be empty.")
+     (image Chu   "../images/7Kingdoms/rb.bmp")
+     (image Han   "../images/7Kingdoms/ob.bmp")
+     (image Qi    "../images/7Kingdoms/ib.bmp")
+     (image Wei   "../images/7Kingdoms/gb.bmp")
+     (image Zhao  "../images/7Kingdoms/pb.bmp")
+     (image Yan   "../images/7Kingdoms/bb.bmp")
+     (image Qin   "../images/7Kingdoms/wb.bmp")
+     (attribute Qin? true)
+     (moves (move-type normal)
+        (slide ne) (slide se) (slide sw) (slide nw)
      )
   )
   (piece
-     (name L)
-     (notation "Diplomat")
-     (description "Diplomat (Liaison Officer): moves vertically, horizontally, or diagonally without limit. \
-But he may not engage in combat, and may not be killed.")
-     (image Chu   "../Images/7Kingdoms/rd.bmp"
-            Han   "../Images/7Kingdoms/od.bmp"
-            Qi    "../Images/7Kingdoms/id.bmp"
-            Wei   "../Images/7Kingdoms/gd.bmp"
-            Zhao  "../Images/7Kingdoms/pd.bmp"
-            Yan   "../Images/7Kingdoms/bd.bmp"
-            Qin   "../Images/7Kingdoms/wd.bmp")
-     (moves
-        (glide n)  (glide s)  (glide w)  (glide e)
-        (glide nw) (glide sw) (glide se) (glide ne)
+     (name Xing)
+     (notation    "Diplomat (Xing Ren)")
+     (help        "Diplomat (Xing Ren):  Moves vertically, horizontally, or diagonally with no limit on distance.  Does not capture.  Invulnerable.")
+     (description "Diplomat (Xing Ren):  Moves vertically, horizontally, or diagonally\
+                   with no limit on distance.\
+                   When moving more than one space,\
+                   all intermediate spaces must be empty.\
+                   Diplomat may not engage in combat, and may not be killed.")
+     (image Chu   "../images/7Kingdoms/rd.bmp")
+     (image Han   "../images/7Kingdoms/od.bmp")
+     (image Qi    "../images/7Kingdoms/id.bmp")
+     (image Wei   "../images/7Kingdoms/gd.bmp")
+     (image Zhao  "../images/7Kingdoms/pd.bmp")
+     (image Yan   "../images/7Kingdoms/bd.bmp")
+     (image Qin   "../images/7Kingdoms/wd.bmp")
+     (attribute Qin?      true)
+     (attribute Diplomat? true)
+     (moves (move-type normal)
+        (glide e)  (glide s)  (glide w)  (glide n)
+        (glide ne) (glide se) (glide sw) (glide nw)
      )
   )
   (piece
-     (name P)
-     (notation "Cannon")
-     (description "Cannon (Pao): moves vertically or horizontally without limit.\
-There must be an intervening piece for it to attack another piece.")
-     (image Chu   "../Images/7Kingdoms/rp.bmp"
-            Han   "../Images/7Kingdoms/op.bmp"
-            Qi    "../Images/7Kingdoms/ip.bmp"
-            Wei   "../Images/7Kingdoms/gp.bmp"
-            Zhao  "../Images/7Kingdoms/pp.bmp"
-            Yan   "../Images/7Kingdoms/bp.bmp"
-            Qin   "../Images/7Kingdoms/wp.bmp")
-     (moves
-        (shoot n)  (shoot s)  (shoot w)  (shoot e)
+     (name Pao)
+     (notation    "Cannon (Pao)")
+     (help        "Cannon (Pao):  Moves vertically or horizontally with no limit on distance.  Captures second piece.")
+     (description "Cannon (Pao):  Moves vertically or horizontally\
+                   with no limit on distance.\
+                   Captures second piece vertically or horizontally\
+                   with no limit on distance.\
+                   There must be an intervening piece\
+                   for the Cannon to capture an enemy piece.\
+                   The Cannon may not use its jumping ability\
+                   for a non-capturing move.\
+                   If the Cannon jumps, it must capture.")
+     (image Chu   "../images/7Kingdoms/rp.bmp")
+     (image Han   "../images/7Kingdoms/op.bmp")
+     (image Qi    "../images/7Kingdoms/ip.bmp")
+     (image Wei   "../images/7Kingdoms/gp.bmp")
+     (image Zhao  "../images/7Kingdoms/pp.bmp")
+     (image Yan   "../images/7Kingdoms/bp.bmp")
+     (image Qin   "../images/7Kingdoms/wp.bmp")
+     (attribute Qin? true)
+     (moves (move-type normal)
+        (shoot e)  (shoot s)  (shoot w)  (shoot n)
      )
   )
   (piece
-     (name H)
-     (notation "Horsemen")
-     (description "Horsemen (Cavalry): moves 4 spaces and moves similar to a knight.")
-     (image Chu   "../Images/7Kingdoms/rn.bmp"
-            Han   "../Images/7Kingdoms/on.bmp"
-            Qi    "../Images/7Kingdoms/in.bmp"
-            Wei   "../Images/7Kingdoms/gn.bmp"
-            Zhao  "../Images/7Kingdoms/pn.bmp"
-            Yan   "../Images/7Kingdoms/bn.bmp"
-            Qin   "../Images/7Kingdoms/wn.bmp")
-     (moves
-        (jump n nw) (jump n ne) (jump e ne) (jump e se)
-        (jump s sw) (jump s se) (jump w nw) (jump w sw)
-     )
-  )
-  (piece
-     (name A)
-     (notation "Archer")
-     (description "Archer: moves 4 spaces (on each move) vertically, horizontally, or diagonally.")
-     (image Chu   "../Images/7Kingdoms/rl.bmp"
-            Han   "../Images/7Kingdoms/ol.bmp"
-            Qi    "../Images/7Kingdoms/il.bmp"
-            Wei   "../Images/7Kingdoms/gl.bmp"
-            Zhao  "../Images/7Kingdoms/pl.bmp"
-            Yan   "../Images/7Kingdoms/bl.bmp"
-            Qin   "../Images/7Kingdoms/wl.bmp")
-     (moves
+     (name Gong)
+     (notation    "Archer (Gong)")
+     (help        "Archer (Gong):  Moves or captures one to four spaces vertically, horizontally, or diagonally.")
+     (description "Archer (Gong):  Moves or captures one to four spaces in a straight line\
+                   vertically, horizontally, or diagonally.\
+                   When moving more than one space,\
+                   all intermediate spaces must be empty.")
+     (image Chu   "../images/7Kingdoms/rl.bmp")
+     (image Han   "../images/7Kingdoms/ol.bmp")
+     (image Qi    "../images/7Kingdoms/il.bmp")
+     (image Wei   "../images/7Kingdoms/gl.bmp")
+     (image Zhao  "../images/7Kingdoms/pl.bmp")
+     (image Yan   "../images/7Kingdoms/bl.bmp")
+     (image Qin   "../images/7Kingdoms/wl.bmp")
+     (attribute Qin? true)
+     (moves (move-type normal)
         (step n)    (step s)    (step w)    (step e)
         (step nw)   (step sw)   (step ne)   (step se)
         (step-2 n)  (step-2 s)  (step-2 w)  (step-2 e)
@@ -252,17 +553,22 @@ There must be an intervening piece for it to attack another piece.")
      )
   )
   (piece
-     (name C)
-     (notation "Crossbowmen")
-     (description "Crossbowmen: moves 5 spaces vertically, horizontally, or diagonally.")
-     (image Chu   "../Images/7Kingdoms/rs.bmp"
-            Han   "../Images/7Kingdoms/os.bmp"
-            Qi    "../Images/7Kingdoms/is.bmp"
-            Wei   "../Images/7Kingdoms/gs.bmp"
-            Zhao  "../Images/7Kingdoms/ps.bmp"
-            Yan   "../Images/7Kingdoms/bs.bmp"
-            Qin   "../Images/7Kingdoms/ws.bmp")
-     (moves
+     (name Nu)
+     (notation    "CrossBow (Nu)")
+     (help        "CrossBow (Nu):  Moves or captures one to five spaces vertically, horizontally, or diagonally.")
+     (description "CrossBow (Nu):  Moves or captures one to five spaces in a straight line\
+                   vertically, horizontally, or diagonally.\
+                   When moving more than one space,\
+                   all intermediate spaces must be empty.")
+     (image Chu   "../images/7Kingdoms/rs.bmp")
+     (image Han   "../images/7Kingdoms/os.bmp")
+     (image Qi    "../images/7Kingdoms/is.bmp")
+     (image Wei   "../images/7Kingdoms/gs.bmp")
+     (image Zhao  "../images/7Kingdoms/ps.bmp")
+     (image Yan   "../images/7Kingdoms/bs.bmp")
+     (image Qin   "../images/7Kingdoms/ws.bmp")
+     (attribute Qin? true)
+     (moves (move-type normal)
         (step n)    (step s)    (step w)    (step e)
         (step nw)   (step sw)   (step ne)   (step se)
         (step-2 n)  (step-2 s)  (step-2 w)  (step-2 e)
@@ -276,62 +582,77 @@ There must be an intervening piece for it to attack another piece.")
      )
   )
   (piece
-     (name S)
-     (notation "Swordsmen")
-     (description "Swordsmen: moves 1 space diagonally.")
-     (image Chu   "../Images/7Kingdoms/rk.bmp"
-            Han   "../Images/7Kingdoms/ok.bmp"
-            Qi    "../Images/7Kingdoms/ik.bmp"
-            Wei   "../Images/7Kingdoms/gk.bmp"
-            Zhao  "../Images/7Kingdoms/pk.bmp"
-            Yan   "../Images/7Kingdoms/bk.bmp"
-            Qin   "../Images/7Kingdoms/wk.bmp")
-     (moves
+     (name Ma)
+     (notation    "Horseman (Qi)")
+     (help        "Horseman (Qi):  Moves one space in a straight line and then three spaces diagonally.")
+     (description "Horseman (Qi):  In the original game, moved or captured four spaces:\
+                   one space orthogonally then three spaces outward diagonally.\
+                   All three intermediate spaces had to be empty:\
+                   the one orthogonal step and the three diagonal steps.\
+                   Captures like Chinese or Korean Horse (Ma) or like Korean Elephant (Sang).")
+     (image Chu   "../images/7Kingdoms/rn.bmp")
+     (image Han   "../images/7Kingdoms/on.bmp")
+     (image Qi    "../images/7Kingdoms/in.bmp")
+     (image Wei   "../images/7Kingdoms/gn.bmp")
+     (image Zhao  "../images/7Kingdoms/pn.bmp")
+     (image Yan   "../images/7Kingdoms/bn.bmp")
+     (image Qin   "../images/7Kingdoms/wn.bmp")
+     (attribute Qin? true)
+     (moves (move-type normal)
+        (jump n nw) (jump n ne) (jump e ne) (jump e se)
+        (jump s sw) (jump s se) (jump w nw) (jump w sw)
+     )
+  )
+  (piece
+     (name Dao)
+     (notation    "Scimitar (Dao)")
+     (help        "Scimitar (Dao):  Moves one space diagonally.")
+     (description "Scimitar (Dao):  Moved or captured one space diagonally.")
+     (image Chu   "../images/7Kingdoms/rk.bmp")
+     (image Han   "../images/7Kingdoms/ok.bmp")
+     (image Qi    "../images/7Kingdoms/ik.bmp")
+     (image Wei   "../images/7Kingdoms/gk.bmp")
+     (image Zhao  "../images/7Kingdoms/pk.bmp")
+     (image Yan   "../images/7Kingdoms/bk.bmp")
+     (image Qin   "../images/7Kingdoms/wk.bmp")
+     (attribute Qin? true)
+     (moves (move-type normal)
         (step nw) (step sw) (step ne) (step se)
      )
   )
   (piece
-     (name B)
-     (notation "Broadswordsmen")
-     (description "Broadswordsmen: moves 1 space vertically or horizontally.")
-     (image Chu   "../Images/7Kingdoms/rc.bmp"
-            Han   "../Images/7Kingdoms/oc.bmp"
-            Qi    "../Images/7Kingdoms/ic.bmp"
-            Wei   "../Images/7Kingdoms/gc.bmp"
-            Zhao  "../Images/7Kingdoms/pc.bmp"
-            Yan   "../Images/7Kingdoms/bc.bmp"
-            Qin   "../Images/7Kingdoms/wc.bmp")
-     (moves
+     (name Jian)
+     (notation    "StraightSword (Jian)")
+     (help        "StraightSword (Jian):  Moves one space vertically or horizontally.")
+     (description "StraightSword (Jian):  Moved or captured one space vertically or horizontally.")
+     (image Chu   "../images/7Kingdoms/rc.bmp")
+     (image Han   "../images/7Kingdoms/oc.bmp")
+     (image Qi    "../images/7Kingdoms/ic.bmp")
+     (image Wei   "../images/7Kingdoms/gc.bmp")
+     (image Zhao  "../images/7Kingdoms/pc.bmp")
+     (image Yan   "../images/7Kingdoms/bc.bmp")
+     (image Qin   "../images/7Kingdoms/wc.bmp")
+     (attribute Qin? true)
+     (moves (move-type normal)
         (step n) (step s) (step w) (step e)
      )
   )
 
   (board-setup
-     (?Zhou (Z 10J))
-     (Chu (G 14S) (D 15S) (O 13S) (P 14R) (B 12S 16S 13R 15R) (C 14Q) (S 13Q 15Q) (H 11S 17S 12R 16R) (A 14P) (L 14O) )
-     (Han (G 6S) (D 7S) (O 5S) (P 6R) (B 4S 8S 5R 7R) (C 6Q) (S 5Q 7Q) (H 3S 9S 4R 8R) (A 6P) (L 6O) )
-     (Qi (G 1N) (D 1O) (O 1M) (P 2N) (B 1P 1L 2O 2M) (C 3N) (S 3O 3M) (H 1K 1Q 2L 2P) (A 4N) (L 5N) )
-     (Wei (G 1F) (D 1G) (O 1E) (P 2F) (B 1H 1D 2G 2E) (C 3F) (S 3G 3E) (H 1C 1I 2D 2H) (A 4F) (L 5F) )
-     (Zhao (G 6A) (D 5A) (O 7A) (P 6B) (B 4A 8A 5B 7B) (C 6C) (S 5C 7C) (H 3A 9A 4B 8B) (A 6D) (L 6E) )
-     (Yan (G 14A) (D 13A) (O 15A) (P 14B) (B 12A 16A 13B 15B) (C 14C) (S 13C 15C) (H 11A 17A 12B 16B) (A 14D) (L 14E) )
-     (Qin (G 19J) (D 19I) (O 19K) (P 18J) (B 19H 19L 18I 18K) (C 17J) (S 17K 17I) (H 19G 19M 18H 18L) (A 16J) (L 15J) )
-  )
-
-  (loss-condition  (Chu Han Qi Wei Zhao Yan Qin ) (pieces-remaining 0 G) )
-  (loss-condition  (Chu Han Qi Wei Zhao Yan Qin ) (pieces-remaining 7) )
-)
-
-(variant
-  (title "Mad Emperor")
-  (turn-order Chu Han Qi Wei Zhao Yan Qin ?Zhou)
-  (piece
-     (name Z)
-     (notation "Zhou King")
-     (description "Zhou King")
-     (image ?Zhou "../Images/7Kingdoms/y.bmp")
-     (moves
-        (slide n)  (slide s)  (slide w)  (slide e)
-        (slide nw) (slide sw) (slide se) (slide ne)
-     )
+     (Zhou (Di 10J))
+     (Chu  (Jiang 14S) (Pian 15S) (Bai 13S) (Pao 14R) (Jian 12S 16S 13R 15R) (Dao 13Q 15Q) (Ma 11S 17S 12R 16R)
+           (Nu 14Q) (Gong 14P) (Xing 14O) (oo  ChuA) )
+     (Han  (Jiang  6S) (Pian  7S) (Bai  5S) (Pao  6R) (Jian  4S  8S  5R  7R) (Dao  5Q  7Q) (Ma  3S  9S  4R  8R)
+           (Nu  6Q) (Gong  6P) (Xing  6O) (oo  HanA) )
+     (Qi   (Jiang  1N) (Pian  1O) (Bai  1M) (Pao  2N) (Jian  1P  1L  2O  2M) (Dao  3O  3M) (Ma  1K  1Q  2L  2P)
+           (Nu  3N) (Gong  4N) (Xing  5N) (oo   QiA) )
+     (Wei  (Jiang  1F) (Pian  1G) (Bai  1E) (Pao  2F) (Jian  1H  1D  2G  2E) (Dao  3G  3E) (Ma  1C  1I  2D  2H)
+           (Nu  3F) (Gong  4F) (Xing  5F) (oo  WeiA) )
+     (Zhao (Jiang  6A) (Pian  5A) (Bai  7A) (Pao  6B) (Jian  4A  8A  5B  7B) (Dao  5C  7C) (Ma  3A  9A  4B  8B)
+           (Nu  6C) (Gong  6D) (Xing  6E) (oo ZhaoA) )
+     (Yan  (Jiang 14A) (Pian 13A) (Bai 15A) (Pao 14B) (Jian 12A 16A 13B 15B) (Dao 13C 15C) (Ma 11A 17A 12B 16B)
+           (Nu 14C) (Gong 14D) (Xing 14E) (oo  YanA) )
+     (Qin  (Jiang 19J) (Pian 19I) (Bai 19K) (Pao 18J) (Jian 19H 19L 18I 18K) (Dao 17K 17I) (Ma 19G 19M 18H 18L)
+           (Nu 17J) (Gong 16J) (Xing 15J) (oo  QinA) )
   )
 )
