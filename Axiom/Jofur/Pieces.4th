@@ -7,14 +7,14 @@
 	{move} step-ne
 	{move} step-sw
 	{move} step-se
-	{move} hanoy-n
-	{move} hanoy-s
-	{move} hanoy-w
-	{move} hanoy-e
-	{move} hanoy-nw
-	{move} hanoy-sw
-	{move} hanoy-ne
-	{move} hanoy-se
+	{move} hanoy-wc-n
+	{move} hanoy-wc-s
+	{move} hanoy-wc-w
+	{move} hanoy-wc-e
+	{move} hanoy-wc-nw
+	{move} hanoy-wc-sw
+	{move} hanoy-wc-ne
+	{move} hanoy-wc-se
 moves}
 
 {moves r-moves
@@ -22,14 +22,14 @@ moves}
 	{move} slide-s
 	{move} slide-w
 	{move} slide-e
-	{move} hanoy-n
-	{move} hanoy-s
-	{move} hanoy-w
-	{move} hanoy-e
-	{move} hanoy-nw
-	{move} hanoy-sw
-	{move} hanoy-ne
-	{move} hanoy-se
+	{move} hanoy-wc-n
+	{move} hanoy-wc-s
+	{move} hanoy-wc-w
+	{move} hanoy-wc-e
+	{move} hanoy-nc-nw
+	{move} hanoy-nc-sw
+	{move} hanoy-nc-ne
+	{move} hanoy-nc-se
 moves}
 
 {moves b-moves
@@ -37,14 +37,14 @@ moves}
 	{move} slide-ne
 	{move} slide-sw
 	{move} slide-se
-	{move} hanoy-n
-	{move} hanoy-s
-	{move} hanoy-w
-	{move} hanoy-e
-	{move} hanoy-nw
-	{move} hanoy-sw
-	{move} hanoy-ne
-	{move} hanoy-se
+	{move} hanoy-nc-n
+	{move} hanoy-nc-s
+	{move} hanoy-nc-w
+	{move} hanoy-nc-e
+	{move} hanoy-wc-nw
+	{move} hanoy-wc-sw
+	{move} hanoy-wc-ne
+	{move} hanoy-wc-se
 moves}
 
 {moves j-moves
@@ -64,14 +64,14 @@ moves}
 	{move} step-ne
 	{move} step-sw
 	{move} step-se
-	{move} hanoy-n
-	{move} hanoy-s
-	{move} hanoy-w
-	{move} hanoy-e
-	{move} hanoy-nw
-	{move} hanoy-sw
-	{move} hanoy-ne
-	{move} hanoy-se
+	{move} hanoy-wc-n
+	{move} hanoy-wc-s
+	{move} hanoy-wc-w
+	{move} hanoy-wc-e
+	{move} hanoy-wc-nw
+	{move} hanoy-wc-sw
+	{move} hanoy-wc-ne
+	{move} hanoy-wc-se
 moves}
 
 {moves R-moves
@@ -83,14 +83,14 @@ moves}
 	{move} fly-s
 	{move} fly-w
 	{move} fly-e
-	{move} hanoy-n
-	{move} hanoy-s
-	{move} hanoy-w
-	{move} hanoy-e
-	{move} hanoy-nw
-	{move} hanoy-sw
-	{move} hanoy-ne
-	{move} hanoy-se
+	{move} hanoy-wc-n
+	{move} hanoy-wc-s
+	{move} hanoy-wc-w
+	{move} hanoy-wc-e
+	{move} hanoy-nc-nw
+	{move} hanoy-nc-sw
+	{move} hanoy-nc-ne
+	{move} hanoy-nc-se
 moves}
 
 {moves B-moves
@@ -102,25 +102,25 @@ moves}
 	{move} slide-ne
 	{move} slide-sw
 	{move} slide-se
-	{move} hanoy-n
-	{move} hanoy-s
-	{move} hanoy-w
-	{move} hanoy-e
-	{move} hanoy-nw
-	{move} hanoy-sw
-	{move} hanoy-ne
-	{move} hanoy-se
+	{move} hanoy-nc-n
+	{move} hanoy-nc-s
+	{move} hanoy-nc-w
+	{move} hanoy-nc-e
+	{move} hanoy-wc-nw
+	{move} hanoy-wc-sw
+	{move} hanoy-wc-ne
+	{move} hanoy-wc-se
 moves}
 
 {moves h-moves
-	{move} hanoy-n
-	{move} hanoy-s
-	{move} hanoy-w
-	{move} hanoy-e
-	{move} hanoy-nw
-	{move} hanoy-sw
-	{move} hanoy-ne
-	{move} hanoy-se
+	{move} hanoy-nc-n
+	{move} hanoy-nc-s
+	{move} hanoy-nc-w
+	{move} hanoy-nc-e
+	{move} hanoy-nc-nw
+	{move} hanoy-nc-sw
+	{move} hanoy-nc-ne
+	{move} hanoy-nc-se
 moves}
 
 {pieces

@@ -27,7 +27,6 @@ VARIABLE is-smelled?
 ;
 
 : check-friend ( -- )
-	FALSE is-friend? !
 	piece piece-value ABS
 	DUP 7 MOD get-friend
 	7 / DUP 7 MOD get-friend
@@ -76,6 +75,7 @@ VARIABLE is-smelled?
 ;
 
 : common-step ( 'dir -- )
+	FALSE is-friend? !
 	check-friend
 	is-friend? @ verify
 	get-smelled
@@ -97,6 +97,7 @@ VARIABLE is-smelled?
 : step-se ( -- ) ['] se common-step ;
 
 : common-jump ( 'dir -- )
+	FALSE is-friend? !
 	check-friend
 	is-friend? @ verify
 	get-smelled
@@ -120,6 +121,7 @@ VARIABLE is-smelled?
 : jump-se ( -- ) ['] se common-jump ;
 
 : common-slide ( 'dir -- )
+	FALSE is-friend? !
 	check-friend
 	is-friend? @ verify
 	get-smelled
@@ -147,6 +149,7 @@ VARIABLE is-smelled?
 : slide-se ( -- ) ['] se common-slide ;
 
 : common-fly ( 'dir -- )
+	FALSE is-friend? !
 	check-friend
 	is-friend? @ verify
 	get-smelled
@@ -232,18 +235,56 @@ VARIABLE is-smelled?
 	UNTIL DROP
 ;
 
-: common-hanoy ( 'dir -- )
+: check-correct-part ( ? n n -- ? )
+	part[] @ = IF
+		verify
+		FALSE
+	ENDIF
+;
+
+: check-correct ( -- )
+	TRUE
+	3 3 check-correct-part
+	3 4 check-correct-part
+	3 5 check-correct-part
+	4 3 check-correct-part
+	4 4 check-correct-part
+	4 5 check-correct-part
+	DROP
+;
+
+: check-friend-dir ( 'dir -- )
+	here SWAP EXECUTE IF
+		check-friend
+	ENDIF to
+;
+
+: check-friend-neigbor ( -- )
+	FALSE is-friend? !
 	check-friend
+	['] n  check-friend-dir
+	['] s  check-friend-dir
+	['] w  check-friend-dir
+	['] e  check-friend-dir
+	['] nw check-friend-dir
+	['] sw check-friend-dir
+	['] ne check-friend-dir
+	['] se check-friend-dir
+	is-friend? @ verify
+;
+
+: common-hanoy ( ? 'dir -- )
+	check-friend-neigbor
 	get-smelled
 	check-smelled
 	0 parse
 	EXECUTE verify
-	is-friend? @ IF
-		empty? NOT verify
-	ENDIF
+	IF empty? NOT verify ENDIF
+	check-friend-neigbor
 	check-smelled
 	3 parse
 	move-part
+	check-correct
 	from here move
 	3 assemble n-to-piece ?Owner SWAP create-player-piece-type
 	from to 0 assemble DUP 0> IF
@@ -254,12 +295,22 @@ VARIABLE is-smelled?
 	add-move
 ;
 
-: hanoy-n  ( -- ) ['] n  common-hanoy ;
-: hanoy-e  ( -- ) ['] e  common-hanoy ;
-: hanoy-s  ( -- ) ['] s  common-hanoy ;
-: hanoy-w  ( -- ) ['] w  common-hanoy ;
+: hanoy-wc-n  ( -- ) TRUE ['] n  common-hanoy ;
+: hanoy-wc-e  ( -- ) TRUE ['] e  common-hanoy ;
+: hanoy-wc-s  ( -- ) TRUE ['] s  common-hanoy ;
+: hanoy-wc-w  ( -- ) TRUE ['] w  common-hanoy ;
 
-: hanoy-nw ( -- ) ['] nw common-hanoy ;
-: hanoy-ne ( -- ) ['] ne common-hanoy ;
-: hanoy-sw ( -- ) ['] sw common-hanoy ;
-: hanoy-se ( -- ) ['] se common-hanoy ;
+: hanoy-wc-nw ( -- ) TRUE ['] nw common-hanoy ;
+: hanoy-wc-ne ( -- ) TRUE ['] ne common-hanoy ;
+: hanoy-wc-sw ( -- ) TRUE ['] sw common-hanoy ;
+: hanoy-wc-se ( -- ) TRUE ['] se common-hanoy ;
+
+: hanoy-nc-n  ( -- ) FALSE ['] n  common-hanoy ;
+: hanoy-nc-e  ( -- ) FALSE ['] e  common-hanoy ;
+: hanoy-nc-s  ( -- ) FALSE ['] s  common-hanoy ;
+: hanoy-nc-w  ( -- ) FALSE ['] w  common-hanoy ;
+
+: hanoy-nc-nw ( -- ) FALSE ['] nw common-hanoy ;
+: hanoy-nc-ne ( -- ) FALSE ['] ne common-hanoy ;
+: hanoy-nc-sw ( -- ) FALSE ['] sw common-hanoy ;
+: hanoy-nc-se ( -- ) FALSE ['] se common-hanoy ;
