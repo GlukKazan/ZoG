@@ -43,11 +43,11 @@ VARIABLE is-smelled?
 ;
 
 : is-player? ( n value -- ? )
-	OVER OVER 7 MOD = IF
+	2DUP 7 MOD = IF
 		2DROP TRUE
 	ELSE
 		7 /
-		OVER OVER 7 MOD = IF
+		2DUP 7 MOD = IF
 			2DROP TRUE
 		ELSE
 			7 / =
@@ -56,13 +56,38 @@ VARIABLE is-smelled?
 ;
 
 : calc-rang ( n -- n )
-	0 OVER 7 MOD 0 > IF
-		DUP 3 > IF 3 - ELSE DROP 1 ENDIF +
-	ENDIF SWAP 7 / SWAP
-	OVER 7 MOD 0 > IF
-		DUP 3 > IF 3 - ELSE DROP 1 ENDIF +
-	ENDIF SWAP 7 /
-	DUP 3 > IF 3 - ELSE DROP 1 ENDIF +
+	0 
+	OVER 7 MOD 
+	DUP 0> IF
+		DUP 3 > IF 
+			3 - 
+		ELSE 
+			DROP 1 
+		ENDIF +
+	ELSE
+		DROP
+	ENDIF 
+	SWAP 7 / SWAP
+	OVER 7 MOD 
+	DUP 0> IF
+		DUP 3 > IF 
+			3 - 
+		ELSE 
+			DROP 1 
+		ENDIF +
+	ELSE
+		DROP
+	ENDIF 
+	SWAP 7 /
+	DUP 0> IF
+		DUP 3 > IF 
+			3 - 
+		ELSE
+			DROP 1 
+		ENDIF +
+	ELSE
+		DROP
+	ENDIF
 ;
 
 : calc-pass ( n -- n )
