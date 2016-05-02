@@ -3,7 +3,8 @@ $passTurnForced ON
 DEFER	 mark
 
 VARIABLE max-val
-VARIABLE not-smelled
+VARIABLE not-smelled?
+VARIABLE not-from?
 VARIABLE is-enemy?
 VARIABLE is-friend?
 VARIABLE is-smelled?
@@ -158,10 +159,11 @@ VARIABLE is-smelled?
 ;
 
 : get-smelled ( -- )
-	TRUE not-smelled !
+	TRUE not-from? !
+	TRUE not-smelled? !
 	piece piece-value ABS
 	7 / 7 MOD 2 = IF
-		FALSE not-smelled !
+		FALSE not-smelled? !
 	ENDIF
 ;
 
@@ -199,7 +201,11 @@ VARIABLE is-smelled?
 : check-smelled-dir ( 'dir -- )
 	FALSE is-enemy? !
 	FALSE is-smelled? !
-	EXECUTE from here <> AND empty? NOT AND IF
+	EXECUTE
+	not-from? @ IF
+		from here <> AND
+	ENDIF
+	empty? NOT AND IF
 		piece piece-value ABS
 		DUP 7 MOD get-enemy
 		7 / DUP 7 MOD DUP get-enemy
@@ -212,7 +218,7 @@ VARIABLE is-smelled?
 ;
 
 : check-smelled ( -- )
-	not-smelled @ IF
+	not-smelled? @ IF
 		here   ['] n  check-smelled-dir
 		DUP to ['] s  check-smelled-dir
 		DUP to ['] e  check-smelled-dir
@@ -438,7 +444,8 @@ VARIABLE is-smelled?
 
 : common-hanoy ( ? 'dir -- )
 	check-friend-neigbor
-	get-smelled
+	TRUE not-smelled? !
+	FALSE not-from? !
 	check-smelled
 	0 parse
 	EXECUTE verify
