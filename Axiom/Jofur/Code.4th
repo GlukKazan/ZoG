@@ -1,10 +1,136 @@
+$passTurnForced ON
+
 DEFER	 mark
 
+VARIABLE max-val
 VARIABLE not-smelled
 VARIABLE is-enemy?
 VARIABLE is-friend?
 VARIABLE is-smelled?
 6 []	 part[]
+
+: my-value ( pos -- value )
+	DUP from = IF
+		DROP
+		0 part[] @
+		1 part[] @ 7 * +
+		2 part[] @ 49 * +
+	ELSE
+		DUP here = IF
+			DROP
+			3 part[] @
+			4 part[] @ 7 * +
+			5 part[] @ 49 * +
+		ELSE
+			piece-at piece-value
+		ENDIF
+	ENDIF
+;
+
+: is-locked? ( n -- ? )
+(	TODO: Smell )	
+	DROP FALSE
+;
+
+
+: is-jofur? ( pos -- ? )
+	DUP empty-at? IF
+		DROP FALSE
+	ELSE
+		my-value
+		0>
+	ENDIF
+;
+
+: is-player? ( n value -- ? )
+	OVER OVER 7 MOD = IF
+		2DROP TRUE
+	ELSE
+		7 /
+		OVER OVER 7 MOD = IF
+			2DROP TRUE
+		ELSE
+			7 / =
+		ENDIF
+	ENDIF
+;
+
+: calc-rang ( n -- n )
+	0 OVER 7 MOD 0 > IF
+		DUP 3 > IF 3 - ELSE DROP 1 ENDIF +
+	ENDIF SWAP 7 / SWAP
+	OVER 7 MOD 0 > IF
+		DUP 3 > IF 3 - ELSE DROP 1 ENDIF +
+	ENDIF SWAP 7 /
+	DUP 3 > IF 3 - ELSE DROP 1 ENDIF +
+;
+
+: calc-pass ( n -- n )
+	0 max-val !
+	ALL BEGIN
+		1-
+		DUP is-jofur? IF
+			OVER OVER my-value 
+			is-player? IF
+				DUP my-value
+				DUP max-val @ > IF
+					max-val !
+				ELSE
+					DROP
+				ENDIF
+			ENDIF
+		ENDIF
+		DUP 0=
+	UNTIL DROP
+	max-val @ calc-rang
+;
+
+: check-pass ( -- )
+	current-player Light = IF
+		l-pass @ 0= verify
+		d-pass @
+		DUP 0> IF
+			DUP 1- COMPILE-LITERAL
+			COMPILE d-pass-set
+		ENDIF
+		1 <= IF
+			4 calc-pass
+			4 is-locked? IF
+				DROP 0
+			ENDIF
+			DUP 1 > IF
+				1- COMPILE-LITERAL
+				COMPILE l-pass-set
+			ELSE
+				0= IF
+					1 COMPILE-LITERAL
+					COMPILE d-pass-set
+				ENDIF
+			ENDIF
+		ENDIF
+	ELSE
+		d-pass @ 0= verify
+		l-pass @
+		DUP 0> IF
+			DUP 1- COMPILE-LITERAL
+			COMPILE l-pass-set
+		ENDIF
+		1 <= IF
+			3 calc-pass
+			3 is-locked? IF
+				DROP 0
+			ENDIF
+			DUP 1 > IF
+				1- COMPILE-LITERAL
+				COMPILE d-pass-set
+			ELSE
+				0= IF
+					1 COMPILE-LITERAL
+					COMPILE l-pass-set
+				ENDIF
+			ENDIF
+	ENDIF
+;
 
 : get-smelled ( -- )
 	TRUE not-smelled !
@@ -74,16 +200,30 @@ VARIABLE is-smelled?
 	ENDIF
 ;
 
+: parse ( n -- )
+	empty? IF
+		0
+	ELSE
+		piece piece-value ABS
+	ENDIF
+	OVER OVER 7 MOD SWAP part[] ! 7 / SWAP 1+ SWAP
+	OVER OVER 7 MOD SWAP part[] ! 7 / SWAP 1+ SWAP
+	SWAP part[] !
+;
+
 : common-step ( 'dir -- )
 	FALSE is-friend? !
 	check-friend
 	is-friend? @ verify
 	get-smelled
 	check-smelled
+	3 parse
 	EXECUTE verify
 	empty? verify
 	check-smelled
+	0 parse
 	from here move
+(	check-pass )
 	add-move
 ;
 
@@ -102,12 +242,15 @@ VARIABLE is-smelled?
 	is-friend? @ verify
 	get-smelled
 	check-smelled
+	3 parse
 	DUP EXECUTE verify
 	empty? NOT verify
 	EXECUTE verify
 	empty? verify
 	check-smelled
+	0 parse
 	from here move
+(	check-pass )
 	add-move
 ;
 
@@ -126,10 +269,13 @@ VARIABLE is-smelled?
 	is-friend? @ verify
 	get-smelled
 	check-smelled
+	3 parse
 	BEGIN
 		DUP EXECUTE empty? AND IF
 			check-smelled
+			0 parse
 			from here move
+(			check-pass  )
 			add-move
 			FALSE
 		ELSE
@@ -154,6 +300,7 @@ VARIABLE is-smelled?
 	is-friend? @ verify
 	get-smelled
 	check-smelled
+	3 parse
 	BEGIN
 		DUP EXECUTE empty? NOT AND IF
 			FALSE
@@ -163,7 +310,9 @@ VARIABLE is-smelled?
 	UNTIL DROP
 	empty? verify
 	check-smelled
+	0 parse
 	from here move
+(	check-pass )
 	add-move
 ;
 
@@ -176,17 +325,6 @@ VARIABLE is-smelled?
 : fly-ne ( -- ) ['] ne common-fly ;
 : fly-sw ( -- ) ['] sw common-fly ;
 : fly-se ( -- ) ['] se common-fly ;
-
-: parse ( n -- )
-	empty? IF
-		0
-	ELSE
-		piece piece-value ABS
-	ENDIF
-	OVER OVER 7 MOD SWAP part[] ! 7 / SWAP 1+ SWAP
-	OVER OVER 7 MOD SWAP part[] ! 7 / SWAP 1+ SWAP
-	SWAP part[] !
-;
 
 : assemble ( n -- n )
 	0 OVER part[] @ + SWAP 1+ SWAP
@@ -286,6 +424,7 @@ VARIABLE is-smelled?
 	move-part
 	check-correct
 	from here move
+(	check-pass )
 	3 assemble n-to-piece ?Owner SWAP create-player-piece-type
 	from to 0 assemble DUP 0> IF
 		n-to-piece ?Owner SWAP create-player-piece-type

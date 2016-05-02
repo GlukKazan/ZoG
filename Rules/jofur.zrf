@@ -16,6 +16,7 @@
 
   (option "animate drops"    false)
   (option "animate captures" false)
+  (option "pass turn" forced)
 
   (players Light Dark ?Owner)
   (turn-order (Light ?Owner) (Dark ?Owner))

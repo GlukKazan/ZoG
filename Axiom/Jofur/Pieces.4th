@@ -1,126 +1,137 @@
+{move-priorities
+	{move-priority} normal-type
+	{move-priority} pass-type
+move-priorities}
+
 {moves s-moves
-	{move} step-n
-	{move} step-s
-	{move} step-w
-	{move} step-e
-	{move} step-nw
-	{move} step-ne
-	{move} step-sw
-	{move} step-se
-	{move} hanoy-wc-n
-	{move} hanoy-wc-s
-	{move} hanoy-wc-w
-	{move} hanoy-wc-e
-	{move} hanoy-wc-nw
-	{move} hanoy-wc-sw
-	{move} hanoy-wc-ne
-	{move} hanoy-wc-se
+	{move} step-n		{move-type} normal-type
+	{move} step-s		{move-type} normal-type
+	{move} step-w		{move-type} normal-type
+	{move} step-e		{move-type} normal-type
+	{move} step-nw		{move-type} normal-type
+	{move} step-ne		{move-type} normal-type
+	{move} step-sw		{move-type} normal-type
+	{move} step-se		{move-type} normal-type
+	{move} hanoy-wc-n	{move-type} normal-type
+	{move} hanoy-wc-s	{move-type} normal-type
+	{move} hanoy-wc-w	{move-type} normal-type
+	{move} hanoy-wc-e	{move-type} normal-type
+	{move} hanoy-wc-nw	{move-type} normal-type
+	{move} hanoy-wc-sw	{move-type} normal-type
+	{move} hanoy-wc-ne	{move-type} normal-type
+	{move} hanoy-wc-se	{move-type} normal-type
+	{move} Pass		{move-type} pass-type
 moves}
 
 {moves r-moves
-	{move} slide-n
-	{move} slide-s
-	{move} slide-w
-	{move} slide-e
-	{move} hanoy-wc-n
-	{move} hanoy-wc-s
-	{move} hanoy-wc-w
-	{move} hanoy-wc-e
-	{move} hanoy-nc-nw
-	{move} hanoy-nc-sw
-	{move} hanoy-nc-ne
-	{move} hanoy-nc-se
+	{move} slide-n		{move-type} normal-type
+	{move} slide-s		{move-type} normal-type
+	{move} slide-w		{move-type} normal-type
+	{move} slide-e		{move-type} normal-type
+	{move} hanoy-wc-n	{move-type} normal-type
+	{move} hanoy-wc-s	{move-type} normal-type
+	{move} hanoy-wc-w	{move-type} normal-type
+	{move} hanoy-wc-e	{move-type} normal-type
+	{move} hanoy-nc-nw	{move-type} normal-type
+	{move} hanoy-nc-sw	{move-type} normal-type
+	{move} hanoy-nc-ne	{move-type} normal-type
+	{move} hanoy-nc-se	{move-type} normal-type
+	{move} Pass		{move-type} pass-type
 moves}
 
 {moves b-moves
-	{move} slide-nw
-	{move} slide-ne
-	{move} slide-sw
-	{move} slide-se
-	{move} hanoy-nc-n
-	{move} hanoy-nc-s
-	{move} hanoy-nc-w
-	{move} hanoy-nc-e
-	{move} hanoy-wc-nw
-	{move} hanoy-wc-sw
-	{move} hanoy-wc-ne
-	{move} hanoy-wc-se
+	{move} slide-nw		{move-type} normal-type
+	{move} slide-ne		{move-type} normal-type
+	{move} slide-sw		{move-type} normal-type
+	{move} slide-se		{move-type} normal-type
+	{move} hanoy-nc-n	{move-type} normal-type
+	{move} hanoy-nc-s	{move-type} normal-type
+	{move} hanoy-nc-w	{move-type} normal-type
+	{move} hanoy-nc-e	{move-type} normal-type
+	{move} hanoy-wc-nw	{move-type} normal-type
+	{move} hanoy-wc-sw	{move-type} normal-type
+	{move} hanoy-wc-ne	{move-type} normal-type
+	{move} hanoy-wc-se	{move-type} normal-type
+	{move} Pass		{move-type} pass-type
 moves}
 
 {moves j-moves
-	{move} jump-n
-	{move} jump-s
-	{move} jump-w
-	{move} jump-e
-	{move} jump-nw
-	{move} jump-ne
-	{move} jump-sw
-	{move} jump-se
-	{move} step-n
-	{move} step-s
-	{move} step-w
-	{move} step-e
-	{move} step-nw
-	{move} step-ne
-	{move} step-sw
-	{move} step-se
-	{move} hanoy-wc-n
-	{move} hanoy-wc-s
-	{move} hanoy-wc-w
-	{move} hanoy-wc-e
-	{move} hanoy-wc-nw
-	{move} hanoy-wc-sw
-	{move} hanoy-wc-ne
-	{move} hanoy-wc-se
+	{move} jump-n		{move-type} normal-type
+	{move} jump-s		{move-type} normal-type
+	{move} jump-w		{move-type} normal-type
+	{move} jump-e		{move-type} normal-type
+	{move} jump-nw		{move-type} normal-type
+	{move} jump-ne		{move-type} normal-type
+	{move} jump-sw		{move-type} normal-type
+	{move} jump-se		{move-type} normal-type
+	{move} step-n		{move-type} normal-type
+	{move} step-s		{move-type} normal-type
+	{move} step-w		{move-type} normal-type
+	{move} step-e		{move-type} normal-type
+	{move} step-nw		{move-type} normal-type
+	{move} step-ne		{move-type} normal-type
+	{move} step-sw		{move-type} normal-type
+	{move} step-se		{move-type} normal-type
+	{move} hanoy-wc-n	{move-type} normal-type
+	{move} hanoy-wc-s	{move-type} normal-type
+	{move} hanoy-wc-w	{move-type} normal-type
+	{move} hanoy-wc-e	{move-type} normal-type
+	{move} hanoy-wc-nw	{move-type} normal-type
+	{move} hanoy-wc-sw	{move-type} normal-type
+	{move} hanoy-wc-ne	{move-type} normal-type
+	{move} hanoy-wc-se	{move-type} normal-type
+	{move} Pass		{move-type} pass-type
 moves}
 
 {moves R-moves
-	{move} slide-n
-	{move} slide-s
-	{move} slide-w
-	{move} slide-e
-	{move} fly-n
-	{move} fly-s
-	{move} fly-w
-	{move} fly-e
-	{move} hanoy-wc-n
-	{move} hanoy-wc-s
-	{move} hanoy-wc-w
-	{move} hanoy-wc-e
-	{move} hanoy-nc-nw
-	{move} hanoy-nc-sw
-	{move} hanoy-nc-ne
-	{move} hanoy-nc-se
+	{move} slide-n		{move-type} normal-type
+	{move} slide-s		{move-type} normal-type
+	{move} slide-w		{move-type} normal-type
+	{move} slide-e		{move-type} normal-type
+	{move} fly-n		{move-type} normal-type
+	{move} fly-s		{move-type} normal-type
+	{move} fly-w		{move-type} normal-type
+	{move} fly-e		{move-type} normal-type
+	{move} hanoy-wc-n	{move-type} normal-type
+	{move} hanoy-wc-s	{move-type} normal-type
+	{move} hanoy-wc-w	{move-type} normal-type
+	{move} hanoy-wc-e	{move-type} normal-type
+	{move} hanoy-nc-nw	{move-type} normal-type
+	{move} hanoy-nc-sw	{move-type} normal-type
+	{move} hanoy-nc-ne	{move-type} normal-type
+	{move} hanoy-nc-se	{move-type} normal-type
+	{move} Pass		{move-type} pass-type
 moves}
 
 {moves B-moves
-	{move} fly-nw
-	{move} fly-ne
-	{move} fly-sw
-	{move} fly-se
-	{move} slide-nw
-	{move} slide-ne
-	{move} slide-sw
-	{move} slide-se
-	{move} hanoy-nc-n
-	{move} hanoy-nc-s
-	{move} hanoy-nc-w
-	{move} hanoy-nc-e
-	{move} hanoy-wc-nw
-	{move} hanoy-wc-sw
-	{move} hanoy-wc-ne
-	{move} hanoy-wc-se
+	{move} fly-nw		{move-type} normal-type
+	{move} fly-ne		{move-type} normal-type
+	{move} fly-sw		{move-type} normal-type
+	{move} fly-se		{move-type} normal-type
+	{move} slide-nw		{move-type} normal-type
+	{move} slide-ne		{move-type} normal-type
+	{move} slide-sw		{move-type} normal-type
+	{move} slide-se		{move-type} normal-type
+	{move} hanoy-nc-n	{move-type} normal-type
+	{move} hanoy-nc-s	{move-type} normal-type
+	{move} hanoy-nc-w	{move-type} normal-type
+	{move} hanoy-nc-e	{move-type} normal-type
+	{move} hanoy-wc-nw	{move-type} normal-type
+	{move} hanoy-wc-sw	{move-type} normal-type
+	{move} hanoy-wc-ne	{move-type} normal-type
+	{move} hanoy-wc-se	{move-type} normal-type
+	{move} Pass		{move-type} pass-type
 moves}
 
 {moves h-moves
-	{move} hanoy-nc-n
-	{move} hanoy-nc-s
-	{move} hanoy-nc-w
-	{move} hanoy-nc-e
-	{move} hanoy-nc-nw
-	{move} hanoy-nc-sw
-	{move} hanoy-nc-ne
-	{move} hanoy-nc-se
+	{move} hanoy-nc-n	{move-type} normal-type
+	{move} hanoy-nc-s	{move-type} normal-type
+	{move} hanoy-nc-w	{move-type} normal-type
+	{move} hanoy-nc-e	{move-type} normal-type
+	{move} hanoy-nc-nw	{move-type} normal-type
+	{move} hanoy-nc-sw	{move-type} normal-type
+	{move} hanoy-nc-ne	{move-type} normal-type
+	{move} hanoy-nc-se	{move-type} normal-type
 moves}
 
 {pieces

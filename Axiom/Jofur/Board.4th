@@ -1,7 +1,10 @@
 10	CONSTANT	DIM
+100	CONSTANT	ALL
 
 {board
 	DIM DIM	{grid}
+	{variable} l-pass
+	{variable} d-pass
 board}
 
 {directions
@@ -14,3 +17,6 @@ board}
 	-1	 1	{direction} ne
 	 1	 1	{direction} se
 directions}
+
+: l-pass-set ( n -- ) l-pass ! ;
+: d-pass-set ( n -- ) d-pass ! ;
