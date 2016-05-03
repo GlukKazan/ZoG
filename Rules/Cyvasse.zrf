@@ -1,0 +1,373 @@
+(define step (
+  $1 (verify empty?) add
+))
+
+(game
+   (title "Nine-Tile Cyvasse")
+
+   (option "prevent flipping" true)
+   (animate-captures false)
+
+   (move-sound "Audio\Pickup.wav")
+   (release-sound "Audio\Pickup.wav")
+   (capture-sound "")
+   (drop-sound "")
+
+   (players White Black)
+   (turn-order White Black)
+
+   (board
+      (image "../images/Cyvasse/board.bmp")
+      (grid
+        (start-rectangle 110 9 160 59)
+        (dimensions
+            ("a/b/c/d/e/f/g/h/i/j/k/l" (50 0))
+            ("1/2/3/4/5/6/7/8/9" (-25 50))
+        )
+        (directions (se 1 1) (w 1 0) (sw 0 1)
+                    (nw -1 -1)  (e -1 0) (ne 0 -1))
+      )
+      (kill-positions
+         b9 c9 d9 a8 b8 c8 a7 b7 a6 i1
+         j1 k1 l1 j2 k2 l2 k3 l3 l4
+      )
+      (zone (name water) (players White Black)
+            (positions a9)
+      )
+   )
+
+   (piece
+      (name Mount)
+      (image White "../images/Cyvasse/mount.bmp"
+             Black "../images/Cyvasse/mount.bmp")
+   )
+
+   (piece
+      (name King)
+      (image White "../images/Cyvasse/wking.bmp"
+             Black "../images/Cyvasse/bking.bmp")
+      (moves
+         (step nw) (step ne) (step sw) (step se) (step w) (step e)
+      )
+   )
+   (piece
+      (name Rabble)
+      (image White "../images/Cyvasse/wrabble.bmp"
+             Black "../images/Cyvasse/brabble.bmp")
+      (moves
+         (step nw) (step ne) (step sw) (step se) (step w) (step e)
+      )
+   )
+   (piece
+      (name Spears)
+      (image White "../images/Cyvasse/wspears.bmp"
+             Black "../images/Cyvasse/bspears.bmp")
+      (moves
+         (step nw) (step ne) (step sw) (step se) (step w) (step e)
+      )
+   )
+   (piece
+      (name LightHorse)
+      (image White "../images/Cyvasse/wlighth.bmp"
+             Black "../images/Cyvasse/blighth.bmp")
+      (moves
+         (step nw) (step ne) (step sw) (step se) (step w) (step e)
+      )
+   )
+   (piece
+      (name HeavyHorse)
+      (image White "../images/Cyvasse/wheavyh.bmp"
+             Black "../images/Cyvasse/bheavyh.bmp")
+      (moves
+         (step nw) (step ne) (step sw) (step se) (step w) (step e)
+      )
+   )
+   (piece
+      (name Elephant)
+      (image White "../images/Cyvasse/weleph.bmp"
+             Black "../images/Cyvasse/beleph.bmp")
+      (moves
+         (step nw) (step ne) (step sw) (step se) (step w) (step e)
+      )
+   )
+   (piece
+      (name Crossbow)
+      (image White "../images/Cyvasse/wcrossb.bmp"
+             Black "../images/Cyvasse/bcrossb.bmp")
+      (moves
+         (step nw) (step ne) (step sw) (step se) (step w) (step e)
+      )
+   )
+   (piece
+      (name Trebuchet)
+      (image White "../images/Cyvasse/wtrebuch.bmp"
+             Black "../images/Cyvasse/btrebuch.bmp")
+      (moves
+         (step nw) (step ne) (step sw) (step se) (step w) (step e)
+      )
+   )
+   (piece
+      (name Dragon)
+      (image White "../images/Cyvasse/wdragon.bmp"
+             Black "../images/Cyvasse/bdragon.bmp")
+      (moves
+         (step nw) (step ne) (step sw) (step se) (step w) (step e)
+      )
+   )
+   (piece
+      (name Tower)
+      (image White "../images/Cyvasse/wtower.bmp"
+             Black "../images/Cyvasse/btower.bmp")
+      (moves
+         (step nw) (step ne) (step sw) (step se) (step w) (step e)
+      )
+   )
+
+   (board-setup
+      (White
+         (King l9)
+      )
+      (Black
+         (King a1)
+      )
+   )
+)
+
+(variant
+   (title "-")
+)
+
+(variant
+   (title "Lesson 1")
+   (description "3 moves")
+   (default)
+
+   (turn-order White)
+
+   (piece
+      (name Point)
+      (image White "../images/Cyvasse/point.bmp"
+             Black "../images/Cyvasse/point.bmp")
+   )
+
+   (board-setup
+      (White
+         (Rabble f6)
+      )
+      (Black
+         (Point g4)
+      )
+   )
+)
+
+(variant
+   (title "Lesson 2")
+   (description "4 moves")
+
+   (turn-order White)
+
+   (piece
+      (name Point)
+      (image White "../images/Cyvasse/point.bmp"
+             Black "../images/Cyvasse/point.bmp")
+   )
+
+   (board-setup
+      (White
+         (LightHorse f7)
+         (Tower f2 i4 i6 k7)
+         (Mount g6 d7 h7 j7 l7 f9 h9 j9 l9)
+      )
+      (Black
+         (Tower h2 g4 k5)
+         (Mount b1 d1 f1 h1 b3 d3 f3 h3 b5 d5 f5 h5 j5 l5)
+         (Point j3)
+      )
+   )
+)
+
+(variant
+   (title "Lesson 3")
+   (description "8 moves")
+
+   (turn-order White)
+
+   (board-setup
+      (White
+         (Dragon g5)
+      )
+      (Black
+         (Crossbow h2 e2 h4 f8 f6 i8)
+      )
+   )
+)
+
+(variant
+   (title "Lesson 4")
+   (description "4 moves")
+
+   (turn-order White)
+
+   (board-setup
+      (White
+         (LightHorse e6)
+      )
+      (Black
+         (Rabble f6 i6 h5 e3)
+      )
+   )
+)
+
+(variant
+   (title "Lesson 5")
+   (description "4 moves")
+
+   (turn-order White)
+
+   (board-setup
+      (White
+         (LightHorse e6)
+         (Crossbow i6)
+      )
+      (Black
+         (Rabble h6 h4 e4)
+      )
+   )
+)
+
+(variant
+   (title "Lesson 6")
+   (description "3 moves")
+
+   (turn-order White)
+
+   (board
+      (image "../images/Cyvasse/lesson-6.bmp")
+      (grid
+        (start-rectangle 110 9 160 59)
+        (dimensions
+            ("a/b/c/d/e/f/g/h/i/j/k/l" (50 0))
+            ("1/2/3/4/5/6/7/8/9" (-25 50))
+        )
+        (directions (se 1 1) (w 1 0) (sw 0 1)
+                    (nw -1 -1)  (e -1 0) (ne 0 -1))
+      )
+      (kill-positions
+         a9 b9 c9 d9 a8 b8 c8 a7 b7 a6
+         i1 j1 k1 l1 j2 k2 l2 k3 l3 l4
+      )
+      (zone (name water) (players White Black)
+            (positions e3 f3 e4 f4 e5)
+      )
+   )
+
+   (board-setup
+      (White
+         (LightHorse h6)
+         (Crossbow e6 h4)
+      )
+      (Black
+         (Tower g5 e3)
+      )
+   )
+)
+
+(variant
+   (title "Lesson 7")
+   (description "5 moves")
+
+   (turn-order White)
+
+   (board
+      (image "../images/Cyvasse/lesson-7.bmp")
+      (grid
+        (start-rectangle 110 9 160 59)
+        (dimensions
+            ("a/b/c/d/e/f/g/h/i/j/k/l" (50 0))
+            ("1/2/3/4/5/6/7/8/9" (-25 50))
+        )
+        (directions (se 1 1) (w 1 0) (sw 0 1)
+                    (nw -1 -1)  (e -1 0) (ne 0 -1))
+      )
+      (kill-positions
+         a9 b9 c9 d9 a8 b8 c8 a7 b7 a6
+         i1 j1 k1 l1 j2 k2 l2 k3 l3 l4
+      )
+      (zone (name water) (players White Black)
+            (positions e6)
+      )
+   )
+
+   (board-setup
+      (White
+         (Rabble f7)
+         (Crossbow f3 h6)
+      )
+      (Black
+         (Tower e6 f6 e5 f5)
+         (Mount e4 f4)
+      )
+   )
+)
+
+(variant
+   (title "Lesson 8")
+   (description "6 moves")
+
+   (turn-order White)
+
+   (board-setup
+      (White
+         (Spears h4 g6)
+         (LightHorse f5)
+         (Crossbow d6)
+      )
+      (Black
+         (Spears d3 f3 g3 h5)
+      )
+   )
+)
+
+(variant
+   (title "Lesson 9")
+   (description "7 moves")
+
+   (turn-order White)
+
+   (board
+      (image "../images/Cyvasse/lesson-9.bmp")
+      (grid
+        (start-rectangle 110 9 160 59)
+        (dimensions
+            ("a/b/c/d/e/f/g/h/i/j/k/l" (50 0))
+            ("1/2/3/4/5/6/7/8/9" (-25 50))
+        )
+        (directions (se 1 1) (w 1 0) (sw 0 1)
+                    (nw -1 -1)  (e -1 0) (ne 0 -1))
+      )
+      (kill-positions
+         a9 b9 c9 d9 a8 b8 c8 a7 b7 a6
+         i1 j1 k1 l1 j2 k2 l2 k3 l3 l4
+      )
+      (zone (name water) (players White Black)
+            (positions g5)
+      )
+   )
+
+   (board-setup
+      (White
+         (LightHorse e7)
+         (Elephant h7)
+         (Trebuchet h6)
+         (Tower g7)
+         (King g6)
+      )
+      (Black
+         (Rabble e5 f5 h5)
+         (Spears e3 f3)
+         (Tower d3 g3)
+         (King e2)
+         (Mount d1 e1)
+      )
+   )
+)
