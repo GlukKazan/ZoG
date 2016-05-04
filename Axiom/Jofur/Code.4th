@@ -96,7 +96,7 @@ VARIABLE is-smelled?
 	ALL BEGIN
 		1-
 		DUP is-jofur? IF
-			OVER OVER my-value 
+			2DUP my-value 
 			is-player? IF
 				DUP my-value
 				DUP max-val @ > IF
@@ -124,8 +124,8 @@ VARIABLE is-smelled?
 			4 is-locked? IF
 				DROP 0
 			ENDIF
-			DUP 1 > IF
-				1- COMPILE-LITERAL
+			DUP 0> IF
+				COMPILE-LITERAL
 				COMPILE l-pass-set
 			ELSE
 				0= IF
@@ -146,8 +146,8 @@ VARIABLE is-smelled?
 			3 is-locked? IF
 				DROP 0
 			ENDIF
-			DUP 1 > IF
-				1- COMPILE-LITERAL
+			DUP 0> IF
+				COMPILE-LITERAL
 				COMPILE d-pass-set
 			ELSE
 				0= IF
@@ -155,6 +155,7 @@ VARIABLE is-smelled?
 					COMPILE l-pass-set
 				ENDIF
 			ENDIF
+		ENDIF
 	ENDIF
 ;
 
@@ -254,7 +255,7 @@ VARIABLE is-smelled?
 	check-smelled
 	0 parse
 	from here move
-(	check-pass )
+	check-pass
 	add-move
 ;
 
@@ -281,7 +282,7 @@ VARIABLE is-smelled?
 	check-smelled
 	0 parse
 	from here move
-(	check-pass )
+	check-pass
 	add-move
 ;
 
@@ -306,7 +307,7 @@ VARIABLE is-smelled?
 			check-smelled
 			0 parse
 			from here move
-(			check-pass  )
+			check-pass
 			add-move
 			FALSE
 		ELSE
@@ -343,7 +344,7 @@ VARIABLE is-smelled?
 	check-smelled
 	0 parse
 	from here move
-(	check-pass )
+	check-pass
 	add-move
 ;
 
@@ -456,7 +457,7 @@ VARIABLE is-smelled?
 	move-part
 	check-correct
 	from here move
-(	check-pass )
+	check-pass
 	3 assemble n-to-piece ?Owner SWAP create-player-piece-type
 	from to 0 assemble DUP 0> IF
 		n-to-piece ?Owner SWAP create-player-piece-type
