@@ -8,6 +8,7 @@ VARIABLE not-from?
 VARIABLE is-enemy?
 VARIABLE is-friend?
 VARIABLE is-smelled?
+VARIABLE my-here
 6 []	 part[]
 
 : my-value ( pos -- value )
@@ -17,29 +18,18 @@ VARIABLE is-smelled?
 		1 part[] @ 7 * +
 		2 part[] @ 49 * +
 	ELSE
-		DUP here = IF
+		DUP my-here @ = IF
 			DROP
 			3 part[] @
 			4 part[] @ 7 * +
 			5 part[] @ 49 * +
 		ELSE
-			piece-at piece-value
+			DUP empty-at? IF
+				DROP 0
+			ELSE
+				piece-at piece-value
+			ENDIF
 		ENDIF
-	ENDIF
-;
-
-: is-locked? ( n -- ? )
-(	TODO: Smell )	
-	DROP FALSE
-;
-
-
-: is-jofur? ( pos -- ? )
-	DUP empty-at? IF
-		DROP FALSE
-	ELSE
-		my-value
-		0>
 	ENDIF
 ;
 
@@ -95,7 +85,7 @@ VARIABLE is-smelled?
 	0 max-val !
 	ALL BEGIN
 		1-
-		DUP is-jofur? IF
+		DUP empty-at? NOT OVER my-value 0> AND IF
 			2DUP my-value 
 			is-player? IF
 				DUP my-value
@@ -112,6 +102,7 @@ VARIABLE is-smelled?
 ;
 
 : check-pass ( -- )
+	here my-here !
 	current-player Light = IF
 		l-pass @ 0= verify
 		d-pass @
@@ -121,17 +112,17 @@ VARIABLE is-smelled?
 		ENDIF
 		1 <= IF
 			4 calc-pass
-			4 is-locked? IF
+			FALSE IF
 				DROP 0
 			ENDIF
 			DUP 0> IF
 				COMPILE-LITERAL
 				COMPILE l-pass-set
+				0 COMPILE-LITERAL
+				COMPILE d-pass-set
 			ELSE
-				0= IF
-					1 COMPILE-LITERAL
-					COMPILE d-pass-set
-				ENDIF
+				1 COMPILE-LITERAL
+				COMPILE d-pass-set
 			ENDIF
 		ENDIF
 	ELSE
@@ -143,17 +134,17 @@ VARIABLE is-smelled?
 		ENDIF
 		1 <= IF
 			3 calc-pass
-			3 is-locked? IF
+			FALSE IF
 				DROP 0
 			ENDIF
 			DUP 0> IF
 				COMPILE-LITERAL
 				COMPILE d-pass-set
+				0 COMPILE-LITERAL
+				COMPILE l-pass-set
 			ELSE
-				0= IF
-					1 COMPILE-LITERAL
-					COMPILE l-pass-set
-				ENDIF
+				1 COMPILE-LITERAL
+				COMPILE l-pass-set
 			ENDIF
 		ENDIF
 	ENDIF

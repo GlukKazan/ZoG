@@ -10,7 +10,7 @@
 : OnEvaluate ( -- score )
 	0 ALL BEGIN
 		1-
-		DUP is-jofur? IF
+		DUP empty-at? NOT OVER piece-at piece-value 0> AND IF
 			DUP piece-at piece-value
 			DUP calc-rang
 			SWAP my-enemy? IF
