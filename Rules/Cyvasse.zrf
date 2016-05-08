@@ -14,6 +14,11 @@
   )
 )
 
+(define not-speared?
+  (and (or (not-on-board? nw) (not-enemy? nw) (not-piece? Spears nw))
+       (or (not-on-board? ne) (not-enemy? ne) (not-piece? Spears ne)))
+)
+
 (define check-dir-2
   (if (on-board? $1)
      $1 
@@ -29,9 +34,11 @@
      $1 
      (if (not (or enemy? (piece? Mount)))
          (check-target)
-         (check-target-dir $2)
-         (check-target-dir $3)
-         (check-target-dir $4)
+         (if (not-speared?)
+             (check-target-dir $2)
+             (check-target-dir $3)
+             (check-target-dir $4)
+         )
      )
      (opposite $1)
   )
@@ -68,9 +75,11 @@
      $1 
      (if (not (or enemy? (piece? Mount)))
          (check-target)
-         (check-dir-2 $1)
-         (check-dir-2 $2)
-         (check-dir-2 $3)
+         (if (not-speared?)
+             (check-dir-2 $1)
+             (check-dir-2 $2)
+             (check-dir-2 $3)
+         )
      )
   )
   back
@@ -82,9 +91,11 @@
      $1 
      (if (not (or enemy? (piece? Mount)))
          (check-target)
-         (check-dir-3 $1 $1 $2 $3)
-         (check-dir-3 $2 $1 $2 $3)
-         (check-dir-3 $3 $1 $2 $3)
+         (if (not-speared?)
+             (check-dir-3 $1 $1 $2 $3)
+             (check-dir-3 $2 $1 $2 $3)
+             (check-dir-3 $3 $1 $2 $3)
+         )
      )
   )
   back
