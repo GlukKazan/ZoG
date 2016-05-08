@@ -93,8 +93,8 @@
          (check-target)
          (if (not-speared?)
              (check-dir-3 $1 $1 $2 $3)
-             (check-dir-3 $2 $1 $2 $3)
-             (check-dir-3 $3 $1 $2 $3)
+             (check-dir-3 $2 $1 $2 $4)
+             (check-dir-3 $3 $1 $2 $5)
          )
      )
   )
@@ -138,12 +138,12 @@
      next
      (set-flag is-succeed? false)
      (if (or empty? (piece? Point))
-         (check-branch-3 w sw nw)
-         (check-branch-3 nw w ne)
-         (check-branch-3 ne nw e)
-         (check-branch-3 e ne se)
-         (check-branch-3 se e sw)
-         (check-branch-3 sw se w)
+         (check-branch-3 w sw nw se ne)
+         (check-branch-3 nw w ne se e)
+         (check-branch-3 ne nw e w se)
+         (check-branch-3 e ne se nw sw)
+         (check-branch-3 se e sw ne w)
+         (check-branch-3 sw se w e nw)
          (if (flag? is-succeed?) add)
      )
   )
@@ -185,7 +185,7 @@
    )
    (symmetry Black (nw sw) (sw nw) (ne se) (se ne))
    (kill-positions
-      a9 b9 c9 d9 a8 b8 c8 a7 b7 a6
+         b9 c9 d9 a8 b8 c8 a7 b7 a6
       i1 j1 k1 l1 j2 k2 l2 k3 l3 l4
    )
 )
@@ -195,6 +195,7 @@
 
    (option "prevent flipping" true)
    (animate-captures false)
+   (animate-drops false)
 
    (move-sound "Audio\Pickup.wav")
    (release-sound "Audio\Pickup.wav")
@@ -314,21 +315,46 @@
    (title "-")
 )
 
+(define drop-point (
+   (verify (in-zone? goal))
+   add
+))
+
 (variant
    (title "Lesson 1")
    (description "3 moves")
    (default)
 
-   (turn-order White)
+   (turn-order White White White Black)
+
+   (board
+      (board-def board)
+      (zone (name goal) (players Black)
+            (positions a9)
+      )
+   )
+
+   (piece
+      (name Point)
+      (image White "../images/Cyvasse/point.bmp"
+             Black "../images/Cyvasse/point.bmp")
+      (drops
+         (drop-point)
+      )
+   )
 
    (board-setup
       (White
          (Rabble f6)
-      )
-      (Black
          (Point g4)
       )
+      (Black
+         (Point off 1)
+      )
    )
+
+   (win-condition (White) (pieces-remaining 0 Point))
+   (win-condition (Black) (pieces-remaining 1 Point))
 )
 
 (variant
@@ -342,11 +368,11 @@
          (LightHorse f7)
          (Tower f2 i4 i6 k7)
          (Mount g6 d7 h7 j7 l7 f9 h9 j9 l9)
+         (Point j3)
       )
       (Black
          (Tower h2 g4 k5)
          (Mount b1 d1 f1 h1 b3 d3 f3 h3 b5 d5 f5 h5 j5 l5)
-         (Point j3)
       )
    )
 )
