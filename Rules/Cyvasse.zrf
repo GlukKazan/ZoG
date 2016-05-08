@@ -165,6 +165,11 @@
   )
 ))
 
+(define drop-point (
+   (verify (in-zone? goal))
+   add
+))
+
 (define board-def
    (image "../images/Cyvasse/$1.bmp")
    (grid
@@ -315,17 +320,12 @@
    (title "-")
 )
 
-(define drop-point (
-   (verify (in-zone? goal))
-   add
-))
-
 (variant
    (title "Lesson 1")
    (description "3 moves")
    (default)
 
-   (turn-order White White White Black)
+   (turn-order White White White (Black goal-type))
 
    (board
       (board-def board)
@@ -339,6 +339,7 @@
       (image White "../images/Cyvasse/point.bmp"
              Black "../images/Cyvasse/point.bmp")
       (drops
+         (move-type goal-type)
          (drop-point)
       )
    )
@@ -359,9 +360,26 @@
 
 (variant
    (title "Lesson 2")
-   (description "4 moves")
+   (description "3 moves")
 
-   (turn-order White)
+   (turn-order White White White (Black goal-type))
+
+   (board
+      (board-def board)
+      (zone (name goal) (players Black)
+            (positions a9)
+      )
+   )
+
+   (piece
+      (name Point)
+      (image White "../images/Cyvasse/point.bmp"
+             Black "../images/Cyvasse/point.bmp")
+      (drops
+         (move-type goal-type)
+         (drop-point)
+      )
+   )
 
    (board-setup
       (White
@@ -373,8 +391,12 @@
       (Black
          (Tower h2 g4 k5)
          (Mount b1 d1 f1 h1 b3 d3 f3 h3 b5 d5 f5 h5 j5 l5)
+         (Point off 1)
       )
    )
+
+   (win-condition (White) (pieces-remaining 0 Point))
+   (win-condition (Black) (pieces-remaining 1 Point))
 )
 
 (variant
