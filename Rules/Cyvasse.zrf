@@ -61,7 +61,7 @@
 
 (define check-friend-tower
    (if (on-board? $1)
-       (if (and (enemy? $1) (piece? Spears $1))
+       (if (and (enemy? $1) (piece? Tower $1))
            (set-flag is-light-engaged? false)
        )
    )
@@ -253,7 +253,7 @@
   )
 ))
 
-(define horse-1 (
+(define common-1 (
   $1 (verify enemy?)
   (check-engaged)
   add
@@ -262,6 +262,7 @@
 (define horse-2 (
   (set-flag is-captured? false)
   $1 (verify (not-piece? Mount))
+  (verify (not-speared?))
   (if enemy?
      (set-flag is-captured? true)
      (check-engaged)
@@ -278,12 +279,14 @@
 (define horse-3 (
   (set-flag is-captured? false)
   $1 (verify (not-piece? Mount))
+  (verify (not-speared?))
   (if enemy?
      (set-flag is-captured? true)
      (check-engaged)
      capture
   )
   $1 (verify (not-piece? Mount))
+  (verify (not-speared?))
   (if enemy?
      (verify (not-flag? is-captured?))
      (set-flag is-captured? true)
@@ -294,6 +297,68 @@
   (if enemy?
      (verify (not-flag? is-captured?))
      (check-engaged)
+  )
+  add
+))
+
+(define dragon-2 (
+  $1 $1 (verify enemy?)
+  (check-engaged)
+  add
+))
+
+(define dragon-3 (
+  $1 $1 $1 (verify enemy?)
+  (check-engaged)
+  add
+))
+
+(define dragon-4 (
+  $1 $1 $1 $1 (verify enemy?)
+  (check-engaged)
+  add
+))
+
+(define elephant-2 (
+  $1 (verify empty?)
+  (verify (not-speared?))
+  $1 (verify enemy?)
+  (check-engaged)
+  add
+))
+
+(define king-2 (
+  $1 (verify (and friend? (piece? Tower)))
+  $1 (verify not-friend?)
+  (verify (not-piece? Mount))
+  (if enemy?
+     (check-engaged)
+  )
+  add
+))
+
+(define trebuchet (
+  $1 (verify empty?) to
+  (opposite $1) (opposite $1) 
+  (verify not-enemy?)
+  (verify (not-piece? Mount))
+  (opposite $1) 
+  (if enemy?
+     (check-engaged)
+     capture
+   else
+     (verify (not-piece? Mount))
+     (opposite $1)
+     (if enemy?
+        (check-engaged)
+        capture
+      else
+        (verify (not-piece? Mount))
+        (opposite $1)
+        (verify enemy?)
+        (check-engaged)
+        capture
+     )
   )
   add
 ))
@@ -362,6 +427,8 @@
              Black "../images/Cyvasse/bking.bmp")
       (moves
          (move-1 nw) (move-1 ne) (move-1 sw) (move-1 se) (move-1 w) (move-1 e)
+         (common-1 w) (common-1 e) (common-1 nw) (common-1 ne) (common-1 sw) (common-1 se)
+         (king-2 w) (king-2 e) (king-2 nw) (king-2 ne) (king-2 sw) (king-2 se)
       )
    )
    (piece
@@ -370,6 +437,7 @@
              Black "../images/Cyvasse/brabble.bmp")
       (moves
          (move-1 nw) (move-1 ne) (move-1 sw) (move-1 se) (move-1 w) (move-1 e)
+         (common-1 w) (common-1 e) (common-1 nw) (common-1 ne) (common-1 sw) (common-1 se)
       )
    )
    (piece
@@ -378,6 +446,7 @@
              Black "../images/Cyvasse/bspears.bmp")
       (moves
          (move-1 nw) (move-1 ne)
+         (common-1 nw) (common-1 ne)
       )
    )
    (piece
@@ -386,7 +455,7 @@
              Black "../images/Cyvasse/blighth.bmp")
       (moves
          (move-3)
-         (horse-1 w) (horse-1 e) (horse-1 nw) (horse-1 ne) (horse-1 sw) (horse-1 se)
+         (common-1 w) (common-1 e) (common-1 nw) (common-1 ne) (common-1 sw) (common-1 se)
          (horse-2 w) (horse-2 e) (horse-2 nw) (horse-2 ne) (horse-2 sw) (horse-2 se)
          (horse-3 w) (horse-3 e) (horse-3 nw) (horse-3 ne) (horse-3 sw) (horse-3 se)
       )
@@ -397,7 +466,7 @@
              Black "../images/Cyvasse/bheavyh.bmp")
       (moves
          (move-2)
-         (horse-1 w) (horse-1 e) (horse-1 nw) (horse-1 ne) (horse-1 sw) (horse-1 se)
+         (common-1 w) (common-1 e) (common-1 nw) (common-1 ne) (common-1 sw) (common-1 se)
          (horse-2 w) (horse-2 e) (horse-2 nw) (horse-2 ne) (horse-2 sw) (horse-2 se)
       )
    )
@@ -407,6 +476,8 @@
              Black "../images/Cyvasse/beleph.bmp")
       (moves
          (move-1 nw) (move-1 ne) (move-1 sw) (move-1 se) (move-1 w) (move-1 e)
+         (common-1 w) (common-1 e) (common-1 nw) (common-1 ne) (common-1 sw) (common-1 se)
+         (elephant-2 w) (elephant-2 e) (elephant-2 nw) (elephant-2 ne) (elephant-2 sw) (elephant-2 se)
       )
    )
    (piece
@@ -423,6 +494,7 @@
              Black "../images/Cyvasse/btrebuch.bmp")
       (moves
          (move-1 nw) (move-1 ne) (move-1 sw) (move-1 se) (move-1 w) (move-1 e)
+         (trebuchet nw) (trebuchet ne) (trebuchet sw) (trebuchet se) (trebuchet w) (trebuchet e)
       )
    )
    (piece
@@ -431,6 +503,10 @@
              Black "../images/Cyvasse/bdragon.bmp")
       (moves
          (move-4)
+         (common-1 w) (common-1 e) (common-1 nw) (common-1 ne) (common-1 sw) (common-1 se)
+         (dragon-2 w) (dragon-2 e) (dragon-2 nw) (dragon-2 ne) (dragon-2 sw) (dragon-2 se)
+         (dragon-3 w) (dragon-3 e) (dragon-3 nw) (dragon-3 ne) (dragon-3 sw) (dragon-3 se)
+         (dragon-4 w) (dragon-4 e) (dragon-4 nw) (dragon-4 ne) (dragon-4 sw) (dragon-4 se)
       )
    )
    (piece
@@ -461,6 +537,7 @@
 (variant
    (title "Lesson 1")
    (description "3 moves")
+   (default)
 
    (turn-order White White White (Black goal-type))
 
@@ -545,7 +622,6 @@
 (variant
    (title "Lesson 3")
    (description "8 moves")
-   (default)
 
    (turn-order White White White White White White White White (Black goal-type))
 
@@ -668,12 +744,25 @@
    (title "Lesson 6")
    (description "3 moves")
 
-   (turn-order White)
+   (turn-order White White White (Black goal-type))
 
    (board
       (board-def lesson-6)
       (zone (name water) (players White Black)
             (positions e3 f3 e4 f4 e5)
+      )
+      (zone (name goal) (players Black)
+            (positions a9)
+      )
+   )
+
+   (piece
+      (name Point)
+      (image White "../images/Cyvasse/point.bmp"
+             Black "../images/Cyvasse/point.bmp")
+      (drops
+         (move-type goal-type)
+         (drop-point)
       )
    )
 
@@ -684,20 +773,37 @@
       )
       (Black
          (Tower g5 e3)
+         (Point off 1)
       )
    )
+
+   (loss-condition (Black) (pieces-remaining 0))
+   (win-condition (Black) (pieces-remaining 1 Point))
 )
 
 (variant
    (title "Lesson 7")
    (description "5 moves")
 
-   (turn-order White)
+   (turn-order White White White White White (Black goal-type))
 
    (board
       (board-def lesson-7)
       (zone (name water) (players White Black)
             (positions e6)
+      )
+      (zone (name goal) (players Black)
+            (positions a9)
+      )
+   )
+
+   (piece
+      (name Point)
+      (image White "../images/Cyvasse/point.bmp"
+             Black "../images/Cyvasse/point.bmp")
+      (drops
+         (move-type goal-type)
+         (drop-point)
       )
    )
 
@@ -709,15 +815,19 @@
       (Black
          (Tower e6 f6 e5 f5)
          (Mount e4 f4)
+         (Point off 1)
       )
    )
+
+   (loss-condition (Black) (pieces-remaining 0))
+   (win-condition (Black) (pieces-remaining 1 Point))
 )
 
 (variant
    (title "Lesson 8")
    (description "6 moves")
 
-   (turn-order White)
+   (turn-order White White White White White White (Black goal-type))
 
    (board
       (board-def board)
@@ -729,6 +839,16 @@
       )
    )
 
+   (piece
+      (name Point)
+      (image White "../images/Cyvasse/point.bmp"
+             Black "../images/Cyvasse/point.bmp")
+      (drops
+         (move-type goal-type)
+         (drop-point)
+      )
+   )
+
    (board-setup
       (White
          (Spears h4 g6)
@@ -737,20 +857,37 @@
       )
       (Black
          (Spears d3 f3 g3 h5)
+         (Point off 1)
       )
    )
+
+   (loss-condition (Black) (pieces-remaining 0))
+   (win-condition (Black) (pieces-remaining 1 Point))
 )
 
 (variant
    (title "Lesson 9")
    (description "7 moves")
 
-   (turn-order White)
+   (turn-order White White White White White White White (Black goal-type))
 
    (board
       (board-def lesson-9)
       (zone (name water) (players White Black)
             (positions g5)
+      )
+      (zone (name goal) (players Black)
+            (positions a9)
+      )
+   )
+
+   (piece
+      (name Point)
+      (image White "../images/Cyvasse/point.bmp"
+             Black "../images/Cyvasse/point.bmp")
+      (drops
+         (move-type goal-type)
+         (drop-point)
       )
    )
 
@@ -768,6 +905,10 @@
          (Tower d3 g3)
          (King e2)
          (Mount d1 e1)
+         (Point off 1)
       )
    )
+
+   (loss-condition (Black) (pieces-remaining 0 King))
+   (win-condition (Black) (pieces-remaining 1 Point))
 )
