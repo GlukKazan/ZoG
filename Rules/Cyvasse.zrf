@@ -17,7 +17,7 @@
    (set-flag is-escaped? false)
    (if (on-board? $1)
        $1 (check-escape)
-       (if (and friend? (or (piece? Rabble) (piece? LightHorse) (piece? HeavyHorse) (piece? Elephant) (piece? Crossbow) (piece? Dragon) (piece? Tower) (piece? King)))
+       (if (and friend? (not-in-zone? water) (or (piece? Rabble) (piece? LightHorse) (piece? HeavyHorse) (piece? Elephant) (piece? Crossbow) (piece? Dragon) (piece? Tower) (piece? King)))
            (set-engaged)
            (if (or (piece? HeavyHorse) (piece? Elephant) (piece? Dragon) (piece? Tower))
                (set-flag is-heavy-engaged? true)
@@ -29,7 +29,7 @@
    )
    (if (and (on-board? $1) (not-flag? is-escaped?))
        $1 (check-escape)
-       (if (and friend? (or (piece? Elephant) (piece? Crossbow) (piece? Trebuchet) (piece? Dragon)))
+       (if (and friend? (not-in-zone? water) (or (piece? Elephant) (piece? Crossbow) (piece? Trebuchet) (piece? Dragon)))
            (set-engaged)
            (if (or (piece? Elephant) (piece? Dragon))
                (set-flag is-heavy-engaged? true)
@@ -38,13 +38,13 @@
    )
    (if (and (on-board? $1) (not-flag? is-escaped?))
        $1 (check-escape)
-       (if (and friend? (or (piece? Crossbow) (piece? Trebuchet)))
+       (if (and friend? (not-in-zone? water) (or (piece? Crossbow) (piece? Trebuchet)))
            (set-engaged)
        )
    )
    (if (and (on-board? $1) (not-flag? is-escaped?))
        $1 (check-escape)
-       (if (and friend? (piece? Trebuchet))
+       (if (and friend? (not-in-zone? water) (piece? Trebuchet))
            (set-engaged)
        )
    )
@@ -53,7 +53,7 @@
 
 (define check-spears
    (if (on-board? $1)
-       (if (and (friend? $1) (piece? Spears $1))
+       (if (and (friend? $1) (not-in-zone? water $1) (piece? Spears $1))
            (set-engaged)
        )
    )
@@ -466,6 +466,9 @@
 
    (board
       (board-def board)
+      (zone (name water) (players White Black)
+            (positions START)
+      )
       (zone (name goal) (players Black)
             (positions a9)
       )
@@ -503,6 +506,9 @@
 
    (board
       (board-def board)
+      (zone (name water) (players White Black)
+            (positions START)
+      )
       (zone (name goal) (players Black)
             (positions a9)
       )
@@ -545,6 +551,9 @@
 
    (board
       (board-def board)
+      (zone (name water) (players White Black)
+            (positions START)
+      )
       (zone (name goal) (players Black)
             (positions a9)
       )
@@ -582,6 +591,9 @@
 
    (board
       (board-def board)
+      (zone (name water) (players White Black)
+            (positions START)
+      )
       (zone (name goal) (players Black)
             (positions a9)
       )
@@ -619,6 +631,9 @@
 
    (board
       (board-def board)
+      (zone (name water) (players White Black)
+            (positions START)
+      )
       (zone (name goal) (players Black)
             (positions a9)
       )
@@ -703,6 +718,16 @@
    (description "6 moves")
 
    (turn-order White)
+
+   (board
+      (board-def board)
+      (zone (name water) (players White Black)
+            (positions START)
+      )
+      (zone (name goal) (players Black)
+            (positions a9)
+      )
+   )
 
    (board-setup
       (White
