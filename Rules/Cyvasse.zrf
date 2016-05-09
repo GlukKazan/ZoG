@@ -80,7 +80,7 @@
    )
    (check-spears sw) (check-spears se)
    (check-other w) (check-other e) (check-other nw) (check-other ne) (check-other sw) (check-other se)
-   (if (not-flag? is-enemy-tower?)
+   (if (and (not-piece? Tower) (not-flag? is-enemy-tower?))
        (check-friend-tower w) (check-friend-tower e) (check-friend-tower nw) (check-friend-tower ne) (check-friend-tower sw) (check-friend-tower se)
    )
    (verify (and (flag? is-light-engaged?) (flag? is-heavy-engaged?)))
@@ -819,7 +819,7 @@
       )
    )
 
-   (loss-condition (Black) (pieces-remaining 0))
+   (loss-condition (Black) (pieces-remaining 0 Tower))
    (win-condition (Black) (pieces-remaining 1 Point))
 )
 
@@ -867,9 +867,9 @@
 
 (variant
    (title "Lesson 9")
-   (description "7 moves")
+   (description "3 moves")
 
-   (turn-order White White White White White White White (Black goal-type))
+   (turn-order White White White (Black goal-type))
 
    (board
       (board-def lesson-9)
