@@ -651,7 +651,7 @@
 
    (board-setup
       (White
-         (LightHorse e6)
+         (LightHorse h8)
          (Crossbow i6)
       )
       (Black
