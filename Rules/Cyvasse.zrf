@@ -1,3 +1,91 @@
+(define set-engaged
+   (if (flag? is-light-engaged?)
+       (set-flag is-heavy-engaged? true)
+    else
+       (set-flag is-light-engaged? true)
+   )
+)
+
+(define check-escape
+   (if (or enemy? (piece? Mount))
+       (set-flag is-escaped? true)
+   )
+)
+
+(define check-other
+   mark
+   (set-flag is-escaped? false)
+   (if (on-board? $1)
+       $1 (check-escape)
+       (if (and friend? (or (piece? Rabble) (piece? LightHorse) (piece? HeavyHorse) (piece? Elephant) (piece? Crossbow) (piece? Dragon) (piece? Tower) (piece? King)))
+           (set-engaged)
+           (if (or (piece? HeavyHorse) (piece? Elephant) (piece? Dragon) (piece? Tower))
+               (set-flag is-heavy-engaged? true)
+           )
+           (if (piece? Tower)
+               (set-flag is-enemy-tower? true)
+           )
+       )
+   )
+   (if (and (on-board? $1) (not-flag? is-escaped?))
+       $1 (check-escape)
+       (if (and friend? (or (piece? Elephant) (piece? Crossbow) (piece? Trebuchet) (piece? Dragon)))
+           (set-engaged)
+           (if (or (piece? Elephant) (piece? Dragon))
+               (set-flag is-heavy-engaged? true)
+           )
+       )
+   )
+   (if (and (on-board? $1) (not-flag? is-escaped?))
+       $1 (check-escape)
+       (if (and friend? (or (piece? Crossbow) (piece? Trebuchet)))
+           (set-engaged)
+       )
+   )
+   (if (and (on-board? $1) (not-flag? is-escaped?))
+       $1 (check-escape)
+       (if (and friend? (piece? Trebuchet))
+           (set-engaged)
+       )
+   )
+   back
+)
+
+(define check-spears
+   (if (on-board? $1)
+       (if (and (friend? $1) (piece? Spears $1))
+           (set-engaged)
+       )
+   )
+)
+
+(define check-friend-tower
+   (if (on-board? $1)
+       (if (and (enemy? $1) (piece? Spears $1))
+           (set-flag is-light-engaged? false)
+       )
+   )
+)
+
+(define check-engaged
+   (verify (not-piece? Mount))
+   (set-flag is-enemy-tower? false)
+   (set-flag is-light-engaged? false)
+   (set-flag is-heavy-engaged? true)
+   (if (or (piece? Crossbow) (piece? Trebuchet))
+       (set-flag is-light-engaged? true)
+   )
+   (if (or (piece? HeavyHorse) (piece? Elephant) (piece? Dragon) (piece? Tower))
+       (set-flag is-heavy-engaged? false)
+   )
+   (check-spears sw) (check-spears se)
+   (check-other w) (check-other e) (check-other nw) (check-other ne) (check-other sw) (check-other se)
+   (if (not-flag? is-enemy-tower?)
+       (check-friend-tower w) (check-friend-tower e) (check-friend-tower nw) (check-friend-tower ne) (check-friend-tower sw) (check-friend-tower se)
+   )
+   (verify (and (flag? is-light-engaged?) (flag? is-heavy-engaged?)))
+)
+
 (define move-1 (
   $1 (verify (or empty? (piece? Point))) add
 ))
@@ -165,6 +253,51 @@
   )
 ))
 
+(define horse-1 (
+  $1 (verify enemy?)
+  (check-engaged)
+  add
+))
+
+(define horse-2 (
+  (set-flag is-captured? false)
+  $1 (verify (not-piece? Mount))
+  (if enemy?
+     (set-flag is-captured? true)
+     (check-engaged)
+     capture
+  )
+  $1 (verify not-friend?)
+  (if enemy?
+     (verify (not-flag? is-captured?))
+     (check-engaged)
+  )
+  add
+))
+
+(define horse-3 (
+  (set-flag is-captured? false)
+  $1 (verify (not-piece? Mount))
+  (if enemy?
+     (set-flag is-captured? true)
+     (check-engaged)
+     capture
+  )
+  $1 (verify (not-piece? Mount))
+  (if enemy?
+     (verify (not-flag? is-captured?))
+     (set-flag is-captured? true)
+     (check-engaged)
+     capture
+  )
+  $1 (verify not-friend?)
+  (if enemy?
+     (verify (not-flag? is-captured?))
+     (check-engaged)
+  )
+  add
+))
+
 (define drop-point (
    (verify (in-zone? goal))
    add
@@ -253,6 +386,9 @@
              Black "../images/Cyvasse/blighth.bmp")
       (moves
          (move-3)
+         (horse-1 w) (horse-1 e) (horse-1 nw) (horse-1 ne) (horse-1 sw) (horse-1 se)
+         (horse-2 w) (horse-2 e) (horse-2 nw) (horse-2 ne) (horse-2 sw) (horse-2 se)
+         (horse-3 w) (horse-3 e) (horse-3 nw) (horse-3 ne) (horse-3 sw) (horse-3 se)
       )
    )
    (piece
@@ -261,6 +397,8 @@
              Black "../images/Cyvasse/bheavyh.bmp")
       (moves
          (move-2)
+         (horse-1 w) (horse-1 e) (horse-1 nw) (horse-1 ne) (horse-1 sw) (horse-1 se)
+         (horse-2 w) (horse-2 e) (horse-2 nw) (horse-2 ne) (horse-2 sw) (horse-2 se)
       )
    )
    (piece
@@ -323,7 +461,6 @@
 (variant
    (title "Lesson 1")
    (description "3 moves")
-   (default)
 
    (turn-order White White White (Black goal-type))
 
@@ -402,8 +539,26 @@
 (variant
    (title "Lesson 3")
    (description "8 moves")
+   (default)
 
-   (turn-order White)
+   (turn-order White White White White White White White White (Black goal-type))
+
+   (board
+      (board-def board)
+      (zone (name goal) (players Black)
+            (positions a9)
+      )
+   )
+
+   (piece
+      (name Point)
+      (image White "../images/Cyvasse/point.bmp"
+             Black "../images/Cyvasse/point.bmp")
+      (drops
+         (move-type goal-type)
+         (drop-point)
+      )
+   )
 
    (board-setup
       (White
@@ -411,15 +566,36 @@
       )
       (Black
          (Crossbow h2 e2 h4 f8 f6 i8)
+         (Point off 1)
       )
    )
+
+   (loss-condition (Black) (pieces-remaining 0))
+   (win-condition (Black) (pieces-remaining 1 Point))
 )
 
 (variant
    (title "Lesson 4")
    (description "4 moves")
 
-   (turn-order White)
+   (turn-order White White White White (Black goal-type))
+
+   (board
+      (board-def board)
+      (zone (name goal) (players Black)
+            (positions a9)
+      )
+   )
+
+   (piece
+      (name Point)
+      (image White "../images/Cyvasse/point.bmp"
+             Black "../images/Cyvasse/point.bmp")
+      (drops
+         (move-type goal-type)
+         (drop-point)
+      )
+   )
 
    (board-setup
       (White
@@ -427,15 +603,36 @@
       )
       (Black
          (Rabble f6 i6 h5 e3)
+         (Point off 1)
       )
    )
+
+   (loss-condition (Black) (pieces-remaining 0))
+   (win-condition (Black) (pieces-remaining 1 Point))
 )
 
 (variant
    (title "Lesson 5")
    (description "4 moves")
 
-   (turn-order White)
+   (turn-order White White White White (Black goal-type))
+
+   (board
+      (board-def board)
+      (zone (name goal) (players Black)
+            (positions a9)
+      )
+   )
+
+   (piece
+      (name Point)
+      (image White "../images/Cyvasse/point.bmp"
+             Black "../images/Cyvasse/point.bmp")
+      (drops
+         (move-type goal-type)
+         (drop-point)
+      )
+   )
 
    (board-setup
       (White
@@ -444,8 +641,12 @@
       )
       (Black
          (Rabble h6 h4 e4)
+         (Point off 1)
       )
    )
+
+   (loss-condition (Black) (pieces-remaining 0))
+   (win-condition (Black) (pieces-remaining 1 Point))
 )
 
 (variant
