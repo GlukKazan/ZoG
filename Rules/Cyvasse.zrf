@@ -86,7 +86,12 @@
    (verify (and (flag? is-light-engaged?) (flag? is-heavy-engaged?)))
 )
 
+(define check-pass
+  (verify (empty? b9))
+)
+
 (define move-1 (
+  (check-pass)
   $1 (verify (or empty? (piece? Point))) add
 ))
 
@@ -202,6 +207,7 @@
 )
 
 (define move-2 (
+  (check-pass)
   (set-position-flag is-target? true)
   START
   (while (on-board? next)
@@ -220,6 +226,7 @@
 ))
 
 (define move-3 (
+  (check-pass)
   (set-position-flag is-target? true)
   START
   (while (on-board? next)
@@ -238,6 +245,7 @@
 ))
 
 (define move-4 (
+  (check-pass)
   (set-position-flag is-target? true)
   START
   (while (on-board? next)
@@ -254,12 +262,14 @@
 ))
 
 (define common-1 (
+  (check-pass)
   $1 (verify enemy?)
   (check-engaged)
   add
 ))
 
 (define horse-2 (
+  (check-pass)
   (set-flag is-captured? false)
   $1 (verify (not-piece? Mount))
   (verify (not-speared?))
@@ -277,6 +287,7 @@
 ))
 
 (define horse-3 (
+  (check-pass)
   (set-flag is-captured? false)
   $1 (verify (not-piece? Mount))
   (verify (not-speared?))
@@ -302,24 +313,28 @@
 ))
 
 (define dragon-2 (
+  (check-pass)
   $1 $1 (verify enemy?)
   (check-engaged)
   add
 ))
 
 (define dragon-3 (
+  (check-pass)
   $1 $1 $1 (verify enemy?)
   (check-engaged)
   add
 ))
 
 (define dragon-4 (
+  (check-pass)
   $1 $1 $1 $1 (verify enemy?)
   (check-engaged)
   add
 ))
 
 (define elephant-2 (
+  (check-pass)
   $1 (verify empty?)
   (verify (not-speared?))
   $1 (verify enemy?)
@@ -328,6 +343,7 @@
 ))
 
 (define king-2 (
+  (check-pass)
   $1 (verify (and friend? (piece? Tower)))
   $1 (verify not-friend?)
   (verify (not-piece? Mount))
@@ -338,6 +354,7 @@
 ))
 
 (define trebuchet (
+  (check-pass)
   $1 (verify empty?) to
   (opposite $1) (opposite $1) 
   (verify not-enemy?)
@@ -359,6 +376,42 @@
         (check-engaged)
         capture
      )
+  )
+  add
+))
+
+(define rabble-1 (
+  (set-position-flag from-pos? true)
+  (verify (not-enemy? b9))
+  (verify (not is-moved?))
+  $1 (verify (or empty? (piece? Point)))
+  (set-flag other-rabble? false)
+  mark START
+  (while (on-board? next)
+     next
+     (if (not-position-flag? from-pos?)
+         (if (and friend? (piece? Rabble))
+             (set-flag other-rabble? true)
+         )
+     )
+  )
+  back
+  (if (flag? other-rabble?)
+      (if (empty? b9)
+          (create Point b9)
+          (set-attribute is-moved? true)
+      )
+  )
+  (if (not-empty? b9)
+      (capture b9)
+      mark START
+      (while (on-board? next)
+          next
+          (if is-moved?
+              (set-attribute is-moved? false)
+          )
+      )
+      back
   )
   add
 ))
@@ -388,14 +441,31 @@
    )
    (symmetry Black (nw sw) (sw nw) (ne se) (se ne))
    (kill-positions
-         b9 c9 d9 a8 b8 c8 a7 b7 a6
-      i1 j1 k1 l1 j2 k2 l2 k3 l3 l4
+      c9 d9 b8 c8 a7 b7 a6 i1 j1
+      k1 l1 j2 k2 l2 k3 l3 l4 a8
+   )
+   (zone (name home) (players White)
+         (positions 
+             b6 c6 d6 e6 f6 g6 h6 i6 j6 k6 l6
+             c7 d7 e7 f7 g7 h7 i7 j7 k7 l7
+             d8 e8 f8 g8 h8 i8 j8 k8 l8
+             e9 f9 g9 h9 i9 j9 k9 l9
+         )
+   )
+   (zone (name home) (players Black)
+         (positions 
+             a4 b4 c4 d4 e4 f4 g4 h4 i4 j4 k4
+             a3 b3 c3 d3 e3 f3 g3 h3 i3 j3
+             a2 b2 c2 d2 e2 f2 g2 h2 i2
+             a1 b1 c1 d1 e1 f1 g1 h1
+         )
    )
 )
 
 (game
    (title "Nine-Tile Cyvasse")
 
+   (option "pass turn" forced)
    (option "prevent flipping" true)
    (animate-captures false)
    (animate-drops false)
@@ -435,8 +505,9 @@
       (name Rabble)
       (image White "../images/Cyvasse/wrabble.bmp"
              Black "../images/Cyvasse/brabble.bmp")
+      (attribute is-moved? false)
       (moves
-         (move-1 nw) (move-1 ne) (move-1 sw) (move-1 se) (move-1 w) (move-1 e)
+         (rabble-1 nw) (rabble-1 ne) (rabble-1 sw) (rabble-1 se) (rabble-1 w) (rabble-1 e)
          (common-1 w) (common-1 e) (common-1 nw) (common-1 ne) (common-1 sw) (common-1 se)
       )
    )
@@ -516,8 +587,8 @@
    )
    (piece
       (name Point)
-      (image White "../images/Cyvasse/point.bmp"
-             Black "../images/Cyvasse/point.bmp")
+      (image White "../images/Cyvasse/invisible.bmp"
+             Black "../images/Cyvasse/invisible.bmp")
    )
 
    (board-setup
