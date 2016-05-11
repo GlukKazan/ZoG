@@ -87,7 +87,7 @@
 )
 
 (define check-pass
-  (verify (empty? b9))
+  (verify (empty? a8))
 )
 
 (define move-1 (
@@ -315,7 +315,7 @@
 (define dragon-2 (
   (check-pass)
   $1 $1 (verify enemy?)
-  (check-engaged)
+; (check-engaged)
   add
 ))
 
@@ -382,7 +382,7 @@
 
 (define rabble-1 (
   (set-position-flag from-pos? true)
-  (verify (not-enemy? b9))
+  (verify (not-enemy? a8))
   (verify (not is-moved?))
   $1 (verify (or empty? (piece? Point)))
   (set-flag other-rabble? false)
@@ -397,13 +397,13 @@
   )
   back
   (if (flag? other-rabble?)
-      (if (empty? b9)
-          (create Point b9)
+      (if (empty? a8)
+          (create Point a8)
           (set-attribute is-moved? true)
       )
   )
-  (if (not-empty? b9)
-      (capture b9)
+  (if (not-empty? a8)
+      (capture a8)
       mark START
       (while (on-board? next)
           next
@@ -414,6 +414,33 @@
       back
   )
   add
+))
+
+(define drop-mount (
+   (verify (in-zone? home))
+   (verify empty?)
+   (verify (not-in-zone? water))
+   add
+))
+
+(define clear-king
+   (if (friend? $1)
+       (capture $1)
+   )
+)
+
+(define drop-king (
+   (verify (in-zone? trone))
+   (verify empty?)
+   (clear-king a9)
+   (clear-king a8)
+   add
+))
+
+(define drop-other (
+   (verify (in-zone? home))
+   (verify empty?)
+   add
 ))
 
 (define drop-point (
@@ -442,7 +469,7 @@
    (symmetry Black (nw sw) (sw nw) (ne se) (se ne))
    (kill-positions
       c9 d9 b8 c8 a7 b7 a6 i1 j1
-      k1 l1 j2 k2 l2 k3 l3 l4 a8
+      k1 l1 j2 k2 l2 k3 l3 l4 b9
    )
    (zone (name home) (players White)
          (positions 
@@ -460,6 +487,12 @@
              a1 b1 c1 d1 e1 f1 g1 h1
          )
    )
+   (zone (name trone) (players White)
+         (positions f8 h8 j8)
+   )
+   (zone (name trone) (players Black)
+         (positions c2 e2 g2)
+   )
 )
 
 (game
@@ -476,7 +509,22 @@
    (drop-sound "")
 
    (players White Black)
-   (turn-order White Black)
+   (turn-order 
+      (White mount-setup) (White mount-setup) (White mount-setup) (White mount-setup)
+      (White king-setup) 
+      (White tower-setup) (White tower-setup)
+      (White other-setup) (White other-setup) (White other-setup) (White other-setup) (White other-setup) 
+      (White other-setup) (White other-setup) (White other-setup) (White other-setup) (White other-setup) 
+      (White other-setup) (White other-setup) (White other-setup) (White other-setup) (White other-setup) 
+      (White other-setup) (White other-setup) (White other-setup) (White other-setup) (White other-setup) 
+      (Black mount-setup) (Black mount-setup) (Black mount-setup) (Black mount-setup)
+      (Black king-setup)
+      (Black tower-setup) (Black tower-setup)
+      (Black other-setup) (Black other-setup) (Black other-setup) (Black other-setup) (Black other-setup) 
+      (Black other-setup) (Black other-setup) (Black other-setup) (Black other-setup) (Black other-setup) 
+      (Black other-setup) (Black other-setup) (Black other-setup) (Black other-setup) (Black other-setup) 
+      (Black other-setup) (Black other-setup) (Black other-setup) (Black other-setup) (Black other-setup) 
+      repeat White Black)
 
    (board
       (board-def board)
@@ -489,6 +537,10 @@
       (name Mount)
       (image White "../images/Cyvasse/mount.bmp"
              Black "../images/Cyvasse/mount.bmp")
+      (drops
+         (move-type mount-setup)
+         (drop-mount)
+      )
    )
 
    (piece
@@ -500,6 +552,10 @@
          (common-1 w) (common-1 e) (common-1 nw) (common-1 ne) (common-1 sw) (common-1 se)
          (king-2 w) (king-2 e) (king-2 nw) (king-2 ne) (king-2 sw) (king-2 se)
       )
+      (drops
+         (move-type king-setup)
+         (drop-king)
+      )
    )
    (piece
       (name Rabble)
@@ -510,6 +566,10 @@
          (rabble-1 nw) (rabble-1 ne) (rabble-1 sw) (rabble-1 se) (rabble-1 w) (rabble-1 e)
          (common-1 w) (common-1 e) (common-1 nw) (common-1 ne) (common-1 sw) (common-1 se)
       )
+      (drops
+         (move-type other-setup)
+         (drop-other)
+      )
    )
    (piece
       (name Spears)
@@ -518,6 +578,10 @@
       (moves
          (move-1 nw) (move-1 ne)
          (common-1 nw) (common-1 ne)
+      )
+      (drops
+         (move-type other-setup)
+         (drop-other)
       )
    )
    (piece
@@ -530,6 +594,10 @@
          (horse-2 w) (horse-2 e) (horse-2 nw) (horse-2 ne) (horse-2 sw) (horse-2 se)
          (horse-3 w) (horse-3 e) (horse-3 nw) (horse-3 ne) (horse-3 sw) (horse-3 se)
       )
+      (drops
+         (move-type other-setup)
+         (drop-other)
+      )
    )
    (piece
       (name HeavyHorse)
@@ -539,6 +607,10 @@
          (move-2)
          (common-1 w) (common-1 e) (common-1 nw) (common-1 ne) (common-1 sw) (common-1 se)
          (horse-2 w) (horse-2 e) (horse-2 nw) (horse-2 ne) (horse-2 sw) (horse-2 se)
+      )
+      (drops
+         (move-type other-setup)
+         (drop-other)
       )
    )
    (piece
@@ -550,6 +622,10 @@
          (common-1 w) (common-1 e) (common-1 nw) (common-1 ne) (common-1 sw) (common-1 se)
          (elephant-2 w) (elephant-2 e) (elephant-2 nw) (elephant-2 ne) (elephant-2 sw) (elephant-2 se)
       )
+      (drops
+         (move-type other-setup)
+         (drop-other)
+      )
    )
    (piece
       (name Crossbow)
@@ -557,6 +633,10 @@
              Black "../images/Cyvasse/bcrossb.bmp")
       (moves
          (move-2)
+      )
+      (drops
+         (move-type other-setup)
+         (drop-other)
       )
    )
    (piece
@@ -566,6 +646,10 @@
       (moves
          (move-1 nw) (move-1 ne) (move-1 sw) (move-1 se) (move-1 w) (move-1 e)
          (trebuchet nw) (trebuchet ne) (trebuchet sw) (trebuchet se) (trebuchet w) (trebuchet e)
+      )
+      (drops
+         (move-type other-setup)
+         (drop-other)
       )
    )
    (piece
@@ -579,11 +663,19 @@
          (dragon-3 w) (dragon-3 e) (dragon-3 nw) (dragon-3 ne) (dragon-3 sw) (dragon-3 se)
          (dragon-4 w) (dragon-4 e) (dragon-4 nw) (dragon-4 ne) (dragon-4 sw) (dragon-4 se)
       )
+      (drops
+         (move-type other-setup)
+         (drop-other)
+      )
    )
    (piece
       (name Tower)
       (image White "../images/Cyvasse/wtower.bmp"
              Black "../images/Cyvasse/btower.bmp")
+      (drops
+         (move-type tower-setup)
+         (drop-other)
+      )
    )
    (piece
       (name Point)
@@ -593,12 +685,34 @@
 
    (board-setup
       (White
-         (King l9)
+         (Mount off 4)
+         (King a9 off 1)
+         (Tower off 2)
+         (Rabble off 6)
+         (Spears off 3)
+         (LightHorse off 3)
+         (HeavyHorse off 2)
+         (Elephant off 2)
+         (Crossbow off 2)
+         (Trebuchet off 1)
+         (Dragon off 1)
       )
       (Black
-         (King a1)
+         (Mount off 4)
+         (King a8 off 1)
+         (Tower off 2)
+         (Rabble off 6)
+         (Spears off 3)
+         (LightHorse off 3)
+         (HeavyHorse off 2)
+         (Elephant off 2)
+         (Crossbow off 2)
+         (Trebuchet off 1)
+         (Dragon off 1)
       )
    )
+
+   (loss-condition (White Black) (pieces-remaining 0 King))
 )
 
 (variant
@@ -608,7 +722,7 @@
 (variant
    (title "Lesson 1")
    (description "3 moves")
-   (default)
+;  (default)
 
    (turn-order White White White (Black goal-type))
 
