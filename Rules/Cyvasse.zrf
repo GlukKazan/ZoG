@@ -315,7 +315,7 @@
 (define dragon-2 (
   (check-pass)
   $1 $1 (verify enemy?)
-; (check-engaged)
+  (verify (not-piece? Mount))
   add
 ))
 
