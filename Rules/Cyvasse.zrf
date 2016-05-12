@@ -497,6 +497,24 @@
 
 (game
    (title "Nine-Tile Cyvasse")
+   (description "Every piece has an armor class and an engagement range, both determined by its type.\
+A piece is considered to be engaged by an opposing piece if there is a straight path between \
+them whose distance is equal to or less than the opposing piece's engagement range, and \
+if the path does not pass through a mountain square or a square occupied by a piece \
+of the same color as the engaged piece.\\
+A piece's armor class determines how many opposing pieces must be engaging that piece \
+for it to be captured: pieces with heavy armor must be engaged by at least two pieces, \
+pieces with light armor at least one, and unarmored pieces can be captured without being \
+engaged at all. Note that a capture can be made using a piece that is not engaging the captured piece.\\
+Squares marked with an 'X' are mountains. Mountain squares cannot be entered by any piece except a Dragon, \
+and any two pieces with a mountain between them cannot engage one another. Squares that are shaded gray \
+are water. If a piece is on a water square, it cannot engage other pieces.\\
+If one player captures the other's King, that player wins.")
+   (history "Cyvasse is a fictional, chess-like board game played in A Song of Ice and Fire, \
+a series of novels by George R. R. Martin. Nine-Tile Cyvasse is a creative interpretation \
+of this game which was invented by Zane Fisher in 2014. \\
+The rules and components are intended to be completely consistent with the text through \
+A Dance with Dragons, the latest in the series at the time of writing.")
 
    (option "pass turn" forced)
    (option "prevent flipping" true)
@@ -545,6 +563,11 @@
 
    (piece
       (name King)
+      (help "King: light armor, Movement Allowance 1, Engagement Range 1")
+      (description "King: light armor, Movement Allowance 1, Engagement Range 1\\
+When performing a move from a square adjacent to a Tower of the same color, \
+a King can be moved two squares, into the square on the opposite side of the tower, \
+as long as the move is an otherwise valid normal move or capture.")
       (image White "../images/Cyvasse/wking.bmp"
              Black "../images/Cyvasse/bking.bmp")
       (moves
@@ -559,6 +582,10 @@
    )
    (piece
       (name Rabble)
+      (help "Rabble: light armor, movement allowance 1, engagement range 1")
+      (description "Rabble: light armor, movement allowance 1, engagement range 1\\
+If a player performs a normal move with a Rabble, she may perform \
+a second normal move with a different Rabble on the same turn.")
       (image White "../images/Cyvasse/wrabble.bmp"
              Black "../images/Cyvasse/brabble.bmp")
       (attribute is-moved? false)
@@ -573,6 +600,12 @@
    )
    (piece
       (name Spears)
+      (help "Spears: light Armor, Movement Allowance 1, Engagement Range 1")
+      (description "Spears: light Armor, Movement Allowance 1, Engagement Range 1\\
+A Spears can only engage or capture a piece in the two spaces directly \
+in front of it (as if the Spears is facing away from the player it belongs to). \
+Opposing pieces cannot move through either the two spaces in front of a Spears \
+in one movement (though they can move either into or out of these spaces).")
       (image White "../images/Cyvasse/wspears.bmp"
              Black "../images/Cyvasse/bspears.bmp")
       (moves
@@ -586,6 +619,11 @@
    )
    (piece
       (name LightHorse)
+      (help "Light Horse: light Armor, Movement Allowance 3, Engagement Range 1")
+      (description "Light Horse: light Armor, Movement Allowance 3, Engagement Range 1\\
+When capturing, a Light Horse can move beyond the square containing the captured piece, \
+continuing in a straight line. Note that the total distance moved must still be less than \
+or equal to 3, and that mountains and opposing pieces still block movement.")
       (image White "../images/Cyvasse/wlighth.bmp"
              Black "../images/Cyvasse/blighth.bmp")
       (moves
@@ -601,6 +639,11 @@
    )
    (piece
       (name HeavyHorse)
+      (help "Heavy Horse: heavy armor, Movement Allowance 2, Engagement Range 1")
+      (description "Heavy Horse: heavy armor, Movement Allowance 2, Engagement Range 1\\
+When capturing, a Heavy Horse can move beyond the square containing the captured piece, \
+continuing in a straight line. Note that the total distance moved must still be less than \
+or equal to 2, and that mountains and opposing pieces still block movement.")
       (image White "../images/Cyvasse/wheavyh.bmp"
              Black "../images/Cyvasse/bheavyh.bmp")
       (moves
@@ -615,6 +658,10 @@
    )
    (piece
       (name Elephant)
+      (help "Elephant: heavy armor, Movement Allowance 1, Engagement Range 2")
+      (description "Elephant: heavy armor, Movement Allowance 1, Engagement Range 2\\
+An Elephant has a movement allowance of 2 when used to perform a Capture, \
+but cannot move through other pieces.")
       (image White "../images/Cyvasse/weleph.bmp"
              Black "../images/Cyvasse/beleph.bmp")
       (moves
@@ -629,6 +676,9 @@
    )
    (piece
       (name Crossbow)
+      (help "Crossbow: unarmored, Movement Allowance 2, Engagement Range 3")
+      (description "Crossbow: unarmored, Movement Allowance 2, Engagement Range 3\\
+Crossbows cannot capture.")
       (image White "../images/Cyvasse/wcrossb.bmp"
              Black "../images/Cyvasse/bcrossb.bmp")
       (moves
@@ -641,6 +691,13 @@
    )
    (piece
       (name Trebuchet)
+      (help "Trebuchet: unarmored, Movement Allowance 1, Engagement Range 4 (min. 2)")
+      (description "Trebuchet: unarmored, Movement Allowance 1, Engagement Range 4 (min. 2)\\
+A Trebuchet cannot engage a piece adjacent to it. To perform a capture with a Trebuchet, \
+follow these steps:\\
+1. Choose as the captured piece any opposing piece that is both sufficiently engaged, and engaged by the Trebuchet itself.\\
+2. Move the Trebuchet one square in the direction opposite the captured piece, and remove the captured piece. If the Trebuchet \
+cannot move as described, the capture cannot be performed.")
       (image White "../images/Cyvasse/wtrebuch.bmp"
              Black "../images/Cyvasse/btrebuch.bmp")
       (moves
@@ -654,6 +711,10 @@
    )
    (piece
       (name Dragon)
+      (help "Dragon: heavy armor, Movement Allowance 4, Engagement Range 2")
+      (description "Dragon: heavy armor, Movement Allowance 4, Engagement Range 2\\
+A Dragon can move through mountain squares and squares containing opposing pieces, \
+but cannot end its movement on such squares (unless performing a capture).")
       (image White "../images/Cyvasse/wdragon.bmp"
              Black "../images/Cyvasse/bdragon.bmp")
       (moves
@@ -670,6 +731,10 @@
    )
    (piece
       (name Tower)
+      (help "Tower: heavy armor, Movement Allowance 0, Engagement Range 1")
+      (description "Tower: heavy armor, Movement Allowance 0, Engagement Range 1\\
+Towers cannot be moved. A piece that is adjacent to one or more opposing Towers \
+cannot engage any pieces except the adjacent Tower(s).")
       (image White "../images/Cyvasse/wtower.bmp"
              Black "../images/Cyvasse/btower.bmp")
       (drops
@@ -713,6 +778,46 @@
    )
 
    (loss-condition (White Black) (pieces-remaining 0 King))
+)
+
+(variant
+   (title "Nine-Tile Cyvasse (Map 1)")
+   (board
+      (board-def map-1)
+      (zone (name water) (players White Black)
+            (positions b1 c1 d3 d6 e6 i7)
+      )
+   )
+)
+
+(variant
+   (title "Nine-Tile Cyvasse (Map 2)")
+   (board
+      (board-def map-2)
+      (zone (name water) (players White Black)
+            (positions f2 g2 c3 i6 f8 g8)
+      )
+   )
+)
+
+(variant
+   (title "Nine-Tile Cyvasse (Map 3)")
+   (board
+      (board-def map-3)
+      (zone (name water) (players White Black)
+            (positions c2 g1 h3 i3 e6 j7 e8)
+      )
+   )
+)
+
+(variant
+   (title "Nine-Tile Cyvasse (Map 4)")
+   (board
+      (board-def map-4)
+      (zone (name water) (players White Black)
+            (positions f2 g2 d4 f8 g8 j8)
+      )
+   )
 )
 
 (variant
@@ -1097,3 +1202,4 @@
    (loss-condition (Black) (pieces-remaining 0 King))
    (win-condition (Black) (pieces-remaining 1 Point))
 )
+
