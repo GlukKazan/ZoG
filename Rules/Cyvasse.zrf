@@ -358,19 +358,19 @@
   $1 (verify empty?) to
   (opposite $1) (opposite $1) 
   (verify not-enemy?)
-  (verify (not-piece? Mount))
+; (verify (not-piece? Mount))
   (opposite $1) 
   (if enemy?
      (check-engaged)
      capture
    else
-     (verify (not-piece? Mount))
+;    (verify (not-piece? Mount))
      (opposite $1)
      (if enemy?
         (check-engaged)
         capture
       else
-        (verify (not-piece? Mount))
+;       (verify (not-piece? Mount))
         (opposite $1)
         (verify enemy?)
         (check-engaged)
@@ -517,7 +517,7 @@ The rules and components are intended to be completely consistent with the text 
 A Dance with Dragons, the latest in the series at the time of writing.")
 
    (option "pass turn" forced)
-   (option "prevent flipping" true)
+;  (option "prevent flipping" true)
    (animate-captures false)
    (animate-drops false)
 
@@ -606,8 +606,8 @@ A Spears can only engage or capture a piece in the two spaces directly \
 in front of it (as if the Spears is facing away from the player it belongs to). \
 Opposing pieces cannot move through either the two spaces in front of a Spears \
 in one movement (though they can move either into or out of these spaces).")
-      (image White "../images/Cyvasse/wspears.bmp"
-             Black "../images/Cyvasse/bspears.bmp")
+      (image White "../images/Cyvasse/wspears.bmp" "../images/Cyvasse/wspearsi.bmp"
+             Black "../images/Cyvasse/bspears.bmp" "../images/Cyvasse/bspearsi.bmp")
       (moves
          (move-1 nw) (move-1 ne)
          (common-1 nw) (common-1 ne)
