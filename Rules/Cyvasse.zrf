@@ -80,7 +80,7 @@
    )
    (check-spears sw) (check-spears se)
    (check-other w) (check-other e) (check-other nw) (check-other ne) (check-other sw) (check-other se)
-   (if (and (not-piece? Tower) (not-flag? is-enemy-tower?))
+   (if (and (not-piece? Tower) (not-piece? Crossbow) (not-piece? Trebuchet) (not-flag? is-enemy-tower?))
        (check-friend-tower w) (check-friend-tower e) (check-friend-tower nw) (check-friend-tower ne) (check-friend-tower sw) (check-friend-tower se)
    )
    (verify (and (flag? is-light-engaged?) (flag? is-heavy-engaged?)))
