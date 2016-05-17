@@ -3,6 +3,30 @@
 	{move-priority} pass-type
 move-priorities}
 
+{moves drop-1
+	{move} drop-mode-1 {move-type} setup-1
+moves}
+
+{moves drop-2
+	{move} drop-mode-2 {move-type} setup-2
+moves}
+
+{moves drop-3
+	{move} drop-mode-3 {move-type} setup-3
+moves}
+
+{moves drop-4
+	{move} drop-mode-4 {move-type} setup-4
+moves}
+
+{moves drop-5
+	{move} drop-mode-5 {move-type} setup-5
+moves}
+
+{moves drop-6
+	{move} drop-mode-6 {move-type} setup-6
+moves}
+
 {moves s-moves
 	{move} step-n		{move-type} normal-type
 	{move} step-s		{move-type} normal-type
@@ -151,8 +175,8 @@ moves}
 
 	{piece}	B	{moves} h-moves	-1	{value}
 	{piece}	R	{moves} h-moves	-2	{value}
-	{piece}	L	{moves} s-moves	3	{value}
-	{piece}	D	{moves} s-moves	4	{value}
+	{piece}	L	{drops} drop-1 {moves} s-moves 3 {value}
+	{piece}	D	{drops} drop-2 {moves} s-moves 4 {value}
 	{piece}	Y	{moves} h-moves	-5	{value}
 	{piece}	Z	{moves} h-moves	-6	{value}
 	{piece}	_F	{moves} h-moves	-7	{value}
@@ -169,12 +193,12 @@ moves}
 	{piece}	DS	{moves} s-moves	18	{value}
 	{piece}	YS	{moves} h-moves	-19	{value}
 	{piece}	ZS	{moves} h-moves	-20	{value}
-	{piece}	_L	{moves} s-moves	21	{value}
+	{piece}	_L	{drops} drop-3 {moves} s-moves 21 {value}
 	{piece}	BL	{moves} b-moves	22	{value}
 	{piece}	RL	{moves} r-moves	23	{value}
 	{piece}	YL	{moves} s-moves	26	{value}
 	{piece}	ZL	{moves} s-moves	27	{value}
-	{piece}	_D	{moves} s-moves	28	{value}
+	{piece}	_D	{drops} drop-4 {moves} s-moves 28 {value}
 	{piece}	BD	{moves} b-moves	29	{value}
 	{piece}	RD	{moves} r-moves	30	{value}
 	{piece}	YD	{moves} s-moves	33	{value}
@@ -238,7 +262,7 @@ moves}
 	{piece}	DZV	{moves} s-moves	95	{value}
 	{piece}	YZV	{moves} h-moves	-96	{value}
 	{piece}	ZZV	{moves} h-moves	-97	{value}
-	{piece}	__L	{moves} s-moves	147	{value}
+	{piece}	__L	{drops} drop-5 {moves} s-moves 147 {value}
 	{piece}	B_L	{moves} b-moves	148	{value}
 	{piece}	R_L	{moves} r-moves	149	{value}
 	{piece}	Y_L	{moves} s-moves	152	{value}
@@ -263,7 +287,7 @@ moves}
 	{piece}	RZL	{moves} r-moves	191	{value}
 	{piece}	YZL	{moves} s-moves	194	{value}
 	{piece}	ZZL	{moves} s-moves	195	{value}
-	{piece}	__D	{moves} s-moves	196	{value}
+	{piece}	__D	{drops} drop-6 {moves} s-moves 196 {value}
 	{piece}	B_D	{moves} b-moves	197	{value}
 	{piece}	R_D	{moves} r-moves	198	{value}
 	{piece}	Y_D	{moves} s-moves	201	{value}

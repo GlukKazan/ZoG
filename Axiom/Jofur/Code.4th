@@ -8,6 +8,7 @@ VARIABLE not-from?
 VARIABLE is-enemy?
 VARIABLE is-friend?
 VARIABLE is-smelled?
+VARIABLE is-locked?
 VARIABLE my-here
 6 []	 part[]
 
@@ -45,6 +46,50 @@ VARIABLE my-here
 		ENDIF
 	ENDIF
 ;
+
+: check-dir ( 'dir -- )
+	EXECUTE IF
+		here my-value
+		DUP 0> IF
+			current-player Light = IF 3 ELSE 4 ENDIF
+			OVER is-player? IF
+				DUP 7 / 7 MOD 2 = IF
+					TRUE is-locked? !
+				ENDIF
+			ENDIF
+		ENDIF DROP
+	ENDIF
+;
+
+: check-locked ( -- ? )
+	TRUE is-locked? !
+	here ALL BEGIN
+		1-
+		DUP my-value
+		DUP 0> IF
+
+			FALSE is-locked? ! ( ??? )
+
+			current-player Light = IF 4 ELSE 3 ENDIF
+			OVER is-player? IF
+				FALSE is-locked? !
+				DUP 7 / 7 MOD 2 <> IF
+					OVER to ['] n  check-dir
+					OVER to ['] s  check-dir
+					OVER to ['] w  check-dir
+					OVER to ['] e  check-dir
+					OVER to ['] nw check-dir
+					OVER to ['] sw check-dir
+					OVER to ['] ne check-dir
+					OVER to ['] se check-dir
+				ENDIF
+			ENDIF
+		ENDIF DROP
+		DUP 0= is-locked? @ OR
+	UNTIL DROP to
+	is-locked? @
+;
+
 
 : calc-rang ( n -- n )
 	0 
@@ -112,7 +157,7 @@ VARIABLE my-here
 		ENDIF
 		1 <= IF
 			4 calc-pass
-			FALSE IF
+			check-locked IF
 				DROP 0
 			ENDIF
 			DUP 0> IF
@@ -134,7 +179,7 @@ VARIABLE my-here
 		ENDIF
 		1 <= IF
 			3 calc-pass
-			FALSE IF
+			check-locked IF
 				DROP 0
 			ENDIF
 			DUP 0> IF
@@ -477,3 +522,30 @@ VARIABLE my-here
 : hanoy-nc-ne ( -- ) FALSE ['] ne common-hanoy ;
 : hanoy-nc-sw ( -- ) FALSE ['] sw common-hanoy ;
 : hanoy-nc-se ( -- ) FALSE ['] se common-hanoy ;
+
+: drop-piece ( n -- )
+	BEGIN
+		0 ALL 1- RAND-WITHIN
+		DUP empty-at? OVER here <> AND IF
+			OVER mark SWAP -
+			OVER create-piece-type-at
+		ENDIF
+	UNTIL DROP
+;
+
+: common-drop ( n n n n -- )
+	empty? verify
+	drop
+	drop-piece
+	drop-piece
+	drop-piece
+	drop-piece
+	add-move
+;
+
+: drop-mode-1 ( -- ) 10 10 9 8 common-drop ;
+: drop-mode-2 ( -- ) 10 11 9 8 common-drop ;
+: drop-mode-3 ( -- ) 7  7  5 4 common-drop ;
+: drop-mode-4 ( -- ) 11 6  5 5 common-drop ;
+: drop-mode-5 ( -- ) 3  2  2 1 common-drop ;
+: drop-mode-6 ( -- ) 2  2  2 1 common-drop ;

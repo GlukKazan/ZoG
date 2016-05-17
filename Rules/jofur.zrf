@@ -1,8 +1,8 @@
 (define p
   (piece
-     (name $1)
+     (name $2)
      (help " ")
-     (image ?Owner "../images/jofur/$2.bmp")
+     (image ?Owner "../images/jofur/$1.bmp")
   )
 )
 
@@ -19,7 +19,12 @@
   (option "pass turn" forced)
 
   (players Light Dark ?Owner)
-  (turn-order (Light ?Owner) (Dark ?Owner))
+  (turn-order 
+      (?Owner setup-1) (?Owner setup-2)
+      (?Owner setup-3) (?Owner setup-4)
+      (?Owner setup-3) (?Owner setup-4)
+      (?Owner setup-5) (?Owner setup-6)
+      repeat (Light ?Owner) (Dark ?Owner))
 
   (board
     (image "../images/jofur/board.bmp")
@@ -275,8 +280,4 @@
   (p DZZ DZZ) ; 340
   (p YZZ YZZ) ; 341
   (p ZZZ ZZZ) ; 342
-
-  (board-setup
-    (?Owner (L j1) (D a10))
-  )
 )
