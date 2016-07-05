@@ -1,7 +1,63 @@
-(define pawn-step (
-   $1 (verify not-friend?)
+(define common-check
+   (verify not-friend?)
    (verify (and (not-piece? Knight) (not-piece? Forward) (not-piece? Backward)))
-   add
+)
+
+(define pawn-step (
+   $1 (common-check) add   
+))
+
+(define king-step (
+   $1 (verify (in-zone? palace))
+   (common-check) add
+))
+
+(define killer-step (
+   $1 (verify not-friend?)
+   (verify (and (not-piece? Forward) (not-piece? Backward))) add
+))
+
+(define chariot-slide (
+   $1 (while empty? add $1)
+   (common-check) add
+))
+
+(define palace-slide (
+   $1 (while empty? (verify (in-zone? palace)) add $1)
+   (verify (in-zone? palace)) (common-check) add
+))
+
+(define cannon-slide (
+   $1 (while empty? $1)
+   (verify not-empty?)
+   $1 (while empty? add $1)
+   (verify (and (not-piece? Cannon) (not-piece? WestCannon) (not-piece? EastCannon)))
+   (common-check) add
+))
+
+(define horse-jump (
+   $1 (verify empty?)
+   $2 (common-check) add
+))
+
+(define knight-jump (
+   $1 (verify empty?)
+   $2 (verify empty?) add
+))
+
+(define elephant-jump (
+   $1 (verify empty?)
+   $2 (verify empty?)
+   $2 (common-check) add
+))
+
+(define warrior-step-1 (
+   $1 (common-check) add
+))
+
+(define warrior-step-2 (
+   $1 (verify empty?)
+   $1 (common-check) add
 ))
 
 (game
@@ -30,7 +86,26 @@
                      (ne 1 -1) (nw -1 -1) (se 1 1) (sw -1 1)
          )
       )
-      (symmetry North (n s) (s n) (nw sw) (sw nw) (ne se) (se ne))
+      (links wn (c2  b3)  (b3  a4)  (i2  h3)  (h3  g4)  (o2  n3)  (n3  m4)
+                (c11 b12) (b12 a13) (i11 h12) (h12 g13) (o11 n12) (n12 m13))
+      (links es (b3  c2)  (a4  b3)  (h3  i2)  (g4  h3)  (n3  o2)  (m4  n3)
+                (b12 c11) (a13 b12) (h12 i11) (g13 h12) (n12 o11) (m13 n12))
+      (links en (a2  b3)  (b3  c4)  (g2  h3)  (h3  i4)  (m2  n3)  (n3  o4)
+                (a11 b12) (b12 c13) (g11 h12) (h12 i13) (m11 n12) (n12 o13))
+      (links ws (b3  a2)  (c4  b3)  (h3  g2)  (i4  h3)  (n3  m2)  (o4  n3)
+                (b12 a11) (c13 b12) (h12 g11) (i13 h12) (n12 m11) (o13 n12))
+      (symmetry North (n s) (s n) (nw sw) (sw nw) (ne se) (se ne) (wn ws) (ws wn) (en es) (es en))
+      (zone
+         (name palace)
+         (players South North)
+         (positions g4  h4  i4  g3  h3  i3  g2  h2  i2
+                    g13 h13 i13 g12 h12 i12 g11 h11 i11
+                    a4  b4  c4  a3  b3  c3  a2  b2  c2
+                    a13 b13 c13 a12 b12 c12 a11 b11 c11
+                    m4  n4  o4  m3  n3  o3  m2  n2  o2
+                    m13 n13 o13 m12 n12 o12 m11 n11 o11
+         )
+      )
    )
  
    (piece
@@ -38,7 +113,8 @@
       (image South "../images/Gwangsanghui/PawnWhite.bmp"
              North "../images/Gwangsanghui/PawnBlack.bmp")
       (moves
-         (pawn-step n) (pawn-step w) (pawn-step e)
+         (pawn-step n)  (pawn-step w)  (pawn-step e)
+         (pawn-step wn) (pawn-step en)
       )
    )
    (piece
@@ -53,106 +129,203 @@
       (name King)
       (image South "../images/Gwangsanghui/KingWhite.bmp"
              North "../images/Gwangsanghui/KingBlack.bmp")
+      (moves
+         (king-step  n) (king-step  s) (king-step  w) (king-step  e)
+         (king-step wn) (king-step en) (king-step ws) (king-step es)
+      )
    )
    (piece
       (name WestGeneral)
       (image South "../images/Gwangsanghui/GeneralWhite.bmp"
              North "../images/Gwangsanghui/GeneralBlack.bmp")
+      (moves
+         (king-step  n) (king-step  s) (king-step  w) (king-step  e)
+         (king-step wn) (king-step en) (king-step ws) (king-step es)
+      )
    )
    (piece
       (name EastGeneral)
       (image South "../images/Gwangsanghui/GeneralWhite.bmp"
              North "../images/Gwangsanghui/GeneralBlack.bmp")
+      (moves
+         (king-step  n) (king-step  s) (king-step  w) (king-step  e)
+         (king-step wn) (king-step en) (king-step ws) (king-step es)
+      )
    )
    (piece
       (name Guard)
       (image South "../images/Gwangsanghui/GuardWhite.bmp"
              North "../images/Gwangsanghui/GuardBlack.bmp")
+      (moves
+         (king-step  n) (king-step  s) (king-step  w) (king-step  e)
+         (king-step wn) (king-step en) (king-step ws) (king-step es)
+      )
    )
    (piece
       (name WestGuard)
       (image South "../images/Gwangsanghui/GuardWhite.bmp"
              North "../images/Gwangsanghui/GuardBlack.bmp")
+      (moves
+         (king-step  n) (king-step  s) (king-step  w) (king-step  e)
+         (king-step wn) (king-step en) (king-step ws) (king-step es)
+      )
    )
    (piece
       (name EastGuard)
       (image South "../images/Gwangsanghui/GuardWhite.bmp"
              North "../images/Gwangsanghui/GuardBlack.bmp")
+      (moves
+         (king-step  n) (king-step  s) (king-step  w) (king-step  e)
+         (king-step wn) (king-step en) (king-step ws) (king-step es)
+      )
    )
    (piece
       (name Elephant)
       (image South "../images/Gwangsanghui/ElephantWhite.bmp"
              North "../images/Gwangsanghui/ElephantBlack.bmp")
+      (moves
+         (elephant-jump n nw) (elephant-jump n ne) 
+         (elephant-jump s sw) (elephant-jump s se) 
+         (elephant-jump w nw) (elephant-jump w sw)  
+         (elephant-jump e ne) (elephant-jump e se)
+      )
    )
    (piece
       (name WestElephant)
       (image South "../images/Gwangsanghui/ElephantWhite.bmp"
              North "../images/Gwangsanghui/ElephantBlack.bmp")
+      (moves
+         (elephant-jump n nw) (elephant-jump n ne) 
+         (elephant-jump s sw) (elephant-jump s se) 
+         (elephant-jump w nw) (elephant-jump w sw)  
+         (elephant-jump e ne) (elephant-jump e se)
+      )
    )
    (piece
       (name EastElephant)
       (image South "../images/Gwangsanghui/ElephantWhite.bmp"
              North "../images/Gwangsanghui/ElephantBlack.bmp")
+      (moves
+         (elephant-jump n nw) (elephant-jump n ne) 
+         (elephant-jump s sw) (elephant-jump s se) 
+         (elephant-jump w nw) (elephant-jump w sw)  
+         (elephant-jump e ne) (elephant-jump e se)
+      )
    )
    (piece
       (name Chariot)
       (image South "../images/Gwangsanghui/ChariotWhite.bmp"
              North "../images/Gwangsanghui/ChariotBlack.bmp")
+      (moves
+         (chariot-slide n) (chariot-slide s) (chariot-slide w) (chariot-slide e)
+         (palace-slide wn) (palace-slide en) (palace-slide ws) (palace-slide es)
+      )
    )
    (piece
       (name WestChariot)
       (image South "../images/Gwangsanghui/ChariotWhite.bmp"
              North "../images/Gwangsanghui/ChariotBlack.bmp")
+      (moves
+         (chariot-slide n) (chariot-slide s) (chariot-slide w) (chariot-slide e)
+         (palace-slide wn) (palace-slide en) (palace-slide ws) (palace-slide es)
+      )
    )
    (piece
       (name EastChariot)
       (image South "../images/Gwangsanghui/ChariotWhite.bmp"
              North "../images/Gwangsanghui/ChariotBlack.bmp")
+      (moves
+         (chariot-slide n) (chariot-slide s) (chariot-slide w) (chariot-slide e)
+         (palace-slide wn) (palace-slide en) (palace-slide ws) (palace-slide es)
+      )
    )
    (piece
       (name Cannon)
       (image South "../images/Gwangsanghui/CannonWhite.bmp"
              North "../images/Gwangsanghui/CannonBlack.bmp")
+      (moves
+         (cannon-slide n) (cannon-slide s) (cannon-slide w) (cannon-slide e)
+      )
    )
    (piece
       (name WestCannon)
       (image South "../images/Gwangsanghui/CannonWhite.bmp"
              North "../images/Gwangsanghui/CannonBlack.bmp")
+      (moves
+         (cannon-slide n) (cannon-slide s) (cannon-slide w) (cannon-slide e)
+      )
    )
    (piece
       (name EastCannon)
       (image South "../images/Gwangsanghui/CannonWhite.bmp"
              North "../images/Gwangsanghui/CannonBlack.bmp")
+      (moves
+         (cannon-slide n) (cannon-slide s) (cannon-slide w) (cannon-slide e)
+      )
    )
    (piece
       (name Horse)
       (image South "../images/Gwangsanghui/HorseWhite.bmp"
              North "../images/Gwangsanghui/HorseBlack.bmp")
+      (moves
+         (horse-jump n nw) (horse-jump n ne) 
+         (horse-jump s sw) (horse-jump s se) 
+         (horse-jump w nw) (horse-jump w sw)  
+         (horse-jump e ne) (horse-jump e se)
+      )
    )
    (piece
       (name WestHorse)
       (image South "../images/Gwangsanghui/HorseWhite.bmp"
              North "../images/Gwangsanghui/HorseBlack.bmp")
+      (moves
+         (horse-jump n nw) (horse-jump n ne) 
+         (horse-jump s sw) (horse-jump s se) 
+         (horse-jump w nw) (horse-jump w sw)  
+         (horse-jump e ne) (horse-jump e se)
+      )
    )
    (piece
       (name EastHorse)
       (image South "../images/Gwangsanghui/HorseWhite.bmp"
              North "../images/Gwangsanghui/HorseBlack.bmp")
+      (moves
+         (horse-jump n nw) (horse-jump n ne) 
+         (horse-jump s sw) (horse-jump s se) 
+         (horse-jump w nw) (horse-jump w sw)  
+         (horse-jump e ne) (horse-jump e se)
+      )
    )
    (piece
       (name Warrior)
       (image South "../images/Gwangsanghui/WarriorWhite.bmp"
              North "../images/Gwangsanghui/WarriorBlack.bmp")
+      (moves
+         (warrior-step-1 n) (warrior-step-1 s)
+         (warrior-step-1 w) (warrior-step-1 e)
+         (warrior-step-2 n) (warrior-step-2 s)
+         (warrior-step-2 w) (warrior-step-2 e)
+      )
    )
    (piece
       (name Knight)
       (image South "../images/Gwangsanghui/KnightWhite.bmp"
              North "../images/Gwangsanghui/KnightBlack.bmp")
+      (moves
+         (knight-jump n nw) (knight-jump n ne) 
+         (knight-jump s sw) (knight-jump s se) 
+         (knight-jump w nw) (knight-jump w sw)  
+         (knight-jump e ne) (knight-jump e se)
+      )
    )
    (piece
       (name Killer)
       (image South "../images/Gwangsanghui/KillerWhite.bmp"
              North "../images/Gwangsanghui/KillerBlack.bmp")
+      (moves
+         (killer-step nw) (killer-step ne) 
+         (killer-step sw) (killer-step se)
+      )
    )
    (piece
       (name Forward)
@@ -221,4 +394,7 @@
          (Soldier a9 b9 c9 d9 e9 f9)
       )
    )
+
+   (loss-condition  (South North) (checkmated King))
+   (count-condition (South North) stalemated)
 )
