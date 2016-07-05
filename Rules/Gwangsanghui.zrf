@@ -1,10 +1,23 @@
 (define common-check
    (verify not-friend?)
-   (verify (and (not-piece? Knight) (not-piece? Forward) (not-piece? Backward)))
+   (verify (and (not-piece? Knight)))
+   (if (or (piece? Forward) (piece? Backward))
+       (verify attacked?)
+       (set-attribute is-target? true)
+   )
+)
+
+(define check-target
+   (verify is-target?)
 )
 
 (define pawn-step (
    $1 (common-check) add   
+))
+
+(define pawnp-step (
+   $1 (common-check) 
+   (check-target) add   
 ))
 
 (define king-step (
@@ -14,12 +27,27 @@
 
 (define killer-step (
    $1 (verify not-friend?)
-   (verify (and (not-piece? Forward) (not-piece? Backward))) add
+   (if (or (piece? Forward) (piece? Backward))
+       (verify attacked?)
+       (set-attribute is-target? true)
+   )
+   add
+))
+
+(define killerp-step (
+   $1 (verify not-friend?)
+   (check-target) add
 ))
 
 (define chariot-slide (
    $1 (while empty? add $1)
    (common-check) add
+))
+
+(define chariotp-slide (
+   $1 (while empty? $1)
+   (common-check) 
+   (check-target) add
 ))
 
 (define palace-slide (
@@ -35,9 +63,22 @@
    (common-check) add
 ))
 
+(define cannonp-slide (
+   $1 (while empty? $1)
+   (verify not-empty?)
+   $1 (while empty? $1)
+   (verify (and (not-piece? Cannon) (not-piece? WestCannon) (not-piece? EastCannon)))
+   (common-check) (check-target) add
+))
+
 (define horse-jump (
    $1 (verify empty?)
    $2 (common-check) add
+))
+
+(define horsep-jump (
+   $1 (verify empty?)
+   $2 (common-check) (check-target) add
 ))
 
 (define knight-jump (
@@ -51,13 +92,30 @@
    $2 (common-check) add
 ))
 
+(define elephantp-jump (
+   $1 (verify empty?)
+   $2 (verify empty?)
+   $2 (common-check) 
+   (check-target) add
+))
+
 (define warrior-step-1 (
    $1 (common-check) add
+))
+
+(define warriorp-step-1 (
+   $1 (common-check) 
+   (check-target) add
 ))
 
 (define warrior-step-2 (
    $1 (verify empty?)
    $1 (common-check) add
+))
+
+(define warriorp-step-2 (
+   $1 (verify empty?)
+   $1 (common-check) (check-target) add
 ))
 
 (game
@@ -67,12 +125,12 @@
    (release-sound "Audio/Pickup.wav")
    (capture-sound "")
 
-   (animate-captures true)
-   (recycle-captures true)
+   (animate-captures false)
    (allow-flipping   false)
 
    (players South North)
    (turn-order South North)
+   (move-priorities priority-type normal-type)
 
    (board
       (image "../images/Gwangsanghui/board.bmp")
@@ -112,7 +170,11 @@
       (name Pawn)
       (image South "../images/Gwangsanghui/PawnWhite.bmp"
              North "../images/Gwangsanghui/PawnBlack.bmp")
+      (attribute is-target? false)
       (moves
+         (move-type priority-type)
+         (pawnp-step n) (pawnp-step w) (pawnp-step e)
+         (move-type normal-type)
          (pawn-step n)  (pawn-step w)  (pawn-step e)
          (pawn-step wn) (pawn-step en)
       )
@@ -121,7 +183,11 @@
       (name Soldier)
       (image South "../images/Gwangsanghui/SoldierWhite.bmp"
              North "../images/Gwangsanghui/SoldierBlack.bmp")
+      (attribute is-target? false)
       (moves
+         (move-type priority-type)
+         (pawnp-step nw) (pawnp-step ne)
+         (move-type normal-type)
          (pawn-step nw) (pawn-step ne)
       )
    )
@@ -130,6 +196,7 @@
       (image South "../images/Gwangsanghui/KingWhite.bmp"
              North "../images/Gwangsanghui/KingBlack.bmp")
       (moves
+         (move-type normal-type)
          (king-step  n) (king-step  s) (king-step  w) (king-step  e)
          (king-step wn) (king-step en) (king-step ws) (king-step es)
       )
@@ -139,6 +206,7 @@
       (image South "../images/Gwangsanghui/GeneralWhite.bmp"
              North "../images/Gwangsanghui/GeneralBlack.bmp")
       (moves
+         (move-type normal-type)
          (king-step  n) (king-step  s) (king-step  w) (king-step  e)
          (king-step wn) (king-step en) (king-step ws) (king-step es)
       )
@@ -148,6 +216,7 @@
       (image South "../images/Gwangsanghui/GeneralWhite.bmp"
              North "../images/Gwangsanghui/GeneralBlack.bmp")
       (moves
+         (move-type normal-type)
          (king-step  n) (king-step  s) (king-step  w) (king-step  e)
          (king-step wn) (king-step en) (king-step ws) (king-step es)
       )
@@ -157,6 +226,7 @@
       (image South "../images/Gwangsanghui/GuardWhite.bmp"
              North "../images/Gwangsanghui/GuardBlack.bmp")
       (moves
+         (move-type normal-type)
          (king-step  n) (king-step  s) (king-step  w) (king-step  e)
          (king-step wn) (king-step en) (king-step ws) (king-step es)
       )
@@ -166,6 +236,7 @@
       (image South "../images/Gwangsanghui/GuardWhite.bmp"
              North "../images/Gwangsanghui/GuardBlack.bmp")
       (moves
+         (move-type normal-type)
          (king-step  n) (king-step  s) (king-step  w) (king-step  e)
          (king-step wn) (king-step en) (king-step ws) (king-step es)
       )
@@ -175,6 +246,7 @@
       (image South "../images/Gwangsanghui/GuardWhite.bmp"
              North "../images/Gwangsanghui/GuardBlack.bmp")
       (moves
+         (move-type normal-type)
          (king-step  n) (king-step  s) (king-step  w) (king-step  e)
          (king-step wn) (king-step en) (king-step ws) (king-step es)
       )
@@ -183,7 +255,14 @@
       (name Elephant)
       (image South "../images/Gwangsanghui/ElephantWhite.bmp"
              North "../images/Gwangsanghui/ElephantBlack.bmp")
+      (attribute is-target? false)
       (moves
+         (move-type priority-type)
+         (elephantp-jump n nw) (elephantp-jump n ne) 
+         (elephantp-jump s sw) (elephantp-jump s se) 
+         (elephantp-jump w nw) (elephantp-jump w sw)  
+         (elephantp-jump e ne) (elephantp-jump e se)
+         (move-type normal-type)
          (elephant-jump n nw) (elephant-jump n ne) 
          (elephant-jump s sw) (elephant-jump s se) 
          (elephant-jump w nw) (elephant-jump w sw)  
@@ -194,7 +273,14 @@
       (name WestElephant)
       (image South "../images/Gwangsanghui/ElephantWhite.bmp"
              North "../images/Gwangsanghui/ElephantBlack.bmp")
+      (attribute is-target? false)
       (moves
+         (move-type priority-type)
+         (elephantp-jump n nw) (elephantp-jump n ne) 
+         (elephantp-jump s sw) (elephantp-jump s se) 
+         (elephantp-jump w nw) (elephantp-jump w sw)  
+         (elephantp-jump e ne) (elephantp-jump e se)
+         (move-type normal-type)
          (elephant-jump n nw) (elephant-jump n ne) 
          (elephant-jump s sw) (elephant-jump s se) 
          (elephant-jump w nw) (elephant-jump w sw)  
@@ -205,7 +291,14 @@
       (name EastElephant)
       (image South "../images/Gwangsanghui/ElephantWhite.bmp"
              North "../images/Gwangsanghui/ElephantBlack.bmp")
+      (attribute is-target? false)
       (moves
+         (move-type priority-type)
+         (elephantp-jump n nw) (elephantp-jump n ne) 
+         (elephantp-jump s sw) (elephantp-jump s se) 
+         (elephantp-jump w nw) (elephantp-jump w sw)  
+         (elephantp-jump e ne) (elephantp-jump e se)
+         (move-type normal-type)
          (elephant-jump n nw) (elephant-jump n ne) 
          (elephant-jump s sw) (elephant-jump s se) 
          (elephant-jump w nw) (elephant-jump w sw)  
@@ -216,7 +309,11 @@
       (name Chariot)
       (image South "../images/Gwangsanghui/ChariotWhite.bmp"
              North "../images/Gwangsanghui/ChariotBlack.bmp")
+      (attribute is-target? false)
       (moves
+         (move-type priority-type)
+         (chariotp-slide n) (chariotp-slide s) (chariotp-slide w) (chariotp-slide e)
+         (move-type normal-type)
          (chariot-slide n) (chariot-slide s) (chariot-slide w) (chariot-slide e)
          (palace-slide wn) (palace-slide en) (palace-slide ws) (palace-slide es)
       )
@@ -225,7 +322,11 @@
       (name WestChariot)
       (image South "../images/Gwangsanghui/ChariotWhite.bmp"
              North "../images/Gwangsanghui/ChariotBlack.bmp")
+      (attribute is-target? false)
       (moves
+         (move-type priority-type)
+         (chariotp-slide n) (chariotp-slide s) (chariotp-slide w) (chariotp-slide e)
+         (move-type normal-type)
          (chariot-slide n) (chariot-slide s) (chariot-slide w) (chariot-slide e)
          (palace-slide wn) (palace-slide en) (palace-slide ws) (palace-slide es)
       )
@@ -234,7 +335,11 @@
       (name EastChariot)
       (image South "../images/Gwangsanghui/ChariotWhite.bmp"
              North "../images/Gwangsanghui/ChariotBlack.bmp")
+      (attribute is-target? false)
       (moves
+         (move-type priority-type)
+         (chariotp-slide n) (chariotp-slide s) (chariotp-slide w) (chariotp-slide e)
+         (move-type normal-type)
          (chariot-slide n) (chariot-slide s) (chariot-slide w) (chariot-slide e)
          (palace-slide wn) (palace-slide en) (palace-slide ws) (palace-slide es)
       )
@@ -243,7 +348,11 @@
       (name Cannon)
       (image South "../images/Gwangsanghui/CannonWhite.bmp"
              North "../images/Gwangsanghui/CannonBlack.bmp")
+      (attribute is-target? false)
       (moves
+         (move-type priority-type)
+         (cannonp-slide n) (cannonp-slide s) (cannonp-slide w) (cannonp-slide e)
+         (move-type normal-type)
          (cannon-slide n) (cannon-slide s) (cannon-slide w) (cannon-slide e)
       )
    )
@@ -251,7 +360,11 @@
       (name WestCannon)
       (image South "../images/Gwangsanghui/CannonWhite.bmp"
              North "../images/Gwangsanghui/CannonBlack.bmp")
+      (attribute is-target? false)
       (moves
+         (move-type priority-type)
+         (cannonp-slide n) (cannonp-slide s) (cannonp-slide w) (cannonp-slide e)
+         (move-type normal-type)
          (cannon-slide n) (cannon-slide s) (cannon-slide w) (cannon-slide e)
       )
    )
@@ -259,7 +372,11 @@
       (name EastCannon)
       (image South "../images/Gwangsanghui/CannonWhite.bmp"
              North "../images/Gwangsanghui/CannonBlack.bmp")
+      (attribute is-target? false)
       (moves
+         (move-type priority-type)
+         (cannonp-slide n) (cannonp-slide s) (cannonp-slide w) (cannonp-slide e)
+         (move-type normal-type)
          (cannon-slide n) (cannon-slide s) (cannon-slide w) (cannon-slide e)
       )
    )
@@ -267,7 +384,14 @@
       (name Horse)
       (image South "../images/Gwangsanghui/HorseWhite.bmp"
              North "../images/Gwangsanghui/HorseBlack.bmp")
+      (attribute is-target? false)
       (moves
+         (move-type priority-type)
+         (horsep-jump n nw) (horsep-jump n ne) 
+         (horsep-jump s sw) (horsep-jump s se) 
+         (horsep-jump w nw) (horsep-jump w sw)  
+         (horsep-jump e ne) (horsep-jump e se)
+         (move-type normal-type)
          (horse-jump n nw) (horse-jump n ne) 
          (horse-jump s sw) (horse-jump s se) 
          (horse-jump w nw) (horse-jump w sw)  
@@ -278,7 +402,14 @@
       (name WestHorse)
       (image South "../images/Gwangsanghui/HorseWhite.bmp"
              North "../images/Gwangsanghui/HorseBlack.bmp")
+      (attribute is-target? false)
       (moves
+         (move-type priority-type)
+         (horsep-jump n nw) (horsep-jump n ne) 
+         (horsep-jump s sw) (horsep-jump s se) 
+         (horsep-jump w nw) (horsep-jump w sw)  
+         (horsep-jump e ne) (horsep-jump e se)
+         (move-type normal-type)
          (horse-jump n nw) (horse-jump n ne) 
          (horse-jump s sw) (horse-jump s se) 
          (horse-jump w nw) (horse-jump w sw)  
@@ -289,7 +420,14 @@
       (name EastHorse)
       (image South "../images/Gwangsanghui/HorseWhite.bmp"
              North "../images/Gwangsanghui/HorseBlack.bmp")
+      (attribute is-target? false)
       (moves
+         (move-type priority-type)
+         (horsep-jump n nw) (horsep-jump n ne) 
+         (horsep-jump s sw) (horsep-jump s se) 
+         (horsep-jump w nw) (horsep-jump w sw)  
+         (horsep-jump e ne) (horsep-jump e se)
+         (move-type normal-type)
          (horse-jump n nw) (horse-jump n ne) 
          (horse-jump s sw) (horse-jump s se) 
          (horse-jump w nw) (horse-jump w sw)  
@@ -300,7 +438,14 @@
       (name Warrior)
       (image South "../images/Gwangsanghui/WarriorWhite.bmp"
              North "../images/Gwangsanghui/WarriorBlack.bmp")
+      (attribute is-target? false)
       (moves
+         (move-type priority-type)
+         (warriorp-step-1 n) (warriorp-step-1 s)
+         (warriorp-step-1 w) (warriorp-step-1 e)
+         (warriorp-step-2 n) (warriorp-step-2 s)
+         (warriorp-step-2 w) (warriorp-step-2 e)
+         (move-type normal-type)
          (warrior-step-1 n) (warrior-step-1 s)
          (warrior-step-1 w) (warrior-step-1 e)
          (warrior-step-2 n) (warrior-step-2 s)
@@ -312,6 +457,7 @@
       (image South "../images/Gwangsanghui/KnightWhite.bmp"
              North "../images/Gwangsanghui/KnightBlack.bmp")
       (moves
+         (move-type normal-type)
          (knight-jump n nw) (knight-jump n ne) 
          (knight-jump s sw) (knight-jump s se) 
          (knight-jump w nw) (knight-jump w sw)  
@@ -322,7 +468,12 @@
       (name Killer)
       (image South "../images/Gwangsanghui/KillerWhite.bmp"
              North "../images/Gwangsanghui/KillerBlack.bmp")
+      (attribute is-target? false)
       (moves
+         (move-type priority-type)
+         (killerp-step nw) (killerp-step ne) 
+         (killerp-step sw) (killerp-step se)
+         (move-type normal-type)
          (killer-step nw) (killer-step ne) 
          (killer-step sw) (killer-step se)
       )
