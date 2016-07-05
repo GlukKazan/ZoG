@@ -1,0 +1,224 @@
+(define pawn-step (
+   $1 (verify not-friend?)
+   (verify (and (not-piece? Knight) (not-piece? Forward) (not-piece? Backward)))
+   add
+))
+
+(game
+   (title "Gwangsanghui")
+
+   (move-sound "Audio/Pickup.wav")
+   (release-sound "Audio/Pickup.wav")
+   (capture-sound "")
+
+   (animate-captures true)
+   (recycle-captures true)
+   (allow-flipping   false)
+
+   (players South North)
+   (turn-order South North)
+
+   (board
+      (image "../images/Gwangsanghui/board.bmp")
+      (grid
+         (start-rectangle 12 10 60 58)
+         (dimensions
+             ("a/b/c/d/e/f/g/h/i/j/k/l/m/n/o" (48 0)) ; files
+             ("14/13/12/11/10/9/8/7/6/5/4/3/2/1" (0 48)) ; ranks
+         )
+         (directions (n 0 -1) (e 1 0) (s 0 1) (w -1 0)
+                     (ne 1 -1) (nw -1 -1) (se 1 1) (sw -1 1)
+         )
+      )
+      (symmetry North (n s) (s n) (nw sw) (sw nw) (ne se) (se ne))
+   )
+ 
+   (piece
+      (name Pawn)
+      (image South "../images/Gwangsanghui/PawnWhite.bmp"
+             North "../images/Gwangsanghui/PawnBlack.bmp")
+      (moves
+         (pawn-step n) (pawn-step w) (pawn-step e)
+      )
+   )
+   (piece
+      (name Soldier)
+      (image South "../images/Gwangsanghui/SoldierWhite.bmp"
+             North "../images/Gwangsanghui/SoldierBlack.bmp")
+      (moves
+         (pawn-step nw) (pawn-step ne)
+      )
+   )
+   (piece
+      (name King)
+      (image South "../images/Gwangsanghui/KingWhite.bmp"
+             North "../images/Gwangsanghui/KingBlack.bmp")
+   )
+   (piece
+      (name WestGeneral)
+      (image South "../images/Gwangsanghui/GeneralWhite.bmp"
+             North "../images/Gwangsanghui/GeneralBlack.bmp")
+   )
+   (piece
+      (name EastGeneral)
+      (image South "../images/Gwangsanghui/GeneralWhite.bmp"
+             North "../images/Gwangsanghui/GeneralBlack.bmp")
+   )
+   (piece
+      (name Guard)
+      (image South "../images/Gwangsanghui/GuardWhite.bmp"
+             North "../images/Gwangsanghui/GuardBlack.bmp")
+   )
+   (piece
+      (name WestGuard)
+      (image South "../images/Gwangsanghui/GuardWhite.bmp"
+             North "../images/Gwangsanghui/GuardBlack.bmp")
+   )
+   (piece
+      (name EastGuard)
+      (image South "../images/Gwangsanghui/GuardWhite.bmp"
+             North "../images/Gwangsanghui/GuardBlack.bmp")
+   )
+   (piece
+      (name Elephant)
+      (image South "../images/Gwangsanghui/ElephantWhite.bmp"
+             North "../images/Gwangsanghui/ElephantBlack.bmp")
+   )
+   (piece
+      (name WestElephant)
+      (image South "../images/Gwangsanghui/ElephantWhite.bmp"
+             North "../images/Gwangsanghui/ElephantBlack.bmp")
+   )
+   (piece
+      (name EastElephant)
+      (image South "../images/Gwangsanghui/ElephantWhite.bmp"
+             North "../images/Gwangsanghui/ElephantBlack.bmp")
+   )
+   (piece
+      (name Chariot)
+      (image South "../images/Gwangsanghui/ChariotWhite.bmp"
+             North "../images/Gwangsanghui/ChariotBlack.bmp")
+   )
+   (piece
+      (name WestChariot)
+      (image South "../images/Gwangsanghui/ChariotWhite.bmp"
+             North "../images/Gwangsanghui/ChariotBlack.bmp")
+   )
+   (piece
+      (name EastChariot)
+      (image South "../images/Gwangsanghui/ChariotWhite.bmp"
+             North "../images/Gwangsanghui/ChariotBlack.bmp")
+   )
+   (piece
+      (name Cannon)
+      (image South "../images/Gwangsanghui/CannonWhite.bmp"
+             North "../images/Gwangsanghui/CannonBlack.bmp")
+   )
+   (piece
+      (name WestCannon)
+      (image South "../images/Gwangsanghui/CannonWhite.bmp"
+             North "../images/Gwangsanghui/CannonBlack.bmp")
+   )
+   (piece
+      (name EastCannon)
+      (image South "../images/Gwangsanghui/CannonWhite.bmp"
+             North "../images/Gwangsanghui/CannonBlack.bmp")
+   )
+   (piece
+      (name Horse)
+      (image South "../images/Gwangsanghui/HorseWhite.bmp"
+             North "../images/Gwangsanghui/HorseBlack.bmp")
+   )
+   (piece
+      (name WestHorse)
+      (image South "../images/Gwangsanghui/HorseWhite.bmp"
+             North "../images/Gwangsanghui/HorseBlack.bmp")
+   )
+   (piece
+      (name EastHorse)
+      (image South "../images/Gwangsanghui/HorseWhite.bmp"
+             North "../images/Gwangsanghui/HorseBlack.bmp")
+   )
+   (piece
+      (name Warrior)
+      (image South "../images/Gwangsanghui/WarriorWhite.bmp"
+             North "../images/Gwangsanghui/WarriorBlack.bmp")
+   )
+   (piece
+      (name Knight)
+      (image South "../images/Gwangsanghui/KnightWhite.bmp"
+             North "../images/Gwangsanghui/KnightBlack.bmp")
+   )
+   (piece
+      (name Killer)
+      (image South "../images/Gwangsanghui/KillerWhite.bmp"
+             North "../images/Gwangsanghui/KillerBlack.bmp")
+   )
+   (piece
+      (name Forward)
+      (image South "../images/Gwangsanghui/ForwardWhite.bmp"
+             North "../images/Gwangsanghui/ForwardBlack.bmp")
+   )
+   (piece
+      (name Backward)
+      (image South "../images/Gwangsanghui/BackwardWhite.bmp"
+             North "../images/Gwangsanghui/BackwardBlack.bmp")
+   )
+
+   (board-setup
+      (South
+         (King h3)
+         (WestGeneral b3)
+         (EastGeneral n3)
+         (Guard g2 i2)
+         (WestGuard b2)
+         (EastGuard n2)
+         (Elephant f2 j2)
+         (WestElephant c2)
+         (EastElephant m2)
+         (Chariot e2 k2)
+         (WestChariot a2)
+         (EastChariot o2)
+         (Cannon g4 i4)
+         (WestCannon a4)
+         (EastCannon o4)
+         (Horse f4 j4)
+         (WestHorse c4)
+         (EastHorse m4)
+         (Warrior d3 l3)
+         (Knight d1 l1)
+         (Killer d5 l5)
+         (Forward h5)
+         (Backward h1)
+         (Pawn a6 b6 c6 d6 e6 f6)
+         (Soldier j6 k6 l6 m6 n6 o6)
+      )
+      (North
+         (King h12)
+         (WestGeneral b12)
+         (EastGeneral n12)
+         (Guard g13 i13)
+         (WestGuard b13)
+         (EastGuard n13)
+         (Elephant f13 j13)
+         (WestElephant c13)
+         (EastElephant m13)
+         (Chariot e13 k13)
+         (WestChariot a13)
+         (EastChariot o13)
+         (Cannon g11 i11)
+         (WestCannon a11)
+         (EastCannon o11)
+         (Horse f11 j11)
+         (WestHorse c11)
+         (EastHorse m11)
+         (Warrior d12 l12)
+         (Knight d14 l14)
+         (Killer d10 l10)
+         (Forward h10)
+         (Backward h14)
+         (Pawn j9 k9 l9 m9 n9 o9)
+         (Soldier a9 b9 c9 d9 e9 f9)
+      )
+   )
+)
