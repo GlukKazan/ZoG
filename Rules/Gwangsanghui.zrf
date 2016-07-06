@@ -1,3 +1,51 @@
+(define kill-general
+   (if (piece? $1General)
+       mark a0
+       (while (on-board? nx)
+          nx
+          (if (and enemy?
+                  (or (piece? $1Guard) 
+                      (piece? $1Elephant) 
+                      (piece? $1Chariot) 
+                      (piece? $1Cannon)
+                      (piece? $1Horse)))
+              change-owner
+              (set-attribute is-traitor? true)
+          )
+       )
+       back
+       (set-attribute is-intruder? true)
+   )
+)
+
+(define kill-intruder
+   (if is-intruder?
+       mark a0
+       (while (on-board? nx)
+          nx
+          (if (and enemy? is-traitor?)
+              change-owner
+              (set-attribute is-traitor? false)
+          )
+       )
+       back
+   )
+)
+
+(define clear-flags
+   mark a0
+   (while (on-board? nx)
+      nx
+      (if is-traitor?
+          (set-attribute is-traitor? false)
+      )
+      (if is-intruder?
+          (set-attribute is-intruder? false)
+      )
+   )
+   back
+)
+
 (define common-check
    (verify not-friend?)
    (verify (and (not-piece? Knight)))
@@ -5,6 +53,10 @@
        (verify attacked?)
        (set-attribute is-target? true)
    )
+   (kill-general West)
+   (kill-general East)
+   (kill-intruder)
+   (clear-flags)
 )
 
 (define check-target
@@ -22,6 +74,16 @@
 
 (define king-step (
    $1 (verify (in-zone? palace))
+   (common-check) 
+   mark (while (and (on-board? n) (empty? n)) n)
+   (if (on-board? n)
+       (verify (not-piece? King n))
+   )
+   back add
+))
+
+(define general-step (
+   $1 (verify (in-zone? palace))
    (common-check) add
 ))
 
@@ -31,6 +93,10 @@
        (verify attacked?)
        (set-attribute is-target? true)
    )
+   (kill-general West)
+   (kill-general East)
+   (kill-intruder)
+   (clear-flags)
    add
 ))
 
@@ -57,7 +123,7 @@
 
 (define cannon-slide (
    $1 (while empty? $1)
-   (verify not-empty?)
+   (verify (and (not-piece? Cannon) (not-piece? WestCannon) (not-piece? EastCannon)))
    $1 (while empty? add $1)
    (verify (and (not-piece? Cannon) (not-piece? WestCannon) (not-piece? EastCannon)))
    (common-check) add
@@ -65,7 +131,7 @@
 
 (define cannonp-slide (
    $1 (while empty? $1)
-   (verify not-empty?)
+   (verify (and (not-piece? Cannon) (not-piece? WestCannon) (not-piece? EastCannon)))
    $1 (while empty? $1)
    (verify (and (not-piece? Cannon) (not-piece? WestCannon) (not-piece? EastCannon)))
    (common-check) (check-target) add
@@ -120,6 +186,8 @@
 
 (game
    (title "Gwangsanghui")
+   (description "Gwangsanghui is an 18th-century Janggi variant.")
+   (history "Gwangsanghui was recorded in Noeyeonjip which was written by Nam Yuyong.")
 
    (move-sound "Audio/Pickup.wav")
    (release-sound "Audio/Pickup.wav")
@@ -140,19 +208,33 @@
              ("a/b/c/d/e/f/g/h/i/j/k/l/m/n/o" (48 0)) ; files
              ("14/13/12/11/10/9/8/7/6/5/4/3/2/1" (0 48)) ; ranks
          )
-         (directions (n 0 -1) (e 1 0) (s 0 1) (w -1 0)
+         (directions (n  0 -1) (e   1  0) (s  0 1) (w  -1 0)
                      (ne 1 -1) (nw -1 -1) (se 1 1) (sw -1 1)
+                     (nx 0 -1)
          )
       )
-      (links wn (c2  b3)  (b3  a4)  (i2  h3)  (h3  g4)  (o2  n3)  (n3  m4)
-                (c11 b12) (b12 a13) (i11 h12) (h12 g13) (o11 n12) (n12 m13))
-      (links es (b3  c2)  (a4  b3)  (h3  i2)  (g4  h3)  (n3  o2)  (m4  n3)
-                (b12 c11) (a13 b12) (h12 i11) (g13 h12) (n12 o11) (m13 n12))
-      (links en (a2  b3)  (b3  c4)  (g2  h3)  (h3  i4)  (m2  n3)  (n3  o4)
-                (a11 b12) (b12 c13) (g11 h12) (h12 i13) (m11 n12) (n12 o13))
-      (links ws (b3  a2)  (c4  b3)  (h3  g2)  (i4  h3)  (n3  m2)  (o4  n3)
-                (b12 a11) (c13 b12) (h12 g11) (i13 h12) (n12 m11) (o13 n12))
-      (symmetry North (n s) (s n) (nw sw) (sw nw) (ne se) (se ne) (wn ws) (ws wn) (en es) (es en))
+      (dummy a0)
+      (links wn  (c2  b3)  (b3  a4)  (i2  h3)  (h3  g4)  (o2  n3)  (n3  m4)
+                 (c11 b12) (b12 a13) (i11 h12) (h12 g13) (o11 n12) (n12 m13))
+      (links wne (c11 b12) (b12 a13) (i11 h12) (h12 g13) (o11 n12) (n12 m13))
+      (links wnf (c2  b3)  (b3  a4)  (i2  h3)  (h3  g4)  (o2  n3)  (n3  m4))
+      (links es  (b3  c2)  (a4  b3)  (h3  i2)  (g4  h3)  (n3  o2)  (m4  n3)
+                 (b12 c11) (a13 b12) (h12 i11) (g13 h12) (n12 o11) (m13 n12))
+      (links ese (b12 c11) (a13 b12) (h12 i11) (g13 h12) (n12 o11) (m13 n12))
+      (links esf (b3  c2)  (a4  b3)  (h3  i2)  (g4  h3)  (n3  o2)  (m4  n3))
+      (links en  (a2  b3)  (b3  c4)  (g2  h3)  (h3  i4)  (m2  n3)  (n3  o4)
+                 (a11 b12) (b12 c13) (g11 h12) (h12 i13) (m11 n12) (n12 o13))
+      (links ene (a11 b12) (b12 c13) (g11 h12) (h12 i13) (m11 n12) (n12 o13))
+      (links enf (a2  b3)  (b3  c4)  (g2  h3)  (h3  i4)  (m2  n3)  (n3  o4))
+      (links ws  (b3  a2)  (c4  b3)  (h3  g2)  (i4  h3)  (n3  m2)  (o4  n3)
+                 (b12 a11) (c13 b12) (h12 g11) (i13 h12) (n12 m11) (o13 n12))
+      (links wse (b12 a11) (c13 b12) (h12 g11) (i13 h12) (n12 m11) (o13 n12))
+      (links wsf (b3  a2)  (c4  b3)  (h3  g2)  (i4  h3)  (n3  m2)  (o4  n3))
+      (links nx (a0  a1)  (a14 b1)  (b14 c1)  (c14 d1)  (d14 e1)  (e14 f1)
+                (f14 g1)  (g14 h1)  (h14 i1)  (i14 j1)  (j14 k1)  (k14 l1)
+                (l14 m1)  (m14 n1)  (n14 o1))
+      (symmetry North (n s) (s n) (nw sw) (sw nw) (ne se) (se ne) (wn ws) (ws wn) (en es) (es en)
+                (wne wnf) (wnf wne) (ese esf) (esf ese) (ene enf) (enf ene) (wse wsf) (wsf wse))
       (zone
          (name palace)
          (players South North)
@@ -168,9 +250,13 @@
  
    (piece
       (name Pawn)
+      (description "The Pawn can move and capture one point either straight forward or sideways.\
+                    While inside the enemy fortress, it can also move diagonally along the lines.")
+      (help "Pawn: 1 step forward, left, or right")
       (image South "../images/Gwangsanghui/PawnWhite.bmp"
              North "../images/Gwangsanghui/PawnBlack.bmp")
       (attribute is-target? false)
+      (attribute is-intruder? false)
       (moves
          (move-type priority-type)
          (pawnp-step n) (pawnp-step w) (pawnp-step e)
@@ -181,9 +267,12 @@
    )
    (piece
       (name Soldier)
+      (description "The Soldier can only move forward one step diagonally.")
+      (help "Soldier: move forward 1 step diagonally")
       (image South "../images/Gwangsanghui/SoldierWhite.bmp"
              North "../images/Gwangsanghui/SoldierBlack.bmp")
       (attribute is-target? false)
+      (attribute is-intruder? false)
       (moves
          (move-type priority-type)
          (pawnp-step nw) (pawnp-step ne)
@@ -193,69 +282,92 @@
    )
    (piece
       (name King)
+      (description "The King must stay confined to the fortress, and can only move\
+                    along the lines shown. The King cannot leave on the same column \
+                    as the opponent's King if the spaces between the Kings are empty.")
+      (help "King: 1 step along lines in fortress")
       (image South "../images/Gwangsanghui/KingWhite.bmp"
              North "../images/Gwangsanghui/KingBlack.bmp")
       (moves
          (move-type normal-type)
-         (king-step  n) (king-step  s) (king-step  w) (king-step  e)
-         (king-step wn) (king-step en) (king-step ws) (king-step es)
+         (king-step   n) (king-step   s) (king-step   w) (king-step   e)
+         (king-step wnf) (king-step enf) (king-step wsf) (king-step esf)
       )
    )
    (piece
       (name WestGeneral)
+      (description "The General must stay confined to the fortress, and can only move\
+                    along the lines shown.")
+      (help "General: 1 step along lines in fortress")
       (image South "../images/Gwangsanghui/GeneralWhite.bmp"
              North "../images/Gwangsanghui/GeneralBlack.bmp")
       (moves
          (move-type normal-type)
-         (king-step  n) (king-step  s) (king-step  w) (king-step  e)
-         (king-step wn) (king-step en) (king-step ws) (king-step es)
+         (general-step   n) (general-step   s) (general-step   w) (general-step   e)
+         (general-step wnf) (general-step enf) (general-step wsf) (general-step esf)
       )
    )
    (piece
       (name EastGeneral)
+      (description "The General must stay confined to the fortress, and can only move\
+                    along the lines shown.")
+      (help "General: 1 step along lines in fortress")
       (image South "../images/Gwangsanghui/GeneralWhite.bmp"
              North "../images/Gwangsanghui/GeneralBlack.bmp")
       (moves
          (move-type normal-type)
-         (king-step  n) (king-step  s) (king-step  w) (king-step  e)
-         (king-step wn) (king-step en) (king-step ws) (king-step es)
+         (general-step   n) (general-step   s) (general-step   w) (general-step   e)
+         (general-step wnf) (general-step enf) (general-step wsf) (general-step esf)
       )
    )
    (piece
       (name Guard)
+      (description "The Guard must stay confined to the fortress, and can only move\
+                    along the lines shown.")
+      (help "Guard: 1 step along lines in fortress")
       (image South "../images/Gwangsanghui/GuardWhite.bmp"
              North "../images/Gwangsanghui/GuardBlack.bmp")
       (moves
          (move-type normal-type)
-         (king-step  n) (king-step  s) (king-step  w) (king-step  e)
-         (king-step wn) (king-step en) (king-step ws) (king-step es)
+         (general-step   n) (general-step   s) (general-step   w) (general-step   e)
+         (general-step wnf) (general-step enf) (general-step wsf) (general-step esf)
       )
    )
    (piece
       (name WestGuard)
+      (description "The Guard must stay confined to the fortress, and can only move\
+                    along the lines shown.")
+      (help "Guard: 1 step along lines in fortress")
       (image South "../images/Gwangsanghui/GuardWhite.bmp"
              North "../images/Gwangsanghui/GuardBlack.bmp")
       (moves
          (move-type normal-type)
-         (king-step  n) (king-step  s) (king-step  w) (king-step  e)
-         (king-step wn) (king-step en) (king-step ws) (king-step es)
+         (general-step   n) (general-step   s) (general-step   w) (general-step   e)
+         (general-step wnf) (general-step enf) (general-step wsf) (general-step esf)
       )
    )
    (piece
       (name EastGuard)
+      (description "The Guard must stay confined to the fortress, and can only move\
+                    along the lines shown.")
+      (help "Guard: 1 step along lines in fortress")
       (image South "../images/Gwangsanghui/GuardWhite.bmp"
              North "../images/Gwangsanghui/GuardBlack.bmp")
       (moves
          (move-type normal-type)
-         (king-step  n) (king-step  s) (king-step  w) (king-step  e)
-         (king-step wn) (king-step en) (king-step ws) (king-step es)
+         (general-step   n) (general-step   s) (general-step   w) (general-step   e)
+         (general-step wnf) (general-step enf) (general-step wsf) (general-step esf)
       )
    )
    (piece
       (name Elephant)
+      (description "The Elephant move one step orthogonally, then two steps diagonally outward.\
+                    All the intervening points must be empty.")
+      (help "Elephant: moves 1 step orthogonally plus 2 diagonally outward")
       (image South "../images/Gwangsanghui/ElephantWhite.bmp"
              North "../images/Gwangsanghui/ElephantBlack.bmp")
       (attribute is-target? false)
+      (attribute is-intruder? false)
       (moves
          (move-type priority-type)
          (elephantp-jump n nw) (elephantp-jump n ne) 
@@ -271,9 +383,14 @@
    )
    (piece
       (name WestElephant)
+      (description "The Elephant move one step orthogonally, then two steps diagonally outward.\
+                    All the intervening points must be empty.")
+      (help "Elephant: moves 1 step orthogonally plus 2 diagonally outward")
       (image South "../images/Gwangsanghui/ElephantWhite.bmp"
              North "../images/Gwangsanghui/ElephantBlack.bmp")
       (attribute is-target? false)
+      (attribute is-intruder? false)
+      (attribute is-traitor? false)
       (moves
          (move-type priority-type)
          (elephantp-jump n nw) (elephantp-jump n ne) 
@@ -289,9 +406,14 @@
    )
    (piece
       (name EastElephant)
+      (description "The Elephant move one step orthogonally, then two steps diagonally outward.\
+                    All the intervening points must be empty.")
+      (help "Elephant: moves 1 step orthogonally plus 2 diagonally outward")
       (image South "../images/Gwangsanghui/ElephantWhite.bmp"
              North "../images/Gwangsanghui/ElephantBlack.bmp")
       (attribute is-target? false)
+      (attribute is-intruder? false)
+      (attribute is-traitor? false)
       (moves
          (move-type priority-type)
          (elephantp-jump n nw) (elephantp-jump n ne) 
@@ -307,84 +429,126 @@
    )
    (piece
       (name Chariot)
+      (description "The Chariot move like the Rook in Chess, along any row or column.\
+                    While inside the opponent's fortress, Chariots can move along the lines.")
+      (help "Chariot: slides along any row or column")
       (image South "../images/Gwangsanghui/ChariotWhite.bmp"
              North "../images/Gwangsanghui/ChariotBlack.bmp")
       (attribute is-target? false)
+      (attribute is-intruder? false)
       (moves
          (move-type priority-type)
          (chariotp-slide n) (chariotp-slide s) (chariotp-slide w) (chariotp-slide e)
          (move-type normal-type)
-         (chariot-slide n) (chariot-slide s) (chariot-slide w) (chariot-slide e)
-         (palace-slide wn) (palace-slide en) (palace-slide ws) (palace-slide es)
+         (chariot-slide  n) (chariot-slide  s) (chariot-slide  w) (chariot-slide  e)
+         (palace-slide wne) (palace-slide ene) (palace-slide wse) (palace-slide ese)
       )
    )
    (piece
       (name WestChariot)
+      (description "The Chariot move like the Rook in Chess, along any row or column.\
+                    While inside the opponent's fortress, Chariots can move along the lines.")
+      (help "Chariot: slides along any row or column")
       (image South "../images/Gwangsanghui/ChariotWhite.bmp"
              North "../images/Gwangsanghui/ChariotBlack.bmp")
       (attribute is-target? false)
+      (attribute is-intruder? false)
+      (attribute is-traitor? false)
       (moves
          (move-type priority-type)
          (chariotp-slide n) (chariotp-slide s) (chariotp-slide w) (chariotp-slide e)
          (move-type normal-type)
-         (chariot-slide n) (chariot-slide s) (chariot-slide w) (chariot-slide e)
-         (palace-slide wn) (palace-slide en) (palace-slide ws) (palace-slide es)
+         (chariot-slide  n) (chariot-slide  s) (chariot-slide  w) (chariot-slide  e)
+         (palace-slide wne) (palace-slide ene) (palace-slide wse) (palace-slide ese)
       )
    )
    (piece
       (name EastChariot)
+      (description "The Chariot move like the Rook in Chess, along any row or column.\
+                    While inside the opponent's fortress, Chariots can move along the lines.")
+      (help "Chariot: slides along any row or column")
       (image South "../images/Gwangsanghui/ChariotWhite.bmp"
              North "../images/Gwangsanghui/ChariotBlack.bmp")
       (attribute is-target? false)
+      (attribute is-intruder? false)
+      (attribute is-traitor? false)
       (moves
          (move-type priority-type)
          (chariotp-slide n) (chariotp-slide s) (chariotp-slide w) (chariotp-slide e)
          (move-type normal-type)
-         (chariot-slide n) (chariot-slide s) (chariot-slide w) (chariot-slide e)
-         (palace-slide wn) (palace-slide en) (palace-slide ws) (palace-slide es)
+         (chariot-slide  n) (chariot-slide  s) (chariot-slide  w) (chariot-slide  e)
+         (palace-slide wne) (palace-slide ene) (palace-slide wse) (palace-slide ese)
       )
    )
    (piece
       (name Cannon)
+      (description "The Cannon move like Chariots, but can only move by leaping over\
+                    an intervening piece, called a `screen`. Cannons may neither capture other\
+                    Cannons nor use other Cannons as screens. While inside the opponent's fortress, \
+                    Cannons can move along the lines.")
+      (help "Cannon: jumps over a non-Cannon piece along any row or column")
       (image South "../images/Gwangsanghui/CannonWhite.bmp"
              North "../images/Gwangsanghui/CannonBlack.bmp")
       (attribute is-target? false)
+      (attribute is-intruder? false)
       (moves
          (move-type priority-type)
          (cannonp-slide n) (cannonp-slide s) (cannonp-slide w) (cannonp-slide e)
          (move-type normal-type)
-         (cannon-slide n) (cannon-slide s) (cannon-slide w) (cannon-slide e)
+         (cannon-slide  n)  (cannon-slide  s)  (cannon-slide  w)  (cannon-slide  e)
+         (cannon-slide wne) (cannon-slide ene) (cannon-slide wse) (cannon-slide ese)
       )
    )
    (piece
       (name WestCannon)
+      (description "The Cannon move like Chariots, but can only move by leaping over\
+                    an intervening piece, called a `screen`. Cannons may neither capture other\
+                    Cannons nor use other Cannons as screens. While inside the opponent's fortress, \
+                    Cannons can move along the lines.")
+      (help "Cannon: jumps over a non-Cannon piece along any row or column")
       (image South "../images/Gwangsanghui/CannonWhite.bmp"
              North "../images/Gwangsanghui/CannonBlack.bmp")
       (attribute is-target? false)
+      (attribute is-intruder? false)
+      (attribute is-traitor? false)
       (moves
          (move-type priority-type)
          (cannonp-slide n) (cannonp-slide s) (cannonp-slide w) (cannonp-slide e)
          (move-type normal-type)
-         (cannon-slide n) (cannon-slide s) (cannon-slide w) (cannon-slide e)
+         (cannon-slide   n) (cannon-slide   s) (cannon-slide   w) (cannon-slide   e)
+         (cannon-slide wne) (cannon-slide ene) (cannon-slide wse) (cannon-slide ese)
       )
    )
    (piece
       (name EastCannon)
+      (description "The Cannon move like Chariots, but can only move by leaping over\
+                    an intervening piece, called a `screen`. Cannons may neither capture other\
+                    Cannons nor use other Cannons as screens. While inside the opponent's fortress, \
+                    Cannons can move along the lines.")
+      (help "Cannon: jumps over a non-Cannon piece along any row or column")
       (image South "../images/Gwangsanghui/CannonWhite.bmp"
              North "../images/Gwangsanghui/CannonBlack.bmp")
       (attribute is-target? false)
+      (attribute is-intruder? false)
+      (attribute is-traitor? false)
       (moves
          (move-type priority-type)
          (cannonp-slide n) (cannonp-slide s) (cannonp-slide w) (cannonp-slide e)
          (move-type normal-type)
-         (cannon-slide n) (cannon-slide s) (cannon-slide w) (cannon-slide e)
+         (cannon-slide   n) (cannon-slide   s) (cannon-slide   w) (cannon-slide   e)
+         (cannon-slide wne) (cannon-slide ene) (cannon-slide wse) (cannon-slide ese)
       )
    )
    (piece
       (name Horse)
+      (description "The Horse move a little like the Knight in chess: one move up or down\
+                    a row or column, then diagonally outward one step.  However, Horses \
+                    cannot jump over other pieces.")
+      (help "Horse: moves 1 step orthogonally plus 1 diagonally outward")
       (image South "../images/Gwangsanghui/HorseWhite.bmp"
              North "../images/Gwangsanghui/HorseBlack.bmp")
       (attribute is-target? false)
+      (attribute is-intruder? false)
       (moves
          (move-type priority-type)
          (horsep-jump n nw) (horsep-jump n ne) 
@@ -400,9 +564,15 @@
    )
    (piece
       (name WestHorse)
+      (description "The Horse move a little like the Knight in chess: one move up or down\
+                    a row or column, then diagonally outward one step.  However, Horses \
+                    cannot jump over other pieces.")
+      (help "Horse: moves 1 step orthogonally plus 1 diagonally outward")
       (image South "../images/Gwangsanghui/HorseWhite.bmp"
              North "../images/Gwangsanghui/HorseBlack.bmp")
       (attribute is-target? false)
+      (attribute is-intruder? false)
+      (attribute is-traitor? false)
       (moves
          (move-type priority-type)
          (horsep-jump n nw) (horsep-jump n ne) 
@@ -418,9 +588,15 @@
    )
    (piece
       (name EastHorse)
+      (description "The Horse move a little like the Knight in chess: one move up or down\
+                    a row or column, then diagonally outward one step.  However, Horses \
+                    cannot jump over other pieces.")
+      (help "Horse: moves 1 step orthogonally plus 1 diagonally outward")
       (image South "../images/Gwangsanghui/HorseWhite.bmp"
              North "../images/Gwangsanghui/HorseBlack.bmp")
       (attribute is-target? false)
+      (attribute is-intruder? false)
+      (attribute is-traitor? false)
       (moves
          (move-type priority-type)
          (horsep-jump n nw) (horsep-jump n ne) 
@@ -436,9 +612,12 @@
    )
    (piece
       (name Warrior)
+      (description "The Warrior can move horizontally or vertically one or two moves like Chariot.")
+      (help "Warrior: can move horizontally or vertically 1 or 2 moves")
       (image South "../images/Gwangsanghui/WarriorWhite.bmp"
              North "../images/Gwangsanghui/WarriorBlack.bmp")
       (attribute is-target? false)
+      (attribute is-intruder? false)
       (moves
          (move-type priority-type)
          (warriorp-step-1 n) (warriorp-step-1 s)
@@ -454,6 +633,9 @@
    )
    (piece
       (name Knight)
+      (description "The Knight moves like  Horse, but cannot take other pieces or taken \
+                    by other pieces on the board. However, it can only be taken by Killer.")
+      (help "Knight: moves 1 step orthogonally plus 1 diagonally outward")
       (image South "../images/Gwangsanghui/KnightWhite.bmp"
              North "../images/Gwangsanghui/KnightBlack.bmp")
       (moves
@@ -466,9 +648,12 @@
    )
    (piece
       (name Killer)
+      (description "The Killer can move one step diagonally.")
+      (help "Killer: can move 1 diagonally")
       (image South "../images/Gwangsanghui/KillerWhite.bmp"
              North "../images/Gwangsanghui/KillerBlack.bmp")
       (attribute is-target? false)
+      (attribute is-intruder? false)
       (moves
          (move-type priority-type)
          (killerp-step nw) (killerp-step ne) 
@@ -480,11 +665,15 @@
    )
    (piece
       (name Forward)
+      (description "The Forward can not move, can only be captured when exchanging.")
+      (help "Forward: can not move")
       (image South "../images/Gwangsanghui/ForwardWhite.bmp"
              North "../images/Gwangsanghui/ForwardBlack.bmp")
    )
    (piece
       (name Backward)
+      (description "The Backward can not move, can only be captured when exchanging.")
+      (help "Backward: can not move")
       (image South "../images/Gwangsanghui/BackwardWhite.bmp"
              North "../images/Gwangsanghui/BackwardBlack.bmp")
    )
