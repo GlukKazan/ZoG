@@ -197,7 +197,7 @@
    (allow-flipping   false)
 
    (players South North)
-   (turn-order South North)
+   (turn-order (South start-type) repeat North South)
    (move-priorities priority-type normal-type)
 
    (board
@@ -260,6 +260,8 @@
       (moves
          (move-type priority-type)
          (pawnp-step n) (pawnp-step w) (pawnp-step e)
+         (move-type start-type)
+         (pawn-step n)  (pawn-step w)  (pawn-step e)
          (move-type normal-type)
          (pawn-step n)  (pawn-step w)  (pawn-step e)
          (pawn-step wn) (pawn-step en)
@@ -276,6 +278,8 @@
       (moves
          (move-type priority-type)
          (pawnp-step nw) (pawnp-step ne)
+         (move-type start-type)
+         (pawn-step nw) (pawn-step ne)
          (move-type normal-type)
          (pawn-step nw) (pawn-step ne)
       )
@@ -289,6 +293,9 @@
       (image South "../images/Gwangsanghui/KingWhite.bmp"
              North "../images/Gwangsanghui/KingBlack.bmp")
       (moves
+         (move-type start-type)
+         (king-step   n) (king-step   s) (king-step   w) (king-step   e)
+         (king-step wnf) (king-step enf) (king-step wsf) (king-step esf)
          (move-type normal-type)
          (king-step   n) (king-step   s) (king-step   w) (king-step   e)
          (king-step wnf) (king-step enf) (king-step wsf) (king-step esf)
@@ -299,9 +306,12 @@
       (description "The General must stay confined to the fortress, and can only move\
                     along the lines shown.")
       (help "General: 1 step along lines in fortress")
-      (image South "../images/Gwangsanghui/GeneralWhite.bmp"
-             North "../images/Gwangsanghui/GeneralBlack.bmp")
+      (image South "../images/Gwangsanghui/GeneralWhite.bmp" "../images/Gwangsanghui/GeneralWhiteWest.bmp"
+             North "../images/Gwangsanghui/GeneralBlack.bmp" "../images/Gwangsanghui/GeneralBlackWest.bmp")
       (moves
+         (move-type start-type)
+         (general-step   n) (general-step   s) (general-step   w) (general-step   e)
+         (general-step wnf) (general-step enf) (general-step wsf) (general-step esf)
          (move-type normal-type)
          (general-step   n) (general-step   s) (general-step   w) (general-step   e)
          (general-step wnf) (general-step enf) (general-step wsf) (general-step esf)
@@ -312,9 +322,12 @@
       (description "The General must stay confined to the fortress, and can only move\
                     along the lines shown.")
       (help "General: 1 step along lines in fortress")
-      (image South "../images/Gwangsanghui/GeneralWhite.bmp"
-             North "../images/Gwangsanghui/GeneralBlack.bmp")
+      (image South "../images/Gwangsanghui/GeneralWhite.bmp" "../images/Gwangsanghui/GeneralWhiteEast.bmp"
+             North "../images/Gwangsanghui/GeneralBlack.bmp" "../images/Gwangsanghui/GeneralBlackEast.bmp")
       (moves
+         (move-type start-type)
+         (general-step   n) (general-step   s) (general-step   w) (general-step   e)
+         (general-step wnf) (general-step enf) (general-step wsf) (general-step esf)
          (move-type normal-type)
          (general-step   n) (general-step   s) (general-step   w) (general-step   e)
          (general-step wnf) (general-step enf) (general-step wsf) (general-step esf)
@@ -328,6 +341,9 @@
       (image South "../images/Gwangsanghui/GuardWhite.bmp"
              North "../images/Gwangsanghui/GuardBlack.bmp")
       (moves
+         (move-type start-type)
+         (general-step   n) (general-step   s) (general-step   w) (general-step   e)
+         (general-step wnf) (general-step enf) (general-step wsf) (general-step esf)
          (move-type normal-type)
          (general-step   n) (general-step   s) (general-step   w) (general-step   e)
          (general-step wnf) (general-step enf) (general-step wsf) (general-step esf)
@@ -338,9 +354,12 @@
       (description "The Guard must stay confined to the fortress, and can only move\
                     along the lines shown.")
       (help "Guard: 1 step along lines in fortress")
-      (image South "../images/Gwangsanghui/GuardWhite.bmp"
-             North "../images/Gwangsanghui/GuardBlack.bmp")
+      (image South "../images/Gwangsanghui/GuardWhite.bmp" "../images/Gwangsanghui/GuardWhiteWest.bmp"
+             North "../images/Gwangsanghui/GuardBlack.bmp" "../images/Gwangsanghui/GuardBlackWest.bmp")
       (moves
+         (move-type start-type)
+         (general-step   n) (general-step   s) (general-step   w) (general-step   e)
+         (general-step wnf) (general-step enf) (general-step wsf) (general-step esf)
          (move-type normal-type)
          (general-step   n) (general-step   s) (general-step   w) (general-step   e)
          (general-step wnf) (general-step enf) (general-step wsf) (general-step esf)
@@ -351,9 +370,12 @@
       (description "The Guard must stay confined to the fortress, and can only move\
                     along the lines shown.")
       (help "Guard: 1 step along lines in fortress")
-      (image South "../images/Gwangsanghui/GuardWhite.bmp"
-             North "../images/Gwangsanghui/GuardBlack.bmp")
+      (image South "../images/Gwangsanghui/GuardWhite.bmp" "../images/Gwangsanghui/GuardWhiteEast.bmp"
+             North "../images/Gwangsanghui/GuardBlack.bmp" "../images/Gwangsanghui/GuardBlackEast.bmp")
       (moves
+         (move-type start-type)
+         (general-step   n) (general-step   s) (general-step   w) (general-step   e)
+         (general-step wnf) (general-step enf) (general-step wsf) (general-step esf)
          (move-type normal-type)
          (general-step   n) (general-step   s) (general-step   w) (general-step   e)
          (general-step wnf) (general-step enf) (general-step wsf) (general-step esf)
@@ -374,6 +396,11 @@
          (elephantp-jump s sw) (elephantp-jump s se) 
          (elephantp-jump w nw) (elephantp-jump w sw)  
          (elephantp-jump e ne) (elephantp-jump e se)
+         (move-type start-type)
+         (elephant-jump n nw) (elephant-jump n ne) 
+         (elephant-jump s sw) (elephant-jump s se) 
+         (elephant-jump w nw) (elephant-jump w sw)  
+         (elephant-jump e ne) (elephant-jump e se)
          (move-type normal-type)
          (elephant-jump n nw) (elephant-jump n ne) 
          (elephant-jump s sw) (elephant-jump s se) 
@@ -386,8 +413,8 @@
       (description "The Elephant move one step orthogonally, then two steps diagonally outward.\
                     All the intervening points must be empty.")
       (help "Elephant: moves 1 step orthogonally plus 2 diagonally outward")
-      (image South "../images/Gwangsanghui/ElephantWhite.bmp"
-             North "../images/Gwangsanghui/ElephantBlack.bmp")
+      (image South "../images/Gwangsanghui/ElephantWhite.bmp" "../images/Gwangsanghui/ElephantWhiteWest.bmp"
+             North "../images/Gwangsanghui/ElephantBlack.bmp" "../images/Gwangsanghui/ElephantBlackWest.bmp")
       (attribute is-target? false)
       (attribute is-intruder? false)
       (attribute is-traitor? false)
@@ -397,6 +424,11 @@
          (elephantp-jump s sw) (elephantp-jump s se) 
          (elephantp-jump w nw) (elephantp-jump w sw)  
          (elephantp-jump e ne) (elephantp-jump e se)
+         (move-type start-type)
+         (elephant-jump n nw) (elephant-jump n ne) 
+         (elephant-jump s sw) (elephant-jump s se) 
+         (elephant-jump w nw) (elephant-jump w sw)  
+         (elephant-jump e ne) (elephant-jump e se)
          (move-type normal-type)
          (elephant-jump n nw) (elephant-jump n ne) 
          (elephant-jump s sw) (elephant-jump s se) 
@@ -409,8 +441,8 @@
       (description "The Elephant move one step orthogonally, then two steps diagonally outward.\
                     All the intervening points must be empty.")
       (help "Elephant: moves 1 step orthogonally plus 2 diagonally outward")
-      (image South "../images/Gwangsanghui/ElephantWhite.bmp"
-             North "../images/Gwangsanghui/ElephantBlack.bmp")
+      (image South "../images/Gwangsanghui/ElephantWhite.bmp" "../images/Gwangsanghui/ElephantWhiteEast.bmp"
+             North "../images/Gwangsanghui/ElephantBlack.bmp" "../images/Gwangsanghui/ElephantBlackEast.bmp")
       (attribute is-target? false)
       (attribute is-intruder? false)
       (attribute is-traitor? false)
@@ -420,6 +452,11 @@
          (elephantp-jump s sw) (elephantp-jump s se) 
          (elephantp-jump w nw) (elephantp-jump w sw)  
          (elephantp-jump e ne) (elephantp-jump e se)
+         (move-type start-type)
+         (elephant-jump n nw) (elephant-jump n ne) 
+         (elephant-jump s sw) (elephant-jump s se) 
+         (elephant-jump w nw) (elephant-jump w sw)  
+         (elephant-jump e ne) (elephant-jump e se)
          (move-type normal-type)
          (elephant-jump n nw) (elephant-jump n ne) 
          (elephant-jump s sw) (elephant-jump s se) 
@@ -439,6 +476,8 @@
       (moves
          (move-type priority-type)
          (chariotp-slide n) (chariotp-slide s) (chariotp-slide w) (chariotp-slide e)
+         (move-type start-type)
+         (chariot-slide  n) (chariot-slide  s) (chariot-slide  w) (chariot-slide  e)
          (move-type normal-type)
          (chariot-slide  n) (chariot-slide  s) (chariot-slide  w) (chariot-slide  e)
          (palace-slide wne) (palace-slide ene) (palace-slide wse) (palace-slide ese)
@@ -449,14 +488,16 @@
       (description "The Chariot move like the Rook in Chess, along any row or column.\
                     While inside the opponent's fortress, Chariots can move along the lines.")
       (help "Chariot: slides along any row or column")
-      (image South "../images/Gwangsanghui/ChariotWhite.bmp"
-             North "../images/Gwangsanghui/ChariotBlack.bmp")
+      (image South "../images/Gwangsanghui/ChariotWhite.bmp" "../images/Gwangsanghui/ChariotWhiteWest.bmp"
+             North "../images/Gwangsanghui/ChariotBlack.bmp" "../images/Gwangsanghui/ChariotBlackWest.bmp")
       (attribute is-target? false)
       (attribute is-intruder? false)
       (attribute is-traitor? false)
       (moves
          (move-type priority-type)
          (chariotp-slide n) (chariotp-slide s) (chariotp-slide w) (chariotp-slide e)
+         (move-type start-type)
+         (chariot-slide  n) (chariot-slide  s) (chariot-slide  w) (chariot-slide  e)
          (move-type normal-type)
          (chariot-slide  n) (chariot-slide  s) (chariot-slide  w) (chariot-slide  e)
          (palace-slide wne) (palace-slide ene) (palace-slide wse) (palace-slide ese)
@@ -467,14 +508,16 @@
       (description "The Chariot move like the Rook in Chess, along any row or column.\
                     While inside the opponent's fortress, Chariots can move along the lines.")
       (help "Chariot: slides along any row or column")
-      (image South "../images/Gwangsanghui/ChariotWhite.bmp"
-             North "../images/Gwangsanghui/ChariotBlack.bmp")
+      (image South "../images/Gwangsanghui/ChariotWhite.bmp" "../images/Gwangsanghui/ChariotWhiteEast.bmp"
+             North "../images/Gwangsanghui/ChariotBlack.bmp" "../images/Gwangsanghui/ChariotBlackEast.bmp")
       (attribute is-target? false)
       (attribute is-intruder? false)
       (attribute is-traitor? false)
       (moves
          (move-type priority-type)
          (chariotp-slide n) (chariotp-slide s) (chariotp-slide w) (chariotp-slide e)
+         (move-type start-type)
+         (chariot-slide  n) (chariot-slide  s) (chariot-slide  w) (chariot-slide  e)
          (move-type normal-type)
          (chariot-slide  n) (chariot-slide  s) (chariot-slide  w) (chariot-slide  e)
          (palace-slide wne) (palace-slide ene) (palace-slide wse) (palace-slide ese)
@@ -506,8 +549,8 @@
                     Cannons nor use other Cannons as screens. While inside the opponent's fortress, \
                     Cannons can move along the lines.")
       (help "Cannon: jumps over a non-Cannon piece along any row or column")
-      (image South "../images/Gwangsanghui/CannonWhite.bmp"
-             North "../images/Gwangsanghui/CannonBlack.bmp")
+      (image South "../images/Gwangsanghui/CannonWhite.bmp" "../images/Gwangsanghui/CannonWhiteWest.bmp"
+             North "../images/Gwangsanghui/CannonBlack.bmp" "../images/Gwangsanghui/CannonBlackWest.bmp")
       (attribute is-target? false)
       (attribute is-intruder? false)
       (attribute is-traitor? false)
@@ -526,8 +569,8 @@
                     Cannons nor use other Cannons as screens. While inside the opponent's fortress, \
                     Cannons can move along the lines.")
       (help "Cannon: jumps over a non-Cannon piece along any row or column")
-      (image South "../images/Gwangsanghui/CannonWhite.bmp"
-             North "../images/Gwangsanghui/CannonBlack.bmp")
+      (image South "../images/Gwangsanghui/CannonWhite.bmp" "../images/Gwangsanghui/CannonWhiteEast.bmp"
+             North "../images/Gwangsanghui/CannonBlack.bmp" "../images/Gwangsanghui/CannonBlackEast.bmp")
       (attribute is-target? false)
       (attribute is-intruder? false)
       (attribute is-traitor? false)
@@ -555,6 +598,11 @@
          (horsep-jump s sw) (horsep-jump s se) 
          (horsep-jump w nw) (horsep-jump w sw)  
          (horsep-jump e ne) (horsep-jump e se)
+         (move-type start-type)
+         (horse-jump n nw) (horse-jump n ne) 
+         (horse-jump s sw) (horse-jump s se) 
+         (horse-jump w nw) (horse-jump w sw)  
+         (horse-jump e ne) (horse-jump e se)
          (move-type normal-type)
          (horse-jump n nw) (horse-jump n ne) 
          (horse-jump s sw) (horse-jump s se) 
@@ -568,8 +616,8 @@
                     a row or column, then diagonally outward one step.  However, Horses \
                     cannot jump over other pieces.")
       (help "Horse: moves 1 step orthogonally plus 1 diagonally outward")
-      (image South "../images/Gwangsanghui/HorseWhite.bmp"
-             North "../images/Gwangsanghui/HorseBlack.bmp")
+      (image South "../images/Gwangsanghui/HorseWhite.bmp" "../images/Gwangsanghui/HorseWhiteWest.bmp"
+             North "../images/Gwangsanghui/HorseBlack.bmp" "../images/Gwangsanghui/HorseBlackWest.bmp")
       (attribute is-target? false)
       (attribute is-intruder? false)
       (attribute is-traitor? false)
@@ -579,6 +627,11 @@
          (horsep-jump s sw) (horsep-jump s se) 
          (horsep-jump w nw) (horsep-jump w sw)  
          (horsep-jump e ne) (horsep-jump e se)
+         (move-type start-type)
+         (horse-jump n nw) (horse-jump n ne) 
+         (horse-jump s sw) (horse-jump s se) 
+         (horse-jump w nw) (horse-jump w sw)  
+         (horse-jump e ne) (horse-jump e se)
          (move-type normal-type)
          (horse-jump n nw) (horse-jump n ne) 
          (horse-jump s sw) (horse-jump s se) 
@@ -592,8 +645,8 @@
                     a row or column, then diagonally outward one step.  However, Horses \
                     cannot jump over other pieces.")
       (help "Horse: moves 1 step orthogonally plus 1 diagonally outward")
-      (image South "../images/Gwangsanghui/HorseWhite.bmp"
-             North "../images/Gwangsanghui/HorseBlack.bmp")
+      (image South "../images/Gwangsanghui/HorseWhite.bmp" "../images/Gwangsanghui/HorseWhiteEast.bmp"
+             North "../images/Gwangsanghui/HorseBlack.bmp" "../images/Gwangsanghui/HorseBlackEast.bmp")
       (attribute is-target? false)
       (attribute is-intruder? false)
       (attribute is-traitor? false)
@@ -603,6 +656,11 @@
          (horsep-jump s sw) (horsep-jump s se) 
          (horsep-jump w nw) (horsep-jump w sw)  
          (horsep-jump e ne) (horsep-jump e se)
+         (move-type start-type)
+         (horse-jump n nw) (horse-jump n ne) 
+         (horse-jump s sw) (horse-jump s se) 
+         (horse-jump w nw) (horse-jump w sw)  
+         (horse-jump e ne) (horse-jump e se)
          (move-type normal-type)
          (horse-jump n nw) (horse-jump n ne) 
          (horse-jump s sw) (horse-jump s se) 
@@ -624,6 +682,11 @@
          (warriorp-step-1 w) (warriorp-step-1 e)
          (warriorp-step-2 n) (warriorp-step-2 s)
          (warriorp-step-2 w) (warriorp-step-2 e)
+         (move-type start-type)
+         (warrior-step-1 n) (warrior-step-1 s)
+         (warrior-step-1 w) (warrior-step-1 e)
+         (warrior-step-2 n) (warrior-step-2 s)
+         (warrior-step-2 w) (warrior-step-2 e)
          (move-type normal-type)
          (warrior-step-1 n) (warrior-step-1 s)
          (warrior-step-1 w) (warrior-step-1 e)
@@ -639,6 +702,11 @@
       (image South "../images/Gwangsanghui/KnightWhite.bmp"
              North "../images/Gwangsanghui/KnightBlack.bmp")
       (moves
+         (move-type start-type)
+         (knight-jump n nw) (knight-jump n ne) 
+         (knight-jump s sw) (knight-jump s se) 
+         (knight-jump w nw) (knight-jump w sw)  
+         (knight-jump e ne) (knight-jump e se)
          (move-type normal-type)
          (knight-jump n nw) (knight-jump n ne) 
          (knight-jump s sw) (knight-jump s se) 
@@ -658,6 +726,9 @@
          (move-type priority-type)
          (killerp-step nw) (killerp-step ne) 
          (killerp-step sw) (killerp-step se)
+         (move-type start-type)
+         (killer-step nw) (killer-step ne) 
+         (killer-step sw) (killer-step se)
          (move-type normal-type)
          (killer-step nw) (killer-step ne) 
          (killer-step sw) (killer-step se)
