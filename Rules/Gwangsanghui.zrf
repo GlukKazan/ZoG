@@ -77,9 +77,10 @@
    (common-check) 
    mark (while (and (on-board? n) (empty? n)) n)
    (if (on-board? n)
-       (verify (not-piece? King n))
+       (verify (or (friend? n) (not-piece? King n)))
    )
-   back add
+   back 
+   add
 ))
 
 (define general-step (
