@@ -1,0 +1,38 @@
+(game
+   (title "Luzhanqi")
+
+   (move-sound "Audio/Pickup.wav")
+   (release-sound "Audio/Pickup.wav")
+   (capture-sound "")
+
+   (animate-captures false)
+
+   (players South North)
+   (turn-order South North)
+
+   (board
+      (image "../images/Luzhanqi/board.bmp")
+      (grid
+         (start-rectangle 0 7 91 50)
+         (dimensions
+             ("a/b/c/d/e" (91 0)) ; files
+             ("13/12/11/10/9/8" (0 43)) ; ranks
+         )
+         (directions (n 0 -1) (e 1 0) (s 0 1) (w -1 0))
+      )
+      (grid
+         (start-rectangle 0 347 91 390)
+         (dimensions
+             ("a/b/c/d/e" (91 0)) ; files
+             ("6/5/4/3/2/1" (0 43)) ; ranks
+         )
+         (directions (n 0 -1) (e 1 0) (s 0 1) (w -1 0))
+      )
+  )
+
+  (piece
+      (name Flag)
+      (image South "../images/Luzhanqi/pfbb.bmp"
+             North "../images/Luzhanqi/pbh.bmp" "../images/Luzhanqi/pfbr.bmp")
+  )
+)
