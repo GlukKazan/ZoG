@@ -195,7 +195,6 @@
    (capture-sound "")
 
    (animate-captures false)
-   (allow-flipping   false)
 
    (players South North)
    (turn-order (South start-type) repeat North South)
