@@ -1,3 +1,33 @@
+(define drop-other (
+   (verify (in-zone? home))
+   (verify empty?)
+   (if (in-zone? headquarters)
+       (verify (not-empty? ths))
+   )
+   add
+))
+
+(define drop-flag (
+   (verify (in-zone? headquarters))
+   (verify empty?)
+   add
+))
+
+(define drop-grenade (
+   (verify (in-zone? front))
+   (verify empty?)
+   add
+))
+
+(define drop-mines (
+   (verify (in-zone? rear))
+   (verify empty?)
+   (if (in-zone? headquarters)
+       (verify (not-empty? ths))
+   )
+   add
+))
+
 (game
    (title "Luzhanqi")
 
@@ -8,7 +38,18 @@
    (animate-captures false)
 
    (players South North)
-   (turn-order South North)
+   (turn-order 
+      North North North North North
+      North North North North North
+      North North North North North
+      North North North North North
+      North North North North North
+      South South South South South 
+      South South South South South 
+      South South South South South 
+      South South South South South 
+      South South South South South 
+      repeat South North)
 
    (board
       (image "../images/Luzhanqi/board.bmp")
@@ -78,7 +119,7 @@
              (e3 362 476 453 519)
              (e2 362 519 453 562)
              (e1 362 561 453 604)
-      )
+      )     
       (links N
          (a2  a3) (a3   a4) (a4   a5) (a5  a6) (a6   a7) (a7   a8) (a8 a9)
          (a9 a10) (a10 a11) (a11 a12) (e2  e3) (e3   e4) (e4   e5) (e5 e6) 
@@ -149,38 +190,217 @@
          (c10  b9) (c12 b11) (d3   c2) (d5   c4) (d9   c8) (d11 c10)
          (e4   d3) (e6   d5) (e10  d9) (e12 d11)
       )
+      (links ths
+         (b1 d1) (d1 b1)
+      )
+      (links thn
+         (b13 d13) (d13 b13)
+      )
+      (symmetry North (ths thn))
       (zone
          (name safe)
          (players South North)
          (positions b3 b5 b9 b11 c4 c10 d3 d5 d9 d11)
       )
+      (zone
+         (name headquarters)
+         (players South)
+         (positions b1 d1)
+      )
+      (zone
+         (name headquarters)
+         (players North)
+         (positions b13 d13)
+      )
+      (zone
+         (name home)
+         (players South)
+         (positions a1 a2 a3 a4 a5 a6 b1 b2 b4 b6
+                    c1 c2 c3 c5 c6 d1 d2 d4 d6 e1 
+                    e2 e3 e4 e5 e6)
+      )
+      (zone
+         (name home)
+         (players North)
+         (positions a8 a9  a10 a11 a12 a13 b8 b10 b12 b13
+                    c8 c9  c11 c12 c13 d8 d10 d12 d13 e8 
+                    e9 e10 e11 e12 e13)
+      )
+      (zone
+         (name front)
+         (players South)
+         (positions a2 b2 c2 d2 e2 a3 c3 e3 a4 b4 d4 e4
+                    a5 c5 e5 a6 b6 c6 d6 e6)
+      )
+      (zone
+         (name front)
+         (players North)
+         (positions a12 b12 c12 d12 e12 a11 c11 e11 a10 b10 d10 e10
+                    a9  c9  e9  a8 b8 c8 d8 e8)
+      )
+      (zone
+         (name rear)
+         (players South)
+         (positions a1 b1 c1 d1 e1 a2 b2 c2 d2 e2)
+      )
+      (zone
+         (name rear)
+         (players North)
+         (positions a13 b13 c13 d13 e13 a12 b12 c12 d12 e12)
+      )
   )
 
+  (move-priorities bombtype droptype normaltype)
+
+  (piece
+      (name Marshal)
+      (image South "../images/Luzhanqi/p1bb.bmp"
+             North "../images/Luzhanqi/pbh.bmp" "../images/Luzhanqi/p1br.bmp")
+      (help " ")
+      (drops
+         (move-type droptype)
+         (drop-other)
+      )
+  )
+  (piece
+      (name General)
+      (image South "../images/Luzhanqi/p2bb.bmp"
+             North "../images/Luzhanqi/pbh.bmp" "../images/Luzhanqi/p2br.bmp")
+      (help " ")
+      (drops
+         (move-type droptype)
+         (drop-other)
+      )
+  )
+  (piece
+      (name LieutenantGeneral)
+      (image South "../images/Luzhanqi/p3bb.bmp"
+             North "../images/Luzhanqi/pbh.bmp" "../images/Luzhanqi/p3br.bmp")
+      (help " ")
+      (drops
+         (move-type droptype)
+         (drop-other)
+      )
+  )
+  (piece
+      (name BrigadierGeneral)
+      (image South "../images/Luzhanqi/p4bb.bmp"
+             North "../images/Luzhanqi/pbh.bmp" "../images/Luzhanqi/p4br.bmp")
+      (help " ")
+      (drops
+         (move-type droptype)
+         (drop-other)
+      )
+  )
+  (piece
+      (name Colonel)
+      (image South "../images/Luzhanqi/p5bb.bmp"
+             North "../images/Luzhanqi/pbh.bmp" "../images/Luzhanqi/p5br.bmp")
+      (help " ")
+      (drops
+         (move-type droptype)
+         (drop-other)
+      )
+  )
+  (piece
+      (name Combat)
+      (image South "../images/Luzhanqi/p6bb.bmp"
+             North "../images/Luzhanqi/pbh.bmp" "../images/Luzhanqi/p6br.bmp")
+      (help " ")
+      (drops
+         (move-type droptype)
+         (drop-other)
+      )
+  )
+  (piece
+      (name Captain)
+      (image South "../images/Luzhanqi/p7bb.bmp"
+             North "../images/Luzhanqi/pbh.bmp" "../images/Luzhanqi/p7br.bmp")
+      (help " ")
+      (drops
+         (move-type droptype)
+         (drop-other)
+      )
+  )
+  (piece
+      (name Lieutenant)
+      (image South "../images/Luzhanqi/p8bb.bmp"
+             North "../images/Luzhanqi/pbh.bmp" "../images/Luzhanqi/p8br.bmp")
+      (help " ")
+      (drops
+         (move-type droptype)
+         (drop-other)
+      )
+  )
+  (piece
+      (name Engineer)
+      (image South "../images/Luzhanqi/p9bb.bmp"
+             North "../images/Luzhanqi/pbh.bmp" "../images/Luzhanqi/p9br.bmp")
+      (help " ")
+      (drops
+         (move-type droptype)
+         (drop-other)
+      )
+  )
+  (piece
+      (name Grenade)
+      (image South "../images/Luzhanqi/pgbb.bmp"
+             North "../images/Luzhanqi/pbh.bmp" "../images/Luzhanqi/pgbr.bmp")
+      (help " ")
+      (drops
+         (move-type bombtype)
+         (drop-grenade)
+      )
+  )
+  (piece
+      (name Mines)
+      (image South "../images/Luzhanqi/pmbb.bmp"
+             North "../images/Luzhanqi/pbh.bmp" "../images/Luzhanqi/pmbr.bmp")
+      (help " ")
+      (drops
+         (move-type bombtype)
+         (drop-mines)
+      )
+  )
   (piece
       (name Flag)
       (image South "../images/Luzhanqi/pfbb.bmp"
              North "../images/Luzhanqi/pbh.bmp" "../images/Luzhanqi/pfbr.bmp")
+      (help " ")
+      (drops
+         (move-type bombtype)
+         (drop-flag)
+      )
   )
 
   (board-setup
       (North
-         (Flag a13 b13 c13 d13 e13
-               a12 b12 c12 d12 e12
-               a11 b11 c11 d11 e11
-               a10 b10 c10 d10 e10
-               a9  b9  c9  d9  e9 
-               a8  b8  c8  d8  e8 
-               a7  c7  e7 
-         )
+         (Marshal off 1)
+         (General off 1)
+         (LieutenantGeneral off 2)
+         (BrigadierGeneral off 2)
+         (Colonel off 2)
+         (Combat off 2)
+         (Captain off 3)
+         (Lieutenant off 3)
+         (Engineer off 3)
+         (Grenade off 2)
+         (Mines off 3)
+         (Flag off 1)
       )
       (South
-         (Flag a6  b6  c6  d6  e6 
-               a5  b5  c5  d5  e5 
-               a4  b4  c4  d4  e4
-               a3  b3  c3  d3  e3 
-               a2  b2  c2  d2  e2 
-               a1  b1  c1  d1  e1 
-         )
+         (Marshal off 1)
+         (General off 1)
+         (LieutenantGeneral off 2)
+         (BrigadierGeneral off 2)
+         (Colonel off 2)
+         (Combat off 2)
+         (Captain off 3)
+         (Lieutenant off 3)
+         (Engineer off 3)
+         (Grenade off 2)
+         (Mines off 3)
+         (Flag off 1)
       )
   )
 )
