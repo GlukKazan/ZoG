@@ -1,3 +1,159 @@
+(define init-rank
+   (set-flag rank-1 (piece? Marshal))
+   (set-flag rank-2 (piece? General))
+   (set-flag rank-3 (piece? LieutenantGeneral))
+   (set-flag rank-4 (piece? BrigadierGeneral))
+   (set-flag rank-5 (piece? Colonel))
+   (set-flag rank-6 (piece? Combat))
+   (set-flag rank-7 (piece? Captain))
+   (set-flag rank-8 (piece? Lieutenant))
+   (set-flag rank-9 (piece? Engineer))
+   (set-flag is-killed? false)
+   (set-flag is-equal? false)
+)
+
+(define create-piece
+   (if (piece? $1)
+       (if (in-zone? ami a1)
+           (create North $1)
+        else
+           (create South $1)
+       )
+   )
+)
+
+(define pre-check
+   (if (in-zone? safe)
+       (verify empty?)
+   )
+   (verify not-friend?)
+)
+
+(define common-check
+   (pre-check)
+   (if (piece? Lieutenant)
+       (set-flag is-killed? (flag? rank-9))
+       (set-flag is-equal? (flag? rank-8))
+   )
+   (if (piece? Captain)
+       (set-flag is-killed? (or (flag? rank-8) (flag? rank-9)))
+       (set-flag is-equal? (flag? rank-7))
+   )
+   (if (piece? Combat)
+       (set-flag is-killed? (or (flag? rank-7) (flag? rank-8) (flag? rank-9)))
+       (set-flag is-equal? (flag? rank-6))
+   )
+   (if (piece? Colonel)
+       (set-flag is-killed? (or (flag? rank-6) (flag? rank-7) (flag? rank-8) (flag? rank-9)))
+       (set-flag is-equal? (flag? rank-5))
+   )
+   (if (piece? BrigadierGeneral)
+       (set-flag is-killed? (or (flag? rank-5) (flag? rank-6) (flag? rank-7) (flag? rank-8) (flag? rank-9)))
+       (set-flag is-equal? (flag? rank-4))
+   )
+   (if (piece? LieutenantGeneral)
+       (set-flag is-killed? (or (flag? rank-4) (flag? rank-5) (flag? rank-6) (flag? rank-7) (flag? rank-8) (flag? rank-9)))
+       (set-flag is-equal? (flag? rank-3))
+   )
+   (if (piece? General)
+       (set-flag is-killed? (or (flag? rank-3) (flag? rank-4) (flag? rank-5) (flag? rank-6) (flag? rank-7) (flag? rank-8) (flag? rank-9)))
+       (set-flag is-equal? (flag? rank-2))
+   )
+   (if (piece? Marshal)
+       (set-flag is-killed? (or (flag? rank-2) (flag? rank-3) (flag? rank-4) (flag? rank-5) (flag? rank-6) (flag? rank-7) (flag? rank-8) (flag? rank-9)))
+       (set-flag is-equal? (flag? rank-1))
+   )
+   (if (piece? Mines)
+       (if (in-zone? variants b1)
+           (create-piece Mines)
+        else
+            capture
+       )
+    else
+       (if (flag? is-killed?)
+           (create-piece Marshal)
+           (create-piece General)
+           (create-piece LieutenantGeneral)
+           (create-piece BrigadierGeneral)
+           (create-piece Colonel)
+           (create-piece Combat)
+           (create-piece Captain)
+           (create-piece Lieutenant)
+       )
+       (if (flag? is-equal?)
+           capture
+       )
+   )
+)
+
+(define engineer-check
+   (pre-check)
+   (if (piece? Engineer)
+       capture
+    else
+       (create-piece Marshal)
+       (create-piece General)
+       (create-piece LieutenantGeneral)
+       (create-piece BrigadierGeneral)
+       (create-piece Colonel)
+       (create-piece Combat)
+       (create-piece Captain)
+       (create-piece Lieutenant)
+   )
+)
+
+(define grenade-check
+   (pre-check)
+   capture
+)
+
+(define common-step (
+   (init-rank) 
+   $1 (common-check)
+   add
+))
+
+(define common-slide (
+   (init-rank) 
+   $1 (while empty? add $1)
+   (common-check)
+   add
+))
+
+(define engineer-step (
+   $1 (engineer-check)
+   add
+))
+
+(define engineer-slide (
+   $1 (while empty? $1)
+   (engineer-check)
+   add
+))
+
+(define engineer-move (
+   $1 
+  (while empty? 
+     (if (in-zone? cross)
+         (add-partial $2-type) 
+      else
+         add
+     )
+     $1
+  )
+))
+
+(define grenade-step (
+   $1 (grenade-check)
+   add
+))
+
+(define grenade-slide (
+   $1 (while empty? add $1)
+   (grenade-check)
+   add
+))
+
 (define drop-other (
    (verify (in-zone? home))
    (verify empty?)
@@ -28,29 +184,7 @@
    add
 ))
 
-(game
-   (title "Luzhanqi")
-
-   (move-sound "Audio/Pickup.wav")
-   (release-sound "Audio/Pickup.wav")
-   (capture-sound "")
-
-   (animate-captures false)
-
-   (players South North)
-   (turn-order 
-      North North North North North
-      North North North North North
-      North North North North North
-      North North North North North
-      North North North North North
-      South South South South South 
-      South South South South South 
-      South South South South South 
-      South South South South South 
-      South South South South South 
-      repeat South North)
-
+(define board-def
    (board
       (image "../images/Luzhanqi/board.bmp")
       (positions
@@ -123,12 +257,14 @@
       (links N
          (a2  a3) (a3   a4) (a4   a5) (a5  a6) (a6   a7) (a7   a8) (a8 a9)
          (a9 a10) (a10 a11) (a11 a12) (e2  e3) (e3   e4) (e4   e5) (e5 e6) 
-         (e6  e7) (e7   e8) (e8   e9) (e9 e10) (e10 e11) (e11 e12)
+         (e6  e7) (e7   e8) (e8   e9) (e9 e10) (e10 e11) (e11 e12) (c6 c7)
+         (c7  c8)
       )
       (links S
          (a3  a2) (a4   a3) (a5   a4) (a6  a5) (a7   a6) (a8   a7) (a9 a8)
          (a10 a9) (a11 a10) (a12 a11) (e3  e2) (e4   e3) (e5   e4) (e6 e5) 
-         (e7  e6) (e8   e7) (e9   e8) (e10 e9) (e11 e10) (e12 e11)
+         (e7  e6) (e8   e7) (e9   e8) (e10 e9) (e11 e10) (e12 e11) (c7 c6)
+         (c8  c7)
       )
       (links E
          (a2  b2)  (b2   c2) (c2   d2) (d2  e2) (a6   b6) (b6   c6) 
@@ -203,6 +339,11 @@
          (positions b3 b5 b9 b11 c4 c10 d3 d5 d9 d11)
       )
       (zone
+         (name cross)
+         (players South North)
+         (positions a2 a6 a8 a12 c6 c8 e2 e6 e8 e12)
+      )
+      (zone
          (name headquarters)
          (players South)
          (positions b1 d1)
@@ -248,8 +389,52 @@
          (players North)
          (positions a13 b13 c13 d13 e13 a12 b12 c12 d12 e12)
       )
+      (zone
+         (name ami)
+         (players South)
+         (positions a1)
+      )
+      (zone
+         (name ami)
+         (players North)
+         (positions b1)
+      )
+      (zone
+         (name variants)
+         (players South North)
+         (positions $1)
+      )
   )
+)
 
+(game
+  (title "Luzhanqi")
+
+  (move-sound "Audio/Pickup.wav")
+  (release-sound "Audio/Pickup.wav")
+  (drop-sound "Audio/Pickup.wav")
+  (capture-sound "")
+
+  (option "animate captures" false)
+  (option "animate drops"    false)
+  (option "pass partial"     true)
+  (option "show moves list"  false)
+
+  (players South North)
+  (turn-order 
+      North North North North North
+      North North North North North
+      North North North North North
+      North North North North North
+      North North North North North
+      South South South South South 
+      South South South South South 
+      South South South South South 
+      South South South South South 
+      South South South South South 
+      repeat South North)
+
+  (board-def a1)
   (move-priorities bombtype droptype normaltype)
 
   (piece
@@ -261,6 +446,12 @@
          (move-type droptype)
          (drop-other)
       )
+      (moves
+         (move-type normaltype)
+         (common-step  n) (common-step  s) (common-step  w) (common-step  e)
+         (common-step nw) (common-step sw) (common-step ne) (common-step se)
+         (common-slide N) (common-slide S) (common-slide W) (common-slide E)
+      )
   )
   (piece
       (name General)
@@ -270,6 +461,12 @@
       (drops
          (move-type droptype)
          (drop-other)
+      )
+      (moves
+         (move-type normaltype)
+         (common-step  n) (common-step  s) (common-step  w) (common-step  e)
+         (common-step nw) (common-step sw) (common-step ne) (common-step se)
+         (common-slide N) (common-slide S) (common-slide W) (common-slide E)
       )
   )
   (piece
@@ -281,6 +478,12 @@
          (move-type droptype)
          (drop-other)
       )
+      (moves
+         (move-type normaltype)
+         (common-step  n) (common-step  s) (common-step  w) (common-step  e)
+         (common-step nw) (common-step sw) (common-step ne) (common-step se)
+         (common-slide N) (common-slide S) (common-slide W) (common-slide E)
+      )
   )
   (piece
       (name BrigadierGeneral)
@@ -290,6 +493,12 @@
       (drops
          (move-type droptype)
          (drop-other)
+      )
+      (moves
+         (move-type normaltype)
+         (common-step  n) (common-step  s) (common-step  w) (common-step  e)
+         (common-step nw) (common-step sw) (common-step ne) (common-step se)
+         (common-slide N) (common-slide S) (common-slide W) (common-slide E)
       )
   )
   (piece
@@ -301,6 +510,12 @@
          (move-type droptype)
          (drop-other)
       )
+      (moves
+         (move-type normaltype)
+         (common-step  n) (common-step  s) (common-step  w) (common-step  e)
+         (common-step nw) (common-step sw) (common-step ne) (common-step se)
+         (common-slide N) (common-slide S) (common-slide W) (common-slide E)
+      )
   )
   (piece
       (name Combat)
@@ -310,6 +525,12 @@
       (drops
          (move-type droptype)
          (drop-other)
+      )
+      (moves
+         (move-type normaltype)
+         (common-step  n) (common-step  s) (common-step  w) (common-step  e)
+         (common-step nw) (common-step sw) (common-step ne) (common-step se)
+         (common-slide N) (common-slide S) (common-slide W) (common-slide E)
       )
   )
   (piece
@@ -321,6 +542,12 @@
          (move-type droptype)
          (drop-other)
       )
+      (moves
+         (move-type normaltype)
+         (common-step  n) (common-step  s) (common-step  w) (common-step  e)
+         (common-step nw) (common-step sw) (common-step ne) (common-step se)
+         (common-slide N) (common-slide S) (common-slide W) (common-slide E)
+      )
   )
   (piece
       (name Lieutenant)
@@ -330,6 +557,12 @@
       (drops
          (move-type droptype)
          (drop-other)
+      )
+      (moves
+         (move-type normaltype)
+         (common-step  n) (common-step  s) (common-step  w) (common-step  e)
+         (common-step nw) (common-step sw) (common-step ne) (common-step se)
+         (common-slide N) (common-slide S) (common-slide W) (common-slide E)
       )
   )
   (piece
@@ -341,6 +574,21 @@
          (move-type droptype)
          (drop-other)
       )
+      (moves
+         (move-type normaltype)
+         (engineer-step   n) (engineer-step   s) (engineer-step   w) (engineer-step   e)
+         (engineer-step  nw) (engineer-step  sw) (engineer-step  ne) (engineer-step  se)
+         (engineer-slide  N) (engineer-slide  S) (engineer-slide  W) (engineer-slide  E)
+         (engineer-move N 1) (engineer-move S 1) (engineer-move W 1) (engineer-move E 1)
+         (move-type 1-type)
+         (engineer-slide  N) (engineer-slide  S) (engineer-slide  W) (engineer-slide  E)
+         (engineer-move N 2) (engineer-move S 2) (engineer-move W 2) (engineer-move E 2)
+         (move-type 2-type)
+         (engineer-slide  N) (engineer-slide  S) (engineer-slide  W) (engineer-slide  E)
+         (engineer-move N 3) (engineer-move S 3) (engineer-move W 3) (engineer-move E 3)
+         (move-type 3-type)
+         (engineer-slide  N) (engineer-slide  S) (engineer-slide  W) (engineer-slide  E)
+      )
   )
   (piece
       (name Grenade)
@@ -350,6 +598,12 @@
       (drops
          (move-type bombtype)
          (drop-grenade)
+      )
+      (moves
+         (move-type normaltype)
+         (grenade-step  n) (grenade-step  s) (grenade-step  w) (grenade-step  e)
+         (grenade-step nw) (grenade-step sw) (grenade-step ne) (grenade-step se)
+         (grenade-slide N) (grenade-slide S) (grenade-slide W) (grenade-slide E)
       )
   )
   (piece
@@ -403,4 +657,10 @@
          (Flag off 1)
       )
   )
+  (loss-condition (North South) (captured Flag))
+)
+
+(variant
+  (title "Luzhanqi RM (Reusable Mines)")
+  (board-def b1)
 )
