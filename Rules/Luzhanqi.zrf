@@ -22,6 +22,24 @@
    )
 )
 
+(define friend-flag
+   ths
+   (if (piece? Flag)
+       (create OpenedFlag)
+   )
+)
+
+(define enemy-flag
+   thn
+   (if (piece? Flag)
+       (if (in-zone? ami a1)
+           (create North OpenedFlag)
+        else
+           (create South OpenedFlag)
+       )
+   )
+)
+
 (define pre-check
    (if (in-zone? safe)
        (verify empty?)
@@ -62,6 +80,20 @@
    (if (piece? Marshal)
        (set-flag is-killed? (or (flag? rank-2) (flag? rank-3) (flag? rank-4) (flag? rank-5) (flag? rank-6) (flag? rank-7) (flag? rank-8) (flag? rank-9)))
        (set-flag is-equal? (flag? rank-1))
+       (if (flag? rank-1)
+           mark a1
+           (enemy-flag)
+           (enemy-flag)
+           back
+       )
+   )
+   (if (or (piece? Marshal) (piece? Mines))
+       (if (flag? rank-1)
+           mark a1
+           (friend-flag)
+           (friend-flag)
+           back
+       )
    )
    (if (piece? Mines)
        (if (in-zone? variants b1)
@@ -79,9 +111,14 @@
            (create-piece Combat)
            (create-piece Captain)
            (create-piece Lieutenant)
-       )
-       (if (flag? is-equal?)
-           capture
+        else
+           (if (flag? is-equal?)
+               capture
+            else
+               (if (and not-empty? (in-zone? hqe) (not-piece? Flag) (not-piece? OpenedFlag))
+                   (set-attribute not-locked? false)
+               )
+           )
        )
    )
 )
@@ -91,23 +128,36 @@
    (if (piece? Engineer)
        capture
     else
-       (create-piece Marshal)
-       (create-piece General)
-       (create-piece LieutenantGeneral)
-       (create-piece BrigadierGeneral)
-       (create-piece Colonel)
-       (create-piece Combat)
-       (create-piece Captain)
-       (create-piece Lieutenant)
+       (if (and (not-piece? Mines) (not-piece? Grenade))
+           (create-piece Marshal)
+           (create-piece General)
+           (create-piece LieutenantGeneral)
+           (create-piece BrigadierGeneral)
+           (create-piece Colonel)
+           (create-piece Combat)
+           (create-piece Captain)
+           (create-piece Lieutenant)
+        else
+           (if (and not-empty? (in-zone? hqe) (not-piece? Flag) (not-piece? OpenedFlag))
+               (set-attribute not-locked? false)
+           )
+       )
    )
 )
 
 (define grenade-check
    (pre-check)
+   (if (piece? Marshal)
+       mark a1
+       (enemy-flag)
+       (enemy-flag)
+       back
+   )
    capture
 )
 
 (define common-step (
+   (verify not-locked?)
    (init-rank) 
    $1 (common-check)
    add
@@ -121,6 +171,7 @@
 ))
 
 (define engineer-step (
+   (verify not-locked?)
    $1 (engineer-check)
    add
 ))
@@ -157,15 +208,16 @@
 (define drop-other (
    (verify (in-zone? home))
    (verify empty?)
-   (if (in-zone? headquarters)
+   (if (in-zone? hqf)
        (verify (not-empty? ths))
    )
    add
 ))
 
 (define drop-flag (
-   (verify (in-zone? headquarters))
+   (verify (in-zone? hqf))
    (verify empty?)
+   mark a1 tss capture back
    add
 ))
 
@@ -178,16 +230,25 @@
 (define drop-mines (
    (verify (in-zone? rear))
    (verify empty?)
-   (if (in-zone? headquarters)
+   (if (in-zone? hqf)
        (verify (not-empty? ths))
    )
    add
 ))
 
-(define board-def
+(define drop-start (
+   (verify empty?)
+   capture
+   add
+))
+
+(define def-board
    (board
       (image "../images/Luzhanqi/board.bmp")
       (positions
+             (sp  -90   7   1  50)
+             (np  -90  50   1  93)
+
              (a13   0   7  91  50)
              (a12   0  50  91  93)
              (a11   0  93  91 136)
@@ -326,13 +387,11 @@
          (c10  b9) (c12 b11) (d3   c2) (d5   c4) (d9   c8) (d11 c10)
          (e4   d3) (e6   d5) (e10  d9) (e12 d11)
       )
-      (links ths
-         (b1 d1) (d1 b1)
-      )
-      (links thn
-         (b13 d13) (d13 b13)
-      )
-      (symmetry North (ths thn))
+      (links ths (a1 b1) (b1 d1) (d1 b1))
+      (links thn (a1 b13) (b13 d13) (d13 b13))
+      (links tss (a1 sp))
+      (links tsn (a1 np))
+      (symmetry North (ths thn) (thn ths) (tss tsn) (tsn tss))
       (zone
          (name safe)
          (players South North)
@@ -344,14 +403,24 @@
          (positions a2 a6 a8 a12 c6 c8 e2 e6 e8 e12)
       )
       (zone
-         (name headquarters)
+         (name hqf)
          (players South)
          (positions b1 d1)
       )
       (zone
-         (name headquarters)
+         (name hqf)
          (players North)
          (positions b13 d13)
+      )
+      (zone
+         (name hqe)
+         (players South)
+         (positions b13 d13)
+      )
+      (zone
+         (name hqe)
+         (players North)
+         (positions b1 d1)
       )
       (zone
          (name home)
@@ -407,41 +476,13 @@
   )
 )
 
-(game
-  (title "Luzhanqi")
-
-  (move-sound "Audio/Pickup.wav")
-  (release-sound "Audio/Pickup.wav")
-  (drop-sound "Audio/Pickup.wav")
-  (capture-sound "")
-
-  (option "animate captures" false)
-  (option "animate drops"    false)
-  (option "pass partial"     true)
-  (option "show moves list"  false)
-
-  (players South North)
-  (turn-order 
-      North North North North North
-      North North North North North
-      North North North North North
-      North North North North North
-      North North North North North
-      South South South South South 
-      South South South South South 
-      South South South South South 
-      South South South South South 
-      South South South South South 
-      repeat South North)
-
-  (board-def a1)
-  (move-priorities bombtype droptype normaltype)
-
+(define def-pieces-1
   (piece
       (name Marshal)
       (image South "../images/Luzhanqi/p1bb.bmp"
              North "../images/Luzhanqi/pbh.bmp" "../images/Luzhanqi/p1br.bmp")
       (help " ")
+      (attribute not-locked? true)
       (drops
          (move-type droptype)
          (drop-other)
@@ -458,6 +499,7 @@
       (image South "../images/Luzhanqi/p2bb.bmp"
              North "../images/Luzhanqi/pbh.bmp" "../images/Luzhanqi/p2br.bmp")
       (help " ")
+      (attribute not-locked? true)
       (drops
          (move-type droptype)
          (drop-other)
@@ -474,6 +516,7 @@
       (image South "../images/Luzhanqi/p3bb.bmp"
              North "../images/Luzhanqi/pbh.bmp" "../images/Luzhanqi/p3br.bmp")
       (help " ")
+      (attribute not-locked? true)
       (drops
          (move-type droptype)
          (drop-other)
@@ -490,6 +533,7 @@
       (image South "../images/Luzhanqi/p4bb.bmp"
              North "../images/Luzhanqi/pbh.bmp" "../images/Luzhanqi/p4br.bmp")
       (help " ")
+      (attribute not-locked? true)
       (drops
          (move-type droptype)
          (drop-other)
@@ -506,6 +550,7 @@
       (image South "../images/Luzhanqi/p5bb.bmp"
              North "../images/Luzhanqi/pbh.bmp" "../images/Luzhanqi/p5br.bmp")
       (help " ")
+      (attribute not-locked? true)
       (drops
          (move-type droptype)
          (drop-other)
@@ -522,6 +567,7 @@
       (image South "../images/Luzhanqi/p6bb.bmp"
              North "../images/Luzhanqi/pbh.bmp" "../images/Luzhanqi/p6br.bmp")
       (help " ")
+      (attribute not-locked? true)
       (drops
          (move-type droptype)
          (drop-other)
@@ -533,11 +579,15 @@
          (common-slide N) (common-slide S) (common-slide W) (common-slide E)
       )
   )
+)
+
+(define def-pieces-2
   (piece
       (name Captain)
       (image South "../images/Luzhanqi/p7bb.bmp"
              North "../images/Luzhanqi/pbh.bmp" "../images/Luzhanqi/p7br.bmp")
       (help " ")
+      (attribute not-locked? true)
       (drops
          (move-type droptype)
          (drop-other)
@@ -554,6 +604,7 @@
       (image South "../images/Luzhanqi/p8bb.bmp"
              North "../images/Luzhanqi/pbh.bmp" "../images/Luzhanqi/p8br.bmp")
       (help " ")
+      (attribute not-locked? true)
       (drops
          (move-type droptype)
          (drop-other)
@@ -574,6 +625,7 @@
          (move-type droptype)
          (drop-other)
       )
+      (attribute not-locked? true)
       (moves
          (move-type normaltype)
          (engineer-step   n) (engineer-step   s) (engineer-step   w) (engineer-step   e)
@@ -626,7 +678,28 @@
          (drop-flag)
       )
   )
+  (piece
+      (name OpenedFlag)
+      (image South "../images/Luzhanqi/pfbb.bmp"
+             North "../images/Luzhanqi/pfbr.bmp")
+      (help " ")
+      (drops
+         (move-type bombtype)
+         (drop-flag)
+      )
+  )
+  (piece
+      (name Start)
+      (image South "../images/Luzhanqi/pbh.bmp"
+             North "../images/Luzhanqi/pbh.bmp")
+      (drops
+         (move-type starttype)
+         (drop-start)
+      )
+  )
+)
 
+(define def-setup
   (board-setup
       (North
          (Marshal off 1)
@@ -641,6 +714,7 @@
          (Grenade off 2)
          (Mines off 3)
          (Flag off 1)
+         (Start np)
       )
       (South
          (Marshal off 1)
@@ -655,12 +729,51 @@
          (Grenade off 2)
          (Mines off 3)
          (Flag off 1)
+         (Start sp off 1)
       )
   )
-  (loss-condition (North South) (captured Flag))
+)
+
+(define def-common
+  (move-sound "Audio/Pickup.wav")
+  (release-sound "Audio/Pickup.wav")
+  (drop-sound "Audio/Pickup.wav")
+  (capture-sound "")
+
+  (option "animate captures" false)
+  (option "animate drops"    false)
+  (option "pass partial"     true)
+  (option "show moves list"  false)
+
+  (players South North)
+  (turn-order 
+      (South starttype)
+      North North North North North
+      North North North North North
+      North North North North North
+      North North North North North
+      North North North North North
+      South South South South South 
+      South South South South South 
+      South South South South South 
+      South South South South South 
+      South South South South South 
+      repeat South North)
+
+  (move-priorities bombtype droptype normaltype)
+)
+
+(game
+  (title "Luzhanqi")
+  (def-common)
+  (def-board a1)
+  (def-pieces-1)
+  (def-pieces-2)
+  (def-setup)
+  (loss-condition (North South) (and (pieces-remaining 0 Flag) (pieces-remaining 0 OpenedFlag) (pieces-remaining 0 Start)))
 )
 
 (variant
   (title "Luzhanqi RM (Reusable Mines)")
-  (board-def b1)
+  (def-board b1)
 )
