@@ -1,23 +1,49 @@
+(define init-flag
+   (set-flag is-flag?   false)
+   (if (or (piece? Flag)
+           (piece? OpenedFlag)
+           (piece? MarshalFlag)
+           (piece? GeneralFlag)
+           (piece? LieutenantGeneralFlag)
+           (piece? BrigadierGeneralFlag)
+           (piece? ColonelFlag)
+           (piece? CombatFlag)
+           (piece? CaptainFlag)
+           (piece? LieutenantFlag)
+           (piece? EngineerFlag))
+       (set-flag is-flag? true)
+   )
+)
+
 (define init-rank
-   (set-flag rank-1 (piece? Marshal))
-   (set-flag rank-2 (piece? General))
-   (set-flag rank-3 (piece? LieutenantGeneral))
-   (set-flag rank-4 (piece? BrigadierGeneral))
-   (set-flag rank-5 (piece? Colonel))
-   (set-flag rank-6 (piece? Combat))
-   (set-flag rank-7 (piece? Captain))
-   (set-flag rank-8 (piece? Lieutenant))
-   (set-flag rank-9 (piece? Engineer))
+   (set-flag rank-1 (or (piece? Marshal) (piece? MarshalFlag)))
+   (set-flag rank-2 (or (piece? General) (piece? GeneralFlag)))
+   (set-flag rank-3 (or (piece? LieutenantGeneral) (piece? LieutenantGeneralFlag)))
+   (set-flag rank-4 (or (piece? BrigadierGeneral) (piece? BrigadierGeneralFlag)))
+   (set-flag rank-5 (or (piece? Colonel) (piece? ColonelFlag)))
+   (set-flag rank-6 (or (piece? Combat) (piece? CombatFlag)))
+   (set-flag rank-7 (or (piece? Captain) (piece? CaptainFlag)))
+   (set-flag rank-8 (or (piece? Lieutenant) (piece? LieutenantFlag)))
+   (set-flag rank-9 (or (piece? Engineer) (piece? EngineerFlag)))
    (set-flag is-killed? false)
-   (set-flag is-equal? false)
+   (set-flag is-equal?  false)
+   (init-flag)
 )
 
 (define create-piece
    (if (piece? $1)
        (if (in-zone? ami a1)
-           (create North $1)
+           (if (flag? is-flag?)
+               (create North $1Flag)
+            else
+               (create North $1)
+           )
         else
-           (create South $1)
+           (if (flag? is-flag?)
+               (create South $1Flag)
+            else
+               (create South $1)
+           )
        )
    )
 )
@@ -49,35 +75,35 @@
 
 (define common-check
    (pre-check)
-   (if (piece? Lieutenant)
+   (if (or (piece? Lieutenant) (piece? LieutenantFlag))
        (set-flag is-killed? (flag? rank-9))
        (set-flag is-equal? (flag? rank-8))
    )
-   (if (piece? Captain)
+   (if (or (piece? Captain) (piece? CaptainFlag))
        (set-flag is-killed? (or (flag? rank-8) (flag? rank-9)))
        (set-flag is-equal? (flag? rank-7))
    )
-   (if (piece? Combat)
+   (if (or (piece? Combat) (piece? CombatFlag))
        (set-flag is-killed? (or (flag? rank-7) (flag? rank-8) (flag? rank-9)))
        (set-flag is-equal? (flag? rank-6))
    )
-   (if (piece? Colonel)
+   (if (or (piece? Colonel) (piece? ColonelFlag))
        (set-flag is-killed? (or (flag? rank-6) (flag? rank-7) (flag? rank-8) (flag? rank-9)))
        (set-flag is-equal? (flag? rank-5))
    )
-   (if (piece? BrigadierGeneral)
+   (if (or (piece? BrigadierGeneral) (piece? BrigadierGeneralFlag))
        (set-flag is-killed? (or (flag? rank-5) (flag? rank-6) (flag? rank-7) (flag? rank-8) (flag? rank-9)))
        (set-flag is-equal? (flag? rank-4))
    )
-   (if (piece? LieutenantGeneral)
+   (if (or (piece? LieutenantGeneral) (piece? LieutenantGeneralFlag))
        (set-flag is-killed? (or (flag? rank-4) (flag? rank-5) (flag? rank-6) (flag? rank-7) (flag? rank-8) (flag? rank-9)))
        (set-flag is-equal? (flag? rank-3))
    )
-   (if (piece? General)
+   (if (or (piece? General) (piece? GeneralFlag))
        (set-flag is-killed? (or (flag? rank-3) (flag? rank-4) (flag? rank-5) (flag? rank-6) (flag? rank-7) (flag? rank-8) (flag? rank-9)))
        (set-flag is-equal? (flag? rank-2))
    )
-   (if (piece? Marshal)
+   (if (or (piece? Marshal) (piece? MarshalFlag))
        (set-flag is-killed? (or (flag? rank-2) (flag? rank-3) (flag? rank-4) (flag? rank-5) (flag? rank-6) (flag? rank-7) (flag? rank-8) (flag? rank-9)))
        (set-flag is-equal? (flag? rank-1))
        (if (flag? rank-1)
@@ -87,7 +113,7 @@
            back
        )
    )
-   (if (or (piece? Marshal) (piece? Mines))
+   (if (or (piece? Marshal) (piece? MarshalFlag) (piece? Mines))
        (if (flag? rank-1)
            mark a1
            (friend-flag)
@@ -97,6 +123,7 @@
    )
    (if (piece? Mines)
        (if (in-zone? variants b1)
+           (set-flag is-flag? false)
            (create-piece Mines)
         else
             capture
@@ -118,6 +145,42 @@
                (if (and not-empty? (in-zone? hqe) (not-piece? Flag) (not-piece? OpenedFlag))
                    (set-attribute not-locked? false)
                )
+               (if (or (piece? Flag)
+                       (piece? OpenedFlag)
+                       (piece? MarshalFlag)
+                       (piece? GeneralFlag)
+                       (piece? LieutenantGeneralFlag)
+                       (piece? BrigadierGeneralFlag)
+                       (piece? ColonelFlag)
+                       (piece? CombatFlag)
+                       (piece? CaptainFlag)
+                       (piece? LieutenantFlag)
+                       (piece? EngineerFlag))
+                   (if (flag? rank-1)
+                       (create MarshalFlag)
+                   )
+                   (if (flag? rank-2)
+                       (create GeneralFlag)
+                   )
+                   (if (flag? rank-3)
+                       (create LieutenantGeneralFlag)
+                   )
+                   (if (flag? rank-4)
+                       (create BrigadierGeneralFlag)
+                   )
+                   (if (flag? rank-5)
+                       (create ColonelFlag)
+                   )
+                   (if (flag? rank-6)
+                       (create CombatFlag)
+                   )
+                   (if (flag? rank-7)
+                       (create CaptainFlag)
+                   )
+                   (if (flag? rank-8)
+                       (create LieutenantFlag)
+                   )
+               )
            )
        )
    )
@@ -137,6 +200,9 @@
            (create-piece Combat)
            (create-piece Captain)
            (create-piece Lieutenant)
+           (if (or (piece? Flag) (piece? OpenedFlag))
+               (create EngineerFlag)
+           )
         else
            (if (and not-empty? (in-zone? hqe) (not-piece? Flag) (not-piece? OpenedFlag))
                (set-attribute not-locked? false)
@@ -171,12 +237,14 @@
 ))
 
 (define engineer-step (
+   (init-flag)
    (verify not-locked?)
    $1 (engineer-check)
    add
 ))
 
 (define engineer-slide (
+   (init-flag)
    $1 (while empty? $1)
    (engineer-check)
    add
@@ -511,6 +579,9 @@
          (common-slide N) (common-slide S) (common-slide W) (common-slide E)
       )
   )
+)
+
+(define def-pieces-2
   (piece
       (name LieutenantGeneral)
       (image South "../images/Luzhanqi/p3bb.bmp"
@@ -545,6 +616,9 @@
          (common-slide N) (common-slide S) (common-slide W) (common-slide E)
       )
   )
+)
+
+(define def-pieces-3
   (piece
       (name Colonel)
       (image South "../images/Luzhanqi/p5bb.bmp"
@@ -581,7 +655,7 @@
   )
 )
 
-(define def-pieces-2
+(define def-pieces-4
   (piece
       (name Captain)
       (image South "../images/Luzhanqi/p7bb.bmp"
@@ -616,6 +690,9 @@
          (common-slide N) (common-slide S) (common-slide W) (common-slide E)
       )
   )
+)
+
+(define def-pieces-5
   (piece
       (name Engineer)
       (image South "../images/Luzhanqi/p9bb.bmp"
@@ -658,6 +735,9 @@
          (grenade-slide N) (grenade-slide S) (grenade-slide W) (grenade-slide E)
       )
   )
+)
+
+(define def-pieces-6
   (piece
       (name Mines)
       (image South "../images/Luzhanqi/pmbb.bmp"
@@ -678,6 +758,9 @@
          (drop-flag)
       )
   )
+)
+
+(define def-pieces-7
   (piece
       (name OpenedFlag)
       (image South "../images/Luzhanqi/pfbb.bmp"
@@ -695,6 +778,157 @@
       (drops
          (move-type starttype)
          (drop-start)
+      )
+  )
+)
+
+(define def-pieces-8
+  (piece
+      (name MarshalFlag)
+      (image South "../images/Luzhanqi/pfbb.bmp"
+             North "../images/Luzhanqi/pfbr.bmp")
+      (help " ")
+      (attribute not-locked? true)
+      (moves
+         (move-type normaltype)
+         (common-step  n) (common-step  s) (common-step  w) (common-step  e)
+         (common-step nw) (common-step sw) (common-step ne) (common-step se)
+         (common-slide N) (common-slide S) (common-slide W) (common-slide E)
+      )
+  )
+  (piece
+      (name GeneralFlag)
+      (image South "../images/Luzhanqi/pfbb.bmp"
+             North "../images/Luzhanqi/pfbr.bmp")
+      (help " ")
+      (attribute not-locked? true)
+      (moves
+         (move-type normaltype)
+         (common-step  n) (common-step  s) (common-step  w) (common-step  e)
+         (common-step nw) (common-step sw) (common-step ne) (common-step se)
+         (common-slide N) (common-slide S) (common-slide W) (common-slide E)
+      )
+  )
+)
+
+(define def-pieces-9
+  (piece
+      (name LieutenantGeneralFlag)
+      (image South "../images/Luzhanqi/pfbb.bmp"
+             North "../images/Luzhanqi/pfbr.bmp")
+      (help " ")
+      (attribute not-locked? true)
+      (moves
+         (move-type normaltype)
+         (common-step  n) (common-step  s) (common-step  w) (common-step  e)
+         (common-step nw) (common-step sw) (common-step ne) (common-step se)
+         (common-slide N) (common-slide S) (common-slide W) (common-slide E)
+      )
+  )
+  (piece
+      (name BrigadierGeneralFlag)
+      (image South "../images/Luzhanqi/pfbb.bmp"
+             North "../images/Luzhanqi/pfbr.bmp")
+      (help " ")
+      (attribute not-locked? true)
+      (moves
+         (move-type normaltype)
+         (common-step  n) (common-step  s) (common-step  w) (common-step  e)
+         (common-step nw) (common-step sw) (common-step ne) (common-step se)
+         (common-slide N) (common-slide S) (common-slide W) (common-slide E)
+      )
+  )
+)
+
+(define def-pieces-10
+  (piece
+      (name ColonelFlag)
+      (image South "../images/Luzhanqi/pfbb.bmp"
+             North "../images/Luzhanqi/pfbr.bmp")
+      (help " ")
+      (attribute not-locked? true)
+      (moves
+         (move-type normaltype)
+         (common-step  n) (common-step  s) (common-step  w) (common-step  e)
+         (common-step nw) (common-step sw) (common-step ne) (common-step se)
+         (common-slide N) (common-slide S) (common-slide W) (common-slide E)
+      )
+  )
+  (piece
+      (name CombatFlag)
+      (image South "../images/Luzhanqi/pfbb.bmp"
+             North "../images/Luzhanqi/pfbr.bmp")
+      (help " ")
+      (attribute not-locked? true)
+      (moves
+         (move-type normaltype)
+         (common-step  n) (common-step  s) (common-step  w) (common-step  e)
+         (common-step nw) (common-step sw) (common-step ne) (common-step se)
+         (common-slide N) (common-slide S) (common-slide W) (common-slide E)
+      )
+  )
+)
+
+(define def-pieces-11
+  (piece
+      (name CaptainFlag)
+      (image South "../images/Luzhanqi/pfbb.bmp"
+             North "../images/Luzhanqi/pfbr.bmp")
+      (help " ")
+      (attribute not-locked? true)
+      (moves
+         (move-type normaltype)
+         (common-step  n) (common-step  s) (common-step  w) (common-step  e)
+         (common-step nw) (common-step sw) (common-step ne) (common-step se)
+         (common-slide N) (common-slide S) (common-slide W) (common-slide E)
+      )
+  )
+  (piece
+      (name LieutenantFlag)
+      (image South "../images/Luzhanqi/pfbb.bmp"
+             North "../images/Luzhanqi/pfbr.bmp")
+      (help " ")
+      (attribute not-locked? true)
+      (moves
+         (move-type normaltype)
+         (common-step  n) (common-step  s) (common-step  w) (common-step  e)
+         (common-step nw) (common-step sw) (common-step ne) (common-step se)
+         (common-slide N) (common-slide S) (common-slide W) (common-slide E)
+      )
+  )
+)
+
+(define def-pieces-12
+  (piece
+      (name EngineerFlag)
+      (image South "../images/Luzhanqi/pfbb.bmp"
+             North "../images/Luzhanqi/pfbr.bmp")
+      (help " ")
+      (attribute not-locked? true)
+      (moves
+         (move-type normaltype)
+         (engineer-step   n) (engineer-step   s) (engineer-step   w) (engineer-step   e)
+         (engineer-step  nw) (engineer-step  sw) (engineer-step  ne) (engineer-step  se)
+         (engineer-slide  N) (engineer-slide  S) (engineer-slide  W) (engineer-slide  E)
+         (engineer-move N 1) (engineer-move S 1) (engineer-move W 1) (engineer-move E 1)
+         (move-type 1-type)
+         (engineer-slide  N) (engineer-slide  S) (engineer-slide  W) (engineer-slide  E)
+         (engineer-move N 2) (engineer-move S 2) (engineer-move W 2) (engineer-move E 2)
+         (move-type 2-type)
+         (engineer-slide  N) (engineer-slide  S) (engineer-slide  W) (engineer-slide  E)
+         (engineer-move N 3) (engineer-move S 3) (engineer-move W 3) (engineer-move E 3)
+         (move-type 3-type)
+         (engineer-slide  N) (engineer-slide  S) (engineer-slide  W) (engineer-slide  E)
+      )
+  )
+  (piece
+      (name MinesFlag)
+      (image South "../images/Luzhanqi/pmbb.bmp"
+             North "../images/Luzhanqi/pbh.bmp" "../images/Luzhanqi/pmbr.bmp")
+      (help " ")
+      (drops
+         (move-type bombtype)
+         (drop-mines)
       )
   )
 )
@@ -734,6 +968,45 @@
   )
 )
 
+(define def-goals
+  (win-condition (South) (absolute-config MarshalFlag b1))
+  (win-condition (South) (absolute-config MarshalFlag d1))
+  (win-condition (South) (absolute-config GeneralFlag b1))
+  (win-condition (South) (absolute-config GeneralFlag d1))
+  (win-condition (South) (absolute-config LieutenantGeneralFlag b1))
+  (win-condition (South) (absolute-config LieutenantGeneralFlag d1))
+  (win-condition (South) (absolute-config BrigadierGeneralFlag b1))
+  (win-condition (South) (absolute-config BrigadierGeneralFlag d1))
+  (win-condition (South) (absolute-config ColonelFlag b1))
+  (win-condition (South) (absolute-config ColonelFlag d1))
+  (win-condition (South) (absolute-config CombatFlag b1))
+  (win-condition (South) (absolute-config CombatFlag d1))
+  (win-condition (South) (absolute-config CaptainFlag b1))
+  (win-condition (South) (absolute-config CaptainFlag d1))
+  (win-condition (South) (absolute-config LieutenantFlag b1))
+  (win-condition (South) (absolute-config LieutenantFlag d1))
+  (win-condition (South) (absolute-config EngineerFlag b1))
+  (win-condition (South) (absolute-config EngineerFlag d1))
+  (win-condition (North) (absolute-config MarshalFlag b13))
+  (win-condition (North) (absolute-config MarshalFlag d13))
+  (win-condition (North) (absolute-config GeneralFlag b13))
+  (win-condition (North) (absolute-config GeneralFlag d13))
+  (win-condition (North) (absolute-config LieutenantGeneralFlag b13))
+  (win-condition (North) (absolute-config LieutenantGeneralFlag d13))
+  (win-condition (North) (absolute-config BrigadierGeneralFlag b13))
+  (win-condition (North) (absolute-config BrigadierGeneralFlag d13))
+  (win-condition (North) (absolute-config ColonelFlag b13))
+  (win-condition (North) (absolute-config ColonelFlag d13))
+  (win-condition (North) (absolute-config CombatFlag b13))
+  (win-condition (North) (absolute-config CombatFlag d13))
+  (win-condition (North) (absolute-config CaptainFlag b13))
+  (win-condition (North) (absolute-config CaptainFlag d13))
+  (win-condition (North) (absolute-config LieutenantFlag b13))
+  (win-condition (North) (absolute-config LieutenantFlag d13))
+  (win-condition (North) (absolute-config EngineerFlag b13))
+  (win-condition (North) (absolute-config EngineerFlag d13))
+)
+
 (define def-common
   (move-sound "Audio/Pickup.wav")
   (release-sound "Audio/Pickup.wav")
@@ -769,6 +1042,16 @@
   (def-board a1)
   (def-pieces-1)
   (def-pieces-2)
+  (def-pieces-3)
+  (def-pieces-4)
+  (def-pieces-5)
+  (def-pieces-6)
+  (def-pieces-7)
+  (def-pieces-8)
+  (def-pieces-9)
+  (def-pieces-10)
+  (def-pieces-11)
+  (def-pieces-12)
   (def-setup)
   (loss-condition (North South) (and (pieces-remaining 0 Flag) (pieces-remaining 0 OpenedFlag) (pieces-remaining 0 Start)))
 )
@@ -776,4 +1059,48 @@
 (variant
   (title "Luzhanqi RM (Reusable Mines)")
   (def-board b1)
+)
+
+(variant
+  (title "-")
+)
+
+(game
+  (title "Luzhanqi DF (Deliver the Flag)")
+  (def-common)
+  (def-board a1)
+  (def-pieces-1)
+  (def-pieces-2)
+  (def-pieces-3)
+  (def-pieces-4)
+  (def-pieces-5)
+  (def-pieces-6)
+  (def-pieces-7)
+  (def-pieces-8)
+  (def-pieces-9)
+  (def-pieces-10)
+  (def-pieces-11)
+  (def-pieces-12)
+  (def-setup)
+  (def-goals)
+)
+
+(game
+  (title "Luzhanqi DF + RM")
+  (def-common)
+  (def-board b1)
+  (def-pieces-1)
+  (def-pieces-2)
+  (def-pieces-3)
+  (def-pieces-4)
+  (def-pieces-5)
+  (def-pieces-6)
+  (def-pieces-7)
+  (def-pieces-8)
+  (def-pieces-9)
+  (def-pieces-10)
+  (def-pieces-11)
+  (def-pieces-12)
+  (def-setup)
+  (def-goals)
 )
