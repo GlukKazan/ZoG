@@ -2,12 +2,12 @@
    (set-flag is-flag?   false)
    (if (or (piece? Flag)
            (piece? OpenedFlag)
-           (piece? MarshalFlag)
+           (piece? FieldMarshalFlag)
            (piece? GeneralFlag)
-           (piece? LieutenantGeneralFlag)
+           (piece? MajorGeneralFlag)
            (piece? BrigadierGeneralFlag)
            (piece? ColonelFlag)
-           (piece? CombatFlag)
+           (piece? MajorFlag)
            (piece? CaptainFlag)
            (piece? LieutenantFlag)
            (piece? EngineerFlag))
@@ -16,12 +16,12 @@
 )
 
 (define init-rank
-   (set-flag rank-1 (or (piece? Marshal) (piece? MarshalFlag)))
+   (set-flag rank-1 (or (piece? FieldMarshal) (piece? FieldMarshalFlag)))
    (set-flag rank-2 (or (piece? General) (piece? GeneralFlag)))
-   (set-flag rank-3 (or (piece? LieutenantGeneral) (piece? LieutenantGeneralFlag)))
+   (set-flag rank-3 (or (piece? MajorGeneral) (piece? MajorGeneralFlag)))
    (set-flag rank-4 (or (piece? BrigadierGeneral) (piece? BrigadierGeneralFlag)))
    (set-flag rank-5 (or (piece? Colonel) (piece? ColonelFlag)))
-   (set-flag rank-6 (or (piece? Combat) (piece? CombatFlag)))
+   (set-flag rank-6 (or (piece? Major) (piece? MajorFlag)))
    (set-flag rank-7 (or (piece? Captain) (piece? CaptainFlag)))
    (set-flag rank-8 (or (piece? Lieutenant) (piece? LieutenantFlag)))
    (set-flag rank-9 (or (piece? Engineer) (piece? EngineerFlag)))
@@ -83,7 +83,7 @@
        (set-flag is-killed? (or (flag? rank-8) (flag? rank-9)))
        (set-flag is-equal? (flag? rank-7))
    )
-   (if (or (piece? Combat) (piece? CombatFlag))
+   (if (or (piece? Major) (piece? MajorFlag))
        (set-flag is-killed? (or (flag? rank-7) (flag? rank-8) (flag? rank-9)))
        (set-flag is-equal? (flag? rank-6))
    )
@@ -95,7 +95,7 @@
        (set-flag is-killed? (or (flag? rank-5) (flag? rank-6) (flag? rank-7) (flag? rank-8) (flag? rank-9)))
        (set-flag is-equal? (flag? rank-4))
    )
-   (if (or (piece? LieutenantGeneral) (piece? LieutenantGeneralFlag))
+   (if (or (piece? MajorGeneral) (piece? MajorGeneralFlag))
        (set-flag is-killed? (or (flag? rank-4) (flag? rank-5) (flag? rank-6) (flag? rank-7) (flag? rank-8) (flag? rank-9)))
        (set-flag is-equal? (flag? rank-3))
    )
@@ -103,7 +103,7 @@
        (set-flag is-killed? (or (flag? rank-3) (flag? rank-4) (flag? rank-5) (flag? rank-6) (flag? rank-7) (flag? rank-8) (flag? rank-9)))
        (set-flag is-equal? (flag? rank-2))
    )
-   (if (or (piece? Marshal) (piece? MarshalFlag))
+   (if (or (piece? FieldMarshal) (piece? FieldMarshalFlag))
        (set-flag is-killed? (or (flag? rank-2) (flag? rank-3) (flag? rank-4) (flag? rank-5) (flag? rank-6) (flag? rank-7) (flag? rank-8) (flag? rank-9)))
        (set-flag is-equal? (flag? rank-1))
        (if (flag? rank-1)
@@ -113,7 +113,7 @@
            back
        )
    )
-   (if (or (piece? Marshal) (piece? MarshalFlag) (piece? Mines))
+   (if (or (piece? FieldMarshal) (piece? FieldMarshalFlag) (piece? Landmine))
        (if (flag? rank-1)
            mark a1
            (friend-flag)
@@ -121,21 +121,21 @@
            back
        )
    )
-   (if (piece? Mines)
+   (if (piece? Landmine)
        (if (in-zone? variants b1)
            (set-flag is-flag? false)
-           (create-piece Mines)
+           (create-piece Landmine)
         else
             capture
        )
     else
        (if (flag? is-killed?)
-           (create-piece Marshal)
+           (create-piece FieldMarshal)
            (create-piece General)
-           (create-piece LieutenantGeneral)
+           (create-piece MajorGeneral)
            (create-piece BrigadierGeneral)
            (create-piece Colonel)
-           (create-piece Combat)
+           (create-piece Major)
            (create-piece Captain)
            (create-piece Lieutenant)
         else
@@ -147,23 +147,23 @@
                )
                (if (or (piece? Flag)
                        (piece? OpenedFlag)
-                       (piece? MarshalFlag)
+                       (piece? FieldMarshalFlag)
                        (piece? GeneralFlag)
-                       (piece? LieutenantGeneralFlag)
+                       (piece? MajorGeneralFlag)
                        (piece? BrigadierGeneralFlag)
                        (piece? ColonelFlag)
-                       (piece? CombatFlag)
+                       (piece? MajorFlag)
                        (piece? CaptainFlag)
                        (piece? LieutenantFlag)
                        (piece? EngineerFlag))
                    (if (flag? rank-1)
-                       (create MarshalFlag)
+                       (create FieldMarshalFlag)
                    )
                    (if (flag? rank-2)
                        (create GeneralFlag)
                    )
                    (if (flag? rank-3)
-                       (create LieutenantGeneralFlag)
+                       (create MajorGeneralFlag)
                    )
                    (if (flag? rank-4)
                        (create BrigadierGeneralFlag)
@@ -172,7 +172,7 @@
                        (create ColonelFlag)
                    )
                    (if (flag? rank-6)
-                       (create CombatFlag)
+                       (create MajorFlag)
                    )
                    (if (flag? rank-7)
                        (create CaptainFlag)
@@ -191,13 +191,13 @@
    (if (piece? Engineer)
        capture
     else
-       (if (and (not-piece? Mines) (not-piece? Grenade))
-           (create-piece Marshal)
+       (if (and (not-piece? Landmine) (not-piece? Bomb))
+           (create-piece FieldMarshal)
            (create-piece General)
-           (create-piece LieutenantGeneral)
+           (create-piece MajorGeneral)
            (create-piece BrigadierGeneral)
            (create-piece Colonel)
-           (create-piece Combat)
+           (create-piece Major)
            (create-piece Captain)
            (create-piece Lieutenant)
            (if (or (piece? Flag) (piece? OpenedFlag))
@@ -211,9 +211,9 @@
    )
 )
 
-(define grenade-check
+(define Bomb-check
    (pre-check)
-   (if (piece? Marshal)
+   (if (piece? FieldMarshal)
        mark a1
        (enemy-flag)
        (enemy-flag)
@@ -262,14 +262,14 @@
   )
 ))
 
-(define grenade-step (
-   $1 (grenade-check)
+(define Bomb-step (
+   $1 (Bomb-check)
    add
 ))
 
-(define grenade-slide (
+(define Bomb-slide (
    $1 (while empty? add $1)
-   (grenade-check)
+   (Bomb-check)
    add
 ))
 
@@ -289,13 +289,13 @@
    add
 ))
 
-(define drop-grenade (
+(define drop-Bomb (
    (verify (in-zone? front))
    (verify empty?)
    add
 ))
 
-(define drop-mines (
+(define drop-Landmine (
    (verify (in-zone? rear))
    (verify empty?)
    (if (in-zone? hqf)
@@ -546,7 +546,7 @@
 
 (define def-pieces-1
   (piece
-      (name Marshal)
+      (name FieldMarshal)
       (image South "../images/Luzhanqi/p1bb.bmp"
              North "../images/Luzhanqi/pbh.bmp" "../images/Luzhanqi/p1br.bmp")
       (help " ")
@@ -583,7 +583,7 @@
 
 (define def-pieces-2
   (piece
-      (name LieutenantGeneral)
+      (name MajorGeneral)
       (image South "../images/Luzhanqi/p3bb.bmp"
              North "../images/Luzhanqi/pbh.bmp" "../images/Luzhanqi/p3br.bmp")
       (help " ")
@@ -637,7 +637,7 @@
       )
   )
   (piece
-      (name Combat)
+      (name Major)
       (image South "../images/Luzhanqi/p6bb.bmp"
              North "../images/Luzhanqi/pbh.bmp" "../images/Luzhanqi/p6br.bmp")
       (help " ")
@@ -720,32 +720,32 @@
       )
   )
   (piece
-      (name Grenade)
+      (name Bomb)
       (image South "../images/Luzhanqi/pgbb.bmp"
              North "../images/Luzhanqi/pbh.bmp" "../images/Luzhanqi/pgbr.bmp")
       (help " ")
       (drops
          (move-type bombtype)
-         (drop-grenade)
+         (drop-Bomb)
       )
       (moves
          (move-type normaltype)
-         (grenade-step  n) (grenade-step  s) (grenade-step  w) (grenade-step  e)
-         (grenade-step nw) (grenade-step sw) (grenade-step ne) (grenade-step se)
-         (grenade-slide N) (grenade-slide S) (grenade-slide W) (grenade-slide E)
+         (Bomb-step  n) (Bomb-step  s) (Bomb-step  w) (Bomb-step  e)
+         (Bomb-step nw) (Bomb-step sw) (Bomb-step ne) (Bomb-step se)
+         (Bomb-slide N) (Bomb-slide S) (Bomb-slide W) (Bomb-slide E)
       )
   )
 )
 
 (define def-pieces-6
   (piece
-      (name Mines)
+      (name Landmine)
       (image South "../images/Luzhanqi/pmbb.bmp"
              North "../images/Luzhanqi/pbh.bmp" "../images/Luzhanqi/pmbr.bmp")
       (help " ")
       (drops
          (move-type bombtype)
-         (drop-mines)
+         (drop-Landmine)
       )
   )
   (piece
@@ -784,7 +784,7 @@
 
 (define def-pieces-8
   (piece
-      (name MarshalFlag)
+      (name FieldMarshalFlag)
       (image South "../images/Luzhanqi/pfbb.bmp"
              North "../images/Luzhanqi/pfbr.bmp")
       (help " ")
@@ -813,7 +813,7 @@
 
 (define def-pieces-9
   (piece
-      (name LieutenantGeneralFlag)
+      (name MajorGeneralFlag)
       (image South "../images/Luzhanqi/pfbb.bmp"
              North "../images/Luzhanqi/pfbr.bmp")
       (help " ")
@@ -855,7 +855,7 @@
       )
   )
   (piece
-      (name CombatFlag)
+      (name MajorFlag)
       (image South "../images/Luzhanqi/pfbb.bmp"
              North "../images/Luzhanqi/pfbr.bmp")
       (help " ")
@@ -922,13 +922,13 @@
       )
   )
   (piece
-      (name MinesFlag)
+      (name LandmineFlag)
       (image South "../images/Luzhanqi/pmbb.bmp"
              North "../images/Luzhanqi/pbh.bmp" "../images/Luzhanqi/pmbr.bmp")
       (help " ")
       (drops
          (move-type bombtype)
-         (drop-mines)
+         (drop-Landmine)
       )
   )
 )
@@ -936,32 +936,32 @@
 (define def-setup
   (board-setup
       (North
-         (Marshal off 1)
+         (FieldMarshal off 1)
          (General off 1)
-         (LieutenantGeneral off 2)
+         (MajorGeneral off 2)
          (BrigadierGeneral off 2)
          (Colonel off 2)
-         (Combat off 2)
+         (Major off 2)
          (Captain off 3)
          (Lieutenant off 3)
          (Engineer off 3)
-         (Grenade off 2)
-         (Mines off 3)
+         (Bomb off 2)
+         (Landmine off 3)
          (Flag off 1)
          (Start np)
       )
       (South
-         (Marshal off 1)
+         (FieldMarshal off 1)
          (General off 1)
-         (LieutenantGeneral off 2)
+         (MajorGeneral off 2)
          (BrigadierGeneral off 2)
          (Colonel off 2)
-         (Combat off 2)
+         (Major off 2)
          (Captain off 3)
          (Lieutenant off 3)
          (Engineer off 3)
-         (Grenade off 2)
-         (Mines off 3)
+         (Bomb off 2)
+         (Landmine off 3)
          (Flag off 1)
          (Start sp off 1)
       )
@@ -969,36 +969,36 @@
 )
 
 (define def-goals
-  (win-condition (South) (absolute-config MarshalFlag b1))
-  (win-condition (South) (absolute-config MarshalFlag d1))
+  (win-condition (South) (absolute-config FieldMarshalFlag b1))
+  (win-condition (South) (absolute-config FieldMarshalFlag d1))
   (win-condition (South) (absolute-config GeneralFlag b1))
   (win-condition (South) (absolute-config GeneralFlag d1))
-  (win-condition (South) (absolute-config LieutenantGeneralFlag b1))
-  (win-condition (South) (absolute-config LieutenantGeneralFlag d1))
+  (win-condition (South) (absolute-config MajorGeneralFlag b1))
+  (win-condition (South) (absolute-config MajorGeneralFlag d1))
   (win-condition (South) (absolute-config BrigadierGeneralFlag b1))
   (win-condition (South) (absolute-config BrigadierGeneralFlag d1))
   (win-condition (South) (absolute-config ColonelFlag b1))
   (win-condition (South) (absolute-config ColonelFlag d1))
-  (win-condition (South) (absolute-config CombatFlag b1))
-  (win-condition (South) (absolute-config CombatFlag d1))
+  (win-condition (South) (absolute-config MajorFlag b1))
+  (win-condition (South) (absolute-config MajorFlag d1))
   (win-condition (South) (absolute-config CaptainFlag b1))
   (win-condition (South) (absolute-config CaptainFlag d1))
   (win-condition (South) (absolute-config LieutenantFlag b1))
   (win-condition (South) (absolute-config LieutenantFlag d1))
   (win-condition (South) (absolute-config EngineerFlag b1))
   (win-condition (South) (absolute-config EngineerFlag d1))
-  (win-condition (North) (absolute-config MarshalFlag b13))
-  (win-condition (North) (absolute-config MarshalFlag d13))
+  (win-condition (North) (absolute-config FieldMarshalFlag b13))
+  (win-condition (North) (absolute-config FieldMarshalFlag d13))
   (win-condition (North) (absolute-config GeneralFlag b13))
   (win-condition (North) (absolute-config GeneralFlag d13))
-  (win-condition (North) (absolute-config LieutenantGeneralFlag b13))
-  (win-condition (North) (absolute-config LieutenantGeneralFlag d13))
+  (win-condition (North) (absolute-config MajorGeneralFlag b13))
+  (win-condition (North) (absolute-config MajorGeneralFlag d13))
   (win-condition (North) (absolute-config BrigadierGeneralFlag b13))
   (win-condition (North) (absolute-config BrigadierGeneralFlag d13))
   (win-condition (North) (absolute-config ColonelFlag b13))
   (win-condition (North) (absolute-config ColonelFlag d13))
-  (win-condition (North) (absolute-config CombatFlag b13))
-  (win-condition (North) (absolute-config CombatFlag d13))
+  (win-condition (North) (absolute-config MajorFlag b13))
+  (win-condition (North) (absolute-config MajorFlag d13))
   (win-condition (North) (absolute-config CaptainFlag b13))
   (win-condition (North) (absolute-config CaptainFlag d13))
   (win-condition (North) (absolute-config LieutenantFlag b13))
@@ -1036,8 +1036,45 @@
   (move-priorities bombtype droptype normaltype)
 )
 
+(define def-description
+  (description "Luzhanqi is a two-player Chinese board game. It is a non-perfect abstract strategy game of partial information, since each player has only limited knowledge concerning the disposition of the opposing pieces.\
+The aim of the game is to capture the opponent's flag through penetrating his defenses, while trying to prevent him from capturing the player's own flag. The Luzhanqi board has a number of features \
+which affect how pieces move.\\
+- Post - also Soldier Station: a normal space, marked as a rectangle on the board. Pieces can move on or off these spaces at will, and can be attacked and captured on them.\
+- Roads - usually marked as thin lines on the board. A piece can only travel one space across a road at any time.\
+- Railroads - usually marked as thick lines on the board, a piece can travel any number of spaces along a railroad in a straight line, as long as its path is not obstructed by another piece.\
+- Campsite - marked as a circle on the board, with 5 in each player's territory. A piece on a campsite cannot be attacked.\
+- Mountains - pieces cannot move over these two spaces.\
+- Frontlines - these three spaces are the only points at which a piece can enter the opponent's territory. Pieces do not land on these spaces, they pass over them.\
+- Headquarters - positioned at two sides of the central axis at the sixth rank of the player's territory, the Flag must be placed on one of these two spaces. \
+  It, together with the other piece placed on the other headquarters, must not move after the game starts.\\
+Each player has 25 pieces, which are identical except for markings on one side. They are listed here in order of order, where any piece of a higher order may capture one of lower order \
+(if the enemy is of the same order, both pieces will be removed from the board). Each player has:\\
+- one Field Marshal, order 9\
+- one General or Army Commander, order 8\
+- two Major Generals or Division Commanders, order 7\
+- two Brigadier Generals or Brigade Commanders, order 6\
+- two Colonels or Regiment Commanders, order 5\
+- two Majors or Battalion Commanders, order 4\
+- three Captains or Company Commanders, order 3\
+- three Lieutenants or Platoon Commanders, order 2\
+- three Engineers or Sappers, order 1\
+- two Bombs\
+- three Landmines\
+- one Flag\\
+Some of these pieces have special features and abilities:\\
+- The Engineers are the only pieces which can turn corners when travelling along the Railroad. Engineers can also capture Landmines without being removed from the board.\
+- Bombs, when in contact with any opponent piece, destroy both itself and the piece. They may capture the opponent's flag. Bombs cannot be placed on the front line (the first rank) \
+  during the initial set-up.\
+- Landmines are immune to any attack, and cause the destruction of attacking pieces (except when attacked by an Engineer or destroyed by a bomb). Depending on the ruleset used, \
+  Landmines may or may not be removed from play following a capture. Landmines may only be placed on the fifth and sixth ranks during set-up. The Landmine cannot move from its original position.\
+- The Flag must be placed on one of the two Headquarters spaces on the sixth rank. It cannot move. Its capture brings the victory of the attacker and ends the game. Also, when Field Marshal is \
+  destroyed, the Flag must be revealed to the opposing player.")
+)
+
 (game
   (title "Luzhanqi")
+  (def-description)
   (def-common)
   (def-board a1)
   (def-pieces-1)
@@ -1057,7 +1094,7 @@
 )
 
 (variant
-  (title "Luzhanqi RM (Reusable Mines)")
+  (title "Luzhanqi RM (Reusable Landmines)")
   (def-board b1)
 )
 
@@ -1067,6 +1104,7 @@
 
 (game
   (title "Luzhanqi DF (Deliver the Flag)")
+  (def-description)
   (def-common)
   (def-board a1)
   (def-pieces-1)
@@ -1087,6 +1125,7 @@
 
 (game
   (title "Luzhanqi DF + RM")
+  (def-description)
   (def-common)
   (def-board b1)
   (def-pieces-1)
