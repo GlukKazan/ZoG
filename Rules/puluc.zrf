@@ -1,5 +1,187 @@
-(define step-1 (
-  next (verify empty?) add
+(define step-0-1 (
+  (if (on-board? up)
+      (verify (empty? up))
+  )
+  (if (on-board? down)
+      (verify (not-enemy? down))
+  )  
+  next (while not-empty? up)
+  (if (not-in-zone? home)
+      (if (on-board? down)
+          (verify (enemy? down))
+      )
+  )
+  add
+))
+
+(define step-1-1 (
+  (if (on-board? up)
+      (verify (empty? up))
+  )
+  mark from
+  down (verify enemy?)
+  (if (on-board? down)
+      (verify (not-enemy? down))
+  )  
+  next (while not-empty? up)
+  (if (not-in-zone? home)
+      (if (on-board? down)
+          (verify (enemy? down))
+      )
+      up to 
+      back down cascade 
+      next (while not-empty? up)
+   else
+      to back 
+      down capture
+  )
+  add
+))
+
+(define step-2-1 (
+  (if (on-board? up)
+      (verify (empty? up))
+  )
+  mark from
+  down (verify enemy?)
+  down (verify enemy?)
+  (if (on-board? down)
+      (verify (not-enemy? down))
+  )  
+  next (while not-empty? up)
+  (if (not-in-zone? home)
+      (if (on-board? down)
+          (verify (enemy? down))
+      )
+      up up to
+      back down cascade from
+      next (while not-empty? up)
+      up to
+      back down down cascade
+      next (while not-empty? up)
+   else
+      to back 
+      down capture
+      down capture
+  )
+  add
+))
+
+(define step-3-1 (
+  (if (on-board? up)
+      (verify (empty? up))
+  )
+  mark from
+  down (verify enemy?)
+  down (verify enemy?)
+  down (verify enemy?)
+  (if (on-board? down)
+      (verify (not-enemy? down))
+  )  
+  next (while not-empty? up)
+  (if (not-in-zone? home)
+      (if (on-board? down)
+          (verify (enemy? down))
+      )
+      up up up to
+      back down cascade from
+      next (while not-empty? up)
+      up up to
+      back down down cascade from
+      next (while not-empty? up)
+      up to
+      back down down down cascade
+      next (while not-empty? up)
+   else
+      to back 
+      down capture
+      down capture
+      down capture
+  )
+  add
+))
+
+(define step-4-1 (
+  (if (on-board? up)
+      (verify (empty? up))
+  )
+  mark from
+  down (verify enemy?)
+  down (verify enemy?)
+  down (verify enemy?)
+  down (verify enemy?)
+  (if (on-board? down)
+      (verify (not-enemy? down))
+  )  
+  next (while not-empty? up)
+  (if (not-in-zone? home)
+      (if (on-board? down)
+          (verify (enemy? down))
+      )
+      up up up up to
+      back down cascade from
+      next (while not-empty? up)
+      up up up to
+      back down down cascade from
+      next (while not-empty? up)
+      up up to
+      back down down down cascade from
+      next (while not-empty? up)
+      up to
+      back down down down down cascade
+      next (while not-empty? up)
+   else
+      to back 
+      down capture
+      down capture
+      down capture
+      down capture
+  )
+  add
+))
+
+(define step-5-1 (
+  (if (on-board? up)
+      (verify (empty? up))
+  )
+  mark from
+  down (verify enemy?)
+  down (verify enemy?)
+  down (verify enemy?)
+  down (verify enemy?)
+  down (verify enemy?)
+  (if (on-board? down)
+      (verify (not-enemy? down))
+  )  
+  next (while not-empty? up)
+  (if (not-in-zone? home)
+      (if (on-board? down)
+          (verify (enemy? down))
+      )
+      up up up up up to
+      back down cascade from
+      next (while not-empty? up)
+      up up up up to
+      back down down cascade from
+      next (while not-empty? up)
+      up up up to
+      back down down down cascade from
+      next (while not-empty? up)
+      up up to
+      back down down down down cascade from
+      next (while not-empty? up)
+      up to
+      back down down down down down cascade
+      next (while not-empty? up)
+   else
+      to back 
+      down capture
+      down capture
+      down capture
+      down capture
+      down capture
+  )
+  add
 ))
 
 (game
@@ -191,7 +373,14 @@
      (name Man)
      (image White "../images/Puluc/white.bmp"
             Black "../images/Puluc/black.bmp")
-     (moves (step-1))
+     (moves 
+        (step-0-1) 
+        (step-1-1) 
+        (step-2-1)
+        (step-3-1)
+        (step-4-1)
+        (step-5-1)
+     )
   )
 
   (board-setup
