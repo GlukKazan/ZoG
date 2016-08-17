@@ -1,4 +1,53 @@
+(define check-1
+  (verify (or 
+     (and (piece? B x1) (piece? W x2) (piece? W x3) (piece? W x4) )
+     (and (piece? W x1) (piece? B x2) (piece? W x3) (piece? W x4) )
+     (and (piece? W x1) (piece? W x2) (piece? B x3) (piece? W x4) )
+     (and (piece? W x1) (piece? W x2) (piece? W x3) (piece? B x4) )
+  ))
+)
+
+(define check-2
+  (verify (or 
+     (and (piece? B x1) (piece? B x2) (piece? W x3) (piece? W x4) )
+     (and (piece? B x1) (piece? W x2) (piece? B x3) (piece? W x4) )
+     (and (piece? B x1) (piece? W x2) (piece? W x3) (piece? B x4) )
+     (and (piece? W x1) (piece? B x2) (piece? B x3) (piece? W x4) )
+     (and (piece? W x1) (piece? B x2) (piece? W x3) (piece? B x4) )
+     (and (piece? W x1) (piece? W x2) (piece? B x3) (piece? B x4) )
+  ))
+)
+
+(define check-3
+  (verify (or 
+     (and (piece? W x1) (piece? B x2) (piece? B x3) (piece? B x4) )
+     (and (piece? B x1) (piece? W x2) (piece? B x3) (piece? B x4) )
+     (and (piece? B x1) (piece? B x2) (piece? W x3) (piece? B x4) )
+     (and (piece? B x1) (piece? B x2) (piece? B x3) (piece? W x4) )
+  ))
+)
+
+(define check-4
+  (verify
+     (and (piece? B x1) (piece? B x2) (piece? B x3) (piece? B x4) )
+  )
+)
+
+(define check-5
+  (verify
+     (and (piece? W x1) (piece? W x2) (piece? W x3) (piece? W x4) )
+  )
+)
+
+(define drop-dice (
+  (verify (in-zone? dices))
+  (verify not-friend?)
+  add
+))
+
+
 (define step-0-1 (
+  (check-1)
   (if (on-board? up)
       (verify (empty? up))
   )
@@ -14,7 +63,110 @@
   add
 ))
 
+(define step-0-2 (
+  (check-2)
+  (if (on-board? up)
+      (verify (empty? up))
+  )
+  (if (on-board? down)
+      (verify (not-enemy? down))
+  )  
+  next
+  (if (not-in-zone? home)
+      next
+  )
+  (while not-empty? up)
+  (if (not-in-zone? home)
+      (if (on-board? down)
+          (verify (enemy? down))
+      )
+  )
+  add
+))
+
+(define step-0-3 (
+  (check-3)
+  (if (on-board? up)
+      (verify (empty? up))
+  )
+  (if (on-board? down)
+      (verify (not-enemy? down))
+  )  
+  next
+  (if (not-in-zone? home)
+      next
+  )
+  (if (not-in-zone? home)
+      next
+  )
+  (while not-empty? up)
+  (if (not-in-zone? home)
+      (if (on-board? down)
+          (verify (enemy? down))
+      )
+  )
+  add
+))
+
+(define step-0-4 (
+  (check-4)
+  (if (on-board? up)
+      (verify (empty? up))
+  )
+  (if (on-board? down)
+      (verify (not-enemy? down))
+  )  
+  next
+  (if (not-in-zone? home)
+      next
+  )
+  (if (not-in-zone? home)
+      next
+  )
+  (if (not-in-zone? home)
+      next
+  )
+  (while not-empty? up)
+  (if (not-in-zone? home)
+      (if (on-board? down)
+          (verify (enemy? down))
+      )
+  )
+  add
+))
+
+(define step-0-5 (
+  (check-5)
+  (if (on-board? up)
+      (verify (empty? up))
+  )
+  (if (on-board? down)
+      (verify (not-enemy? down))
+  )  
+  next
+  (if (not-in-zone? home)
+      next
+  )
+  (if (not-in-zone? home)
+      next
+  )
+  (if (not-in-zone? home)
+      next
+  )
+  (if (not-in-zone? home)
+      next
+  )
+  (while not-empty? up)
+  (if (not-in-zone? home)
+      (if (on-board? down)
+          (verify (enemy? down))
+      )
+  )
+  add
+))
+
 (define step-1-1 (
+  (check-1)
   (if (on-board? up)
       (verify (empty? up))
   )
@@ -38,7 +190,142 @@
   add
 ))
 
+(define step-1-2 (
+  (check-2)
+  (if (on-board? up)
+      (verify (empty? up))
+  )
+  mark from
+  down (verify enemy?)
+  (if (on-board? down)
+      (verify (not-enemy? down))
+  )  
+  next 
+  (if (not-in-zone? home)
+      next
+  )
+  (while not-empty? up)
+  (if (not-in-zone? home)
+      (if (on-board? down)
+          (verify (enemy? down))
+      )
+      up to 
+      back down cascade 
+      next next (while not-empty? up)
+   else
+      to back 
+      down capture
+  )
+  add
+))
+
+(define step-1-3 (
+  (check-3)
+  (if (on-board? up)
+      (verify (empty? up))
+  )
+  mark from
+  down (verify enemy?)
+  (if (on-board? down)
+      (verify (not-enemy? down))
+  )  
+  next 
+  (if (not-in-zone? home)
+      next
+  )
+  (if (not-in-zone? home)
+      next
+  )
+  (while not-empty? up)
+  (if (not-in-zone? home)
+      (if (on-board? down)
+          (verify (enemy? down))
+      )
+      up to 
+      back down cascade 
+      next next next (while not-empty? up)
+   else
+      to back 
+      down capture
+  )
+  add
+))
+
+(define step-1-4 (
+  (check-4)
+  (if (on-board? up)
+      (verify (empty? up))
+  )
+  mark from
+  down (verify enemy?)
+  (if (on-board? down)
+      (verify (not-enemy? down))
+  )  
+  next 
+  (if (not-in-zone? home)
+      next
+  )
+  (if (not-in-zone? home)
+      next
+  )
+  (if (not-in-zone? home)
+      next
+  )
+  (while not-empty? up)
+  (if (not-in-zone? home)
+      (if (on-board? down)
+          (verify (enemy? down))
+      )
+      up to 
+      back down cascade 
+      next next next next (while not-empty? up)
+   else
+      to back 
+      down capture
+  )
+  add
+))
+
+(define step-1-5 (
+  (check-5)
+  (if (on-board? up)
+      (verify (empty? up))
+  )
+  mark from
+  down (verify enemy?)
+  (if (on-board? down)
+      (verify (not-enemy? down))
+  )  
+  next 
+  (if (not-in-zone? home)
+      next
+  )
+  (if (not-in-zone? home)
+      next
+  )
+  (if (not-in-zone? home)
+      next
+  )
+  (if (not-in-zone? home)
+      next
+  )
+  (while not-empty? up)
+  (if (not-in-zone? home)
+      (if (on-board? down)
+          (verify (enemy? down))
+      )
+      up to 
+      back down cascade 
+      next next next next next (while not-empty? up)
+   else
+      to back 
+      down capture
+  )
+  add
+))
+
 (define step-2-1 (
+  (check-1)
   (if (on-board? up)
       (verify (empty? up))
   )
@@ -67,7 +354,162 @@
   add
 ))
 
+(define step-2-2 (
+  (check-2)
+  (if (on-board? up)
+      (verify (empty? up))
+  )
+  mark from
+  down (verify enemy?)
+  down (verify enemy?)
+  (if (on-board? down)
+      (verify (not-enemy? down))
+  )  
+  next 
+  (if (not-in-zone? home)
+      next
+  )
+  (while not-empty? up)
+  (if (not-in-zone? home)
+      (if (on-board? down)
+          (verify (enemy? down))
+      )
+      up up to
+      back down cascade from
+      next next (while not-empty? up)
+      up to
+      back down down cascade
+      next next (while not-empty? up)
+   else
+      to back 
+      down capture
+      down capture
+  )
+  add
+))
+
+(define step-2-3 (
+  (check-3)
+  (if (on-board? up)
+      (verify (empty? up))
+  )
+  mark from
+  down (verify enemy?)
+  down (verify enemy?)
+  (if (on-board? down)
+      (verify (not-enemy? down))
+  )  
+  next 
+  (if (not-in-zone? home)
+      next
+  )
+  (if (not-in-zone? home)
+      next
+  )
+  (while not-empty? up)
+  (if (not-in-zone? home)
+      (if (on-board? down)
+          (verify (enemy? down))
+      )
+      up up to
+      back down cascade from
+      next next next (while not-empty? up)
+      up to
+      back down down cascade
+      next next next (while not-empty? up)
+   else
+      to back 
+      down capture
+      down capture
+  )
+  add
+))
+
+(define step-2-4 (
+  (check-4)
+  (if (on-board? up)
+      (verify (empty? up))
+  )
+  mark from
+  down (verify enemy?)
+  down (verify enemy?)
+  (if (on-board? down)
+      (verify (not-enemy? down))
+  )  
+  next 
+  (if (not-in-zone? home)
+      next
+  )
+  (if (not-in-zone? home)
+      next
+  )
+  (if (not-in-zone? home)
+      next
+  )
+  (while not-empty? up)
+  (if (not-in-zone? home)
+      (if (on-board? down)
+          (verify (enemy? down))
+      )
+      up up to
+      back down cascade from
+      next next next next (while not-empty? up)
+      up to
+      back down down cascade
+      next next next next (while not-empty? up)
+   else
+      to back 
+      down capture
+      down capture
+  )
+  add
+))
+
+(define step-2-5 (
+  (check-5)
+  (if (on-board? up)
+      (verify (empty? up))
+  )
+  mark from
+  down (verify enemy?)
+  down (verify enemy?)
+  (if (on-board? down)
+      (verify (not-enemy? down))
+  )  
+  next 
+  (if (not-in-zone? home)
+      next
+  )
+  (if (not-in-zone? home)
+      next
+  )
+  (if (not-in-zone? home)
+      next
+  )
+  (if (not-in-zone? home)
+      next
+  )
+  (while not-empty? up)
+  (if (not-in-zone? home)
+      (if (on-board? down)
+          (verify (enemy? down))
+      )
+      up up to
+      back down cascade from
+      next next next next next (while not-empty? up)
+      up to
+      back down down cascade
+      next next next next next (while not-empty? up)
+   else
+      to back 
+      down capture
+      down capture
+  )
+  add
+))
+
 (define step-3-1 (
+  (check-1)
   (if (on-board? up)
       (verify (empty? up))
   )
@@ -101,7 +543,182 @@
   add
 ))
 
+(define step-3-2 (
+  (check-2)
+  (if (on-board? up)
+      (verify (empty? up))
+  )
+  mark from
+  down (verify enemy?)
+  down (verify enemy?)
+  down (verify enemy?)
+  (if (on-board? down)
+      (verify (not-enemy? down))
+  )  
+  next 
+  (if (not-in-zone? home)
+      next
+  )
+  (while not-empty? up)
+  (if (not-in-zone? home)
+      (if (on-board? down)
+          (verify (enemy? down))
+      )
+      up up up to
+      back down cascade from
+      next next (while not-empty? up)
+      up up to
+      back down down cascade from
+      next next (while not-empty? up)
+      up to
+      back down down down cascade
+      next next (while not-empty? up)
+   else
+      to back 
+      down capture
+      down capture
+      down capture
+  )
+  add
+))
+
+(define step-3-3 (
+  (check-3)
+  (if (on-board? up)
+      (verify (empty? up))
+  )
+  mark from
+  down (verify enemy?)
+  down (verify enemy?)
+  down (verify enemy?)
+  (if (on-board? down)
+      (verify (not-enemy? down))
+  )  
+  next 
+  (if (not-in-zone? home)
+      next
+  )
+  (if (not-in-zone? home)
+      next
+  )
+  (while not-empty? up)
+  (if (not-in-zone? home)
+      (if (on-board? down)
+          (verify (enemy? down))
+      )
+      up up up to
+      back down cascade from
+      next next next (while not-empty? up)
+      up up to
+      back down down cascade from
+      next next next (while not-empty? up)
+      up to
+      back down down down cascade
+      next next next (while not-empty? up)
+   else
+      to back 
+      down capture
+      down capture
+      down capture
+  )
+  add
+))
+
+(define step-3-4 (
+  (check-4)
+  (if (on-board? up)
+      (verify (empty? up))
+  )
+  mark from
+  down (verify enemy?)
+  down (verify enemy?)
+  down (verify enemy?)
+  (if (on-board? down)
+      (verify (not-enemy? down))
+  )  
+  next 
+  (if (not-in-zone? home)
+      next
+  )
+  (if (not-in-zone? home)
+      next
+  )
+  (if (not-in-zone? home)
+      next
+  )
+  (while not-empty? up)
+  (if (not-in-zone? home)
+      (if (on-board? down)
+          (verify (enemy? down))
+      )
+      up up up to
+      back down cascade from
+      next next next next (while not-empty? up)
+      up up to
+      back down down cascade from
+      next next next next (while not-empty? up)
+      up to
+      back down down down cascade
+      next next next next (while not-empty? up)
+   else
+      to back 
+      down capture
+      down capture
+      down capture
+  )
+  add
+))
+
+(define step-3-5 (
+  (check-5)
+  (if (on-board? up)
+      (verify (empty? up))
+  )
+  mark from
+  down (verify enemy?)
+  down (verify enemy?)
+  down (verify enemy?)
+  (if (on-board? down)
+      (verify (not-enemy? down))
+  )  
+  next 
+  (if (not-in-zone? home)
+      next
+  )
+  (if (not-in-zone? home)
+      next
+  )
+  (if (not-in-zone? home)
+      next
+  )
+  (if (not-in-zone? home)
+      next
+  )
+  (while not-empty? up)
+  (if (not-in-zone? home)
+      (if (on-board? down)
+          (verify (enemy? down))
+      )
+      up up up to
+      back down cascade from
+      next next next next next (while not-empty? up)
+      up up to
+      back down down cascade from
+      next next next next next (while not-empty? up)
+      up to
+      back down down down cascade
+      next next next next next (while not-empty? up)
+   else
+      to back 
+      down capture
+      down capture
+      down capture
+  )
+  add
+))
+
 (define step-4-1 (
+  (check-1)
   (if (on-board? up)
       (verify (empty? up))
   )
@@ -140,21 +757,237 @@
   add
 ))
 
+(define step-4-2 (
+  (check-1)
+  (if (on-board? up)
+      (verify (empty? up))
+  )
+  mark from
+  down (verify enemy?)
+  down (verify enemy?)
+  down (verify enemy?)
+  down (verify enemy?)
+  (if (on-board? down)
+      (verify (not-enemy? down))
+  )  
+  next 
+  (if (not-in-zone? home)
+      next
+  )
+  (while not-empty? up)
+  (if (not-in-zone? home)
+      (if (on-board? down)
+          (verify (enemy? down))
+      )
+      up up up up to
+      back down cascade from
+      next next (while not-empty? up)
+      up up up to
+      back down down cascade from
+      next next (while not-empty? up)
+      up up to
+      back down down down cascade from
+      next next (while not-empty? up)
+      up to
+      back down down down down cascade
+      next next (while not-empty? up)
+   else
+      to back 
+      down capture
+      down capture
+      down capture
+      down capture
+  )
+  add
+))
+
+(define step-4-3 (
+  (check-3)
+  (if (on-board? up)
+      (verify (empty? up))
+  )
+  mark from
+  down (verify enemy?)
+  down (verify enemy?)
+  down (verify enemy?)
+  down (verify enemy?)
+  (if (on-board? down)
+      (verify (not-enemy? down))
+  )  
+  next 
+  (if (not-in-zone? home)
+      next
+  )
+  (if (not-in-zone? home)
+      next
+  )
+  (while not-empty? up)
+  (if (not-in-zone? home)
+      (if (on-board? down)
+          (verify (enemy? down))
+      )
+      up up up up to
+      back down cascade from
+      next next next (while not-empty? up)
+      up up up to
+      back down down cascade from
+      next next next (while not-empty? up)
+      up up to
+      back down down down cascade from
+      next next next (while not-empty? up)
+      up to
+      back down down down down cascade
+      next next next (while not-empty? up)
+   else
+      to back 
+      down capture
+      down capture
+      down capture
+      down capture
+  )
+  add
+))
+
+(define step-4-4 (
+  (check-4)
+  (if (on-board? up)
+      (verify (empty? up))
+  )
+  mark from
+  down (verify enemy?)
+  down (verify enemy?)
+  down (verify enemy?)
+  down (verify enemy?)
+  (if (on-board? down)
+      (verify (not-enemy? down))
+  )  
+  next 
+  (if (not-in-zone? home)
+      next
+  )
+  (if (not-in-zone? home)
+      next
+  )
+  (if (not-in-zone? home)
+      next
+  )
+  (while not-empty? up)
+  (if (not-in-zone? home)
+      (if (on-board? down)
+          (verify (enemy? down))
+      )
+      up up up up to
+      back down cascade from
+      next next next next (while not-empty? up)
+      up up up to
+      back down down cascade from
+      next next next next (while not-empty? up)
+      up up to
+      back down down down cascade from
+      next next next next (while not-empty? up)
+      up to
+      back down down down down cascade
+      next next next next (while not-empty? up)
+   else
+      to back 
+      down capture
+      down capture
+      down capture
+      down capture
+  )
+  add
+))
+
+(define step-4-5 (
+  (check-5)
+  (if (on-board? up)
+      (verify (empty? up))
+  )
+  mark from
+  down (verify enemy?)
+  down (verify enemy?)
+  down (verify enemy?)
+  down (verify enemy?)
+  (if (on-board? down)
+      (verify (not-enemy? down))
+  )  
+  next 
+  (if (not-in-zone? home)
+      next
+  )
+  (if (not-in-zone? home)
+      next
+  )
+  (if (not-in-zone? home)
+      next
+  )
+  (if (not-in-zone? home)
+      next
+  )
+  (while not-empty? up)
+  (if (not-in-zone? home)
+      (if (on-board? down)
+          (verify (enemy? down))
+      )
+      up up up up to
+      back down cascade from
+      next next next next next (while not-empty? up)
+      up up up to
+      back down down cascade from
+      next next next next next (while not-empty? up)
+      up up to
+      back down down down cascade from
+      next next next next next (while not-empty? up)
+      up to
+      back down down down down cascade
+      next next next next next (while not-empty? up)
+   else
+      to back 
+      down capture
+      down capture
+      down capture
+      down capture
+  )
+  add
+))
+
 (game
   (title "Puluc")
 
-  (move-sound "Audio/Pickup.wav")
-  (release-sound "Audio/Pickup.wav")
-
-  (option "prevent flipping" 2)
   (option "animate captures" false)
+  (option "animate drops" false)
+  (option "show moves list" false)
+  (option "pass turn" forced)
+  (option "highlight goals" false)
+  (option "prevent flipping" true)
+  (option "recycle captures" true)
 
-  (players    White Black)
-  (turn-order White Black)
+  (drop-sound "Audio/Dice_cup.wav")
+  (move-sound "Audio/Pickup.wav")
+  (capture-sound "")
+
+  (players White Black ?D)
+  (turn-order 
+    (?D White setup)
+    (?D White setup)
+    (?D White setup)
+    (?D White setup)
+    (White normal)
+    (?D Black setup)
+    (?D Black setup)
+    (?D Black setup)
+    (?D Black setup)
+    (Black normal)
+  )
 
   (board
     (image "../images/Puluc/board.bmp")
       (positions
+             (x1  214 105 227 450)
+             (x2  232 105 245 450)
+             (x3  250 105 263 450)
+             (x4  268 105 281 450)
+
              (a11   0  0  50  50)
              (b11  38  0  88  50)
              (c11  76  0 126  50)
@@ -216,6 +1049,9 @@
              (e4  152 355 202 405)
              (e3  152 405 202 455)
              (e2  152 455 202 505)
+      )
+      (zone (name dices) (players ?D White Black)
+            (positions x1 x2 x3 x4)
       )
       (zone (name home) (players White)
             (positions a1 b1 c1 d1 e1)
@@ -281,17 +1117,36 @@
      (image White "../images/Puluc/white.bmp"
             Black "../images/Puluc/black.bmp")
      (moves 
-        (step-0-1) 
-        (step-1-1) 
-        (step-2-1)
-        (step-3-1)
-        (step-4-1)
+        (move-type normal)
+        (step-0-1) (step-0-2) (step-0-3) (step-0-4) (step-0-5) 
+        (step-1-1) (step-1-2) (step-1-3) (step-1-4) (step-1-5) 
+        (step-2-1) (step-2-2) (step-2-3) (step-2-4) (step-2-5) 
+        (step-3-1) (step-3-2) (step-3-3) (step-3-4) (step-3-5) 
+        (step-4-1) (step-4-2) (step-4-3) (step-4-4) (step-4-5) 
+     )
+  )
+  (piece
+     (name W)
+     (image White "../images/Puluc/wdice.bmp"
+            Black "../images/Puluc/wdice.bmp")
+     (drops
+        (move-type setup)
+        (drop-dice) 
+     )
+  )
+  (piece
+     (name B)
+     (image White "../images/Puluc/bdice.bmp"
+            Black "../images/Puluc/bdice.bmp")
+     (drops
+        (move-type setup)
+        (drop-dice) 
      )
   )
 
   (board-setup
-     (White (Man a1 b1 c1 d1 e1) )
-     (Black (Man a11 b11 c11 d11 e11) )
+     (White (Man a1 b1 c1 d1 e1) (W off 4) (B off 4) )
+     (Black (Man a11 b11 c11 d11 e11) (W off 4) (B off 4) )
   )
 
   (loss-condition (White Black) (pieces-remaining 0) )
