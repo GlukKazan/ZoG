@@ -1212,6 +1212,22 @@
 
 (game
   (title "Puluc")
+  (description "Each player starts the game with five pieces of his colour, all starting in his home city at his end of the track.\
+   There are four casting sticks that control the movement of the players, the sticks each having one side marked. \
+   The value of a throw is the number of marked sides showing, or 5 if all sides are showing blank.\\
+   A player's turn consists of throwing the casting sticks then moving one of his pieces. If the player has pieces \
+   in his home city he may move one onto the track, by the number of spaces shown by the casting sticks. Alternatively \
+   if the player has other non-captured pieces on the track, he may opt to move one of these by the appropriate number \
+   of spaces instead.\\
+   A player may not land one of his pieces on top of another, unless the latter is a captive of the enemy. When a moving \
+   piece reaches or passes the enemy city, he and any freed compatriots with him are returned to his home city, and his \
+   enemy captives are killed removed from play.\\
+   If a piece lands on an enemy on the track, the enemy is captured. If the captured enemy himself had captives, those \
+   captives are freed and accompany their deliverer as described below. If a moving piece is on top of a pile of enemy \
+   captives and freed compatriots, then those captives and compatriots move with him till he reaches the enemy city. \\
+   A player wins the game when all his opponent's pieces have been either killed or captured.")
+  (history "Puluc, also called Boolik and Bul, is a game played by the Kekchi people of North Guatemala in Central America. \
+   The Kekchi people are descendants of the Mayans, which induces some authors to speculate that Puluc is a Mayan game.")
 
   (option "animate captures" false)
   (option "animate drops" false)
