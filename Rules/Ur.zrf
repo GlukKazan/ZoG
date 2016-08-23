@@ -1,0 +1,291 @@
+(define refresh
+   (if (in-zone? start d10)
+       (if friend?
+           (create White $1)
+        else
+           (create Black $1)
+       )
+    else
+       (if friend?
+           (create Black $1)
+        else
+           (create White $1)
+       )
+   )
+)
+
+(define check-refresh
+   (if (on-board? down)
+       (if (or (and (flag? is-enemy?) not-enemy?)
+               (and (not-flag? is-enemy?) enemy?)
+           )
+           (refresh $3)
+        else
+           (refresh $2)
+       )
+    else
+       (refresh $1)
+   )
+)
+
+(define pre-action
+   (if (on-board? home)
+       (verify (empty? home))
+   )
+   (if (on-board? up)
+       (verify (empty? up))
+   )
+   (set-flag is-king? false)
+   (if (or (piece? King) (piece? KingE) (piece? KingF))
+       (set-flag is-king? false)
+   )
+   (if (on-board? down)
+       mark down
+       (while (and (on-board? up) (not-empty? up))
+            (if (or (piece? King) (piece? KingE) (piece? KingF))
+                (check-refresh King KingF KingE)
+             else
+                (check-refresh Man ManF ManE)
+            )
+            (set-flag is-enemy? enemy?)
+            up
+       )
+       back
+   )
+)
+
+(define post-action
+   (if (and not-empty? (on-board? up))
+       (while (and (on-board? up) not-empty?) 
+           (set-flag is-enemy? enemy?)
+           up
+       )
+       (verify empty?)
+       (if (flag? is-king?)
+           (if (flag? is-enemy?)
+               (add KingE)
+            else
+               (add KingF)
+           )
+        else
+           (if (flag? is-enemy?)
+               (add ManE)
+            else
+               (add ManF)
+           )
+       )
+    else
+       (verify empty?)
+       (if (flag? is-king?)
+           (add King)
+        else
+           (add Man)
+       )
+   )
+)
+
+(define step-1 (
+   (pre-action)
+   $1
+   (post-action)
+))
+
+(game
+   (title "Ur")
+
+   (option "animate captures" false)
+   (option "animate drops" false)
+   (option "show moves list" false)
+   (option "pass turn" forced)
+   (option "highlight goals" false)
+   (option "prevent flipping" true)
+   (option "recycle captures" true)
+
+   (drop-sound "Audio/Dice_cup.wav")
+   (move-sound "Audio/Clack.wav")
+   (capture-sound "")
+
+   (players White Black ?Dice)
+   (turn-order White Black)
+
+   (board
+          (image "../images/Ur/ur.bmp")
+          (positions
+             (x3 660 108 710 161)
+             (x2 660 176 710 229)
+             (x1 660 244 710 297)
+
+             (a40  67  38  96  67)
+             (b40 134  38 163  67)
+             (c40 201  38 230  67)
+             (d40 268  38 297  67)
+             (e40 335  38 364  67)
+             (f40 402  38 431  67)
+             (g40 469  38 498  67)
+
+             (a30  67 115  96 144)
+             (b33 123 104 151 132)
+             (b32 127 108 155 136)
+             (b31 131 112 159 140)
+             (b30 134 115 163 144)
+             (c30 201 115 230 144)
+             (d33 257 104 285 132)
+             (d32 261 108 289 136)
+             (d31 265 112 293 140)
+             (d30 268 115 297 144)
+             (g30 469 115 498 144)
+             (h30 536 115 565 144)
+
+             (z0  -31 186  -6 211)
+             (a20  67 184  96 213)
+             (b20 134 184 163 213)
+             (c23 190 173 218 201)
+             (c22 194 177 222 205)
+             (c21 198 181 226 209)
+             (c20 201 184 230 213)
+             (d20 268 184 297 213)
+             (e20 335 184 364 213)
+             (f23 391 173 419 201)
+             (f22 395 177 423 205)
+             (f21 399 181 427 209)
+             (f20 402 184 431 213)
+             (g23 458 173 486 201)
+             (g22 462 177 490 205)
+             (g21 466 181 494 209)
+             (g20 469 184 498 213)
+             (h20 536 184 565 213)
+
+             (a10  67 253  96 282)
+             (b13 123 242 151 270)
+             (b12 127 246 155 274)
+             (b11 131 250 159 278)
+             (b10 134 253 163 282)
+             (c10 201 253 230 282)
+             (d13 257 242 285 270)
+             (d12 261 246 289 274)
+             (d11 265 250 293 278)
+             (d10 268 253 297 282)
+             (g10 469 254 498 283)
+             (h10 536 254 565 283)
+
+             (a00  67 330  96 359)
+             (b00 134 330 163 359)
+             (c00 201 330 230 359)
+             (d00 268 330 297 359)
+             (e00 335 330 364 359)
+             (f00 402 330 431 359)
+             (g00 469 330 498 359)
+          )
+          (links up  
+             (b10 b11) (b11 b12) (b12 b13) (d10 d11) (d11 d12) (d12 d13)
+             (b30 b31) (b31 b32) (b32 b33) (d30 d31) (d31 d32) (d32 d33)
+             (c20 c21) (c21 c22) (c22 c23) (f20 f21) (f21 f22) (f22 f23)
+             (g20 g21) (g21 g22) (g22 g23) 
+          )
+          (links down
+             (d11 d10) (d12 d10) (d13 d10) (b11 b10) (b12 b10) (b13 b10)
+             (d31 d30) (d32 d30) (d33 d30) (b31 b30) (b32 b30) (b33 b30)
+             (c21 c20) (c22 c20) (c23 c20) (f21 f20) (f22 f20) (f23 f20)
+             (g21 g20) (g22 g20) (g23 g20)
+          )
+          (links next
+             (a00 d10) (b00 d10) (c00 d10) (d00 d10) (e00 d10) (f00 d10) (g00 d10)
+             (d10 c10) (c10 b10) (b10 a10) (a10 a20) (a20 b20) (b20 c20) (c20 d20) 
+             (d20 e20) (e20 f20) (f20 g20) (g20 g10) (g10 h10) (h10 h20) (h20 h30)
+             (h30 g30) (g30 g20) (d11 c10) (d12 c10) (d13 c10) (b11 a10) (b12 a10)
+             (b13 a10) (c21 d20) (c22 d20) (c23 d20) (f21 g20) (f22 g20) (f23 g20)
+             (g21 g10) (g22 g10) (g23 g10)
+          )
+          (links next-black
+             (a40 d30) (b40 d30) (c40 d30) (d40 d30) (e40 d30) (f40 d30) (g40 d30) 
+             (d30 c30) (c30 b30) (b30 a30) (a30 a20) (a20 b20) (b20 c20) (c20 d20) 
+             (d20 e20) (e20 f20) (f20 g20) (g20 g30) (g30 h30) (h30 h20) (h20 h10) 
+             (h10 g10) (g10 g20) (d31 c30) (d32 c30) (d33 c30) (b31 a30) (b32 a30)
+             (b33 a30) (c21 d20) (c22 d20) (c23 d20) (f21 g20) (f22 g20) (f23 g20)
+             (g21 g30) (g22 g30) (g23 g30)
+          )
+          (links prom
+             (h20 h30) (h30 g30) (g30 g20) (g20 f20) (f20 e20) (e20 d20) (d20 c20)
+             (c20 b20) (b20 a20) (g21 f20) (g22 f20) (g23 f20) (f21 e20) (f22 e20) 
+             (f23 e20) (c21 b20) (c22 b20) (c23 b20) (a20 z0) 
+          )
+          (links prom-black
+             (h20 h10) (h10 g10) (g10 g20) (g20 f20) (f20 e20) (e20 d20) (d20 c20)
+             (c20 b20) (b20 a20) (g21 f20) (g22 f20) (g23 f20) (f21 e20) (f22 e20) 
+             (f23 e20) (c21 b20) (c22 b20) (c23 b20) (a20 z0)
+          )
+          (links free 
+             (z0 a40) (a40 b40) (b40 c40) (c40 d40) (d40 e40) (e40 f40) (f40 g40)
+          )
+          (links home 
+             (z0 a00) (a00 b00) (b00 c00) (c00 d00) (d00 e00) (e00 f00) (f00 g00)
+          )
+          (links dice (x1 x2) (x2 x3) )
+          (symmetry Black (next next-black) (prom prom-black) (free home) (home free) )
+          (zone (name start) (players White) (positions d10))
+          (zone (name start) (players Black) (positions d30))
+   )
+
+   (piece
+	  (name  Man)
+          (image White "../images/Ur/wi.bmp"
+                 Black "../images/Ur/bi.bmp")
+          (moves
+             (step-1 next)
+          )
+   )
+   (piece
+	  (name  ManF)
+          (image White "../images/Ur/wiw.bmp"
+                 Black "../images/Ur/bib.bmp")
+          (moves
+             (step-1 next)
+          )
+   )
+   (piece
+	  (name  ManE)
+          (image White "../images/Ur/wib.bmp"
+                 Black "../images/Ur/biw.bmp")
+          (moves
+             (step-1 next)
+          )
+   )
+   (piece
+	  (name  King)
+          (image White "../images/Ur/wp.bmp"
+                 Black "../images/Ur/bp.bmp")
+          (moves
+             (step-1 prom)
+          )
+   )
+   (piece
+	  (name  KingF)
+          (image White "../images/Ur/wpw.bmp"
+                 Black "../images/Ur/bpb.bmp")
+          (moves
+             (step-1 prom)
+          )
+   )
+   (piece
+	  (name  KingE)
+          (image White "../images/Ur/wpb.bmp"
+                 Black "../images/Ur/bpw.bmp")
+          (moves
+             (step-1 prom)
+          )
+   )
+   (piece
+	  (name wdice)
+          (image ?Dice "../images/Ur/d110.bmp")
+   )
+   (piece
+	  (name bdice)
+          (image ?Dice "../images/Ur/d011.bmp")
+   )
+
+   (board-setup
+          (?Dice (wdice x3 off 2) (bdice x2 x1 off 1) )
+          (White (Man a00 b00 c00 d00 e00 f00 g00) )
+          (Black (Man a40 b40 c40 d40 e40 f40 g40) )
+   )
+)
