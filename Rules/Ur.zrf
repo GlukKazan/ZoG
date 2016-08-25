@@ -1,5 +1,56 @@
+(define drop-dice (
+  (verify (in-zone? dices))
+  (verify not-friend?)
+  (if (in-zone? count)
+      mark z1
+      (while (and not-empty? (on-board? counter))
+         capture
+         counter
+      )
+      (if empty?
+          (create Mark)
+       else
+          capture
+      )
+      back
+  )
+  add
+))
+
+(define check-1
+   (verify (or
+       (and (piece? d1 x1) (piece? d0 x2) (piece? d0 x3) )
+       (and (piece? d0 x1) (piece? d1 x2) (piece? d0 x3) )
+       (and (piece? d0 x1) (piece? d0 x2) (piece? d1 x3) )
+   ))
+)
+
+(define check-2
+   (verify (or
+       (and (piece? d1 x1) (piece? d1 x2) (piece? d0 x3) )
+       (and (piece? d1 x1) (piece? d0 x2) (piece? d1 x3) )
+       (and (piece? d0 x1) (piece? d1 x2) (piece? d1 x3) )
+   ))
+)
+
+(define check-3
+   (verify
+       (and (piece? d1 x1) (piece? d1 x2) (piece? d1 x3) )
+   )
+)
+
+(define check-4
+   (verify
+       (and (piece? d0 x1) (piece? d0 x2) (piece? d0 x3) )
+   )
+)
+
+(define im-white?
+   (in-zone? start d10)
+)
+
 (define refresh
-   (if (in-zone? start d10)
+   (if (im-white?)
        (if friend?
            (create White $1)
         else
@@ -12,6 +63,19 @@
            (create White $1)
        )
    )
+)
+
+(define add-piece
+   mark z0 free
+   (while (and not-empty? (on-board? free)) free)
+   (if empty?
+       (if (im-white?)
+           (create Black Man)
+        else
+           (create White Man)
+       )
+   )
+   back
 )
 
 (define check-refresh
@@ -37,7 +101,7 @@
    )
    (set-flag is-king? false)
    (if (or (piece? King) (piece? KingE) (piece? KingF))
-       (set-flag is-king? false)
+       (set-flag is-king? true)
    )
    (if (on-board? down)
        mark down
@@ -56,6 +120,9 @@
 
 (define post-action
    (if (and not-empty? (on-board? up))
+       (if (in-zone? safe)
+           (verify not-enemy?)
+       )
        (while (and (on-board? up) not-empty?) 
            (set-flag is-enemy? enemy?)
            up
@@ -75,18 +142,71 @@
            )
        )
     else
-       (verify empty?)
-       (if (flag? is-king?)
-           (add King)
+       (if (in-zone? end)
+           capture
+           add
         else
-           (add Man)
-       )
+           (verify not-friend?)
+           (if (and (in-zone? fin) enemy?)
+               (verify (piece? Man))
+           )
+           (if not-empty?
+               (if (flag? is-king?)
+                   (verify (piece? King))
+                else
+                   (verify (piece? Man))
+               )
+               (add-piece)
+           )
+           (if (flag? is-king?)
+               (add King)
+            else
+               (add Man)
+           )
+      )
+   )
+)
+
+(define common-step
+   (if (in-zone? promo)
+       (set-flag is-king? true)
+   )
+   (if (not-in-zone? end)
+       $1
    )
 )
 
 (define step-1 (
+   (check-1)
    (pre-action)
-   $1
+   (common-step $1)
+   (post-action)
+))
+
+(define step-2 (
+   (check-2)
+   (pre-action)
+   (common-step $1)
+   (common-step $1)
+   (post-action)
+))
+
+(define step-3 (
+   (check-3)
+   (pre-action)
+   (common-step $1)
+   (common-step $1)
+   (common-step $1)
+   (post-action)
+))
+
+(define step-4 (
+   (check-4)
+   (pre-action)
+   (common-step $1)
+   (common-step $1)
+   (common-step $1)
+   (common-step $1)
    (post-action)
 ))
 
@@ -106,7 +226,18 @@
    (capture-sound "")
 
    (players White Black ?Dice)
-   (turn-order White Black)
+   (turn-order 
+          (White normal)
+          repeat
+          (?Dice Black setup)
+          (?Dice Black setup)
+          (?Dice Black setup)
+          (Black normal)
+          (?Dice White setup)
+          (?Dice White setup)
+          (?Dice White setup)
+          (White normal)
+   )
 
    (board
           (image "../images/Ur/ur.bmp")
@@ -114,6 +245,14 @@
              (x3 660 108 710 161)
              (x2 660 176 710 229)
              (x1 660 244 710 297)
+
+             (z1  67 -62  96 -33)
+             (z2 134 -62 163 -33)
+             (z3 201 -62 230 -33)
+             (z4 268 -62 297 -33)
+             (z5 335 -62 364 -33)
+             (z6 402 -62 431 -33)
+             (z7 469 -62 498 -33)
 
              (a40  67  38  96  67)
              (b40 134  38 163  67)
@@ -220,10 +359,20 @@
           (links home 
              (z0 a00) (a00 b00) (b00 c00) (c00 d00) (d00 e00) (e00 f00) (f00 g00)
           )
+          (links counter
+             (z1 z2) (z2 z3) (z3 z4) (z4 z5) (z5 z6) (z6 z7)
+          )
           (links dice (x1 x2) (x2 x3) )
           (symmetry Black (next next-black) (prom prom-black) (free home) (home free) )
+          (zone (name end)   (players White Black) (positions z0))
           (zone (name start) (players White) (positions d10))
           (zone (name start) (players Black) (positions d30))
+          (zone (name promo) (players White) (positions h10))
+          (zone (name promo) (players Black) (positions h30))
+          (zone (name safe)  (players White Black) (positions g20))
+          (zone (name fin)   (players White Black) (positions a20))
+          (zone (name dices) (players White Black) (positions x1 x2 x3))
+          (zone (name count) (players White Black) (positions x1))
    )
 
    (piece
@@ -231,7 +380,8 @@
           (image White "../images/Ur/wi.bmp"
                  Black "../images/Ur/bi.bmp")
           (moves
-             (step-1 next)
+             (move-type normal)
+             (step-1 next) (step-2 next) (step-3 next) (step-4 next)
           )
    )
    (piece
@@ -239,7 +389,8 @@
           (image White "../images/Ur/wiw.bmp"
                  Black "../images/Ur/bib.bmp")
           (moves
-             (step-1 next)
+             (move-type normal)
+             (step-1 next) (step-2 next) (step-3 next) (step-4 next)
           )
    )
    (piece
@@ -247,7 +398,8 @@
           (image White "../images/Ur/wib.bmp"
                  Black "../images/Ur/biw.bmp")
           (moves
-             (step-1 next)
+             (move-type normal)
+             (step-1 next) (step-2 next) (step-3 next) (step-4 next)
           )
    )
    (piece
@@ -255,7 +407,8 @@
           (image White "../images/Ur/wp.bmp"
                  Black "../images/Ur/bp.bmp")
           (moves
-             (step-1 prom)
+             (move-type normal)
+             (step-1 prom) (step-2 prom) (step-3 prom) (step-4 prom)
           )
    )
    (piece
@@ -263,7 +416,8 @@
           (image White "../images/Ur/wpw.bmp"
                  Black "../images/Ur/bpb.bmp")
           (moves
-             (step-1 prom)
+             (move-type normal)
+             (step-1 prom) (step-2 prom) (step-3 prom) (step-4 prom)
           )
    )
    (piece
@@ -271,21 +425,36 @@
           (image White "../images/Ur/wpb.bmp"
                  Black "../images/Ur/bpw.bmp")
           (moves
-             (step-1 prom)
+             (move-type normal)
+             (step-1 prom) (step-2 prom) (step-3 prom) (step-4 prom)
           )
    )
    (piece
-	  (name wdice)
-          (image ?Dice "../images/Ur/d110.bmp")
+	  (name d0)
+          (image White "../images/Ur/d011.bmp"
+                 Black "../images/Ur/d010.bmp")
+          (drops
+             (move-type setup)
+             (drop-dice) 
+          )
    )
    (piece
-	  (name bdice)
-          (image ?Dice "../images/Ur/d011.bmp")
+	  (name d1)
+          (image White "../images/Ur/d100.bmp"
+                 Black "../images/Ur/d101.bmp")
+          (drops
+             (move-type setup)
+             (drop-dice) 
+          )
+   )
+   (piece
+	  (name Mark)
+          (image White "../images/Ur/i.bmp"
+                 Black "../images/Ur/i.bmp")
    )
 
    (board-setup
-          (?Dice (wdice x3 off 2) (bdice x2 x1 off 1) )
-          (White (Man a00 b00 c00 d00 e00 f00 g00) )
-          (Black (Man a40 b40 c40 d40 e40 f40 g40) )
+          (White (Man a00 b00 c00 d00 e00 f00 g00) (d0 x2 x1 off 1) (d1 x3 off 2) )
+          (Black (Man a40 b40 c40 d40 e40 f40 g40) (d0 off 3) (d1 off 3) )
    )
 )
