@@ -14,6 +14,9 @@
       )
       back
   )
+  (if (friend? y0)
+      (capture y0)
+  )
   add
 ))
 
@@ -93,6 +96,7 @@
 )
 
 (define pre-action
+   (verify (not-enemy? y0))
    (if (on-board? home)
        (verify (empty? home))
    )
@@ -142,6 +146,9 @@
            )
        )
     else
+       (if (in-zone? star)
+           (create Mark y0)
+       )
        (if (in-zone? end)
            capture
            add
@@ -171,9 +178,7 @@
    (if (in-zone? promo)
        (set-flag is-king? true)
    )
-   (if (not-in-zone? end)
-       $1
-   )
+   $1
 )
 
 (define step-1 (
@@ -224,6 +229,10 @@
    (drop-sound "Audio/Dice_cup.wav")
    (move-sound "Audio/Clack.wav")
    (capture-sound "")
+   (change-sound  "")
+   (click-sound   "")
+   (draw-sound    "")
+   (release-sound "")
 
    (players White Black ?Dice)
    (turn-order 
@@ -275,6 +284,7 @@
              (g30 469 115 498 144)
              (h30 536 115 565 144)
 
+             (y0  -31 115  -6 144)
              (z0  -31 186  -6 211)
              (a20  67 184  96 213)
              (b20 134 184 163 213)
@@ -373,6 +383,7 @@
           (zone (name fin)   (players White Black) (positions a20))
           (zone (name dices) (players White Black) (positions x1 x2 x3))
           (zone (name count) (players White Black) (positions x1))
+          (zone (name star)  (players White Black) (positions a10 a30 d20 g10 g30))
    )
 
    (piece
@@ -457,4 +468,13 @@
           (White (Man a00 b00 c00 d00 e00 f00 g00) (d0 x2 x1 off 1) (d1 x3 off 2) )
           (Black (Man a40 b40 c40 d40 e40 f40 g40) (d0 off 3) (d1 off 3) )
    )
+
+   (win-condition (White Black) (and 
+          (pieces-remaining 0 Man) 
+          (pieces-remaining 0 ManF) 
+          (pieces-remaining 0 ManE) 
+          (pieces-remaining 0 King)
+          (pieces-remaining 0 KingF)
+          (pieces-remaining 0 KingE)
+   ))
 )
