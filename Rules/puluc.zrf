@@ -39,8 +39,8 @@
   )
 )
 
-(define drop-dice (
-  (verify (in-zone? dices))
+(define drop-die (
+  (verify (in-zone? dice))
   (verify not-friend?)
   add
 ))
@@ -1212,30 +1212,43 @@
 
 (game
   (title "Puluc")
-  (description "Each player starts the game with five pieces of his colour, all starting in his home city at his end of the track.\
-   There are four casting sticks that control the movement of the players, the sticks each having one side marked. \
-   The value of a throw is the number of marked sides showing, or 5 if all sides are showing blank.\\
-   A player's turn consists of throwing the casting sticks then moving one of his pieces. If the player has pieces \
-   in his home city he may move one onto the track, by the number of spaces shown by the casting sticks. Alternatively \
-   if the player has other non-captured pieces on the track, he may opt to move one of these by the appropriate number \
-   of spaces instead.\\
-   A player may not land one of his pieces on top of another, unless the latter is a captive of the enemy. When a moving \
-   piece reaches or passes the enemy city, he and any freed compatriots with him are returned to his home city, and his \
-   enemy captives are killed removed from play.\\
-   If a piece lands on an enemy on the track, the enemy is captured. If the captured enemy himself had captives, those \
-   captives are freed and accompany their deliverer as described below. If a moving piece is on top of a pile of enemy \
-   captives and freed compatriots, then those captives and compatriots move with him till he reaches the enemy city. \\
-   A player wins the game when all his opponent's pieces have been either killed or captured.")
-  (history "Puluc, also called Boolik and Bul, is a game played by the Kekchi people of North Guatemala in Central America. \
+  (description "Each player starts the game with five pieces of his colour,\
+   all starting in his home city at his end of the track.\
+   There are four casting sticks that control the movement of the players,\
+   the sticks each having one black side and one white side.\
+   The value of a throw is the number of black sides showing,\
+   or five if all four sticks are showing their white side.\\
+   A player's turn consists of throwing the casting sticks\
+   then moving one of his pieces.\
+   If the player has pieces in his home city, he may move one onto the track\
+   by the number of spaces shown by the casting sticks.\
+   If the player has non-captured pieces on the track,\
+   he may move one of these by the appropriate number of spaces instead.\\
+   A player may not land one of his pieces on top of another,\
+   unless the latter is a captive of the enemy.\
+   When a moving piece reaches or passes the enemy city,\
+   he is returned to his home city,\
+   and his enemy captives are killed and removed from play.\\
+   If a piece lands on an enemy on the track, the enemy is captured.\
+   If the captured enemy himself had captives,\
+   those captives are freed as soon their deliverer moves away\
+   carrying their former captor with him.\
+   When moving a piece from on top of a pile,\
+   the top piece carries his immediate captives with him,\
+   freeing any formerly captured compatriots\
+   to move with their immediate captives on a future turn.\\
+   A player wins the game\
+   when all his opponent's pieces have been either killed or captured.")
+  (history "Puluc, also called Boolik and Bul, is a game played by the Kekchi people of North Guatemala in Central America.\
    The Kekchi people are descendants of the Mayans, which induces some authors to speculate that Puluc is a Mayan game.")
 
-  (option "animate captures" false)
-  (option "animate drops" false)
-  (option "show moves list" false)
-  (option "pass turn" forced)
-  (option "highlight goals" false)
-  (option "prevent flipping" true)
-  (option "recycle captures" true)
+  (animate-captures false)
+  (animate-drops    false)
+; (show-moves-list  false); not supported in Zillions 1.
+  (pass-turn        false)
+; (highlight-goals  false); not supported in Zillions 1.
+  (allow-flipping   false)
+  (recycle-captures  true)
 
   (drop-sound "Audio/Dice_cup.wav")
   (move-sound "Audio/Pickup.wav")
@@ -1263,89 +1276,89 @@
              (x3  250 105 263 450)
              (x4  268 105 281 450)
 
-             (a11   0  0  50  50)
-             (b11  38  0  88  50)
-             (c11  76  0 126  50)
-             (d11 114  0 164  50)
-             (e11 152  0 202  50)
+             (a11   0   0  50  50)
+             (b11  38   0  88  50)
+             (c11  76   0 126  50)
+             (d11 114   0 164  50)
+             (e11 152   0 202  50)
 
-             (a1   0 510  50 560)
-             (b1  38 510  88 560)
-             (c1  76 510 126 560)
-             (d1 114 510 164 560)
-             (e1 152 510 202 560)
+             (a1    0 510  50 560)
+             (b1   38 510  88 560)
+             (c1   76 510 126 560)
+             (d1  114 510 164 560)
+             (e1  152 510 202 560)
 
              (a10  13  54  37 105)
-             (a9  13 104  37 155)
-             (a8  13 154  37 205)
-             (a7  13 204  37 255)
-             (a6  13 254  37 305)
-             (a5  13 304  37 355)
-             (a4  13 354  37 405)
-             (a3  13 404  37 455)
-             (a2  13 454  37 505)
+             (a9   13 104  37 155)
+             (a8   13 154  37 205)
+             (a7   13 204  37 255)
+             (a6   13 254  37 305)
+             (a5   13 304  37 355)
+             (a4   13 354  37 405)
+             (a3   13 404  37 455)
+             (a2   13 454  37 505)
 
              (b10  38  54  62 105)
-             (b9  38 104  62 155)
-             (b8  38 154  62 205)
-             (b7  38 204  62 255)
-             (b6  38 254  62 305)
-             (b5  38 304  62 355)
-             (b4  38 354  62 405)
-             (b3  38 404  62 455)
-             (b2  38 454  62 505)
+             (b9   38 104  62 155)
+             (b8   38 154  62 205)
+             (b7   38 204  62 255)
+             (b6   38 254  62 305)
+             (b5   38 304  62 355)
+             (b4   38 354  62 405)
+             (b3   38 404  62 455)
+             (b2   38 454  62 505)
 
              (c10  63  54  87 105)
-             (c9  63 104  87 155)
-             (c8  63 154  87 205)
-             (c7  63 204  87 255)
-             (c6  63 254  87 305)
-             (c5  63 304  87 355)
-             (c4  63 354  87 405)
-             (c3  63 404  87 455)
-             (c2  63 454  87 505)
+             (c9   63 104  87 155)
+             (c8   63 154  87 205)
+             (c7   63 204  87 255)
+             (c6   63 254  87 305)
+             (c5   63 304  87 355)
+             (c4   63 354  87 405)
+             (c3   63 404  87 455)
+             (c2   63 454  87 505)
 
              (d10  88  54 112 105)
-             (d9  88 104 112 155)
-             (d8  88 154 112 205)
-             (d7  88 204 112 255)
-             (d6  88 254 112 305)
-             (d5  88 304 112 355)
-             (d4  88 354 112 405)
-             (d3  88 404 112 455)
-             (d2  88 454 112 505)
+             (d9   88 104 112 155)
+             (d8   88 154 112 205)
+             (d7   88 204 112 255)
+             (d6   88 254 112 305)
+             (d5   88 304 112 355)
+             (d4   88 354 112 405)
+             (d3   88 404 112 455)
+             (d2   88 454 112 505)
 
              (e10 113  54 137 105)
-             (e9 113 104 137 155)
-             (e8 113 154 137 205)
-             (e7 113 204 137 255)
-             (e6 113 254 137 305)
-             (e5 113 304 137 355)
-             (e4 113 354 137 405)
-             (e3 113 404 137 455)
-             (e2 113 454 137 505)
+             (e9  113 104 137 155)
+             (e8  113 154 137 205)
+             (e7  113 204 137 255)
+             (e6  113 254 137 305)
+             (e5  113 304 137 355)
+             (e4  113 354 137 405)
+             (e3  113 404 137 455)
+             (e2  113 454 137 505)
 
              (f10 138  54 162 105)
-             (f9 138 104 162 155)
-             (f8 138 154 162 205)
-             (f7 138 204 162 255)
-             (f6 138 254 162 305)
-             (f5 138 304 162 355)
-             (f4 138 354 162 405)
-             (f3 138 404 162 455)
-             (f2 138 454 162 505)
+             (f9  138 104 162 155)
+             (f8  138 154 162 205)
+             (f7  138 204 162 255)
+             (f6  138 254 162 305)
+             (f5  138 304 162 355)
+             (f4  138 354 162 405)
+             (f3  138 404 162 455)
+             (f2  138 454 162 505)
 
              (g10 163  54 187 105)
-             (g9 163 104 187 155)
-             (g8 163 154 187 205)
-             (g7 163 204 187 255)
-             (g6 163 254 187 305)
-             (g5 163 304 187 355)
-             (g4 163 354 187 405)
-             (g3 163 404 187 455)
-             (g2 163 454 187 505)
+             (g9  163 104 187 155)
+             (g8  163 154 187 205)
+             (g7  163 204 187 255)
+             (g6  163 254 187 305)
+             (g5  163 304 187 355)
+             (g4  163 354 187 405)
+             (g3  163 404 187 455)
+             (g2  163 454 187 505)
       )
-      (zone (name dices) (players ?D White Black)
+      (zone (name dice) (players ?D White Black)
             (positions x1 x2 x3 x4)
       )
       (zone (name home) (players White)
@@ -1427,7 +1440,7 @@
             Black "../images/Puluc/wdice.bmp")
      (drops
         (move-type setup)
-        (drop-dice) 
+        (drop-die) 
      )
   )
   (piece
@@ -1436,7 +1449,7 @@
             Black "../images/Puluc/bdice.bmp")
      (drops
         (move-type setup)
-        (drop-dice) 
+        (drop-die) 
      )
   )
 
@@ -1446,4 +1459,5 @@
   )
 
   (loss-condition (White Black) (pieces-remaining 0) )
+  (loss-condition (White Black) stalemated )
 )
