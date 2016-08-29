@@ -1,0 +1,201 @@
+; Elephant Hunt created by:  Freederick
+
+; You need to purchase Zillions of Games to load this rules file
+; Visit the Zillions web site at http://www.zillions-of-games.com
+
+;=======================================================================
+; PIECE MOVES
+(define Ele-shift (
+   $1
+   (verify not-friend?)
+   (verify (not-friend? ul)) (verify (not-friend? ur)) (verify (not-friend? dl)) (verify (not-friend? dr))
+   (set-attribute vulnerable?
+            (and (attacked? ul) (attacked? ur) (attacked? dl) (attacked? dr)))
+   (capture ul) (capture ur) (capture dl) (capture dr)
+   add
+))
+(define Pygmy-leap2 (
+   $1 $2 (verify (and not-friend? (or (empty? c) (vulnerable? c))))
+   (if (not-empty? c) (capture c))
+   add
+))
+(define Shaman-shift2 (
+   $1 (if empty? add $2)
+   (verify (and not-friend? (or (empty? c) (vulnerable? c))))
+   (if (not-empty? c) (capture c))
+   add
+))
+
+;=======================================================================
+; BOARD DEFINITIONS
+(define Board-Definitions ;12x12
+  (image "../images\EleHunt\EleHunt.bmp")
+  (grid
+     (start-rectangle 16 16 41 41)
+     (dimensions
+         ("a/b/c/d/e/f/g/h/i/j" (45 0)) ; files
+         ("0/9/8/7/6/5/4/3/2/1" (0 45)) ; ranks
+     )
+     (directions (n 0 -1) (e 1 0) (s 0 1) (w -1 0)
+			     (ne 1 -1) (nw -1 -1) (se 1 1) (sw -1 1)
+     )
+  )
+  (grid
+     (start-rectangle 6 6 96 96)
+     (dimensions
+         ("ab/cd/ef/gh/ij" (90 0)) ; files
+         ("09/87/65/43/21" (0 90)) ; ranks
+     )
+     (directions (n 0 -1) (e 1 0) (s 0 1) (w -1 0)
+			     (ne 1 -1) (nw -1 -1) (se 1 1) (sw -1 1)
+     )
+  )
+  (links ul (ab21 a2) (cd21 c2) (ef21 e2) (gh21 g2) (ij21 i2)
+            (ab43 a4) (cd43 c4) (ef43 e4) (gh43 g4) (ij43 i4)
+            (ab65 a6) (cd65 c6) (ef65 e6) (gh65 g6) (ij65 i6)
+            (ab87 a8) (cd87 c8) (ef87 e8) (gh87 g8) (ij87 i8)
+            (ab09 a0) (cd09 c0) (ef09 e0) (gh09 g0) (ij09 i0)
+  )
+  (links dl (ab21 a1) (cd21 c1) (ef21 e1) (gh21 g1) (ij21 i1)
+            (ab43 a3) (cd43 c3) (ef43 e3) (gh43 g3) (ij43 i3)
+            (ab65 a5) (cd65 c5) (ef65 e5) (gh65 g5) (ij65 i5)
+            (ab87 a7) (cd87 c7) (ef87 e7) (gh87 g7) (ij87 i7)
+            (ab09 a9) (cd09 c9) (ef09 e9) (gh09 g9) (ij09 i9)
+  )
+  (links ur (ab21 b2) (cd21 d2) (ef21 f2) (gh21 h2) (ij21 j2)
+            (ab43 b4) (cd43 d4) (ef43 f4) (gh43 h4) (ij43 j4)
+            (ab65 b6) (cd65 d6) (ef65 f6) (gh65 h6) (ij65 j6)
+            (ab87 b8) (cd87 d8) (ef87 f8) (gh87 h8) (ij87 j8)
+            (ab09 b0) (cd09 d0) (ef09 f0) (gh09 h0) (ij09 j0)
+  )
+  (links dr (ab21 b1) (cd21 d1) (ef21 f1) (gh21 h1) (ij21 j1)
+            (ab43 b3) (cd43 d3) (ef43 f3) (gh43 h3) (ij43 j3)
+            (ab65 b5) (cd65 d5) (ef65 f5) (gh65 h5) (ij65 j5)
+            (ab87 b7) (cd87 d7) (ef87 f7) (gh87 h7) (ij87 j7)
+            (ab09 b9) (cd09 d9) (ef09 f9) (gh09 h9) (ij09 j9)
+  )
+  (links c
+    (a1 ab21) (a2 ab21) (a3 ab43) (a4 ab43) (a5 ab65) (a6 ab65) (a7 ab87) (a8 ab87) (a9 ab09) (a0 ab09)
+    (b1 ab21) (b2 ab21) (b3 ab43) (b4 ab43) (b5 ab65) (b6 ab65) (b7 ab87) (b8 ab87) (b9 ab09) (b0 ab09)
+    (c1 cd21) (c2 cd21) (c3 cd43) (c4 cd43) (c5 cd65) (c6 cd65) (c7 cd87) (c8 cd87) (c9 cd09) (c0 cd09)
+    (d1 cd21) (d2 cd21) (d3 cd43) (d4 cd43) (d5 cd65) (d6 cd65) (d7 cd87) (d8 cd87) (d9 cd09) (d0 cd09)
+    (e1 ef21) (e2 ef21) (e3 ef43) (e4 ef43) (e5 ef65) (e6 ef65) (e7 ef87) (e8 ef87) (e9 ef09) (e0 ef09)
+    (f1 ef21) (f2 ef21) (f3 ef43) (f4 ef43) (f5 ef65) (f6 ef65) (f7 ef87) (f8 ef87) (f9 ef09) (f0 ef09)
+    (g1 gh21) (g2 gh21) (g3 gh43) (g4 gh43) (g5 gh65) (g6 gh65) (g7 gh87) (g8 gh87) (g9 gh09) (g0 gh09)
+    (h1 gh21) (h2 gh21) (h3 gh43) (h4 gh43) (h5 gh65) (h6 gh65) (h7 gh87) (h8 gh87) (h9 gh09) (h0 gh09)
+    (i1 ij21) (i2 ij21) (i3 ij43) (i4 ij43) (i5 ij65) (i6 ij65) (i7 ij87) (i8 ij87) (i9 ij09) (i0 ij09)
+    (j1 ij21) (j2 ij21) (j3 ij43) (j4 ij43) (j5 ij65) (j6 ij65) (j7 ij87) (j8 ij87) (j9 ij09) (j0 ij09)
+  )
+)
+;=======================================================================
+(game
+   (title "Elephant Hunt")
+   (description "In Elephant Hunt, one player starts with eight Pygmy hunters, and one Shaman.
+                 The other has one large piece representing the Elephant.  The Elephant is so big
+                 that it occupies four squares of the board at once, and moves two squares at a
+                 time.  The Elephant tramples the Pygmies by moving onto occupied squares.
+                 In order to kill the Elephant, the Pygmies must attack all four squares of it
+                 at once; in other words, all four squares occupied by the Elephant must be under
+                 attack (check) and then a move to one of these squares captures the Elephant and
+                 ends the game.  The Elephant wins if it tramples Pygmies until only four are left.")
+   (history "Elephant Hunt is a traditional game played by the Ituri Pygmies.  The board is
+             usually marked on the groumd and rocks are used as playing tokens, a bigger rock
+             signifying the Elephant.  This ritual game is played among tribesmen (women are
+             excluded) to forecast the outcome of a planned elephant hunt.  If the player of
+             the Elephant wins, this is regarded as a bad omen and the hunt is postponed.  The
+             number of `Pygmies` trampled by the `Elephant` before it is brought down also has
+             oracular significance.\\
+             The first written reference to the game of Elephant Hunt was found in the diaries
+             of father Maurice Morceau, a French missionary who dissappeared without a trace
+             in 1821 while on a mission to the Ituri forest.  His personal effects, including
+             the diaries, were later found in a cannibal village by an anthropological expedition.\
+             Elephant Hunt was implemented for Zillions by Freederick in 2004.")
+   (strategy "The Pygmies should quickly disperse and arrange in a loose, mutually defending
+             formation, then herd the Elephant into a corner or wall.  Approach the Elephant
+             diagonally and don't bunch the Pygmies together until you have some defended positions.\\
+             The Elephant should keep a direction of escape open, while looking for opportunities to
+             squash individual Pygmies.\\
+             The general idea is similar to a Fox-and-Geese type game, except that the Pygmies'
+             hunting formation should be much looser.")
+   (win-sound "../audio\\Orchestra_CF.wav")
+   (loss-sound "../audio\\Orchestra_FC.wav")
+   (click-sound "../audio\\Pickup.wav")
+   (release-sound "../audio\\WoodThunk.wav")
+   (move-sound "../audio\\EleHunt\\Elephant.wav")
+   (players Black White)
+   (turn-order Black White)
+   (pass-turn false)
+   (board (Board-Definitions))
+
+   (option "animate captures" false)
+
+   (board-setup
+      (Black
+         (Shaman a1)
+         (Pygmy a9 a7 a5 a3 c1 e1 g1 i1)
+      )
+      (White
+         (Elephant gh87)
+      )
+   )
+
+   (piece
+      (name Pygmy) ;[NW]
+      ;(notation "P")
+      (help "Pygmy: leaps like a chess Knight.")
+      (description "Pygmy\A Pygmy moves like an `L`, two squares vertically plus one
+          horizontally, or two squares horizontally plus one vertically.  It hops over
+          any pieces on the way.")
+      (image Black "../images\EleHunt\Pygmy.bmp")
+      (moves
+         (Pygmy-leap2 n ne)
+         (Pygmy-leap2 n nw)
+         (Pygmy-leap2 s se)
+         (Pygmy-leap2 s sw)
+         (Pygmy-leap2 e ne)
+         (Pygmy-leap2 e se)
+         (Pygmy-leap2 w nw)
+         (Pygmy-leap2 w sw)
+      )
+   )
+
+   (piece
+      (name Shaman) ;[F2W2]
+      ;(notation "S")
+      (help "Shaman: moves one or two squares orthogonally or diagonally")
+      (description "Shaman\A Shaman moves one or two squares in any direction,
+          including diagonally.  It cannot leap over other pieces.")
+      (image Black "../images\EleHunt\Shaman.bmp")
+      (moves
+         (Shaman-shift2 n n)
+         (Shaman-shift2 s s)
+         (Shaman-shift2 e e)
+         (Shaman-shift2 w w)
+         (Shaman-shift2 ne ne)
+         (Shaman-shift2 nw nw)
+         (Shaman-shift2 se se)
+         (Shaman-shift2 sw sw)
+      )
+   )
+
+   (piece
+      (name Elephant) ;[D]
+      ;(notation "E")
+      (help "Elephant: moves two squares orthogonally.")
+      (description "Elephant\A Elephant moves exactly two squares in each orthogonal
+          direction.  You can think of it as making single-square steps, except that
+          its squares are twice as big.")
+      (image White "../images\EleHunt\Elephant.bmp")
+      (attribute vulnerable? false)
+      (moves
+         (Ele-shift n)
+         (Ele-shift s)
+         (Ele-shift e)
+         (Ele-shift w)
+      )
+   )
+
+   (loss-condition (White) (captured Elephant) )
+   (loss-condition (Black) (pieces-remaining 4) )
+   (loss-condition (White Black) repetition )
+)
