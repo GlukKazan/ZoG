@@ -3,25 +3,96 @@
 ; You need to purchase Zillions of Games to load this rules file
 ; Visit the Zillions web site at http://www.zillions-of-games.com
 
+(define my-empty?
+   (and not-friend? (or (empty? c) (vulnerable? c)))
+)
+
+(define my-capture
+   (if (enemy? $1)
+       (capture $1)
+   )
+)
+
+(define check-enemy
+   (if (on-board? $2)
+       $2
+       (if (on-board? $3)
+           $3
+           (if (and enemy? (piece? $1))
+               (set-flag is-attacked? true)
+           )
+       )
+   )
+)
+
+(define check-shaman
+   (if (on-board? $1)
+       $1
+       (if (and enemy? (piece? Shaman) (not-position-flag? to? c))
+           (set-flag is-attacked? true)
+       )
+   )
+)
+
+(define check-attacked
+   (set-flag is-attacked? false)
+   mark 
+   $1 (check-enemy Pygmy  n  ne) back
+   $1 (check-enemy Pygmy  n  nw) back
+   $1 (check-enemy Pygmy  s  se) back
+   $1 (check-enemy Pygmy  s  sw) back
+   $1 (check-enemy Pygmy  e  ne) back
+   $1 (check-enemy Pygmy  e  se) back
+   $1 (check-enemy Pygmy  w  nw) back
+   $1 (check-enemy Pygmy  w  sw) back
+   $1 (check-enemy Shaman n  n)  back
+   $1 (check-enemy Shaman s  s)  back
+   $1 (check-enemy Shaman e  e)  back
+   $1 (check-enemy Shaman w  w)  back
+   $1 (check-enemy Shaman ne ne) back
+   $1 (check-enemy Shaman nw nw) back
+   $1 (check-enemy Shaman se se) back
+   $1 (check-enemy Shaman sw sw) back
+   $1 (check-shaman n) back
+   $1 (check-shaman s) back
+   $1 (check-shaman e) back
+   $1 (check-shaman w) back
+   (if (not-flag? is-attacked?)
+       (set-flag is-vulnerable? false)
+   )
+)
+
 ;=======================================================================
 ; PIECE MOVES
 (define Ele-shift (
    $1
    (verify not-friend?)
    (verify (not-friend? ul)) (verify (not-friend? ur)) (verify (not-friend? dl)) (verify (not-friend? dr))
-   (set-attribute vulnerable?
-            (and (attacked? ul) (attacked? ur) (attacked? dl) (attacked? dr)))
-   (capture ul) (capture ur) (capture dl) (capture dr)
+   (set-flag is-vulnerable? true)
+   (set-position-flag to? true)
+   (check-attacked ul) (check-attacked ur) (check-attacked dl) (check-attacked dr)
+   (if (flag? is-vulnerable?)
+       (set-attribute vulnerable? true)
+    else
+       (set-attribute vulnerable? false)
+   )
+   (my-capture ul) (my-capture ur) (my-capture dl) (my-capture dr)
    add
 ))
+
 (define Pygmy-leap2 (
-   $1 $2 (verify (and not-friend? (or (empty? c) (vulnerable? c))))
+   $1 $2 (verify (my-empty?))
    (if (not-empty? c) (capture c))
    add
 ))
+
 (define Shaman-shift2 (
-   $1 (if empty? add $2)
-   (verify (and not-friend? (or (empty? c) (vulnerable? c))))
+   $1 
+   (if (my-empty?) 
+       (if (not-empty? c) (capture c))
+       add 
+   $2)
+   (verify (my-empty?))
    (if (not-empty? c) (capture c))
    add
 ))
@@ -199,3 +270,18 @@
    (loss-condition (Black) (pieces-remaining 4) )
    (loss-condition (White Black) repetition )
 )
+
+(variant
+   (title "Elephant Hunt (easy mode)")
+   (default)
+   (board-setup
+      (Black
+         (Shaman a1)
+         (Pygmy a9 a7 a5 a3 c1 e1 g1 i1 b8 b6 b4 d2 f2 h2)
+      )
+      (White
+         (Elephant gh87)
+      )
+   )
+)
+
