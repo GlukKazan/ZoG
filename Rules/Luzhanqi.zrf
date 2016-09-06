@@ -1,3 +1,22 @@
+(define clear-mark
+   mark a0
+   (while (on-board? next) 
+      next
+      (if (and enemy? (piece? Mark))
+          capture
+      )
+   )
+   back
+)
+
+(define my-empty?
+   (or empty? (and enemy? (piece? Mark)))
+)
+
+(define my-not-empty?
+   (and not-empty? (not-piece? Mark))
+)
+
 (define init-flag
    (set-flag is-flag?   false)
    (if (or (piece? Flag)
@@ -211,7 +230,7 @@
    )
 )
 
-(define Bomb-check
+(define bomb-check
    (pre-check)
    (if (piece? FieldMarshal)
        mark a1
@@ -224,52 +243,247 @@
 
 (define common-step (
    (verify not-locked?)
+   (clear-mark)
    (init-rank) 
-   $1 (common-check)
+   $1
+   (if (my-not-empty?)
+       (common-check)
+   )
+   (verify not-friend?)
    add
 ))
 
 (define common-slide (
+   (clear-mark)
    (init-rank) 
-   $1 (while empty? add $1)
+   $1 (while (my-empty?) add $1)
    (common-check)
+   (verify not-friend?)
    add
 ))
 
 (define engineer-step (
+   (clear-mark)
    (init-flag)
    (verify not-locked?)
-   $1 (engineer-check)
+   $1
+   (if (my-not-empty?)
+       (engineer-check)
+   )
+   (verify not-friend?)
    add
 ))
 
-(define engineer-slide (
-   (init-flag)
-   $1 (while empty? $1)
-   (engineer-check)
-   add
-))
-
-(define engineer-move (
-   $1 
-  (while empty? 
-     (if (in-zone? cross)
-         (add-partial $2-type) 
-      else
-         add
-     )
-     $1
+(define engineer-move-1 (
+  (clear-mark)
+  (create Mark)
+  $1 (verify (not-piece? Mark))
+  (verify not-friend?)
+  (if (and empty? (in-zone? cross))
+      (add-partial $2-type) 
+   else
+       (if (my-not-empty?)
+           (engineer-check)
+       )
+       add
   )
 ))
 
-(define Bomb-step (
-   $1 (Bomb-check)
+(define engineer-move-2 (
+  (clear-mark)
+  (create Mark)
+  $1 (verify (my-empty?)) (create Mark)
+  $1 (verify (not-piece? Mark))
+  (verify not-friend?)
+  (if (and empty? (in-zone? cross))
+      (add-partial $2-type) 
+   else
+       (if (my-not-empty?)
+           (engineer-check)
+       )
+       add
+  )
+))
+
+(define engineer-move-3 (
+  (clear-mark)
+  (create Mark)
+  $1 (verify (my-empty?)) (create Mark)
+  $1 (verify (my-empty?)) (create Mark)
+  $1 (verify (not-piece? Mark))
+  (verify not-friend?)
+  (if (and empty? (in-zone? cross))
+      (add-partial $2-type) 
+   else
+       (if (my-not-empty?)
+           (engineer-check)
+       )
+       add
+  )
+))
+
+(define engineer-move-4 (
+  (clear-mark)
+  (create Mark)
+  $1 (verify (my-empty?)) (create Mark)
+  $1 (verify (my-empty?)) (create Mark)
+  $1 (verify (my-empty?)) (create Mark)
+  $1 (verify (not-piece? Mark))
+  (verify not-friend?)
+  (if (and empty? (in-zone? cross))
+      (add-partial $2-type) 
+   else
+       (if (my-not-empty?)
+           (engineer-check)
+       )
+       add
+  )
+))
+
+(define engineer-move-5 (
+  (clear-mark)
+  (create Mark)
+  $1 (verify (my-empty?)) (create Mark)
+  $1 (verify (my-empty?)) (create Mark)
+  $1 (verify (my-empty?)) (create Mark)
+  $1 (verify (my-empty?)) (create Mark)
+  $1 (verify (not-piece? Mark))
+  (verify not-friend?)
+  (if (and empty? (in-zone? cross))
+      (add-partial $2-type) 
+   else
+       (if (my-not-empty?)
+           (engineer-check)
+       )
+       add
+  )
+))
+
+(define engineer-move-6 (
+  (clear-mark)
+  (create Mark)
+  $1 (verify (my-empty?)) (create Mark)
+  $1 (verify (my-empty?)) (create Mark)
+  $1 (verify (my-empty?)) (create Mark)
+  $1 (verify (my-empty?)) (create Mark)
+  $1 (verify (my-empty?)) (create Mark)
+  $1 (verify (not-piece? Mark))
+  (verify not-friend?)
+  (if (and empty? (in-zone? cross))
+      (add-partial $2-type) 
+   else
+       (if (my-not-empty?)
+           (engineer-check)
+       )
+       add
+  )
+))
+
+(define engineer-move-7 (
+  (clear-mark)
+  (create Mark)
+  $1 (verify (my-empty?)) (create Mark)
+  $1 (verify (my-empty?)) (create Mark)
+  $1 (verify (my-empty?)) (create Mark)
+  $1 (verify (my-empty?)) (create Mark)
+  $1 (verify (my-empty?)) (create Mark)
+  $1 (verify (my-empty?)) (create Mark)
+  $1 (verify (not-piece? Mark))
+  (verify not-friend?)
+  (if (and empty? (in-zone? cross))
+      (add-partial $2-type) 
+   else
+       (if (my-not-empty?)
+           (engineer-check)
+       )
+       add
+  )
+))
+
+(define engineer-move-8 (
+  (clear-mark)
+  (create Mark)
+  $1 (verify (my-empty?)) (create Mark)
+  $1 (verify (my-empty?)) (create Mark)
+  $1 (verify (my-empty?)) (create Mark)
+  $1 (verify (my-empty?)) (create Mark)
+  $1 (verify (my-empty?)) (create Mark)
+  $1 (verify (my-empty?)) (create Mark)
+  $1 (verify (my-empty?)) (create Mark)
+  $1 (verify (not-piece? Mark))
+  (verify not-friend?)
+  (if (and empty? (in-zone? cross))
+      (add-partial $2-type) 
+   else
+       (if (my-not-empty?)
+           (engineer-check)
+       )
+       add
+  )
+))
+
+(define engineer-move-9 (
+  (clear-mark)
+  (create Mark)
+  $1 (verify (my-empty?)) (create Mark)
+  $1 (verify (my-empty?)) (create Mark)
+  $1 (verify (my-empty?)) (create Mark)
+  $1 (verify (my-empty?)) (create Mark)
+  $1 (verify (my-empty?)) (create Mark)
+  $1 (verify (my-empty?)) (create Mark)
+  $1 (verify (my-empty?)) (create Mark)
+  $1 (verify (my-empty?)) (create Mark)
+  $1 (verify (not-piece? Mark))
+  (verify not-friend?)
+  (if (and empty? (in-zone? cross))
+      (add-partial $2-type) 
+   else
+       (if (my-not-empty?)
+           (engineer-check)
+       )
+       add
+  )
+))
+
+(define engineer-move-A (
+  (clear-mark)
+  (create Mark)
+  $1 (verify (my-empty?)) (create Mark)
+  $1 (verify (my-empty?)) (create Mark)
+  $1 (verify (my-empty?)) (create Mark)
+  $1 (verify (my-empty?)) (create Mark)
+  $1 (verify (my-empty?)) (create Mark)
+  $1 (verify (my-empty?)) (create Mark)
+  $1 (verify (my-empty?)) (create Mark)
+  $1 (verify (my-empty?)) (create Mark)
+  $1 (verify (my-empty?)) (create Mark)
+  $1 (verify (not-piece? Mark))
+  (verify not-friend?)
+  (if (and empty? (in-zone? cross))
+      (add-partial $2-type) 
+   else
+       (if (my-not-empty?)
+           (engineer-check)
+       )
+       add
+  )
+))
+
+(define bomb-step (
+   (clear-mark)
+   $1 
+   (if (my-not-empty?)
+       (bomb-check)
+   )
+   (verify not-friend?)
    add
 ))
 
-(define Bomb-slide (
-   $1 (while empty? add $1)
-   (Bomb-check)
+(define bomb-slide (
+   (clear-mark)
+   $1 (while (my-empty?) add $1)
+   (bomb-check)
+   (verify not-friend?)
    add
 ))
 
@@ -383,6 +597,18 @@
              (e2 362 519 453 562)
              (e1 362 561 453 604)
       )     
+      (dummy a0)
+      (links next
+         (a2   a3) (a3   a4) (a4   a5) (a5   a6) (a6   a7) (a7   a8) (a8   a9)
+         (a9  a10) (a10 a11) (a11 a12) (e2   e3) (e3   e4) (e4   e5) (e5   e6) 
+         (e6   e7) (e7   e8) (e8   e9) (e9  e10) (e10 e11) (e11 e12) (c6   c7)
+         (a1   a2) (a12 a13) (b1   b2) (b2   b3) (b3   b4) (b4   b5) (b5   b6)
+         (c1   c2) (c2   c3) (c3   c4) (c4   c5) (c5   c6) (d1   d2) (d2   d3) 
+         (d3   d4) (d4   d5) (d5   d6) (e1   e2) (e12 e13) (b8   b9) (b9  b10) 
+         (b10 b11) (b11 b12) (b12 b13) (c8   c9) (c9  c10) (c10 c11) (c11 c12) 
+         (c12 c13) (d8   d9) (d9  d10) (d10 d11) (d11 d12) (d12 d13) (a0   a1)
+         (a13  b1) (b13  c1) (c13  d1) (d13  e1) (c7  c8)  (b6   b8) (d6   d8)
+      )
       (links N
          (a2  a3) (a3   a4) (a4   a5) (a5  a6) (a6   a7) (a7   a8) (a8 a9)
          (a9 a10) (a10 a11) (a11 a12) (e2  e3) (e3   e4) (e4   e5) (e5 e6) 
@@ -707,16 +933,27 @@
          (move-type normaltype)
          (engineer-step   n) (engineer-step   s) (engineer-step   w) (engineer-step   e)
          (engineer-step  nw) (engineer-step  sw) (engineer-step  ne) (engineer-step  se)
-         (engineer-slide  N) (engineer-slide  S) (engineer-slide  W) (engineer-slide  E)
-         (engineer-move N 1) (engineer-move S 1) (engineer-move W 1) (engineer-move E 1)
+         (engineer-move-1 N 1) (engineer-move-1 S 1) (engineer-move-1 W 1) (engineer-move-1 E 1)
+         (engineer-move-2 N 1) (engineer-move-2 S 1) (engineer-move-2 W 1) (engineer-move-2 E 1)
+         (engineer-move-3 N 1) (engineer-move-3 S 1) (engineer-move-3 W 1) (engineer-move-3 E 1)
+         (engineer-move-4 N 1) (engineer-move-4 S 1) (engineer-move-4 W 1) (engineer-move-4 E 1)
+         (engineer-move-5 N 1) (engineer-move-5 S 1) (engineer-move-5 W 1) (engineer-move-5 E 1)
+         (engineer-move-6 N 1) (engineer-move-6 S 1) (engineer-move-6 W 1) (engineer-move-6 E 1)
+         (engineer-move-7 N 1) (engineer-move-7 S 1) (engineer-move-7 W 1) (engineer-move-7 E 1)
+         (engineer-move-8 N 1) (engineer-move-8 S 1) (engineer-move-8 W 1) (engineer-move-8 E 1)
+         (engineer-move-9 N 1) (engineer-move-9 S 1) (engineer-move-9 W 1) (engineer-move-9 E 1)
+         (engineer-move-A N 1) (engineer-move-A S 1) (engineer-move-A W 1) (engineer-move-A E 1)
          (move-type 1-type)
-         (engineer-slide  N) (engineer-slide  S) (engineer-slide  W) (engineer-slide  E)
-         (engineer-move N 2) (engineer-move S 2) (engineer-move W 2) (engineer-move E 2)
-         (move-type 2-type)
-         (engineer-slide  N) (engineer-slide  S) (engineer-slide  W) (engineer-slide  E)
-         (engineer-move N 3) (engineer-move S 3) (engineer-move W 3) (engineer-move E 3)
-         (move-type 3-type)
-         (engineer-slide  N) (engineer-slide  S) (engineer-slide  W) (engineer-slide  E)
+         (engineer-move-1 N 1) (engineer-move-1 S 1) (engineer-move-1 W 1) (engineer-move-1 E 1)
+         (engineer-move-2 N 1) (engineer-move-2 S 1) (engineer-move-2 W 1) (engineer-move-2 E 1)
+         (engineer-move-3 N 1) (engineer-move-3 S 1) (engineer-move-3 W 1) (engineer-move-3 E 1)
+         (engineer-move-4 N 1) (engineer-move-4 S 1) (engineer-move-4 W 1) (engineer-move-4 E 1)
+         (engineer-move-5 N 1) (engineer-move-5 S 1) (engineer-move-5 W 1) (engineer-move-5 E 1)
+         (engineer-move-6 N 1) (engineer-move-6 S 1) (engineer-move-6 W 1) (engineer-move-6 E 1)
+         (engineer-move-7 N 1) (engineer-move-7 S 1) (engineer-move-7 W 1) (engineer-move-7 E 1)
+         (engineer-move-8 N 1) (engineer-move-8 S 1) (engineer-move-8 W 1) (engineer-move-8 E 1)
+         (engineer-move-9 N 1) (engineer-move-9 S 1) (engineer-move-9 W 1) (engineer-move-9 E 1)
+         (engineer-move-A N 1) (engineer-move-A S 1) (engineer-move-A W 1) (engineer-move-A E 1)
       )
   )
   (piece
@@ -730,9 +967,9 @@
       )
       (moves
          (move-type normaltype)
-         (Bomb-step  n) (Bomb-step  s) (Bomb-step  w) (Bomb-step  e)
-         (Bomb-step nw) (Bomb-step sw) (Bomb-step ne) (Bomb-step se)
-         (Bomb-slide N) (Bomb-slide S) (Bomb-slide W) (Bomb-slide E)
+         (bomb-step  n) (bomb-step  s) (bomb-step  w) (bomb-step  e)
+         (bomb-step nw) (bomb-step sw) (bomb-step ne) (bomb-step se)
+         (bomb-slide N) (bomb-slide S) (bomb-slide W) (bomb-slide E)
       )
   )
 )
@@ -909,16 +1146,27 @@
          (move-type normaltype)
          (engineer-step   n) (engineer-step   s) (engineer-step   w) (engineer-step   e)
          (engineer-step  nw) (engineer-step  sw) (engineer-step  ne) (engineer-step  se)
-         (engineer-slide  N) (engineer-slide  S) (engineer-slide  W) (engineer-slide  E)
-         (engineer-move N 1) (engineer-move S 1) (engineer-move W 1) (engineer-move E 1)
+         (engineer-move-1 N 1) (engineer-move-1 S 1) (engineer-move-1 W 1) (engineer-move-1 E 1)
+         (engineer-move-2 N 1) (engineer-move-2 S 1) (engineer-move-2 W 1) (engineer-move-2 E 1)
+         (engineer-move-3 N 1) (engineer-move-3 S 1) (engineer-move-3 W 1) (engineer-move-3 E 1)
+         (engineer-move-4 N 1) (engineer-move-4 S 1) (engineer-move-4 W 1) (engineer-move-4 E 1)
+         (engineer-move-5 N 1) (engineer-move-5 S 1) (engineer-move-5 W 1) (engineer-move-5 E 1)
+         (engineer-move-6 N 1) (engineer-move-6 S 1) (engineer-move-6 W 1) (engineer-move-6 E 1)
+         (engineer-move-7 N 1) (engineer-move-7 S 1) (engineer-move-7 W 1) (engineer-move-7 E 1)
+         (engineer-move-8 N 1) (engineer-move-8 S 1) (engineer-move-8 W 1) (engineer-move-8 E 1)
+         (engineer-move-9 N 1) (engineer-move-9 S 1) (engineer-move-9 W 1) (engineer-move-9 E 1)
+         (engineer-move-A N 1) (engineer-move-A S 1) (engineer-move-A W 1) (engineer-move-A E 1)
          (move-type 1-type)
-         (engineer-slide  N) (engineer-slide  S) (engineer-slide  W) (engineer-slide  E)
-         (engineer-move N 2) (engineer-move S 2) (engineer-move W 2) (engineer-move E 2)
-         (move-type 2-type)
-         (engineer-slide  N) (engineer-slide  S) (engineer-slide  W) (engineer-slide  E)
-         (engineer-move N 3) (engineer-move S 3) (engineer-move W 3) (engineer-move E 3)
-         (move-type 3-type)
-         (engineer-slide  N) (engineer-slide  S) (engineer-slide  W) (engineer-slide  E)
+         (engineer-move-1 N 1) (engineer-move-1 S 1) (engineer-move-1 W 1) (engineer-move-1 E 1)
+         (engineer-move-2 N 1) (engineer-move-2 S 1) (engineer-move-2 W 1) (engineer-move-2 E 1)
+         (engineer-move-3 N 1) (engineer-move-3 S 1) (engineer-move-3 W 1) (engineer-move-3 E 1)
+         (engineer-move-4 N 1) (engineer-move-4 S 1) (engineer-move-4 W 1) (engineer-move-4 E 1)
+         (engineer-move-5 N 1) (engineer-move-5 S 1) (engineer-move-5 W 1) (engineer-move-5 E 1)
+         (engineer-move-6 N 1) (engineer-move-6 S 1) (engineer-move-6 W 1) (engineer-move-6 E 1)
+         (engineer-move-7 N 1) (engineer-move-7 S 1) (engineer-move-7 W 1) (engineer-move-7 E 1)
+         (engineer-move-8 N 1) (engineer-move-8 S 1) (engineer-move-8 W 1) (engineer-move-8 E 1)
+         (engineer-move-9 N 1) (engineer-move-9 S 1) (engineer-move-9 W 1) (engineer-move-9 E 1)
+         (engineer-move-A N 1) (engineer-move-A S 1) (engineer-move-A W 1) (engineer-move-A E 1)
       )
   )
   (piece
@@ -930,6 +1178,12 @@
          (move-type bombtype)
          (drop-Landmine)
       )
+  )
+  (piece
+      (name Mark)
+      (image South "../images/Luzhanqi/i.bmp"
+             North "../images/Luzhanqi/i.bmp")
+      (help " ")
   )
 )
 
