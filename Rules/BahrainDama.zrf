@@ -1,8 +1,20 @@
 (version "2.0")
 
-(define check-attacked-dir
-  (if (and (enemy? $1) (empty? $2))
+(define check-attacked-man
+  (if (and (on-board? $1) (on-board? $2) (enemy? $1) (empty? $2))
       (set-flag is-attacked? true)
+  )
+)
+
+(define check-attacked-king
+  (if (and (on-board? $2) (on-board? $1) (empty? $2))
+      $1
+      (while (and (on-board? $1) empty?) $1)
+      (if (and enemy? (piece? King))
+          (set-flag is-attacked? true)
+      )
+      $2
+      (while empty? $2)
   )
 )
 
@@ -11,24 +23,39 @@
   mark a0
   (while (on-board? next)
      (if friend?
-         (check-attacked-dir n s)
-         (check-attacked-dir w e)
-         (check-attacked-dir e w)
+         (check-attacked-man  n s)
+         (check-attacked-man  w e)
+         (check-attacked-man  e w)
+         (check-attacked-king n s)
+         (check-attacked-king w e)
+         (check-attacked-king e w)
+         (check-attacked-king s n)
      )
      next
   )
   back
 )
 
-(define check-attacking-dir
+(define man-attacking-dir
   (verify (or (not-enemy? $1) (not-empty? $2)))
 )
 
-(define check-attacking
+(define man-attacking
   (if (flag? is-attacked?)
-      (check-attacking-dir n nn)
-      (check-attacking-dir w ww)
-      (check-attacking-dir e ee)
+      (man-attacking-dir n nn)
+      (man-attacking-dir w ww)
+      (man-attacking-dir e ee)
+  )
+)
+
+(define king-attacking
+  (if (flag? is-attacked?)
+      mark $1
+      (while (and (on-board? $1) empty?) $1)
+      (if (and enemy? (on-board? $1))
+          (verify (not-empty? $1))
+      )
+      back
   )
 )
 
@@ -54,7 +81,7 @@
   (check-attacked)
   $1
   (verify empty?)
-  (check-attacking)
+  (man-attacking)
   (if (in-zone? promotion)
       (add King)
    else
@@ -103,11 +130,88 @@
   )
 ))
 
-(define king-shift (
-  (while (empty? $1)
-      $1
-      add
-  )
+(define king-shift-1 (
+  (check-attacked)
+  $1 (verify empty?)
+  (king-attacking $2) 
+  (king-attacking $3) 
+  (king-attacking $4) 
+  add
+))
+
+(define king-shift-2 (
+  (check-attacked)
+  $1 (verify empty?)
+  $1 (verify empty?)
+  (king-attacking $2) 
+  (king-attacking $3) 
+  (king-attacking $4) 
+  add
+))
+
+(define king-shift-3 (
+  (check-attacked)
+  $1 (verify empty?)
+  $1 (verify empty?)
+  $1 (verify empty?)
+  (king-attacking $2) 
+  (king-attacking $3) 
+  (king-attacking $4) 
+  add
+))
+
+(define king-shift-4 (
+  (check-attacked)
+  $1 (verify empty?)
+  $1 (verify empty?)
+  $1 (verify empty?)
+  $1 (verify empty?)
+  (king-attacking $2) 
+  (king-attacking $3) 
+  (king-attacking $4) 
+  add
+))
+
+(define king-shift-5 (
+  (check-attacked)
+  $1 (verify empty?)
+  $1 (verify empty?)
+  $1 (verify empty?)
+  $1 (verify empty?)
+  $1 (verify empty?)
+  (king-attacking $2) 
+  (king-attacking $3) 
+  (king-attacking $4) 
+  add
+))
+
+(define king-shift-6 (
+  (check-attacked)
+  $1 (verify empty?)
+  $1 (verify empty?)
+  $1 (verify empty?)
+  $1 (verify empty?)
+  $1 (verify empty?)
+  $1 (verify empty?)
+  (king-attacking $2) 
+  (king-attacking $3) 
+  (king-attacking $4) 
+  add
+))
+
+(define king-shift-7 (
+  (check-attacked)
+  $1 (verify empty?)
+  $1 (verify empty?)
+  $1 (verify empty?)
+  $1 (verify empty?)
+  $1 (verify empty?)
+  $1 (verify empty?)
+  $1 (verify empty?)
+  (king-attacking $2) 
+  (king-attacking $3) 
+  (king-attacking $4) 
+  add
 ))
 
 (game
@@ -190,10 +294,13 @@
            (king-continue s)
 
         (move-type normaltype)
-           (king-shift n)
-           (king-shift e)
-           (king-shift w)
-           (king-shift s)
+           (king-shift-1 n e w s) (king-shift-1 e w s n) (king-shift-1 w s n e) (king-shift-1 s n e w)
+           (king-shift-2 n e w s) (king-shift-2 e w s n) (king-shift-2 w s n e) (king-shift-2 s n e w)
+           (king-shift-3 n e w s) (king-shift-3 e w s n) (king-shift-3 w s n e) (king-shift-3 s n e w)
+           (king-shift-4 n e w s) (king-shift-4 e w s n) (king-shift-4 w s n e) (king-shift-4 s n e w)
+           (king-shift-5 n e w s) (king-shift-5 e w s n) (king-shift-5 w s n e) (king-shift-5 s n e w)
+           (king-shift-6 n e w s) (king-shift-6 e w s n) (king-shift-6 w s n e) (king-shift-6 s n e w)
+           (king-shift-7 n e w s) (king-shift-7 e w s n) (king-shift-7 w s n e) (king-shift-7 s n e w)
 
         (move-type notype)
      )
@@ -206,4 +313,5 @@
 
   (loss-condition (White Black) (pieces-remaining 0) )
   (loss-condition (White Black) stalemated )
+  (loss-condition (White Black) repetition )
 )
