@@ -12,24 +12,34 @@
    )
 )
 
+(define no-tower?
+   (or (flag? is-tower?)
+       (and 
+           (or (not-on-board? nw) (not-enemy? nw) (not-piece? Tower nw))
+           (or (not-on-board? sw) (not-enemy? sw) (not-piece? Tower sw))
+           (or (not-on-board? ne) (not-enemy? ne) (not-piece? Tower ne))
+           (or (not-on-board? se) (not-enemy? se) (not-piece? Tower se))
+           (or (not-on-board? w)  (not-enemy? w)  (not-piece? Tower w))
+           (or (not-on-board? e)  (not-enemy? e)  (not-piece? Tower e))
+       )
+   )
+)
+
 (define check-other
    mark
    (set-flag is-escaped? false)
    (if (on-board? $1)
        $1 (check-escape)
-       (if (and friend? (not-in-zone? water) (or (piece? Rabble) (piece? LightHorse) (piece? HeavyHorse) (piece? Elephant) (piece? Crossbow) (piece? Dragon) (piece? Tower) (piece? King)))
+       (if (and friend? (no-tower?) (not-in-zone? water) (or (piece? Rabble) (piece? LightHorse) (piece? HeavyHorse) (piece? Elephant) (piece? Crossbow) (piece? Dragon) (piece? Tower) (piece? King)))
            (set-engaged)
            (if (or (piece? HeavyHorse) (piece? Elephant) (piece? Dragon) (piece? Tower))
                (set-flag is-heavy-engaged? true)
-           )
-           (if (piece? Tower)
-               (set-flag is-enemy-tower? true)
            )
        )
    )
    (if (and (on-board? $1) (not-flag? is-escaped?))
        $1 (check-escape)
-       (if (and friend? (not-in-zone? water) (or (piece? Elephant) (piece? Crossbow) (piece? Trebuchet) (piece? Dragon)))
+       (if (and friend? (no-tower?) (not-in-zone? water) (or (piece? Elephant) (piece? Crossbow) (piece? Trebuchet) (piece? Dragon)))
            (set-engaged)
            (if (or (piece? Elephant) (piece? Dragon))
                (set-flag is-heavy-engaged? true)
@@ -38,13 +48,13 @@
    )
    (if (and (on-board? $1) (not-flag? is-escaped?))
        $1 (check-escape)
-       (if (and friend? (not-in-zone? water) (or (piece? Crossbow) (piece? Trebuchet)))
+       (if (and friend? (no-tower?) (not-in-zone? water) (or (piece? Crossbow) (piece? Trebuchet)))
            (set-engaged)
        )
    )
    (if (and (on-board? $1) (not-flag? is-escaped?))
        $1 (check-escape)
-       (if (and friend? (not-in-zone? water) (piece? Trebuchet))
+       (if (and friend? (no-tower?) (not-in-zone? water) (piece? Trebuchet))
            (set-engaged)
        )
    )
@@ -53,36 +63,28 @@
 
 (define check-spears
    (if (on-board? $1)
-       (if (and (friend? $1) (not-in-zone? water $1) (piece? Spears $1))
+       (if (and (friend? $1) (not-in-zone? water $1) (piece? Spears $1) (no-tower?))
            (set-engaged)
-       )
-   )
-)
-
-(define check-friend-tower
-   (if (on-board? $1)
-       (if (and (enemy? $1) (piece? Tower $1))
-           (set-flag is-light-engaged? false)
        )
    )
 )
 
 (define check-engaged
    (verify (not-piece? Mount))
-   (set-flag is-enemy-tower? false)
    (set-flag is-light-engaged? false)
    (set-flag is-heavy-engaged? true)
+   (set-flag is-tower? false)
    (if (or (piece? Crossbow) (piece? Trebuchet))
        (set-flag is-light-engaged? true)
    )
    (if (or (piece? HeavyHorse) (piece? Elephant) (piece? Dragon) (piece? Tower))
        (set-flag is-heavy-engaged? false)
    )
+   (if (piece? Tower)
+       (set-flag is-tower? true)
+   )
    (check-spears sw) (check-spears se)
    (check-other w) (check-other e) (check-other nw) (check-other ne) (check-other sw) (check-other se)
-   (if (and (not-piece? Tower) (not-piece? Crossbow) (not-piece? Trebuchet) (not-flag? is-enemy-tower?))
-       (check-friend-tower w) (check-friend-tower e) (check-friend-tower nw) (check-friend-tower ne) (check-friend-tower sw) (check-friend-tower se)
-   )
    (verify (and (flag? is-light-engaged?) (flag? is-heavy-engaged?)))
 )
 
@@ -612,7 +614,7 @@ A Spears can only engage or capture a piece in the two spaces directly \
 in front of it (as if the Spears is facing away from the player it belongs to). \
 Opposing pieces cannot move through either the two spaces in front of a Spears \
 in one movement (though they can move either into or out of these spaces).")
-      (image White "../images/Cyvasse/wspears.bmp" "../images/Cyvasse/wspearsi.bmp"
+      (image White "../images/Cyvasse/wspears.bmp"
              Black "../images/Cyvasse/bspears.bmp" "../images/Cyvasse/bspearsi.bmp")
       (moves
          (move-1 nw) (move-1 ne)
@@ -1163,9 +1165,9 @@ cannot engage any pieces except the adjacent Tower(s).")
 
 (variant
    (title "Lesson 9")
-   (description "3 moves")
+   (description "7 moves")
 
-   (turn-order White White White (Black goal-type))
+   (turn-order White White White White White White White (Black goal-type))
 
    (board
       (board-def lesson-9)
@@ -1208,4 +1210,3 @@ cannot engage any pieces except the adjacent Tower(s).")
    (loss-condition (Black) (pieces-remaining 0 King))
    (win-condition (Black) (pieces-remaining 1 Point))
 )
-
