@@ -1,0 +1,61 @@
+Zillions Save Game File Version 0.02 CC
+RulesFile=KnightCourt.zrf
+VariantName=Knight Court
+1. Rook c1 x c3 Rook c3 - x3
+1. Rook x3 - a2
+2. Knight a1 x b3 Bishop b3 - x3
+2. Bishop x3 - b2
+3. Rook c3 - c2
+3. Knight a3 x b1 Bishop b1 - y3
+4. Rook c2 - c1
+4. Knight b1 - a3
+5. Rook c1 - a1
+5. Bishop b2 x a1 Rook a1 - y2
+6. Rook y2 - c3
+6. Knight a3 - b1
+7. Rook c3 - c2
+7. Rook a2 x c2 Rook c2 - y2
+8. Rook y2 - c1
+8. Knight b1 - a3
+9. Rook c1 x a1 Bishop a1 - x3
+9. Bishop x3 - a2
+10. Rook a1 x a2 Bishop a2 - x3
+10. Rook c2 x a2 Rook a2 - y2
+11. Rook y2 - c3
+11. Knight a3 - b1
+12. Rook c3 - c1
+12. Knight b1 - a3
+13. Bishop y3 - c3
+13. Bishop x3 - b2
+14. Rook c1 - b1
+14. Knight a3 x b1 Rook b1 - y3
+15. Rook y3 - c1
+15. Bishop b2 x c1 Rook c1 - y3
+16. Rook y3 - a1
+16. Knight b1 x c3 Bishop c3 - y3
+17. Rook a1 x c1 Bishop c1 - x3
+17. Bishop x3 - c2
+18. Rook c1 x c2 Bishop c2 - x3
+18. Rook a2 x c2 Rook c2 - y2
+19. Bishop y3 - a1
+19. Bishop x3 - b2
+20. Rook y2 - b1
+20. Knight c3 x b1 Rook b1 - y3
+21. Rook y3 - c1
+21. Knight b1 - a3
+22. Rook c1 x c2 Rook c2 - x3
+22. Rook x3 - b1
+23. Rook c2 - c3
+23. Bishop b2 - c1
+24. Bishop a1 - b2
+24. Bishop c1 x b2 Bishop b2 - y3
+25. Rook c3 - c2
+25. Bishop b2 - c1
+26. Rook c2 - b2
+26. Rook b1 x b2 Rook b2 - y2
+27. Knight b3 x c1 Bishop c1 - x3
+27. Rook b2 - b1
+28. Knight c1 - a2
+28. Rook b1 - a1
+29. Knight a2 - c3
+29. Bishop x3 - b2
