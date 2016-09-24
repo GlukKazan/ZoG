@@ -1,0 +1,140 @@
+(define to-reserve
+  (if enemy?
+      cascade
+      a1 wh
+      (while not-empty? wh)
+  )
+)
+
+(define from-reserve (
+  (verify (in-zone? reserve))
+  (while (on-board? nx)
+      (if empty? add)
+      nx
+  )
+  (if empty? add)
+))
+
+(define jump (
+  $1 $2 (verify not-friend?)
+  (to-reserve)
+  add
+))
+
+(define step-1 (
+  $1 (verify not-friend?)
+  (to-reserve)
+  add
+))
+
+(define step-2 (
+  $1 (verify empty?)
+  $1 (verify not-friend?)
+  (to-reserve)
+  add
+))
+
+(game
+  (title "Knight Court")
+
+  (option "animate captures" false)
+  (option "animate drops"    false)
+  (option "pass turn"        false)
+  (option "highlight goals"  false)
+  (option "prevent flipping" true)
+  (option "recycle captures" false)
+
+  (move-sound    "Audio/Clack.wav")
+  (release-sound "Audio/Clack.wav")
+  (drop-sound    "")
+  (capture-sound "")
+  (change-sound  "")
+  (click-sound   "")
+  (draw-sound    "")
+
+  (players White Black)
+  (turn-order White Black)
+
+  (board
+    (image "../images/KnightCourt/board.bmp")
+    (grid
+       (start-rectangle 0 0 48 48)
+       (dimensions
+           ("x/a/b/c/y" (49 0)) ; files
+           ("3/2/1" (0 49)) ; ranks
+       )
+    )
+    (links n  (a1 a2) (a2 a3) (b1 b2) (b2 b3) (c1 c2) (c2 c3))
+    (links s  (a2 a1) (a3 a2) (b2 b1) (b3 b2) (c2 c1) (c3 c2))
+    (links e  (a1 b1) (b1 c1) (a2 b2) (b2 c2) (a3 b3) (b3 c3))
+    (links w  (b1 a1) (c1 b1) (b2 a2) (c2 b2) (b3 a3) (c3 b3))
+    (links ne (a2 b3) (a1 b2) (b2 c3) (b1 c2))
+    (links sw (b3 a2) (b2 a1) (c3 b2) (c2 b1))
+    (links se (b3 c2) (a3 b2) (b2 c1) (a2 b1))
+    (links nw (c2 b3) (b2 a3) (c1 b2) (b1 a2))
+    (links wb (a1 y3) (y3 y2) (y2 y1) (y1 x3))
+    (links wh (a1 x3) (x3 x2) (x2 x1) (x1 y3))
+    (links nx (a1 a2) (a2 a3) (a3 b1) (b1 b2) (b2 b3) (b3 c1) (c1 c2) (c2 c3)
+              (x1 a1) (x2 a1) (x3 a1) (y1 a1) (y2 a1) (y3 a1))
+    (symmetry Black (wh wb))
+    (zone (name reserve) (players White Black)
+          (positions x1 x2 x3 y1 y2 y3)
+    )
+  )
+
+  (piece
+    (name Knight)
+    (help "Knight: moves like an `L`, 2 squares one way and one the other")
+    (description "Knight\A Knight moves like an `L`, two squares vertically plus one
+          horizontally, or two squares horizontally plus one vertically.  It
+          hops over any pieces on the way.")
+    (image White "images\Chess\SHaag\wknight.bmp"
+           Black "images\Chess\SHaag\bknight.bmp")
+    (moves
+       (jump n nw) (jump n ne) (jump w nw) (jump w sw)
+       (jump s sw) (jump s se) (jump e ne) (jump e se)
+    )
+  )
+  (piece
+    (name Bishop)
+    (help "Bishop: slides diagonally any number of squares")
+    (description "Bishop\A Bishop moves any number of squares on a diagonal.  It may
+           not leap over other pieces.")
+    (image White "images\Chess\SHaag\wbishop.bmp"
+           Black "images\Chess\SHaag\bbishop.bmp")
+    (moves
+       (step-1 nw) (step-1 sw) (step-1 se) (step-1 ne)
+       (step-2 nw) (step-2 sw) (step-2 se) (step-2 ne)
+       (from-reserve)
+    )
+  )
+  (piece
+    (name Rook)
+    (help "Rook: slides any number of squares along the row or column.")
+    (description "Rook\A Rook moves any number of squares orthogonally on a rank
+           or a file.  It may not leap over other pieces.")
+    (image White "images\Chess\SHaag\wrook.bmp"
+           Black "images\Chess\SHaag\brook.bmp")
+    (moves
+       (step-1 n) (step-1 w) (step-1 s) (step-1 e)
+       (step-2 n) (step-2 w) (step-2 s) (step-2 e)
+       (from-reserve)
+    )
+  )
+
+  (board-setup
+     (White
+        (Knight a1)
+        (Bishop b1)
+        (Rook   c1)
+     )
+     (Black
+        (Knight a3)
+        (Bishop b3)
+        (Rook   c3)
+     )
+  )
+
+  (loss-condition (White Black) (checkmated Knight))
+  (loss-condition (White Black) repetition )
+)
