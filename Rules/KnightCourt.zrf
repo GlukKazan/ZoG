@@ -36,6 +36,9 @@
 
 (game
   (title "Knight Court")
+  (description "Checkmate the opponents's Knight.\
+                The pieces are reuseable.")
+  (history "Invented by Jason D. Wittman in April 2000")
 
   (option "animate captures" false)
   (option "animate drops"    false)
@@ -56,7 +59,7 @@
   (turn-order White Black)
 
   (board
-    (image "../images/KnightCourt/board.bmp")
+    (image "../images\KnightCourt\board.bmp")
     (grid
        (start-rectangle 0 0 48 48)
        (dimensions
