@@ -1,0 +1,543 @@
+(define step-1 (
+  $1 (verify not-friend?)
+  (verify (not-piece? Mount))
+  (add $2)
+))
+
+(define step-2 (
+  $1 (verify empty?)
+  $2 (verify not-friend?)
+  (verify (not-piece? Mount))
+  (add $3)
+))
+
+(define jump-2 (
+  $1 (verify (not-piece? Mount))
+  $2 (verify not-friend?)
+  (verify (not-piece? Mount))
+  (add $3)
+))
+
+(define slide-1 (
+  $1 (while empty?
+     (verify (not-piece? Mount))
+     (add $2)
+     $1
+  )
+  (verify not-friend?)
+  (verify (not-piece? Mount))
+  (add $2)
+))
+
+(define slide-2 (
+  $1 (verify (not-piece? Mount))
+  $1 (while empty?
+     (verify (not-piece? Mount))
+     (add $2)
+     $1
+  )
+  (verify not-friend?)
+  (verify (not-piece? Mount))
+  (add $2)
+))
+
+(define strike-1 (
+  mark 
+  $1 (verify enemy?)
+  to capture back
+  (create $2) add
+))
+
+(define strike-2 (
+  mark 
+  $1 (verify (not-piece? Mount))
+  $2 (verify enemy?)
+  to capture back
+  (create $3) add
+))
+
+(define strike-3 (
+  mark 
+  $1 (verify (not-piece? Mount))
+  $2 (verify (not-piece? Mount))
+  $3 (verify enemy?)
+  to capture back
+  (create $4) add
+))
+
+(define order-1 (
+  $1 (verify friend?)
+  (verify (piece? $2R))
+  (change-type $2A)
+  $3 (verify not-friend?)
+  (verify (not-piece? Mount))
+  add
+))
+
+(define order-1? (
+  $1 (verify friend?)
+  (verify (piece? $2R))
+  (verify (not-piece? Mount $4))
+  (change-type $2A)
+  $3 (verify not-friend?)
+  (verify (not-piece? Mount))
+  add
+))
+
+(define order-11 (
+  $1 (verify friend?)
+  (verify (or (piece? $2R) (piece? $2A)))
+  (if (piece? $2R)
+      (change-type $2A)
+   else
+      (change-type $2R)
+  )
+  $3 (verify not-friend?)
+  (verify (not-piece? Mount))
+  add
+))
+
+(define order-12 (
+  $1 (verify friend?)
+  (verify (or (piece? $2R) (piece? $2A)))
+  (if (piece? $2R)
+      (change-type $2A)
+   else
+      (change-type $2R)
+  )
+  $3 (verify (not-piece? Mount))
+  $4 (verify not-friend?)
+  (verify (not-piece? Mount))
+  add
+))
+
+(define order-21 (
+  $1 (verify (not-piece? Mount))
+  $2 (verify friend?)
+  (verify (or (piece? $3R) (piece? $3A)))
+  (if (piece? $3R)
+      (change-type $3A)
+   else
+      (change-type $3R)
+  )
+  $4 (verify not-friend?)
+  (verify (not-piece? Mount))
+  add
+))
+
+(define order-22 (
+  $1 (verify (not-piece? Mount))
+  $2 (verify friend?)
+  (verify (or (piece? $3R) (piece? $3A)))
+  (if (piece? $3R)
+      (change-type $3A)
+   else
+      (change-type $3R)
+  )
+  $4 (verify (not-piece? Mount))
+  $5 (verify not-friend?)
+  (verify (not-piece? Mount))
+  add
+))
+
+(define order-def
+  (order-1 nw General w) (order-1 nw General e) (order-1 nw General s) (order-1? nw General sw s)
+  (order-1 ne General w) (order-1 ne General e) (order-1 ne General s) (order-1? ne General se s)
+  (order-1 n General w) (order-1 n General e) (order-1 n General sw) (order-1 n General se) 
+  (order-1 w General s) (order-1 w General e) (order-1 w General sw) (order-1 w General se) 
+  (order-1 e General s) (order-1 e General w) (order-1 e General sw) (order-1 e General se)
+  (order-1 sw Marshall n) (order-1? sw Marshall nw n)
+  (order-1 se Marshall n) (order-1? se Marshall ne n)
+  (order-1 s Marshall nw) (order-1 s Marshall ne)
+  (order-11 w Duchess w) (order-11 e Duchess e) 
+  (order-21 w w Duchess w) (order-21 w w Duchess e) (order-21 e e Duchess e) (order-21 e e Duchess w)
+  (order-12 w Duchess w w) (order-12 e Duchess w w) (order-12 e Duchess e e) (order-12 w Duchess e e)
+  (order-22 w w Duchess w w) (order-22 e e Duchess e e) 
+)
+
+(game
+  (title "Duke")
+
+  (option "animate captures" false)
+  (option "animate drops"    false)
+  (option "pass turn"        false)
+  (option "highlight goals"  false)
+  (option "prevent flipping" true)
+  (option "recycle captures" false)
+
+  (move-sound    "Audio/Clack.wav")
+  (release-sound "Audio/Clack.wav")
+  (drop-sound    "")
+  (capture-sound "")
+  (change-sound  "")
+  (click-sound   "")
+  (draw-sound    "")
+
+  (players South North)
+  (turn-order South North)
+
+  (board
+    (image "../images/Duke/board.bmp")
+    (grid
+      (start-rectangle 3 4 121 120)
+      (dimensions
+        ("a/b/c/d/e/f" (118 0)) ; files
+        ("6/5/4/3/2/1" (0 116)) ; ranks
+      )
+      (directions (n 0 -1) (s 0 1) (e 1 0) (w -1 0)
+        (nw -1 -1) (sw -1 1) (ne 1 -1) (se 1 1)
+      )
+    )
+    (symmetry North (n s) (s n) (nw sw) (sw nw) (ne se) (se ne))
+  )
+
+  (piece
+     (name  Blank)
+     (image South "../images/Duke/b.bmp"
+            North "../images/Duke/b.bmp")
+  )
+  (piece
+     (name  Mount)
+     (image South "../images/Duke/m.bmp"
+            North "../images/Duke/m.bmp")
+  )
+
+  (piece
+     (name  DukeA)
+     (help "Duke")
+     (image South "../images/Duke/kas.bmp"
+            North "../images/Duke/kan.bmp")
+     (moves
+        (slide-1 w DukeR) (slide-1 e DukeR)
+        (order-def)
+     )
+  )
+  (piece
+     (name  DukeR)
+     (help "Duke")
+     (image South "../images/Duke/krs.bmp"
+            North "../images/Duke/krn.bmp")
+     (moves
+        (slide-1 n DukeA) (slide-1 s DukeA)
+        (order-def)
+     )
+  )
+  (piece
+     (name  AssassinA)
+     (help "Assassin")
+     (image South "../images/Duke/aas.bmp"
+            North "../images/Duke/aan.bmp")
+     (moves
+        (slide-2 n AssassinR) (slide-2 sw AssassinR) (slide-2 se AssassinR)
+        (order-def)
+     )
+  )
+  (piece
+     (name  AssassinR)
+     (help "Assassin")
+     (image South "../images/Duke/ars.bmp"
+            North "../images/Duke/arn.bmp")
+     (moves
+        (slide-2 s AssassinA) (slide-2 nw AssassinA) (slide-2 ne AssassinA)
+        (order-def)
+     )
+  )
+  (piece
+     (name  BowmanA)
+     (help "Bowman")
+     (image South "../images/Duke/bas.bmp"
+            North "../images/Duke/ban.bmp")
+     (moves
+        (step-1 n BowmanR) (step-1 w BowmanR) (step-1 e BowmanR)
+        (jump-2 w w BowmanR) (jump-2 e e BowmanR) (jump-2 s s BowmanR)
+        (order-def)
+     )
+  )
+  (piece
+     (name  BowmanR)
+     (help "Bowman")
+     (image South "../images/Duke/brs.bmp"
+            North "../images/Duke/brn.bmp")
+     (moves
+        (step-1 n BowmanA) (step-1 sw BowmanA) (step-1 se BowmanA)
+        (strike-1 nw BowmanA) (strike-1 ne BowmanA) (strike-2 n n BowmanA)
+        (order-def)
+     )
+  )
+  (piece
+     (name  ChampionA)
+     (help "Champion")
+     (image South "../images/Duke/cas.bmp"
+            North "../images/Duke/can.bmp")
+     (moves
+        (step-1 n ChampionR) (step-1 w ChampionR) (step-1 e ChampionR) (step-1 s ChampionR)
+        (jump-2 n n ChampionR) (jump-2 w w ChampionR) (jump-2 e e ChampionR) (jump-2 s s ChampionR)
+        (order-def)
+     )
+  )
+  (piece
+     (name  ChampionR)
+     (help "Champion")
+     (image South "../images/Duke/crs.bmp"
+            North "../images/Duke/crn.bmp")
+     (moves
+        (strike-1 n ChampionA) (strike-1 w ChampionA) (strike-1 e ChampionA) (strike-1 s ChampionA)
+        (jump-2 n n ChampionA) (jump-2 w w ChampionA) (jump-2 e e ChampionA) (jump-2 s s ChampionA)
+        (order-def)
+     )
+  )
+  (piece
+     (name  DragoonA)
+     (help "Dragoon")
+     (image South "../images/Duke/das.bmp"
+            North "../images/Duke/dan.bmp")
+     (moves
+        (step-1 w DragoonR) (step-1 e DragoonR)
+        (strike-2 n n DragoonR) (strike-2 nw nw DragoonR) (strike-2 ne ne DragoonR)
+        (order-def)
+     )
+  )
+  (piece
+     (name  DragoonR)
+     (help "Dragoon")
+     (image South "../images/Duke/drs.bmp"
+            North "../images/Duke/drn.bmp")
+     (moves
+        (step-1 n DragoonA) (step-2 n n DragoonA)
+        (jump-2 n nw DragoonA) (jump-2 n ne DragoonA)
+        (slide-1 sw DragoonA) (slide-1 se DragoonA)
+        (order-def)
+     )
+  )
+  (piece
+     (name  FootmanA)
+     (help "Footman")
+     (image South "../images/Duke/fas.bmp"
+            North "../images/Duke/fan.bmp")
+     (moves
+        (step-1 n FootmanR) (step-1 w FootmanR) (step-1 e FootmanR) (step-1 s FootmanR)
+        (order-def)
+     )
+  )
+  (piece
+     (name  FootmanR)
+     (help "Footman")
+     (image South "../images/Duke/frs.bmp"
+            North "../images/Duke/frn.bmp")
+     (moves
+        (step-1 nw FootmanA) (step-1 sw FootmanA) (step-1 ne FootmanA) (step-1 se FootmanA)
+        (step-2 n n FootmanA)
+        (order-def)
+     )
+  )
+  (piece
+     (name  GeneralA)
+     (help "General")
+     (image South "../images/Duke/gas.bmp"
+            North "../images/Duke/gan.bmp")
+     (moves
+        (step-1 n GeneralR) (step-2 w w GeneralR) (step-2 e e GeneralR) (step-1 s GeneralR)
+        (jump-2 n nw GeneralR) (jump-2 n ne GeneralR)
+        (order-def)
+     )
+  )
+  (piece
+     (name  GeneralR)
+     (help "General")
+     (image South "../images/Duke/grs.bmp"
+            North "../images/Duke/grn.bmp")
+     (moves
+        (step-1 n GeneralA) (step-1 w GeneralA) (step-2 w w GeneralA) (step-1 e GeneralA) (step-2 e e GeneralA)
+        (jump-2 n nw GeneralA) (jump-2 n ne GeneralA)
+        (order-def)
+     )
+  )
+  (piece
+     (name  LongbowmanA)
+     (help "Longbowman")
+     (image South "../images/Duke/las.bmp"
+            North "../images/Duke/lan.bmp")
+     (moves
+        (step-1 n LongbowmanR) (step-1 w LongbowmanR) (step-1 e LongbowmanR) (step-1 s LongbowmanR)
+        (order-def)
+     )
+  )
+  (piece
+     (name  LongbowmanR)
+     (help "Longbowman")
+     (image South "../images/Duke/lrs.bmp"
+            North "../images/Duke/lrn.bmp")
+     (moves
+        (step-1 sw LongbowmanA) (step-1 se LongbowmanA)
+        (strike-2 n n LongbowmanA) (strike-3 n n n LongbowmanA)
+        (order-def)
+     )
+  )
+  (piece
+     (name  MarshallA)
+     (help "Marshall")
+     (image South "../images/Duke/mas.bmp"
+            North "../images/Duke/man.bmp")
+     (moves
+        (slide-1 w MarshallR) (slide-1 e MarshallR)
+        (jump-2 nw nw MarshallR) (jump-2 ne ne MarshallR) (jump-2 s s MarshallR)
+        (order-def)
+     )
+  )
+  (piece
+     (name  MarshallR)
+     (help "Marshall")
+     (image South "../images/Duke/mrs.bmp"
+            North "../images/Duke/mrn.bmp")
+     (moves
+        (step-1 n MarshallA) (step-1 w MarshallA) (step-1 e MarshallA)
+        (step-1 nw MarshallA) (step-1 ne MarshallA) (step-1 sw MarshallA) (step-1 se MarshallA)
+        (step-2 w w MarshallA) (step-2 e e MarshallA)
+        (order-def)
+     )
+  )
+  (piece
+     (name  KnightA)
+     (help "Knight")
+     (image South "../images/Duke/nas.bmp"
+            North "../images/Duke/nan.bmp")
+     (moves
+        (step-1 w KnightR) (step-1 e KnightR) (step-1 s KnightR) (step-2 s s KnightR)
+        (jump-2 n nw KnightR) (jump-2 n ne KnightR)
+        (order-def)
+     )
+  )
+  (piece
+     (name  KnightR)
+     (help "Knight")
+     (image South "../images/Duke/nrs.bmp"
+            North "../images/Duke/nrn.bmp")
+     (moves
+        (step-1 sw KnightA) (step-2 sw sw KnightA)
+        (step-1 se KnightA) (step-2 se se KnightA)
+        (slide-1 n KnightA)
+        (order-def)
+     )
+  )
+  (piece
+     (name  PikemanA)
+     (help "Pikeman")
+     (image South "../images/Duke/qas.bmp"
+            North "../images/Duke/qan.bmp")
+     (moves
+        (step-1 nw PikemanR) (step-2 nw nw PikemanR)
+        (step-1 ne PikemanR) (step-2 ne ne PikemanR)
+        (order-def)
+     )
+  )
+  (piece
+     (name  PikemanR)
+     (help "Pikeman")
+     (image South "../images/Duke/qrs.bmp"
+            North "../images/Duke/qrn.bmp")
+     (moves
+        (step-1 n PikemanA) (step-1 s PikemanA) (step-2 s s PikemanA)
+        (strike-2 n nw PikemanA) (strike-2 n ne PikemanA)
+        (order-def)
+     )
+  )
+  (piece
+     (name  PriestA)
+     (help "Priest")
+     (image South "../images/Duke/ras.bmp"
+            North "../images/Duke/ran.bmp")
+     (moves
+        (slide-1 nw PriestR) (slide-1 ne PriestR)
+        (slide-1 sw PriestR) (slide-1 se PriestR)
+        (order-def)
+     )
+  )
+  (piece
+     (name  PriestR)
+     (help "Priest")
+     (image South "../images/Duke/rrs.bmp"
+            North "../images/Duke/rrn.bmp")
+     (moves
+        (step-1 nw PriestA) (step-1 ne PriestA)
+        (step-1 sw PriestA) (step-1 se PriestA)
+        (jump-2 nw nw PriestA) (jump-2 ne ne PriestA)
+        (jump-2 sw sw PriestA) (jump-2 se se PriestA)
+        (order-def)
+     )
+  )
+  (piece
+     (name  SeerA)
+     (help "Seer")
+     (image South "../images/Duke/sas.bmp"
+            North "../images/Duke/san.bmp")
+     (moves
+        (step-1 nw SeerR) (step-1 ne SeerR) (step-1 sw SeerR) (step-1 se SeerR)
+        (jump-2 n n SeerR) (jump-2 w w SeerR) (jump-2 e e SeerR) (jump-2 s s SeerR)
+        (order-def)
+     )
+  )
+  (piece
+     (name  SeerR)
+     (help "Seer")
+     (image South "../images/Duke/srs.bmp"
+            North "../images/Duke/srn.bmp")
+     (moves
+        (step-1 n SeerA) (step-1 e SeerA) (step-1 w SeerA) (step-1 s SeerA)
+        (jump-2 nw nw SeerA) (jump-2 sw sw SeerA) (jump-2 ne ne SeerA) (jump-2 se se SeerA)
+        (order-def)
+     )
+  )
+  (piece
+     (name  WizardA)
+     (help "Wizard")
+     (image South "../images/Duke/was.bmp"
+            North "../images/Duke/wan.bmp")
+     (moves
+        (step-1 nw WizardR) (step-1 ne WizardR) (step-1 sw WizardR) (step-1 se WizardR)
+        (step-1 n WizardR) (step-1 e WizardR) (step-1 w WizardR) (step-1 s WizardR)
+        (order-def)
+     )
+  )
+  (piece
+     (name  WizardR)
+     (help "Wizard")
+     (image South "../images/Duke/wrs.bmp"
+            North "../images/Duke/wrn.bmp")
+     (moves
+        (jump-2 nw nw WizardA) (jump-2 ne ne WizardA) (jump-2 sw sw WizardA) (jump-2 se se WizardA)
+        (jump-2 n n WizardA) (jump-2 e e WizardA) (jump-2 w w WizardA) (jump-2 s s WizardA)
+        (order-def)
+     )
+  )
+  (piece
+     (name  DuchessA)
+     (help "Duchess")
+     (image South "../images/Duke/uas.bmp"
+            North "../images/Duke/uan.bmp")
+     (moves
+        (step-1 w DuchessR) (step-1 e DuchessR) (step-2 s s DuchessR)
+        (order-def)
+     )
+  )
+  (piece
+     (name  DuchessR)
+     (help "Duchess")
+     (image South "../images/Duke/urs.bmp"
+            North "../images/Duke/urn.bmp")
+     (moves
+        (step-1 w DuchessA) (step-1 e DuchessA) (step-2 s s DuchessA)
+        (order-def)
+     )
+  )
+
+  (board-setup
+     (South 
+       (DukeA f1)
+     )
+     (North
+       (DukeA a6)
+     )
+  )
+
+  (loss-condition (South North) (checkmated DukeA DukeR))
+)
