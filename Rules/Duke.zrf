@@ -510,6 +510,29 @@
      )
   )
   (piece
+     (name  RangerA)
+     (help "Ranger")
+     (image South "../images/Duke/eas.bmp"
+            North "../images/Duke/ean.bmp")
+     (moves
+        (jump-2 n nw RangerR) (jump-2 n ne RangerR)
+        (jump-2 w nw RangerR) (jump-2 e ne RangerR)
+        (slide-1 n RangerR) (slide-1 s RangerR)
+        (order-def)
+     )
+  )
+  (piece
+     (name  RangerR)
+     (help "Ranger")
+     (image South "../images/Duke/ers.bmp"
+            North "../images/Duke/ern.bmp")
+     (moves
+        (jump-2 s sw RangerA) (jump-2 s se RangerA)
+        (slide-1 nw RangerA) (slide-1 ne RangerA)
+        (order-def)
+     )
+  )
+  (piece
      (name  DuchessA)
      (help "Duchess")
      (image South "../images/Duke/uas.bmp"
