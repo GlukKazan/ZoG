@@ -28,6 +28,7 @@
 (define check-other
    mark
    (set-flag is-escaped? false)
+   (set-flag is-tower? (piece? Tower))
    (if (on-board? $1)
        $1 (check-escape)
        (if (and friend? (no-tower?) (not-in-zone? water) (or (piece? Rabble) (piece? LightHorse) (piece? HeavyHorse) (piece? Elephant) (piece? Crossbow) (piece? Dragon) (piece? Tower) (piece? King)))
@@ -37,6 +38,7 @@
            )
        )
    )
+   (set-flag is-tower? false)
    (if (and (on-board? $1) (not-flag? is-escaped?))
        $1 (check-escape)
        (if (and friend? (no-tower?) (not-in-zone? water) (or (piece? Elephant) (piece? Crossbow) (piece? Trebuchet) (piece? Dragon)))
@@ -73,15 +75,11 @@
    (verify (not-piece? Mount))
    (set-flag is-light-engaged? false)
    (set-flag is-heavy-engaged? true)
-   (set-flag is-tower? false)
    (if (or (piece? Crossbow) (piece? Trebuchet))
        (set-flag is-light-engaged? true)
    )
    (if (or (piece? HeavyHorse) (piece? Elephant) (piece? Dragon) (piece? Tower))
        (set-flag is-heavy-engaged? false)
-   )
-   (if (piece? Tower)
-       (set-flag is-tower? true)
    )
    (check-spears sw) (check-spears se)
    (check-other w) (check-other e) (check-other nw) (check-other ne) (check-other sw) (check-other se)
@@ -318,6 +316,7 @@
   (check-pass)
   $1 $1 (verify enemy?)
   (verify (not-piece? Mount))
+  (check-engaged)
   add
 ))
 
