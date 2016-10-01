@@ -1,44 +1,56 @@
+(define common-stop
+  (if enemy?
+      (verify (not-piece? Pikeman))
+  )
+  (if (and (in-zone? var a2)
+           (in-zone? goal))
+      (add Pikeman)
+   else
+      (add $1)
+  )
+)
+
 (define step-1 (
   $1 (verify not-friend?)
   (verify (not-piece? Mount))
-  (add $2)
+  (common-stop $2)
 ))
 
 (define step-2 (
   $1 (verify empty?)
   $2 (verify not-friend?)
   (verify (not-piece? Mount))
-  (add $3)
+  (common-stop $3)
 ))
 
 (define jump-2 (
   $1 (verify (not-piece? Mount))
   $2 (verify not-friend?)
   (verify (not-piece? Mount))
-  (add $3)
+  (common-stop $3)
 ))
 
 (define slide-1 (
   $1 (while empty?
      (verify (not-piece? Mount))
-     (add $2)
+     (common-stop $2)
      $1
   )
   (verify not-friend?)
   (verify (not-piece? Mount))
-  (add $2)
+  (common-stop $2)
 ))
 
 (define slide-2 (
   $1 (verify (not-piece? Mount))
   $1 (while empty?
      (verify (not-piece? Mount))
-     (add $2)
+     (common-stop $2)
      $1
   )
   (verify not-friend?)
   (verify (not-piece? Mount))
-  (add $2)
+  (common-stop $2)
 ))
 
 (define strike-1 (
@@ -155,27 +167,13 @@
   (order-22 w w Duchess w w) (order-22 e e Duchess e e) 
 )
 
-(game
-  (title "Duke")
+(define drop-piece (
+  (verify (in-zone? home))
+  (verify empty?)
+  add
+))
 
-  (option "animate captures" false)
-  (option "animate drops"    false)
-  (option "pass turn"        false)
-  (option "highlight goals"  false)
-  (option "prevent flipping" true)
-  (option "recycle captures" false)
-
-  (move-sound    "Audio/Clack.wav")
-  (release-sound "Audio/Clack.wav")
-  (drop-sound    "")
-  (capture-sound "")
-  (change-sound  "")
-  (click-sound   "")
-  (draw-sound    "")
-
-  (players South North)
-  (turn-order South North)
-
+(define board-def
   (board
     (image "../images/Duke/board.bmp")
     (grid
@@ -188,8 +186,47 @@
         (nw -1 -1) (sw -1 1) (ne 1 -1) (se 1 1)
       )
     )
-    (symmetry North (n s) (s n) (nw sw) (sw nw) (ne se) (se ne))
+    (dummy a0)
+    (symmetry North (n s) (s n) (e w) (w e) (nw se) (se nw) (ne sw) (sw ne))
+    (zone (name home) (players South)
+          (positions a1 b1 c1 d1 e1 f1)
+    )
+    (zone (name home) (players North)
+          (positions a6 b6 c6 d6 e6 f6)
+    )
+    (zone (name goal) (players South)
+          (positions a6 b6 c6 d6 e6 f6)
+    )
+    (zone (name goal) (players North)
+          (positions a0)
+    )
+    (zone (name var) (players North South)
+          (positions $1)
+    )
   )
+)
+
+(game
+  (title "Duke")
+
+  (option "animate captures" false)
+  (option "animate drops"    false)
+  (option "pass turn"        forced)
+  (option "highlight goals"  false)
+  (option "prevent flipping" true)
+  (option "recycle captures" false)
+
+  (move-sound    "Audio/Clack.wav")
+  (release-sound "Audio/Clack.wav")
+  (drop-sound    "Audio/Clack.wav")
+  (capture-sound "")
+  (change-sound  "")
+  (click-sound   "")
+  (draw-sound    "")
+
+  (players South North)
+  (turn-order South North)
+  (board-def a1)
 
   (piece
      (name  Blank)
@@ -442,6 +479,11 @@
      )
   )
   (piece
+     (name  Pikeman)
+     (help "Pikeman")
+     (image South "../images/Duke/qs.bmp")
+  )
+  (piece
      (name  PriestA)
      (help "Priest")
      (image South "../images/Duke/ras.bmp"
@@ -563,4 +605,69 @@
   )
 
   (loss-condition (South North) (checkmated DukeA DukeR))
+)
+
+(variant
+  (title "-")
+)
+
+(variant
+  (title "Dark Knights")
+  (default)
+
+  (option "include off-pieces" true)
+
+  (turn-order 
+     (South setup)
+     (South setup)
+     (South setup)
+     (South setup)
+     (South setup)
+     (North setup)
+     (North setup)
+     repeat North South)
+
+  (board-def a2)
+
+  (piece
+     (name  KnightA)
+     (help "Knight")
+     (image South "../images/Duke/nas.bmp"
+            North "../images/Duke/nan.bmp")
+     (moves
+        (step-1 w KnightR) (step-1 e KnightR) (step-1 s KnightR) (step-2 s s KnightR)
+        (jump-2 n nw KnightR) (jump-2 n ne KnightR)
+     )
+     (drops
+        (move-type setup)
+        (drop-piece)
+     )
+  )
+  (piece
+     (name  PikemanA)
+     (help "Pikeman")
+     (image South "../images/Duke/qas.bmp"
+            North "../images/Duke/qan.bmp")
+     (moves
+        (step-1 nw PikemanR) (step-2 nw nw PikemanR)
+        (step-1 ne PikemanR) (step-2 ne ne PikemanR)
+     )
+     (drops
+        (move-type setup)
+        (drop-piece)
+     )
+  )
+
+  (board-setup
+     (North 
+       (KnightA off 2)
+     )
+     (South
+       (PikemanA off 5)
+     )
+  )
+
+  (loss-condition (North) (pieces-remaining 0) )
+  (loss-condition (South) (pieces-remaining 2) )
+  (win-condition (South) (pieces-remaining 3 Pikeman) )
 )
