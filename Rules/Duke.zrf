@@ -155,9 +155,9 @@
 (define order-def
   (order-1 nw General w) (order-1 nw General e) (order-1 nw General s) (order-1? nw General sw s)
   (order-1 ne General w) (order-1 ne General e) (order-1 ne General s) (order-1? ne General se s)
-  (order-1 n General w) (order-1 n General e) (order-1 n General sw) (order-1 n General se) 
-  (order-1 w General s) (order-1 w General e) (order-1 w General sw) (order-1 w General se) 
-  (order-1 e General s) (order-1 e General w) (order-1 e General sw) (order-1 e General se)
+  (order-1 n  General w) (order-1 n General  e) (order-1 n General sw) (order-1 n General se) 
+  (order-1 w  General s) (order-1 w General  w) (order-1 w General sw) (order-1 w General se) 
+  (order-1 e  General s) (order-1 e General  e) (order-1 e General sw) (order-1 e General se)
   (order-1 sw Marshall n) (order-1? sw Marshall nw n)
   (order-1 se Marshall n) (order-1? se Marshall ne n)
   (order-1 s Marshall nw) (order-1 s Marshall ne)
