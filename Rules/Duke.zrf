@@ -275,9 +275,15 @@
     (image "../images/Duke/board.bmp")
     (positions
       (p1 0 -10 5 5)
+      (x1 8  8 24 28)
+      (x2 8 28 24 48)
+      (x3 8 48 24 68)
+      (y1 755 676 771 696)
+      (y2 755 656 771 676)
+      (y3 755 636 771 656)
     )
     (grid
-      (start-rectangle 3 4 121 120)
+      (start-rectangle 36 4 154 120)
       (dimensions
         ("a/b/c/d/e/f" (118 0)) ; files
         ("6/5/4/3/2/1" (0 116)) ; ranks
@@ -295,6 +301,8 @@
       (directions (nx 0 1))
     )
     (dummy a0)
+    (links fs (a0 y1) (y1 y2) (y2 y3))
+    (links fn (a0 x1) (x1 x2) (x2 x3))
     (links nx (a0 S17) (S1 R17))
     (links pr (c3 d4) (d4 R10) 
               (e3 b4) (b4 R16) 
@@ -326,7 +334,7 @@
               (f6 a1) (a1 S17)
               (a6 f1) (f1 S7)
     )
-    (symmetry North (n s) (s n) (e w) (w e) (nw se) (se nw) (ne sw) (sw ne))
+    (symmetry North (n s) (s n) (e w) (w e) (nw se) (se nw) (ne sw) (sw ne) (fs fn))
     (zone (name home) (players South)
           (positions a1 b1 c1 d1 e1 f1)
     )
@@ -513,8 +521,7 @@
      (name  AssassinA)
      (notation "Assassin")
      (image South "../images/Duke/aas.bmp"
-            North "../images/Duke/aan.bmp"
-            ?R "../images/Duke/i.bmp")
+            North "../images/Duke/aan.bmp")
      (moves
         (move-type normal-south)
         (slide-2 n AssassinR) (slide-2 sw AssassinR) (slide-2 se AssassinR)
@@ -548,8 +555,7 @@
      (name  BowmanA)
      (notation "Bowman")
      (image South "../images/Duke/bas.bmp"
-            North "../images/Duke/ban.bmp"
-            ?R "../images/Duke/i.bmp")
+            North "../images/Duke/ban.bmp")
      (moves
         (move-type normal-south)
         (step-1 n BowmanR) (step-1 w BowmanR) (step-1 e BowmanR)
@@ -587,8 +593,7 @@
      (name  ChampionA)
      (notation "Champion")
      (image South "../images/Duke/cas.bmp"
-            North "../images/Duke/can.bmp"
-            ?R "../images/Duke/i.bmp")
+            North "../images/Duke/can.bmp")
      (moves
         (move-type normal-south)
         (step-1 n ChampionR) (step-1 w ChampionR) (step-1 e ChampionR) (step-1 s ChampionR)
@@ -626,8 +631,7 @@
      (name  DragoonA)
      (notation "Dragoon")
      (image South "../images/Duke/das.bmp"
-            North "../images/Duke/dan.bmp"
-            ?R "../images/Duke/i.bmp")
+            North "../images/Duke/dan.bmp")
      (moves
         (move-type normal-south)
         (step-1 w DragoonR) (step-1 e DragoonR)
@@ -667,8 +671,7 @@
      (name  FootmanA)
      (notation "Footman")
      (image South "../images/Duke/fas.bmp"
-            North "../images/Duke/fan.bmp"
-            ?R "../images/Duke/i.bmp")
+            North "../images/Duke/fan.bmp")
      (moves
         (move-type normal-south)
         (step-1 n FootmanR) (step-1 w FootmanR) (step-1 e FootmanR) (step-1 s FootmanR)
@@ -706,8 +709,7 @@
      (name  GeneralA)
      (notation "General")
      (image South "../images/Duke/gas.bmp"
-            North "../images/Duke/gan.bmp"
-            ?R "../images/Duke/i.bmp")
+            North "../images/Duke/gan.bmp")
      (moves
         (move-type normal-south)
         (step-1 n GeneralR) (step-2 w w GeneralR) (step-2 e e GeneralR) (step-1 s GeneralR)
@@ -745,8 +747,7 @@
      (name  LongbowmanA)
      (notation "Longbowman")
      (image South "../images/Duke/las.bmp"
-            North "../images/Duke/lan.bmp"
-            ?R "../images/Duke/i.bmp")
+            North "../images/Duke/lan.bmp")
      (moves
         (move-type normal-south)
         (step-1 n LongbowmanR) (step-1 w LongbowmanR) (step-1 e LongbowmanR) (step-1 s LongbowmanR)
@@ -782,8 +783,7 @@
      (name  MarshallA)
      (notation "Marshall")
      (image South "../images/Duke/mas.bmp"
-            North "../images/Duke/man.bmp"
-            ?R "../images/Duke/i.bmp")
+            North "../images/Duke/man.bmp")
      (moves
         (move-type normal-south)
         (slide-1 w MarshallR) (slide-1 e MarshallR)
@@ -823,8 +823,7 @@
      (name  KnightA)
      (notation "Knight")
      (image South "../images/Duke/nas.bmp"
-            North "../images/Duke/nan.bmp"
-            ?R "../images/Duke/i.bmp")
+            North "../images/Duke/nan.bmp")
      (moves
         (move-type normal-south)
         (step-1 w KnightR) (step-1 e KnightR) (step-1 s KnightR) (step-2 s s KnightR)
@@ -864,8 +863,7 @@
      (name  PikemanA)
      (notation "Pikeman")
      (image South "../images/Duke/qas.bmp"
-            North "../images/Duke/qan.bmp"
-            ?R "../images/Duke/i.bmp")
+            North "../images/Duke/qan.bmp")
      (moves
         (move-type normal-south)
         (step-1 nw PikemanR) (step-2 nw nw PikemanR)
@@ -908,8 +906,7 @@
      (name  PriestA)
      (notation "Priest")
      (image South "../images/Duke/ras.bmp"
-            North "../images/Duke/ran.bmp"
-            ?R "../images/Duke/i.bmp")
+            North "../images/Duke/ran.bmp")
      (moves
         (move-type normal-south)
         (slide-1 nw PriestR) (slide-1 ne PriestR)
@@ -951,8 +948,7 @@
      (name  SeerA)
      (notation "Seer")
      (image South "../images/Duke/sas.bmp"
-            North "../images/Duke/san.bmp"
-            ?R "../images/Duke/i.bmp")
+            North "../images/Duke/san.bmp")
      (moves
         (move-type normal-south)
         (step-1 nw SeerR) (step-1 ne SeerR) (step-1 sw SeerR) (step-1 se SeerR)
@@ -990,8 +986,7 @@
      (name  WizardA)
      (notation "Wizard")
      (image South "../images/Duke/was.bmp"
-            North "../images/Duke/wan.bmp"
-            ?R "../images/Duke/i.bmp")
+            North "../images/Duke/wan.bmp")
      (moves
         (move-type normal-south)
         (step-1 nw WizardR) (step-1 ne WizardR) (step-1 sw WizardR) (step-1 se WizardR)
@@ -1029,8 +1024,7 @@
      (name  RangerA)
      (notation "Ranger")
      (image South "../images/Duke/eas.bmp"
-            North "../images/Duke/ean.bmp"
-            ?R "../images/Duke/i.bmp")
+            North "../images/Duke/ean.bmp")
      (moves
         (move-type normal-south)
         (jump-2 n nw RangerR) (jump-2 n ne RangerR)
@@ -1070,8 +1064,7 @@
      (name  DuchessA)
      (notation "Duchess")
      (image South "../images/Duke/uas.bmp"
-            North "../images/Duke/uan.bmp"
-            ?R "../images/Duke/i.bmp")
+            North "../images/Duke/uan.bmp")
      (moves
         (move-type normal-south)
         (step-1 w DuchessR) (step-1 e DuchessR) (step-2 s s DuchessR)
@@ -1100,6 +1093,18 @@
         (step-1 w DuchessA) (step-1 e DuchessA) (step-2 s s DuchessA)
         (order-def)
      )
+  )
+  (piece
+     (name  Flag)
+     (notation "Flag")
+     (image South "../images/Duke/fs.bmp"
+            North "../images/Duke/fn.bmp")
+  )
+  (piece
+     (name  Mark)
+     (notation " ")
+     (image South "../images/Duke/flag.bmp"
+            North "../images/Duke/flag.bmp")
   )
 
   (board-setup
