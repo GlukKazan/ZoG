@@ -9,11 +9,46 @@
   )
 )
 
+(define is-dir-flag?
+  (and (on-board? $1)
+       (enemy? $1)
+       (piece? Flag $1)
+  )
+)
+
+(define init-cup
+  (set-flag is-flag-starting? false)
+  (if (or (is-dir-flag? n)
+          (is-dir-flag? s)
+          (is-dir-flag? w)
+          (is-dir-flag? e)
+      )
+      (set-flag is-flag-starting? true)
+  )
+)
+
+(define calc-cup
+  (if (and (not-flag? is-flag-starting?)
+           (or (is-dir-flag? n)
+               (is-dir-flag? s)
+               (is-dir-flag? w)
+               (is-dir-flag? e)
+           )
+      )
+      mark a0 fs
+      (while (and (on-board? fs) not-empty?) fs)
+      (if empty? (create Mark))
+      back
+  )
+)
+
 (define common-stop
   (clear-pass)
   (if enemy?
       (verify (not-piece? Pikeman))
+      (verify (not-piece? Flag))
   )
+  (calc-cup)
   (if (and (in-zone? var a2)
            (in-zone? goal))
       (add Pikeman)
@@ -23,12 +58,14 @@
 )
 
 (define step-1 (
+  (init-cup)
   $1 (verify not-friend?)
   (verify (not-piece? Mount))
   (common-stop $2)
 ))
 
 (define step-2 (
+  (init-cup)
   $1 (verify empty?)
   $2 (verify not-friend?)
   (verify (not-piece? Mount))
@@ -36,6 +73,7 @@
 ))
 
 (define jump-2 (
+  (init-cup)
   $1 (verify (not-piece? Mount))
   $2 (verify not-friend?)
   (verify (not-piece? Mount))
@@ -43,6 +81,7 @@
 ))
 
 (define slide-1 (
+  (init-cup)
   $1 (while empty?
      (verify (not-piece? Mount))
      (common-stop $2)
@@ -54,6 +93,7 @@
 ))
 
 (define slide-2 (
+  (init-cup)
   $1 (verify (not-piece? Mount))
   $1 (while empty?
      (verify (not-piece? Mount))
@@ -69,6 +109,7 @@
   mark 
   $1 (verify enemy?)
   (verify (not-piece? Mount))
+  (verify (not-piece? Flag))
   to capture back
   (create $2) 
   (clear-pass) add
@@ -79,6 +120,7 @@
   $1 (verify (not-piece? Mount))
   $2 (verify enemy?)
   (verify (not-piece? Mount))
+  (verify (not-piece? Flag))
   to capture back
   (create $3) 
   (clear-pass) add
@@ -90,31 +132,37 @@
   $2 (verify (not-piece? Mount))
   $3 (verify enemy?)
   (verify (not-piece? Mount))
+  (verify (not-piece? Flag))
   to capture back
   (create $4) 
   (clear-pass) add
 ))
 
 (define order-1 (
+  (init-cup)
   $1 (verify friend?)
   (verify (piece? $2R))
   (change-type $2A)
   $3 (verify not-friend?)
   (verify (not-piece? Mount))
-  (clear-pass) add
+  (verify (not-piece? Flag))
+  (clear-pass) (calc-cup) add
 ))
 
 (define order-1? (
+  (init-cup)
   $1 (verify friend?)
   (verify (piece? $2R))
   (verify (not-piece? Mount $4))
   (change-type $2A)
   $3 (verify not-friend?)
   (verify (not-piece? Mount))
-  (clear-pass) add
+  (verify (not-piece? Flag))
+  (clear-pass) (calc-cup) add
 ))
 
 (define order-11 (
+  (init-cup)
   $1 (verify friend?)
   (verify (or (piece? $2R) (piece? $2A)))
   (if (piece? $2R)
@@ -124,10 +172,12 @@
   )
   $3 (verify not-friend?)
   (verify (not-piece? Mount))
-  (clear-pass) add
+  (verify (not-piece? Flag))
+  (clear-pass) (calc-cup) add
 ))
 
 (define order-12 (
+  (init-cup)
   $1 (verify friend?)
   (verify (or (piece? $2R) (piece? $2A)))
   (if (piece? $2R)
@@ -138,10 +188,12 @@
   $3 (verify (not-piece? Mount))
   $4 (verify not-friend?)
   (verify (not-piece? Mount))
-  (clear-pass) add
+  (verify (not-piece? Flag))
+  (clear-pass) (calc-cup) add
 ))
 
 (define order-21 (
+  (init-cup)
   $1 (verify (not-piece? Mount))
   $2 (verify friend?)
   (verify (or (piece? $3R) (piece? $3A)))
@@ -152,10 +204,12 @@
   )
   $4 (verify not-friend?)
   (verify (not-piece? Mount))
-  (clear-pass) add
+  (verify (not-piece? Flag))
+  (clear-pass) (calc-cup) add
 ))
 
 (define order-22 (
+  (init-cup)
   $1 (verify (not-piece? Mount))
   $2 (verify friend?)
   (verify (or (piece? $3R) (piece? $3A)))
@@ -167,7 +221,8 @@
   $4 (verify (not-piece? Mount))
   $5 (verify not-friend?)
   (verify (not-piece? Mount))
-  (clear-pass) add
+  (verify (not-piece? Flag))
+  (clear-pass) (calc-cup) add
 ))
 
 (define order-def
@@ -270,6 +325,38 @@
   back capture add
 ))
 
+(define drop-flag (
+  (verify empty?)
+  (verify (in-zone? border))
+  add
+))
+
+(define is-dir-neighbor?
+  (and (on-board? $1)
+       (friend? $1)
+       (not-piece? Flag $1)
+  )
+)
+
+(define is-neighbor?
+  (and empty?
+       (or (is-dir-neighbor? n)
+           (is-dir-neighbor? s)
+           (is-dir-neighbor? w)
+           (is-dir-neighbor? e)
+       )
+  )
+)
+
+(define move-flag (
+  a0 next
+  (while (on-board? next)
+      (if (is-neighbor?) add)
+      next
+  )
+  (if (is-neighbor?) add)
+))
+
 (define board-def
   (board
     (image "../images/Duke/board.bmp")
@@ -289,7 +376,7 @@
         ("6/5/4/3/2/1" (0 116)) ; ranks
       )
       (directions (n 0 -1) (s 0 1) (e 1 0) (w -1 0)
-        (nw -1 -1) (sw -1 1) (ne 1 -1) (se 1 1)
+        (nw -1 -1) (sw -1 1) (ne 1 -1) (se 1 1) (next 0 -1)
       )
     )
     (grid
@@ -301,6 +388,7 @@
       (directions (nx 0 1))
     )
     (dummy a0)
+    (links next (a0 a1) (a6 b1) (b6 c1) (c6 d1) (d6 e1) (e6 f1))
     (links fs (a0 y1) (y1 y2) (y2 y3))
     (links fn (a0 x1) (x1 x2) (x2 x3))
     (links nx (a0 S17) (S1 R17))
@@ -350,6 +438,9 @@
     (zone (name var) (players North South)
           (positions $1)
     )
+    (zone (name border) (players North South)
+          (positions a1 a2 a3 a4 a5 a6 b6 c6 d6 e6 f6 f5 f4 f3 f2 f1 e1 d1 c1 b1)
+    )
     (zone (name pass-zone) (players ?R South North)
           (positions p1)
     )
@@ -357,7 +448,7 @@
 )
 
 (variant
-  (title "Dark Knights")
+  (title "Dark Riders")
 
   (option "include off-pieces" true)
   (option "recycle captures"   false)
@@ -1099,6 +1190,16 @@
      (notation "Flag")
      (image South "../images/Duke/fs.bmp"
             North "../images/Duke/fn.bmp")
+     (moves
+        (move-type normal-south)
+        (move-flag)
+        (move-type normal-north)
+        (move-flag)
+     )
+     (drops
+        (move-type setup-flag)
+        (drop-flag)
+     )
   )
   (piece
      (name  Mark)
@@ -1171,7 +1272,90 @@
 )
 
 (variant
-  (title "Logistic Madness")
+  (title "Counting Coup")
+
+  (turn-order 
+     (South setup-duke)
+     (South setup-footman)
+     (South setup-footman)
+     (North setup-duke)
+     (North setup-footman)
+     (North setup-footman)
+     (North setup-flag)
+     (South setup-flag)
+     repeat
+     (South normal-south)
+     (?R South blank-south)
+     (North normal-north)
+     (?R North blank-north)
+  )
+
+  (board-setup
+     (?R
+       (FootmanA S1) (FootmanR R1)
+       (PikemanA S2 S3 S4) (PikemanR R2 R3 R4)
+       (WizardA S5) (WizardR R5)
+       (SeerA S6) (SeerR R6)
+       (PriestA S7) (PriestR R7)
+       (MarshallA S8) (MarshallR R8)
+       (KnightA S9) (KnightR R9)
+       (RangerA S10) (RangerR R10)
+       (GeneralA S11) (GeneralR R11)
+       (ChampionA S12) (ChampionR R12)
+       (BowmanA S13) (BowmanR R13)
+       (LongbowmanA S14) (LongbowmanR R14)
+       (DragoonA S15) (DragoonR R15)
+       (AssassinA S16) (AssassinR R16)
+       (DuchessA S17) (DuchessR R17)
+     )
+     (South 
+       (Flag off 1)
+       (Blank off 16)
+       (DukeA off 1)
+       (FootmanA off 3)
+       (PikemanA off 3)
+       (WizardA off 1)
+       (SeerA off 1)
+       (PriestA off 1)
+       (MarshallA off 1)
+       (KnightA off 1)
+       (RangerA off 1)
+       (GeneralA off 1)
+       (ChampionA off 1)
+       (BowmanA off 1)
+       (LongbowmanA off 1)
+       (DragoonA off 1)
+       (AssassinA off 1)
+       (DuchessA off 1)
+     )
+     (North
+       (Flag off 1)
+       (Blank off 16)
+       (DukeA off 1)
+       (FootmanA off 3)
+       (PikemanA off 3)
+       (WizardA off 1)
+       (SeerA off 1)
+       (PriestA off 1)
+       (MarshallA off 1)
+       (KnightA off 1)
+       (RangerA off 1)
+       (GeneralA off 1)
+       (ChampionA off 1)
+       (BowmanA off 1)
+       (LongbowmanA off 1)
+       (DragoonA off 1)
+       (AssassinA off 1)
+       (DuchessA off 1)
+     )
+  )
+
+  (win-condition (South North) (pieces-remaining 3 Mark))
+  (loss-condition (South North) stalemated)
+)
+
+(variant
+  (title "Dynastic Dispute")
 
   (turn-order
      (South init-south) (North init-north)
