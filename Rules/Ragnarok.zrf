@@ -1,0 +1,479 @@
+(define jotunn-step (
+  (if (on-board? $2)
+      (verify (not-enemy? $2))
+  )
+  $1 (verify empty?)
+  (if (on-board? $1)
+      (verify (not-enemy? $1))
+  )
+  (if (in-zone? goal-zone)
+      (add Jotunn)
+   else  
+      (add $3)
+  )
+))
+
+(define jotunn-push (
+  (set-flag is-captured? false)
+  mark
+  (while (and (on-board? $2) (enemy? $2))
+      $2
+      capture
+      (set-flag is-captured? true)
+  )
+  back
+  $1 (verify empty?)
+  mark
+  (while (and (on-board? $1) (enemy? $1))
+      $1
+      capture
+      (set-flag is-captured? true)
+  )
+  back
+  (verify (flag? is-captured?))
+  (if (in-zone? goal-zone)
+      (add-partial Jotunn capture-type)
+   else  
+      (add-partial $3 capture-type)
+  )
+))
+
+(define valkyrie-slide (
+  (while (empty? $1)
+      $1
+      (check-fire)
+      (add $2)
+  )
+))
+
+(define valkyrie-jump (
+  (while (empty? $1)
+      $1
+  )
+  (verify (enemy? $1))
+  $1
+  (verify (empty? $1))
+  $1
+  (while empty?
+      mark
+      (while empty? 
+        (opposite $1)
+      ) 
+      capture
+      back
+      (check-fire)
+      (add-partial $2 capture-type)
+      $1
+  )
+))
+
+(define check-fire-dir
+  (if (on-board? $2)
+      (if (piece? $1 $2)
+          (set-flag is-fired? true)
+      )
+  )
+)
+
+(define check-fire
+  (set-flag is-fired? false)
+  (check-fire-dir SurtrA n) (check-fire-dir SurtrA nw)
+  (check-fire-dir SurtrA s) (check-fire-dir SurtrA se)
+  (check-fire-dir SurtrA w) (check-fire-dir SurtrA sw)
+  (check-fire-dir SurtrA e) (check-fire-dir SurtrA ne)
+  (check-fire-dir SurtrR n) (check-fire-dir SurtrR nw)
+  (check-fire-dir SurtrR s) (check-fire-dir SurtrR se)
+  (check-fire-dir SurtrR w) (check-fire-dir SurtrR sw)
+  (check-fire-dir SurtrR e) (check-fire-dir SurtrR ne)
+  (if (flag? is-fired?) capture)
+)
+
+(define common-step (
+  $1 (verify not-friend?)
+  (verify (not-piece? Hole))
+  (check-fire)
+  (add $2)
+))
+
+(define empty-step (
+  $1 (verify empty?)
+  (check-fire)
+  (add $2)
+))
+
+(define common-shoot (
+  (create $2)
+  $1 (verify enemy?)
+  (verify (not-piece? Hole))
+  capture add
+))
+
+(define fire
+  (if (enemy? $1)
+      (capture $1)
+  )
+)
+
+(define surtr-step (
+  (create Hole)
+  $1 (verify empty?)
+  $1 (verify not-friend?)
+  (fire n) (fire nw)
+  (fire s) (fire se)
+  (fire w) (fire sw)
+  (fire e) (fire ne)
+  (add $2)
+))
+
+(define drop-piece (
+  (verify empty?)
+  add
+))
+
+(variant
+  (title "Bifrost")
+
+  (turn-order 
+     (Dark normal-type)
+     (Light normal-type)
+  )
+
+  (board
+    (image "../images/Ragnarok/bifrost.bmp")
+    (grid
+      (start-rectangle 2 2 82 82)
+      (dimensions
+        ("a/b/c/d/e/f/g" (80 0)) ; files
+        ("9/8/7/6/5/4/3/2/1" (0 80)) ; ranks
+      )
+      (directions (n 0 -1) (s 0 1) (e 1 0) (w -1 0)
+          (nw -1 -1) (sw -1 1) (ne 1 -1) (se 1 1)
+          (nne 1 -2) (nnw -1 -2) (ssw -1 2) (sse 1 2)
+          (nee 2 -1) (nww -2 -1) (sww -2 1) (see 2 1)
+          (nn 0 -2) (ss 0 2) (ee 2 0) (ww -2 0)
+          (nwnw -2 -2) (swsw -2 2) (nene 2 -2) (sese 2 2)
+      )
+    )
+    (zone (name goal-zone) (players Dark)
+          (positions a1 b1 c1 d1 e1 f1 g1)
+    )
+  )
+
+  (piece
+     (name Hole)
+     (help " ")
+     (image Dark "../images/Ragnarok/hole.bmp")
+  )
+  (piece
+     (name SurtrA)
+     (help "Surtr")
+     (image Dark "../images/Ragnarok/sra.bmp")
+     (moves
+        (move-type normal-type)
+        (surtr-step n SurtrR) (surtr-step s SurtrR)
+        (surtr-step w SurtrR) (surtr-step e SurtrR)
+     )
+  )
+  (piece
+     (name SurtrR)
+     (help "Surtr")
+     (image Dark "../images/Ragnarok/srr.bmp")
+     (moves
+        (move-type normal-type)
+        (surtr-step nw SurtrA) (surtr-step ne SurtrA)
+        (surtr-step sw SurtrA) (surtr-step se SurtrA)
+     )
+  )
+  (piece
+     (name AlfrA)
+     (help "Alfr")
+     (image Light "../images/Ragnarok/ala.bmp")
+     (moves
+        (move-type normal-type)
+        (common-step n AlfrR) (common-step s AlfrR)
+        (common-step w AlfrR) (common-step e AlfrR)
+        (empty-step nnw AlfrR) (empty-step nne AlfrR)
+        (empty-step ssw AlfrR) (empty-step sse AlfrR)
+        (common-shoot nn AlfrR) (common-shoot ss AlfrR)
+        (common-shoot ww AlfrR) (common-shoot ee AlfrR)
+     )
+  )
+  (piece
+     (name AlfrR)
+     (help "Alfr")
+     (image Light "../images/Ragnarok/alr.bmp")
+     (moves
+        (move-type normal-type)
+        (common-step n AlfrA) (common-step s AlfrA)
+        (common-step w AlfrA) (common-step e AlfrA)
+        (empty-step nww AlfrA) (empty-step nee AlfrA)
+        (empty-step sww AlfrA) (empty-step see AlfrA)
+        (common-shoot nwnw AlfrA) (common-shoot swsw AlfrA)
+        (common-shoot nene AlfrA) (common-shoot sese AlfrA)
+     )
+  )
+
+  (board-setup
+     (Dark 
+       (SurtrA d9)
+     )
+     (Light
+       (AlfrA b2 d1 f2)
+     )
+  )
+
+  (win-condition (Dark) (absolute-config SurtrA SurtrR (goal-zone) ) )
+  (loss-condition (Light Dark) (pieces-remaining 0) )
+  (loss-condition (Light Dark) stalemated )
+)
+
+(variant
+  (title "-")
+)
+
+(define walhall-common
+  (turn-order 
+     (Light normal-type)
+     (Dark normal-type)
+  )
+
+  (board
+    (image "../images/Ragnarok/walhall.bmp")
+    (grid
+      (start-rectangle 2 2 82 82)
+      (dimensions
+        ("a/b/c/d/e/f/g/h" (80 0)) ; files
+        ("8/7/6/5/4/3/2/1" (0 80)) ; ranks
+      )
+      (directions (n 0 -1) (s 0 1) (e 1 0) (w -1 0)
+          (nw -1 -1) (sw -1 1) (ne 1 -1) (se 1 1)
+      )
+    )
+    (zone (name goal-zone) (players Dark)
+          (positions a1 b1 c1 d1 e1 f1 g1 h1)
+    )
+  )
+
+  (piece
+     (name JotunnA)
+     (help "Jotunn")
+     (image Dark "../images/Ragnarok/jta.bmp")
+     (moves
+        (move-type normal-type)
+        (jotunn-step nw se JotunnR) (jotunn-step sw ne JotunnR)
+        (jotunn-step ne sw JotunnR) (jotunn-step se nw JotunnR)
+        (jotunn-push nw se JotunnR) (jotunn-push sw ne JotunnR)
+        (jotunn-push ne sw JotunnR) (jotunn-push se nw JotunnR)
+        (move-type capture-type)
+        (jotunn-push nw se JotunnR) (jotunn-push sw ne JotunnR)
+        (jotunn-push ne sw JotunnR) (jotunn-push se nw JotunnR)
+     )
+  )
+  (piece
+     (name JotunnR)
+     (help "Jotunn")
+     (image Dark "../images/Ragnarok/jtr.bmp")
+     (moves
+        (move-type normal-type)
+        (jotunn-step n s JotunnA) (jotunn-step s n JotunnA)
+        (jotunn-step e w JotunnA) (jotunn-step w e JotunnA)
+        (jotunn-push n s JotunnA) (jotunn-push s n JotunnA)
+        (jotunn-push e w JotunnA) (jotunn-push w e JotunnA)
+        (move-type capture-type)
+        (jotunn-push n s JotunnA) (jotunn-push s n JotunnA)
+        (jotunn-push e w JotunnA) (jotunn-push w e JotunnA)
+     )
+  )
+  (piece
+     (name Jotunn)
+     (help "Jotunn")
+     (image Dark "../images/Ragnarok/jt.bmp")
+     (moves
+        (move-type normal-type)
+        (jotunn-step nw se Jotunn) (jotunn-step sw ne Jotunn)
+        (jotunn-step ne sw Jotunn) (jotunn-step se nw Jotunn)
+        (jotunn-push nw se Jotunn) (jotunn-push sw ne Jotunn)
+        (jotunn-push ne sw Jotunn) (jotunn-push se nw Jotunn)
+        (jotunn-step n  s  Jotunn) (jotunn-step s  n  Jotunn)
+        (jotunn-step e  w  Jotunn) (jotunn-step w  e  Jotunn)
+        (jotunn-push n  s  Jotunn) (jotunn-push s  n  Jotunn)
+        (jotunn-push e  w  Jotunn) (jotunn-push w  e  Jotunn)
+        (move-type capture-type)
+        (jotunn-push nw se Jotunn) (jotunn-push sw ne Jotunn)
+        (jotunn-push ne sw Jotunn) (jotunn-push se nw Jotunn)
+        (jotunn-push n  s  Jotunn) (jotunn-push s  e  Jotunn)
+        (jotunn-push e  w  Jotunn) (jotunn-push w  n  Jotunn)
+     )
+  )
+  (win-condition (Dark) (pieces-remaining 4 Jotunn) )
+  (loss-condition (Dark) (pieces-remaining 3) )
+  (loss-condition (Light) (pieces-remaining 0) )
+  (loss-condition (Light Dark) stalemated )
+)
+
+(variant
+  (title "Walhall (easy)")
+  (walhall-common)
+  (board-setup
+     (Dark 
+       (JotunnA b8 c8 d8 e8 f8 g8)
+     )
+     (Light
+       (ValkyrieA c1 d1 e1 f1)
+     )
+  )
+)
+
+(variant
+  (title "Walhall (normal)")
+  (walhall-common)
+  (board-setup
+     (Dark 
+       (JotunnA b8 c8 d8 e8 f8 g8 b7 c7 d7 e7 f7 g7)
+     )
+     (Light
+       (ValkyrieA c1 d1 e1 f1)
+     )
+  )
+)
+
+(variant
+  (title "Walhall (hard)")
+  (walhall-common)
+  (board-setup
+     (Dark 
+       (JotunnA b8 c8 d8 e8 f8 g8 b7 c7 d7 e7 f7 g7 b6 c6 d6 e6 f6 g6)
+     )
+     (Light
+       (ValkyrieA c1 d1 e1 f1)
+     )
+  )
+)
+
+(variant
+  (title "-")
+)
+
+(game 
+  (title "Vigrid")
+
+  (option "animate captures" false)
+  (option "animate drops"    false)
+  (option "pass turn"        false)
+  (option "pass partial"     true)
+  (option "highlight goals"  false)
+  (option "prevent flipping" true)
+  (option "recycle captures" false)
+  (option "smart moves"      false)
+
+  (move-sound    "Audio/Clack.wav")
+  (release-sound "Audio/Clack.wav")
+  (drop-sound    "Audio/Clack.wav")
+  (capture-sound "")
+  (change-sound  "")
+  (click-sound   "")
+  (draw-sound    "")
+
+  (players Light Dark)
+  (turn-order 
+     (Light setup-type)
+     (Dark setup-type)
+     repeat
+     (Light normal-type)
+     (Dark normal-type)
+  )
+
+  (board
+    (image "../images/Ragnarok/vigrid.bmp")
+    (grid
+      (start-rectangle 2 2 82 82)
+      (dimensions
+        ("a/b/c/d/e/f/g/h/i/j" (80 0)) ; files
+        ("10/9/8/7/6/5/4/3/2/1" (0 80)) ; ranks
+      )
+      (directions (n 0 -1) (s 0 1) (e 1 0) (w -1 0)
+          (nw -1 -1) (sw -1 1) (ne 1 -1) (se 1 1)
+      )
+    )
+  )
+
+  (piece
+     (name OdinA)
+     (help "Odin")
+     (image Light "../images/Ragnarok/oda.bmp")
+     (drops
+        (move-type setup-type)
+        (drop-piece)
+     )
+  )
+  (piece
+     (name OdinR)
+     (help "Odin")
+     (image Light "../images/Ragnarok/odr.bmp")
+  )
+  (piece
+     (name LokiA)
+     (help "Loki")
+     (image Dark "../images/Ragnarok/lka.bmp")
+     (drops
+        (move-type setup-type)
+        (drop-piece)
+     )
+  )
+  (piece
+     (name LokiR)
+     (help "Loki")
+     (image Dark "../images/Ragnarok/lkr.bmp")
+  )
+  (piece
+     (name SurtrA)
+     (help "Surtr")
+     (image Dark "../images/Ragnarok/sra.bmp")
+  )
+  (piece
+     (name SurtrR)
+     (help "Surtr")
+     (image Dark "../images/Ragnarok/srr.bmp")
+  )
+  (piece
+     (name ValkyrieA)
+     (help "Valkyrie")
+     (image Light "../images/Ragnarok/vla.bmp")
+     (moves
+        (move-type normal-type)
+        (valkyrie-slide nw ValkyrieR) (valkyrie-slide ne ValkyrieR)
+        (valkyrie-slide sw ValkyrieR) (valkyrie-slide se ValkyrieR)
+        (valkyrie-jump nw ValkyrieR) (valkyrie-jump ne ValkyrieR)
+        (valkyrie-jump sw ValkyrieR) (valkyrie-jump se ValkyrieR)
+        (move-type capture-type)
+        (valkyrie-jump nw ValkyrieR) (valkyrie-jump ne ValkyrieR)
+        (valkyrie-jump sw ValkyrieR) (valkyrie-jump se ValkyrieR)
+     )
+  )
+  (piece
+     (name ValkyrieR)
+     (help "Valkyrie")
+     (image Light "../images/Ragnarok/vlr.bmp")
+     (moves
+        (move-type normal-type)
+        (valkyrie-slide n ValkyrieA) (valkyrie-slide e ValkyrieA)
+        (valkyrie-slide s ValkyrieA) (valkyrie-slide w ValkyrieA)
+        (valkyrie-jump n ValkyrieA) (valkyrie-jump e ValkyrieA)
+        (valkyrie-jump s ValkyrieA) (valkyrie-jump w ValkyrieA)
+        (move-type capture-type)
+        (valkyrie-jump n ValkyrieA) (valkyrie-jump e ValkyrieA)
+        (valkyrie-jump s ValkyrieA) (valkyrie-jump w ValkyrieA)
+     )
+  )
+
+  (board-setup
+     (Light
+       (OdinA off 1)
+     )
+     (Dark
+       (LokiA off 1)
+     )
+  )
+
+  (loss-condition (Light Dark) stalemated )
+)
