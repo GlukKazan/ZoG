@@ -1,0 +1,233 @@
+(define jotunn-step (
+  (if (on-board? $2)
+      (verify (not-enemy? $2))
+  )
+  $1 (verify empty?)
+  (if (on-board? $1)
+      (verify (not-enemy? $1))
+  )
+  (if (in-zone? goal-zone)
+      (add Jotunn)
+   else  
+      (add $3)
+  )
+))
+
+(define jotunn-push (
+  (set-flag is-captured? false)
+  mark
+  (while (and (on-board? $2) (enemy? $2))
+      $2
+      capture
+      (set-flag is-captured? true)
+  )
+  back
+  $1 (verify empty?)
+  mark
+  (while (and (on-board? $1) (enemy? $1))
+      $1
+      capture
+      (set-flag is-captured? true)
+  )
+  back
+  (verify (flag? is-captured?))
+  (if (in-zone? goal-zone)
+      (add-partial Jotunn capture-type)
+   else  
+      (add-partial $3 capture-type)
+  )
+))
+
+(define valkyrie-slide (
+  (while (empty? $1)
+      $1
+      (add $2)
+  )
+))
+
+(define valkyrie-jump (
+  (while (empty? $1)
+      $1
+  )
+  (verify (enemy? $1))
+  $1
+  (verify (empty? $1))
+  $1
+  (while empty?
+      mark
+      (while empty? 
+        (opposite $1)
+      ) 
+      capture
+      back
+      (add-partial $2 capture-type)
+      $1
+  )
+))
+
+(define walhall-common
+  (option "animate captures" false)
+  (option "animate drops"    false)
+  (option "pass turn"        false)
+  (option "pass partial"     true)
+  (option "highlight goals"  false)
+  (option "prevent flipping" true)
+  (option "recycle captures" false)
+  (option "smart moves"      false)
+
+  (move-sound    "Audio/Clack.wav")
+  (release-sound "Audio/Clack.wav")
+  (drop-sound    "Audio/Clack.wav")
+  (capture-sound "")
+  (change-sound  "")
+  (click-sound   "")
+  (draw-sound    "")
+
+  (players Light Dark)
+  (turn-order 
+     (Light normal-type)
+     (Dark normal-type)
+  )
+
+  (board
+    (image "../images/Ragnarok/walhall.bmp")
+    (grid
+      (start-rectangle 2 2 82 82)
+      (dimensions
+        ("a/b/c/d/e/f/g/h" (80 0)) ; files
+        ("8/7/6/5/4/3/2/1" (0 80)) ; ranks
+      )
+      (directions (n 0 -1) (s 0 1) (e 1 0) (w -1 0)
+          (nw -1 -1) (sw -1 1) (ne 1 -1) (se 1 1)
+      )
+    )
+    (zone (name goal-zone) (players Dark)
+          (positions a1 b1 c1 d1 e1 f1 g1 h1)
+    )
+  )
+
+  (piece
+     (name JotunnA)
+     (help "Jotunn")
+     (image Dark "../images/Ragnarok/jta.bmp")
+     (moves
+        (move-type normal-type)
+        (jotunn-step nw se JotunnR) (jotunn-step sw ne JotunnR)
+        (jotunn-step ne sw JotunnR) (jotunn-step se nw JotunnR)
+        (jotunn-push nw se JotunnR) (jotunn-push sw ne JotunnR)
+        (jotunn-push ne sw JotunnR) (jotunn-push se nw JotunnR)
+        (move-type capture-type)
+        (jotunn-push nw se JotunnR) (jotunn-push sw ne JotunnR)
+        (jotunn-push ne sw JotunnR) (jotunn-push se nw JotunnR)
+     )
+  )
+  (piece
+     (name JotunnR)
+     (help "Jotunn")
+     (image Dark "../images/Ragnarok/jtr.bmp")
+     (moves
+        (move-type normal-type)
+        (jotunn-step n s JotunnA) (jotunn-step s n JotunnA)
+        (jotunn-step e w JotunnA) (jotunn-step w e JotunnA)
+        (jotunn-push n s JotunnA) (jotunn-push s n JotunnA)
+        (jotunn-push e w JotunnA) (jotunn-push w e JotunnA)
+        (move-type capture-type)
+        (jotunn-push n s JotunnA) (jotunn-push s n JotunnA)
+        (jotunn-push e w JotunnA) (jotunn-push w e JotunnA)
+     )
+  )
+  (piece
+     (name Jotunn)
+     (help "Jotunn")
+     (image Dark "../images/Ragnarok/jt.bmp")
+     (moves
+        (move-type normal-type)
+        (jotunn-step nw se Jotunn) (jotunn-step sw ne Jotunn)
+        (jotunn-step ne sw Jotunn) (jotunn-step se nw Jotunn)
+        (jotunn-push nw se Jotunn) (jotunn-push sw ne Jotunn)
+        (jotunn-push ne sw Jotunn) (jotunn-push se nw Jotunn)
+        (jotunn-step n  s  Jotunn) (jotunn-step s  n  Jotunn)
+        (jotunn-step e  w  Jotunn) (jotunn-step w  e  Jotunn)
+        (jotunn-push n  s  Jotunn) (jotunn-push s  n  Jotunn)
+        (jotunn-push e  w  Jotunn) (jotunn-push w  e  Jotunn)
+        (move-type capture-type)
+        (jotunn-push nw se Jotunn) (jotunn-push sw ne Jotunn)
+        (jotunn-push ne sw Jotunn) (jotunn-push se nw Jotunn)
+        (jotunn-push n  s  Jotunn) (jotunn-push s  e  Jotunn)
+        (jotunn-push e  w  Jotunn) (jotunn-push w  n  Jotunn)
+     )
+  )
+  (piece
+     (name ValkyrieA)
+     (help "Valkyrie")
+     (image Light "../images/Ragnarok/vla.bmp")
+     (moves
+        (move-type normal-type)
+        (valkyrie-slide nw ValkyrieR) (valkyrie-slide ne ValkyrieR)
+        (valkyrie-slide sw ValkyrieR) (valkyrie-slide se ValkyrieR)
+        (valkyrie-jump nw ValkyrieR) (valkyrie-jump ne ValkyrieR)
+        (valkyrie-jump sw ValkyrieR) (valkyrie-jump se ValkyrieR)
+        (move-type capture-type)
+        (valkyrie-jump nw ValkyrieR) (valkyrie-jump ne ValkyrieR)
+        (valkyrie-jump sw ValkyrieR) (valkyrie-jump se ValkyrieR)
+     )
+  )
+  (piece
+     (name ValkyrieR)
+     (help "Valkyrie")
+     (image Light "../images/Ragnarok/vlr.bmp")
+     (moves
+        (move-type normal-type)
+        (valkyrie-slide n ValkyrieA) (valkyrie-slide e ValkyrieA)
+        (valkyrie-slide s ValkyrieA) (valkyrie-slide w ValkyrieA)
+        (valkyrie-jump n ValkyrieA) (valkyrie-jump e ValkyrieA)
+        (valkyrie-jump s ValkyrieA) (valkyrie-jump w ValkyrieA)
+        (move-type capture-type)
+        (valkyrie-jump n ValkyrieA) (valkyrie-jump e ValkyrieA)
+        (valkyrie-jump s ValkyrieA) (valkyrie-jump w ValkyrieA)
+     )
+  )
+  (win-condition (Dark) (pieces-remaining 4 Jotunn) )
+  (loss-condition (Dark) (pieces-remaining 3) )
+  (loss-condition (Light) (pieces-remaining 0) )
+  (loss-condition (Light Dark) stalemated )
+)
+
+(variant
+  (title "Walhall (easy)")
+  (walhall-common)
+  (board-setup
+     (Dark 
+       (JotunnA b8 c8 d8 e8 f8 g8)
+     )
+     (Light
+       (ValkyrieA c1 d1 e1 f1)
+     )
+  )
+)
+
+(variant
+  (title "Walhall (normal)")
+  (walhall-common)
+  (board-setup
+     (Dark 
+       (JotunnA b8 c8 d8 e8 f8 g8 b7 c7 d7 e7 f7 g7)
+     )
+     (Light
+       (ValkyrieA c1 d1 e1 f1)
+     )
+  )
+)
+
+(game
+  (title "Walhall (hard)")
+  (walhall-common)
+  (board-setup
+     (Dark 
+       (JotunnA b8 c8 d8 e8 f8 g8 b7 c7 d7 e7 f7 g7 b6 c6 d6 e6 f6 g6)
+     )
+     (Light
+       (ValkyrieA c1 d1 e1 f1)
+     )
+  )
+)

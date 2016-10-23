@@ -1,4 +1,4 @@
-(define walhall-jotunn-step (
+(define jotunn-step-body
   (if (on-board? $2)
       (verify (not-enemy? $2))
   )
@@ -6,6 +6,10 @@
   (if (on-board? $1)
       (verify (not-enemy? $1))
   )
+)
+
+(define walhall-jotunn-step (
+  (jotunn-step-body)
   (if (in-zone? goal-zone)
       (add Jotunn)
    else  
@@ -13,7 +17,12 @@
   )
 ))
 
-(define walhall-jotunn-push (
+(define jotunn-step (
+  (jotunn-step-body)
+  (add $3)
+))
+
+(define jotunn-push-body
   (set-flag is-captured? false)
   mark
   (while (and (on-board? $2) (enemy? $2))
@@ -31,11 +40,20 @@
   )
   back
   (verify (flag? is-captured?))
+)
+
+(define walhall-jotunn-push (
+  (jotunn-push-body)
   (if (in-zone? goal-zone)
       (add-partial Jotunn capture-type)
    else  
       (add-partial $3 capture-type)
   )
+))
+
+(define jotunn-push (
+  (jotunn-push-body)
+  (add-partial $3 capture-type)
 ))
 
 (define valkyrie-slide (
@@ -51,6 +69,7 @@
       $1
   )
   (verify (enemy? $1))
+  (verify (not-piece? Mount $1))
   $1
   (verify (empty? $1))
   $1
@@ -89,37 +108,80 @@
   (check-fire-dir EldthursarA s) (check-fire-dir EldthursarR se)
   (check-fire-dir EldthursarA w) (check-fire-dir EldthursarR sw)
   (check-fire-dir EldthursarA e) (check-fire-dir EldthursarR ne)
+  (check-fire-dir Eldthursar n) (check-fire-dir Eldthursar nw)
+  (check-fire-dir Eldthursar s) (check-fire-dir Eldthursar se)
+  (check-fire-dir Eldthursar w) (check-fire-dir Eldthursar sw)
+  (check-fire-dir Eldthursar e) (check-fire-dir Eldthursar ne)
   (if (flag? is-fired?) capture)
 )
 
-(define common-step (
+(define init-flags
+  (set-flag is-surtr? (or (piece? SurtrA) (piece? SurtrR) (piece? Eldthursar) (piece? EldthursarA) (piece? EldthursarR)))
+  (set-flag is-eda? (or (piece? SurtrA) (piece? SurtrR) (piece? Eldthursar) (piece? EldthursarA)))
+  (set-flag is-edr? (or (piece? SurtrA) (piece? SurtrR) (piece? Eldthursar) (piece? EldthursarR)))
+)
+
+(define common-step-body
+  (init-flags)
   $1 (verify not-friend?)
-  (verify (not-piece? Hole))
-  (check-fire)
+  (verify (not-piece? Mount))
+  (if (not-flag? is-surtr?)
+      (check-fire)
+  )
+  (if (flag? is-eda?)
+      (fire nw) (fire se)
+      (fire sw) (fire ne)
+  )
+  (if (flag? is-edr?)
+      (fire n) (fire s)
+      (fire w) (fire e)
+  )
   (add $2)
+)
+
+(define common-step (
+  (common-step-body)
 ))
+
+(define empty-step-body
+  (init-flags)
+  $1 (verify empty?)
+  (if (not-flag? is-surtr?)
+      (check-fire)
+  )
+  (if (flag? is-eda?)
+      (fire nw) (fire se)
+      (fire sw) (fire ne)
+  )
+  (if (flag? is-edr?)
+      (fire n) (fire s)
+      (fire w) (fire e)
+  )
+  (add $2)
+)
 
 (define empty-step (
-  $1 (verify empty?)
-  (check-fire)
-  (add $2)
+  (empty-step-body)
 ))
 
-(define common-shoot (
+(define common-strike (
   (create $2)
   $1 (verify enemy?)
-  (verify (not-piece? Hole))
+  (verify (not-piece? Mount))
   capture add
 ))
 
 (define fire
-  (if (enemy? $1)
+  (if (and (not-empty? $1)
+           (not-piece? Mount $1)
+           (not-piece? SurtrA $1) (not-piece? SurtrR $1) 
+           (not-piece? Eldthursar $1) (not-piece? EldthursarA $1) (not-piece? EldthursarR $1))
       (capture $1)
   )
 )
 
 (define bifrost-surtr-step (
-  (create Hole)
+  (create Mount)
   $1 (verify not-friend?)
   (fire n) (fire nw)
   (fire s) (fire se)
@@ -128,38 +190,14 @@
   (add $2)
 ))
 
-(define bifrost-eda-step (
-  (create Hole)
-  $1 (verify not-friend?)
-  (fire nw) (fire se)
-  (fire sw) (fire ne)
-  (add $2)
+(define bifrost-common-step (
+  (create Mount)
+  (common-step-body)
 ))
 
-(define bifrost-edr-step (
-  (create Hole)
-  $1 (verify not-friend?)
-  (fire n) (fire s)
-  (fire w) (fire e)
-  (add $2)
-))
-
-(define bifrost-eda-jump (
-  (create Hole)
-  $1 (verify empty?)
-  $2 (verify empty?)
-  (fire nw) (fire se)
-  (fire sw) (fire ne)
-  (add $3)
-))
-
-(define bifrost-edr-jump (
-  (create Hole)
-  $1 (verify empty?)
-  $2 (verify empty?)
-  (fire n) (fire s)
-  (fire w) (fire e)
-  (add $3)
+(define bifrost-empty-step (
+  (create Mount)
+  (empty-step-body)
 ))
 
 (define drop-piece (
@@ -168,7 +206,7 @@
 ))
 
 (define bifrost-eda-order (
-  (create Hole)
+  (create Mount)
   $1 (verify friend?)
   (verify (piece? $2$3))
   (change-type $2$4)
@@ -179,7 +217,7 @@
 ))
 
 (define bifrost-edr-order (
-  (create Hole)
+  (create Mount)
   $1 (verify friend?)
   (verify (piece? $2$3))
   (change-type $2$4)
@@ -243,6 +281,11 @@
   )
 
   (piece
+     (name Mount)
+     (help " ")
+     (image Dark "../images/Ragnarok/hole.bmp")
+  )
+  (piece
      (name SurtrA)
      (help "Surtr")
      (image Dark "../images/Ragnarok/sra.bmp")
@@ -268,11 +311,11 @@
      (image Dark "../images/Ragnarok/eda.bmp")
      (moves
         (move-type normal-type)
-        (bifrost-eda-step nw EldthursarR) (bifrost-eda-step ne EldthursarR)
-        (bifrost-eda-step se EldthursarR) (bifrost-eda-step sw EldthursarR)
-        (bifrost-eda-jump nw nw EldthursarR) (bifrost-eda-jump ne ne EldthursarR)
-        (bifrost-eda-jump sw sw EldthursarR) (bifrost-eda-jump se se EldthursarR)
-        (bifrost-eda-jump n n EldthursarR) (bifrost-eda-jump s s EldthursarR)
+        (bifrost-common-step nw EldthursarR) (bifrost-common-step ne EldthursarR)
+        (bifrost-common-step se EldthursarR) (bifrost-common-step sw EldthursarR)
+        (bifrost-empty-step nwnw EldthursarR) (bifrost-empty-step nene EldthursarR)
+        (bifrost-empty-step swsw EldthursarR) (bifrost-empty-step sese EldthursarR)
+        (bifrost-empty-step nn EldthursarR) (bifrost-empty-step ss EldthursarR)
         (bifrost-order-eda)
      )
   )
@@ -282,11 +325,11 @@
      (image Dark "../images/Ragnarok/edr.bmp")
      (moves
         (move-type normal-type)
-        (bifrost-edr-step n EldthursarA) (bifrost-edr-step e EldthursarA)
-        (bifrost-edr-step s EldthursarA) (bifrost-edr-step w EldthursarA)
-        (bifrost-edr-jump n nw EldthursarA) (bifrost-edr-jump n ne EldthursarA)
-        (bifrost-edr-jump s sw EldthursarA) (bifrost-edr-jump s se EldthursarA)
-        (bifrost-edr-jump w w EldthursarA) (bifrost-edr-jump e e EldthursarA)
+        (bifrost-common-step n EldthursarA) (bifrost-common-step e EldthursarA)
+        (bifrost-common-step s EldthursarA) (bifrost-common-step w EldthursarA)
+        (bifrost-empty-step nnw EldthursarA) (bifrost-empty-step nne EldthursarA)
+        (bifrost-empty-step ssw EldthursarA) (bifrost-empty-step sse EldthursarA)
+        (bifrost-empty-step ww EldthursarA) (bifrost-empty-step ee EldthursarA)
         (bifrost-order-edr)
      )
   )
@@ -333,7 +376,7 @@
        (EldthursarA f9)
      )
      (Light
-       (AlfrA b2 f2 d3 c1 e1)
+       (AlfrA b2 f2 c1 e1)
      )
   )
 )
@@ -465,6 +508,7 @@
 
 (game 
   (title "Vigrid")
+  (default)
 
   (option "animate captures" false)
   (option "animate drops"    false)
@@ -505,14 +549,21 @@
   )
 
   (piece
-     (name Hole)
+     (name Mount)
      (help " ")
-     (image Dark "../images/Ragnarok/hole.bmp")
+     (image Dark "../images/Ragnarok/mountain.bmp")
   )
   (piece
      (name OdinA)
      (help "Odin")
      (image Light "../images/Ragnarok/oda.bmp")
+     (moves
+        (move-type normal-type)
+        (common-step n OdinR) (common-step nn OdinR) 
+        (common-step s OdinR) (common-step ss OdinR) 
+        (common-step w OdinR) (common-step ww OdinR)
+        (common-step e OdinR) (common-step ee OdinR)
+     )
      (drops
         (move-type setup-type)
         (drop-piece)
@@ -522,11 +573,50 @@
      (name OdinR)
      (help "Odin")
      (image Light "../images/Ragnarok/odr.bmp")
+     (moves
+        (move-type normal-type)
+        (common-step ne OdinA) (common-step nene OdinA)
+        (common-step sw OdinA) (common-step swsw OdinA)
+        (common-step se OdinA) (common-step sese OdinA)
+     )
+  )
+  (piece
+     (name TyrA)
+     (help "Tyr")
+     (image Light "../images/Ragnarok/tya.bmp")
+     (moves
+        (move-type normal-type)
+        (common-step n TyrR) (common-step nnw TyrR)
+        (common-step s TyrR) (common-step nww TyrR)
+        (common-step w TyrR) (common-step sww TyrR)
+        (empty-step nee TyrR) (empty-step see TyrR)
+        (empty-step e TyrR) (empty-step nne TyrR)
+     )
+  )
+  (piece
+     (name TyrR)
+     (help "Tyr")
+     (image Light "../images/Ragnarok/tyr.bmp")
+     (moves
+        (move-type normal-type)
+        (common-step nw TyrA) (empty-step ne TyrA)
+        (common-step sw TyrA) (empty-step se TyrA)
+        (common-step ww TyrA) (common-step nn TyrA)
+        (empty-step ee TyrA) (common-step nwnw TyrA)
+        (empty-step nene TyrA)
+     )
   )
   (piece
      (name LokiA)
      (help "Loki")
      (image Dark "../images/Ragnarok/lka.bmp")
+     (moves
+        (move-type normal-type)
+        (common-step n LokiR) (common-step nne LokiR) 
+        (common-step e LokiR) (common-step see LokiR) 
+        (common-step sw LokiR) (common-step ssw LokiR) 
+        (common-step sww LokiR) 
+     )
      (drops
         (move-type setup-type)
         (drop-piece)
@@ -536,26 +626,73 @@
      (name LokiR)
      (help "Loki")
      (image Dark "../images/Ragnarok/lkr.bmp")
+     (moves
+        (move-type normal-type)
+        (common-step s LokiA) (common-step sse LokiA) 
+        (common-step e LokiA) (common-step nee LokiA) 
+        (common-step nw LokiA) (common-step nnw LokiA) 
+        (common-step nww LokiA) 
+     )
   )
   (piece
      (name SurtrA)
      (help "Surtr")
      (image Dark "../images/Ragnarok/sra.bmp")
+     (moves
+        (move-type normal-type)
+        (common-step nne SurtrR) (common-step see SurtrR)
+        (common-step ssw SurtrR) (common-step nww SurtrR)
+     )
   )
   (piece
      (name SurtrR)
      (help "Surtr")
      (image Dark "../images/Ragnarok/srr.bmp")
+     (moves
+        (move-type normal-type)
+        (common-step nnw SurtrA) (common-step nee SurtrA)
+        (common-step sse SurtrA) (common-step sww SurtrA)
+     )
   )
   (piece
      (name EldthursarA)
      (help "Eldthursar")
      (image Dark "../images/Ragnarok/eda.bmp")
+     (moves
+        (move-type normal-type)
+        (common-step nw EldthursarR) (common-step ne EldthursarR)
+        (common-step se EldthursarR) (common-step sw EldthursarR)
+        (empty-step nwnw EldthursarR) (empty-step nene EldthursarR)
+        (empty-step swsw EldthursarR) (empty-step sese EldthursarR)
+        (empty-step nn EldthursarR) (empty-step ss EldthursarR)
+     )
   )
   (piece
      (name EldthursarR)
      (help "Eldthursar")
      (image Dark "../images/Ragnarok/edr.bmp")
+     (moves
+        (move-type normal-type)
+        (common-step n EldthursarA) (common-step e EldthursarA)
+        (common-step s EldthursarA) (common-step w EldthursarA)
+        (empty-step nnw EldthursarA) (empty-step nne EldthursarA)
+        (empty-step ssw EldthursarA) (empty-step sse EldthursarA)
+        (empty-step ww EldthursarA) (empty-step ee EldthursarA)
+     )
+  )
+  (piece
+     (name Eldthursar)
+     (help "Eldthursar")
+     (image Dark "../images/Ragnarok/ed.bmp")
+     (moves
+        (move-type normal-type)
+        (empty-step nwnw Eldthursar) (empty-step nene Eldthursar)
+        (empty-step swsw Eldthursar) (empty-step sese Eldthursar)
+        (empty-step nn Eldthursar) (empty-step ss Eldthursar)
+        (empty-step nnw Eldthursar) (empty-step nne Eldthursar)
+        (empty-step ssw Eldthursar) (empty-step sse Eldthursar)
+        (empty-step ww Eldthursar) (empty-step ee Eldthursar)
+     )
   )
   (piece
      (name AlfrA)
@@ -567,8 +704,8 @@
         (common-step w AlfrR) (common-step e AlfrR)
         (empty-step nnw AlfrR) (empty-step nne AlfrR)
         (empty-step ssw AlfrR) (empty-step sse AlfrR)
-        (common-shoot nn AlfrR) (common-shoot ss AlfrR)
-        (common-shoot ww AlfrR) (common-shoot ee AlfrR)
+        (common-strike nn AlfrR) (common-strike ss AlfrR)
+        (common-strike ww AlfrR) (common-strike ee AlfrR)
      )
   )
   (piece
@@ -577,12 +714,32 @@
      (image Light "../images/Ragnarok/alr.bmp")
      (moves
         (move-type normal-type)
-        (common-step n AlfrA) (common-step s AlfrA)
-        (common-step w AlfrA) (common-step e AlfrA)
+        (common-step nw AlfrA) (common-step sw AlfrA)
+        (common-step ne AlfrA) (common-step se AlfrA)
         (empty-step nww AlfrA) (empty-step nee AlfrA)
         (empty-step sww AlfrA) (empty-step see AlfrA)
-        (common-shoot nwnw AlfrA) (common-shoot swsw AlfrA)
-        (common-shoot nene AlfrA) (common-shoot sese AlfrA)
+        (common-strike nwnw AlfrA) (common-strike swsw AlfrA)
+        (common-strike nene AlfrA) (common-strike sese AlfrA)
+     )
+  )
+  (piece
+     (name Alfr)
+     (help "Alfr")
+     (image Light "../images/Ragnarok/al.bmp")
+     (moves
+        (move-type normal-type)
+        (common-step n Alfr) (common-step s Alfr)
+        (common-step w Alfr) (common-step e Alfr)
+        (common-step nw Alfr) (common-step sw Alfr)
+        (common-step ne Alfr) (common-step se Alfr)
+        (empty-step nnw Alfr) (empty-step nne Alfr)
+        (empty-step ssw Alfr) (empty-step sse Alfr)
+        (empty-step nww Alfr) (empty-step nee Alfr)
+        (empty-step sww Alfr) (empty-step see Alfr)
+        (common-strike nn Alfr) (common-strike ss Alfr)
+        (common-strike ww Alfr) (common-strike ee Alfr)
+        (common-strike nwnw Alfr) (common-strike swsw Alfr)
+        (common-strike nene Alfr) (common-strike sese Alfr)
      )
   )
   (piece
@@ -613,6 +770,78 @@
         (move-type capture-type)
         (valkyrie-jump n ValkyrieA) (valkyrie-jump e ValkyrieA)
         (valkyrie-jump s ValkyrieA) (valkyrie-jump w ValkyrieA)
+     )
+  )
+  (piece
+     (name Valkyrie)
+     (help "Valkyrie")
+     (image Light "../images/Ragnarok/vl.bmp")
+     (moves
+        (move-type normal-type)
+        (valkyrie-slide nw Valkyrie) (valkyrie-slide ne Valkyrie)
+        (valkyrie-slide sw Valkyrie) (valkyrie-slide se Valkyrie)
+        (valkyrie-slide n Valkyrie) (valkyrie-slide e Valkyrie)
+        (valkyrie-slide s Valkyrie) (valkyrie-slide w Valkyrie)
+        (valkyrie-jump nw Valkyrie) (valkyrie-jump ne Valkyrie)
+        (valkyrie-jump sw Valkyrie) (valkyrie-jump se Valkyrie)
+        (valkyrie-jump n Valkyrie) (valkyrie-jump e Valkyrie)
+        (valkyrie-jump s Valkyrie) (valkyrie-jump w Valkyrie)
+        (move-type capture-type)
+        (valkyrie-jump nw Valkyrie) (valkyrie-jump ne Valkyrie)
+        (valkyrie-jump sw Valkyrie) (valkyrie-jump se Valkyrie)
+        (valkyrie-jump n Valkyrie) (valkyrie-jump e Valkyrie)
+        (valkyrie-jump s Valkyrie) (valkyrie-jump w Valkyrie)
+     )
+  )
+  (piece
+     (name JotunnA)
+     (help "Jotunn")
+     (image Dark "../images/Ragnarok/jta.bmp")
+     (moves
+        (move-type normal-type)
+        (jotunn-step nw se JotunnR) (jotunn-step sw ne JotunnR)
+        (jotunn-step ne sw JotunnR) (jotunn-step se nw JotunnR)
+        (jotunn-push nw se JotunnR) (jotunn-push sw ne JotunnR)
+        (jotunn-push ne sw JotunnR) (jotunn-push se nw JotunnR)
+        (move-type capture-type)
+        (jotunn-push nw se JotunnR) (jotunn-push sw ne JotunnR)
+        (jotunn-push ne sw JotunnR) (jotunn-push se nw JotunnR)
+     )
+  )
+  (piece
+     (name JotunnR)
+     (help "Jotunn")
+     (image Dark "../images/Ragnarok/jtr.bmp")
+     (moves
+        (move-type normal-type)
+        (jotunn-step n s JotunnA) (jotunn-step s n JotunnA)
+        (jotunn-step e w JotunnA) (jotunn-step w e JotunnA)
+        (jotunn-push n s JotunnA) (jotunn-push s n JotunnA)
+        (jotunn-push e w JotunnA) (jotunn-push w e JotunnA)
+        (move-type capture-type)
+        (jotunn-push n s JotunnA) (jotunn-push s n JotunnA)
+        (jotunn-push e w JotunnA) (jotunn-push w e JotunnA)
+     )
+  )
+  (piece
+     (name Jotunn)
+     (help "Jotunn")
+     (image Dark "../images/Ragnarok/jt.bmp")
+     (moves
+        (move-type normal-type)
+        (jotunn-step nw se Jotunn) (jotunn-step sw ne Jotunn)
+        (jotunn-step ne sw Jotunn) (jotunn-step se nw Jotunn)
+        (jotunn-push nw se Jotunn) (jotunn-push sw ne Jotunn)
+        (jotunn-push ne sw Jotunn) (jotunn-push se nw Jotunn)
+        (jotunn-step n  s  Jotunn) (jotunn-step s  n  Jotunn)
+        (jotunn-step e  w  Jotunn) (jotunn-step w  e  Jotunn)
+        (jotunn-push n  s  Jotunn) (jotunn-push s  n  Jotunn)
+        (jotunn-push e  w  Jotunn) (jotunn-push w  e  Jotunn)
+        (move-type capture-type)
+        (jotunn-push nw se Jotunn) (jotunn-push sw ne Jotunn)
+        (jotunn-push ne sw Jotunn) (jotunn-push se nw Jotunn)
+        (jotunn-push n  s  Jotunn) (jotunn-push s  e  Jotunn)
+        (jotunn-push e  w  Jotunn) (jotunn-push w  n  Jotunn)
      )
   )
 
