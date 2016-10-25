@@ -11,7 +11,7 @@
 
   (move-sound    "Audio/Clack.wav")
   (release-sound "Audio/Clack.wav")
-  (drop-sound    "")
+  (drop-sound    "Audio/Dice_cup.wav")
   (capture-sound "")
   (change-sound  "")
   (click-sound   "")
@@ -21,8 +21,8 @@
   (turn-order Black White)
 
   (board
-    (image "../images/Daldosa/board.bmp")
-    (positions
+     (image "../images/Daldosa/board.bmp")
+     (positions
              (a3  18  13  47  43)
              (a2  18  42  47  72)
              (a1  18  71  47 101)
@@ -72,7 +72,26 @@
              (p2 454  43 483  73)
              (p1 454  72 483 102)
              (q2 483  43 512  73)
-    )
+     )
+     (links next
+        (p1 o1) (o1 n1) (n1 m1) (m1 l1) (l1 k1) (k1 j1) (j1 i1) (i1 h1)
+        (h1 g1) (g1 f1) (f1 e1) (e1 d1) (d1 c1) (c1 b1) (b1 a1) (a1 a2)
+        (a2 b2) (b2 c2) (c2 d2) (d2 e2) (e2 f2) (f2 g2) (g2 h2) (h2 i2)
+        (i2 j2) (j2 k2) (k2 l2) (l2 m2) (m2 n2) (n2 o2) (o2 p2) (p2 q2)
+        (q2 p3) (p3 o3) (o3 n3) (n3 m3) (m3 l3) (l3 k3) (k3 j3) (j3 i3) 
+        (i3 h3) (h3 g3) (g3 f3) (f3 e3) (e3 d3) (d3 c3) (c3 b3) (b3 a3) 
+        (a3 a2)
+     )
+     (links next-white
+        (p3 o3) (o3 n3) (n3 m3) (m3 l3) (l3 k3) (k3 j3) (j3 i3) (i3 h3)
+        (h3 g3) (g3 f3) (f3 e3) (e3 d3) (d3 c3) (c3 b3) (b3 a3) (a3 a2)
+        (a2 b2) (b2 c2) (c2 d2) (d2 e2) (e2 f2) (f2 g2) (g2 h2) (h2 i2)
+        (i2 j2) (j2 k2) (k2 l2) (l2 m2) (m2 n2) (n2 o2) (o2 p2) (p2 q2)
+        (q2 p1) (p1 o1) (o1 n1) (n1 m1) (m1 l1) (l1 k1) (k1 j1) (j1 i1) 
+        (i1 h1) (h1 g1) (g1 f1) (f1 e1) (e1 d1) (d1 c1) (c1 b1) (b1 a1)
+        (a1 a2)
+     )
+     (symmetry White (next next-white) )
   )
   (piece
      (name Off)
