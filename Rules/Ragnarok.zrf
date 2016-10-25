@@ -56,6 +56,29 @@
   (add-partial $3 capture-type)
 ))
 
+(define common-slide-body
+  (while (empty? $1)
+      $1
+      (check-fire)
+      (add $2)
+  ) 
+  $1 (verify enemy?)
+  (check-fire)
+)
+
+(define common-slide (
+  (common-slide-body)
+  (add $2)
+))
+
+(define beast-slide (
+  (common-slide-body)
+  (capture-enemy $1)
+  (capture-enemy $3)
+  (capture-enemy $4)
+  (add $2)
+))
+
 (define valkyrie-slide (
   (while (empty? $1)
       $1
@@ -85,6 +108,12 @@
       $1
   )
 ))
+
+(define capture-enemy
+  (if (and (on-board? $1) (enemy? $1))
+      (capture $1)
+  )
+)
 
 (define check-fire-dir
   (if (on-board? $2)
@@ -122,8 +151,11 @@
 )
 
 (define common-step-body
-  (init-flags)
-  $1 (verify not-friend?)
+  (init-flags) $1 
+  (verify (or not-friend? 
+              (piece? SleipnirA) (piece? SleipnirR)
+          )
+  )
   (verify (not-piece? Mount))
   (if (not-flag? is-surtr?)
       (check-fire)
@@ -136,11 +168,53 @@
       (fire n) (fire s)
       (fire w) (fire e)
   )
-  (add $2)
 )
 
 (define common-step (
   (common-step-body)
+  (add $2)
+))
+
+(define zwerg-step (
+  (common-step-body)
+  (if (and (on-board? $1) (enemy? $1))
+      (capture $1)
+  )
+  (add $2)
+))
+
+(define sleipnir-split (
+  (create $2)
+  (common-step-body)
+  (add $3)
+))
+
+(define sleipnir-join (
+  (verify (and (not-piece? SleipnirOA $1) (not-piece? SleipnirOR $1) (not-piece? SleipnirLA $1) (not-piece? SleipnirLR $1)))
+  (common-step-body)
+  (if (or (piece? SleipnirA) (piece? SleipnirR))
+      (add $3)
+   else
+      (add $2)
+  )
+))
+
+(define sleipnir-swap (
+  (verify (or (piece? SleipnirOA $1) (piece? SleipnirOR $1) (piece? SleipnirLA $1) (piece? SleipnirLR $1)))
+  (if (piece? SleipnirOA $1)
+      (create Light OdinA)
+  )
+  (if (piece? SleipnirOR $1)
+      (create Light OdinR)
+  )
+  (if (piece? SleipnirLA $1)
+      (create Dark LokiA)
+  )
+  (if (piece? SleipnirLR $1)
+      (create Dark LokiR)
+  )
+  (common-step-body)
+  (add $2)
 ))
 
 (define empty-step-body
@@ -171,6 +245,17 @@
   capture add
 ))
 
+(define thor-strike (
+  (create $2)
+  $1 (verify enemy?)
+  (verify (not-piece? Mount))
+  (capture-enemy n) (capture-enemy nw)
+  (capture-enemy s) (capture-enemy sw)
+  (capture-enemy e) (capture-enemy se)
+  (capture-enemy w) (capture-enemy ne)
+  capture add
+))
+
 (define fire
   (if (and (not-empty? $1)
            (not-piece? Mount $1)
@@ -193,6 +278,7 @@
 (define bifrost-common-step (
   (create Mount)
   (common-step-body)
+  (add $2)
 ))
 
 (define bifrost-empty-step (
@@ -201,6 +287,7 @@
 ))
 
 (define drop-piece (
+  (verify (in-zone? home-zone))
   (verify empty?)
   add
 ))
@@ -277,6 +364,9 @@
     )
     (zone (name goal-zone) (players Dark)
           (positions a1 b1 c1 d1 e1 f1 g1)
+    )
+    (zone (name home-zone) (players Light Dark)
+          (positions a1)
     )
   )
 
@@ -403,6 +493,9 @@
     )
     (zone (name goal-zone) (players Dark)
           (positions a1 b1 c1 d1 e1 f1 g1 h1)
+    )
+    (zone (name home-zone) (players Light Dark)
+          (positions a1)
     )
   )
 
@@ -546,6 +639,20 @@
       )
       (all-dirs)
     )
+    (zone (name home-zone) (players Light)
+          (positions 
+              a1 b1 c1 d1 e1 f1 g1 h1 i1
+              a2 b2 c2 d2 e2 f2 g2 h2 i2
+              a3 b3 c3 d3 e3 f3 g3 h3 i3
+          )
+    )
+    (zone (name home-zone) (players Dark)
+          (positions 
+              a9 b9 c9 d9 e9 f9 g9 h9 i9
+              a8 b8 c8 d8 e8 f8 g8 h8 i8
+              a7 b7 c7 d7 e7 f7 g7 h7 i7
+          )
+    )
   )
 
   (piece
@@ -559,10 +666,14 @@
      (image Light "../images/Ragnarok/oda.bmp")
      (moves
         (move-type normal-type)
-        (common-step n OdinR) (common-step nn OdinR) 
-        (common-step s OdinR) (common-step ss OdinR) 
-        (common-step w OdinR) (common-step ww OdinR)
-        (common-step e OdinR) (common-step ee OdinR)
+        (sleipnir-join n OdinR SleipnirOR) (sleipnir-join nn OdinR SleipnirOR) 
+        (sleipnir-join s OdinR SleipnirOR) (sleipnir-join ss OdinR SleipnirOR) 
+        (sleipnir-join w OdinR SleipnirOR) (sleipnir-join ww OdinR SleipnirOR)
+        (sleipnir-join e OdinR SleipnirOR) (sleipnir-join ee OdinR SleipnirOR)
+        (sleipnir-swap n SleipnirOR) (sleipnir-swap nn SleipnirOR) 
+        (sleipnir-swap s SleipnirOR) (sleipnir-swap ss SleipnirOR) 
+        (sleipnir-swap w SleipnirOR) (sleipnir-swap ww SleipnirOR)
+        (sleipnir-swap e SleipnirOR) (sleipnir-swap ee SleipnirOR)
      )
      (drops
         (move-type setup-type)
@@ -575,9 +686,68 @@
      (image Light "../images/Ragnarok/odr.bmp")
      (moves
         (move-type normal-type)
-        (common-step ne OdinA) (common-step nene OdinA)
-        (common-step sw OdinA) (common-step swsw OdinA)
-        (common-step se OdinA) (common-step sese OdinA)
+        (sleipnir-join ne OdinA SleipnirOR) (sleipnir-join nene OdinA SleipnirOR)
+        (sleipnir-join sw OdinA SleipnirOR) (sleipnir-join swsw OdinA SleipnirOR)
+        (sleipnir-join se OdinA SleipnirOR) (sleipnir-join sese OdinA SleipnirOR)
+        (sleipnir-swap ne SleipnirOR) (sleipnir-swap nene SleipnirOR)
+        (sleipnir-swap sw SleipnirOR) (sleipnir-swap swsw SleipnirOR)
+        (sleipnir-swap se SleipnirOR) (sleipnir-swap sese SleipnirOR)
+     )
+  )
+  (piece
+     (name SleipnirOA)
+     (help "Odin")
+     (image Light "../images/Ragnarok/osa.bmp")
+     (moves
+        (move-type normal-type)
+        (common-slide sw SleipnirOR) (common-slide se SleipnirOR)
+        (common-slide ne SleipnirOR)
+        (common-strike n SleipnirOR) (common-strike s SleipnirOR)
+        (common-strike w SleipnirOR) (common-strike e SleipnirOR)
+        (sleipnir-split ss SleipnirR OdinA) (sleipnir-split ww SleipnirR OdinA) 
+        (sleipnir-split ee SleipnirR OdinA) (sleipnir-split nn SleipnirR OdinA) 
+     )
+  )
+  (piece
+     (name SleipnirOR)
+     (help "Odin")
+     (image Light "../images/Ragnarok/osr.bmp")
+     (moves
+        (move-type normal-type)
+        (common-slide n SleipnirOA) (common-slide s SleipnirOA)
+        (common-slide w SleipnirOA) (common-slide e SleipnirOA)
+        (common-strike sw SleipnirOA) (common-strike se SleipnirOA)
+        (common-strike ne SleipnirOA)
+        (sleipnir-split swsw SleipnirR OdinA) (sleipnir-split sese SleipnirR OdinA) 
+        (sleipnir-split nene SleipnirR OdinA)
+     )
+  )
+  (piece
+     (name ThorA)
+     (help "Thor")
+     (image Light "../images/Ragnarok/tha.bmp")
+     (moves
+        (move-type normal-type)
+        (common-slide n ThorR) (common-slide s ThorR)
+        (common-step nw ThorR) (common-step sw ThorR)
+        (common-step ne ThorR) (common-step se ThorR)
+        (thor-strike ww ThorR) (thor-strike ee ThorR)
+        (thor-strike nwnw ThorR) (thor-strike nene ThorR)
+        (thor-strike swsw ThorR) (thor-strike sese ThorR)
+     )
+  )
+  (piece
+     (name ThorR)
+     (help "Thor")
+     (image Light "../images/Ragnarok/thr.bmp")
+     (moves
+        (move-type normal-type)
+        (common-slide w ThorA) (common-slide e ThorA)
+        (common-step nw ThorA) (common-step sw ThorA)
+        (common-step ne ThorA) (common-step se ThorA)
+        (thor-strike nn ThorA) (thor-strike ss ThorA)
+        (thor-strike nwnw ThorA) (thor-strike nene ThorA)
+        (thor-strike swsw ThorA) (thor-strike sese ThorA)
      )
   )
   (piece
@@ -612,10 +782,14 @@
      (image Dark "../images/Ragnarok/lka.bmp")
      (moves
         (move-type normal-type)
-        (common-step n LokiR) (common-step nne LokiR) 
-        (common-step e LokiR) (common-step see LokiR) 
-        (common-step sw LokiR) (common-step ssw LokiR) 
-        (common-step sww LokiR) 
+        (sleipnir-join n LokiR SleipnirLR) (sleipnir-join nne LokiR SleipnirLR) 
+        (sleipnir-join e LokiR SleipnirLR) (sleipnir-join see LokiR SleipnirLR) 
+        (sleipnir-join sw LokiR SleipnirLR) (sleipnir-join ssw LokiR SleipnirLR) 
+        (sleipnir-join sww LokiR SleipnirLR) 
+        (sleipnir-swap n SleipnirLR) (sleipnir-swap nne SleipnirLR) 
+        (sleipnir-swap e SleipnirLR) (sleipnir-swap see SleipnirLR) 
+        (sleipnir-swap sw SleipnirLR) (sleipnir-swap ssw SleipnirLR) 
+        (sleipnir-swap sww SleipnirLR) 
      )
      (drops
         (move-type setup-type)
@@ -628,10 +802,100 @@
      (image Dark "../images/Ragnarok/lkr.bmp")
      (moves
         (move-type normal-type)
-        (common-step s LokiA) (common-step sse LokiA) 
-        (common-step e LokiA) (common-step nee LokiA) 
-        (common-step nw LokiA) (common-step nnw LokiA) 
-        (common-step nww LokiA) 
+        (sleipnir-join s LokiA SleipnirLA) (sleipnir-join sse LokiA SleipnirLA) 
+        (sleipnir-join e LokiA SleipnirLA) (sleipnir-join nee LokiA SleipnirLA) 
+        (sleipnir-join nw LokiA SleipnirLA) (sleipnir-join nnw LokiA SleipnirLA) 
+        (sleipnir-join nww LokiA SleipnirLA) 
+        (sleipnir-swap s SleipnirLA) (sleipnir-swap sse SleipnirLA) 
+        (sleipnir-swap e SleipnirLA) (sleipnir-swap nee SleipnirLA) 
+        (sleipnir-swap nw SleipnirLA) (sleipnir-swap nnw SleipnirLA) 
+        (sleipnir-swap nww SleipnirLA) 
+     )
+  )
+  (piece
+     (name SleipnirLA)
+     (help "Loki")
+     (image Dark "../images/Ragnarok/sla.bmp")
+     (moves
+        (move-type normal-type)
+        (common-slide sw SleipnirLR) (common-slide se SleipnirLR)
+        (common-slide nw SleipnirLR) (common-slide ne SleipnirLR)
+        (common-strike n SleipnirLR) (common-strike s SleipnirLR)
+        (common-strike w SleipnirLR) (common-strike e SleipnirLR)
+        (sleipnir-split ssw SleipnirR LokiA) (sleipnir-split sww SleipnirR LokiA) 
+        (sleipnir-split see SleipnirR LokiA) (sleipnir-split nne SleipnirR LokiA) 
+     )
+  )
+  (piece
+     (name SleipnirLR)
+     (help "Loki")
+     (image Dark "../images/Ragnarok/slr.bmp")
+     (moves
+        (move-type normal-type)
+        (common-slide s SleipnirLR) (common-slide e SleipnirLR)
+        (common-slide n SleipnirLR) (common-slide w SleipnirLR)
+        (common-strike nw SleipnirLR) (common-strike ne SleipnirLR)
+        (common-strike sw SleipnirLR) (common-strike se SleipnirLR)
+        (sleipnir-split sse SleipnirR LokiR) (sleipnir-split nee SleipnirR LokiR) 
+        (sleipnir-split nnw SleipnirR LokiR) (sleipnir-split nww SleipnirR LokiR) 
+     )
+  )
+  (piece
+     (name SleipnirA)
+     (help "Sleipnir")
+     (image Dark "../images/Ragnarok/spa.bmp"
+            Light "../images/Ragnarok/swa.bmp")
+     (moves
+        (move-type normal-type)
+        (common-slide sw SleipnirR) (common-slide se SleipnirR)
+        (common-slide nw SleipnirR) (common-slide ne SleipnirR)
+     )
+  )
+  (piece
+     (name SleipnirR)
+     (help "Sleipnir")
+     (image Dark "../images/Ragnarok/spr.bmp"
+            Light "../images/Ragnarok/swr.bmp")
+     (moves
+        (move-type normal-type)
+        (common-slide n SleipnirA) (common-slide w SleipnirA)
+        (common-slide s SleipnirA) (common-slide e SleipnirA)
+     )
+  )
+  (piece
+     (name JormungandrA)
+     (help "Jormungandr")
+     (image Dark "../images/Ragnarok/jma.bmp")
+     (moves
+        (move-type normal-type)
+        (beast-slide n JormungandrR nw ne) (beast-slide s JormungandrR sw se) 
+     )
+  )
+  (piece
+     (name JormungandrR)
+     (help "Jormungandr")
+     (image Dark "../images/Ragnarok/jmr.bmp")
+     (moves
+        (move-type normal-type)
+        (beast-slide e JormungandrA ne se) (beast-slide w JormungandrA nw sw) 
+     )
+  )
+  (piece
+     (name FenrirA)
+     (help "Fenrir")
+     (image Dark "../images/Ragnarok/fna.bmp")
+     (moves
+        (move-type normal-type)
+        (beast-slide se FenrirR s e) (common-slide nw FenrirR) 
+     )
+  )
+  (piece
+     (name FenrirR)
+     (help "Fenrir")
+     (image Dark "../images/Ragnarok/fnr.bmp")
+     (moves
+        (move-type normal-type)
+        (beast-slide sw FenrirA s w) (common-slide ne FenrirA) 
      )
   )
   (piece
@@ -791,6 +1055,40 @@
         (valkyrie-jump sw Valkyrie) (valkyrie-jump se Valkyrie)
         (valkyrie-jump n Valkyrie) (valkyrie-jump e Valkyrie)
         (valkyrie-jump s Valkyrie) (valkyrie-jump w Valkyrie)
+     )
+  )
+  (piece
+     (name ZwergA)
+     (help "Zwerg")
+     (image Dark "../images/Ragnarok/zwa.bmp")
+     (moves
+        (move-type normal-type)
+        (common-step n ZwergR) (common-step e ZwergR)
+        (common-step w ZwergR) (zwerg-step s ZwergR)
+        (common-strike swsw ZwergR) (common-strike sese ZwergR)
+     )
+  )
+  (piece
+     (name ZwergR)
+     (help "Zwerg")
+     (image Dark "../images/Ragnarok/zwr.bmp")
+     (moves
+        (move-type normal-type)
+        (common-step nw ZwergA) (common-step ne ZwergA)
+        (zwerg-step sw ZwergA) (zwerg-step se ZwergA)
+        (common-strike ss ZwergA)
+     )
+  )
+  (piece
+     (name Zwerg)
+     (help "Zwerg")
+     (image Dark "../images/Ragnarok/zw.bmp")
+     (moves
+        (move-type normal-type)
+        (common-step nw Zwerg) (common-step ne Zwerg)
+        (zwerg-step sw Zwerg) (zwerg-step se Zwerg)
+        (common-step n Zwerg) (common-step e Zwerg)
+        (common-step w Zwerg) (zwerg-step s Zwerg)
      )
   )
   (piece
