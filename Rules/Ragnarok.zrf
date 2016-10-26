@@ -242,7 +242,27 @@
   (create $2)
   $1 (verify enemy?)
   (verify (not-piece? Mount))
-  capture add
+  (set-flag is-special? false)
+  (if (piece? SleipnirOA)
+      (create Light OdinA)
+      (set-flag is-special? true)
+  )
+  (if (piece? SleipnirOR)
+      (create Light OdinR)
+      (set-flag is-special? true)
+  )
+  (if (piece? SleipnirLA)
+      (create Dark LokiA)
+      (set-flag is-special? true)
+  )
+  (if (piece? SleipnirLR)
+      (create Dark LokiR)
+      (set-flag is-special? true)
+  )
+  (if (not-flag? is-special?)
+      capture 
+  )
+  add
 ))
 
 (define thor-strike (
@@ -292,12 +312,74 @@
   add
 ))
 
-(define bifrost-eda-order (
-  (create Mount)
+(define common-order-body
   $1 (verify friend?)
   (verify (piece? $2$3))
   (change-type $2$4)
-  $5 (verify not-friend?)
+  $5 
+)
+
+(define loki-order (
+  mark
+  (common-order-body)
+  (if not-empty?
+      cascade back
+  )
+  add
+))
+
+(define common-order (
+  (common-order-body)
+  (verify empty?)
+  add
+))
+
+(define order-loki
+  (loki-order sww $1 A R nww) (loki-order sww $1 A R nnw) (loki-order sww $1 A R sse)
+  (loki-order nnw $1 A R nww) (loki-order nnw $1 A R nnw) (loki-order nnw $1 A R nee)
+  (loki-order see $1 A R nee) (loki-order see $1 A R nnw) (loki-order see $1 A R sse)
+  (loki-order sse $1 A R nww) (loki-order sse $1 A R nee) (loki-order sse $1 A R sse)
+  (loki-order nww $1 R A nne) (loki-order nww $1 R A sse) (loki-order nww $1 R A see)
+  (loki-order ssw $1 R A see) (loki-order ssw $1 R A ssw) (loki-order ssw $1 R A sww)
+  (loki-order nne $1 R A sww) (loki-order nne $1 R A see) (loki-order nne $1 R A nne)
+  (loki-order nee $1 R A ssw) (loki-order nee $1 R A nne) (loki-order nee $1 R A see)
+)
+
+(define order-hel
+  (common-order e Hel A R e) (common-order w Hel A R w)
+  (common-order n Hel R A n) (common-order s Hel R A s)
+)
+
+(define order-odin
+  (common-order ee $1 $2 $3 swsw) (common-order ee $1 $2 $3 ss) (common-order ee $1 $2 $3 sese) (common-order ee $1 $2 $3 ee) (common-order ee $1 $2 $3 nene) (common-order ee $1 $2 $3 nn)
+  (common-order nene $1 $2 $3 ww) (common-order nene $1 $2 $3 ss) (common-order nene $1 $2 $3 sese) (common-order nene $1 $2 $3 ee) (common-order nene $1 $2 $3 nene) (common-order nene $1 $2 $3 nn)
+  (common-order nn $1 $2 $3 ww) (common-order nn $1 $2 $3 swsw) (common-order nn $1 $2 $3 sese) (common-order nn $1 $2 $3 ee) (common-order nn $1 $2 $3 nene) (common-order nn $1 $2 $3 nn)
+  (common-order nwnw $1 $2 $3 ww) (common-order nwnw $1 $2 $3 swsw) (common-order nwnw $1 $2 $3 ss) (common-order nwnw $1 $2 $3 ee) (common-order nwnw $1 $2 $3 nene) (common-order nwnw $1 $2 $3 nn)
+  (common-order ww $1 $2 $3 ww) (common-order ww $1 $2 $3 swsw) (common-order ww $1 $2 $3 ss) (common-order ww $1 $2 $3 sese) (common-order ww $1 $2 $3 nene) (common-order ww $1 $2 $3 nn)
+  (common-order swsw $1 $2 $3 ww) (common-order swsw $1 $2 $3 swsw) (common-order swsw $1 $2 $3 ss) (common-order swsw $1 $2 $3 sese) (common-order swsw $1 $2 $3 ee) (common-order swsw $1 $2 $3 nn)
+  (common-order ss $1 $2 $3 ww) (common-order ss $1 $2 $3 swsw) (common-order ss $1 $2 $3 ss) (common-order ss $1 $2 $3 sese) (common-order ss $1 $2 $3 ee) (common-order ss $1 $2 $3 nene)
+)
+
+(define order-tyr
+  (common-order see Tyr $1 $2 sww) (common-order see Tyr $1 $2 see) (common-order see Tyr $1 $2 nee) (common-order see Tyr $1 $2 n)
+  (common-order nee Tyr $1 $2 nww) (common-order nee Tyr $1 $2 see) (common-order nee Tyr $1 $2 nee) (common-order nee Tyr $1 $2 n)
+  (common-order nww Tyr $1 $2 nww) (common-order nww Tyr $1 $2 sww) (common-order nww Tyr $1 $2 nee) (common-order nww Tyr $1 $2 n)
+  (common-order sww Tyr $1 $2 nww) (common-order sww Tyr $1 $2 sww) (common-order sww Tyr $1 $2 see) (common-order sww Tyr $1 $2 n)
+  (common-order s Tyr $1 $2 nww) (common-order s Tyr $1 $2 sww) (common-order s Tyr $1 $2 nee) (common-order s Tyr $1 $2 nee)
+)
+
+(define bifrost-eda-order (
+  (create Mount)
+  (common-order-body)
+  (verify empty?)
+  (fire n) (fire s)
+  (fire w) (fire e)
+  add
+))
+
+(define eda-order (
+  (common-order-body)
+  (verify empty?)
   (fire n) (fire s)
   (fire w) (fire e)
   add
@@ -305,10 +387,37 @@
 
 (define bifrost-edr-order (
   (create Mount)
-  $1 (verify friend?)
-  (verify (piece? $2$3))
-  (change-type $2$4)
-  $5 (verify not-friend?)
+  (common-order-body)
+  (verify empty?)
+  (fire nw) (fire se)
+  (fire sw) (fire ne)
+  add
+))
+
+(define edr-order (
+  (common-order-body)
+  (verify empty?)
+  (fire nw) (fire se)
+  (fire sw) (fire ne)
+  add
+))
+
+(define bifrost-surtr-order (
+  (create Mount)
+  (common-order-body)
+  (verify empty?)
+  (fire n) (fire s)
+  (fire w) (fire e)
+  (fire nw) (fire se)
+  (fire sw) (fire ne)
+  add
+))
+
+(define surtr-order (
+  (common-order-body)
+  (verify empty?)
+  (fire n) (fire s)
+  (fire w) (fire e)
   (fire nw) (fire se)
   (fire sw) (fire ne)
   add
@@ -325,6 +434,17 @@
   (bifrost-eda-order ww Surtr A R nn) (bifrost-eda-order ww Surtr A R ss) (bifrost-eda-order ww Surtr A R ww)
 )
 
+(define order-eda
+  (eda-order nwnw Surtr R A nwnw) (eda-order nwnw Surtr R A nene) (eda-order nwnw Surtr R A swsw) 
+  (eda-order nene Surtr R A nwnw) (eda-order nene Surtr R A nene) (eda-order nene Surtr R A sese) 
+  (eda-order sese Surtr R A nene) (eda-order sese Surtr R A swsw) (eda-order sese Surtr R A sese) 
+  (eda-order swsw Surtr R A nwnw) (eda-order swsw Surtr R A swsw) (eda-order swsw Surtr R A sese) 
+  (eda-order nn Surtr A R nn) (eda-order nn Surtr A R ee) (eda-order nn Surtr A R ww)
+  (eda-order ee Surtr A R nn) (eda-order ee Surtr A R ee) (eda-order ee Surtr A R ss) 
+  (eda-order ss Surtr A R ee) (eda-order ss Surtr A R ss) (eda-order ss Surtr A R ww)
+  (eda-order ww Surtr A R nn) (eda-order ww Surtr A R ss) (eda-order ww Surtr A R ww)
+)
+
 (define bifrost-order-edr
   (bifrost-edr-order nwnw Surtr R A nwnw) (bifrost-edr-order nwnw Surtr R A nene) (bifrost-edr-order nwnw Surtr R A swsw) 
   (bifrost-edr-order nene Surtr R A nwnw) (bifrost-edr-order nene Surtr R A nene) (bifrost-edr-order nene Surtr R A sese) 
@@ -334,6 +454,39 @@
   (bifrost-edr-order ee Surtr A R nn) (bifrost-edr-order ee Surtr A R ee) (bifrost-edr-order ee Surtr A R ss) 
   (bifrost-edr-order ss Surtr A R ee) (bifrost-edr-order ss Surtr A R ss) (bifrost-edr-order ss Surtr A R ww)
   (bifrost-edr-order ww Surtr A R nn) (bifrost-edr-order ww Surtr A R ss) (bifrost-edr-order ww Surtr A R ww)
+)
+
+(define order-edr
+  (edr-order nwnw Surtr R A nwnw) (edr-order nwnw Surtr R A nene) (edr-order nwnw Surtr R A swsw) 
+  (edr-order nene Surtr R A nwnw) (edr-order nene Surtr R A nene) (edr-order nene Surtr R A sese) 
+  (edr-order sese Surtr R A nene) (edr-order sese Surtr R A swsw) (edr-order sese Surtr R A sese) 
+  (edr-order swsw Surtr R A nwnw) (edr-order swsw Surtr R A swsw) (edr-order swsw Surtr R A sese) 
+  (edr-order nn Surtr A R nn) (edr-order nn Surtr A R ee) (edr-order nn Surtr A R ww)
+  (edr-order ee Surtr A R nn) (edr-order ee Surtr A R ee) (edr-order ee Surtr A R ss) 
+  (edr-order ss Surtr A R ee) (edr-order ss Surtr A R ss) (edr-order ss Surtr A R ww)
+  (edr-order ww Surtr A R nn) (edr-order ww Surtr A R ss) (edr-order ww Surtr A R ww)
+)
+
+(define bifrost-order-surtr
+  (bifrost-surtr-order nwnw Surtr R A nwnw) (bifrost-surtr-order nwnw Surtr R A nene) (bifrost-surtr-order nwnw Surtr R A swsw) 
+  (bifrost-surtr-order nene Surtr R A nwnw) (bifrost-surtr-order nene Surtr R A nene) (bifrost-surtr-order nene Surtr R A sese) 
+  (bifrost-surtr-order sese Surtr R A nene) (bifrost-surtr-order sese Surtr R A swsw) (bifrost-surtr-order sese Surtr R A sese) 
+  (bifrost-surtr-order swsw Surtr R A nwnw) (bifrost-surtr-order swsw Surtr R A swsw) (bifrost-surtr-order swsw Surtr R A sese) 
+  (bifrost-surtr-order nn Surtr A R nn) (bifrost-surtr-order nn Surtr A R ee) (bifrost-surtr-order nn Surtr A R ww)
+  (bifrost-surtr-order ee Surtr A R nn) (bifrost-surtr-order ee Surtr A R ee) (bifrost-surtr-order ee Surtr A R ss) 
+  (bifrost-surtr-order ss Surtr A R ee) (bifrost-surtr-order ss Surtr A R ss) (bifrost-surtr-order ss Surtr A R ww)
+  (bifrost-surtr-order ww Surtr A R nn) (bifrost-surtr-order ww Surtr A R ss) (bifrost-surtr-order ww Surtr A R ww)
+)
+
+(define order-surtr
+  (surtr-order nwnw Surtr R A nwnw) (surtr-order nwnw Surtr R A nene) (surtr-order nwnw Surtr R A swsw) 
+  (surtr-order nene Surtr R A nwnw) (surtr-order nene Surtr R A nene) (surtr-order nene Surtr R A sese) 
+  (surtr-order sese Surtr R A nene) (surtr-order sese Surtr R A swsw) (surtr-order sese Surtr R A sese) 
+  (surtr-order swsw Surtr R A nwnw) (surtr-order swsw Surtr R A swsw) (surtr-order swsw Surtr R A sese) 
+  (surtr-order nn Surtr A R nn) (surtr-order nn Surtr A R ee) (surtr-order nn Surtr A R ww)
+  (surtr-order ee Surtr A R nn) (surtr-order ee Surtr A R ee) (surtr-order ee Surtr A R ss) 
+  (surtr-order ss Surtr A R ee) (surtr-order ss Surtr A R ss) (surtr-order ss Surtr A R ww)
+  (surtr-order ww Surtr A R nn) (surtr-order ww Surtr A R ss) (surtr-order ww Surtr A R ww)
 )
 
 (define all-dirs
@@ -421,6 +574,21 @@
         (bifrost-empty-step ssw EldthursarA) (bifrost-empty-step sse EldthursarA)
         (bifrost-empty-step ww EldthursarA) (bifrost-empty-step ee EldthursarA)
         (bifrost-order-edr)
+     )
+  )
+  (piece
+     (name Eldthursar)
+     (help "Eldthursar")
+     (image Dark "../images/Ragnarok/ed.bmp")
+     (moves
+        (move-type normal-type)
+        (bifrost-empty-step nwnw Eldthursar) (bifrost-empty-step nene Eldthursar)
+        (bifrost-empty-step swsw Eldthursar) (bifrost-empty-step sese Eldthursar)
+        (bifrost-empty-step nn Eldthursar) (bifrost-empty-step ss Eldthursar)
+        (bifrost-empty-step nnw Eldthursar) (bifrost-empty-step nne Eldthursar)
+        (bifrost-empty-step ssw Eldthursar) (bifrost-empty-step sse Eldthursar)
+        (bifrost-empty-step ww Eldthursar) (bifrost-empty-step ee Eldthursar)
+        (bifrost-order-surtr)
      )
   )
   (loss-condition (Light Dark) (pieces-remaining 0) )
@@ -734,6 +902,8 @@
         (thor-strike ww ThorR) (thor-strike ee ThorR)
         (thor-strike nwnw ThorR) (thor-strike nene ThorR)
         (thor-strike swsw ThorR) (thor-strike sese ThorR)
+        (order-odin Odin A R) (order-odin Odin R A)
+        (order-odin SleipnirO A R) (order-odin SleipnirO R A)
      )
   )
   (piece
@@ -748,6 +918,8 @@
         (thor-strike nn ThorA) (thor-strike ss ThorA)
         (thor-strike nwnw ThorA) (thor-strike nene ThorA)
         (thor-strike swsw ThorA) (thor-strike sese ThorA)
+        (order-odin Odin A R) (order-odin Odin R A)
+        (order-odin SleipnirO A R) (order-odin SleipnirO R A)
      )
   )
   (piece
@@ -761,6 +933,8 @@
         (common-step w TyrR) (common-step sww TyrR)
         (empty-step nee TyrR) (empty-step see TyrR)
         (empty-step e TyrR) (empty-step nne TyrR)
+        (order-odin Odin A R) (order-odin Odin R A)
+        (order-odin SleipnirO A R) (order-odin SleipnirO R A)
      )
   )
   (piece
@@ -774,6 +948,8 @@
         (common-step ww TyrA) (common-step nn TyrA)
         (empty-step ee TyrA) (common-step nwnw TyrA)
         (empty-step nene TyrA)
+        (order-odin Odin A R) (order-odin Odin R A)
+        (order-odin SleipnirO A R) (order-odin SleipnirO R A)
      )
   )
   (piece
@@ -813,6 +989,16 @@
      )
   )
   (piece
+     (name HelA)
+     (help "Hel")
+     (image Dark "../images/Ragnarok/hla.bmp")
+  )
+  (piece
+     (name HelR)
+     (help "Hel")
+     (image Dark "../images/Ragnarok/hlr.bmp")
+  )
+  (piece
      (name SleipnirLA)
      (help "Loki")
      (image Dark "../images/Ragnarok/sla.bmp")
@@ -849,6 +1035,8 @@
         (move-type normal-type)
         (common-slide sw SleipnirR) (common-slide se SleipnirR)
         (common-slide nw SleipnirR) (common-slide ne SleipnirR)
+        (order-odin Odin A R) (order-odin Odin R A)
+        (order-loki Loki)
      )
   )
   (piece
@@ -860,6 +1048,8 @@
         (move-type normal-type)
         (common-slide n SleipnirA) (common-slide w SleipnirA)
         (common-slide s SleipnirA) (common-slide e SleipnirA)
+        (order-odin Odin A R) (order-odin Odin R A)
+        (order-loki Loki)
      )
   )
   (piece
@@ -869,6 +1059,7 @@
      (moves
         (move-type normal-type)
         (beast-slide n JormungandrR nw ne) (beast-slide s JormungandrR sw se) 
+        (order-loki Loki) (order-loki SleipnirL)
      )
   )
   (piece
@@ -878,6 +1069,7 @@
      (moves
         (move-type normal-type)
         (beast-slide e JormungandrA ne se) (beast-slide w JormungandrA nw sw) 
+        (order-loki Loki) (order-loki SleipnirL)
      )
   )
   (piece
@@ -887,6 +1079,7 @@
      (moves
         (move-type normal-type)
         (beast-slide se FenrirR s e) (common-slide nw FenrirR) 
+        (order-loki Loki) (order-loki SleipnirL)
      )
   )
   (piece
@@ -896,6 +1089,7 @@
      (moves
         (move-type normal-type)
         (beast-slide sw FenrirA s w) (common-slide ne FenrirA) 
+        (order-loki Loki) (order-loki SleipnirL)
      )
   )
   (piece
@@ -906,6 +1100,7 @@
         (move-type normal-type)
         (common-step nne SurtrR) (common-step see SurtrR)
         (common-step ssw SurtrR) (common-step nww SurtrR)
+        (order-loki Loki) (order-loki SleipnirL)
      )
   )
   (piece
@@ -916,6 +1111,7 @@
         (move-type normal-type)
         (common-step nnw SurtrA) (common-step nee SurtrA)
         (common-step sse SurtrA) (common-step sww SurtrA)
+        (order-loki Loki) (order-loki SleipnirL)
      )
   )
   (piece
@@ -929,6 +1125,7 @@
         (empty-step nwnw EldthursarR) (empty-step nene EldthursarR)
         (empty-step swsw EldthursarR) (empty-step sese EldthursarR)
         (empty-step nn EldthursarR) (empty-step ss EldthursarR)
+        (order-eda) (order-loki Loki) (order-loki SleipnirL)
      )
   )
   (piece
@@ -942,6 +1139,7 @@
         (empty-step nnw EldthursarA) (empty-step nne EldthursarA)
         (empty-step ssw EldthursarA) (empty-step sse EldthursarA)
         (empty-step ww EldthursarA) (empty-step ee EldthursarA)
+        (order-edr) (order-loki Loki) (order-loki SleipnirL)
      )
   )
   (piece
@@ -956,6 +1154,7 @@
         (empty-step nnw Eldthursar) (empty-step nne Eldthursar)
         (empty-step ssw Eldthursar) (empty-step sse Eldthursar)
         (empty-step ww Eldthursar) (empty-step ee Eldthursar)
+        (order-surtr) (order-loki Loki) (order-loki SleipnirL)
      )
   )
   (piece
@@ -970,6 +1169,9 @@
         (empty-step ssw AlfrR) (empty-step sse AlfrR)
         (common-strike nn AlfrR) (common-strike ss AlfrR)
         (common-strike ww AlfrR) (common-strike ee AlfrR)
+        (order-odin Odin A R) (order-odin Odin R A)
+        (order-odin SleipnirO A R) (order-odin SleipnirO R A)
+        (order-tyr A R) (order-tyr R A)
      )
   )
   (piece
@@ -984,6 +1186,9 @@
         (empty-step sww AlfrA) (empty-step see AlfrA)
         (common-strike nwnw AlfrA) (common-strike swsw AlfrA)
         (common-strike nene AlfrA) (common-strike sese AlfrA)
+        (order-odin Odin A R) (order-odin Odin R A)
+        (order-odin SleipnirO A R) (order-odin SleipnirO R A)
+        (order-tyr A R) (order-tyr R A)
      )
   )
   (piece
@@ -1004,6 +1209,9 @@
         (common-strike ww Alfr) (common-strike ee Alfr)
         (common-strike nwnw Alfr) (common-strike swsw Alfr)
         (common-strike nene Alfr) (common-strike sese Alfr)
+        (order-odin Odin A R) (order-odin Odin R A)
+        (order-odin SleipnirO A R) (order-odin SleipnirO R A)
+        (order-tyr A R) (order-tyr R A)
      )
   )
   (piece
@@ -1016,6 +1224,9 @@
         (valkyrie-slide sw ValkyrieR) (valkyrie-slide se ValkyrieR)
         (valkyrie-jump nw ValkyrieR) (valkyrie-jump ne ValkyrieR)
         (valkyrie-jump sw ValkyrieR) (valkyrie-jump se ValkyrieR)
+        (order-odin Odin A R) (order-odin Odin R A)
+        (order-odin SleipnirO A R) (order-odin SleipnirO R A)
+        (order-tyr A R) (order-tyr R A)
         (move-type capture-type)
         (valkyrie-jump nw ValkyrieR) (valkyrie-jump ne ValkyrieR)
         (valkyrie-jump sw ValkyrieR) (valkyrie-jump se ValkyrieR)
@@ -1031,6 +1242,9 @@
         (valkyrie-slide s ValkyrieA) (valkyrie-slide w ValkyrieA)
         (valkyrie-jump n ValkyrieA) (valkyrie-jump e ValkyrieA)
         (valkyrie-jump s ValkyrieA) (valkyrie-jump w ValkyrieA)
+        (order-odin Odin A R) (order-odin Odin R A)
+        (order-odin SleipnirO A R) (order-odin SleipnirO R A)
+        (order-tyr A R) (order-tyr R A)
         (move-type capture-type)
         (valkyrie-jump n ValkyrieA) (valkyrie-jump e ValkyrieA)
         (valkyrie-jump s ValkyrieA) (valkyrie-jump w ValkyrieA)
@@ -1050,6 +1264,9 @@
         (valkyrie-jump sw Valkyrie) (valkyrie-jump se Valkyrie)
         (valkyrie-jump n Valkyrie) (valkyrie-jump e Valkyrie)
         (valkyrie-jump s Valkyrie) (valkyrie-jump w Valkyrie)
+        (order-odin Odin A R) (order-odin Odin R A)
+        (order-odin SleipnirO A R) (order-odin SleipnirO R A)
+        (order-tyr A R) (order-tyr R A)
         (move-type capture-type)
         (valkyrie-jump nw Valkyrie) (valkyrie-jump ne Valkyrie)
         (valkyrie-jump sw Valkyrie) (valkyrie-jump se Valkyrie)
@@ -1066,6 +1283,7 @@
         (common-step n ZwergR) (common-step e ZwergR)
         (common-step w ZwergR) (zwerg-step s ZwergR)
         (common-strike swsw ZwergR) (common-strike sese ZwergR)
+        (order-loki Loki) (order-loki SleipnirL) (order-hel)
      )
   )
   (piece
@@ -1077,6 +1295,7 @@
         (common-step nw ZwergA) (common-step ne ZwergA)
         (zwerg-step sw ZwergA) (zwerg-step se ZwergA)
         (common-strike ss ZwergA)
+        (order-loki Loki) (order-loki SleipnirL) (order-hel)
      )
   )
   (piece
@@ -1089,6 +1308,7 @@
         (zwerg-step sw Zwerg) (zwerg-step se Zwerg)
         (common-step n Zwerg) (common-step e Zwerg)
         (common-step w Zwerg) (zwerg-step s Zwerg)
+        (order-loki Loki) (order-loki SleipnirL) (order-hel)
      )
   )
   (piece
@@ -1101,6 +1321,7 @@
         (jotunn-step ne sw JotunnR) (jotunn-step se nw JotunnR)
         (jotunn-push nw se JotunnR) (jotunn-push sw ne JotunnR)
         (jotunn-push ne sw JotunnR) (jotunn-push se nw JotunnR)
+        (order-loki Loki) (order-loki SleipnirL) (order-hel)
         (move-type capture-type)
         (jotunn-push nw se JotunnR) (jotunn-push sw ne JotunnR)
         (jotunn-push ne sw JotunnR) (jotunn-push se nw JotunnR)
@@ -1116,6 +1337,7 @@
         (jotunn-step e w JotunnA) (jotunn-step w e JotunnA)
         (jotunn-push n s JotunnA) (jotunn-push s n JotunnA)
         (jotunn-push e w JotunnA) (jotunn-push w e JotunnA)
+        (order-loki Loki) (order-loki SleipnirL) (order-hel)
         (move-type capture-type)
         (jotunn-push n s JotunnA) (jotunn-push s n JotunnA)
         (jotunn-push e w JotunnA) (jotunn-push w e JotunnA)
@@ -1135,6 +1357,7 @@
         (jotunn-step e  w  Jotunn) (jotunn-step w  e  Jotunn)
         (jotunn-push n  s  Jotunn) (jotunn-push s  n  Jotunn)
         (jotunn-push e  w  Jotunn) (jotunn-push w  e  Jotunn)
+        (order-loki Loki) (order-loki SleipnirL) (order-hel)
         (move-type capture-type)
         (jotunn-push nw se Jotunn) (jotunn-push sw ne Jotunn)
         (jotunn-push ne sw Jotunn) (jotunn-push se nw Jotunn)
