@@ -584,7 +584,7 @@
 )
 
 (variant
-  (title "Jotunheimr")
+  (title "Jotunheimr (easy)")
   (jotunheimr-common)
   (board-setup
      (Light
@@ -593,6 +593,33 @@
      (Dark
        (Jotunn a7 a5 b3 c8 c6 c2 d4 e7 e1 f6 f3 g8 g5 g1 h7 h3)
        (Mount a4 c3 d1 d5 e4 e6 f5 h8)
+     )
+  )
+)
+
+(variant
+  (title "Jotunheimr (normal)")
+  (jotunheimr-common)
+  (board-setup
+     (Light
+       (WarriorA a1)
+     )
+     (Dark
+       (Jotunn a7 a5 b3 c8 c6 c2 d4 e7 e1 f6 f3 g8 g5 g1 h7 h3)
+       (Mount a4 c3 d1 d5 e4 h8)
+     )
+  )
+)
+
+(variant
+  (title "Jotunheimr (hard)")
+  (jotunheimr-common)
+  (board-setup
+     (Light
+       (WarriorA a1)
+     )
+     (Dark
+       (Jotunn a7 a5 b3 c8 c6 c2 d4 e7 e1 f6 f3 g8 g5 g1 h7 h3)
      )
   )
 )
