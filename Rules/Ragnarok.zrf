@@ -148,6 +148,7 @@
   (set-flag is-surtr? (or (piece? SurtrA) (piece? SurtrR) (piece? Eldthursar) (piece? EldthursarA) (piece? EldthursarR)))
   (set-flag is-eda? (or (piece? SurtrA) (piece? SurtrR) (piece? Eldthursar) (piece? EldthursarA)))
   (set-flag is-edr? (or (piece? SurtrA) (piece? SurtrR) (piece? Eldthursar) (piece? EldthursarR)))
+  (set-flag is-warrior? (or (piece? WarriorA) (piece? WarriorR) (piece? Warrior)))
 )
 
 (define common-step-body
@@ -157,6 +158,11 @@
           )
   )
   (verify (not-piece? Mount))
+  (if (flag? is-warrior?)
+      (verify (not-piece? WarriorA))
+      (verify (not-piece? WarriorR))
+      (verify (not-piece? Warrior))
+  )
   (if (not-flag? is-surtr?)
       (check-fire)
   )
@@ -238,6 +244,39 @@
   (empty-step-body)
 ))
 
+(define warrior-step (
+  (common-step-body)
+  (verify enemy?)
+  (add-partial $2 $3)
+))
+
+(define check-enemy
+  (if (on-board? $1)
+      (if (and (enemy? $1) (not-piece? Mount))
+          (set-flag enemy-present? true)
+      )
+  )
+)
+
+(define warrior-jump (
+  (set-flag is-a? (or (piece? WarriorA) (piece? Warrior)))
+  (set-flag is-r? (or (piece? WarriorR) (piece? Warrior)))
+  $1 (verify empty?)
+  $1 (verify empty?)
+  (check-fire)
+  (set-flag enemy-present? false)
+  (if (flag? is-a?)
+      (check-enemy n) (check-enemy s)
+      (check-enemy w) (check-enemy e)
+  )
+  (if (flag? is-r?)
+      (check-enemy nw) (check-enemy se)
+      (check-enemy sw) (check-enemy ne)
+  )
+  (verify (flag? enemy-present?))
+  (add-partial $2 $3)
+))
+
 (define common-strike (
   (create $2)
   $1 (verify enemy?)
@@ -309,6 +348,25 @@
 (define drop-piece (
   (verify (in-zone? home-zone))
   (verify empty?)
+  add
+))
+
+(define check-surtr
+  (if (on-board? $2)
+      (if (piece? $1 $2)
+          (set-flag is-surtr? true)
+      )
+  )
+)
+
+(define drop-eda (
+  (verify empty?)
+  (set-flag is-surtr? false)
+  (check-surtr SurtrA nn) (check-surtr SurtrA ss)
+  (check-surtr SurtrA ww) (check-surtr SurtrA ee)
+  (check-surtr SurtrR nwnw) (check-surtr SurtrR nene)
+  (check-surtr SurtrR swsw) (check-surtr SurtrR sese)
+  (verify (flag? is-surtr?))
   add
 ))
 
@@ -497,6 +555,50 @@
       (nn 0 -2) (ss 0 2) (ee 2 0) (ww -2 0)
       (nwnw -2 -2) (swsw -2 2) (nene 2 -2) (sese 2 2)
   )
+)
+
+(define jotunheimr-common
+  (turn-order 
+     (Light normal-type)
+     (Dark normal-type)
+  )
+  (board
+    (image "../images/Ragnarok/helheim.bmp")
+    (grid
+      (start-rectangle 2 2 82 82)
+      (dimensions
+        ("a/b/c/d/e/f/g/h" (80 0)) ; files
+        ("8/7/6/5/4/3/2/1" (0 80)) ; ranks
+      )
+      (all-dirs)
+    )
+    (zone (name goal-zone) (players Dark)
+          (positions a1)
+    )
+    (zone (name home-zone) (players Light Dark)
+          (positions a1)
+    )
+  )
+  (loss-condition (Light) (pieces-remaining 0))
+  (loss-condition (Dark) (pieces-remaining 0 Jotunn))
+)
+
+(variant
+  (title "Jotunheimr")
+  (jotunheimr-common)
+  (board-setup
+     (Light
+       (WarriorA a1)
+     )
+     (Dark
+       (Jotunn a7 a5 b3 c8 c6 c2 d4 e7 e1 f6 f3 g8 g5 g1 h7 h3)
+       (Mount a4 c3 d1 d5 e4 e6 f5 h8)
+     )
+  )
+)
+
+(variant
+  (title "-")
 )
 
 (define bifrost-common
@@ -771,14 +873,15 @@
   (title "Vigrid")
   (default)
 
-  (option "animate captures" false)
-  (option "animate drops"    false)
-  (option "pass turn"        false)
-  (option "pass partial"     true)
-  (option "highlight goals"  false)
-  (option "prevent flipping" true)
-  (option "recycle captures" false)
-  (option "smart moves"      false)
+  (option "animate captures"  false)
+  (option "animate drops"     false)
+  (option "pass turn"         false)
+  (option "pass partial"      true)
+  (option "highlight goals"   false)
+  (option "prevent flipping"  true)
+  (option "include off-pieces"true)
+  (option "recycle captures"  false)
+  (option "smart moves"       false)
 
   (move-sound    "Audio/Clack.wav")
   (release-sound "Audio/Clack.wav")
@@ -1127,6 +1230,10 @@
         (empty-step nn EldthursarR) (empty-step ss EldthursarR)
         (order-eda) (order-loki Loki) (order-loki SleipnirL)
      )
+     (drops
+        (move-type normal-type)
+        (drop-eda)
+     )
   )
   (piece
      (name EldthursarR)
@@ -1155,6 +1262,74 @@
         (empty-step ssw Eldthursar) (empty-step sse Eldthursar)
         (empty-step ww Eldthursar) (empty-step ee Eldthursar)
         (order-surtr) (order-loki Loki) (order-loki SleipnirL)
+     )
+  )
+  (piece
+     (name WarriorA)
+     (help "Warrior")
+     (image Dark "../images/Ragnarok/wda.bmp"
+            Light "../images/Ragnarok/wla.bmp")
+     (moves
+        (move-type normal-type)
+        (common-step nw WarriorR) (common-step sw WarriorR)
+        (common-step ne WarriorR) (common-step se WarriorR)
+        (warrior-jump n WarriorR first-type) (warrior-jump w WarriorR first-type)
+        (warrior-jump s WarriorR first-type) (warrior-jump e WarriorR first-type)
+        (order-loki Loki) (order-loki SleipnirL) (order-hel)
+        (move-type first-type)
+        (warrior-step nw WarriorR second-type) (warrior-step sw WarriorR second-type)
+        (warrior-step ne WarriorR second-type) (warrior-step se WarriorR second-type)
+        (move-type second-type)
+        (warrior-jump n WarriorR first-type) (warrior-jump w WarriorR first-type)
+        (warrior-jump s WarriorR first-type) (warrior-jump e WarriorR first-type)
+     )
+  )
+  (piece
+     (name WarriorR)
+     (help "Warrior")
+     (image Dark "../images/Ragnarok/wdr.bmp"
+            Light "../images/Ragnarok/wlr.bmp")
+     (moves
+        (move-type normal-type)
+        (common-step n WarriorA) (common-step w WarriorA)
+        (common-step e WarriorA) (common-step s WarriorA)
+        (warrior-jump nw WarriorA first-type) (warrior-jump ne WarriorA first-type)
+        (warrior-jump sw WarriorA first-type) (warrior-jump se WarriorA first-type)
+        (order-loki Loki) (order-loki SleipnirL) (order-hel)
+        (move-type first-type)
+        (warrior-step n WarriorA second-type) (warrior-step w WarriorA second-type)
+        (warrior-step e WarriorA second-type) (warrior-step s WarriorA second-type)
+        (move-type second-type)
+        (warrior-jump nw WarriorA first-type) (warrior-jump ne WarriorA first-type)
+        (warrior-jump sw WarriorA first-type) (warrior-jump se WarriorA first-type)
+     )
+  )
+  (piece
+     (name Warrior)
+     (help "Warrior")
+     (image Dark "../images/Ragnarok/wd.bmp"
+            Light "../images/Ragnarok/wl.bmp")
+     (moves
+        (move-type normal-type)
+        (common-step nw Warrior) (common-step sw Warrior)
+        (common-step ne Warrior) (common-step se Warrior)
+        (common-step n Warrior) (common-step w Warrior)
+        (common-step e Warrior) (common-step s Warrior)
+        (warrior-jump nw Warrior first-type) (warrior-jump ne Warrior first-type)
+        (warrior-jump sw Warrior first-type) (warrior-jump se Warrior first-type)
+        (warrior-jump n Warrior first-type) (warrior-jump w Warrior first-type)
+        (warrior-jump s Warrior first-type) (warrior-jump e Warrior first-type)
+        (order-loki Loki) (order-loki SleipnirL) (order-hel)
+        (move-type first-type)
+        (warrior-step nw Warrior second-type) (warrior-step sw Warrior second-type)
+        (warrior-step ne Warrior second-type) (warrior-step se Warrior second-type)
+        (warrior-step n Warrior second-type) (warrior-step w Warrior second-type)
+        (warrior-step e Warrior second-type) (warrior-step s Warrior second-type)
+        (move-type second-type)
+        (warrior-jump nw Warrior first-type) (warrior-jump ne Warrior first-type)
+        (warrior-jump sw Warrior first-type) (warrior-jump se Warrior first-type)
+        (warrior-jump n Warrior first-type) (warrior-jump w Warrior first-type)
+        (warrior-jump s Warrior first-type) (warrior-jump e Warrior first-type)
      )
   )
   (piece
@@ -1372,6 +1547,7 @@
      )
      (Dark
        (LokiA off 1)
+       (EldthursarA off 2)
      )
   )
 
