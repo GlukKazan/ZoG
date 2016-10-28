@@ -1,3 +1,94 @@
+(define drop-dice
+  (verify (in-zone? dices))
+  (verify not-friend?)
+  add
+)
+
+(define drop-dice-1 (
+  (count)
+  (if (friend? pf)
+      (capture pf)
+  )
+  (drop-dice)
+))
+
+(define drop-dice-2 (
+  (drop-dice)
+))
+
+(define drop-dal (
+  (if (and (piece? D1 dn) (empty? pf))
+      (create Mark pf)
+  )
+  (drop-dice)
+))
+
+(define count
+  mark z1
+  (while (and not-empty? (on-board? counter))
+     capture
+     counter
+  )
+  (if empty?
+      (create Mark)
+   else
+      capture
+  )
+  back
+)
+
+(define check-dice
+  mark X
+  (if (piece? $1)
+      capture
+   else
+      Y (verify (piece? $1))
+      capture
+  )
+  back
+)
+
+(define activate (
+  (verify (not-enemy? pf))
+  (check-dice D1)
+  next (verify not-friend?)
+  (add On)
+))
+
+(define step-1 (
+  (verify (not-enemy? pf))
+  (check-dice D1)
+  next (verify not-friend?)
+  add
+))
+
+(define step-2 (
+  (verify (not-enemy? pf))
+  (check-dice D2)
+  next (verify not-friend?)
+  next (verify not-friend?)
+  add
+))
+
+(define step-3 (
+  (verify (not-enemy? pf))
+  (check-dice D3)
+  next (verify not-friend?)
+  next (verify not-friend?)
+  next (verify not-friend?)
+  add
+))
+
+(define step-4 (
+  (verify (not-enemy? pf))
+  (check-dice D4)
+  next (verify not-friend?)
+  next (verify not-friend?)
+  next (verify not-friend?)
+  next (verify not-friend?)
+  add
+))
+
 (game
   (title "Daldosa")
 
@@ -6,8 +97,8 @@
   (option "pass turn"        forced)
   (option "highlight goals"  false)
   (option "prevent flipping" true)
-  (option "recycle captures" false)
-  (option "smart moves"      false)
+  (option "recycle captures" true)
+  (option "smart moves"      true)
 
   (move-sound    "Audio/Clack.wav")
   (release-sound "Audio/Clack.wav")
@@ -17,12 +108,29 @@
   (click-sound   "")
   (draw-sound    "")
 
-  (players Black White)
-  (turn-order Black White)
+  (players Black White ?D)
+  (turn-order 
+     (?D Black dice-1)
+     (?D Black dice-2)
+     (Black normal-mode)
+     (Black normal-mode)
+     (?D White dice-1)
+     (?D White dice-2)
+     (White normal-mode)
+     (White normal-mode)
+  )
 
   (board
      (image "../images/Daldosa/board.bmp")
      (positions
+             (pf  0  -20  5 -15)
+             (z1  0  -10  5  -5)
+             (z2  10 -10  15 -5)
+             (z3  20 -10  25 -5)
+             (z4  30 -10  35 -5)
+             (z5  40 -10  45 -5)
+             (X   592 27  684 48)
+             (Y   592 73  684 94)
              (a3  18  13  47  43)
              (a2  18  42  47  72)
              (a1  18  71  47 101)
@@ -73,6 +181,8 @@
              (p1 454  72 483 102)
              (q2 483  43 512  73)
      )
+     (zone (name dices) (players White Black) (positions X Y))
+     (links dn (X Y) (Y X))
      (links next
         (p1 o1) (o1 n1) (n1 m1) (m1 l1) (l1 k1) (k1 j1) (j1 i1) (i1 h1)
         (h1 g1) (g1 f1) (f1 e1) (e1 d1) (d1 c1) (c1 b1) (b1 a1) (a1 a2)
@@ -91,6 +201,9 @@
         (i1 h1) (h1 g1) (g1 f1) (f1 e1) (e1 d1) (d1 c1) (c1 b1) (b1 a1)
         (a1 a2)
      )
+     (links counter
+        (z1 z2) (z2 z3) (z3 z4) (z4 z5)
+     )
      (symmetry White (next next-white) )
   )
   (piece
@@ -98,22 +211,92 @@
      (help " ")
      (image White "../images/Daldosa/w0.bmp"
             Black "../images/Daldosa/b0.bmp")
+     (moves
+        (move-type normal-mode)
+        (activate)
+     )
   )
   (piece
      (name On)
      (help " ")
      (image White "../images/Daldosa/w1.bmp"
             Black "../images/Daldosa/b1.bmp")
+     (moves
+        (move-type normal-mode)
+        (step-1) (step-2) (step-3) (step-4)
+     )
+  )
+  (piece
+     (name D1)
+     (help " ")
+     (image White "../images/Daldosa/D1.bmp"
+            Black "../images/Daldosa/D1.bmp")
+     (drops
+        (move-type dice-1)
+        (drop-dice-1)
+        (move-type dice-2)
+        (drop-dal)
+     )
+  )
+  (piece
+     (name D2)
+     (help " ")
+     (image White "../images/Daldosa/D2.bmp"
+            Black "../images/Daldosa/D2.bmp")
+     (drops
+        (move-type dice-1)
+        (drop-dice-1)
+        (move-type dice-2)
+        (drop-dice-2)
+     )
+  )
+  (piece
+     (name D3)
+     (help " ")
+     (image White "../images/Daldosa/D3.bmp"
+            Black "../images/Daldosa/D3.bmp")
+     (drops
+        (move-type dice-1)
+        (drop-dice-1)
+        (move-type dice-2)
+        (drop-dice-2)
+     )
+  )
+  (piece
+     (name D4)
+     (help " ")
+     (image White "../images/Daldosa/D4.bmp"
+            Black "../images/Daldosa/D4.bmp")
+     (drops
+        (move-type dice-1)
+        (drop-dice-1)
+        (move-type dice-2)
+        (drop-dice-2)
+     )
+  )
+  (piece
+     (name Mark)
+     (help " ")
+     (image White "../images/Daldosa/i.bmp"
+            Black "../images/Daldosa/i.bmp")
   )
 
   (board-setup
      (White
        (Off a3 b3 c3 d3 e3 f3 g3 h3 i3 j3 k3 l3 m3 n3 o3 p3) 
+       (D1 off 2)
+       (D2 off 2)
+       (D3 off 2)
+       (D4 off 2)
      )
      (Black
        (Off a1 b1 c1 d1 e1 f1 g1 h1 i1 j1 k1 l1 m1 n1 o1 p1)
+       (D1 off 2)
+       (D2 off 2)
+       (D3 off 2)
+       (D4 off 2)
      )
   )
 
-  (loss-condition (Black White) (pieces-remaining 0) )
+  (loss-condition (Black White) (and (pieces-remaining 0 Off) (pieces-remaining 0 On)) )
 )
