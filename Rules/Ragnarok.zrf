@@ -1,3 +1,41 @@
+(define not-rune?
+  (and (not-piece? Mount)
+       (not-piece? Wyrd)
+       (not-piece? Ehwaz)
+       (not-piece? Berkana)
+       (not-piece? Algiz)
+       (not-piece? Fehu)
+       (not-piece? Thurisaz)
+       (not-piece? Ansuz)
+       (not-piece? Nauthiz)
+       (not-piece? Mannaz)
+       (not-piece? Othila)
+       (not-piece? Isa)
+       (not-piece? Hagalaz)
+       (not-piece? Eihwaz)
+       (not-piece? Sowelu)
+  )
+)
+
+(define not-rune-dir?
+  (and (not-piece? Mount $1)
+       (not-piece? Wyrd $1)
+       (not-piece? Ehwaz $1)
+       (not-piece? Berkana $1)
+       (not-piece? Algiz $1)
+       (not-piece? Fehu $1)
+       (not-piece? Thurisaz $1)
+       (not-piece? Ansuz $1)
+       (not-piece? Nauthiz $1)
+       (not-piece? Mannaz $1)
+       (not-piece? Othila $1)
+       (not-piece? Isa $1)
+       (not-piece? Hagalaz $1)
+       (not-piece? Eihwaz $1)
+       (not-piece? Sowelu $1)
+  )
+)
+
 (define jotunn-step-body
   (if (on-board? $2)
       (verify (not-enemy? $2))
@@ -92,7 +130,7 @@
       $1
   )
   (verify (enemy? $1))
-  (verify (not-piece? Mount $1))
+  (verify (not-rune-dir? $1))
   $1
   (verify (empty? $1))
   $1
@@ -157,7 +195,7 @@
               (piece? SleipnirA) (piece? SleipnirR)
           )
   )
-  (verify (not-piece? Mount))
+  (verify (not-rune?))
   (if (flag? is-warrior?)
       (verify (not-piece? WarriorA))
       (verify (not-piece? WarriorR))
@@ -252,7 +290,7 @@
 
 (define check-enemy
   (if (on-board? $1)
-      (if (and (enemy? $1) (not-piece? Mount))
+      (if (and (enemy? $1) (not-rune?))
           (set-flag enemy-present? true)
       )
   )
@@ -280,7 +318,7 @@
 (define common-strike (
   (create $2)
   $1 (verify enemy?)
-  (verify (not-piece? Mount))
+  (verify (not-rune?))
   (set-flag is-special? false)
   (if (piece? SleipnirOA)
       (create Light OdinA)
@@ -307,7 +345,7 @@
 (define thor-strike (
   (create $2)
   $1 (verify enemy?)
-  (verify (not-piece? Mount))
+  (verify (not-rune?))
   (capture-enemy n) (capture-enemy nw)
   (capture-enemy s) (capture-enemy sw)
   (capture-enemy e) (capture-enemy se)
@@ -547,6 +585,119 @@
   (surtr-order ww Surtr A R nn) (surtr-order ww Surtr A R ss) (surtr-order ww Surtr A R ww)
 )
 
+(define check-odin
+  (if (and (on-board? $1) (friend? $1))
+      (if (or (piece? OdinA $1)
+              (piece? OdinR $1)
+              (piece? SleipnirOA $1)
+              (piece? SleipnirOR $1)
+          )
+          (set-flag odin-found? true)
+      )
+  )
+)
+
+(define create-piece (
+  (add $1)
+))
+
+(define revert
+  (if (piece? $1)
+      (add $1)
+  )
+)
+
+(define restore
+  (if (piece? $1)
+      (create $2)
+  )
+)
+
+(define capture-rune (
+  (set-flag rune-found? false)
+  (find-rune)
+  (verify (not-flag? rune-found?))
+  (restore LokiA LokiR)
+  (restore LokiR LokiA)
+  (restore SleipnirLA SleipnirLR)
+  (restore SleipnirLR SleipnirLA)
+  $1 (verify enemy?)
+  (revert Ehwaz)
+  (revert Berkana)
+  (revert Algiz)
+  (revert Fehu)
+  (revert Thurisaz)
+  (revert Ansuz)
+  (revert Mannaz)
+  (revert Othila)
+))
+
+(define drop-rune (
+  (verify friend?)
+  (if (piece? Nauthiz)
+      capture
+   else
+      (verify (piece? Wyrd))
+  )
+  add
+))
+
+(define find-rune
+  mark a0
+  (while (on-board? next)
+     (if (and friend?
+              (or (piece? Wyrd)
+                  (piece? Ehwaz)
+                  (piece? Berkana)
+                  (piece? Algiz)
+                  (piece? Fehu)
+                  (piece? Thurisaz)
+                  (piece? Ansuz)
+                  (piece? Nauthiz)
+                  (piece? Mannaz)
+                  (piece? Othila)
+                  (piece? Isa)
+                  (piece? Hagalaz)
+                  (piece? Eihwaz)
+                  (piece? Sowelu)
+              )
+         )
+         (set-flag rune-found? true)
+     )
+     next
+  )
+  back
+)
+
+(define drop-wyrd (
+  (verify empty?)
+  (set-flag rune-found? false)
+  (find-rune)
+  (verify (not-flag? rune-found?))
+  (set-flag odin-found? false)
+  (check-odin nn) (check-odin ss)
+  (check-odin ee) (check-odin ww)
+  (check-odin nene) (check-odin nwnw) (check-odin swsw)
+  (verify (flag? odin-found?))
+  add
+))
+
+(define rune-move (
+  $1 (verify empty?)
+  (add Wyrd)
+))
+
+(define rune-moves
+  (rune-move n) (rune-move s) (rune-move w) (rune-move e)
+  (rune-move nn) (rune-move ss) (rune-move ww) (rune-move ee)
+  (rune-move nw) (rune-move ne) (rune-move sw) (rune-move se)
+  (rune-move nnw) (rune-move nne) (rune-move ssw) (rune-move sse)
+  (rune-move nww) (rune-move nee) (rune-move sww) (rune-move see)
+  (order-odin Odin A R) (order-odin Odin R A)
+  (order-odin SleipnirO A R) (order-odin SleipnirO R A)
+  (order-loki Loki) (order-loki SleipnirL)
+)
+
 (define all-dirs
   (directions (n 0 -1) (s 0 1) (e 1 0) (w -1 0)
       (nw -1 -1) (sw -1 1) (ne 1 -1) (se 1 1)
@@ -554,6 +705,7 @@
       (nee 2 -1) (nww -2 -1) (sww -2 1) (see 2 1)
       (nn 0 -2) (ss 0 2) (ee 2 0) (ww -2 0)
       (nwnw -2 -2) (swsw -2 2) (nene 2 -2) (sese 2 2)
+      (next 0 -1)
   )
 )
 
@@ -572,6 +724,7 @@
       )
       (all-dirs)
     )
+    (dummy a0)
     (zone (name goal-zone) (players Dark)
           (positions a1)
     )
@@ -644,6 +797,7 @@
       )
       (all-dirs)
     )
+    (dummy a0)
     (zone (name goal-zone) (players Dark)
           (positions a1 b1 c1 d1 e1 f1 g1)
     )
@@ -788,6 +942,7 @@
       )
       (all-dirs)
     )
+    (dummy a0)
     (zone (name goal-zone) (players Dark)
           (positions a1 b1 c1 d1 e1 f1 g1 h1)
     )
@@ -902,7 +1057,7 @@
 
   (option "animate captures"  false)
   (option "animate drops"     false)
-  (option "pass turn"         false)
+  (option "pass turn"         forced)
   (option "pass partial"      true)
   (option "highlight goals"   false)
   (option "prevent flipping"  true)
@@ -918,13 +1073,15 @@
   (click-sound   "")
   (draw-sound    "")
 
-  (players Light Dark)
+  (players Light Dark ?R)
   (turn-order 
      (Light setup-type)
      (Dark setup-type)
      repeat
      (Light normal-type)
+     (?R Light rune-type)
      (Dark normal-type)
+     (?R Dark rune-type)
   )
 
   (board
@@ -937,6 +1094,8 @@
       )
       (all-dirs)
     )
+    (dummy a0)
+    (links next (a0 a1) (a9 b1) (b9 c1) (c9 d1) (d9 e1) (e9 f1) (f9 g1) (g9 h1) (h9 i1))
     (zone (name home-zone) (players Light)
           (positions 
               a1 b1 c1 d1 e1 f1 g1 h1 i1
@@ -956,7 +1115,206 @@
   (piece
      (name Mount)
      (help " ")
-     (image Dark "../images/Ragnarok/mountain.bmp")
+     (image Light "../images/Ragnarok/mountain.bmp"
+            Dark "../images/Ragnarok/mountain.bmp")
+  )
+  (piece
+     (name Wyrd)
+     (help "Wyrd")
+     (image Light "../images/Ragnarok/wyrd.bmp"
+            Dark "../images/Ragnarok/wyrd.bmp")
+     (moves
+        (move-type normal-type)
+        (rune-moves)
+     )
+     (drops
+        (move-type normal-type)
+        (drop-wyrd)
+        (move-type rune-type)
+        (drop-rune)
+     )
+  )
+  (piece
+     (name Ehwaz)
+     (help "Ehwaz")
+     (image Light "../images/Ragnarok/ehwazl.bmp"
+            Dark "../images/Ragnarok/ehwazd.bmp")
+     (moves
+        (move-type normal-type)
+        (rune-moves)
+     )
+     (drops
+        (move-type rune-type)
+        (drop-rune)
+     )
+  )
+  (piece
+     (name Berkana)
+     (help "Berkana")
+     (image Light "../images/Ragnarok/berkanal.bmp"
+            Dark "../images/Ragnarok/berkanad.bmp")
+     (moves
+        (move-type normal-type)
+        (rune-moves)
+     )
+     (drops
+        (move-type rune-type)
+        (drop-rune)
+     )
+  )
+  (piece
+     (name Algiz)
+     (help "Algiz")
+     (image Light "../images/Ragnarok/algizl.bmp"
+            Dark "../images/Ragnarok/algizd.bmp")
+     (moves
+        (move-type normal-type)
+        (rune-moves)
+     )
+     (drops
+        (move-type rune-type)
+        (drop-rune)
+     )
+  )
+  (piece
+     (name Fehu)
+     (help "Fehu")
+     (image Light "../images/Ragnarok/fehul.bmp"
+            Dark "../images/Ragnarok/fehud.bmp")
+     (moves
+        (move-type normal-type)
+        (rune-moves)
+     )
+     (drops
+        (move-type rune-type)
+        (drop-rune)
+     )
+  )
+  (piece
+     (name Thurisaz)
+     (help "Thurisaz")
+     (image Light "../images/Ragnarok/thurisazl.bmp"
+            Dark "../images/Ragnarok/thurisazd.bmp")
+     (moves
+        (move-type normal-type)
+        (rune-moves)
+     )
+     (drops
+        (move-type rune-type)
+        (drop-rune)
+     )
+  )
+  (piece
+     (name Ansuz)
+     (help "Ansuz")
+     (image Light "../images/Ragnarok/ansuzl.bmp"
+            Dark "../images/Ragnarok/ansuzd.bmp")
+     (moves
+        (move-type normal-type)
+        (rune-moves)
+     )
+     (drops
+        (move-type rune-type)
+        (drop-rune)
+     )
+  )
+  (piece
+     (name Nauthiz)
+     (help "Nauthiz")
+     (image Light "../images/Ragnarok/nauthiz.bmp"
+            Dark "../images/Ragnarok/nauthiz.bmp")
+     (moves
+        (move-type normal-type)
+        (rune-moves)
+     )
+     (drops
+        (move-type rune-type)
+        (drop-rune)
+     )
+  )
+  (piece
+     (name Mannaz)
+     (help "Mannaz")
+     (image Light "../images/Ragnarok/mannazl.bmp"
+            Dark "../images/Ragnarok/mannazd.bmp")
+     (moves
+        (move-type normal-type)
+        (rune-moves) (create-piece WarriorA)
+     )
+     (drops
+        (move-type rune-type)
+        (drop-rune)
+     )
+  )
+  (piece
+     (name Othila)
+     (help "Othila")
+     (image Light "../images/Ragnarok/othilal.bmp"
+            Dark "../images/Ragnarok/othilad.bmp")
+     (moves
+        (move-type normal-type)
+        (rune-moves)
+     )
+     (drops
+        (move-type rune-type)
+        (drop-rune)
+     )
+  )
+  (piece
+     (name Isa)
+     (help "Isa")
+     (image Light "../images/Ragnarok/isa.bmp"
+            Dark "../images/Ragnarok/isa.bmp")
+     (moves
+        (move-type normal-type)
+        (rune-moves)
+     )
+     (drops
+        (move-type rune-type)
+        (drop-rune)
+     )
+  )
+  (piece
+     (name Hagalaz)
+     (help "Hagalaz")
+     (image Light "../images/Ragnarok/hagalaz.bmp"
+            Dark "../images/Ragnarok/hagalaz.bmp")
+     (moves
+        (move-type normal-type)
+        (rune-moves)
+     )
+     (drops
+        (move-type rune-type)
+        (drop-rune)
+     )
+  )
+  (piece
+     (name Eihwaz)
+     (help "Eihwaz")
+     (image Light "../images/Ragnarok/eihwaz.bmp"
+            Dark "../images/Ragnarok/eihwaz.bmp")
+     (moves
+        (move-type normal-type)
+        (rune-moves) (create-piece Mount)
+     )
+     (drops
+        (move-type rune-type)
+        (drop-rune)
+     )
+  )
+  (piece
+     (name Sowelu)
+     (help "Sowelu")
+     (image Light "../images/Ragnarok/sowelu.bmp"
+            Dark "../images/Ragnarok/sowelu.bmp")
+     (moves
+        (move-type normal-type)
+        (rune-moves)
+     )
+     (drops
+        (move-type rune-type)
+        (drop-rune)
+     )
   )
   (piece
      (name OdinA)
@@ -1096,6 +1454,8 @@
         (sleipnir-swap e SleipnirLR) (sleipnir-swap see SleipnirLR) 
         (sleipnir-swap sw SleipnirLR) (sleipnir-swap ssw SleipnirLR) 
         (sleipnir-swap sww SleipnirLR) 
+        (capture-rune sse) (capture-rune nee) 
+        (capture-rune nww) (capture-rune nnw) 
      )
      (drops
         (move-type setup-type)
@@ -1116,17 +1476,9 @@
         (sleipnir-swap e SleipnirLA) (sleipnir-swap nee SleipnirLA) 
         (sleipnir-swap nw SleipnirLA) (sleipnir-swap nnw SleipnirLA) 
         (sleipnir-swap nww SleipnirLA) 
+        (capture-rune ssw) (capture-rune sww) 
+        (capture-rune see) (capture-rune nne) 
      )
-  )
-  (piece
-     (name HelA)
-     (help "Hel")
-     (image Dark "../images/Ragnarok/hla.bmp")
-  )
-  (piece
-     (name HelR)
-     (help "Hel")
-     (image Dark "../images/Ragnarok/hlr.bmp")
   )
   (piece
      (name SleipnirLA)
@@ -1140,6 +1492,8 @@
         (common-strike w SleipnirLR) (common-strike e SleipnirLR)
         (sleipnir-split ssw SleipnirR LokiA) (sleipnir-split sww SleipnirR LokiA) 
         (sleipnir-split see SleipnirR LokiA) (sleipnir-split nne SleipnirR LokiA) 
+        (capture-rune sse) (capture-rune nee) 
+        (capture-rune nww) (capture-rune nnw) 
      )
   )
   (piece
@@ -1154,7 +1508,19 @@
         (common-strike sw SleipnirLR) (common-strike se SleipnirLR)
         (sleipnir-split sse SleipnirR LokiR) (sleipnir-split nee SleipnirR LokiR) 
         (sleipnir-split nnw SleipnirR LokiR) (sleipnir-split nww SleipnirR LokiR) 
+        (capture-rune ssw) (capture-rune sww) 
+        (capture-rune see) (capture-rune nne) 
      )
+  )
+  (piece
+     (name HelA)
+     (help "Hel")
+     (image Dark "../images/Ragnarok/hla.bmp")
+  )
+  (piece
+     (name HelR)
+     (help "Hel")
+     (image Dark "../images/Ragnarok/hlr.bmp")
   )
   (piece
      (name SleipnirA)
@@ -1567,14 +1933,37 @@
         (jotunn-push e  w  Jotunn) (jotunn-push w  n  Jotunn)
      )
   )
-
   (board-setup
      (Light
        (OdinA off 1)
+       (Wyrd off 100)
+       (Ehwaz off 20)
+       (Berkana off 20)
+       (Algiz off 20)
+       (Fehu off 20)
+       (Thurisaz off 20)
+       (Ansuz off 20)
+       (Mannaz off 20)
+       (Othila off 20)
+       (Isa off 20)
+       (Nauthiz off 20)
+       (Hagalaz off 20)
+       (Eihwaz off 20)
+       (Sowelu off 20)
      )
      (Dark
        (LokiA off 1)
        (EldthursarA off 2)
+       (Wyrd off 100)
+       (Ehwaz off 20)
+       (Berkana off 20)
+       (Algiz off 20)
+       (Fehu off 20)
+       (Thurisaz off 20)
+       (Ansuz off 20)
+       (Mannaz off 20)
+       (Othila off 20)
+       (Nauthiz off 20)
      )
   )
 
