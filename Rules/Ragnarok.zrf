@@ -693,9 +693,67 @@
   (rune-move nw) (rune-move ne) (rune-move sw) (rune-move se)
   (rune-move nnw) (rune-move nne) (rune-move ssw) (rune-move sse)
   (rune-move nww) (rune-move nee) (rune-move sww) (rune-move see)
+  (rune-move nwnw) (rune-move nene) (rune-move swsw) (rune-move sese)
   (order-odin Odin A R) (order-odin Odin R A)
   (order-odin SleipnirO A R) (order-odin SleipnirO R A)
   (order-loki Loki) (order-loki SleipnirL)
+)
+
+(define exchange (
+  mark 
+  $1 (verify not-empty?)
+  to (change-type Wyrd) 
+  cascade back
+  add
+))
+
+(define exchange-all
+  (exchange n) (exchange s) (exchange w) (exchange e)
+  (exchange nn) (exchange ss) (exchange ww) (exchange ee)
+  (exchange nw) (exchange ne) (exchange sw) (exchange se)
+  (exchange nnw) (exchange nne) (exchange ssw) (exchange sse)
+  (exchange nww) (exchange nee) (exchange sww) (exchange see)
+  (exchange nwnw) (exchange nene) (exchange swsw) (exchange sese)
+)
+
+(define destroy (
+  $1 (verify not-empty?)
+  (add Wyrd)
+))
+
+(define destroy-all
+  (destroy n) (destroy s) (destroy w) (destroy e)
+  (destroy nn) (destroy ss) (destroy ww) (destroy ee)
+  (destroy nw) (destroy ne) (destroy sw) (destroy se)
+  (destroy nnw) (destroy nne) (destroy ssw) (destroy sse)
+  (destroy nww) (destroy nee) (destroy sww) (destroy see)
+  (destroy nwnw) (destroy nene) (destroy swsw) (destroy sese)
+)
+
+(define promote-piece
+  (if (or (piece? $1A) (piece? $1R))
+      (add $1)
+  )
+)
+
+(define promote (
+  (create Wyrd)
+  $1 (verify friend?)
+  (promote-piece Eldthursar)
+  (promote-piece Warrior)
+  (promote-piece Alfr)
+  (promote-piece Valkyrie)
+  (promote-piece Zwerg)
+  (promote-piece Jotunn)
+))
+
+(define promote-all
+  (promote n) (promote s) (promote w) (promote e)
+  (promote nn) (promote ss) (promote ww) (promote ee)
+  (promote nw) (promote ne) (promote sw) (promote se)
+  (promote nnw) (promote nne) (promote ssw) (promote sse)
+  (promote nww) (promote nee) (promote sww) (promote see)
+  (promote nwnw) (promote nene) (promote swsw) (promote sese)
 )
 
 (define all-dirs
@@ -1155,7 +1213,7 @@
             Dark "../images/Ragnarok/berkanad.bmp")
      (moves
         (move-type normal-type)
-        (rune-moves)
+        (rune-moves) (promote-all)
      )
      (drops
         (move-type rune-type)
@@ -1197,7 +1255,7 @@
             Dark "../images/Ragnarok/thurisazd.bmp")
      (moves
         (move-type normal-type)
-        (rune-moves)
+        (rune-moves) (exchange-all)
      )
      (drops
         (move-type rune-type)
@@ -1281,7 +1339,7 @@
             Dark "../images/Ragnarok/hagalaz.bmp")
      (moves
         (move-type normal-type)
-        (rune-moves)
+        (rune-moves) (destroy-all)
      )
      (drops
         (move-type rune-type)
