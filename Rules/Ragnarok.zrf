@@ -109,12 +109,40 @@
   (add $2)
 ))
 
-(define beast-slide (
-  (common-slide-body)
-  (capture-enemy $1)
-  (capture-enemy $3)
-  (capture-enemy $4)
+(define fenrir-slide (
+  (while (empty? $1)
+      $1
+      (check-fire)
+      (verify (or (on-board? $3) (on-board? $4)))
+      (add $2)
+  ) 
+  $1 (verify enemy?)
+  (check-fire)
+  (verify (or (on-board? $3) (on-board? $4)))
   (add $2)
+))
+
+(define back-capture
+  mark
+  (opposite $1)
+  (while (not-position-flag? is-from?)
+      (if (and enemy? (not-rune?))
+          capture
+      )
+      (opposite $1)
+  )
+  back
+)
+
+(define beast-slide (
+  (set-position-flag is-from? true)
+  (while (not-friend? $1)
+      $1
+      (check-fire)
+      (back-capture $1)
+      (verify (or (on-board? $3) (on-board? $4)))
+      (add $2)
+  ) 
 ))
 
 (define valkyrie-slide (
@@ -1612,7 +1640,7 @@
      (image Dark "../images/Ragnarok/jma.bmp")
      (moves
         (move-type normal-type)
-        (beast-slide n JormungandrR nw ne) (beast-slide s JormungandrR sw se) 
+        (beast-slide n JormungandrR s n) (beast-slide s JormungandrR n s) 
         (order-loki Loki) (order-loki SleipnirL)
      )
   )
@@ -1622,7 +1650,7 @@
      (image Dark "../images/Ragnarok/jmr.bmp")
      (moves
         (move-type normal-type)
-        (beast-slide e JormungandrA ne se) (beast-slide w JormungandrA nw sw) 
+        (beast-slide e JormungandrA w e) (beast-slide w JormungandrA e w) 
         (order-loki Loki) (order-loki SleipnirL)
      )
   )
@@ -1632,7 +1660,7 @@
      (image Dark "../images/Ragnarok/fna.bmp")
      (moves
         (move-type normal-type)
-        (beast-slide se FenrirR s e) (common-slide nw FenrirR) 
+        (beast-slide se FenrirR sw ne) (fenrir-slide nw FenrirR ne sw) 
         (order-loki Loki) (order-loki SleipnirL)
      )
   )
@@ -1642,7 +1670,7 @@
      (image Dark "../images/Ragnarok/fnr.bmp")
      (moves
         (move-type normal-type)
-        (beast-slide sw FenrirA s w) (common-slide ne FenrirA) 
+        (beast-slide sw FenrirA se nw) (fenrir-slide ne FenrirA nw se) 
         (order-loki Loki) (order-loki SleipnirL)
      )
   )
