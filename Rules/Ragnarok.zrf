@@ -1,3 +1,25 @@
+(define is-man?
+  (or  (piece? EldthursarA)
+       (piece? EldthursarR)
+       (piece? Eldthursar)
+       (piece? WarriorA)
+       (piece? WarriorR)
+       (piece? Warrior)
+       (piece? AlfrA)
+       (piece? AlfrR)
+       (piece? Alfr)
+       (piece? ValkyrieA)
+       (piece? ValkyrieR)
+       (piece? Valkyrie)
+       (piece? ZwergA)
+       (piece? ZwergR)
+       (piece? Zwerg)
+       (piece? JotunnA)
+       (piece? JotunnR)
+       (piece? Jotunn)
+  )
+)
+
 (define not-rune?
   (and (not-piece? Mount)
        (not-piece? Wyrd)
@@ -37,11 +59,11 @@
 )
 
 (define jotunn-step-body
-  (if (on-board? $2)
+  (if (and (on-board? $2) (not-rune-dir? $2))
       (verify (not-enemy? $2))
   )
   $1 (verify empty?)
-  (if (on-board? $1)
+  (if (and (on-board? $1) (not-rune-dir? $1))
       (verify (not-enemy? $1))
   )
 )
@@ -65,16 +87,20 @@
   mark
   (while (and (on-board? $2) (enemy? $2))
       $2
-      capture
-      (set-flag is-captured? true)
+      (if (not-rune?)
+          capture
+          (set-flag is-captured? true)
+      )
   )
   back
   $1 (verify empty?)
   mark
   (while (and (on-board? $1) (enemy? $1))
       $1
-      capture
-      (set-flag is-captured? true)
+      (if (not-rune?)
+          capture
+          (set-flag is-captured? true)
+      )
   )
   back
   (verify (flag? is-captured?))
@@ -109,16 +135,18 @@
   (add $2)
 ))
 
+(define switch (
+  (add $1)
+))
+
 (define fenrir-slide (
   (while (empty? $1)
       $1
       (check-fire)
-      (verify (or (on-board? $3) (on-board? $4)))
       (add $2)
   ) 
   $1 (verify enemy?)
   (check-fire)
-  (verify (or (on-board? $3) (on-board? $4)))
   (add $2)
 ))
 
@@ -140,7 +168,6 @@
       $1
       (check-fire)
       (back-capture $1)
-      (verify (or (on-board? $3) (on-board? $4)))
       (add $2)
   ) 
 ))
@@ -411,28 +438,114 @@
   (empty-step-body)
 ))
 
+(define drop-to (
+  (verify friend?)
+  (verify (piece? $1))
+  add
+))
+
 (define drop-piece (
   (verify (in-zone? home-zone))
   (verify empty?)
   add
 ))
 
-(define check-surtr
+(define check-master
   (if (on-board? $2)
-      (if (piece? $1 $2)
-          (set-flag is-surtr? true)
+      (if (and (piece? $1 $2) (friend? $2))
+          (create $3 $2)
+          (set-flag is-master? true)         
       )
   )
 )
 
+(define drop-beast (
+  (verify empty?)
+  (set-flag is-master? false)
+  (check-master LokiA see LokiR) (check-master SleipnirLA see SleipnirLR)
+  (check-master LokiA sse LokiR) (check-master SleipnirLA sse SleipnirLR)
+  (check-master LokiA sww LokiR) (check-master SleipnirLA sww SleipnirLR)
+  (check-master LokiA nnw LokiR) (check-master SleipnirLA nnw SleipnirLR)
+  (check-master LokiR ssw LokiA) (check-master SleipnirLR ssw SleipnirLA)
+  (check-master LokiR nww LokiA) (check-master SleipnirLR nww SleipnirLA)
+  (check-master LokiR nee LokiA) (check-master SleipnirLR nee SleipnirLA)
+  (check-master LokiR nne LokiA) (check-master SleipnirLR nne SleipnirLA)
+  (verify (flag? is-master?))
+  add
+))
+
+(define drop-man (
+  (verify empty?)
+  (set-flag is-master? false)
+  (check-master TyrA nee TyrR) (check-master TyrR nee TyrA)
+  (check-master TyrA see TyrR) (check-master TyrR see TyrA)
+  (check-master TyrA sww TyrR) (check-master TyrR sww TyrA)
+  (check-master TyrA nww TyrR) (check-master TyrR nww TyrA)
+  (check-master TyrA s   TyrR) (check-master TyrR s   TyrA)
+  (verify (flag? is-master?))
+  add
+))
+
 (define drop-eda (
   (verify empty?)
-  (set-flag is-surtr? false)
-  (check-surtr SurtrA nn) (check-surtr SurtrA ss)
-  (check-surtr SurtrA ww) (check-surtr SurtrA ee)
-  (check-surtr SurtrR nwnw) (check-surtr SurtrR nene)
-  (check-surtr SurtrR swsw) (check-surtr SurtrR sese)
-  (verify (flag? is-surtr?))
+  (set-flag is-master? false)
+  (check-master SurtrA nn   SurtrR) (check-master SurtrA ss   SurtrR)
+  (check-master SurtrA ww   SurtrR) (check-master SurtrA ee   SurtrR)
+  (check-master SurtrR nwnw SurtrA) (check-master SurtrR nene SurtrA)
+  (check-master SurtrR swsw SurtrA) (check-master SurtrR sese SurtrA)
+  (verify (flag? is-master?))
+  add
+))
+
+(define check-hel
+  mark a0
+  (while (on-board? next)
+     next
+     (if (piece? HelA)
+         (create HelR)
+         (set-flag hel-found? true)
+     )
+     (if (piece? HelR)
+         (create HelA)
+         (set-flag hel-found? true)
+     )
+  )
+  back
+)
+
+(define check-frozen
+  (if (on-board? $2)
+      (if (piece? $1 $2)
+          (set-flag is-frozen? true)         
+      )
+  )
+)
+
+(define drop-jotunn (
+  (verify empty?)
+  (set-flag hel-found? false)
+  (set-flag is-frozen? false)
+  (check-hel)
+  (check-frozen HelA   nn) (check-frozen HelA   n)
+  (check-frozen HelR   ne) (check-frozen HelR   nene)
+  (check-frozen HelR   nw) (check-frozen HelR   nwnw)
+  (check-frozen GarmrA n)  (check-frozen GarmrA s)
+  (check-frozen GarmrA w)  (check-frozen GarmrA e)
+  (check-frozen GarmrR nw) (check-frozen GarmrR ne)
+  (check-frozen GarmrR sw) (check-frozen GarmrR se)
+  (check-frozen Isa    n)  (check-frozen Isa    nwnw)
+  (check-frozen Isa    s)  (check-frozen Isa    swsw)
+  (check-frozen Isa    w)  (check-frozen Isa    nene)
+  (check-frozen Isa    e)  (check-frozen Isa    sese)
+  (check-frozen Isa    nn) (check-frozen Isa    nnw)
+  (check-frozen Isa    ss) (check-frozen Isa    ssw)
+  (check-frozen Isa    ww) (check-frozen Isa    nne)
+  (check-frozen Isa    ee) (check-frozen Isa    sse)
+  (check-frozen Isa    nw) (check-frozen Isa    nww)
+  (check-frozen Isa    sw) (check-frozen Isa    sww)
+  (check-frozen Isa    ne) (check-frozen Isa    nee)
+  (check-frozen Isa    se) (check-frozen Isa    see)
+  (verify (and (flag? hel-found?) (flag? is-frozen?)))
   add
 ))
 
@@ -613,18 +726,6 @@
   (surtr-order ww Surtr A R nn) (surtr-order ww Surtr A R ss) (surtr-order ww Surtr A R ww)
 )
 
-(define check-odin
-  (if (and (on-board? $1) (friend? $1))
-      (if (or (piece? OdinA $1)
-              (piece? OdinR $1)
-              (piece? SleipnirOA $1)
-              (piece? SleipnirOR $1)
-          )
-          (set-flag odin-found? true)
-      )
-  )
-)
-
 (define create-piece (
   (add $1)
 ))
@@ -673,6 +774,7 @@
 (define find-rune
   mark a0
   (while (on-board? next)
+     next
      (if (and friend?
               (or (piece? Wyrd)
                   (piece? Ehwaz)
@@ -692,7 +794,6 @@
          )
          (set-flag rune-found? true)
      )
-     next
   )
   back
 )
@@ -702,11 +803,22 @@
   (set-flag rune-found? false)
   (find-rune)
   (verify (not-flag? rune-found?))
-  (set-flag odin-found? false)
-  (check-odin nn) (check-odin ss)
-  (check-odin ee) (check-odin ww)
-  (check-odin nene) (check-odin nwnw) (check-odin swsw)
-  (verify (flag? odin-found?))
+  (set-flag is-master? false)
+  (check-master OdinA nn   OdinR) (check-master SleipnirOA nn   SleipnirOR) 
+  (check-master OdinR nn   OdinA) (check-master SleipnirOR nn   SleipnirOA) 
+  (check-master OdinA ss   OdinR) (check-master SleipnirOA ss   SleipnirOR) 
+  (check-master OdinR ss   OdinA) (check-master SleipnirOR ss   SleipnirOA) 
+  (check-master OdinA ee   OdinR) (check-master SleipnirOA ee   SleipnirOR) 
+  (check-master OdinR ee   OdinA) (check-master SleipnirOR ee   SleipnirOA) 
+  (check-master OdinA ww   OdinR) (check-master SleipnirOA ww   SleipnirOR) 
+  (check-master OdinR ww   OdinA) (check-master SleipnirOR ww   SleipnirOA) 
+  (check-master OdinA nene OdinR) (check-master SleipnirOA nene SleipnirOR) 
+  (check-master OdinR nene OdinA) (check-master SleipnirOR nene SleipnirOA) 
+  (check-master OdinA nwnw OdinR) (check-master SleipnirOA nwnw SleipnirOR) 
+  (check-master OdinR nwnw OdinA) (check-master SleipnirOR nwnw SleipnirOA) 
+  (check-master OdinA swsw OdinR) (check-master SleipnirOA swsw SleipnirOR) 
+  (check-master OdinR swsw OdinA) (check-master SleipnirOR swsw SleipnirOA) 
+  (verify (flag? is-master?))
   add
 ))
 
@@ -725,6 +837,36 @@
   (order-odin Odin A R) (order-odin Odin R A)
   (order-odin SleipnirO A R) (order-odin SleipnirO R A)
   (order-loki Loki) (order-loki SleipnirL)
+)
+
+(define change-friend (
+  $1 (verify friend?)
+  (verify (is-man?))
+  (add Man)
+))
+
+(define change-friends
+  (change-friend n) (change-friend s) (change-friend w) (change-friend e)
+  (change-friend nn) (change-friend ss) (change-friend ww) (change-friend ee)
+  (change-friend nw) (change-friend ne) (change-friend sw) (change-friend se)
+  (change-friend nnw) (change-friend nne) (change-friend ssw) (change-friend sse)
+  (change-friend nww) (change-friend nee) (change-friend sww) (change-friend see)
+  (change-friend nwnw) (change-friend nene) (change-friend swsw) (change-friend sese)
+)
+
+(define change-enemy (
+  $1 (verify enemy?)
+  (verify (is-man?))
+  (add Man)
+))
+
+(define change-enemies
+  (change-enemy n) (change-enemy s) (change-enemy w) (change-enemy e)
+  (change-enemy nn) (change-enemy ss) (change-enemy ww) (change-enemy ee)
+  (change-enemy nw) (change-enemy ne) (change-enemy sw) (change-enemy se)
+  (change-enemy nnw) (change-enemy nne) (change-enemy ssw) (change-enemy sse)
+  (change-enemy nww) (change-enemy nee) (change-enemy sww) (change-enemy see)
+  (change-enemy nwnw) (change-enemy nene) (change-enemy swsw) (change-enemy sese)
 )
 
 (define exchange (
@@ -1227,7 +1369,7 @@
             Dark "../images/Ragnarok/ehwazd.bmp")
      (moves
         (move-type normal-type)
-        (rune-moves)
+        (rune-moves) (change-friends)
      )
      (drops
         (move-type rune-type)
@@ -1269,7 +1411,7 @@
             Dark "../images/Ragnarok/fehud.bmp")
      (moves
         (move-type normal-type)
-        (rune-moves)
+        (rune-moves) (create-piece Man)
      )
      (drops
         (move-type rune-type)
@@ -1339,7 +1481,7 @@
             Dark "../images/Ragnarok/othilad.bmp")
      (moves
         (move-type normal-type)
-        (rune-moves)
+        (rune-moves) (change-enemies)
      )
      (drops
         (move-type rune-type)
@@ -1609,6 +1751,16 @@
      (image Dark "../images/Ragnarok/hlr.bmp")
   )
   (piece
+     (name GarmrA)
+     (help "Garmr")
+     (image Dark "../images/Ragnarok/gra.bmp")
+  )
+  (piece
+     (name GarmrR)
+     (help "Garmr")
+     (image Dark "../images/Ragnarok/grr.bmp")
+  )
+  (piece
      (name SleipnirA)
      (help "Sleipnir")
      (image Dark "../images/Ragnarok/spa.bmp"
@@ -1619,6 +1771,10 @@
         (common-slide nw SleipnirR) (common-slide ne SleipnirR)
         (order-odin Odin A R) (order-odin Odin R A)
         (order-loki Loki)
+     )
+     (drops
+        (move-type rune-type)
+        (drop-to Beast)
      )
   )
   (piece
@@ -1640,8 +1796,12 @@
      (image Dark "../images/Ragnarok/jma.bmp")
      (moves
         (move-type normal-type)
-        (beast-slide n JormungandrR s n) (beast-slide s JormungandrR n s) 
+        (beast-slide n JormungandrR) (beast-slide s JormungandrR) 
         (order-loki Loki) (order-loki SleipnirL)
+     )
+     (drops
+        (move-type rune-type)
+        (drop-to Beast)
      )
   )
   (piece
@@ -1650,7 +1810,7 @@
      (image Dark "../images/Ragnarok/jmr.bmp")
      (moves
         (move-type normal-type)
-        (beast-slide e JormungandrA w e) (beast-slide w JormungandrA e w) 
+        (beast-slide e JormungandrA) (beast-slide w JormungandrA) 
         (order-loki Loki) (order-loki SleipnirL)
      )
   )
@@ -1660,8 +1820,13 @@
      (image Dark "../images/Ragnarok/fna.bmp")
      (moves
         (move-type normal-type)
-        (beast-slide se FenrirR sw ne) (fenrir-slide nw FenrirR ne sw) 
+        (beast-slide se FenrirR) (fenrir-slide nw FenrirR) 
         (order-loki Loki) (order-loki SleipnirL)
+        (switch FenrirR)
+     )
+     (drops
+        (move-type rune-type)
+        (drop-to Beast)
      )
   )
   (piece
@@ -1670,8 +1835,9 @@
      (image Dark "../images/Ragnarok/fnr.bmp")
      (moves
         (move-type normal-type)
-        (beast-slide sw FenrirA se nw) (fenrir-slide ne FenrirA nw se) 
+        (beast-slide sw FenrirA) (fenrir-slide ne FenrirA) 
         (order-loki Loki) (order-loki SleipnirL)
+        (switch FenrirA)
      )
   )
   (piece
@@ -1762,6 +1928,10 @@
         (warrior-jump n WarriorR first-type) (warrior-jump w WarriorR first-type)
         (warrior-jump s WarriorR first-type) (warrior-jump e WarriorR first-type)
      )
+     (drops
+        (move-type rune-type)
+        (drop-to Man)
+     )
   )
   (piece
      (name WarriorR)
@@ -1827,6 +1997,10 @@
         (order-odin SleipnirO A R) (order-odin SleipnirO R A)
         (order-tyr A R) (order-tyr R A)
      )
+     (drops
+        (move-type rune-type)
+        (drop-to Man)
+     )
   )
   (piece
      (name AlfrR)
@@ -1885,6 +2059,10 @@
         (valkyrie-jump nw ValkyrieR) (valkyrie-jump ne ValkyrieR)
         (valkyrie-jump sw ValkyrieR) (valkyrie-jump se ValkyrieR)
      )
+     (drops
+        (move-type rune-type)
+        (drop-to Man)
+     )
   )
   (piece
      (name ValkyrieR)
@@ -1939,6 +2117,10 @@
         (common-strike swsw ZwergR) (common-strike sese ZwergR)
         (order-loki Loki) (order-loki SleipnirL) (order-hel)
      )
+     (drops
+        (move-type rune-type)
+        (drop-to Man)
+     )
   )
   (piece
      (name ZwergR)
@@ -1980,6 +2162,10 @@
         (jotunn-push nw se JotunnR) (jotunn-push sw ne JotunnR)
         (jotunn-push ne sw JotunnR) (jotunn-push se nw JotunnR)
      )
+     (drops
+        (move-type normal-type)
+        (drop-jotunn)
+     )
   )
   (piece
      (name JotunnR)
@@ -2019,9 +2205,35 @@
         (jotunn-push e  w  Jotunn) (jotunn-push w  n  Jotunn)
      )
   )
+  (piece
+     (name Man)
+     (help " ")
+     (image Light "../images/Ragnarok/i.bmp"
+            Dark "../images/Ragnarok/i.bmp")
+     (drops
+        (move-type normal-type)
+        (drop-man)
+     )
+  )
+  (piece
+     (name Beast)
+     (help " ")
+     (image Dark "../images/Ragnarok/i.bmp")
+     (drops
+        (move-type normal-type)
+        (drop-beast)
+     )
+  )
+
   (board-setup
      (Light
        (OdinA off 1)
+       (ThorA off 1)
+       (TyrA off 1)
+       (WarriorA off 4)
+       (AlfrA off 10)
+       (ValkyrieA off 2)
+       (Man off 10)
        (Wyrd off 100)
        (Ehwaz off 20)
        (Berkana off 20)
@@ -2039,6 +2251,16 @@
      )
      (Dark
        (LokiA off 1)
+       (SurtrA off 1)
+       (HelA off 1)
+       (GarmrA off 1)
+       (SleipnirA off 1)
+       (JormungandrA off 1)
+       (FenrirA off 1)
+       (EldthursarA off 2)
+       (ZwergA off 5)
+       (JotunnA off 2)
+       (Beast off 3)
        (EldthursarA off 2)
        (Wyrd off 100)
        (Ehwaz off 20)
