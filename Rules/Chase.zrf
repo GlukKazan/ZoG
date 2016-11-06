@@ -481,7 +481,7 @@ or fewer dice, he can never have a speed count of 25, and so loses the game.")
    (turn-order Red White)
 
    (board
-      (image "../Images/Chase/board.bmp")
+      (image "../images/Chase/board.bmp")
       (positions  
              (I1 48  33  108 83)
              (I2 108 33  168 83)
@@ -653,8 +653,8 @@ or fewer dice, he can never have a speed count of 25, and so loses the game.")
 
    (piece
       (name p1)
-      (image Red   "../Images/Chase/d1r.bmp"
-             White "../Images/Chase/d1w.bmp")
+      (image Red   "../images/Chase/d1r.bmp"
+             White "../images/Chase/d1w.bmp")
       (moves
          (slide-1 w w) (slide-1 nw sw) (slide-1 sw nw)
          (slide-1 e e) (slide-1 ne se) (slide-1 se ne)
@@ -668,8 +668,8 @@ or fewer dice, he can never have a speed count of 25, and so loses the game.")
    )
    (piece
       (name p2)
-      (image Red   "../Images/Chase/d2r.bmp"
-             White "../Images/Chase/d2w.bmp")
+      (image Red   "../images/Chase/d2r.bmp"
+             White "../images/Chase/d2w.bmp")
       (moves
          (slide-2 w w) (slide-2 nw sw) (slide-2 sw nw)
          (slide-2 e e) (slide-2 ne se) (slide-2 se ne)
@@ -685,8 +685,8 @@ or fewer dice, he can never have a speed count of 25, and so loses the game.")
    )
    (piece
       (name p3)
-      (image Red   "../Images/Chase/d3r.bmp"
-             White "../Images/Chase/d3w.bmp")
+      (image Red   "../images/Chase/d3r.bmp"
+             White "../images/Chase/d3w.bmp")
       (moves
          (slide-3 w w) (slide-3 nw sw) (slide-3 sw nw)
          (slide-3 e e) (slide-3 ne se) (slide-3 se ne)
@@ -704,8 +704,8 @@ or fewer dice, he can never have a speed count of 25, and so loses the game.")
    )
    (piece
       (name p4)
-      (image Red   "../Images/Chase/d4r.bmp"
-             White "../Images/Chase/d4w.bmp")
+      (image Red   "../images/Chase/d4r.bmp"
+             White "../images/Chase/d4w.bmp")
       (moves
          (slide-4 w w) (slide-4 nw sw) (slide-4 sw nw)
          (slide-4 e e) (slide-4 ne se) (slide-4 se ne)
@@ -725,8 +725,8 @@ or fewer dice, he can never have a speed count of 25, and so loses the game.")
    )
    (piece
       (name p5)
-      (image Red   "../Images/Chase/d5r.bmp"
-             White "../Images/Chase/d5w.bmp")
+      (image Red   "../images/Chase/d5r.bmp"
+             White "../images/Chase/d5w.bmp")
       (moves
          (slide-5 w w) (slide-5 nw sw) (slide-5 sw nw)
          (slide-5 e e) (slide-5 ne se) (slide-5 se ne)
@@ -748,8 +748,8 @@ or fewer dice, he can never have a speed count of 25, and so loses the game.")
    )
    (piece
       (name p6)
-      (image Red   "../Images/Chase/d6r.bmp"
-             White "../Images/Chase/d6w.bmp")
+      (image Red   "../images/Chase/d6r.bmp"
+             White "../images/Chase/d6w.bmp")
       (moves
          (slide-6 w w) (slide-6 nw sw) (slide-6 sw nw)
          (slide-6 e e) (slide-6 ne se) (slide-6 se ne)
@@ -791,4 +791,42 @@ or fewer dice, he can never have a speed count of 25, and so loses the game.")
    
    (loss-condition (Red White) (pieces-remaining 4) )
    (loss-condition (Red White) (pieces-remaining 3) )
+)
+
+(variant
+   (title "-")
+)
+
+(variant
+   (title "Problem 1")
+   (board-setup
+      (White 
+         (p4 G2 F7 B1)
+         (p5 F4 F9)
+         (p3 C9)
+      )
+      (Red   
+         (p6 I3 I7 G4 G6)
+         (p1 E4)
+      )
+   )
+)
+
+(variant
+   (title "Problem 2")
+   (solution "Problem 2.zsg")
+   (board-setup
+      (White 
+         (p1 H3 E6)
+         (p2 B2 G2 C4 H6 H8)
+         (p3 G6)
+         (p4 G8)
+         (p6 G4)
+      )
+      (Red   
+         (p2 F7)
+         (p5 F5)
+         (p6 B1 G3 C6)
+      )
+   )
 )
