@@ -127,11 +127,17 @@
       (add $2)
   ) 
   $1 (verify enemy?)
+  (verify (not-rune?))
   (check-fire)
 )
 
 (define common-slide (
   (common-slide-body)
+  (add $2)
+))
+
+(define garmr-slide (
+  $1 (common-slide-body)
   (add $2)
 ))
 
@@ -173,6 +179,7 @@
 ))
 
 (define valkyrie-slide (
+  (verify-not-frozen)
   (while (empty? $1)
       $1
       (check-fire)
@@ -181,6 +188,7 @@
 ))
 
 (define valkyrie-jump (
+  (verify-not-frozen)
   (while (empty? $1)
       $1
   )
@@ -244,8 +252,14 @@
   (set-flag is-warrior? (or (piece? WarriorA) (piece? WarriorR) (piece? Warrior)))
 )
 
+(define verify-not-frozen
+  (set-flag is-frozen? false)
+  (check-frozen-all)
+  (verify (not-flag? is-frozen?))
+)
+
 (define common-step-body
-  (init-flags) $1 
+  $1 
   (verify (or not-friend? 
               (piece? SleipnirA) (piece? SleipnirR)
           )
@@ -270,11 +284,61 @@
 )
 
 (define common-step (
+  (init-flags)
   (common-step-body)
   (add $2)
 ))
 
+(define common-step-frozen (
+  (verify-not-frozen)
+  (init-flags)
+  (common-step-body)
+  (add $2)
+))
+
+(define hel-step (
+  (init-flags)
+  $3 (verify empty?)
+  (common-step-body)
+  (add $2)
+))
+
+(define hel-swap
+  (if (piece? $1)
+      (add $2)
+  )
+)
+
+(define create-hel
+  mark a0
+  (while (on-board? next)
+     next
+     (if (piece? HelA) (create HelR))
+     (if (piece? HelR) (create HelA))
+  )
+  back
+)
+
+(define hel-strike (
+  a0
+  (while (on-board? next)
+     next
+     (set-flag is-frozen? false)
+     (check-frozen-all)
+     (if (and (flag? is-frozen?) enemy?)
+         (create-hel)
+         (hel-swap AlfrA ZwergA)
+         (hel-swap AlfrR ZwergR)
+         (hel-swap Alfr Zwerg)
+         (hel-swap WarriorA WarriorA)
+         (hel-swap WarriorR WarriorR)
+         (hel-swap Warrior Warrior)
+     )
+  )
+))
+
 (define zwerg-step (
+  (init-flags)
   (common-step-body)
   (if (and (on-board? $1) (enemy? $1))
       (capture $1)
@@ -283,12 +347,14 @@
 ))
 
 (define sleipnir-split (
+  (init-flags)
   (create $2)
   (common-step-body)
   (add $3)
 ))
 
 (define sleipnir-join (
+  (init-flags)
   (verify (and (not-piece? SleipnirOA $1) (not-piece? SleipnirOR $1) (not-piece? SleipnirLA $1) (not-piece? SleipnirLR $1)))
   (common-step-body)
   (if (or (piece? SleipnirA) (piece? SleipnirR))
@@ -299,6 +365,7 @@
 ))
 
 (define sleipnir-swap (
+  (init-flags)
   (verify (or (piece? SleipnirOA $1) (piece? SleipnirOR $1) (piece? SleipnirLA $1) (piece? SleipnirLR $1)))
   (if (piece? SleipnirOA $1)
       (create Light OdinA)
@@ -337,7 +404,14 @@
   (empty-step-body)
 ))
 
-(define warrior-step (
+(define empty-step-frozen (
+  (verify-not-frozen)
+  (empty-step-body)
+))
+
+(define warrior-step-frozen (
+  (verify-not-frozen)
+  (init-flags)
   (common-step-body)
   (verify enemy?)
   (add-partial $2 $3)
@@ -351,7 +425,8 @@
   )
 )
 
-(define warrior-jump (
+(define warrior-jump-frozen (
+  (verify-not-frozen)
   (set-flag is-a? (or (piece? WarriorA) (piece? Warrior)))
   (set-flag is-r? (or (piece? WarriorR) (piece? Warrior)))
   $1 (verify empty?)
@@ -370,7 +445,7 @@
   (add-partial $2 $3)
 ))
 
-(define common-strike (
+(define common-strike-body
   (create $2)
   $1 (verify enemy?)
   (verify (not-rune?))
@@ -395,6 +470,15 @@
       capture 
   )
   add
+)
+
+(define common-strike (
+  (common-strike-body)
+))
+
+(define common-strike-frozen (
+  (verify-not-frozen)
+  (common-strike-body)
 ))
 
 (define thor-strike (
@@ -428,6 +512,7 @@
 ))
 
 (define bifrost-common-step (
+  (init-flags)
   (create Mount)
   (common-step-body)
   (add $2)
@@ -521,11 +606,16 @@
   )
 )
 
-(define drop-jotunn (
+(define drop-garmr (
   (verify empty?)
-  (set-flag hel-found? false)
-  (set-flag is-frozen? false)
-  (check-hel)
+  (set-flag is-master? false)
+  (check-master HelA w HelR) (check-master HelA e HelR)
+  (check-master HelR n HelA) (check-master HelR s HelA)
+  (verify (flag? is-master?))
+  add
+))
+
+(define check-frozen-hel
   (check-frozen HelA   nn) (check-frozen HelA   n)
   (check-frozen HelR   ne) (check-frozen HelR   nene)
   (check-frozen HelR   nw) (check-frozen HelR   nwnw)
@@ -533,6 +623,9 @@
   (check-frozen GarmrA w)  (check-frozen GarmrA e)
   (check-frozen GarmrR nw) (check-frozen GarmrR ne)
   (check-frozen GarmrR sw) (check-frozen GarmrR se)
+)
+
+(define check-frozen-isa
   (check-frozen Isa    n)  (check-frozen Isa    nwnw)
   (check-frozen Isa    s)  (check-frozen Isa    swsw)
   (check-frozen Isa    w)  (check-frozen Isa    nene)
@@ -545,6 +638,19 @@
   (check-frozen Isa    sw) (check-frozen Isa    sww)
   (check-frozen Isa    ne) (check-frozen Isa    nee)
   (check-frozen Isa    se) (check-frozen Isa    see)
+)
+
+(define check-frozen-all
+  (check-frozen-hel)
+  (check-frozen-isa)
+)
+
+(define drop-jotunn (
+  (verify empty?)
+  (set-flag hel-found? false)
+  (set-flag is-frozen? false)
+  (check-hel)
+  (check-frozen-all)
   (verify (and (flag? hel-found?) (flag? is-frozen?)))
   add
 ))
@@ -943,7 +1049,7 @@
      (Dark normal-type)
   )
   (board
-    (image "../images/Ragnarok/helheim.bmp")
+    (image "../images/Ragnarok/jotunheimr.bmp")
     (grid
       (start-rectangle 2 2 82 82)
       (dimensions
@@ -1001,6 +1107,81 @@
      )
      (Dark
        (Jotunn a7 a5 b3 c8 c6 c2 d4 e7 e1 f6 f3 g8 g5 g1 h7 h3)
+     )
+  )
+)
+
+(variant
+  (title "-")
+)
+
+(define helheim-common
+  (option "include off-pieces" false)
+  (turn-order 
+     (Dark normal-type)
+     (Light normal-type)
+  )
+  (board
+    (image "../images/Ragnarok/helheim.bmp")
+    (grid
+      (start-rectangle 2 2 82 82)
+      (dimensions
+        ("a/b/c/d/e/f/g/h/i" (80 0)) ; files
+        ("9/8/7/6/5/4/3/2/1" (0 80)) ; ranks
+      )
+      (all-dirs)
+    )
+    (dummy a0)
+    (links next (a0 a1) (a9 b1) (b9 c1) (c9 d1) (d9 e1) (e9 f1) (f9 g1) (g9 h1) (h9 i1))
+    (zone (name goal-zone) (players Dark)
+          (positions a1)
+    )
+    (zone (name home-zone) (players Light Dark)
+          (positions a1)
+    )
+  )
+  (loss-condition (Dark) (pieces-remaining 0) )
+  (loss-condition (Light) (pieces-remaining 0) )
+)
+
+(variant
+  (title "Helheim (easy)")
+  (helheim-common)
+  (board-setup
+     (Light
+       (WarriorA a1 e1 i1)
+     )
+     (Dark
+       (HelA e8)
+       (GarmrA off 1)
+     )
+  )
+)
+
+(variant
+  (title "Helheim (normal)")
+  (helheim-common)
+  (board-setup
+     (Light
+       (WarriorA a1 c1 e1 g1 i1)
+     )
+     (Dark
+       (HelA e8)
+       (GarmrA off 1)
+     )
+  )
+)
+
+(variant
+  (title "Helheim (hard)")
+  (helheim-common)
+  (board-setup
+     (Light
+       (WarriorA a1 b1 c1 d1 e1 f1 g1 h1 i1)
+     )
+     (Dark
+       (HelA e8)
+       (GarmrA off 1)
      )
   )
 )
@@ -1744,21 +1925,56 @@
      (name HelA)
      (help "Hel")
      (image Dark "../images/Ragnarok/hla.bmp")
+     (moves
+        (move-type normal-type)
+        (common-step n HelR) (common-step w HelR) (common-step e HelR)
+        (common-step sw HelR) (common-step se HelR)
+        (hel-step n HelR n) (hel-step sw HelR sw) (hel-step se HelR se)
+        (hel-strike)
+        (order-loki Loki) (order-loki SleipnirL)
+     )
   )
   (piece
      (name HelR)
      (help "Hel")
      (image Dark "../images/Ragnarok/hlr.bmp")
+     (moves
+        (move-type normal-type)
+        (common-step n HelA) (common-step s HelA) (common-step w HelA) (common-step e HelA)
+        (hel-step nw HelA w) (hel-step sw HelA w) (hel-step ne HelA e) (hel-step se HelA e)
+        (hel-strike)
+        (order-loki Loki) (order-loki SleipnirL)
+     )
   )
   (piece
      (name GarmrA)
      (help "Garmr")
      (image Dark "../images/Ragnarok/gra.bmp")
+     (moves
+        (move-type normal-type)
+        (common-step nw GarmrR) (common-step ne GarmrR)
+        (common-step sw GarmrR) (common-step se GarmrR)
+        (garmr-slide nw GarmrR) (garmr-slide ne GarmrR)
+        (garmr-slide sw GarmrR) (garmr-slide se GarmrR)
+        (order-loki Loki) (order-loki SleipnirL) (order-hel)
+     )
+     (drops
+        (move-type normal-type)
+        (drop-garmr)
+     )
   )
   (piece
      (name GarmrR)
      (help "Garmr")
      (image Dark "../images/Ragnarok/grr.bmp")
+     (moves
+        (move-type normal-type)
+        (common-step n GarmrA) (common-step e GarmrA)
+        (common-step s GarmrA) (common-step w GarmrA)
+        (garmr-slide n GarmrA) (garmr-slide e GarmrA)
+        (garmr-slide s GarmrA) (garmr-slide w GarmrA)
+        (order-loki Loki) (order-loki SleipnirL) (order-hel)
+     )
   )
   (piece
      (name SleipnirA)
@@ -1868,11 +2084,11 @@
      (image Dark "../images/Ragnarok/eda.bmp")
      (moves
         (move-type normal-type)
-        (common-step nw EldthursarR) (common-step ne EldthursarR)
-        (common-step se EldthursarR) (common-step sw EldthursarR)
-        (empty-step nwnw EldthursarR) (empty-step nene EldthursarR)
-        (empty-step swsw EldthursarR) (empty-step sese EldthursarR)
-        (empty-step nn EldthursarR) (empty-step ss EldthursarR)
+        (common-step-frozen nw EldthursarR) (common-step-frozen ne EldthursarR)
+        (common-step-frozen se EldthursarR) (common-step-frozen sw EldthursarR)
+        (empty-step-frozen nwnw EldthursarR) (empty-step-frozen nene EldthursarR)
+        (empty-step-frozen swsw EldthursarR) (empty-step-frozen sese EldthursarR)
+        (empty-step-frozen nn EldthursarR) (empty-step-frozen ss EldthursarR)
         (order-eda) (order-loki Loki) (order-loki SleipnirL)
      )
      (drops
@@ -1886,11 +2102,11 @@
      (image Dark "../images/Ragnarok/edr.bmp")
      (moves
         (move-type normal-type)
-        (common-step n EldthursarA) (common-step e EldthursarA)
-        (common-step s EldthursarA) (common-step w EldthursarA)
-        (empty-step nnw EldthursarA) (empty-step nne EldthursarA)
-        (empty-step ssw EldthursarA) (empty-step sse EldthursarA)
-        (empty-step ww EldthursarA) (empty-step ee EldthursarA)
+        (common-step-frozen n EldthursarA) (common-step-frozen e EldthursarA)
+        (common-step-frozen s EldthursarA) (common-step-frozen w EldthursarA)
+        (empty-step-frozen nnw EldthursarA) (empty-step-frozen nne EldthursarA)
+        (empty-step-frozen ssw EldthursarA) (empty-step-frozen sse EldthursarA)
+        (empty-step-frozen ww EldthursarA) (empty-step-frozen ee EldthursarA)
         (order-edr) (order-loki Loki) (order-loki SleipnirL)
      )
   )
@@ -1900,12 +2116,12 @@
      (image Dark "../images/Ragnarok/ed.bmp")
      (moves
         (move-type normal-type)
-        (empty-step nwnw Eldthursar) (empty-step nene Eldthursar)
-        (empty-step swsw Eldthursar) (empty-step sese Eldthursar)
-        (empty-step nn Eldthursar) (empty-step ss Eldthursar)
-        (empty-step nnw Eldthursar) (empty-step nne Eldthursar)
-        (empty-step ssw Eldthursar) (empty-step sse Eldthursar)
-        (empty-step ww Eldthursar) (empty-step ee Eldthursar)
+        (empty-step-frozen nwnw Eldthursar) (empty-step-frozen nene Eldthursar)
+        (empty-step-frozen swsw Eldthursar) (empty-step-frozen sese Eldthursar)
+        (empty-step-frozen nn Eldthursar) (empty-step-frozen ss Eldthursar)
+        (empty-step-frozen nnw Eldthursar) (empty-step-frozen nne Eldthursar)
+        (empty-step-frozen ssw Eldthursar) (empty-step-frozen sse Eldthursar)
+        (empty-step-frozen ww Eldthursar) (empty-step-frozen ee Eldthursar)
         (order-surtr) (order-loki Loki) (order-loki SleipnirL)
      )
   )
@@ -1916,17 +2132,17 @@
             Light "../images/Ragnarok/wla.bmp")
      (moves
         (move-type normal-type)
-        (common-step nw WarriorR) (common-step sw WarriorR)
-        (common-step ne WarriorR) (common-step se WarriorR)
-        (warrior-jump n WarriorR first-type) (warrior-jump w WarriorR first-type)
-        (warrior-jump s WarriorR first-type) (warrior-jump e WarriorR first-type)
+        (common-step-frozen nw WarriorR) (common-step-frozen sw WarriorR)
+        (common-step-frozen ne WarriorR) (common-step-frozen se WarriorR)
+        (warrior-jump-frozen n WarriorR first-type) (warrior-jump-frozen w WarriorR first-type)
+        (warrior-jump-frozen s WarriorR first-type) (warrior-jump-frozen e WarriorR first-type)
         (order-loki Loki) (order-loki SleipnirL) (order-hel)
         (move-type first-type)
-        (warrior-step nw WarriorR second-type) (warrior-step sw WarriorR second-type)
-        (warrior-step ne WarriorR second-type) (warrior-step se WarriorR second-type)
+        (warrior-step-frozen nw WarriorR second-type) (warrior-step-frozen sw WarriorR second-type)
+        (warrior-step-frozen ne WarriorR second-type) (warrior-step-frozen se WarriorR second-type)
         (move-type second-type)
-        (warrior-jump n WarriorR first-type) (warrior-jump w WarriorR first-type)
-        (warrior-jump s WarriorR first-type) (warrior-jump e WarriorR first-type)
+        (warrior-jump-frozen n WarriorR first-type) (warrior-jump-frozen w WarriorR first-type)
+        (warrior-jump-frozen s WarriorR first-type) (warrior-jump-frozen e WarriorR first-type)
      )
      (drops
         (move-type rune-type)
@@ -1940,17 +2156,17 @@
             Light "../images/Ragnarok/wlr.bmp")
      (moves
         (move-type normal-type)
-        (common-step n WarriorA) (common-step w WarriorA)
-        (common-step e WarriorA) (common-step s WarriorA)
-        (warrior-jump nw WarriorA first-type) (warrior-jump ne WarriorA first-type)
-        (warrior-jump sw WarriorA first-type) (warrior-jump se WarriorA first-type)
+        (common-step-frozen n WarriorA) (common-step-frozen w WarriorA)
+        (common-step-frozen e WarriorA) (common-step-frozen s WarriorA)
+        (warrior-jump-frozen nw WarriorA first-type) (warrior-jump-frozen ne WarriorA first-type)
+        (warrior-jump-frozen sw WarriorA first-type) (warrior-jump-frozen se WarriorA first-type)
         (order-loki Loki) (order-loki SleipnirL) (order-hel)
         (move-type first-type)
-        (warrior-step n WarriorA second-type) (warrior-step w WarriorA second-type)
-        (warrior-step e WarriorA second-type) (warrior-step s WarriorA second-type)
+        (warrior-step-frozen n WarriorA second-type) (warrior-step-frozen w WarriorA second-type)
+        (warrior-step-frozen e WarriorA second-type) (warrior-step-frozen s WarriorA second-type)
         (move-type second-type)
-        (warrior-jump nw WarriorA first-type) (warrior-jump ne WarriorA first-type)
-        (warrior-jump sw WarriorA first-type) (warrior-jump se WarriorA first-type)
+        (warrior-jump-frozen nw WarriorA first-type) (warrior-jump-frozen ne WarriorA first-type)
+        (warrior-jump-frozen sw WarriorA first-type) (warrior-jump-frozen se WarriorA first-type)
      )
   )
   (piece
@@ -1960,25 +2176,25 @@
             Light "../images/Ragnarok/wl.bmp")
      (moves
         (move-type normal-type)
-        (common-step nw Warrior) (common-step sw Warrior)
-        (common-step ne Warrior) (common-step se Warrior)
-        (common-step n Warrior) (common-step w Warrior)
-        (common-step e Warrior) (common-step s Warrior)
-        (warrior-jump nw Warrior first-type) (warrior-jump ne Warrior first-type)
-        (warrior-jump sw Warrior first-type) (warrior-jump se Warrior first-type)
-        (warrior-jump n Warrior first-type) (warrior-jump w Warrior first-type)
-        (warrior-jump s Warrior first-type) (warrior-jump e Warrior first-type)
+        (common-step-frozen nw Warrior) (common-step-frozen sw Warrior)
+        (common-step-frozen ne Warrior) (common-step-frozen se Warrior)
+        (common-step-frozen n Warrior) (common-step-frozen w Warrior)
+        (common-step-frozen e Warrior) (common-step-frozen s Warrior)
+        (warrior-jump-frozen nw Warrior first-type) (warrior-jump-frozen ne Warrior first-type)
+        (warrior-jump-frozen sw Warrior first-type) (warrior-jump-frozen se Warrior first-type)
+        (warrior-jump-frozen n Warrior first-type) (warrior-jump-frozen w Warrior first-type)
+        (warrior-jump-frozen s Warrior first-type) (warrior-jump-frozen e Warrior first-type)
         (order-loki Loki) (order-loki SleipnirL) (order-hel)
         (move-type first-type)
-        (warrior-step nw Warrior second-type) (warrior-step sw Warrior second-type)
-        (warrior-step ne Warrior second-type) (warrior-step se Warrior second-type)
-        (warrior-step n Warrior second-type) (warrior-step w Warrior second-type)
-        (warrior-step e Warrior second-type) (warrior-step s Warrior second-type)
+        (warrior-step-frozen nw Warrior second-type) (warrior-step-frozen sw Warrior second-type)
+        (warrior-step-frozen ne Warrior second-type) (warrior-step-frozen se Warrior second-type)
+        (warrior-step-frozen n Warrior second-type) (warrior-step-frozen w Warrior second-type)
+        (warrior-step-frozen e Warrior second-type) (warrior-step-frozen s Warrior second-type)
         (move-type second-type)
-        (warrior-jump nw Warrior first-type) (warrior-jump ne Warrior first-type)
-        (warrior-jump sw Warrior first-type) (warrior-jump se Warrior first-type)
-        (warrior-jump n Warrior first-type) (warrior-jump w Warrior first-type)
-        (warrior-jump s Warrior first-type) (warrior-jump e Warrior first-type)
+        (warrior-jump-frozen nw Warrior first-type) (warrior-jump-frozen ne Warrior first-type)
+        (warrior-jump-frozen sw Warrior first-type) (warrior-jump-frozen se Warrior first-type)
+        (warrior-jump-frozen n Warrior first-type) (warrior-jump-frozen w Warrior first-type)
+        (warrior-jump-frozen s Warrior first-type) (warrior-jump-frozen e Warrior first-type)
      )
   )
   (piece
@@ -1987,12 +2203,12 @@
      (image Light "../images/Ragnarok/ala.bmp")
      (moves
         (move-type normal-type)
-        (common-step n AlfrR) (common-step s AlfrR)
-        (common-step w AlfrR) (common-step e AlfrR)
-        (empty-step nnw AlfrR) (empty-step nne AlfrR)
-        (empty-step ssw AlfrR) (empty-step sse AlfrR)
-        (common-strike nn AlfrR) (common-strike ss AlfrR)
-        (common-strike ww AlfrR) (common-strike ee AlfrR)
+        (common-step-frozen n AlfrR) (common-step-frozen s AlfrR)
+        (common-step-frozen w AlfrR) (common-step-frozen e AlfrR)
+        (empty-step-frozen nnw AlfrR) (empty-step-frozen nne AlfrR)
+        (empty-step-frozen ssw AlfrR) (empty-step-frozen sse AlfrR)
+        (common-strike-frozen nn AlfrR) (common-strike-frozen ss AlfrR)
+        (common-strike-frozen ww AlfrR) (common-strike-frozen ee AlfrR)
         (order-odin Odin A R) (order-odin Odin R A)
         (order-odin SleipnirO A R) (order-odin SleipnirO R A)
         (order-tyr A R) (order-tyr R A)
@@ -2008,12 +2224,12 @@
      (image Light "../images/Ragnarok/alr.bmp")
      (moves
         (move-type normal-type)
-        (common-step nw AlfrA) (common-step sw AlfrA)
-        (common-step ne AlfrA) (common-step se AlfrA)
-        (empty-step nww AlfrA) (empty-step nee AlfrA)
-        (empty-step sww AlfrA) (empty-step see AlfrA)
-        (common-strike nwnw AlfrA) (common-strike swsw AlfrA)
-        (common-strike nene AlfrA) (common-strike sese AlfrA)
+        (common-step-frozen nw AlfrA) (common-step-frozen sw AlfrA)
+        (common-step-frozen ne AlfrA) (common-step-frozen se AlfrA)
+        (empty-step-frozen nww AlfrA) (empty-step-frozen nee AlfrA)
+        (empty-step-frozen sww AlfrA) (empty-step-frozen see AlfrA)
+        (common-strike-frozen nwnw AlfrA) (common-strike-frozen swsw AlfrA)
+        (common-strike-frozen nene AlfrA) (common-strike-frozen sese AlfrA)
         (order-odin Odin A R) (order-odin Odin R A)
         (order-odin SleipnirO A R) (order-odin SleipnirO R A)
         (order-tyr A R) (order-tyr R A)
@@ -2025,18 +2241,18 @@
      (image Light "../images/Ragnarok/al.bmp")
      (moves
         (move-type normal-type)
-        (common-step n Alfr) (common-step s Alfr)
-        (common-step w Alfr) (common-step e Alfr)
-        (common-step nw Alfr) (common-step sw Alfr)
-        (common-step ne Alfr) (common-step se Alfr)
-        (empty-step nnw Alfr) (empty-step nne Alfr)
-        (empty-step ssw Alfr) (empty-step sse Alfr)
-        (empty-step nww Alfr) (empty-step nee Alfr)
-        (empty-step sww Alfr) (empty-step see Alfr)
-        (common-strike nn Alfr) (common-strike ss Alfr)
-        (common-strike ww Alfr) (common-strike ee Alfr)
-        (common-strike nwnw Alfr) (common-strike swsw Alfr)
-        (common-strike nene Alfr) (common-strike sese Alfr)
+        (common-step-frozen n Alfr) (common-step-frozen s Alfr)
+        (common-step-frozen w Alfr) (common-step-frozen e Alfr)
+        (common-step-frozen nw Alfr) (common-step-frozen sw Alfr)
+        (common-step-frozen ne Alfr) (common-step-frozen se Alfr)
+        (empty-step-frozen nnw Alfr) (empty-step-frozen nne Alfr)
+        (empty-step-frozen ssw Alfr) (empty-step-frozen sse Alfr)
+        (empty-step-frozen nww Alfr) (empty-step-frozen nee Alfr)
+        (empty-step-frozen sww Alfr) (empty-step-frozen see Alfr)
+        (common-strike-frozen nn Alfr) (common-strike-frozen ss Alfr)
+        (common-strike-frozen ww Alfr) (common-strike-frozen ee Alfr)
+        (common-strike-frozen nwnw Alfr) (common-strike-frozen swsw Alfr)
+        (common-strike-frozen nene Alfr) (common-strike-frozen sese Alfr)
         (order-odin Odin A R) (order-odin Odin R A)
         (order-odin SleipnirO A R) (order-odin SleipnirO R A)
         (order-tyr A R) (order-tyr R A)
@@ -2112,9 +2328,9 @@
      (image Dark "../images/Ragnarok/zwa.bmp")
      (moves
         (move-type normal-type)
-        (common-step n ZwergR) (common-step e ZwergR)
-        (common-step w ZwergR) (zwerg-step s ZwergR)
-        (common-strike swsw ZwergR) (common-strike sese ZwergR)
+        (common-step-frozen n ZwergR) (common-step-frozen e ZwergR)
+        (common-step-frozen w ZwergR) (zwerg-step s ZwergR)
+        (common-strike-frozen swsw ZwergR) (common-strike-frozen sese ZwergR)
         (order-loki Loki) (order-loki SleipnirL) (order-hel)
      )
      (drops
@@ -2128,9 +2344,9 @@
      (image Dark "../images/Ragnarok/zwr.bmp")
      (moves
         (move-type normal-type)
-        (common-step nw ZwergA) (common-step ne ZwergA)
+        (common-step-frozen nw ZwergA) (common-step-frozen ne ZwergA)
         (zwerg-step sw ZwergA) (zwerg-step se ZwergA)
-        (common-strike ss ZwergA)
+        (common-strike-frozen ss ZwergA)
         (order-loki Loki) (order-loki SleipnirL) (order-hel)
      )
   )
@@ -2140,10 +2356,10 @@
      (image Dark "../images/Ragnarok/zw.bmp")
      (moves
         (move-type normal-type)
-        (common-step nw Zwerg) (common-step ne Zwerg)
+        (common-step-frozen nw Zwerg) (common-step-frozen ne Zwerg)
         (zwerg-step sw Zwerg) (zwerg-step se Zwerg)
-        (common-step n Zwerg) (common-step e Zwerg)
-        (common-step w Zwerg) (zwerg-step s Zwerg)
+        (common-step-frozen n Zwerg) (common-step-frozen e Zwerg)
+        (common-step-frozen w Zwerg) (zwerg-step s Zwerg)
         (order-loki Loki) (order-loki SleipnirL) (order-hel)
      )
   )

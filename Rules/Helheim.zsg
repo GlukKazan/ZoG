@@ -1,0 +1,34 @@
+Zillions Save Game File Version 0.02 CCC
+RulesFile=Ragnarok.zrf
+VariantName=Helheim (normal)
+1. HelA e8 - f7 = HelR
+1. WarriorA c1 - d2 = WarriorR
+2. Dark GarmrA f6 Dark HelA f7
+2. WarriorR d2 - d1 = WarriorA
+3. HelA f7 - d5 = HelR
+3. WarriorA a1 - b2 = WarriorR
+4. HelR d5 - b4 = HelA
+4. WarriorA g1 - f2 = WarriorR
+5. HelA b4 x b2 Dark HelR b4 = WarriorR on b2
+5. WarriorR f2 - e2 = WarriorA
+6. HelR b4 - c4 = HelA
+6. WarriorA e2 - f1 = WarriorR
+7. HelA c4 - e2 = HelR
+7. WarriorA e1 - d2 = WarriorR
+8. GarmrA f6 - c3 = GarmrR
+8. WarriorA i1 - h2 = WarriorR
+9. HelR e2 x d1 Dark HelA e2 = WarriorA on d1
+9. WarriorR f1 - g1 = WarriorA
+10. HelA e2 - f1 = HelR
+10. WarriorA g1 - f2 = WarriorR
+11. HelR f1 x h2 = HelA
+11. WarriorR f2 - f3 = WarriorA
+12. GarmrR c3 - e3 = GarmrA
+12. WarriorR d2 - c2 = WarriorA
+13. HelA h2 x f3 Dark HelR h2 = WarriorA on f3
+13. WarriorA c2 - b3 = WarriorR
+14. HelR h2 - g2 = HelA
+14. WarriorR b3 - b4 = WarriorA
+15. GarmrA e3 - c5 = GarmrR
+15. Pass
+16. HelA g2 x b4 Dark HelR g2 = WarriorA on b4
