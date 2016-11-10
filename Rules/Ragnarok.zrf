@@ -87,21 +87,17 @@
   (set-flag is-captured? false)
   mark
   (while (and (on-board? $2) (enemy? $2))
-      $2
-      (if (not-rune?)
-          capture
-          (set-flag is-captured? true)
-      )
+      $2 (verify (not-rune?))
+      capture
+      (set-flag is-captured? true)
   )
   back
   $1 (verify empty?)
   mark
   (while (and (on-board? $1) (enemy? $1))
-      $1
-      (if (not-rune?)
-          capture
-          (set-flag is-captured? true)
-      )
+      $1 (verify (not-rune?))
+      capture
+      (set-flag is-captured? true)
   )
   back
   (verify (flag? is-captured?))
@@ -130,6 +126,7 @@
   ) 
   $1 (verify enemy?)
   (verify (not-rune?))
+  (check-defended-all)
   (check-fire)
 )
 
@@ -158,6 +155,8 @@
       (add $2)
   ) 
   $1 (verify enemy?)
+  (verify (not-rune?))
+  (check-defended-all)
   (check-fire)
   (add $2)
 ))
@@ -166,9 +165,7 @@
   mark
   (opposite $1)
   (while (not-position-flag? is-from?)
-      (if (and enemy? (not-rune?))
-          capture
-      )
+      (if not-empty? capture)
       (opposite $1)
   )
   back
@@ -177,8 +174,8 @@
 (define beast-slide (
   (verify (not-enemy? a0))
   (set-position-flag is-from? true)
-  (while (not-friend? $1)
-      $1
+  (while (on-board? $1)
+      $1 (verify (not-rune?))
       (check-fire)
       (back-capture $1)
       (add $2)
@@ -202,8 +199,9 @@
       $1
   )
   (verify (enemy? $1))
-  (verify (not-rune-dir? $1))
   $1
+  (verify (not-rune?))
+  (check-defended-all)
   (verify (empty? $1))
   $1
   (while empty?
@@ -219,8 +217,8 @@
   )
 ))
 
-(define capture-enemy
-  (if (and (on-board? $1) (enemy? $1))
+(define capture-all
+  (if (and (on-board? $1) (not-rune-dir? $1))
       (capture $1)
   )
 )
@@ -324,9 +322,7 @@
   (check-defended-dir n  ThorR)     (check-defended-dir s  ThorR)
   (check-defended-dir se TyrA)      (check-defended-dir sw TyrA)
   (check-defended-dir w  TyrR)      (check-defended-dir e  TyrR)  
-  (check-defended-dir s  TyrR)      (check-defended-dir n  ZwergR)
-  (check-defended-dir e  ZwergR)    (check-defended-dir w  ZwergR)
-  (check-defended-dir nw ZwergA)    (check-defended-dir ne ZwergA)
+  (check-defended-dir s  TyrR)      
   (check-defended-dir n  ValkyrieA) (check-defended-dir s  ValkyrieA)
   (check-defended-dir w  ValkyrieA) (check-defended-dir e  ValkyrieA)
   (check-defended-dir nw ValkyrieR) (check-defended-dir ne ValkyrieR)
@@ -374,6 +370,18 @@
   (add $2)
 ))
 
+(define alfr-step-frozen (
+  (verify (not-enemy? a0))
+  (verify-not-frozen)
+  (init-flags)
+  (common-step-body)
+  (if enemy?
+      (add-partial $2 capture-type)
+   else
+      (add $2)
+  )
+))
+
 (define hel-step (
   (verify (not-enemy? a0))
   (init-flags)
@@ -414,16 +422,6 @@
          (hel-swap Warrior Warrior)
      )
   )
-))
-
-(define zwerg-step (
-  (verify (not-enemy? a0))
-  (init-flags)
-  (common-step-body)
-  (if (and (on-board? $1) (enemy? $1))
-      (capture $1)
-  )
-  (add $2)
 ))
 
 (define sleipnir-split (
@@ -480,18 +478,43 @@
       (fire n) (fire s)
       (fire w) (fire e)
   )
-  (add $2)
 )
 
 (define empty-step (
   (verify (not-enemy? a0))
   (empty-step-body)
+  (add $2)
 ))
 
 (define empty-step-frozen (
   (verify (not-enemy? a0))
   (verify-not-frozen)
   (empty-step-body)
+  (add $2)
+))
+
+(define zwerg-step-frozen (
+  (verify (not-enemy? a0))
+  (verify-not-frozen)
+  (empty-step-body)
+  (set-flag enemy-present? false)
+  (check-enemy $3) (check-enemy $4)
+  (check-enemy $5) (check-enemy $6)
+  (verify (flag? enemy-present?))
+  (add-partial $2 capture-type)
+))
+
+(define zwadv-step-frozen (
+  (verify (not-enemy? a0))
+  (verify-not-frozen)
+  (empty-step-body)
+  (set-flag enemy-present? false)
+  (check-enemy $3) (check-enemy $4)
+  (check-enemy $5) (check-enemy $6)
+  (check-enemy $7) (check-enemy $8)
+  (check-enemy $9) (check-enemy $10)
+  (verify (flag? enemy-present?))
+  (add-partial $2 capture-type)
 ))
 
 (define warrior-step-frozen (
@@ -573,18 +596,17 @@
 (define thor-strike (
   (verify (not-enemy? a0))
   (create $2)
-  $1 (verify enemy?)
-  (verify (not-rune?))
-  (capture-enemy n) (capture-enemy nw)
-  (capture-enemy s) (capture-enemy sw)
-  (capture-enemy e) (capture-enemy se)
-  (capture-enemy w) (capture-enemy ne)
+  $1 (verify (not-rune?))
+  (capture-all n) (capture-all nw)
+  (capture-all s) (capture-all sw)
+  (capture-all e) (capture-all se)
+  (capture-all w) (capture-all ne)
   capture add
 ))
 
 (define fire
   (if (and (not-empty? $1)
-           (not-piece? Mount $1)
+           (not-piece? Mount $1) (not-piece? Isa $1)
            (not-piece? SurtrA $1) (not-piece? SurtrR $1) 
            (not-piece? Eldthursar $1) (not-piece? EldthursarA $1) (not-piece? EldthursarR $1))
       (capture $1)
@@ -611,6 +633,7 @@
 (define bifrost-empty-step (
   (create Mount)
   (empty-step-body)
+  (add $2)
 ))
 
 (define drop-to (
@@ -712,7 +735,7 @@
 (define check-frozen
   (if (on-board? $2)
       (if (piece? $1 $2)
-          (set-flag is-frozen? $3)         
+          (set-flag is-frozen? $3)
       )
   )
 )
@@ -740,7 +763,7 @@
   (check-frozen GarmrA w  true) (check-frozen GarmrA e    true)
   (check-frozen GarmrR nw true) (check-frozen GarmrR ne   true)
   (check-frozen GarmrR sw true) (check-frozen GarmrR se   true)
-  (check-rune   Isa    true)    (check-rune   Sowelu      false)
+  (check-rune Isa true) (check-rune Sowelu false)
 )
 
 (define drop-jotunn (
@@ -1619,10 +1642,6 @@
 
   (players Light Dark ?R)
   (turn-order 
-     (Light setup-odin)
-     (Light setup-thor)
-     (Dark  setup-loki)
-     repeat
      (Light normal-type)
      (?R Light rune-type)
      (Dark normal-type)
@@ -1907,6 +1926,10 @@
         (common-strike w SleipnirOR) (common-strike e SleipnirOR)
         (sleipnir-split ss SleipnirR OdinA) (sleipnir-split ww SleipnirR OdinA) 
         (sleipnir-split ee SleipnirR OdinA) (sleipnir-split nn SleipnirR OdinA) 
+     )
+     (drops
+        (move-type setup-odin)
+        (drop-piece a0)
      )
   )
   (piece
@@ -2355,8 +2378,8 @@
      (image Light "../images/Ragnarok/ala.bmp")
      (moves
         (move-type normal-type)
-        (common-step-frozen n AlfrR) (common-step-frozen s AlfrR)
-        (common-step-frozen w AlfrR) (common-step-frozen e AlfrR)
+        (alfr-step-frozen n AlfrR) (alfr-step-frozen s AlfrR)
+        (alfr-step-frozen w AlfrR) (alfr-step-frozen e AlfrR)
         (empty-step-frozen nnw AlfrR) (empty-step-frozen nne AlfrR)
         (empty-step-frozen ssw AlfrR) (empty-step-frozen sse AlfrR)
         (common-strike-frozen nn AlfrR) (common-strike-frozen ss AlfrR)
@@ -2365,6 +2388,9 @@
         (order-odin SleipnirO A R) (order-odin SleipnirO R A)
         (order-tyr A R) (order-tyr R A)
         (order-thor A R) (order-thor R A)
+        (move-type capture-type)
+        (common-strike-frozen nn AlfrR) (common-strike-frozen ss AlfrR)
+        (common-strike-frozen ww AlfrR) (common-strike-frozen ee AlfrR)
      )
      (drops
         (move-type rune-type)
@@ -2377,8 +2403,8 @@
      (image Light "../images/Ragnarok/alr.bmp")
      (moves
         (move-type normal-type)
-        (common-step-frozen nw AlfrA) (common-step-frozen sw AlfrA)
-        (common-step-frozen ne AlfrA) (common-step-frozen se AlfrA)
+        (alfr-step-frozen nw AlfrA) (alfr-step-frozen sw AlfrA)
+        (alfr-step-frozen ne AlfrA) (alfr-step-frozen se AlfrA)
         (empty-step-frozen nww AlfrA) (empty-step-frozen nee AlfrA)
         (empty-step-frozen sww AlfrA) (empty-step-frozen see AlfrA)
         (common-strike-frozen nwnw AlfrA) (common-strike-frozen swsw AlfrA)
@@ -2387,6 +2413,9 @@
         (order-odin SleipnirO A R) (order-odin SleipnirO R A)
         (order-tyr A R) (order-tyr R A)
         (order-thor A R) (order-thor R A)
+        (move-type capture-type)
+        (common-strike-frozen nwnw AlfrA) (common-strike-frozen swsw AlfrA)
+        (common-strike-frozen nene AlfrA) (common-strike-frozen sese AlfrA)
      )
   )
   (piece
@@ -2395,10 +2424,10 @@
      (image Light "../images/Ragnarok/al.bmp")
      (moves
         (move-type normal-type)
-        (common-step-frozen n Alfr) (common-step-frozen s Alfr)
-        (common-step-frozen w Alfr) (common-step-frozen e Alfr)
-        (common-step-frozen nw Alfr) (common-step-frozen sw Alfr)
-        (common-step-frozen ne Alfr) (common-step-frozen se Alfr)
+        (alfr-step-frozen n Alfr) (alfr-step-frozen s Alfr)
+        (alfr-step-frozen w Alfr) (alfr-step-frozen e Alfr)
+        (alfr-step-frozen nw Alfr) (alfr-step-frozen sw Alfr)
+        (alfr-step-frozen ne Alfr) (alfr-step-frozen se Alfr)
         (empty-step-frozen nnw Alfr) (empty-step-frozen nne Alfr)
         (empty-step-frozen ssw Alfr) (empty-step-frozen sse Alfr)
         (empty-step-frozen nww Alfr) (empty-step-frozen nee Alfr)
@@ -2411,6 +2440,11 @@
         (order-odin SleipnirO A R) (order-odin SleipnirO R A)
         (order-tyr A R) (order-tyr R A)
         (order-thor A R) (order-thor R A)
+        (move-type capture-type)
+        (common-strike-frozen nn Alfr) (common-strike-frozen ss Alfr)
+        (common-strike-frozen ww Alfr) (common-strike-frozen ee Alfr)
+        (common-strike-frozen nwnw Alfr) (common-strike-frozen swsw Alfr)
+        (common-strike-frozen nene Alfr) (common-strike-frozen sese Alfr)
      )
   )
   (piece
@@ -2487,9 +2521,15 @@
      (moves
         (move-type normal-type)
         (common-step-frozen n ZwergR) (common-step-frozen e ZwergR)
-        (common-step-frozen w ZwergR) (zwerg-step s ZwergR)
-        (common-strike-frozen swsw ZwergR) (common-strike-frozen sese ZwergR)
+        (common-step-frozen w ZwergR) (common-step-frozen s ZwergR)
+        (common-strike-frozen nw ZwergR) (common-strike-frozen ne ZwergR)
+        (common-strike-frozen sw ZwergR) (common-strike-frozen se ZwergR)
+        (zwerg-step-frozen nwnw ZwergR n e w s) (zwerg-step-frozen swsw ZwergR n e w s)
+        (zwerg-step-frozen nene ZwergR n e w s) (zwerg-step-frozen sese ZwergR n e w s)
         (order-loki Loki) (order-loki SleipnirL) (order-hel)
+        (move-type capture-type)
+        (common-strike-frozen nw ZwergR) (common-strike-frozen ne ZwergR)
+        (common-strike-frozen sw ZwergR) (common-strike-frozen se ZwergR)
      )
      (drops
         (move-type rune-type)
@@ -2503,9 +2543,15 @@
      (moves
         (move-type normal-type)
         (common-step-frozen nw ZwergA) (common-step-frozen ne ZwergA)
-        (zwerg-step sw ZwergA) (zwerg-step se ZwergA)
-        (common-strike-frozen ss ZwergA)
+        (common-step-frozen sw ZwergA) (common-step-frozen se ZwergA)
+        (common-strike-frozen n ZwergA) (common-strike-frozen s ZwergA)
+        (common-strike-frozen w ZwergA) (common-strike-frozen e ZwergA)
+        (zwerg-step-frozen nn ZwergA nw sw ne se) (zwerg-step-frozen ee ZwergA nw sw ne se)
+        (zwerg-step-frozen ss ZwergA nw sw ne se) (zwerg-step-frozen ww ZwergA nw sw ne se)
         (order-loki Loki) (order-loki SleipnirL) (order-hel)
+        (move-type capture-type)
+        (common-strike-frozen n ZwergA) (common-strike-frozen s ZwergA)
+        (common-strike-frozen w ZwergA) (common-strike-frozen e ZwergA)
      )
   )
   (piece
@@ -2514,11 +2560,20 @@
      (image Dark "../images/Ragnarok/zw.bmp")
      (moves
         (move-type normal-type)
-        (common-step-frozen nw Zwerg) (common-step-frozen ne Zwerg)
-        (zwerg-step sw Zwerg) (zwerg-step se Zwerg)
-        (common-step-frozen n Zwerg) (common-step-frozen e Zwerg)
-        (common-step-frozen w Zwerg) (zwerg-step s Zwerg)
+        (common-strike-frozen nw Zwerg) (common-strike-frozen ne Zwerg)
+        (common-strike-frozen sw Zwerg) (common-strike-frozen se Zwerg)
+        (common-strike-frozen n Zwerg) (common-strike-frozen s Zwerg)
+        (common-strike-frozen w Zwerg) (common-strike-frozen e Zwerg)
+        (zwadv-step-frozen nn Zwerg nw ne sw se n s w e) (zwadv-step-frozen ee Zwerg nw ne sw se n s w e)
+        (zwadv-step-frozen ww Zwerg nw ne sw se n s w e) (zwadv-step-frozen ss Zwerg nw ne sw se n s w e)
+        (zwadv-step-frozen nwnw Zwerg nw ne sw se n s w e) (zwadv-step-frozen nene Zwerg nw ne sw se n s w e)
+        (zwadv-step-frozen swsw Zwerg nw ne sw se n s w e) (zwadv-step-frozen sese Zwerg nw ne sw se n s w e)
         (order-loki Loki) (order-loki SleipnirL) (order-hel)
+        (move-type capture-type)
+        (common-strike-frozen nw Zwerg) (common-strike-frozen ne Zwerg)
+        (common-strike-frozen sw Zwerg) (common-strike-frozen se Zwerg)
+        (common-strike-frozen n Zwerg) (common-strike-frozen s Zwerg)
+        (common-strike-frozen w Zwerg) (common-strike-frozen e Zwerg)
      )
   )
   (piece
@@ -2607,48 +2662,54 @@
 
   (board-setup
      (Light
-       (OdinA a0 off 1)
-       (ThorA off 1)
-       (WarriorA off 4)
-       (AlfrA off 5)
-       (ValkyrieA off 2)
-       (Man off 7)
-       (Wyrd off 100)
-       (Ehwaz off 20)
-       (Berkana off 20)
-       (Algiz off 20)
-       (Fehu off 20)
-       (Thurisaz off 20)
-       (Ansuz off 20)
-       (Mannaz off 20)
-       (Othila off 20)
-       (Isa off 20)
-       (Nauthiz off 20)
-       (Hagalaz off 20)
-       (Eihwaz off 20)
-       (Sowelu off 20)
+       (Mount c4 g4)
+       (OdinA c1)
+       (ThorA g1)
+       (WarriorA a3 e3 i3 c3 g3 off 2)
+       (AlfrA b3 d3 f3 h3 off 2)
+       (ValkyrieA e2 off 2)
+       (Man off 4)
+       (Wyrd off 20)
+       (Ehwaz off 5)
+       (Berkana off 5)
+       (Algiz off 5)
+       (Fehu off 5)
+       (Thurisaz off 5)
+       (Ansuz off 5)
+       (Mannaz off 5)
+       (Othila off 5)
+       (Isa off 5)
+       (Nauthiz off 5)
+       (Hagalaz off 5)
+       (Eihwaz off 5)
+       (Sowelu off 5)
      )
      (Dark
-       (LokiA z0 off 1)
+       (Mount e6)
+       (LokiA e9)
+       (JotunnA c7 g7 e7)
+       (WarriorA e8)
+       (WarriorR a9 i9)
+       (ZwergA b8 c8 d8 f8 g8 h8)
        (SleipnirA off 1)
        (JormungandrA off 1)
        (FenrirA off 1)
        (Beast off 3)
-       (Wyrd off 100)
-       (Ehwaz off 20)
-       (Berkana off 20)
-       (Algiz off 20)
-       (Fehu off 20)
-       (Thurisaz off 20)
-       (Ansuz off 20)
-       (Mannaz off 20)
-       (Othila off 20)
-       (Nauthiz off 20)
+       (Wyrd off 10)
+       (Ehwaz off 3)
+       (Berkana off 3)
+       (Algiz off 3)
+       (Fehu off 3)
+       (Thurisaz off 3)
+       (Ansuz off 3)
+       (Mannaz off 3)
+       (Othila off 3)
+       (Nauthiz off 3)
      )
   )
 
-  (loss-condition (Light) (and (pieces-remaining 0 OdinA) (pieces-remaining 0 OdinR) (pieces-remaining 0 ThorA) (pieces-remaining 0 ThorR) (pieces-remaining 0 TyrA) (pieces-remaining 0 TyrR) ) )
-  (loss-condition (Dark) (and (pieces-remaining 0 LokiA) (pieces-remaining 0 LokiR) (pieces-remaining 0 HelA) (pieces-remaining 0 HelR) (pieces-remaining 0 SurtrA) (pieces-remaining 0 SurtrR) ) )
+  (loss-condition (Light) (and (pieces-remaining 0 OdinA) (pieces-remaining 0 OdinR) (pieces-remaining 0 SleipnirOA) (pieces-remaining 0 SleipnirOR) (pieces-remaining 0 ThorA) (pieces-remaining 0 ThorR) (pieces-remaining 0 TyrA) (pieces-remaining 0 TyrR) ) )
+  (loss-condition (Dark) (pieces-remaining 0) )
 )
 
 (variant
@@ -2665,11 +2726,11 @@
   )
   (board-setup
      (Light
-       (OdinA a0 off 1)
+       (SleipnirOA a0 off 1)
        (TyrA off 1)
-       (WarriorA off 5)
-       (AlfrA off 5)
-       (ValkyrieA off 1)
+       (WarriorA off 2)
+       (AlfrA off 4)
+       (ValkyrieA off 3)
        (Man off 7)
        (Wyrd off 100)
        (Ehwaz off 20)
@@ -2689,7 +2750,7 @@
      (Dark
        (HelA z0 off 1)
        (GarmrA off 1)
-       (JotunnA off 5)
+       (JotunnA off 4)
      )
   )
 )
@@ -2710,9 +2771,8 @@
      (Light
        (ThorA a0 off 1)
        (TyrA off 1)
-       (WarriorA off 7)
        (AlfrA off 7)
-       (ValkyrieA off 2)
+       (ValkyrieA off 4)
        (Man off 10)
      )
      (Dark
