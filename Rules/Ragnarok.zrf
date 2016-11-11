@@ -292,7 +292,7 @@
 
 (define check-defended-dir
   (if (on-board? $1)
-      (if (and (piece? $2 $1) (friend? $1))
+      (if (and (piece? $2 $1) (enemy? $1))
           (set-flag is-defended? true)
       )
   )
@@ -300,7 +300,7 @@
 
 (define check-algiz
   (if (on-board? $1)
-      (if (and (piece? Algiz $1) (friend? $1))
+      (if (and (piece? Algiz $1) (enemy? $1))
           (set-flag is-defended? true)
       )
   )
@@ -528,7 +528,7 @@
 
 (define check-enemy
   (if (on-board? $1)
-      (if (and (enemy? $1) (not-rune?))
+      (if (and (enemy? $1) (not-rune-dir? $1))
           (set-flag enemy-present? true)
       )
   )
@@ -595,18 +595,26 @@
 
 (define check-friend
   (if (on-board? $1)
-      (verify (not-friend? $1))
+      (if (not-friend? $1)
+          (set-flag enemy-present? false)
+      )
   )
 )
 
 (define thor-strike (
   (verify (not-enemy? a0))
   (create $2)
-  $1 (verify not-friend?)
+  $1 
+  (set-flag enemy-present? false)
+  (check-enemy n) (check-enemy nw)
+  (check-enemy s) (check-enemy sw)
+  (check-enemy w) (check-enemy ne)
+  (check-enemy e) (check-enemy se)
   (check-friend n) (check-friend nw)
   (check-friend s) (check-friend sw)
   (check-friend e) (check-friend se)
   (check-friend w) (check-friend ne)
+  (verify (flag? enemy-present?))
   (capture-all n) (capture-all nw)
   (capture-all s) (capture-all sw)
   (capture-all e) (capture-all se)
@@ -2672,13 +2680,14 @@
 
   (board-setup
      (Light
-       (Mount c4 g4)
+       (Mount c5 g5)
        (OdinA c1)
        (ThorA g1)
-       (WarriorA a3 e3 i3 c3 g3 off 2)
-       (AlfrA b3 d3 f3 h3 off 2)
+       (WarriorR c3 g3)
+       (WarriorA a3 i3 off 3)
+       (AlfrA b3 d3 f3 h3 e3 off 3)
        (ValkyrieA e2 off 2)
-       (Man off 4)
+       (Man off 5)
        (Wyrd off 20)
        (Ehwaz off 5)
        (Berkana off 5)
@@ -2695,7 +2704,7 @@
        (Sowelu off 5)
      )
      (Dark
-       (Mount e6)
+       (Mount e4 e6)
        (LokiA e9)
        (JotunnA c7 g7 e7)
        (WarriorA e8)
