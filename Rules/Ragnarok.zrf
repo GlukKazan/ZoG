@@ -593,10 +593,20 @@
   (common-strike-body)
 ))
 
+(define check-friend
+  (if (on-board? $1)
+      (verify (not-friend? $1))
+  )
+)
+
 (define thor-strike (
   (verify (not-enemy? a0))
   (create $2)
-  $1 (verify (not-rune?))
+  $1 (verify not-friend?)
+  (check-friend n) (check-friend nw)
+  (check-friend s) (check-friend sw)
+  (check-friend e) (check-friend se)
+  (check-friend w) (check-friend ne)
   (capture-all n) (capture-all nw)
   (capture-all s) (capture-all sw)
   (capture-all e) (capture-all se)
@@ -2689,7 +2699,7 @@
        (LokiA e9)
        (JotunnA c7 g7 e7)
        (WarriorA e8)
-       (WarriorR a9 i9)
+       (WarriorR a8 i8)
        (ZwergA b8 c8 d8 f8 g8 h8)
        (SleipnirA off 1)
        (JormungandrA off 1)
