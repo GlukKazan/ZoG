@@ -97,6 +97,304 @@
         (step nwnw) (step swsw) (step nene) (step sese)
      )
   )
+  (piece
+     (name WF)
+     (help "WF")
+     (image Green "../images/Escalation/gwf.bmp"
+            Blue "../images/Escalation/bwf.bmp")
+     (moves
+        (step n) (step s) (step w) (step e)
+        (step nw) (step sw) (step ne) (step se)
+     )
+  )
+  (piece
+     (name WD)
+     (help "WD")
+     (image Green "../images/Escalation/gwd.bmp"
+            Blue "../images/Escalation/bwd.bmp")
+     (moves
+        (step n) (step s) (step w) (step e)
+        (step nn) (step ss) (step ww) (step ee)
+     )
+  )
+  (piece
+     (name WN)
+     (help "WN")
+     (image Green "../images/Escalation/gwn.bmp"
+            Blue "../images/Escalation/bwn.bmp")
+     (moves
+        (step n) (step s) (step w) (step e)
+        (step nnw) (step nne) (step ssw) (step sse)
+        (step nww) (step nee) (step sww) (step see)
+     )
+  )
+  (piece
+     (name WA)
+     (help "WA")
+     (image Green "../images/Escalation/gwa.bmp"
+            Blue "../images/Escalation/bwa.bmp")
+     (moves
+        (step n) (step s) (step w) (step e)
+        (step nwnw) (step swsw) (step nene) (step sese)
+     )
+  )
+  (piece
+     (name FD)
+     (help "FD")
+     (image Green "../images/Escalation/gfd.bmp"
+            Blue "../images/Escalation/bfd.bmp")
+     (moves
+        (step nw) (step sw) (step ne) (step se)
+        (step nn) (step ss) (step ww) (step ee)
+     )
+  )
+  (piece
+     (name FN)
+     (help "FN")
+     (image Green "../images/Escalation/gfn.bmp"
+            Blue "../images/Escalation/bfn.bmp")
+     (moves
+        (step nw) (step sw) (step ne) (step se)
+        (step nnw) (step nne) (step ssw) (step sse)
+        (step nww) (step nee) (step sww) (step see)
+     )
+  )
+  (piece
+     (name FA)
+     (help "FA")
+     (image Green "../images/Escalation/gfa.bmp"
+            Blue "../images/Escalation/bfa.bmp")
+     (moves
+        (step nw) (step sw) (step ne) (step se)
+        (step nwnw) (step swsw) (step nene) (step sese)
+     )
+  )
+  (piece
+     (name DN)
+     (help "DN")
+     (image Green "../images/Escalation/gdn.bmp"
+            Blue "../images/Escalation/bdn.bmp")
+     (moves
+        (step nn) (step ss) (step ww) (step ee)
+        (step nnw) (step nne) (step ssw) (step sse)
+        (step nww) (step nee) (step sww) (step see)
+     )
+  )
+  (piece
+     (name DA)
+     (help "DA")
+     (image Green "../images/Escalation/gda.bmp"
+            Blue "../images/Escalation/bda.bmp")
+     (moves
+        (step nn) (step ss) (step ww) (step ee)
+        (step nwnw) (step swsw) (step nene) (step sese)
+     )
+  )
+  (piece
+     (name NA)
+     (help "NA")
+     (image Green "../images/Escalation/gna.bmp"
+            Blue "../images/Escalation/bna.bmp")
+     (moves
+        (step nnw) (step nne) (step ssw) (step sse)
+        (step nww) (step nee) (step sww) (step see)
+        (step nwnw) (step swsw) (step nene) (step sese)
+     )
+  )
+  (piece
+     (name WFD)
+     (help "WFD")
+     (image Green "../images/Escalation/gwfd.bmp"
+            Blue "../images/Escalation/bwfd.bmp")
+     (moves
+        (step n) (step s) (step w) (step e)
+        (step nw) (step sw) (step ne) (step se)
+        (step nn) (step ss) (step ww) (step ee)
+     )
+  )
+  (piece
+     (name WFN)
+     (help "WFN")
+     (image Green "../images/Escalation/gwfn.bmp"
+            Blue "../images/Escalation/bwfn.bmp")
+     (moves
+        (step n) (step s) (step w) (step e)
+        (step nw) (step sw) (step ne) (step se)
+        (step nnw) (step nne) (step ssw) (step sse)
+        (step nww) (step nee) (step sww) (step see)
+     )
+  )
+  (piece
+     (name WFA)
+     (help "WFA")
+     (image Green "../images/Escalation/gwfa.bmp"
+            Blue "../images/Escalation/bwfa.bmp")
+     (moves
+        (step n) (step s) (step w) (step e)
+        (step nw) (step sw) (step ne) (step se)
+        (step nwnw) (step swsw) (step nene) (step sese)
+     )
+  )
+  (piece
+     (name WDN)
+     (help "WDN")
+     (image Green "../images/Escalation/gwdn.bmp"
+            Blue "../images/Escalation/bwdn.bmp")
+     (moves
+        (step n) (step s) (step w) (step e)
+        (step nn) (step ss) (step ww) (step ee)
+        (step nnw) (step nne) (step ssw) (step sse)
+        (step nww) (step nee) (step sww) (step see)
+     )
+  )
+  (piece
+     (name WDA)
+     (help "WDA")
+     (image Green "../images/Escalation/gwda.bmp"
+            Blue "../images/Escalation/bwda.bmp")
+     (moves
+        (step n) (step s) (step w) (step e)
+        (step nn) (step ss) (step ww) (step ee)
+        (step nwnw) (step swsw) (step nene) (step sese)
+     )
+  )
+  (piece
+     (name WNA)
+     (help "WNA")
+     (image Green "../images/Escalation/gwna.bmp"
+            Blue "../images/Escalation/bwna.bmp")
+     (moves
+        (step n) (step s) (step w) (step e)
+        (step nnw) (step nne) (step ssw) (step sse)
+        (step nww) (step nee) (step sww) (step see)
+        (step nwnw) (step swsw) (step nene) (step sese)
+     )
+  )
+  (piece
+     (name FDN)
+     (help "FDN")
+     (image Green "../images/Escalation/gfdn.bmp"
+            Blue "../images/Escalation/bfdn.bmp")
+     (moves
+        (step nw) (step sw) (step ne) (step se)
+        (step nn) (step ss) (step ww) (step ee)
+        (step nnw) (step nne) (step ssw) (step sse)
+        (step nww) (step nee) (step sww) (step see)
+     )
+  )
+  (piece
+     (name FDA)
+     (help "FDA")
+     (image Green "../images/Escalation/gfda.bmp"
+            Blue "../images/Escalation/bfda.bmp")
+     (moves
+        (step nw) (step sw) (step ne) (step se)
+        (step nn) (step ss) (step ww) (step ee)
+        (step nwnw) (step swsw) (step nene) (step sese)
+     )
+  )
+  (piece
+     (name FNA)
+     (help "FNA")
+     (image Green "../images/Escalation/gfna.bmp"
+            Blue "../images/Escalation/bfna.bmp")
+     (moves
+        (step nw) (step sw) (step ne) (step se)
+        (step nnw) (step nne) (step ssw) (step sse)
+        (step nww) (step nee) (step sww) (step see)
+        (step nwnw) (step swsw) (step nene) (step sese)
+     )
+  )
+  (piece
+     (name DNA)
+     (help "DNA")
+     (image Green "../images/Escalation/gdna.bmp"
+            Blue "../images/Escalation/bdna.bmp")
+     (moves
+        (step nn) (step ss) (step ww) (step ee)
+        (step nnw) (step nne) (step ssw) (step sse)
+        (step nww) (step nee) (step sww) (step see)
+        (step nwnw) (step swsw) (step nene) (step sese)
+     )
+  )
+  (piece
+     (name WFDN)
+     (help "WFDN")
+     (image Green "../images/Escalation/gwfdn.bmp"
+            Blue "../images/Escalation/bwfdn.bmp")
+     (moves
+        (step n) (step s) (step w) (step e)
+        (step nw) (step sw) (step ne) (step se)
+        (step nn) (step ss) (step ww) (step ee)
+        (step nnw) (step nne) (step ssw) (step sse)
+        (step nww) (step nee) (step sww) (step see)
+     )
+  )
+  (piece
+     (name WFDA)
+     (help "WFDA")
+     (image Green "../images/Escalation/gwfda.bmp"
+            Blue "../images/Escalation/bwfda.bmp")
+     (moves
+        (step n) (step s) (step w) (step e)
+        (step nw) (step sw) (step ne) (step se)
+        (step nn) (step ss) (step ww) (step ee)
+        (step nwnw) (step swsw) (step nene) (step sese)
+     )
+  )
+  (piece
+     (name WFNA)
+     (help "WFNA")
+     (image Green "../images/Escalation/gwfna.bmp"
+            Blue "../images/Escalation/bwfna.bmp")
+     (moves
+        (step n) (step s) (step w) (step e)
+        (step nw) (step sw) (step ne) (step se)
+        (step nnw) (step nne) (step ssw) (step sse)
+        (step nww) (step nee) (step sww) (step see)
+        (step nwnw) (step swsw) (step nene) (step sese)
+     )
+  )
+  (piece
+     (name WDNA)
+     (help "WDNA")
+     (image Green "../images/Escalation/gwdna.bmp"
+            Blue "../images/Escalation/bwdna.bmp")
+     (moves
+        (step n) (step s) (step w) (step e)
+        (step nn) (step ss) (step ww) (step ee)
+        (step nnw) (step nne) (step ssw) (step sse)
+        (step nww) (step nee) (step sww) (step see)
+        (step nwnw) (step swsw) (step nene) (step sese)
+     )
+  )
+  (piece
+     (name FDNA)
+     (help "FDNA")
+     (image Green "../images/Escalation/gfdna.bmp"
+            Blue "../images/Escalation/bfdna.bmp")
+     (moves
+        (step nw) (step sw) (step ne) (step se)
+        (step nn) (step ss) (step ww) (step ee)
+        (step nnw) (step nne) (step ssw) (step sse)
+        (step nww) (step nee) (step sww) (step see)
+        (step nwnw) (step swsw) (step nene) (step sese)
+     )
+  )
+  (piece
+     (name WFDNA)
+     (help "WFDNA")
+     (image Green "../images/Escalation/gwfdna.bmp"
+            Blue "../images/Escalation/bwfdna.bmp")
+     (moves
+        (step n) (step s) (step w) (step e)
+        (step nw) (step sw) (step ne) (step se)
+        (step nn) (step ss) (step ww) (step ee)
+        (step nnw) (step nne) (step ssw) (step sse)
+        (step nww) (step nee) (step sww) (step see)
+        (step nwnw) (step swsw) (step nene) (step sese)
+     )
+  )
 
   (board-setup
      (Blue
@@ -115,5 +413,5 @@
      )
   )
 
-  (loss-condition (Green Blue) (checkmated W) )
+  (loss-condition (Green Blue) (checkmated W WF WD WN WA WFD WFN WFA WDN WDA WNA WFDN WFDA WFNA WDNA WFDNA) )
 )
