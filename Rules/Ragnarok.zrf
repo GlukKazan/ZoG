@@ -1608,6 +1608,7 @@
 
 (variant
   (title "Walhall (normal)")
+  (default)
   (walhall-common)
   (board-setup
      (Dark 
@@ -1638,7 +1639,6 @@
 
 (game 
   (title "Ragnarok (Loki)")
-  (default)
 
   (option "animate captures"   false)
   (option "animate drops"      false)

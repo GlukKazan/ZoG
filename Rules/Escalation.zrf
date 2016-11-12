@@ -1,0 +1,119 @@
+(define step (
+  $1 (verify not-friend?)
+  add
+))
+
+(game 
+  (title "Escalation")
+  (history "Invented by G.P.Jelliss in 1988.")
+
+  (option "animate captures"   false)
+  (option "animate drops"      false)
+  (option "pass turn"          false)
+  (option "highlight goals"    false)
+  (option "prevent flipping"   true)
+  (option "include off-pieces" false)
+  (option "recycle captures"   false)
+  (option "smart moves"        false)
+
+  (move-sound    "Audio/Clack.wav")
+  (release-sound "Audio/Clack.wav")
+  (drop-sound    "")
+  (capture-sound "")
+  (change-sound  "")
+  (click-sound   "")
+  (draw-sound    "")
+
+  (players Blue Green)
+  (turn-order Blue Green)
+
+  (board
+    (image "../images/Escalation/board.bmp")
+    (grid
+      (start-rectangle 2 2 82 82)
+      (dimensions
+        ("a/b/c/d/e/f/g/h" (80 0)) ; files
+        ("8/7/6/5/4/3/2/1" (0 80)) ; ranks
+      )
+      (directions (n 0 -1) (s 0 1) (e 1 0) (w -1 0)
+          (nw -1 -1) (sw -1 1) (ne 1 -1) (se 1 1)
+          (nne 1 -2) (nnw -1 -2) (ssw -1 2) (sse 1 2)
+          (nee 2 -1) (nww -2 -1) (sww -2 1) (see 2 1)
+          (nn 0 -2) (ss 0 2) (ee 2 0) (ww -2 0)
+          (nwnw -2 -2) (swsw -2 2) (nene 2 -2) (sese 2 2)
+      )
+    )
+    (zone (name promote-zone) (players Green)
+          (positions a1 b1 c1 d1 e1 f1 g1 h1)
+    )
+    (zone (name promote-zone) (players Blue)
+          (positions a8 b8 c8 d8 e8 f8 g8 h8)
+    )
+  )
+
+  (piece
+     (name W)
+     (help "W")
+     (image Green "../images/Escalation/gw.bmp"
+            Blue "../images/Escalation/bw.bmp")
+     (moves
+        (step n) (step s) (step w) (step e)
+     )
+  )
+  (piece
+     (name F)
+     (help "F")
+     (image Green "../images/Escalation/gf.bmp"
+            Blue "../images/Escalation/bf.bmp")
+     (moves
+        (step nw) (step sw) (step ne) (step se)
+     )
+  )
+  (piece
+     (name D)
+     (help "D")
+     (image Green "../images/Escalation/gd.bmp"
+            Blue "../images/Escalation/bd.bmp")
+     (moves
+        (step nn) (step ss) (step ww) (step ee)
+     )
+  )
+  (piece
+     (name N)
+     (help "N")
+     (image Green "../images/Escalation/gn.bmp"
+            Blue "../images/Escalation/bn.bmp")
+     (moves
+        (step nnw) (step nne) (step ssw) (step sse)
+        (step nww) (step nee) (step sww) (step see)
+     )
+  )
+  (piece
+     (name A)
+     (help "A")
+     (image Green "../images/Escalation/ga.bmp"
+            Blue "../images/Escalation/ba.bmp")
+     (moves
+        (step nwnw) (step swsw) (step nene) (step sese)
+     )
+  )
+
+  (board-setup
+     (Blue
+        (A a1 a2 b2 c1 f1 g2 h1 h2)
+        (D b1 d2 e2 g1)
+        (F c2 f2)
+        (N d1)
+        (W e1)
+     )
+     (Green
+        (A a7 a8 b7 c8 f8 g7 h7 h8)
+        (D b8 d7 e7 g8)
+        (F c7 f7)
+        (N d8)
+        (W e8)
+     )
+  )
+
+  (loss-condition (Green Blue) (checkmated W) )
+)
