@@ -1,5 +1,689 @@
-(define step (
+(define add-2
+  (if (piece? $1)
+      (add $2)
+      (set-flag is-catured? true)
+  )
+)
+
+(define w-step (
   $1 (verify not-friend?)
+  (set-flag is-catured? false)
+  (add-2 F    WF)
+  (add-2 D    WD)
+  (add-2 N    WN)
+  (add-2 A    WA) 
+  (add-2 FD   WFD)
+  (add-2 FN   WFN)
+  (add-2 FA   WFA)
+  (add-2 DN   WDN)
+  (add-2 DA   WDA) 
+  (add-2 NA   WNA)
+  (add-2 FDN  WFDN)
+  (add-2 FDA  WFDA)
+  (add-2 FNA  WFNA)
+  (add-2 DNA  WDNA)
+  (add-2 FDNA WFDNA)
+  (verify (not-flag? is-catured?))
+  add
+))
+
+(define f-step (
+  $1 (verify not-friend?)
+  (set-flag is-catured? false)
+  (add-2 F    F)     ; F
+  (add-2 D    FD)
+  (add-2 N    FN)
+  (add-2 A    FA) 
+  (add-2 FD   FD)    ; F
+  (add-2 FN   FN)    ; F
+  (add-2 FA   FA)    ; F
+  (add-2 DN   FDN)
+  (add-2 DA   FDA) 
+  (add-2 NA   FNA)
+  (add-2 FDN  FDN)   ; F
+  (add-2 FDA  FDA)   ; F
+  (add-2 FNA  FNA)   ; F
+  (add-2 DNA  FDNA)
+  (add-2 FDNA FDNA)  ; F
+  (verify (not-flag? is-catured?))
+  add
+))
+
+(define d-step (
+  $1 (verify not-friend?)
+  (set-flag is-catured? false)
+  (add-2 F    FD)
+  (add-2 D    D)     ; D
+  (add-2 N    DN)
+  (add-2 A    DA) 
+  (add-2 FD   FD)    ; D
+  (add-2 FN   FDN)
+  (add-2 FA   FDA)
+  (add-2 DN   DN)    ; D
+  (add-2 DA   DA)    ; D
+  (add-2 NA   DNA)
+  (add-2 FDN  FDN)   ; D
+  (add-2 FDA  FDA)   ; D
+  (add-2 FNA  FDNA)
+  (add-2 DNA  DNA)   ; D
+  (add-2 FDNA FDNA)  ; D
+  (verify (not-flag? is-catured?))
+  add
+))
+
+(define n-step (
+  $1 (verify not-friend?)
+  (set-flag is-catured? false)
+  (add-2 F    FN)
+  (add-2 D    DN)
+  (add-2 N    N)     ; N
+  (add-2 A    NA) 
+  (add-2 FD   FDN) 
+  (add-2 FN   FN)    ; N
+  (add-2 FA   FNA) 
+  (add-2 DN   DN)    ; N
+  (add-2 DA   DNA) 
+  (add-2 NA   NA)    ; N
+  (add-2 FDN  FDN)   ; N
+  (add-2 FDA  FDNA)
+  (add-2 FNA  FNA)   ; N
+  (add-2 DNA  DNA)   ; N
+  (add-2 FDNA FDNA)  ; N
+  (verify (not-flag? is-catured?))
+  add
+))
+
+(define a-step (
+  $1 (verify not-friend?)
+  (set-flag is-catured? false)
+  (add-2 F    FA)
+  (add-2 D    DA)
+  (add-2 N    NA)
+  (add-2 A    A)     ; A
+  (add-2 FD   FDA) 
+  (add-2 FN   FNA)
+  (add-2 FA   FA)    ; A
+  (add-2 DN   DNA)
+  (add-2 DA   DA)    ; A
+  (add-2 NA   NA)    ; A
+  (add-2 FDN  FDNA)
+  (add-2 FDA  FDA)   ; A
+  (add-2 FNA  FNA)   ; A
+  (add-2 DNA  DNA)   ; A
+  (add-2 FDNA FDNA)  ; A
+  (verify (not-flag? is-catured?))
+  add
+))
+
+(define wf-step (
+  $1 (verify not-friend?)
+  (set-flag is-catured? false)
+  (add-2 F    WF)    ; F
+  (add-2 D    WFD)
+  (add-2 N    WFN)
+  (add-2 A    WFA)
+  (add-2 FD   WFD)   ; F
+  (add-2 FN   WFN)   ; F
+  (add-2 FA   WFA)   ; F
+  (add-2 DN   WFDN)
+  (add-2 DA   WFDA)
+  (add-2 NA   WFNA)
+  (add-2 FDN  WFDN)  ; F
+  (add-2 FDA  WFDA)  ; F
+  (add-2 FNA  WFNA)  ; F
+  (add-2 DNA  WFDNA)
+  (add-2 FDNA WFDNA) ; F
+  (verify (not-flag? is-catured?))
+  add
+))
+
+(define wd-step (
+  $1 (verify not-friend?)
+  (set-flag is-catured? false)
+  (add-2 F    WFD)
+  (add-2 D    WD)    ; D
+  (add-2 N    WDN)
+  (add-2 A    WDA)
+  (add-2 FD   WFD)   ; D
+  (add-2 FN   WFDN)
+  (add-2 FA   WFDA)
+  (add-2 DN   WDN)   ; D
+  (add-2 DA   WDA)   ; D
+  (add-2 NA   WDNA)
+  (add-2 FDN  WFDN)  ; D
+  (add-2 FDA  WFDA)  ; D
+  (add-2 FNA  WFDNA)
+  (add-2 DNA  WDNA)  ; D
+  (add-2 FDNA WFDNA) ; D
+  (verify (not-flag? is-catured?))
+  add
+))
+
+(define wn-step (
+  $1 (verify not-friend?)
+  (set-flag is-catured? false)
+  (add-2 F    WFN)
+  (add-2 D    WDN)
+  (add-2 N    WN)    ; N
+  (add-2 A    WNA)
+  (add-2 FD   WFDN)
+  (add-2 FN   WFN)   ; N
+  (add-2 FA   WFNA)
+  (add-2 DN   WDN)   ; N
+  (add-2 DA   WDNA)
+  (add-2 NA   WNA)   ; N
+  (add-2 FDN  WFDN)  ; N
+  (add-2 FDA  WFDNA)
+  (add-2 FNA  WFNA)  ; N
+  (add-2 DNA  WDNA)  ; N
+  (add-2 FDNA WFDNA) ; N
+  (verify (not-flag? is-catured?))
+  add
+))
+
+(define wa-step (
+  $1 (verify not-friend?)
+  (set-flag is-catured? false)
+  (add-2 F    WFA)
+  (add-2 D    WDA)
+  (add-2 N    WNA)
+  (add-2 A    WA)    ; A
+  (add-2 FD   WFDA)
+  (add-2 FN   WFNA)
+  (add-2 FA   WFA)   ; A
+  (add-2 DN   WDNA)
+  (add-2 DA   WDA)   ; A
+  (add-2 NA   WNA)   ; A
+  (add-2 FDN  WFDNA)
+  (add-2 FDA  WFDA)  ; A
+  (add-2 FNA  WFNA)  ; A
+  (add-2 DNA  WDNA)  ; A
+  (add-2 FDNA WFDNA) ; A
+  (verify (not-flag? is-catured?))
+  add
+))
+
+(define fd-step (
+  $1 (verify not-friend?)
+  (set-flag is-catured? false)
+  (add-2 F    FD)    ; F
+  (add-2 D    FD)    ; D
+  (add-2 N    FDN)
+  (add-2 A    FDA)
+  (add-2 FD   FD)    ; FD
+  (add-2 FN   FDN)   ; F
+  (add-2 FA   FDA)   ; F
+  (add-2 DN   FDN)   ; D
+  (add-2 DA   FDA)   ; D
+  (add-2 NA   FDNA)
+  (add-2 FDN  FDN)   ; FD
+  (add-2 FDA  FDA)   ; FD
+  (add-2 FNA  FDNA)  ; F
+  (add-2 DNA  FDNA)  ; D
+  (add-2 FDNA FDNA)  ; FD
+  (verify (not-flag? is-catured?))
+  add
+))
+
+(define fn-step (
+  $1 (verify not-friend?)
+  (set-flag is-catured? false)
+  (add-2 F    FN)    ; F
+  (add-2 D    FDN)
+  (add-2 N    FN)    ; N
+  (add-2 A    FNA)
+  (add-2 FD   FDN)   ; F
+  (add-2 FN   FN)    ; FN
+  (add-2 FA   FNA)   ; F
+  (add-2 DN   FDN)   ; N
+  (add-2 DA   FDNA)
+  (add-2 NA   FNA)   ; N
+  (add-2 FDN  FDN)   ; FN
+  (add-2 FDA  FDNA)  ; F
+  (add-2 FNA  FNA)   ; FN
+  (add-2 DNA  FDNA)  ; N
+  (add-2 FDNA FDNA)  ; FN
+  (verify (not-flag? is-catured?))
+  add
+))
+
+(define fa-step (
+  $1 (verify not-friend?)
+  (set-flag is-catured? false)
+  (add-2 F    FA)    ; F
+  (add-2 D    FDA)
+  (add-2 N    FNA)
+  (add-2 A    FA)    ; A
+  (add-2 FD   FDA)   ; F
+  (add-2 FN   FNA)   ; F
+  (add-2 FA   FA)    ; FA
+  (add-2 DN   FDNA)
+  (add-2 DA   FDA)   ; A
+  (add-2 NA   FNA)   ; A
+  (add-2 FDN  FDNA)  ; F
+  (add-2 FDA  FDA)   ; FA
+  (add-2 FNA  FNA)   ; FA
+  (add-2 DNA  FDNA)  ; A
+  (add-2 FDNA FDNA)  ; FA
+  (verify (not-flag? is-catured?))
+  add
+))
+
+(define dn-step (
+  $1 (verify not-friend?)
+  (set-flag is-catured? false)
+  (add-2 F    FDN)
+  (add-2 D    DN)    ; D
+  (add-2 N    DN)    ; N
+  (add-2 A    DNA)
+  (add-2 FD   FDN)   ; D
+  (add-2 FN   FDN)   ; N
+  (add-2 FA   FDNA)
+  (add-2 DN   DN)    ; DN
+  (add-2 DA   DNA)   ; D
+  (add-2 NA   DNA)   ; N
+  (add-2 FDN  FDN)   ; DN
+  (add-2 FDA  FDNA)  ; D
+  (add-2 FNA  FDNA)  ; N
+  (add-2 DNA  DNA)   ; DN
+  (add-2 FDNA FDNA)  ; DN
+  (verify (not-flag? is-catured?))
+  add
+))
+
+(define da-step (
+  $1 (verify not-friend?)
+  (set-flag is-catured? false)
+  (add-2 F    FDA)
+  (add-2 D    DA)    ; D
+  (add-2 N    DNA)
+  (add-2 A    DA)    ; A
+  (add-2 FD   FDA)   ; D
+  (add-2 FN   FDNA)
+  (add-2 FA   FDA)   ; A
+  (add-2 DN   DNA)   ; D
+  (add-2 DA   DA)    ; DA
+  (add-2 NA   DNA)   ; A
+  (add-2 FDN  FDNA)  ; D
+  (add-2 FDA  FDA)   ; DA
+  (add-2 FNA  FDNA)  ; A
+  (add-2 DNA  DNA)   ; DA
+  (add-2 FDNA FDNA)  ; DA
+  (verify (not-flag? is-catured?))
+  add
+))
+
+(define na-step (
+  $1 (verify not-friend?)
+  (set-flag is-catured? false)
+  (add-2 F    FNA)
+  (add-2 D    DNA)
+  (add-2 N    NA)    ; N
+  (add-2 A    NA)    ; A
+  (add-2 FD   FDNA)
+  (add-2 FN   FNA)   ; N
+  (add-2 FA   FNA)   ; A
+  (add-2 DN   DNA)   ; N
+  (add-2 DA   DNA)   ; A
+  (add-2 NA   NA)    ; NA
+  (add-2 FDN  FDNA)  ; N
+  (add-2 FDA  FDNA)  ; A
+  (add-2 FNA  FNA)   ; NA
+  (add-2 DNA  DNA)   ; NA
+  (add-2 FDNA FDNA)  ; NA
+  (verify (not-flag? is-catured?))
+  add
+))
+
+(define wfd-step (
+  $1 (verify not-friend?)
+  (set-flag is-catured? false)
+  (add-2 F    WFD)   ; F
+  (add-2 D    WFD)   ; D
+  (add-2 N    WFDN)
+  (add-2 A    WFDA)
+  (add-2 FD   WFD)   ; FD
+  (add-2 FN   WFDN)  ; F
+  (add-2 FA   WFDA)  ; F
+  (add-2 DN   WFDN)  ; D
+  (add-2 DA   WFDA)  ; D
+  (add-2 NA   WFDNA)
+  (add-2 FDN  WFDN)  ; FD
+  (add-2 FDA  WFDA)  ; FD
+  (add-2 FNA  WFDNA) ; F
+  (add-2 DNA  WFDNA) ; D
+  (add-2 FDNA WFDNA) ; FD
+  (verify (not-flag? is-catured?))
+  add
+))
+
+(define wfn-step (
+  $1 (verify not-friend?)
+  (set-flag is-catured? false)
+  (add-2 F    WFN)   ; F
+  (add-2 D    WFDN)
+  (add-2 N    WFN)   ; N
+  (add-2 A    WFNA)
+  (add-2 FD   WFDN)  ; F
+  (add-2 FN   WFN)   ; FN
+  (add-2 FA   WFNA)  ; F
+  (add-2 DN   WFDN)  ; N
+  (add-2 DA   WFDNA)
+  (add-2 NA   WFNA)  ; N
+  (add-2 FDN  WFDN)  ; FN
+  (add-2 FDA  WFDNA) ; F
+  (add-2 FNA  WFNA)  ; FN
+  (add-2 DNA  WFDNA) ; N
+  (add-2 FDNA WFDNA) ; FN
+  (verify (not-flag? is-catured?))
+  add
+))
+
+(define wfa-step (
+  $1 (verify not-friend?)
+  (set-flag is-catured? false)
+  (add-2 F    WFA)   ; F
+  (add-2 D    WFDA)
+  (add-2 N    WFNA)
+  (add-2 A    WFA)   ; A
+  (add-2 FD   WFDA)  ; F
+  (add-2 FN   WFNA)  ; F
+  (add-2 FA   WFA)   ; FA
+  (add-2 DN   WFDNA)
+  (add-2 DA   WFDA)  ; A
+  (add-2 NA   WFNA)  ; A
+  (add-2 FDN  WFDNA) ; F
+  (add-2 FDA  WFDA)  ; FA
+  (add-2 FNA  WFNA)  ; FA
+  (add-2 DNA  WFDNA) ; A
+  (add-2 FDNA WFDNA) ; FA
+  (verify (not-flag? is-catured?))
+  add
+))
+
+(define wdn-step (
+  $1 (verify not-friend?)
+  (set-flag is-catured? false)
+  (add-2 F    WFDN)
+  (add-2 D    WDN)   ; D
+  (add-2 N    WDN)   ; N
+  (add-2 A    WDNA)
+  (add-2 FD   WFDN)  ; D
+  (add-2 FN   WFDN)  ; N
+  (add-2 FA   WFDNA)
+  (add-2 DN   WDN)   ; DN
+  (add-2 DA   WDNA)  ; D
+  (add-2 NA   WDNA)  ; N
+  (add-2 FDN  WFDN)  ; DN
+  (add-2 FDA  WFDNA) ; D
+  (add-2 FNA  WFDNA) ; N
+  (add-2 DNA  WDNA)  ; DN
+  (add-2 FDNA WFDNA) ; DN
+  (verify (not-flag? is-catured?))
+  add
+))
+
+(define wda-step (
+  $1 (verify not-friend?)
+  (set-flag is-catured? false)
+  (add-2 F    WFDA)
+  (add-2 D    WDA)   ; D
+  (add-2 N    WDNA)
+  (add-2 A    WDA)   ; A
+  (add-2 FD   WFDA)  ; D
+  (add-2 FN   WFDNA)
+  (add-2 FA   WFDA)  ; A
+  (add-2 DN   WDNA)  ; D
+  (add-2 DA   WDA)   ; DA
+  (add-2 NA   WDNA)  ; A
+  (add-2 FDN  WFDNA) ; D
+  (add-2 FDA  WFDA)  ; DA
+  (add-2 FNA  WFDNA) ; A
+  (add-2 DNA  WDNA)  ; DA
+  (add-2 FDNA WFDNA) ; DA
+  (verify (not-flag? is-catured?))
+  add
+))
+
+(define wna-step (
+  $1 (verify not-friend?)
+  (set-flag is-catured? false)
+  (add-2 F    WFNA)
+  (add-2 D    WDNA)
+  (add-2 N    WNA)   ; N
+  (add-2 A    WNA)   ; A
+  (add-2 FD   WFDNA)
+  (add-2 FN   WFNA)  ; N
+  (add-2 FA   WFNA)  ; A
+  (add-2 DN   WDNA)  ; N
+  (add-2 DA   WDNA)  ; A
+  (add-2 NA   WNA)   ; NA
+  (add-2 FDN  WFDNA) ; N
+  (add-2 FDA  WFDNA) ; A
+  (add-2 FNA  WFNA)  ; NA
+  (add-2 DNA  WDNA)  ; NA
+  (add-2 FDNA WFDNA) ; NA
+  (verify (not-flag? is-catured?))
+  add
+))
+
+(define fdn-step (
+  $1 (verify not-friend?)
+  (set-flag is-catured? false)
+  (add-2 F    FDN)   ; F
+  (add-2 D    FDN)   ; D
+  (add-2 N    FDN)   ; N
+  (add-2 A    FDNA)
+  (add-2 FD   FDN)   ; FD
+  (add-2 FN   FDN)   ; FN
+  (add-2 FA   FDNA)  ; F
+  (add-2 DN   FDN)   ; DN
+  (add-2 DA   FDNA)  ; D
+  (add-2 NA   FDNA)  ; N
+  (add-2 FDN  FDN)   ; FDN
+  (add-2 FDA  FDNA)  ; FD
+  (add-2 FNA  FDNA)  ; FN
+  (add-2 DNA  FDNA)  ; DN
+  (add-2 FDNA FDNA)  ; FDN
+  (verify (not-flag? is-catured?))
+  add
+))
+
+(define fda-step (
+  $1 (verify not-friend?)
+  (set-flag is-catured? false)
+  (add-2 F    FDA)   ; F
+  (add-2 D    FDA)   ; D
+  (add-2 N    FDNA)
+  (add-2 A    FDA)   ; A
+  (add-2 FD   FDA)   ; FD
+  (add-2 FN   FDNA)  ; F
+  (add-2 FA   FDA)   ; FA
+  (add-2 DN   FDNA)  ; D
+  (add-2 DA   FDA)   ; DA
+  (add-2 NA   FDNA)  ; A
+  (add-2 FDN  FDNA)  ; FD
+  (add-2 FDA  FDA)   ; FDA
+  (add-2 FNA  FDNA)  ; FA
+  (add-2 DNA  FDNA)  ; DA
+  (add-2 FDNA FDNA)  ; FDA
+  (verify (not-flag? is-catured?))
+  add
+))
+
+(define fna-step (
+  $1 (verify not-friend?)
+  (set-flag is-catured? false)
+  (add-2 F    FNA)   ; F
+  (add-2 D    FDNA)
+  (add-2 N    FNA)   ; N
+  (add-2 A    FNA)   ; A
+  (add-2 FD   FDNA)  ; F
+  (add-2 FN   FNA)   ; FN
+  (add-2 FA   FNA)   ; FA
+  (add-2 DN   FDNA)  ; N
+  (add-2 DA   FDNA)  ; A
+  (add-2 NA   FNA)   ; NA
+  (add-2 FDN  FDNA)  ; FN
+  (add-2 FDA  FDNA)  ; FA
+  (add-2 FNA  FNA)   ; FNA
+  (add-2 DNA  FDNA)  ; NA
+  (add-2 FDNA FDNA)  ; FNA
+  (verify (not-flag? is-catured?))
+  add
+))
+
+(define dna-step (
+  $1 (verify not-friend?)
+  (set-flag is-catured? false)
+  (add-2 F    FDNA)
+  (add-2 D    DNA)   ; D
+  (add-2 N    DNA)   ; N
+  (add-2 A    DNA)   ; A
+  (add-2 FD   FDNA)  ; D
+  (add-2 FN   FDNA)  ; N
+  (add-2 FA   FDNA)  ; A
+  (add-2 DN   DNA)   ; DN
+  (add-2 DA   DNA)   ; DA
+  (add-2 NA   DNA)   ; NA
+  (add-2 FDN  FDNA)  ; DN
+  (add-2 FDA  FDNA)  ; DA
+  (add-2 FNA  FDNA)  ; NA
+  (add-2 DNA  DNA)   ; DNA
+  (add-2 FDNA FDNA)  ; DNA
+  (verify (not-flag? is-catured?))
+  add
+))
+
+(define wfdn-step (
+  $1 (verify not-friend?)
+  (set-flag is-catured? false)
+  (add-2 F    WFDN)  ; F
+  (add-2 D    WFDN)  ; D
+  (add-2 N    WFDN)  ; N
+  (add-2 A    WFDNA)
+  (add-2 FD   WFDN)  ; FD
+  (add-2 FN   WFDN)  ; FN
+  (add-2 FA   WFDNA) ; F
+  (add-2 DN   WFDN)  ; DN
+  (add-2 DA   WFDNA) ; D
+  (add-2 NA   WFDNA) ; N
+  (add-2 FDN  WFDN)  ; FDN
+  (add-2 FDA  WFDNA) ; FD
+  (add-2 FNA  WFDNA) ; FN
+  (add-2 DNA  WFDNA) ; DN
+  (add-2 FDNA WFDNA) ; FDN
+  (verify (not-flag? is-catured?))
+  add
+))
+
+(define wfda-step (
+  $1 (verify not-friend?)
+  (set-flag is-catured? false)
+  (add-2 F    WFDA)  ; F
+  (add-2 D    WFDA)  ; D
+  (add-2 N    WFDNA)
+  (add-2 A    WFDA)  ; A
+  (add-2 FD   WFDA)  ; FD
+  (add-2 FN   WFDNA) ; F
+  (add-2 FA   WFDA)  ; FA
+  (add-2 DN   WFDNA) ; D
+  (add-2 DA   WFDA)  ; DA
+  (add-2 NA   WFDNA) ; A
+  (add-2 FDN  WFDNA) ; FD
+  (add-2 FDA  WFDA)  ; FDA
+  (add-2 FNA  WFDNA) ; FA
+  (add-2 DNA  WFDNA) ; DA
+  (add-2 FDNA WFDNA) ; FDA
+  (verify (not-flag? is-catured?))
+  add
+))
+
+(define wfna-step (
+  $1 (verify not-friend?)
+  (set-flag is-catured? false)
+  (add-2 F    WFNA)  ; F
+  (add-2 D    WFDNA)
+  (add-2 N    WFNA)  ; N
+  (add-2 A    WFNA)  ; A
+  (add-2 FD   WFDNA) ; F
+  (add-2 FN   WFNA)  ; FN
+  (add-2 FA   WFNA)  ; FA
+  (add-2 DN   WFDNA) ; N
+  (add-2 DA   WFDNA) ; A
+  (add-2 NA   WFNA)  ; NA
+  (add-2 FDN  WFDNA) ; FN
+  (add-2 FDA  WFDNA) ; FA
+  (add-2 FNA  WFNA)  ; FNA
+  (add-2 DNA  WFDNA) ; NA
+  (add-2 FDNA WFDNA) ; FNA
+  (verify (not-flag? is-catured?))
+  add
+))
+
+(define wdna-step (
+  $1 (verify not-friend?)
+  (set-flag is-catured? false)
+  (add-2 F    WFDNA)
+  (add-2 D    WDNA)  ; D
+  (add-2 N    WDNA)  ; N
+  (add-2 A    WDNA)  ; A
+  (add-2 FD   WFDNA) ; D
+  (add-2 FN   WFDNA) ; N
+  (add-2 FA   WFDNA) ; A
+  (add-2 DN   WDNA)  ; DN
+  (add-2 DA   WDNA)  ; DA
+  (add-2 NA   WDNA)  ; NA
+  (add-2 FDN  WFDNA) ; DN
+  (add-2 FDA  WFDNA) ; DA
+  (add-2 FNA  WFDNA) ; NA
+  (add-2 DNA  WDNA)  ; DNA
+  (add-2 FDNA WFDNA) ; DNA
+  (verify (not-flag? is-catured?))
+  add
+))
+
+(define fdna-step (
+  $1 (verify not-friend?)
+  (set-flag is-catured? false)
+  (add-2 F    FDNA)  ; F
+  (add-2 D    FDNA)  ; D
+  (add-2 N    FDNA)  ; N
+  (add-2 A    FDNA)  ; A
+  (add-2 FD   FDNA)  ; FD
+  (add-2 FN   FDNA)  ; FN
+  (add-2 FA   FDNA)  ; FA
+  (add-2 DN   FDNA)  ; DN
+  (add-2 DA   FDNA)  ; DA
+  (add-2 NA   FDNA)  ; NA
+  (add-2 FDN  FDNA)  ; FDN
+  (add-2 FDA  FDNA)  ; FDA
+  (add-2 FNA  FDNA)  ; FNA
+  (add-2 DNA  FDNA)  ; DNA
+  (add-2 FDNA FDNA)  ; FDNA
+  (verify (not-flag? is-catured?))
+  add
+))
+
+(define wfdna-step (
+  $1 (verify not-friend?)
+  (set-flag is-catured? false)
+  (add-2 F    WFDNA) ; F
+  (add-2 D    WFDNA) ; D
+  (add-2 N    WFDNA) ; N
+  (add-2 A    WFDNA) ; A
+  (add-2 FD   WFDNA) ; FD
+  (add-2 FN   WFDNA) ; FN
+  (add-2 FA   WFDNA) ; FA
+  (add-2 DN   WFDNA) ; DN
+  (add-2 DA   WFDNA) ; DA
+  (add-2 NA   WFDNA) ; NA
+  (add-2 FDN  WFDNA) ; FDN
+  (add-2 FDA  WFDNA) ; FDA
+  (add-2 FNA  WFDNA) ; FNA
+  (add-2 DNA  WFDNA) ; DNA
+  (add-2 FDNA WFDNA) ; FDNA
+  (verify (not-flag? is-catured?))
   add
 ))
 
@@ -57,7 +741,7 @@
      (image Green "../images/Escalation/gw.bmp"
             Blue "../images/Escalation/bw.bmp")
      (moves
-        (step n) (step s) (step w) (step e)
+        (w-step n) (w-step s) (w-step w) (w-step e)
      )
   )
   (piece
@@ -66,7 +750,7 @@
      (image Green "../images/Escalation/gf.bmp"
             Blue "../images/Escalation/bf.bmp")
      (moves
-        (step nw) (step sw) (step ne) (step se)
+        (f-step nw) (f-step sw) (f-step ne) (f-step se)
      )
   )
   (piece
@@ -75,7 +759,7 @@
      (image Green "../images/Escalation/gd.bmp"
             Blue "../images/Escalation/bd.bmp")
      (moves
-        (step nn) (step ss) (step ww) (step ee)
+        (d-step nn) (d-step ss) (d-step ww) (d-step ee)
      )
   )
   (piece
@@ -84,8 +768,8 @@
      (image Green "../images/Escalation/gn.bmp"
             Blue "../images/Escalation/bn.bmp")
      (moves
-        (step nnw) (step nne) (step ssw) (step sse)
-        (step nww) (step nee) (step sww) (step see)
+        (n-step nnw) (n-step nne) (n-step ssw) (n-step sse)
+        (n-step nww) (n-step nee) (n-step sww) (n-step see)
      )
   )
   (piece
@@ -94,7 +778,7 @@
      (image Green "../images/Escalation/ga.bmp"
             Blue "../images/Escalation/ba.bmp")
      (moves
-        (step nwnw) (step swsw) (step nene) (step sese)
+        (a-step nwnw) (a-step swsw) (a-step nene) (a-step sese)
      )
   )
   (piece
@@ -103,8 +787,8 @@
      (image Green "../images/Escalation/gwf.bmp"
             Blue "../images/Escalation/bwf.bmp")
      (moves
-        (step n) (step s) (step w) (step e)
-        (step nw) (step sw) (step ne) (step se)
+        (wf-step n) (wf-step s) (wf-step w) (wf-step e)
+        (wf-step nw) (wf-step sw) (wf-step ne) (wf-step se)
      )
   )
   (piece
@@ -113,8 +797,8 @@
      (image Green "../images/Escalation/gwd.bmp"
             Blue "../images/Escalation/bwd.bmp")
      (moves
-        (step n) (step s) (step w) (step e)
-        (step nn) (step ss) (step ww) (step ee)
+        (wd-step n) (wd-step s) (wd-step w) (wd-step e)
+        (wd-step nn) (wd-step ss) (wd-step ww) (wd-step ee)
      )
   )
   (piece
@@ -123,9 +807,9 @@
      (image Green "../images/Escalation/gwn.bmp"
             Blue "../images/Escalation/bwn.bmp")
      (moves
-        (step n) (step s) (step w) (step e)
-        (step nnw) (step nne) (step ssw) (step sse)
-        (step nww) (step nee) (step sww) (step see)
+        (wn-step n) (wn-step s) (wn-step w) (wn-step e)
+        (wn-step nnw) (wn-step nne) (wn-step ssw) (wn-step sse)
+        (wn-step nww) (wn-step nee) (wn-step sww) (wn-step see)
      )
   )
   (piece
@@ -134,8 +818,8 @@
      (image Green "../images/Escalation/gwa.bmp"
             Blue "../images/Escalation/bwa.bmp")
      (moves
-        (step n) (step s) (step w) (step e)
-        (step nwnw) (step swsw) (step nene) (step sese)
+        (wa-step n) (wa-step s) (wa-step w) (wa-step e)
+        (wa-step nwnw) (wa-step swsw) (wa-step nene) (wa-step sese)
      )
   )
   (piece
@@ -144,8 +828,8 @@
      (image Green "../images/Escalation/gfd.bmp"
             Blue "../images/Escalation/bfd.bmp")
      (moves
-        (step nw) (step sw) (step ne) (step se)
-        (step nn) (step ss) (step ww) (step ee)
+        (fd-step nw) (fd-step sw) (fd-step ne) (fd-step se)
+        (fd-step nn) (fd-step ss) (fd-step ww) (fd-step ee)
      )
   )
   (piece
@@ -154,9 +838,9 @@
      (image Green "../images/Escalation/gfn.bmp"
             Blue "../images/Escalation/bfn.bmp")
      (moves
-        (step nw) (step sw) (step ne) (step se)
-        (step nnw) (step nne) (step ssw) (step sse)
-        (step nww) (step nee) (step sww) (step see)
+        (fn-step nw) (fn-step sw) (fn-step ne) (fn-step se)
+        (fn-step nnw) (fn-step nne) (fn-step ssw) (fn-step sse)
+        (fn-step nww) (fn-step nee) (fn-step sww) (fn-step see)
      )
   )
   (piece
@@ -165,8 +849,8 @@
      (image Green "../images/Escalation/gfa.bmp"
             Blue "../images/Escalation/bfa.bmp")
      (moves
-        (step nw) (step sw) (step ne) (step se)
-        (step nwnw) (step swsw) (step nene) (step sese)
+        (fa-step nw) (fa-step sw) (fa-step ne) (fa-step se)
+        (fa-step nwnw) (fa-step swsw) (fa-step nene) (fa-step sese)
      )
   )
   (piece
@@ -175,9 +859,9 @@
      (image Green "../images/Escalation/gdn.bmp"
             Blue "../images/Escalation/bdn.bmp")
      (moves
-        (step nn) (step ss) (step ww) (step ee)
-        (step nnw) (step nne) (step ssw) (step sse)
-        (step nww) (step nee) (step sww) (step see)
+        (dn-step nn) (dn-step ss) (dn-step ww) (dn-step ee)
+        (dn-step nnw) (dn-step nne) (dn-step ssw) (dn-step sse)
+        (dn-step nww) (dn-step nee) (dn-step sww) (dn-step see)
      )
   )
   (piece
@@ -186,8 +870,8 @@
      (image Green "../images/Escalation/gda.bmp"
             Blue "../images/Escalation/bda.bmp")
      (moves
-        (step nn) (step ss) (step ww) (step ee)
-        (step nwnw) (step swsw) (step nene) (step sese)
+        (da-step nn) (da-step ss) (da-step ww) (da-step ee)
+        (da-step nwnw) (da-step swsw) (da-step nene) (da-step sese)
      )
   )
   (piece
@@ -196,9 +880,9 @@
      (image Green "../images/Escalation/gna.bmp"
             Blue "../images/Escalation/bna.bmp")
      (moves
-        (step nnw) (step nne) (step ssw) (step sse)
-        (step nww) (step nee) (step sww) (step see)
-        (step nwnw) (step swsw) (step nene) (step sese)
+        (na-step nnw) (na-step nne) (na-step ssw) (na-step sse)
+        (na-step nww) (na-step nee) (na-step sww) (na-step see)
+        (na-step nwnw) (na-step swsw) (na-step nene) (na-step sese)
      )
   )
   (piece
@@ -207,9 +891,9 @@
      (image Green "../images/Escalation/gwfd.bmp"
             Blue "../images/Escalation/bwfd.bmp")
      (moves
-        (step n) (step s) (step w) (step e)
-        (step nw) (step sw) (step ne) (step se)
-        (step nn) (step ss) (step ww) (step ee)
+        (wfd-step n) (wfd-step s) (wfd-step w) (wfd-step e)
+        (wfd-step nw) (wfd-step sw) (wfd-step ne) (wfd-step se)
+        (wfd-step nn) (wfd-step ss) (wfd-step ww) (wfd-step ee)
      )
   )
   (piece
@@ -218,10 +902,10 @@
      (image Green "../images/Escalation/gwfn.bmp"
             Blue "../images/Escalation/bwfn.bmp")
      (moves
-        (step n) (step s) (step w) (step e)
-        (step nw) (step sw) (step ne) (step se)
-        (step nnw) (step nne) (step ssw) (step sse)
-        (step nww) (step nee) (step sww) (step see)
+        (wfn-step n) (wfn-step s) (wfn-step w) (wfn-step e)
+        (wfn-step nw) (wfn-step sw) (wfn-step ne) (wfn-step se)
+        (wfn-step nnw) (wfn-step nne) (wfn-step ssw) (wfn-step sse)
+        (wfn-step nww) (wfn-step nee) (wfn-step sww) (wfn-step see)
      )
   )
   (piece
@@ -230,9 +914,9 @@
      (image Green "../images/Escalation/gwfa.bmp"
             Blue "../images/Escalation/bwfa.bmp")
      (moves
-        (step n) (step s) (step w) (step e)
-        (step nw) (step sw) (step ne) (step se)
-        (step nwnw) (step swsw) (step nene) (step sese)
+        (wfa-step n) (wfa-step s) (wfa-step w) (wfa-step e)
+        (wfa-step nw) (wfa-step sw) (wfa-step ne) (wfa-step se)
+        (wfa-step nwnw) (wfa-step swsw) (wfa-step nene) (wfa-step sese)
      )
   )
   (piece
@@ -241,10 +925,10 @@
      (image Green "../images/Escalation/gwdn.bmp"
             Blue "../images/Escalation/bwdn.bmp")
      (moves
-        (step n) (step s) (step w) (step e)
-        (step nn) (step ss) (step ww) (step ee)
-        (step nnw) (step nne) (step ssw) (step sse)
-        (step nww) (step nee) (step sww) (step see)
+        (wdn-step n) (wdn-step s) (wdn-step w) (wdn-step e)
+        (wdn-step nn) (wdn-step ss) (wdn-step ww) (wdn-step ee)
+        (wdn-step nnw) (wdn-step nne) (wdn-step ssw) (wdn-step sse)
+        (wdn-step nww) (wdn-step nee) (wdn-step sww) (wdn-step see)
      )
   )
   (piece
@@ -253,9 +937,9 @@
      (image Green "../images/Escalation/gwda.bmp"
             Blue "../images/Escalation/bwda.bmp")
      (moves
-        (step n) (step s) (step w) (step e)
-        (step nn) (step ss) (step ww) (step ee)
-        (step nwnw) (step swsw) (step nene) (step sese)
+        (wda-step n) (wda-step s) (wda-step w) (wda-step e)
+        (wda-step nn) (wda-step ss) (wda-step ww) (wda-step ee)
+        (wda-step nwnw) (wda-step swsw) (wda-step nene) (wda-step sese)
      )
   )
   (piece
@@ -264,10 +948,10 @@
      (image Green "../images/Escalation/gwna.bmp"
             Blue "../images/Escalation/bwna.bmp")
      (moves
-        (step n) (step s) (step w) (step e)
-        (step nnw) (step nne) (step ssw) (step sse)
-        (step nww) (step nee) (step sww) (step see)
-        (step nwnw) (step swsw) (step nene) (step sese)
+        (wna-step n) (wna-step s) (wna-step w) (wna-step e)
+        (wna-step nnw) (wna-step nne) (wna-step ssw) (wna-step sse)
+        (wna-step nww) (wna-step nee) (wna-step sww) (wna-step see)
+        (wna-step nwnw) (wna-step swsw) (wna-step nene) (wna-step sese)
      )
   )
   (piece
@@ -276,10 +960,10 @@
      (image Green "../images/Escalation/gfdn.bmp"
             Blue "../images/Escalation/bfdn.bmp")
      (moves
-        (step nw) (step sw) (step ne) (step se)
-        (step nn) (step ss) (step ww) (step ee)
-        (step nnw) (step nne) (step ssw) (step sse)
-        (step nww) (step nee) (step sww) (step see)
+        (fdn-step nw) (fdn-step sw) (fdn-step ne) (fdn-step se)
+        (fdn-step nn) (fdn-step ss) (fdn-step ww) (fdn-step ee)
+        (fdn-step nnw) (fdn-step nne) (fdn-step ssw) (fdn-step sse)
+        (fdn-step nww) (fdn-step nee) (fdn-step sww) (fdn-step see)
      )
   )
   (piece
@@ -288,9 +972,9 @@
      (image Green "../images/Escalation/gfda.bmp"
             Blue "../images/Escalation/bfda.bmp")
      (moves
-        (step nw) (step sw) (step ne) (step se)
-        (step nn) (step ss) (step ww) (step ee)
-        (step nwnw) (step swsw) (step nene) (step sese)
+        (fda-step nw) (fda-step sw) (fda-step ne) (fda-step se)
+        (fda-step nn) (fda-step ss) (fda-step ww) (fda-step ee)
+        (fda-step nwnw) (fda-step swsw) (fda-step nene) (fda-step sese)
      )
   )
   (piece
@@ -299,10 +983,10 @@
      (image Green "../images/Escalation/gfna.bmp"
             Blue "../images/Escalation/bfna.bmp")
      (moves
-        (step nw) (step sw) (step ne) (step se)
-        (step nnw) (step nne) (step ssw) (step sse)
-        (step nww) (step nee) (step sww) (step see)
-        (step nwnw) (step swsw) (step nene) (step sese)
+        (fna-step nw) (fna-step sw) (fna-step ne) (fna-step se)
+        (fna-step nnw) (fna-step nne) (fna-step ssw) (fna-step sse)
+        (fna-step nww) (fna-step nee) (fna-step sww) (fna-step see)
+        (fna-step nwnw) (fna-step swsw) (fna-step nene) (fna-step sese)
      )
   )
   (piece
@@ -311,10 +995,10 @@
      (image Green "../images/Escalation/gdna.bmp"
             Blue "../images/Escalation/bdna.bmp")
      (moves
-        (step nn) (step ss) (step ww) (step ee)
-        (step nnw) (step nne) (step ssw) (step sse)
-        (step nww) (step nee) (step sww) (step see)
-        (step nwnw) (step swsw) (step nene) (step sese)
+        (dna-step nn) (dna-step ss) (dna-step ww) (dna-step ee)
+        (dna-step nnw) (dna-step nne) (dna-step ssw) (dna-step sse)
+        (dna-step nww) (dna-step nee) (dna-step sww) (dna-step see)
+        (dna-step nwnw) (dna-step swsw) (dna-step nene) (dna-step sese)
      )
   )
   (piece
@@ -323,11 +1007,11 @@
      (image Green "../images/Escalation/gwfdn.bmp"
             Blue "../images/Escalation/bwfdn.bmp")
      (moves
-        (step n) (step s) (step w) (step e)
-        (step nw) (step sw) (step ne) (step se)
-        (step nn) (step ss) (step ww) (step ee)
-        (step nnw) (step nne) (step ssw) (step sse)
-        (step nww) (step nee) (step sww) (step see)
+        (wfdn-step n) (wfdn-step s) (wfdn-step w) (wfdn-step e)
+        (wfdn-step nw) (wfdn-step sw) (wfdn-step ne) (wfdn-step se)
+        (wfdn-step nn) (wfdn-step ss) (wfdn-step ww) (wfdn-step ee)
+        (wfdn-step nnw) (wfdn-step nne) (wfdn-step ssw) (wfdn-step sse)
+        (wfdn-step nww) (wfdn-step nee) (wfdn-step sww) (wfdn-step see)
      )
   )
   (piece
@@ -336,10 +1020,10 @@
      (image Green "../images/Escalation/gwfda.bmp"
             Blue "../images/Escalation/bwfda.bmp")
      (moves
-        (step n) (step s) (step w) (step e)
-        (step nw) (step sw) (step ne) (step se)
-        (step nn) (step ss) (step ww) (step ee)
-        (step nwnw) (step swsw) (step nene) (step sese)
+        (wfda-step n) (wfda-step s) (wfda-step w) (wfda-step e)
+        (wfda-step nw) (wfda-step sw) (wfda-step ne) (wfda-step se)
+        (wfda-step nn) (wfda-step ss) (wfda-step ww) (wfda-step ee)
+        (wfda-step nwnw) (wfda-step swsw) (wfda-step nene) (wfda-step sese)
      )
   )
   (piece
@@ -348,11 +1032,11 @@
      (image Green "../images/Escalation/gwfna.bmp"
             Blue "../images/Escalation/bwfna.bmp")
      (moves
-        (step n) (step s) (step w) (step e)
-        (step nw) (step sw) (step ne) (step se)
-        (step nnw) (step nne) (step ssw) (step sse)
-        (step nww) (step nee) (step sww) (step see)
-        (step nwnw) (step swsw) (step nene) (step sese)
+        (wfna-step n) (wfna-step s) (wfna-step w) (wfna-step e)
+        (wfna-step nw) (wfna-step sw) (wfna-step ne) (wfna-step se)
+        (wfna-step nnw) (wfna-step nne) (wfna-step ssw) (wfna-step sse)
+        (wfna-step nww) (wfna-step nee) (wfna-step sww) (wfna-step see)
+        (wfna-step nwnw) (wfna-step swsw) (wfna-step nene) (wfna-step sese)
      )
   )
   (piece
@@ -361,11 +1045,11 @@
      (image Green "../images/Escalation/gwdna.bmp"
             Blue "../images/Escalation/bwdna.bmp")
      (moves
-        (step n) (step s) (step w) (step e)
-        (step nn) (step ss) (step ww) (step ee)
-        (step nnw) (step nne) (step ssw) (step sse)
-        (step nww) (step nee) (step sww) (step see)
-        (step nwnw) (step swsw) (step nene) (step sese)
+        (wdna-step n) (wdna-step s) (wdna-step w) (wdna-step e)
+        (wdna-step nn) (wdna-step ss) (wdna-step ww) (wdna-step ee)
+        (wdna-step nnw) (wdna-step nne) (wdna-step ssw) (wdna-step sse)
+        (wdna-step nww) (wdna-step nee) (wdna-step sww) (wdna-step see)
+        (wdna-step nwnw) (wdna-step swsw) (wdna-step nene) (wdna-step sese)
      )
   )
   (piece
@@ -374,11 +1058,11 @@
      (image Green "../images/Escalation/gfdna.bmp"
             Blue "../images/Escalation/bfdna.bmp")
      (moves
-        (step nw) (step sw) (step ne) (step se)
-        (step nn) (step ss) (step ww) (step ee)
-        (step nnw) (step nne) (step ssw) (step sse)
-        (step nww) (step nee) (step sww) (step see)
-        (step nwnw) (step swsw) (step nene) (step sese)
+        (fdna-step nw) (fdna-step sw) (fdna-step ne) (fdna-step se)
+        (fdna-step nn) (fdna-step ss) (fdna-step ww) (fdna-step ee)
+        (fdna-step nnw) (fdna-step nne) (fdna-step ssw) (fdna-step sse)
+        (fdna-step nww) (fdna-step nee) (fdna-step sww) (fdna-step see)
+        (fdna-step nwnw) (fdna-step swsw) (fdna-step nene) (fdna-step sese)
      )
   )
   (piece
@@ -387,12 +1071,12 @@
      (image Green "../images/Escalation/gwfdna.bmp"
             Blue "../images/Escalation/bwfdna.bmp")
      (moves
-        (step n) (step s) (step w) (step e)
-        (step nw) (step sw) (step ne) (step se)
-        (step nn) (step ss) (step ww) (step ee)
-        (step nnw) (step nne) (step ssw) (step sse)
-        (step nww) (step nee) (step sww) (step see)
-        (step nwnw) (step swsw) (step nene) (step sese)
+        (wfdna-step n) (wfdna-step s) (wfdna-step w) (wfdna-step e)
+        (wfdna-step nw) (wfdna-step sw) (wfdna-step ne) (wfdna-step se)
+        (wfdna-step nn) (wfdna-step ss) (wfdna-step ww) (wfdna-step ee)
+        (wfdna-step nnw) (wfdna-step nne) (wfdna-step ssw) (wfdna-step sse)
+        (wfdna-step nww) (wfdna-step nee) (wfdna-step sww) (wfdna-step see)
+        (wfdna-step nwnw) (wfdna-step swsw) (wfdna-step nene) (wfdna-step sese)
      )
   )
 
@@ -414,4 +1098,5 @@
   )
 
   (loss-condition (Green Blue) (checkmated W WF WD WN WA WFD WFN WFA WDN WDA WNA WFDN WFDA WFNA WDNA WFDNA) )
+  (loss-condition (Green Blue) repetition )
 )
