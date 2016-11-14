@@ -1,5 +1,353 @@
+(define fdna-from-reserve (
+  (verify (in-zone? reserve))
+  a0
+  (while (on-board? next)
+     next
+     (if (and friend? 
+              (not-piece? FDNA)
+              (not-piece? WFDNA)
+         )
+         (add-fdna)
+     )
+  )
+))
+
+(define dna-from-reserve (
+  (verify (in-zone? reserve))
+  a0
+  (while (on-board? next)
+     next
+     (if (and friend? 
+              (not-piece? DNA)
+              (not-piece? WDNA)
+              (not-piece? WDNA)
+              (not-piece? WFDNA)
+         )
+         (add-dna)
+     )
+  )
+))
+
+(define fna-from-reserve (
+  (verify (in-zone? reserve))
+  a0
+  (while (on-board? next)
+     next
+     (if (and friend? 
+              (not-piece? FNA)
+              (not-piece? WFNA)
+              (not-piece? FDNA)
+              (not-piece? WFDNA)
+         )
+         (add-fna)
+     )
+  )
+))
+
+(define fda-from-reserve (
+  (verify (in-zone? reserve))
+  a0
+  (while (on-board? next)
+     next
+     (if (and friend? 
+              (not-piece? FDA)
+              (not-piece? WFDA)
+              (not-piece? FDNA)
+              (not-piece? WFDNA)
+         )
+         (add-fda)
+     )
+  )
+))
+
+(define fdn-from-reserve (
+  (verify (in-zone? reserve))
+  a0
+  (while (on-board? next)
+     next
+     (if (and friend? 
+              (not-piece? FDN)
+              (not-piece? WFDN)
+              (not-piece? FDNA)
+              (not-piece? WFDNA)
+         )
+         (add-fdn)
+     )
+  )
+))
+
+(define na-from-reserve (
+  (verify (in-zone? reserve))
+  a0
+  (while (on-board? next)
+     next
+     (if (and friend? 
+              (not-piece? NA)
+              (not-piece? WNA)
+              (not-piece? FNA)
+              (not-piece? DNA)
+              (not-piece? WFNA)
+              (not-piece? WDNA)
+              (not-piece? FDNA)
+              (not-piece? WFDNA)
+         )
+         (add-na)
+     )
+  )
+))
+
+(define da-from-reserve (
+  (verify (in-zone? reserve))
+  a0
+  (while (on-board? next)
+     next
+     (if (and friend? 
+              (not-piece? DA)
+              (not-piece? WDA)
+              (not-piece? FDA)
+              (not-piece? DNA)
+              (not-piece? WFDA)
+              (not-piece? WDNA)
+              (not-piece? FDNA)
+              (not-piece? WFDNA)
+         )
+         (add-da)
+     )
+  )
+))
+
+(define dn-from-reserve (
+  (verify (in-zone? reserve))
+  a0
+  (while (on-board? next)
+     next
+     (if (and friend? 
+              (not-piece? DN)
+              (not-piece? WDN)
+              (not-piece? FDN)
+              (not-piece? DNA)
+              (not-piece? WFDN)
+              (not-piece? WDNA)
+              (not-piece? FDNA)
+              (not-piece? WFDNA)
+         )
+         (add-dn)
+     )
+  )
+))
+
+(define fa-from-reserve (
+  (verify (in-zone? reserve))
+  a0
+  (while (on-board? next)
+     next
+     (if (and friend? 
+              (not-piece? FA)
+              (not-piece? WFA)
+              (not-piece? FDA)
+              (not-piece? FNA)
+              (not-piece? WFDA)
+              (not-piece? WFNA)
+              (not-piece? FDNA)
+              (not-piece? WFDNA)
+         )
+         (add-fa)
+     )
+  )
+))
+
+(define fn-from-reserve (
+  (verify (in-zone? reserve))
+  a0
+  (while (on-board? next)
+     next
+     (if (and friend? 
+              (not-piece? FN)
+              (not-piece? WFN)
+              (not-piece? FDN)
+              (not-piece? FNA)
+              (not-piece? WFDN)
+              (not-piece? WFNA)
+              (not-piece? FDNA)
+              (not-piece? WFDNA)
+         )
+         (add-fn)
+     )
+  )
+))
+
+(define fd-from-reserve (
+  (verify (in-zone? reserve))
+  a0
+  (while (on-board? next)
+     next
+     (if (and friend? 
+              (not-piece? FD)
+              (not-piece? WFD)
+              (not-piece? FDN)
+              (not-piece? FDA)
+              (not-piece? WFDN)
+              (not-piece? WFDA)
+              (not-piece? FDNA)
+              (not-piece? WFDNA)
+         )
+         (add-fd)
+     )
+  )
+))
+
+(define a-from-reserve (
+  (verify (in-zone? reserve))
+  a0
+  (while (on-board? next)
+     next
+     (if (and friend? 
+              (not-piece? A)
+              (not-piece? WA)
+              (not-piece? FA)
+              (not-piece? DA)
+              (not-piece? NA)
+              (not-piece? WFA)
+              (not-piece? WDA)
+              (not-piece? WNA)
+              (not-piece? FDA)
+              (not-piece? FNA)
+              (not-piece? DNA)
+              (not-piece? WFDA)
+              (not-piece? WFNA)
+              (not-piece? WDNA)
+              (not-piece? FDNA)
+              (not-piece? WFDNA)
+         )
+         (add-a)
+     )
+  )
+))
+
+(define n-from-reserve (
+  (verify (in-zone? reserve))
+  a0
+  (while (on-board? next)
+     next
+     (if (and friend? 
+              (not-piece? N)
+              (not-piece? WN)
+              (not-piece? FN)
+              (not-piece? DN)
+              (not-piece? NA)
+              (not-piece? WFN)
+              (not-piece? WDN)
+              (not-piece? WNA)
+              (not-piece? FDN)
+              (not-piece? FNA)
+              (not-piece? DNA)
+              (not-piece? WFDN)
+              (not-piece? WFNA)
+              (not-piece? WDNA)
+              (not-piece? FDNA)
+              (not-piece? WFDNA)
+         )
+         (add-n)
+     )
+  )
+))
+
+(define d-from-reserve (
+  (verify (in-zone? reserve))
+  a0
+  (while (on-board? next)
+     next
+     (if (and friend? 
+              (not-piece? D)
+              (not-piece? WD)
+              (not-piece? FD)
+              (not-piece? DN)
+              (not-piece? DA)
+              (not-piece? WFD)
+              (not-piece? WDN)
+              (not-piece? WDA)
+              (not-piece? FDN)
+              (not-piece? FDA)
+              (not-piece? DNA)
+              (not-piece? WFDN)
+              (not-piece? WFDA)
+              (not-piece? WDNA)
+              (not-piece? FDNA)
+              (not-piece? WFDNA)
+         )
+         (add-d)
+     )
+  )
+))
+
+(define f-from-reserve (
+  (verify (in-zone? reserve))
+  a0
+  (while (on-board? next)
+     next
+     (if (and friend? 
+              (not-piece? F)
+              (not-piece? WF)
+              (not-piece? FD)
+              (not-piece? FN)
+              (not-piece? FA)
+              (not-piece? WFD)
+              (not-piece? WFN)
+              (not-piece? WFA)
+              (not-piece? FDN)
+              (not-piece? FDA)
+              (not-piece? FNA)
+              (not-piece? WFDN)
+              (not-piece? WFDA)
+              (not-piece? WFNA)
+              (not-piece? FDNA)
+              (not-piece? WFDNA)
+         )
+         (add-f)
+     )
+  )
+))
+
+(define from-reserve (
+  (verify (in-zone? reserve))
+  a0
+  (while (on-board? next)
+     next
+     (if empty? add)
+  )
+))
+
+(define to-reserve
+  mark a0 $2
+  (while (and not-empty? (on-board? $2)) $2)
+  (if empty?
+      (if (in-zone? opt a1)
+          (create $1)
+       else
+          (if (in-zone? ami a1)
+              (create Green $1)
+           else
+              (create Blue $1)
+          )
+      )
+  )
+  back
+)
+
 (define add-2
   (if (piece? $1)
+      (add $2)
+      (set-flag is-catured? true)
+  )
+)
+
+(define add-3
+  (if (piece? $1)
+      (if (in-zone? opt a1)
+          (to-reserve $3 to-friend)
+       else
+          (to-reserve $3 to-enemy)
+      )
       (add $2)
       (set-flag is-catured? true)
   )
@@ -27,90 +375,170 @@
   add
 ))
 
-(define f-step (
-  $1 (verify not-friend?)
-  (set-flag is-catured? false)
-  (add-2 F    F)     ; F
+(define add-f
+  (add-2 W     WF)
+  (add-3 WF    WF F)
+  (add-2 WD    WFD)
+  (add-2 WN    WFN)
+  (add-2 WA    WFA)
+  (add-3 WFD   WFD F)
+  (add-3 WFN   WFN F)
+  (add-3 WFA   WFA F)
+  (add-2 WDN   WFDN)
+  (add-2 WDA   WFDA)
+  (add-2 WNA   WFNA)
+  (add-3 WFDN  WFDN F)
+  (add-3 WFDA  WFDA F)
+  (add-3 WFNA  WFNA F)
+  (add-2 WDNA  WFDNA)
+  (add-3 WFDNA WFDNA F)
+  (add-3 F    F F) 
   (add-2 D    FD)
   (add-2 N    FN)
   (add-2 A    FA) 
-  (add-2 FD   FD)    ; F
-  (add-2 FN   FN)    ; F
-  (add-2 FA   FA)    ; F
+  (add-3 FD   FD F) 
+  (add-3 FN   FN F) 
+  (add-3 FA   FA F) 
   (add-2 DN   FDN)
   (add-2 DA   FDA) 
   (add-2 NA   FNA)
-  (add-2 FDN  FDN)   ; F
-  (add-2 FDA  FDA)   ; F
-  (add-2 FNA  FNA)   ; F
+  (add-3 FDN  FDN F) 
+  (add-3 FDA  FDA F) 
+  (add-3 FNA  FNA F) 
   (add-2 DNA  FDNA)
-  (add-2 FDNA FDNA)  ; F
+  (add-3 FDNA FDNA F) 
+)
+
+(define f-step (
+  $1 (verify not-friend?)
+  (set-flag is-catured? false)
+  (add-f)
   (verify (not-flag? is-catured?))
   add
 ))
+
+(define add-d
+  (add-2 W     WD)
+  (add-2 WF    WFD)
+  (add-3 WD    WD D)
+  (add-2 WN    WDN)
+  (add-2 WA    WDA)
+  (add-3 WFD   WFD D)
+  (add-2 WFN   WFDN)
+  (add-2 WFA   WFDA)
+  (add-3 WDN   WDN D)
+  (add-3 WDA   WDA D)
+  (add-2 WNA   WDNA)
+  (add-3 WFDN  WFDN D)
+  (add-3 WFDA  WFDA D)
+  (add-2 WFNA  WFDNA)
+  (add-3 WDNA  WDNA D)
+  (add-3 WFDNA WFDNA D)
+  (add-2 F    FD)
+  (add-3 D    D D) 
+  (add-2 N    DN)
+  (add-2 A    DA) 
+  (add-3 FD   FD D) 
+  (add-2 FN   FDN)
+  (add-2 FA   FDA)
+  (add-3 DN   DN D) 
+  (add-3 DA   DA D) 
+  (add-2 NA   DNA)
+  (add-3 FDN  FDN D) 
+  (add-3 FDA  FDA D) 
+  (add-2 FNA  FDNA)
+  (add-3 DNA  DNA D) 
+  (add-3 FDNA FDNA D) 
+)
 
 (define d-step (
   $1 (verify not-friend?)
   (set-flag is-catured? false)
-  (add-2 F    FD)
-  (add-2 D    D)     ; D
-  (add-2 N    DN)
-  (add-2 A    DA) 
-  (add-2 FD   FD)    ; D
-  (add-2 FN   FDN)
-  (add-2 FA   FDA)
-  (add-2 DN   DN)    ; D
-  (add-2 DA   DA)    ; D
-  (add-2 NA   DNA)
-  (add-2 FDN  FDN)   ; D
-  (add-2 FDA  FDA)   ; D
-  (add-2 FNA  FDNA)
-  (add-2 DNA  DNA)   ; D
-  (add-2 FDNA FDNA)  ; D
+  (add-d)
   (verify (not-flag? is-catured?))
   add
 ))
+
+(define add-n
+  (add-2 W     WN)
+  (add-2 WF    WFN)
+  (add-2 WD    WDN)
+  (add-3 WN    WN N)
+  (add-2 WA    WNA)
+  (add-2 WFD   WFDN)
+  (add-3 WFN   WFN N)
+  (add-2 WFA   WFNA)
+  (add-3 WDN   WDN N)
+  (add-2 WDA   WDNA)
+  (add-3 WNA   WNA N)
+  (add-3 WFDN  WFDN N)
+  (add-2 WFDA  WFDNA)
+  (add-3 WFNA  WFNA N)
+  (add-3 WDNA  WDNA N)
+  (add-3 WFDNA WFDNA N)
+  (add-2 F    FN)
+  (add-2 D    DN)
+  (add-3 N    N N) 
+  (add-2 A    NA) 
+  (add-2 FD   FDN) 
+  (add-3 FN   FN N) 
+  (add-2 FA   FNA) 
+  (add-3 DN   DN N) 
+  (add-2 DA   DNA) 
+  (add-3 NA   NA N) 
+  (add-3 FDN  FDN N) 
+  (add-2 FDA  FDNA)
+  (add-3 FNA  FNA N) 
+  (add-3 DNA  DNA N) 
+  (add-3 FDNA FDNA N) 
+)
 
 (define n-step (
   $1 (verify not-friend?)
   (set-flag is-catured? false)
-  (add-2 F    FN)
-  (add-2 D    DN)
-  (add-2 N    N)     ; N
-  (add-2 A    NA) 
-  (add-2 FD   FDN) 
-  (add-2 FN   FN)    ; N
-  (add-2 FA   FNA) 
-  (add-2 DN   DN)    ; N
-  (add-2 DA   DNA) 
-  (add-2 NA   NA)    ; N
-  (add-2 FDN  FDN)   ; N
-  (add-2 FDA  FDNA)
-  (add-2 FNA  FNA)   ; N
-  (add-2 DNA  DNA)   ; N
-  (add-2 FDNA FDNA)  ; N
+  (add-n)
   (verify (not-flag? is-catured?))
   add
 ))
 
-(define a-step (
-  $1 (verify not-friend?)
-  (set-flag is-catured? false)
+(define add-a
+  (add-2 W     WA)
+  (add-2 WF    WFA)
+  (add-2 WD    WDA)
+  (add-2 WN    WNA)
+  (add-3 WA    WA A)
+  (add-2 WFD   WFDA)
+  (add-2 WFN   WFNA)
+  (add-3 WFA   WFA A)
+  (add-2 WDN   WDNA)
+  (add-3 WDA   WDA A)
+  (add-3 WNA   WNA A)
+  (add-2 WFDN  WFDNA)
+  (add-3 WFDA  WFDA A)
+  (add-3 WFNA  WFNA A)
+  (add-3 WDNA  WDNA A)
+  (add-3 WFDNA WFDNA A)
   (add-2 F    FA)
   (add-2 D    DA)
   (add-2 N    NA)
-  (add-2 A    A)     ; A
+  (add-3 A    A A) 
   (add-2 FD   FDA) 
   (add-2 FN   FNA)
-  (add-2 FA   FA)    ; A
+  (add-3 FA   FA A) 
   (add-2 DN   DNA)
-  (add-2 DA   DA)    ; A
-  (add-2 NA   NA)    ; A
+  (add-3 DA   DA A) 
+  (add-3 NA   NA A) 
   (add-2 FDN  FDNA)
-  (add-2 FDA  FDA)   ; A
-  (add-2 FNA  FNA)   ; A
-  (add-2 DNA  DNA)   ; A
-  (add-2 FDNA FDNA)  ; A
+  (add-3 FDA  FDA A) 
+  (add-3 FNA  FNA A) 
+  (add-3 DNA  DNA A) 
+  (add-3 FDNA FDNA A) 
+)
+
+(define a-step (
+  $1 (verify not-friend?)
+  (set-flag is-catured? false)
+  (add-a)
   (verify (not-flag? is-catured?))
   add
 ))
@@ -118,21 +546,21 @@
 (define wf-step (
   $1 (verify not-friend?)
   (set-flag is-catured? false)
-  (add-2 F    WF)    ; F
+  (add-3 F    WF F) 
   (add-2 D    WFD)
   (add-2 N    WFN)
   (add-2 A    WFA)
-  (add-2 FD   WFD)   ; F
-  (add-2 FN   WFN)   ; F
-  (add-2 FA   WFA)   ; F
+  (add-3 FD   WFD F) 
+  (add-3 FN   WFN F) 
+  (add-3 FA   WFA F) 
   (add-2 DN   WFDN)
   (add-2 DA   WFDA)
   (add-2 NA   WFNA)
-  (add-2 FDN  WFDN)  ; F
-  (add-2 FDA  WFDA)  ; F
-  (add-2 FNA  WFNA)  ; F
+  (add-3 FDN  WFDN F) 
+  (add-3 FDA  WFDA F) 
+  (add-3 FNA  WFNA F) 
   (add-2 DNA  WFDNA)
-  (add-2 FDNA WFDNA) ; F
+  (add-3 FDNA WFDNA F) 
   (verify (not-flag? is-catured?))
   add
 ))
@@ -141,20 +569,20 @@
   $1 (verify not-friend?)
   (set-flag is-catured? false)
   (add-2 F    WFD)
-  (add-2 D    WD)    ; D
+  (add-3 D    WD D) 
   (add-2 N    WDN)
   (add-2 A    WDA)
-  (add-2 FD   WFD)   ; D
+  (add-3 FD   WFD D) 
   (add-2 FN   WFDN)
   (add-2 FA   WFDA)
-  (add-2 DN   WDN)   ; D
-  (add-2 DA   WDA)   ; D
+  (add-3 DN   WDN D) 
+  (add-3 DA   WDA D) 
   (add-2 NA   WDNA)
-  (add-2 FDN  WFDN)  ; D
-  (add-2 FDA  WFDA)  ; D
+  (add-3 FDN  WFDN D) 
+  (add-3 FDA  WFDA D) 
   (add-2 FNA  WFDNA)
-  (add-2 DNA  WDNA)  ; D
-  (add-2 FDNA WFDNA) ; D
+  (add-3 DNA  WDNA D) 
+  (add-3 FDNA WFDNA D) 
   (verify (not-flag? is-catured?))
   add
 ))
@@ -164,19 +592,19 @@
   (set-flag is-catured? false)
   (add-2 F    WFN)
   (add-2 D    WDN)
-  (add-2 N    WN)    ; N
+  (add-3 N    WN N) 
   (add-2 A    WNA)
   (add-2 FD   WFDN)
-  (add-2 FN   WFN)   ; N
+  (add-3 FN   WFN N) 
   (add-2 FA   WFNA)
-  (add-2 DN   WDN)   ; N
+  (add-3 DN   WDN N) 
   (add-2 DA   WDNA)
-  (add-2 NA   WNA)   ; N
-  (add-2 FDN  WFDN)  ; N
+  (add-3 NA   WNA N) 
+  (add-3 FDN  WFDN N) 
   (add-2 FDA  WFDNA)
-  (add-2 FNA  WFNA)  ; N
-  (add-2 DNA  WDNA)  ; N
-  (add-2 FDNA WFDNA) ; N
+  (add-3 FNA  WFNA N) 
+  (add-3 DNA  WDNA N) 
+  (add-3 FDNA WFDNA N) 
   (verify (not-flag? is-catured?))
   add
 ))
@@ -187,150 +615,270 @@
   (add-2 F    WFA)
   (add-2 D    WDA)
   (add-2 N    WNA)
-  (add-2 A    WA)    ; A
+  (add-3 A    WA A) 
   (add-2 FD   WFDA)
   (add-2 FN   WFNA)
-  (add-2 FA   WFA)   ; A
+  (add-3 FA   WFA A) 
   (add-2 DN   WDNA)
-  (add-2 DA   WDA)   ; A
-  (add-2 NA   WNA)   ; A
+  (add-3 DA   WDA A) 
+  (add-3 NA   WNA A) 
   (add-2 FDN  WFDNA)
-  (add-2 FDA  WFDA)  ; A
-  (add-2 FNA  WFNA)  ; A
-  (add-2 DNA  WDNA)  ; A
-  (add-2 FDNA WFDNA) ; A
+  (add-3 FDA  WFDA A) 
+  (add-3 FNA  WFNA A) 
+  (add-3 DNA  WDNA A) 
+  (add-3 FDNA WFDNA A) 
   (verify (not-flag? is-catured?))
   add
 ))
+
+(define add-fd
+  (add-2 W     WFD)
+  (add-3 WF    WFD F)
+  (add-3 WD    WFD D)
+  (add-2 WN    WFDN)
+  (add-2 WA    WFDA)
+  (add-3 WFD   WFD FD)
+  (add-3 WFN   WFDN F)
+  (add-3 WFA   WFDA F)
+  (add-3 WDN   WFDN D)
+  (add-3 WDA   WFDA D)
+  (add-2 WNA   WFDNA)
+  (add-3 WFDN  WFDN FD)
+  (add-3 WFDA  WFDA FD)
+  (add-3 WFNA  WFDNA F)
+  (add-3 WDNA  WFDNA D)
+  (add-3 WFDNA WFDNA FD)
+  (add-3 F    FD F) 
+  (add-3 D    FD D) 
+  (add-2 N    FDN)
+  (add-2 A    FDA)
+  (add-3 FD   FD FD) 
+  (add-3 FN   FDN F) 
+  (add-3 FA   FDA F) 
+  (add-3 DN   FDN D) 
+  (add-3 DA   FDA D) 
+  (add-2 NA   FDNA)
+  (add-3 FDN  FDN FD) 
+  (add-3 FDA  FDA FD) 
+  (add-3 FNA  FDNA F) 
+  (add-3 DNA  FDNA D) 
+  (add-3 FDNA FDNA FD) 
+)
 
 (define fd-step (
   $1 (verify not-friend?)
   (set-flag is-catured? false)
-  (add-2 F    FD)    ; F
-  (add-2 D    FD)    ; D
-  (add-2 N    FDN)
-  (add-2 A    FDA)
-  (add-2 FD   FD)    ; FD
-  (add-2 FN   FDN)   ; F
-  (add-2 FA   FDA)   ; F
-  (add-2 DN   FDN)   ; D
-  (add-2 DA   FDA)   ; D
-  (add-2 NA   FDNA)
-  (add-2 FDN  FDN)   ; FD
-  (add-2 FDA  FDA)   ; FD
-  (add-2 FNA  FDNA)  ; F
-  (add-2 DNA  FDNA)  ; D
-  (add-2 FDNA FDNA)  ; FD
+  (add-fd)
   (verify (not-flag? is-catured?))
   add
 ))
+
+(define add-fn
+  (add-2 W     WFN)
+  (add-3 WF    WFN F)
+  (add-2 WD    WFDN)
+  (add-3 WN    WFN N)
+  (add-2 WA    WFNA)
+  (add-3 WFD   WFDN F)
+  (add-3 WFN   WFN FN)
+  (add-3 WFA   WFNA F)
+  (add-3 WDN   WFDN N)
+  (add-2 WDA   WFDNA)
+  (add-3 WNA   WFNA N)
+  (add-3 WFDN  WFDN FN)
+  (add-3 WFDA  WFDNA F)
+  (add-3 WFNA  WFNA FN)
+  (add-3 WDNA  WFDNA N)
+  (add-3 WFDNA WFDNA FN)
+  (add-3 F    FN F) 
+  (add-2 D    FDN)
+  (add-3 N    FN N) 
+  (add-2 A    FNA)
+  (add-3 FD   FDN F) 
+  (add-3 FN   FN FN) 
+  (add-3 FA   FNA F) 
+  (add-3 DN   FDN N) 
+  (add-2 DA   FDNA)
+  (add-3 NA   FNA N) 
+  (add-3 FDN  FDN FN) 
+  (add-3 FDA  FDNA F) 
+  (add-3 FNA  FNA FN) 
+  (add-3 DNA  FDNA N) 
+  (add-3 FDNA FDNA FN) 
+)
 
 (define fn-step (
   $1 (verify not-friend?)
   (set-flag is-catured? false)
-  (add-2 F    FN)    ; F
-  (add-2 D    FDN)
-  (add-2 N    FN)    ; N
-  (add-2 A    FNA)
-  (add-2 FD   FDN)   ; F
-  (add-2 FN   FN)    ; FN
-  (add-2 FA   FNA)   ; F
-  (add-2 DN   FDN)   ; N
-  (add-2 DA   FDNA)
-  (add-2 NA   FNA)   ; N
-  (add-2 FDN  FDN)   ; FN
-  (add-2 FDA  FDNA)  ; F
-  (add-2 FNA  FNA)   ; FN
-  (add-2 DNA  FDNA)  ; N
-  (add-2 FDNA FDNA)  ; FN
+  (add-fn)
   (verify (not-flag? is-catured?))
   add
 ))
+
+(define add-fa
+  (add-2 W     WFA)
+  (add-3 WF    WFA F)
+  (add-2 WD    WFDA)
+  (add-2 WN    WFNA)
+  (add-3 WA    WFA A)
+  (add-3 WFD   WFDA F)
+  (add-3 WFN   WFNA F)
+  (add-3 WFA   WFA FA)
+  (add-2 WDN   WFDNA)
+  (add-3 WDA   WFDA A)
+  (add-3 WNA   WFNA A)
+  (add-3 WFDN  WFDNA F)
+  (add-3 WFDA  WFDA FA)
+  (add-3 WFNA  WFNA FA)
+  (add-3 WDNA  WFDNA A)
+  (add-3 WFDNA WFDNA FA)
+  (add-3 F    FA F) 
+  (add-2 D    FDA)
+  (add-2 N    FNA)
+  (add-3 A    FA A) 
+  (add-3 FD   FDA F) 
+  (add-3 FN   FNA F) 
+  (add-3 FA   FA FA) 
+  (add-2 DN   FDNA)
+  (add-3 DA   FDA A) 
+  (add-3 NA   FNA A) 
+  (add-3 FDN  FDNA F) 
+  (add-3 FDA  FDA FA) 
+  (add-3 FNA  FNA FA) 
+  (add-3 DNA  FDNA A) 
+  (add-3 FDNA FDNA FA) 
+)
 
 (define fa-step (
   $1 (verify not-friend?)
   (set-flag is-catured? false)
-  (add-2 F    FA)    ; F
-  (add-2 D    FDA)
-  (add-2 N    FNA)
-  (add-2 A    FA)    ; A
-  (add-2 FD   FDA)   ; F
-  (add-2 FN   FNA)   ; F
-  (add-2 FA   FA)    ; FA
-  (add-2 DN   FDNA)
-  (add-2 DA   FDA)   ; A
-  (add-2 NA   FNA)   ; A
-  (add-2 FDN  FDNA)  ; F
-  (add-2 FDA  FDA)   ; FA
-  (add-2 FNA  FNA)   ; FA
-  (add-2 DNA  FDNA)  ; A
-  (add-2 FDNA FDNA)  ; FA
+  (add-fa)
   (verify (not-flag? is-catured?))
   add
 ))
+
+(define add-dn
+  (add-2 W     WDN)
+  (add-2 WF    WFDN)
+  (add-3 WD    WDN D)
+  (add-3 WN    WDN N)
+  (add-2 WA    WDNA)
+  (add-3 WFD   WFDN D)
+  (add-3 WFN   WFDN N)
+  (add-2 WFA   WFDNA)
+  (add-3 WDN   WDN DN)
+  (add-3 WDA   WDNA D)
+  (add-3 WNA   WDNA N)
+  (add-3 WFDN  WFDN DN)
+  (add-3 WFDA  WFDNA D)
+  (add-3 WFNA  WFDNA N)
+  (add-3 WDNA  WDNA DN)
+  (add-3 WFDNA WFDNA DN)
+  (add-2 F    FDN)
+  (add-3 D    DN D) 
+  (add-3 N    DN N) 
+  (add-2 A    DNA)
+  (add-3 FD   FDN D) 
+  (add-3 FN   FDN N) 
+  (add-2 FA   FDNA)
+  (add-3 DN   DN DN) 
+  (add-3 DA   DNA D) 
+  (add-3 NA   DNA N) 
+  (add-3 FDN  FDN DN) 
+  (add-3 FDA  FDNA D) 
+  (add-3 FNA  FDNA N) 
+  (add-3 DNA  DNA DN) 
+  (add-3 FDNA FDNA DN) 
+)
 
 (define dn-step (
   $1 (verify not-friend?)
   (set-flag is-catured? false)
-  (add-2 F    FDN)
-  (add-2 D    DN)    ; D
-  (add-2 N    DN)    ; N
-  (add-2 A    DNA)
-  (add-2 FD   FDN)   ; D
-  (add-2 FN   FDN)   ; N
-  (add-2 FA   FDNA)
-  (add-2 DN   DN)    ; DN
-  (add-2 DA   DNA)   ; D
-  (add-2 NA   DNA)   ; N
-  (add-2 FDN  FDN)   ; DN
-  (add-2 FDA  FDNA)  ; D
-  (add-2 FNA  FDNA)  ; N
-  (add-2 DNA  DNA)   ; DN
-  (add-2 FDNA FDNA)  ; DN
+  (add-dn)
   (verify (not-flag? is-catured?))
   add
 ))
+
+(define add-da
+  (add-2 W     WDA)
+  (add-2 WF    WFDA)
+  (add-3 WD    WDA D)
+  (add-2 WN    WDNA)
+  (add-3 WA    WDA A)
+  (add-3 WFD   WFDA D)
+  (add-2 WFN   WFDNA)
+  (add-3 WFA   WFDA A)
+  (add-3 WDN   WDNA D)
+  (add-3 WDA   WDA DA)
+  (add-3 WNA   WDNA A)
+  (add-3 WFDN  WFDNA D)
+  (add-3 WFDA  WFDA DA)
+  (add-3 WFNA  WFDNA A)
+  (add-3 WDNA  WDNA DA)
+  (add-3 WFDNA WFDNA DA)
+  (add-2 F    FDA)
+  (add-3 D    DA D) 
+  (add-2 N    DNA)
+  (add-3 A    DA A) 
+  (add-3 FD   FDA D) 
+  (add-2 FN   FDNA)
+  (add-3 FA   FDA A) 
+  (add-3 DN   DNA D) 
+  (add-3 DA   DA DA) 
+  (add-3 NA   DNA A) 
+  (add-3 FDN  FDNA D) 
+  (add-3 FDA  FDA DA) 
+  (add-3 FNA  FDNA A) 
+  (add-3 DNA  DNA DA) 
+  (add-3 FDNA FDNA DA) 
+)
 
 (define da-step (
   $1 (verify not-friend?)
   (set-flag is-catured? false)
-  (add-2 F    FDA)
-  (add-2 D    DA)    ; D
-  (add-2 N    DNA)
-  (add-2 A    DA)    ; A
-  (add-2 FD   FDA)   ; D
-  (add-2 FN   FDNA)
-  (add-2 FA   FDA)   ; A
-  (add-2 DN   DNA)   ; D
-  (add-2 DA   DA)    ; DA
-  (add-2 NA   DNA)   ; A
-  (add-2 FDN  FDNA)  ; D
-  (add-2 FDA  FDA)   ; DA
-  (add-2 FNA  FDNA)  ; A
-  (add-2 DNA  DNA)   ; DA
-  (add-2 FDNA FDNA)  ; DA
+  (add-da)
   (verify (not-flag? is-catured?))
   add
 ))
 
+(define add-na
+  (add-2 W     WNA)
+  (add-2 WF    WFNA)
+  (add-2 WD    WDNA)
+  (add-3 WN    WNA N)
+  (add-3 WA    WNA A)
+  (add-2 WFD   WFDNA)
+  (add-3 WFN   WFNA N)
+  (add-3 WFA   WFNA A)
+  (add-3 WDN   WDNA N)
+  (add-3 WDA   WDNA A)
+  (add-3 WNA   WNA NA)
+  (add-3 WFDN  WFDNA N)
+  (add-3 WFDA  WFDNA A)
+  (add-3 WFNA  WFNA NA)
+  (add-3 WDNA  WDNA NA)
+  (add-3 WFDNA WFDNA NA)
+  (add-2 F    FNA)
+  (add-2 D    DNA)
+  (add-3 N    NA N) 
+  (add-3 A    NA A) 
+  (add-2 FD   FDNA)
+  (add-3 FN   FNA N) 
+  (add-3 FA   FNA A) 
+  (add-3 DN   DNA N) 
+  (add-3 DA   DNA A) 
+  (add-3 NA   NA NA) 
+  (add-3 FDN  FDNA N) 
+  (add-3 FDA  FDNA A) 
+  (add-3 FNA  FNA NA) 
+  (add-3 DNA  DNA NA) 
+  (add-3 FDNA FDNA NA) 
+)
+
 (define na-step (
   $1 (verify not-friend?)
   (set-flag is-catured? false)
-  (add-2 F    FNA)
-  (add-2 D    DNA)
-  (add-2 N    NA)    ; N
-  (add-2 A    NA)    ; A
-  (add-2 FD   FDNA)
-  (add-2 FN   FNA)   ; N
-  (add-2 FA   FNA)   ; A
-  (add-2 DN   DNA)   ; N
-  (add-2 DA   DNA)   ; A
-  (add-2 NA   NA)    ; NA
-  (add-2 FDN  FDNA)  ; N
-  (add-2 FDA  FDNA)  ; A
-  (add-2 FNA  FNA)   ; NA
-  (add-2 DNA  DNA)   ; NA
-  (add-2 FDNA FDNA)  ; NA
+  (add-na)
   (verify (not-flag? is-catured?))
   add
 ))
@@ -338,21 +886,21 @@
 (define wfd-step (
   $1 (verify not-friend?)
   (set-flag is-catured? false)
-  (add-2 F    WFD)   ; F
-  (add-2 D    WFD)   ; D
+  (add-3 F    WFD F) 
+  (add-3 D    WFD D) 
   (add-2 N    WFDN)
   (add-2 A    WFDA)
-  (add-2 FD   WFD)   ; FD
-  (add-2 FN   WFDN)  ; F
-  (add-2 FA   WFDA)  ; F
-  (add-2 DN   WFDN)  ; D
-  (add-2 DA   WFDA)  ; D
+  (add-3 FD   WFD FD) 
+  (add-3 FN   WFDN F) 
+  (add-3 FA   WFDA F) 
+  (add-3 DN   WFDN D) 
+  (add-3 DA   WFDA D) 
   (add-2 NA   WFDNA)
-  (add-2 FDN  WFDN)  ; FD
-  (add-2 FDA  WFDA)  ; FD
-  (add-2 FNA  WFDNA) ; F
-  (add-2 DNA  WFDNA) ; D
-  (add-2 FDNA WFDNA) ; FD
+  (add-3 FDN  WFDN FD) 
+  (add-3 FDA  WFDA FD) 
+  (add-3 FNA  WFDNA F) 
+  (add-3 DNA  WFDNA D) 
+  (add-3 FDNA WFDNA FD) 
   (verify (not-flag? is-catured?))
   add
 ))
@@ -360,21 +908,21 @@
 (define wfn-step (
   $1 (verify not-friend?)
   (set-flag is-catured? false)
-  (add-2 F    WFN)   ; F
+  (add-3 F    WFN F) 
   (add-2 D    WFDN)
-  (add-2 N    WFN)   ; N
+  (add-3 N    WFN N) 
   (add-2 A    WFNA)
-  (add-2 FD   WFDN)  ; F
-  (add-2 FN   WFN)   ; FN
-  (add-2 FA   WFNA)  ; F
-  (add-2 DN   WFDN)  ; N
+  (add-3 FD   WFDN F) 
+  (add-3 FN   WFN FN) 
+  (add-3 FA   WFNA F) 
+  (add-3 DN   WFDN N) 
   (add-2 DA   WFDNA)
-  (add-2 NA   WFNA)  ; N
-  (add-2 FDN  WFDN)  ; FN
-  (add-2 FDA  WFDNA) ; F
-  (add-2 FNA  WFNA)  ; FN
-  (add-2 DNA  WFDNA) ; N
-  (add-2 FDNA WFDNA) ; FN
+  (add-3 NA   WFNA N) 
+  (add-3 FDN  WFDN FN) 
+  (add-3 FDA  WFDNA F) 
+  (add-3 FNA  WFNA FN) 
+  (add-3 DNA  WFDNA N) 
+  (add-3 FDNA WFDNA FN) 
   (verify (not-flag? is-catured?))
   add
 ))
@@ -382,21 +930,21 @@
 (define wfa-step (
   $1 (verify not-friend?)
   (set-flag is-catured? false)
-  (add-2 F    WFA)   ; F
+  (add-3 F    WFA F) 
   (add-2 D    WFDA)
   (add-2 N    WFNA)
-  (add-2 A    WFA)   ; A
-  (add-2 FD   WFDA)  ; F
-  (add-2 FN   WFNA)  ; F
-  (add-2 FA   WFA)   ; FA
+  (add-3 A    WFA A) 
+  (add-3 FD   WFDA F) 
+  (add-3 FN   WFNA F) 
+  (add-3 FA   WFA FA) 
   (add-2 DN   WFDNA)
-  (add-2 DA   WFDA)  ; A
-  (add-2 NA   WFNA)  ; A
-  (add-2 FDN  WFDNA) ; F
-  (add-2 FDA  WFDA)  ; FA
-  (add-2 FNA  WFNA)  ; FA
-  (add-2 DNA  WFDNA) ; A
-  (add-2 FDNA WFDNA) ; FA
+  (add-3 DA   WFDA A) 
+  (add-3 NA   WFNA A) 
+  (add-3 FDN  WFDNA F) 
+  (add-3 FDA  WFDA FA) 
+  (add-3 FNA  WFNA FA) 
+  (add-3 DNA  WFDNA A) 
+  (add-3 FDNA WFDNA FA) 
   (verify (not-flag? is-catured?))
   add
 ))
@@ -405,20 +953,20 @@
   $1 (verify not-friend?)
   (set-flag is-catured? false)
   (add-2 F    WFDN)
-  (add-2 D    WDN)   ; D
-  (add-2 N    WDN)   ; N
+  (add-3 D    WDN D) 
+  (add-3 N    WDN N) 
   (add-2 A    WDNA)
-  (add-2 FD   WFDN)  ; D
-  (add-2 FN   WFDN)  ; N
+  (add-3 FD   WFDN D) 
+  (add-3 FN   WFDN N) 
   (add-2 FA   WFDNA)
-  (add-2 DN   WDN)   ; DN
-  (add-2 DA   WDNA)  ; D
-  (add-2 NA   WDNA)  ; N
-  (add-2 FDN  WFDN)  ; DN
-  (add-2 FDA  WFDNA) ; D
-  (add-2 FNA  WFDNA) ; N
-  (add-2 DNA  WDNA)  ; DN
-  (add-2 FDNA WFDNA) ; DN
+  (add-3 DN   WDN DN) 
+  (add-3 DA   WDNA D) 
+  (add-3 NA   WDNA N) 
+  (add-3 FDN  WFDN DN) 
+  (add-3 FDA  WFDNA D) 
+  (add-3 FNA  WFDNA N) 
+  (add-3 DNA  WDNA DN) 
+  (add-3 FDNA WFDNA DN) 
   (verify (not-flag? is-catured?))
   add
 ))
@@ -427,20 +975,20 @@
   $1 (verify not-friend?)
   (set-flag is-catured? false)
   (add-2 F    WFDA)
-  (add-2 D    WDA)   ; D
+  (add-3 D    WDA D) 
   (add-2 N    WDNA)
-  (add-2 A    WDA)   ; A
-  (add-2 FD   WFDA)  ; D
+  (add-3 A    WDA A) 
+  (add-3 FD   WFDA D) 
   (add-2 FN   WFDNA)
-  (add-2 FA   WFDA)  ; A
-  (add-2 DN   WDNA)  ; D
-  (add-2 DA   WDA)   ; DA
-  (add-2 NA   WDNA)  ; A
-  (add-2 FDN  WFDNA) ; D
-  (add-2 FDA  WFDA)  ; DA
-  (add-2 FNA  WFDNA) ; A
-  (add-2 DNA  WDNA)  ; DA
-  (add-2 FDNA WFDNA) ; DA
+  (add-3 FA   WFDA A) 
+  (add-3 DN   WDNA D) 
+  (add-3 DA   WDA DA) 
+  (add-3 NA   WDNA A) 
+  (add-3 FDN  WFDNA D) 
+  (add-3 FDA  WFDA DA) 
+  (add-3 FNA  WFDNA A) 
+  (add-3 DNA  WDNA DA) 
+  (add-3 FDNA WFDNA DA) 
   (verify (not-flag? is-catured?))
   add
 ))
@@ -450,107 +998,187 @@
   (set-flag is-catured? false)
   (add-2 F    WFNA)
   (add-2 D    WDNA)
-  (add-2 N    WNA)   ; N
-  (add-2 A    WNA)   ; A
+  (add-3 N    WNA N) 
+  (add-3 A    WNA A) 
   (add-2 FD   WFDNA)
-  (add-2 FN   WFNA)  ; N
-  (add-2 FA   WFNA)  ; A
-  (add-2 DN   WDNA)  ; N
-  (add-2 DA   WDNA)  ; A
-  (add-2 NA   WNA)   ; NA
-  (add-2 FDN  WFDNA) ; N
-  (add-2 FDA  WFDNA) ; A
-  (add-2 FNA  WFNA)  ; NA
-  (add-2 DNA  WDNA)  ; NA
-  (add-2 FDNA WFDNA) ; NA
+  (add-3 FN   WFNA N) 
+  (add-3 FA   WFNA A) 
+  (add-3 DN   WDNA N) 
+  (add-3 DA   WDNA A) 
+  (add-3 NA   WNA NA) 
+  (add-3 FDN  WFDNA N) 
+  (add-3 FDA  WFDNA A) 
+  (add-3 FNA  WFNA NA) 
+  (add-3 DNA  WDNA NA) 
+  (add-3 FDNA WFDNA NA) 
   (verify (not-flag? is-catured?))
   add
 ))
+
+(define add-fdn
+  (add-2 W     WFDN)
+  (add-3 WF    WFDN F)
+  (add-3 WD    WFDN D)
+  (add-3 WN    WFDN N)
+  (add-2 WA    WFDNA)
+  (add-3 WFD   WFDN FD)
+  (add-3 WFN   WFDN FN)
+  (add-3 WFA   WFDNA F)
+  (add-3 WDN   WFDN DN)
+  (add-3 WDA   WFDNA D)
+  (add-3 WNA   WFDNA N)
+  (add-3 WFDN  WFDN FDN)
+  (add-3 WFDA  WFDNA FD)
+  (add-3 WFNA  WFDNA FN)
+  (add-3 WDNA  WFDNA DN)
+  (add-3 WFDNA WFDNA FDN)
+  (add-3 F    FDN F) 
+  (add-3 D    FDN D) 
+  (add-3 N    FDN N) 
+  (add-2 A    FDNA)
+  (add-3 FD   FDN FD) 
+  (add-3 FN   FDN FN) 
+  (add-3 FA   FDNA F) 
+  (add-3 DN   FDN DN) 
+  (add-3 DA   FDNA D) 
+  (add-3 NA   FDNA N) 
+  (add-3 FDN  FDN FDN) 
+  (add-3 FDA  FDNA FD) 
+  (add-3 FNA  FDNA FN) 
+  (add-3 DNA  FDNA DN) 
+  (add-3 FDNA FDNA FDN) 
+)
 
 (define fdn-step (
   $1 (verify not-friend?)
   (set-flag is-catured? false)
-  (add-2 F    FDN)   ; F
-  (add-2 D    FDN)   ; D
-  (add-2 N    FDN)   ; N
-  (add-2 A    FDNA)
-  (add-2 FD   FDN)   ; FD
-  (add-2 FN   FDN)   ; FN
-  (add-2 FA   FDNA)  ; F
-  (add-2 DN   FDN)   ; DN
-  (add-2 DA   FDNA)  ; D
-  (add-2 NA   FDNA)  ; N
-  (add-2 FDN  FDN)   ; FDN
-  (add-2 FDA  FDNA)  ; FD
-  (add-2 FNA  FDNA)  ; FN
-  (add-2 DNA  FDNA)  ; DN
-  (add-2 FDNA FDNA)  ; FDN
+  (add-fdn)
   (verify (not-flag? is-catured?))
   add
 ))
+
+(define add-fda
+  (add-2 W     WFDA)
+  (add-3 WF    WFDA F)
+  (add-3 WD    WFDA D)
+  (add-2 WN    WFDNA)
+  (add-3 WA    WFDA A)
+  (add-3 WFD   WFDA FD)
+  (add-3 WFN   WFDNA F)
+  (add-3 WFA   WFDA FA)
+  (add-3 WDN   WFDNA D)
+  (add-3 WDA   WFDA DA)
+  (add-3 WNA   WFDNA A)
+  (add-3 WFDN  WFDNA FD)
+  (add-3 WFDA  WFDA FDA)
+  (add-3 WFNA  WFDNA FA)
+  (add-3 WDNA  WFDNA DA)
+  (add-3 WFDNA WFDNA FDA)
+  (add-3 F    FDA F) 
+  (add-3 D    FDA D) 
+  (add-2 N    FDNA)
+  (add-3 A    FDA A) 
+  (add-3 FD   FDA FD) 
+  (add-3 FN   FDNA F) 
+  (add-3 FA   FDA FA) 
+  (add-3 DN   FDNA D) 
+  (add-3 DA   FDA DA) 
+  (add-3 NA   FDNA A) 
+  (add-3 FDN  FDNA FD) 
+  (add-3 FDA  FDA FDA) 
+  (add-3 FNA  FDNA FA) 
+  (add-3 DNA  FDNA DA) 
+  (add-3 FDNA FDNA FDA) 
+)
 
 (define fda-step (
   $1 (verify not-friend?)
   (set-flag is-catured? false)
-  (add-2 F    FDA)   ; F
-  (add-2 D    FDA)   ; D
-  (add-2 N    FDNA)
-  (add-2 A    FDA)   ; A
-  (add-2 FD   FDA)   ; FD
-  (add-2 FN   FDNA)  ; F
-  (add-2 FA   FDA)   ; FA
-  (add-2 DN   FDNA)  ; D
-  (add-2 DA   FDA)   ; DA
-  (add-2 NA   FDNA)  ; A
-  (add-2 FDN  FDNA)  ; FD
-  (add-2 FDA  FDA)   ; FDA
-  (add-2 FNA  FDNA)  ; FA
-  (add-2 DNA  FDNA)  ; DA
-  (add-2 FDNA FDNA)  ; FDA
+  (add-fda)
   (verify (not-flag? is-catured?))
   add
 ))
+
+(define add-fna
+  (add-2 W     WFNA)
+  (add-3 WF    WFNA F)
+  (add-2 WD    WFDNA)
+  (add-3 WN    WFNA N)
+  (add-3 WA    WFNA A)
+  (add-3 WFD   WFDNA F)
+  (add-3 WFN   WFNA FN)
+  (add-3 WFA   WFNA FA)
+  (add-3 WDN   WFDNA N)
+  (add-3 WDA   WFDNA A)
+  (add-3 WNA   WFNA NA)
+  (add-3 WFDN  WFDNA FN)
+  (add-3 WFDA  WFDNA FA)
+  (add-3 WFNA  WFNA FNA)
+  (add-3 WDNA  WFDNA NA)
+  (add-3 WFDNA WFDNA FNA)
+  (add-3 F    FNA F) 
+  (add-2 D    FDNA)
+  (add-3 N    FNA N) 
+  (add-3 A    FNA A) 
+  (add-3 FD   FDNA F) 
+  (add-3 FN   FNA FN) 
+  (add-3 FA   FNA FA) 
+  (add-3 DN   FDNA N) 
+  (add-3 DA   FDNA A) 
+  (add-3 NA   FNA NA) 
+  (add-3 FDN  FDNA FN) 
+  (add-3 FDA  FDNA FA) 
+  (add-3 FNA  FNA FNA) 
+  (add-3 DNA  FDNA NA) 
+  (add-3 FDNA FDNA FNA) 
+)
 
 (define fna-step (
   $1 (verify not-friend?)
   (set-flag is-catured? false)
-  (add-2 F    FNA)   ; F
-  (add-2 D    FDNA)
-  (add-2 N    FNA)   ; N
-  (add-2 A    FNA)   ; A
-  (add-2 FD   FDNA)  ; F
-  (add-2 FN   FNA)   ; FN
-  (add-2 FA   FNA)   ; FA
-  (add-2 DN   FDNA)  ; N
-  (add-2 DA   FDNA)  ; A
-  (add-2 NA   FNA)   ; NA
-  (add-2 FDN  FDNA)  ; FN
-  (add-2 FDA  FDNA)  ; FA
-  (add-2 FNA  FNA)   ; FNA
-  (add-2 DNA  FDNA)  ; NA
-  (add-2 FDNA FDNA)  ; FNA
+  (add-fna)
   (verify (not-flag? is-catured?))
   add
 ))
 
+(define add-dna
+  (add-2 W     WDNA)
+  (add-2 WF    WFDNA)
+  (add-3 WD    WDNA D)
+  (add-3 WN    WDNA N)
+  (add-3 WA    WDNA A)
+  (add-3 WFD   WFDNA D)
+  (add-3 WFN   WFDNA N)
+  (add-3 WFA   WFDNA A)
+  (add-3 WDN   WDNA DN)
+  (add-3 WDA   WDNA DA)
+  (add-3 WNA   WDNA NA)
+  (add-3 WFDN  WFDNA DN)
+  (add-3 WFDA  WFDNA DA)
+  (add-3 WFNA  WFDNA NA)
+  (add-3 WDNA  WDNA DNA)
+  (add-3 WFDNA WFDNA DNA)
+  (add-2 F    FDNA)
+  (add-3 D    DNA D) 
+  (add-3 N    DNA N) 
+  (add-3 A    DNA A) 
+  (add-3 FD   FDNA D) 
+  (add-3 FN   FDNA N) 
+  (add-3 FA   FDNA A) 
+  (add-3 DN   DNA DN) 
+  (add-3 DA   DNA DA) 
+  (add-3 NA   DNA NA) 
+  (add-3 FDN  FDNA DN) 
+  (add-3 FDA  FDNA DA) 
+  (add-3 FNA  FDNA NA) 
+  (add-3 DNA  DNA DNA) 
+  (add-3 FDNA FDNA DNA) 
+)
+
 (define dna-step (
   $1 (verify not-friend?)
   (set-flag is-catured? false)
-  (add-2 F    FDNA)
-  (add-2 D    DNA)   ; D
-  (add-2 N    DNA)   ; N
-  (add-2 A    DNA)   ; A
-  (add-2 FD   FDNA)  ; D
-  (add-2 FN   FDNA)  ; N
-  (add-2 FA   FDNA)  ; A
-  (add-2 DN   DNA)   ; DN
-  (add-2 DA   DNA)   ; DA
-  (add-2 NA   DNA)   ; NA
-  (add-2 FDN  FDNA)  ; DN
-  (add-2 FDA  FDNA)  ; DA
-  (add-2 FNA  FDNA)  ; NA
-  (add-2 DNA  DNA)   ; DNA
-  (add-2 FDNA FDNA)  ; DNA
+  (add-dna)
   (verify (not-flag? is-catured?))
   add
 ))
@@ -558,21 +1186,21 @@
 (define wfdn-step (
   $1 (verify not-friend?)
   (set-flag is-catured? false)
-  (add-2 F    WFDN)  ; F
-  (add-2 D    WFDN)  ; D
-  (add-2 N    WFDN)  ; N
+  (add-3 F    WFDN F) 
+  (add-3 D    WFDN D) 
+  (add-3 N    WFDN N) 
   (add-2 A    WFDNA)
-  (add-2 FD   WFDN)  ; FD
-  (add-2 FN   WFDN)  ; FN
-  (add-2 FA   WFDNA) ; F
-  (add-2 DN   WFDN)  ; DN
-  (add-2 DA   WFDNA) ; D
-  (add-2 NA   WFDNA) ; N
-  (add-2 FDN  WFDN)  ; FDN
-  (add-2 FDA  WFDNA) ; FD
-  (add-2 FNA  WFDNA) ; FN
-  (add-2 DNA  WFDNA) ; DN
-  (add-2 FDNA WFDNA) ; FDN
+  (add-3 FD   WFDN FD) 
+  (add-3 FN   WFDN FN) 
+  (add-3 FA   WFDNA F) 
+  (add-3 DN   WFDN DN) 
+  (add-3 DA   WFDNA D) 
+  (add-3 NA   WFDNA N) 
+  (add-3 FDN  WFDN FDN) 
+  (add-3 FDA  WFDNA FD) 
+  (add-3 FNA  WFDNA FN) 
+  (add-3 DNA  WFDNA DN) 
+  (add-3 FDNA WFDNA FDN) 
   (verify (not-flag? is-catured?))
   add
 ))
@@ -580,21 +1208,21 @@
 (define wfda-step (
   $1 (verify not-friend?)
   (set-flag is-catured? false)
-  (add-2 F    WFDA)  ; F
-  (add-2 D    WFDA)  ; D
+  (add-3 F    WFDA F) 
+  (add-3 D    WFDA D) 
   (add-2 N    WFDNA)
-  (add-2 A    WFDA)  ; A
-  (add-2 FD   WFDA)  ; FD
-  (add-2 FN   WFDNA) ; F
-  (add-2 FA   WFDA)  ; FA
-  (add-2 DN   WFDNA) ; D
-  (add-2 DA   WFDA)  ; DA
-  (add-2 NA   WFDNA) ; A
-  (add-2 FDN  WFDNA) ; FD
-  (add-2 FDA  WFDA)  ; FDA
-  (add-2 FNA  WFDNA) ; FA
-  (add-2 DNA  WFDNA) ; DA
-  (add-2 FDNA WFDNA) ; FDA
+  (add-3 A    WFDA A) 
+  (add-3 FD   WFDA FD) 
+  (add-3 FN   WFDNA F) 
+  (add-3 FA   WFDA FA) 
+  (add-3 DN   WFDNA D) 
+  (add-3 DA   WFDA DA) 
+  (add-3 NA   WFDNA A) 
+  (add-3 FDN  WFDNA FD) 
+  (add-3 FDA  WFDA FDA) 
+  (add-3 FNA  WFDNA FA) 
+  (add-3 DNA  WFDNA DA) 
+  (add-3 FDNA WFDNA FDA) 
   (verify (not-flag? is-catured?))
   add
 ))
@@ -602,21 +1230,21 @@
 (define wfna-step (
   $1 (verify not-friend?)
   (set-flag is-catured? false)
-  (add-2 F    WFNA)  ; F
+  (add-3 F    WFNA F) 
   (add-2 D    WFDNA)
-  (add-2 N    WFNA)  ; N
-  (add-2 A    WFNA)  ; A
-  (add-2 FD   WFDNA) ; F
-  (add-2 FN   WFNA)  ; FN
-  (add-2 FA   WFNA)  ; FA
-  (add-2 DN   WFDNA) ; N
-  (add-2 DA   WFDNA) ; A
-  (add-2 NA   WFNA)  ; NA
-  (add-2 FDN  WFDNA) ; FN
-  (add-2 FDA  WFDNA) ; FA
-  (add-2 FNA  WFNA)  ; FNA
-  (add-2 DNA  WFDNA) ; NA
-  (add-2 FDNA WFDNA) ; FNA
+  (add-3 N    WFNA N) 
+  (add-3 A    WFNA A) 
+  (add-3 FD   WFDNA F) 
+  (add-3 FN   WFNA FN) 
+  (add-3 FA   WFNA FA) 
+  (add-3 DN   WFDNA N) 
+  (add-3 DA   WFDNA A) 
+  (add-3 NA   WFNA NA) 
+  (add-3 FDN  WFDNA FN) 
+  (add-3 FDA  WFDNA FA) 
+  (add-3 FNA  WFNA FNA) 
+  (add-3 DNA  WFDNA NA) 
+  (add-3 FDNA WFDNA FNA) 
   (verify (not-flag? is-catured?))
   add
 ))
@@ -625,42 +1253,62 @@
   $1 (verify not-friend?)
   (set-flag is-catured? false)
   (add-2 F    WFDNA)
-  (add-2 D    WDNA)  ; D
-  (add-2 N    WDNA)  ; N
-  (add-2 A    WDNA)  ; A
-  (add-2 FD   WFDNA) ; D
-  (add-2 FN   WFDNA) ; N
-  (add-2 FA   WFDNA) ; A
-  (add-2 DN   WDNA)  ; DN
-  (add-2 DA   WDNA)  ; DA
-  (add-2 NA   WDNA)  ; NA
-  (add-2 FDN  WFDNA) ; DN
-  (add-2 FDA  WFDNA) ; DA
-  (add-2 FNA  WFDNA) ; NA
-  (add-2 DNA  WDNA)  ; DNA
-  (add-2 FDNA WFDNA) ; DNA
+  (add-3 D    WDNA D) 
+  (add-3 N    WDNA N) 
+  (add-3 A    WDNA A) 
+  (add-3 FD   WFDNA D) 
+  (add-3 FN   WFDNA N) 
+  (add-3 FA   WFDNA A) 
+  (add-3 DN   WDNA DN) 
+  (add-3 DA   WDNA DA) 
+  (add-3 NA   WDNA NA) 
+  (add-3 FDN  WFDNA DN) 
+  (add-3 FDA  WFDNA DA) 
+  (add-3 FNA  WFDNA NA) 
+  (add-3 DNA  WDNA DNA) 
+  (add-3 FDNA WFDNA DNA) 
   (verify (not-flag? is-catured?))
   add
 ))
 
+(define add-fdna
+  (add-2 W     WFDNA)
+  (add-3 WF    WFDNA F)
+  (add-3 WD    WFDNA D)
+  (add-3 WN    WFDNA N)
+  (add-3 WA    WFDNA A)
+  (add-3 WFD   WFDNA FD)
+  (add-3 WFN   WFDNA FN)
+  (add-3 WFA   WFDNA FA)
+  (add-3 WDN   WFDNA DN)
+  (add-3 WDA   WFDNA DA)
+  (add-3 WNA   WFDNA NA)
+  (add-3 WFDN  WFDNA FDN)
+  (add-3 WFDA  WFDNA FDA)
+  (add-3 WFNA  WFDNA FNA)
+  (add-3 WDNA  WFDNA DNA)
+  (add-3 WFDNA WFDNA FDNA)
+  (add-3 F    FDNA F) 
+  (add-3 D    FDNA D) 
+  (add-3 N    FDNA N) 
+  (add-3 A    FDNA A) 
+  (add-3 FD   FDNA FD) 
+  (add-3 FN   FDNA FN) 
+  (add-3 FA   FDNA FA) 
+  (add-3 DN   FDNA DN) 
+  (add-3 DA   FDNA DA) 
+  (add-3 NA   FDNA NA) 
+  (add-3 FDN  FDNA FDN) 
+  (add-3 FDA  FDNA FDA) 
+  (add-3 FNA  FDNA FNA) 
+  (add-3 DNA  FDNA DNA) 
+  (add-3 FDNA FDNA FDNA) 
+)
+
 (define fdna-step (
   $1 (verify not-friend?)
   (set-flag is-catured? false)
-  (add-2 F    FDNA)  ; F
-  (add-2 D    FDNA)  ; D
-  (add-2 N    FDNA)  ; N
-  (add-2 A    FDNA)  ; A
-  (add-2 FD   FDNA)  ; FD
-  (add-2 FN   FDNA)  ; FN
-  (add-2 FA   FDNA)  ; FA
-  (add-2 DN   FDNA)  ; DN
-  (add-2 DA   FDNA)  ; DA
-  (add-2 NA   FDNA)  ; NA
-  (add-2 FDN  FDNA)  ; FDN
-  (add-2 FDA  FDNA)  ; FDA
-  (add-2 FNA  FDNA)  ; FNA
-  (add-2 DNA  FDNA)  ; DNA
-  (add-2 FDNA FDNA)  ; FDNA
+  (add-fdna)
   (verify (not-flag? is-catured?))
   add
 ))
@@ -668,27 +1316,73 @@
 (define wfdna-step (
   $1 (verify not-friend?)
   (set-flag is-catured? false)
-  (add-2 F    WFDNA) ; F
-  (add-2 D    WFDNA) ; D
-  (add-2 N    WFDNA) ; N
-  (add-2 A    WFDNA) ; A
-  (add-2 FD   WFDNA) ; FD
-  (add-2 FN   WFDNA) ; FN
-  (add-2 FA   WFDNA) ; FA
-  (add-2 DN   WFDNA) ; DN
-  (add-2 DA   WFDNA) ; DA
-  (add-2 NA   WFDNA) ; NA
-  (add-2 FDN  WFDNA) ; FDN
-  (add-2 FDA  WFDNA) ; FDA
-  (add-2 FNA  WFDNA) ; FNA
-  (add-2 DNA  WFDNA) ; DNA
-  (add-2 FDNA WFDNA) ; FDNA
+  (add-3 F    WFDNA F) 
+  (add-3 D    WFDNA D) 
+  (add-3 N    WFDNA N) 
+  (add-3 A    WFDNA A) 
+  (add-3 FD   WFDNA FD) 
+  (add-3 FN   WFDNA FN) 
+  (add-3 FA   WFDNA FA) 
+  (add-3 DN   WFDNA DN) 
+  (add-3 DA   WFDNA DA) 
+  (add-3 NA   WFDNA NA) 
+  (add-3 FDN  WFDNA FDN) 
+  (add-3 FDA  WFDNA FDA) 
+  (add-3 FNA  WFDNA FNA) 
+  (add-3 DNA  WFDNA DNA) 
+  (add-3 FDNA WFDNA FDNA) 
   (verify (not-flag? is-catured?))
   add
 ))
 
+(define def-board
+  (board
+    (image "../images/Escalation/board.bmp")
+    (grid
+      (start-rectangle 90 2 170 82)
+      (dimensions
+        ("a/b/c/d/e/f/g/h" (80 0)) ; files
+        ("8/7/6/5/4/3/2/1" (0 80)) ; ranks
+      )
+      (directions (n 0 -1) (s 0 1) (e 1 0) (w -1 0)
+          (nw -1 -1) (sw -1 1) (ne 1 -1) (se 1 1)
+          (nne 1 -2) (nnw -1 -2) (ssw -1 2) (sse 1 2)
+          (nee 2 -1) (nww -2 -1) (sww -2 1) (see 2 1)
+          (nn 0 -2) (ss 0 2) (ee 2 0) (ww -2 0)
+          (nwnw -2 -2) (swsw -2 2) (nene 2 -2) (sese 2 2)
+          (next 0 -1)
+      )
+    )
+    (grid
+      (start-rectangle 3 2 83 82)
+      (dimensions
+        ("x" (80 0)) ; files
+        ("8/7/6/5/4/3/2/1" (0 80)) ; ranks
+      )
+      (directions (to-enemy 0 1) (to-friend 0 1))
+    )
+    (grid
+      (start-rectangle 735 2 815 82)
+      (dimensions
+        ("y" (80 0)) ; files
+        ("8/7/6/5/4/3/2/1" (0 80)) ; ranks
+      )
+      (directions (to-enemy 0 1) (to-friend 0 1))
+    )
+    (dummy a0)
+    (links next (a0 a1) (a8 b1) (b8 c1) (c8 d1) (d8 e1) (e8 f1) (f8 g1) (g8 h1) )
+    (links to-enemy  (a0 x8) (x1 y8) )
+    (links to-friend (a0 y8) (y1 x8) )
+    (symmetry Green (to-enemy to-friend) (to-friend to-enemy) )
+    (zone (name ami) (players Blue) (positions a1) )
+    (zone (name ami) (players Green) (positions a8) )
+    (zone (name opt) (players Blue Green) (positions $1) )
+    (zone (name reserve) (players Blue Green) (positions x1 x2 x3 x4 x5 x6 x7 x8 y1 y2 y3 y4 y5 y6 y7 y8) )
+  )
+)
+
 (game 
-  (title "Escalation")
+  (title "Simple Escalation")
   (history "Invented by G.P.Jelliss in 1988.")
 
   (option "animate captures"   false)
@@ -710,30 +1404,7 @@
 
   (players Blue Green)
   (turn-order Blue Green)
-
-  (board
-    (image "../images/Escalation/board.bmp")
-    (grid
-      (start-rectangle 2 2 82 82)
-      (dimensions
-        ("a/b/c/d/e/f/g/h" (80 0)) ; files
-        ("8/7/6/5/4/3/2/1" (0 80)) ; ranks
-      )
-      (directions (n 0 -1) (s 0 1) (e 1 0) (w -1 0)
-          (nw -1 -1) (sw -1 1) (ne 1 -1) (se 1 1)
-          (nne 1 -2) (nnw -1 -2) (ssw -1 2) (sse 1 2)
-          (nee 2 -1) (nww -2 -1) (sww -2 1) (see 2 1)
-          (nn 0 -2) (ss 0 2) (ee 2 0) (ww -2 0)
-          (nwnw -2 -2) (swsw -2 2) (nene 2 -2) (sese 2 2)
-      )
-    )
-    (zone (name promote-zone) (players Green)
-          (positions a1 b1 c1 d1 e1 f1 g1 h1)
-    )
-    (zone (name promote-zone) (players Blue)
-          (positions a8 b8 c8 d8 e8 f8 g8 h8)
-    )
-  )
+  (def-board a1)
 
   (piece
      (name W)
@@ -751,6 +1422,7 @@
             Blue "../images/Escalation/bf.bmp")
      (moves
         (f-step nw) (f-step sw) (f-step ne) (f-step se)
+        (f-from-reserve)
      )
   )
   (piece
@@ -760,6 +1432,7 @@
             Blue "../images/Escalation/bd.bmp")
      (moves
         (d-step nn) (d-step ss) (d-step ww) (d-step ee)
+        (d-from-reserve)
      )
   )
   (piece
@@ -770,6 +1443,7 @@
      (moves
         (n-step nnw) (n-step nne) (n-step ssw) (n-step sse)
         (n-step nww) (n-step nee) (n-step sww) (n-step see)
+        (n-from-reserve)
      )
   )
   (piece
@@ -779,6 +1453,7 @@
             Blue "../images/Escalation/ba.bmp")
      (moves
         (a-step nwnw) (a-step swsw) (a-step nene) (a-step sese)
+        (a-from-reserve)
      )
   )
   (piece
@@ -830,6 +1505,7 @@
      (moves
         (fd-step nw) (fd-step sw) (fd-step ne) (fd-step se)
         (fd-step nn) (fd-step ss) (fd-step ww) (fd-step ee)
+        (fd-from-reserve)
      )
   )
   (piece
@@ -841,6 +1517,7 @@
         (fn-step nw) (fn-step sw) (fn-step ne) (fn-step se)
         (fn-step nnw) (fn-step nne) (fn-step ssw) (fn-step sse)
         (fn-step nww) (fn-step nee) (fn-step sww) (fn-step see)
+        (fn-from-reserve)
      )
   )
   (piece
@@ -851,6 +1528,7 @@
      (moves
         (fa-step nw) (fa-step sw) (fa-step ne) (fa-step se)
         (fa-step nwnw) (fa-step swsw) (fa-step nene) (fa-step sese)
+        (fa-from-reserve)
      )
   )
   (piece
@@ -862,6 +1540,7 @@
         (dn-step nn) (dn-step ss) (dn-step ww) (dn-step ee)
         (dn-step nnw) (dn-step nne) (dn-step ssw) (dn-step sse)
         (dn-step nww) (dn-step nee) (dn-step sww) (dn-step see)
+        (dn-from-reserve)
      )
   )
   (piece
@@ -872,6 +1551,7 @@
      (moves
         (da-step nn) (da-step ss) (da-step ww) (da-step ee)
         (da-step nwnw) (da-step swsw) (da-step nene) (da-step sese)
+        (da-from-reserve)
      )
   )
   (piece
@@ -883,6 +1563,7 @@
         (na-step nnw) (na-step nne) (na-step ssw) (na-step sse)
         (na-step nww) (na-step nee) (na-step sww) (na-step see)
         (na-step nwnw) (na-step swsw) (na-step nene) (na-step sese)
+        (na-from-reserve)
      )
   )
   (piece
@@ -964,6 +1645,7 @@
         (fdn-step nn) (fdn-step ss) (fdn-step ww) (fdn-step ee)
         (fdn-step nnw) (fdn-step nne) (fdn-step ssw) (fdn-step sse)
         (fdn-step nww) (fdn-step nee) (fdn-step sww) (fdn-step see)
+        (fdn-from-reserve)
      )
   )
   (piece
@@ -975,6 +1657,7 @@
         (fda-step nw) (fda-step sw) (fda-step ne) (fda-step se)
         (fda-step nn) (fda-step ss) (fda-step ww) (fda-step ee)
         (fda-step nwnw) (fda-step swsw) (fda-step nene) (fda-step sese)
+        (fda-from-reserve)
      )
   )
   (piece
@@ -987,6 +1670,7 @@
         (fna-step nnw) (fna-step nne) (fna-step ssw) (fna-step sse)
         (fna-step nww) (fna-step nee) (fna-step sww) (fna-step see)
         (fna-step nwnw) (fna-step swsw) (fna-step nene) (fna-step sese)
+        (fna-from-reserve)
      )
   )
   (piece
@@ -999,6 +1683,7 @@
         (dna-step nnw) (dna-step nne) (dna-step ssw) (dna-step sse)
         (dna-step nww) (dna-step nee) (dna-step sww) (dna-step see)
         (dna-step nwnw) (dna-step swsw) (dna-step nene) (dna-step sese)
+        (dna-from-reserve)
      )
   )
   (piece
@@ -1063,6 +1748,7 @@
         (fdna-step nnw) (fdna-step nne) (fdna-step ssw) (fdna-step sse)
         (fdna-step nww) (fdna-step nee) (fdna-step sww) (fdna-step see)
         (fdna-step nwnw) (fdna-step swsw) (fdna-step nene) (fdna-step sese)
+        (fdna-from-reserve)
      )
   )
   (piece
@@ -1097,6 +1783,12 @@
      )
   )
 
-  (loss-condition (Green Blue) (checkmated W WF WD WN WA WFD WFN WFA WDN WDA WNA WFDN WFDA WFNA WDNA WFDNA) )
+; (loss-condition (Green Blue) (checkmated W WF WD WN WA WFD WFN WFA WDN WDA WNA WFDN WFDA WFNA WDNA WFDNA) )
+  (loss-condition (Green Blue) (and (pieces-remaining 0 W) (pieces-remaining 0 WF) (pieces-remaining 0 WD) (pieces-remaining 0 WN) (pieces-remaining 0 WA) (pieces-remaining 0 WFD) (pieces-remaining 0 WFN) (pieces-remaining 0 WFA) (pieces-remaining 0 WDN) (pieces-remaining 0 WDA) (pieces-remaining 0 WNA) (pieces-remaining 0 WFDN) (pieces-remaining 0 WFDA) (pieces-remaining 0 WFNA) (pieces-remaining 0 WDNA) (pieces-remaining 0 WFDNA) ) )
   (loss-condition (Green Blue) repetition )
+)
+
+(variant
+  (title "Anti Escalation")
+  (def-board a2)
 )
