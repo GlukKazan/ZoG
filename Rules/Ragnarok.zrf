@@ -139,7 +139,6 @@
 (define garmr-slide (
   (verify (not-enemy? a0))
   $1 (common-slide-body)
-  (add $2)
 ))
 
 (define switch (
@@ -736,6 +735,9 @@
          (create HelA)
          (set-flag hel-found? true)
      )
+     (if (or (piece? JotunnA) (piece? JotunnR) (piece? Jotunn))
+         (set-flag jotun-found? true)
+     )
   )
   back
 )
@@ -788,10 +790,11 @@
   (verify (not-enemy? a0))
   (verify empty?)
   (set-flag hel-found? false)
+  (set-flag jotun-found? false)
   (set-flag is-frozen? false)
   (check-hel)
   (check-frozen-all)
-  (verify (and (flag? hel-found?) (flag? is-frozen?)))
+  (verify (and (flag? hel-found?) (not-flag? jotun-found?) (flag? is-frozen?)))
   add
 ))
 
@@ -1316,7 +1319,7 @@
           (positions a1)
     )
   )
-  (loss-condition (Dark) (pieces-remaining 0) )
+  (loss-condition (Dark) (and (pieces-remaining 0 HelA) (pieces-remaining 0 HelR) (pieces-remaining 0 GarmrA) (pieces-remaining 0 GarmrR) ) )
   (loss-condition (Light) (pieces-remaining 0) )
 )
 
