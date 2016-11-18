@@ -1,0 +1,212 @@
+(define jump-to (
+  $1 (verify (piece? $2)) capture
+  $1 (verify empty?)
+  (add-partial cont-type)
+))
+
+(define shift-to (
+  $1 (verify (piece? MarkEmpty))
+  add
+))
+
+(define shift-from (
+  $1 (verify empty?)
+  (add Ritor)
+))
+
+(define find-target?
+  (if (and (on-board? $1) (on-board? $2))
+      (if (and (friend? $1) (empty? $2))
+          (set-flag found? true)
+      )
+  )
+)
+
+(define mark-enemy (
+  (verify enemy?)
+  (set-flag found? false)
+  (find-target? n s) (find-target? nw se)
+  (find-target? s n) (find-target? sw ne)
+  (find-target? w e) (find-target? ne sw)
+  (find-target? e w) (find-target? se nw)
+  (verify (flag? found?))
+  add
+))
+
+(define find-empty?
+  (if (on-board? $1)
+      (if (empty? $1)
+          (set-flag found? true)
+      )
+  )
+)
+
+(define mark-friend (
+  (verify friend?)
+  (set-flag found? false)
+  (find-empty? n) (find-empty? nw)
+  (find-empty? s) (find-empty? sw)
+  (find-empty? w) (find-empty? ne)
+  (find-empty? e) (find-empty? se)
+  (verify (flag? found?))
+  add
+))
+
+(define find-friend?
+  (if (on-board? $1)
+      (if (friend? $1)
+          (if (flag? found?)
+              (set-flag more? true)
+           else
+              (set-flag found? true)
+          )
+      )
+  )
+)
+
+(define mark-empty (
+  (verify empty?)
+  (set-flag found? false)
+  (set-flag more? false)
+  (find-friend? n) (find-friend? nw)
+  (find-friend? s) (find-friend? sw)
+  (find-friend? w) (find-friend? ne)
+  (find-friend? e) (find-friend? se)
+  (if (in-zone? opt a1)
+      (verify (flag? more?))
+   else
+      (verify (flag? found?))
+  )
+  add
+))
+
+(define shift (
+  $1 (verify empty?)
+  add
+))
+
+(define jump (
+; (create Point)
+  $1 (verify enemy?) capture
+  $1 (verify empty?)
+  (add-partial jump-type)
+))
+
+(define board-def
+  (board
+    (image "../images/Anathem/board.bmp")
+    (grid
+      (start-rectangle 5 5 54 54)
+      (dimensions
+        ("a/b/c/d/e/f/g/h" (49 0)) ; files
+        ("8/7/6/5/4/3/2/1" (0 49)) ; ranks
+      )
+      (directions (n 0 -1) (s 0 1) (e 1 0) (w -1 0)
+                  (ne 1 -1) (nw -1 -1) (se 1 1) (sw -1 1)
+      ) 
+    )
+    (zone (name opt) (players Incanters Ritors) (positions $1))
+  )
+)
+
+(game
+  (title "Anathem (easy)")
+
+  (option "animate captures"   false)
+  (option "animate drops"      false)
+  (option "maximal captures"   false)
+  (option "pass turn"          forced)
+  (option "pass partial"       false)
+  (option "recycle captures"   true)
+
+  (move-sound "Audio/Pickup.wav")
+  (release-sound "Audio/Pickup.wav")
+  (drop-sound "Audio/Pickup.wav")
+  (capture-sound "")
+  (change-sound  "")
+  (click-sound   "")
+  (draw-sound    "")
+
+  (players Incanters Ritors)
+  (turn-order Incanters Ritors (Incanters Ritors incanter-type))
+  (move-priorities jump-type normal-type)
+  (board-def a1)
+
+  (piece
+     (name Incanter)
+     (description "Incanter")
+     (image Incanters "../images/Anathem/Incanter.bmp")
+     (moves
+        (move-type jump-type)
+        (jump n) (jump e) (jump w) (jump s) 
+        (jump ne) (jump nw) (jump se) (jump sw)
+        (move-type normal-type)
+        (shift n) (shift e) (shift w) (shift s) 
+        (shift ne) (shift nw) (shift se) (shift sw)
+     )
+  )
+  (piece
+     (name Ritor)
+     (description "Ritor")
+     (image Ritors "../images/Anathem/Ritor.bmp")
+     (moves
+        (move-type incanter-type)
+        (shift-to n) (shift-to nw) (shift-to e) (shift-to ne)
+        (shift-to s) (shift-to sw) (shift-to w) (shift-to se)
+        (jump-to n MarkEnemy) (jump-to nw MarkEnemy) (jump-to e MarkEnemy) (jump-to ne MarkEnemy)
+        (jump-to s MarkEnemy) (jump-to sw MarkEnemy) (jump-to w MarkEnemy) (jump-to se MarkEnemy)
+        (move-type cont-type)
+        (jump-to n Incanter) (jump-to nw Incanter) (jump-to e Incanter) (jump-to ne Incanter)
+        (jump-to s Incanter) (jump-to sw Incanter) (jump-to w Incanter) (jump-to se Incanter)
+     )
+  )
+  (piece
+     (name MarkEmpty)
+     (description " ")
+     (image Ritors "../images/Anathem/mark.bmp")
+     (drops
+        (move-type normal-type)
+        (mark-empty)
+     )
+  )
+  (piece
+     (name MarkFriend)
+     (description "Ritor")
+     (image Ritors "../images/Anathem/ritorm.bmp")
+     (drops
+        (move-type normal-type)
+        (mark-friend)
+     )
+     (moves
+        (move-type incanter-type)
+        (shift-from n) (shift-from nw) (shift-from e) (shift-from ne)
+        (shift-from s) (shift-from sw) (shift-from w) (shift-from se)
+     )
+  )
+  (piece
+     (name MarkEnemy)
+     (description "Incanter")
+     (image Ritors "../images/Anathem/incanterm.bmp")
+     (drops
+        (move-type jump-type)
+        (mark-enemy)
+     )
+  )
+  (piece
+     (name Point)
+     (description " ")
+     (image Incanters "../images/Anathem/point.bmp")
+  )
+
+  (board-setup
+    (Incanters (Incanter b2 c2 d2 e2 f2 g2 b3 c3 d3 e3 f3 g3) )
+    (Ritors (Ritor b7 c7 d7 e7 f7 g7 b6 c6 d6 e6 f6 g6) (MarkEmpty off 1) (MarkFriend off 1) (MarkEnemy off 1) )
+  )
+
+  (loss-condition (Incanters Ritors) (pieces-remaining 0) )
+)
+
+(variant
+  (title "Anathem (hard)")
+  (board-def a2)
+)
