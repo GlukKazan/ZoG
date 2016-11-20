@@ -115,7 +115,7 @@
   (option "animate captures"   false)
   (option "animate drops"      false)
   (option "maximal captures"   false)
-  (option "pass turn"          forced)
+  (option "pass turn"          false)
   (option "pass partial"       false)
   (option "recycle captures"   true)
 
@@ -200,7 +200,7 @@
 
   (board-setup
     (Incanters (Incanter b2 c2 d2 e2 f2 g2 b3 c3 d3 e3 f3 g3) )
-    (Ritors (Ritor b7 c7 d7 e7 f7 g7 b6 c6 d6 e6 f6 g6) (MarkEmpty off 1) (MarkFriend off 1) (MarkEnemy off 1) )
+    (Ritors (Ritor b7 c7 d7 e7 f7 g7 b6 c6 d6 e6 f6 g6) (MarkEmpty off 1) (MarkFriend off 10) (MarkEnemy off 1) )
   )
 
   (loss-condition (Incanters Ritors) (pieces-remaining 0) )
