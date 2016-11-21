@@ -1,5 +1,18 @@
+(define jump-to-mark (
+  $1 (verify (piece? MarkEnemy)) capture
+  $1 (verify empty?)
+  (add-partial cont-type)
+))
+
 (define jump-to (
-  $1 (verify (piece? $2)) capture
+  $1 (verify not-empty?)
+  (verify (and (not-piece? Ritor)
+               (not-piece? MarkEmpty)
+               (not-piece? MarkFriend)
+               (not-piece? Point)
+          )
+  ) 
+  capture
   $1 (verify empty?)
   (add-partial cont-type)
 ))
@@ -24,6 +37,7 @@
 
 (define mark-enemy (
   (verify enemy?)
+  (verify (not-piece? Point))
   (set-flag found? false)
   (find-target? n s) (find-target? nw se)
   (find-target? s n) (find-target? sw ne)
@@ -81,15 +95,39 @@
 ))
 
 (define shift (
-  $1 (verify empty?)
+  $1 (verify (or empty? (piece? Point)))
+  (if (not-empty? up)
+      (capture up)
+  )
   add
 ))
 
 (define jump (
-; (create Point)
+  (create Point) (create $2 up)
   $1 (verify enemy?) capture
-  $1 (verify empty?)
-  (add-partial jump-type)
+  (create $2 up)
+  $1 (verify (or empty? (piece? Point)))
+  (if (not-empty? up)
+      (capture up)
+  )
+  (add-partial $2 jump-type)
+))
+
+(define mark-point (
+  (verify enemy?)
+  (verify (piece? Point))
+  (set-flag found? false)
+  (set-flag more? false)
+  (find-friend? n) (find-friend? nw)
+  (find-friend? s) (find-friend? sw)
+  (find-friend? w) (find-friend? ne)
+  (find-friend? e) (find-friend? se)
+  (if (in-zone? opt a1)
+      (verify (flag? more?))
+   else
+      (verify (flag? found?))
+  )
+  add
 ))
 
 (define board-def
@@ -105,7 +143,40 @@
                   (ne 1 -1) (nw -1 -1) (se 1 1) (sw -1 1)
       ) 
     )
+    (grid
+      (start-rectangle 5 -500 54 -450)
+      (dimensions
+        ("A/B/C/D/E/F/G/H" (49 0)) ; files
+        ("8/7/6/5/4/3/2/1" (0 49)) ; ranks
+      )
+    )
+    (links up 
+        (a1 A1) (b1 B1) (c1 C1) (d1 D1) (e1 E1) (f1 F1) (g1 G1) (h1 H1)
+        (a2 A2) (b2 B2) (c2 C2) (d2 D2) (e2 E2) (f2 F2) (g2 G2) (h2 H2)
+        (a3 A3) (b3 B3) (c3 C3) (d3 D3) (e3 E3) (f3 F3) (g3 G3) (h3 H3)
+        (a4 A4) (b4 B4) (c4 C4) (d4 D4) (e4 E4) (f4 F4) (g4 G4) (h4 H4)
+        (a5 A5) (b5 B5) (c5 C5) (d5 D5) (e5 E5) (f5 F5) (g5 G5) (h5 H5)
+        (a6 A6) (b6 B6) (c6 C6) (d6 D6) (e6 E6) (f6 F6) (g6 G6) (h6 H6)
+        (a7 A7) (b7 B7) (c7 C7) (d7 D7) (e7 E7) (f7 F7) (g7 G7) (h7 H7)
+        (a8 A8) (b8 B8) (c8 C8) (d8 D8) (e8 E8) (f8 F8) (g8 G8) (h8 H8)
+    )
     (zone (name opt) (players Incanters Ritors) (positions $1))
+  )
+)
+
+(define i
+  (piece
+     (name $1)
+     (description "Incanter")
+     (image Incanters "../images/Anathem/Incanter.bmp")
+     (moves
+        (move-type jump-type)
+        (jump n $2) (jump e $2) (jump w $2) (jump s $2) 
+        (jump ne $2) (jump nw $2) (jump se $2) (jump sw $2)
+        (move-type normal-type)
+        (shift n) (shift e) (shift w) (shift s) 
+        (shift ne) (shift nw) (shift se) (shift sw)
+     )
   )
 )
 
@@ -133,19 +204,6 @@
   (board-def a1)
 
   (piece
-     (name Incanter)
-     (description "Incanter")
-     (image Incanters "../images/Anathem/Incanter.bmp")
-     (moves
-        (move-type jump-type)
-        (jump n) (jump e) (jump w) (jump s) 
-        (jump ne) (jump nw) (jump se) (jump sw)
-        (move-type normal-type)
-        (shift n) (shift e) (shift w) (shift s) 
-        (shift ne) (shift nw) (shift se) (shift sw)
-     )
-  )
-  (piece
      (name Ritor)
      (description "Ritor")
      (image Ritors "../images/Anathem/Ritor.bmp")
@@ -153,11 +211,11 @@
         (move-type incanter-type)
         (shift-to n) (shift-to nw) (shift-to e) (shift-to ne)
         (shift-to s) (shift-to sw) (shift-to w) (shift-to se)
-        (jump-to n MarkEnemy) (jump-to nw MarkEnemy) (jump-to e MarkEnemy) (jump-to ne MarkEnemy)
-        (jump-to s MarkEnemy) (jump-to sw MarkEnemy) (jump-to w MarkEnemy) (jump-to se MarkEnemy)
+        (jump-to-mark n) (jump-to-mark nw) (jump-to-mark e) (jump-to-mark ne)
+        (jump-to-mark s) (jump-to-mark sw) (jump-to-mark w) (jump-to-mark se)
         (move-type cont-type)
-        (jump-to n Incanter) (jump-to nw Incanter) (jump-to e Incanter) (jump-to ne Incanter)
-        (jump-to s Incanter) (jump-to sw Incanter) (jump-to w Incanter) (jump-to se Incanter)
+        (jump-to n) (jump-to nw) (jump-to e) (jump-to ne)
+        (jump-to s) (jump-to sw) (jump-to w) (jump-to se)
      )
   )
   (piece
@@ -195,12 +253,35 @@
   (piece
      (name Point)
      (description " ")
-     (image Incanters "../images/Anathem/point.bmp")
+     (image Incanters "../images/Anathem/point.bmp"
+            Ritors "../images/Anathem/mark.bmp")
+     (drops
+        (move-type normal-type)
+        (mark-point)
+     )
   )
+  (i I00 I01) (i I01 I02) (i I02 I03) (i I03 I04) (i I04 I05) (i I05 I06) (i I06 I07) (i I07 I08) (i I08 I09) (i I09 I00)
+  (i I10 I11) (i I11 I12) (i I12 I13) (i I13 I14) (i I14 I15) (i I15 I16) (i I16 I17) (i I17 I18) (i I18 I19) (i I19 I10)
+  (i I20 I21) (i I21 I22) (i I22 I23) (i I23 I24) (i I24 I25) (i I25 I26) (i I26 I27) (i I27 I28) (i I28 I29) (i I29 I20)
+  (i I30 I31) (i I31 I32) (i I32 I33) (i I33 I34) (i I34 I35) (i I35 I36) (i I36 I37) (i I37 I38) (i I38 I39) (i I39 I30)
+  (i I40 I41) (i I41 I42) (i I42 I43) (i I43 I44) (i I44 I45) (i I45 I46) (i I46 I47) (i I47 I48) (i I48 I49) (i I49 I40)
+  (i I50 I51) (i I51 I52) (i I52 I53) (i I53 I54) (i I54 I55) (i I55 I56) (i I56 I57) (i I57 I58) (i I58 I59) (i I59 I50)
+  (i I60 I61) (i I61 I62) (i I62 I63) (i I63 I64) (i I64 I65) (i I65 I66) (i I66 I67) (i I67 I68) (i I68 I69) (i I69 I60)
+  (i I70 I71) (i I71 I72) (i I72 I73) (i I73 I74) (i I74 I75) (i I75 I76) (i I76 I77) (i I77 I78) (i I78 I79) (i I79 I70)
+  (i I80 I81) (i I81 I82) (i I82 I83) (i I83 I84) (i I84 I85) (i I85 I86) (i I86 I87) (i I87 I88) (i I88 I89) (i I89 I80)
+  (i I90 I91) (i I91 I92) (i I92 I93) (i I93 I94) (i I94 I95) (i I95 I96) (i I96 I97) (i I97 I98) (i I98 I99) (i I99 I90)
+  (i IA0 IA1) (i IA1 IA2) (i IA2 IA3) (i IA3 IA4) (i IA4 IA5) (i IA5 IA6) (i IA6 IA7) (i IA7 IA8) (i IA8 IA9) (i IA9 IA0)
+  (i IB0 IB1) (i IB1 IB2) (i IB2 IB3) (i IB3 IB4) (i IB4 IB5) (i IB5 IB6) (i IB6 IB7) (i IB7 IB8) (i IB8 IB9) (i IB9 IB0)
 
   (board-setup
-    (Incanters (Incanter b2 c2 d2 e2 f2 g2 b3 c3 d3 e3 f3 g3) )
-    (Ritors (Ritor b7 c7 d7 e7 f7 g7 b6 c6 d6 e6 f6 g6) (MarkEmpty off 1) (MarkFriend off 10) (MarkEnemy off 1) )
+    (Incanters
+       (I00 b2) (I10 c2) (I20 d2) (I30 e2) (I40 f2) (I50 g2)
+       (I60 b3) (I70 c3) (I80 d3) (I90 e3) (IA0 f3) (IB0 g3)
+    )
+    (Ritors 
+       (Ritor b7 c7 d7 e7 f7 g7 b6 c6 d6 e6 f6 g6) 
+       (MarkEmpty off 1) (MarkFriend off 10) (MarkEnemy off 1) (Point off 1)
+    )
   )
 
   (loss-condition (Incanters Ritors) (pieces-remaining 0) )
