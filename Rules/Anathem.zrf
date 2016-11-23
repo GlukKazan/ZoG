@@ -584,11 +584,11 @@
     )
     (Ritors 
        (Ritor b7 c7 d7 e7 f7 g7 b6 c6 d6 e6 f6 g6) 
-       (MarkEmpty off 1) (MarkFriend off 10) (MarkEnemy off 1) (Point off 1)
+       (MarkEmpty off 1) (MarkFriend off 200) (MarkEnemy off 1) (Point off 1)
     )
   )
 
-  (loss-condition (Incanters Ritors) (pieces-remaining 0) )
+  (loss-condition (Incanters Ritors) stalemated )
 )
 
 (variant
