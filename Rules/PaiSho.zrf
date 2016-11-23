@@ -1,0 +1,101 @@
+(game
+  (title "PaiSho")
+
+  (option "animate captures"   false)
+  (option "animate drops"      false)
+  (option "maximal captures"   false)
+  (option "pass turn"          false)
+  (option "pass partial"       true)
+
+  (move-sound "Audio/Pickup.wav")
+  (release-sound "Audio/Pickup.wav")
+  (drop-sound "")
+  (capture-sound "")
+  (change-sound  "")
+  (click-sound   "")
+  (draw-sound    "")
+
+  (players White Black)
+  (turn-order White Black)
+
+  (board
+    (image "../images/PaiSho/board.bmp")
+    (grid
+      (start-rectangle 32 30 86 84)
+      (dimensions
+        ("a/b/c/d/e/f/g/h/i/j/k/l/m" (54 0)) ; files
+        ("25/23/21/19/17/15/13/11/9/7/5/3/1" (0 54)) ; ranks
+      )
+    )
+    (grid
+      (start-rectangle 58 56 112 110)
+      (dimensions
+        ("a/b/c/d/e/f/g/h/i/j/k/l" (54 0)) ; files
+        ("24/22/20/18/16/14/12/10/8/6/4/2" (0 54)) ; ranks
+      )
+    )
+    (kill-positions
+        a25 b25 c25 d25 e25 i25 j25 k25 l25 m25
+        a24 b24 c24                 j24 k24 l24 
+        a23 b23 c23                 k23 l23 m23
+        a22 b22                         k22 l22 
+        a21 b21                         l21 m21
+        a20                                 l20
+        a19                                 m19
+        a17                                 m17
+        a9                                  m9
+        a7                                  m7
+        a6                                  l6
+        a5  b5                          l5  m5 
+        a4  b4                          k4  l4  
+        a3  b3  c3                  k3  l3  m3 
+        a2  b2  c2                  j2  k2  l2  
+        a1  b1  c1  d1  e1  i1  j1  k1  l1  m1 
+    )
+  )
+
+  (piece
+     (name Avatar)
+     (description "Avatar")
+     (image White "../images/PaiSho/wa.bmp"
+            Black "../images/PaiSho/ba.bmp")
+  )
+
+  (board-setup
+     (White
+        (Avatar 
+                               f25 g25 h25                    
+                       d23 e23 f23 g23 h23 i23 j23            
+                   c21 d21 e21 f21 g21 h21 i21 j21 k21        
+               b19 c19 d19 e19 f19 g19 h19 i19 j19 k19 l19    
+               b17 c17 d17 e17 f17 g17 h17 i17 j17 k17 l17    
+           a15 b15 c15 d15 e15 f15 g15 h15 i15 j15 k15 l15 m15
+           a13 b13 c13 d13 e13 f13 g13 h13 i13 j13 k13 l13 m13
+           a11 b11 c11 d11 e11 f11 g11 h11 i11 j11 k11 l11 m11
+               b9  c9  d9  e9  f9  g9  h9  i9  j9  k9  l9     
+               b7  c7  d7  e7  f7  g7  h7  i7  j7  k7  l7    
+                   c5  d5  e5  f5  g5  h5  i5  j5  k5         
+                       d3  e3  f3  g3  h3  i3  j3             
+                               f1  g1  h1                      
+        )
+     )
+     (Black
+        (Avatar 
+                       d24 e24 f24 g24 h24 i24            
+                   c22 d22 e22 f22 g22 h22 i22 j22         
+               b20 c20 d20 e20 f20 g20 h20 i20 j20 k20    
+           a18 b18 c18 d18 e18 f18 g18 h18 i18 j18 k18 l18
+           a16 b16 c16 d16 e16 f16 g16 h16 i16 j16 k16 l16
+           a14 b14 c14 d14 e14 f14 g14 h14 i14 j14 k14 l14
+           a12 b12 c12 d12 e12 f12 g12 h12 i12 j12 k12 l12
+           a10 b10 c10 d10 e10 f10 g10 h10 i10 j10 k10 l10
+           a8  b8  c8  d8  e8  f8  g8  h8  i8  j8  k8  l8 
+               b6  c6  d6  e6  f6  g6  h6  i6  j6  k6      
+                   c4  d4  e4  f4  g4  h4  i4  j4          
+                       d2  e2  f2  g2  h2  i2              
+        )
+     )
+  )
+
+  (loss-condition (White Black) stalemated )
+)
