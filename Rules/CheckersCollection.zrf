@@ -581,6 +581,8 @@
   (description "")
   (history  "Traditional game.")
 
+  (option "maximal captures" false)
+
   (piece
      (name Checker)
      (image White "../images/wiedem/CheckerWhite.bmp"
@@ -711,6 +713,8 @@
   (title "Ossetian Kena (variant)")
   (description "")
   (history  "Variant of the traditional game.")
+
+  (option "maximal captures" false)
 
   (piece
      (name Mark)
