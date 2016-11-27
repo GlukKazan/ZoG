@@ -4031,10 +4031,10 @@
            (short-king-jump se)
 
         (move-type continuetype)
-           (short-king-continue nw)
-           (short-king-continue ne)
-           (short-king-continue sw)
-           (short-king-continue se)
+           (short-king-jump nw)
+           (short-king-jump ne)
+           (short-king-jump sw)
+           (short-king-jump se)
 
         (move-type normaltype)
            (king-shift nw)
