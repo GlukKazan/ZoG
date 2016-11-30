@@ -269,7 +269,7 @@
 
 (define jump-to (
   $1 (verify not-empty?)
-  (verify (and (not-piece? Ritor)
+  (verify (and (not-piece? Rhetor)
                (not-piece? MarkEmpty)
                (not-piece? MarkFriend)
                (not-piece? Point)
@@ -298,7 +298,7 @@
           (if (flag? is-checked?)
               (check-level-up)
               (if (flag? is-checked?)
-                  (create Ritor)
+                  (create Rhetor)
               )
               (capture up)
           )
@@ -321,7 +321,7 @@
 
 (define shift-from (
   $1 (verify empty?)
-  (add Ritor)
+  (add Rhetor)
 ))
 
 (define find-target?
@@ -462,7 +462,7 @@
         (a7 A7) (b7 B7) (c7 C7) (d7 D7) (e7 E7) (f7 F7) (g7 G7) (h7 H7)
         (a8 A8) (b8 B8) (c8 C8) (d8 D8) (e8 E8) (f8 F8) (g8 G8) (h8 H8)
     )
-    (zone (name opt) (players Incanters Ritors) (positions $1))
+    (zone (name opt) (players Incanters Rhetors) (positions $1))
   )
 )
 
@@ -484,6 +484,9 @@
 
 (game
   (title "Anathem (easy)")
+  (description "Rhetors could change the past, and were glad to do it, but Incanters \
+                could change the future-and were reluctant.")
+  (history "inspired by Neal Stephenson's ''Anathem''.")
 
   (option "animate captures"   false)
   (option "animate drops"      false)
@@ -500,15 +503,15 @@
   (click-sound   "")
   (draw-sound    "")
 
-  (players Incanters Ritors)
-  (turn-order Incanters Ritors (Incanters Ritors incanter-mode))
+  (players Incanters Rhetors)
+  (turn-order Incanters Rhetors (Incanters Rhetors incanter-mode))
   (move-priorities jump-mode normal-mode)
   (board-def a1)
 
   (piece
-     (name Ritor)
-     (description "Ritor")
-     (image Ritors "../images/Anathem/Ritor.bmp")
+     (name Rhetor)
+     (description "Rhetor")
+     (image Rhetors "../images/Anathem/ritor.bmp")
      (moves
         (move-type incanter-mode)
         (shift-to n) (shift-to nw) (shift-to e) (shift-to ne)
@@ -525,7 +528,7 @@
   (piece
      (name MarkEmpty)
      (description " ")
-     (image Ritors "../images/Anathem/mark.bmp")
+     (image Rhetors "../images/Anathem/mark.bmp")
      (drops
         (move-type normal-mode)
         (mark-empty)
@@ -533,8 +536,8 @@
   )
   (piece
      (name MarkFriend)
-     (description "Ritor")
-     (image Ritors "../images/Anathem/ritorm.bmp")
+     (description "Rhetor")
+     (image Rhetors "../images/Anathem/ritorm.bmp")
      (drops
         (move-type normal-mode)
         (mark-friend)
@@ -548,7 +551,7 @@
   (piece
      (name MarkEnemy)
      (description "Incanter")
-     (image Ritors "../images/Anathem/incanterm.bmp")
+     (image Rhetors "../images/Anathem/incanterm.bmp")
      (drops
         (move-type jump-mode)
         (mark-enemy)
@@ -558,7 +561,7 @@
      (name Point)
      (description " ")
      (image Incanters "../images/Anathem/point.bmp"
-            Ritors "../images/Anathem/mark.bmp")
+            Rhetors "../images/Anathem/mark.bmp")
      (drops
         (move-type normal-mode)
         (mark-point)
@@ -582,13 +585,13 @@
        (I00 b2) (I10 c2) (I20 d2) (I30 e2) (I40 f2) (I50 g2)
        (I60 b3) (I70 c3) (I80 d3) (I90 e3) (IA0 f3) (IB0 g3)
     )
-    (Ritors 
-       (Ritor b7 c7 d7 e7 f7 g7 b6 c6 d6 e6 f6 g6) 
+    (Rhetors 
+       (Rhetor b7 c7 d7 e7 f7 g7 b6 c6 d6 e6 f6 g6) 
        (MarkEmpty off 1) (MarkFriend off 200) (MarkEnemy off 1) (Point off 1)
     )
   )
 
-  (loss-condition (Incanters Ritors) stalemated )
+  (loss-condition (Incanters Rhetors) stalemated )
 )
 
 (variant
