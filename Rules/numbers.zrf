@@ -1,0 +1,179 @@
+(game
+  (title "Numbers [Rook]")
+
+  (option "animate captures"   false)
+  (option "animate drops"      false)
+  (option "pass turn"          true)
+
+  (move-sound "")
+  (release-sound "")
+  (drop-sound "Audio/Pickup.wav")
+  (capture-sound "")
+  (change-sound  "")
+  (click-sound   "")
+  (draw-sound    "")
+  (win-sound     "")
+
+  (players You Computer)
+  (turn-order You Computer)
+
+  (board
+    (image "../images/Numbers/8x8.bmp")
+    (grid
+      (start-rectangle 0 69 22 135)
+      (dimensions
+        ("sa/sb/sc/sd/se/sf/sg/sh" (66 0)) ; files
+        ("8/7/6/5/4/3/2/1" (0 66)) ; ranks
+      )
+    )
+    (grid
+      (start-rectangle 20 69 44 135)
+      (dimensions
+        ("da/db/dc/dd/de/df/dg/dh" (66 0)) ; files
+        ("8/7/6/5/4/3/2/1" (0 66)) ; ranks
+      )
+    )
+    (grid
+      (start-rectangle 44 69 68 135)
+      (dimensions
+        ("ia/ib/ic/id/ie/if/ig/ih" (66 0)) ; files
+        ("8/7/6/5/4/3/2/1" (0 66)) ; ranks
+      )
+    )
+  )
+
+  (piece
+     (name NNine)
+     (description " ")
+     (image You "../images/Numbers/n9.bmp"
+            Computer "../images/Numbers/n9.bmp")
+  )
+  (piece
+     (name NEight)
+     (description " ")
+     (image You "../images/Numbers/n8.bmp"
+            Computer "../images/Numbers/n8.bmp")
+  )
+  (piece
+     (name NSeven)
+     (description " ")
+     (image You "../images/Numbers/n7.bmp"
+            Computer "../images/Numbers/n7.bmp")
+  )
+  (piece
+     (name NSix)
+     (description " ")
+     (image You "../images/Numbers/n6.bmp"
+            Computer "../images/Numbers/n6.bmp")
+  )
+  (piece
+     (name NFive)
+     (description " ")
+     (image You "../images/Numbers/n5.bmp"
+            Computer "../images/Numbers/n5.bmp")
+  )
+  (piece
+     (name NFour)
+     (description " ")
+     (image You "../images/Numbers/n4.bmp"
+            Computer "../images/Numbers/n4.bmp")
+  )
+  (piece
+     (name NThree)
+     (description " ")
+     (image You "../images/Numbers/n3.bmp"
+            Computer "../images/Numbers/n3.bmp")
+  )
+  (piece
+     (name NTwo)
+     (description " ")
+     (image You "../images/Numbers/n2.bmp"
+            Computer "../images/Numbers/n2.bmp")
+  )
+  (piece
+     (name NOne)
+     (description " ")
+     (image You "../images/Numbers/n1.bmp"
+            Computer "../images/Numbers/n1.bmp")
+  )
+  (piece
+     (name NZero)
+     (description " ")
+     (image You "../images/Numbers/n0.bmp"
+            Computer "../images/Numbers/n0.bmp")
+  )
+  (piece
+     (name Sign)
+     (description " ")
+     (image You "../images/Numbers/s.bmp"
+            Computer "../images/Numbers/s.bmp")
+  )
+  (piece
+     (name PZero)
+     (description " ")
+     (image You "../images/Numbers/p0.bmp"
+            Computer "../images/Numbers/p0.bmp")
+  )
+  (piece
+     (name POne)
+     (description " ")
+     (image You "../images/Numbers/p1.bmp"
+            Computer "../images/Numbers/p1.bmp")
+  )
+  (piece
+     (name PTwo)
+     (description " ")
+     (image You "../images/Numbers/p2.bmp"
+            Computer "../images/Numbers/p2.bmp")
+  )
+  (piece
+     (name PThree)
+     (description " ")
+     (image You "../images/Numbers/p3.bmp"
+            Computer "../images/Numbers/p3.bmp")
+  )
+  (piece
+     (name PFour)
+     (description " ")
+     (image You "../images/Numbers/p4.bmp"
+            Computer "../images/Numbers/p4.bmp")
+  )
+  (piece
+     (name PFive)
+     (description " ")
+     (image You "../images/Numbers/p5.bmp"
+            Computer "../images/Numbers/p5.bmp")
+  )
+  (piece
+     (name PSix)
+     (description " ")
+     (image You "../images/Numbers/p6.bmp"
+            Computer "../images/Numbers/p6.bmp")
+  )
+  (piece
+     (name PSeven)
+     (description " ")
+     (image You "../images/Numbers/p7.bmp"
+            Computer "../images/Numbers/p7.bmp")
+  )
+  (piece
+     (name PEight)
+     (description " ")
+     (image You "../images/Numbers/p8.bmp"
+            Computer "../images/Numbers/p8.bmp")
+  )
+  (piece
+     (name PNine)
+     (description " ")
+     (image You "../images/Numbers/p9.bmp"
+            Computer "../images/Numbers/p9.bmp")
+  )
+
+  ; The following dummy piece is required in order to placate the Zillions engine.
+  ; It appears as though Zillions must find at least one "moves" keyword somewhere
+  ; in the zrf in order for it to be happy and thus allow "moves" to work correctly.
+  (piece 
+     (name Dummy)
+     (dummy) (moves (from))
+  )
+)
