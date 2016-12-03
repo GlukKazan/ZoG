@@ -2747,6 +2747,7 @@
   )
   (board-setup
      (Light
+       (Mount c5 g5)
        (SleipnirOA c1)
        (TyrA g1)
        (WarriorA c3 e3 g3 a4 i4 e4 off 2)
@@ -2770,7 +2771,6 @@
        (Sowelu e5 off 5)
      )
      (Dark
-       (Mount c5 g5)
        (HelA e9)
        (GarmrA off 1)
        (JotunnA c8 g8 off 2)
@@ -2791,6 +2791,7 @@
   )
   (board-setup
      (Light
+       (Mount b4 b6 e5 h4 h6)
        (ThorA c1)
        (TyrA g1)
        (WarriorA b3 d3 f3 h3 e4 off 2)
@@ -2802,7 +2803,6 @@
        (Man off 4)
      )
      (Dark
-       (Mount b4 b6 e5 h4 h6)
        (SurtrA e9)
        (EldthursarA off 2)
        (WarriorA b7 d7 f7 h7)
