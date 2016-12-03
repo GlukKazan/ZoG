@@ -537,6 +537,19 @@
   )
 )
 
+(define warrior-check-enemy
+  (if (on-board? $1)
+      (if (and (enemy? $1) 
+               (not-piece? WarriorA $1) 
+               (not-piece? WarriorR $1) 
+               (not-piece? Warrior $1) 
+               (not-rune-dir? $1)
+          )
+          (set-flag enemy-present? true)
+      )
+  )
+)
+
 (define warrior-jump-frozen (
   (verify (not-enemy? a0))
   (verify-not-frozen)
@@ -547,12 +560,12 @@
   (check-fire)
   (set-flag enemy-present? false)
   (if (flag? is-a?)
-      (check-enemy n) (check-enemy s)
-      (check-enemy w) (check-enemy e)
+      (warrior-check-enemy n) (warrior-check-enemy s)
+      (warrior-check-enemy w) (warrior-check-enemy e)
   )
   (if (flag? is-r?)
-      (check-enemy nw) (check-enemy se)
-      (check-enemy sw) (check-enemy ne)
+      (warrior-check-enemy nw) (warrior-check-enemy se)
+      (warrior-check-enemy sw) (warrior-check-enemy ne)
   )
   (verify (flag? enemy-present?))
   (add-partial $2 $3)
@@ -1048,6 +1061,7 @@
 
 (define drop-ansuz (
   (verify (not-enemy? a0))
+  (verify (not-piece? Ansuz))
   (drop-rune-body)
   (create Mark a0)
   add
