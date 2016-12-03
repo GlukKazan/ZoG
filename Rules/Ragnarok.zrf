@@ -86,18 +86,22 @@
 (define jotunn-push-body
   (set-flag is-captured? false)
   mark
-  (while (and (on-board? $2) (enemy? $2))
-      $2 (verify (not-rune?))
-      capture
-      (set-flag is-captured? true)
+  (while (and (on-board? $2) (enemy? $2) (not-rune?))
+      $2
+      (if (not-rune?)
+          capture
+          (set-flag is-captured? true)
+      )
   )
   back
   $1 (verify empty?)
   mark
-  (while (and (on-board? $1) (enemy? $1))
-      $1 (verify (not-rune?))
-      capture
-      (set-flag is-captured? true)
+  (while (and (on-board? $1) (enemy? $1) (not-rune?))
+      $1
+      (if (not-rune?)
+          capture
+          (set-flag is-captured? true)
+      )
   )
   back
   (verify (flag? is-captured?))
@@ -594,7 +598,7 @@
 
 (define check-friend
   (if (on-board? $1)
-      (if (not-friend? $1)
+      (if (friend? $1)
           (set-flag enemy-present? false)
       )
   )
@@ -1715,8 +1719,8 @@
      (drops
         (move-type normal-type)
         (drop-wyrd)
-        (move-type rune-type)
-        (drop-rune)
+;       (move-type rune-type)
+;       (drop-rune)
      )
   )
   (piece
@@ -2683,7 +2687,7 @@
 
   (board-setup
      (Light
-       (Mount c5 g5)
+       (Mount c5 g5 e4 e6)
        (OdinA c1)
        (ThorA g1)
        (WarriorR c3 g3)
@@ -2707,7 +2711,6 @@
        (Sowelu off 5)
      )
      (Dark
-       (Mount e4 e6)
        (LokiA e9)
        (JotunnA c7 g7 e7)
        (WarriorA e8)
