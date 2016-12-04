@@ -1041,8 +1041,20 @@
   (revert Othila)
 ))
 
+(define change-man
+  mark a0
+  (while (on-board? next)
+     next
+     (if (piece? Man)
+         (change-type WarriorA)
+     )
+  )
+  back
+)
+
 (define drop-rune-body
   (verify friend?)
+  (change-man)
   (if (piece? Nauthiz)
       capture
    else
@@ -1733,8 +1745,8 @@
      (drops
         (move-type normal-type)
         (drop-wyrd)
-;       (move-type rune-type)
-;       (drop-rune)
+        (move-type rune-type)
+        (drop-rune)
      )
   )
   (piece
@@ -2704,10 +2716,11 @@
        (Mount c5 g5 e4 e6)
        (OdinA c1)
        (ThorA g1)
-       (WarriorR c3 g3)
+       (WarriorR c3 g3 a1 i1)
        (WarriorA a3 i3 off 3)
-       (AlfrA b3 d3 f3 h3 e3 off 3)
-       (ValkyrieA e2 off 2)
+       (AlfrA b2 d2 f2 h2 off 3)
+       (AlfrR b3 d3 f3 h3 e3)
+       (ValkyrieA e1 off 2)
        (Man off 5)
        (Wyrd off 20)
        (Ehwaz off 5)
@@ -2727,9 +2740,10 @@
      (Dark
        (LokiA e9)
        (JotunnA c7 g7 e7)
+       (JotunnR a7 i7)
        (WarriorA e8)
        (WarriorR a8 i8)
-       (ZwergA b8 c8 d8 f8 g8 h8)
+       (ZwergA b8 c8 d8 f8 g8 h8 a9 c9 g9 i9)
        (SleipnirA off 1)
        (JormungandrA off 1)
        (FenrirA off 1)
