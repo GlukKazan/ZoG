@@ -1,0 +1,349 @@
+(define is-piece?
+  (or (piece? p$1) (piece? q$1))
+)
+
+(define add-1
+  (if empty? (cp 01))
+  (if (is-piece? 01) (cp 02))
+  (if (is-piece? 02) (cp 03))
+  (if (is-piece? 03) (cp 04))
+  (if (is-piece? 04) (cp 05))
+  (if (is-piece? 05) (cp 06))
+  (if (is-piece? 06) (cp 07))
+  (if (is-piece? 07) (cp 08))
+  (if (is-piece? 08) (cp 09))
+  (if (is-piece? 09) (cp 10))
+  (if (is-piece? 10) (cp 11))
+  (if (is-piece? 11) (cp 12))
+  (if (is-piece? 12) (cp 13))
+  (if (is-piece? 13) (cp 14))
+  (if (is-piece? 14) (cp 15))
+  (if (is-piece? 15) (cp 16))
+  (if (is-piece? 16) (cp 17))
+  (if (is-piece? 17) (cp 18))
+  (if (is-piece? 18) (cp 19))
+  (if (is-piece? 19) (cp 20))
+  (if (is-piece? 20) (cp 21))
+  (if (is-piece? 21) (cp 22))
+  (if (is-piece? 22) (cp 23))
+  (if (is-piece? 23) (cp 24))
+  (if (is-piece? 24) (cp 25))
+  (if (is-piece? 25) (cp 26))
+  (if (is-piece? 26) (cp 27))
+  (if (is-piece? 27) (cp 28))
+  (if (is-piece? 28) (cp 29))
+  (if (is-piece? 29) (cp 30))
+  (if (is-piece? 30) (cp 31))
+  (if (is-piece? 31) (cp 32))
+  (if (is-piece? 32) (cp 33))
+  (if (is-piece? 33) (cp 34))
+  (if (is-piece? 34) (cp 35))
+  (if (is-piece? 35) (cp 36))
+  (if (is-piece? 36) (cp 37))
+  (if (is-piece? 37) (cp 38))
+  (if (is-piece? 38) (cp 39))
+  (if (is-piece? 39) (cp 40))
+  (if (is-piece? 40) (cp 41))
+  (if (is-piece? 41) (cp 42))
+  (if (is-piece? 42) (cp 43))
+  (if (is-piece? 43) (cp 44))
+  (if (is-piece? 44) (cp 45))
+  (if (is-piece? 45) (cp 46))
+  (if (is-piece? 46) (cp 47))
+  (if (is-piece? 47) (cp 48))
+  (if (is-piece? 48) (cp 49))
+)
+
+(define stop-1
+  (if empty? (add p01))
+  (if (is-piece? 01) (ap 02))
+  (if (is-piece? 02) (ap 03))
+  (if (is-piece? 03) (ap 04))
+  (if (is-piece? 04) (ap 05))
+  (if (is-piece? 05) (ap 06))
+  (if (is-piece? 06) (ap 07))
+  (if (is-piece? 07) (ap 08))
+  (if (is-piece? 08) (ap 09))
+  (if (is-piece? 09) (ap 10))
+  (if (is-piece? 10) (ap 11))
+  (if (is-piece? 11) (ap 12))
+  (if (is-piece? 12) (ap 13))
+  (if (is-piece? 13) (ap 14))
+  (if (is-piece? 14) (ap 15))
+  (if (is-piece? 15) (ap 16))
+  (if (is-piece? 16) (ap 17))
+  (if (is-piece? 17) (ap 18))
+  (if (is-piece? 18) (ap 19))
+  (if (is-piece? 19) (ap 20))
+  (if (is-piece? 20) (ap 21))
+  (if (is-piece? 21) (ap 22))
+  (if (is-piece? 22) (ap 23))
+  (if (is-piece? 23) (ap 24))
+  (if (is-piece? 24) (ap 25))
+  (if (is-piece? 25) (ap 26))
+  (if (is-piece? 26) (ap 27))
+  (if (is-piece? 27) (ap 28))
+  (if (is-piece? 28) (ap 29))
+  (if (is-piece? 29) (ap 30))
+  (if (is-piece? 30) (ap 31))
+  (if (is-piece? 31) (ap 32))
+  (if (is-piece? 32) (ap 33))
+  (if (is-piece? 33) (ap 34))
+  (if (is-piece? 34) (ap 35))
+  (if (is-piece? 35) (ap 36))
+  (if (is-piece? 36) (ap 37))
+  (if (is-piece? 37) (ap 38))
+  (if (is-piece? 38) (ap 39))
+  (if (is-piece? 39) (ap 40))
+  (if (is-piece? 40) (ap 41))
+  (if (is-piece? 41) (ap 42))
+  (if (is-piece? 42) (ap 43))
+  (if (is-piece? 43) (ap 44))
+  (if (is-piece? 44) (ap 45))
+  (if (is-piece? 45) (ap 46))
+  (if (is-piece? 46) (ap 47))
+  (if (is-piece? 47) (ap 48))
+  (if (is-piece? 48) (ap 49))
+)
+
+(define cp
+  (if (in-zone? home)
+      (create p$1)
+   else
+      (if (in-zone? acc S)
+          (create North p$1)
+       else
+          (create South p$1)
+      )
+  )
+)
+
+(define ap
+  (if (in-zone? acc)
+      (add p$1)
+   else
+      (add-partial q$1 continue-type)
+  )
+)
+
+(define p01-move 
+  next (stop-1) 
+)
+
+(define p02-move 
+  next (add-1)
+  next (stop-1) 
+)
+
+(define p03-move 
+  next (add-1)
+  next (add-1)
+  next (stop-1) 
+)
+
+(define p04-move 
+  next (add-1)
+  next (add-1)
+  next (add-1)
+  next (stop-1) 
+)
+
+(define p05-move 
+  next (add-1)
+  next (add-1)
+  next (add-1)
+  next (add-1)
+  next (stop-1) 
+)
+
+(define p06-move 
+  next (add-1)
+  next (add-1)
+  next (add-1)
+  next (add-1)
+  next (add-1)
+  next (stop-1) 
+)
+
+(define p07-move 
+  next (add-1)
+  next (add-1)
+  next (add-1)
+  next (add-1)
+  next (add-1)
+  next (add-1)
+  next (stop-1) 
+)
+
+(define p08-move 
+  next (add-1)
+  next (add-1)
+  next (add-1)
+  next (add-1)
+  next (add-1)
+  next (add-1)
+  next (add-1)
+  next (stop-1) 
+)
+
+(define p09-move 
+  next (add-1)
+  next (add-1)
+  next (add-1)
+  next (add-1)
+  next (add-1)
+  next (add-1)
+  next (add-1)
+  next (add-1)
+  next (stop-1) 
+)
+
+(define p-move (
+  mark
+  (if (is-piece? 01) (p01-move)) back
+  (if (is-piece? 02) (p02-move)) back
+  (if (is-piece? 03) (p03-move)) back
+  (if (is-piece? 04) (p04-move)) back
+  (if (is-piece? 05) (p05-move)) back
+  (if (is-piece? 06) (p06-move)) back
+  (if (is-piece? 07) (p07-move)) back
+  (if (is-piece? 08) (p08-move)) back
+  (if (is-piece? 09) (p09-move)) back
+))
+
+(define pq
+  (piece
+     (name p$1)
+     (help " ")
+     (image South "../images/Dakon/p$1.bmp"
+            North "../images/Dakon/p$1.bmp")
+     (moves
+        (move-type normal-type)
+        (p-move)
+     )
+  )
+  (piece
+     (name q$1)
+     (help " ")
+     (image South "../images/Dakon/q$1.bmp"
+            North "../images/Dakon/q$1.bmp")
+     (moves
+        (move-type continue-type)
+        (p-move)
+     )
+  )
+)
+
+(variant
+  (title "Dakon (2x5)")
+  (board 
+     (image "../images/Dakon/2x5.bmp")
+     (positions 
+         (N   22  43  91 115)
+         (S   442 43 511 115)
+         (a1  93  86 162 158)
+         (b1 161  86 230 158)
+         (c1 230  86 299 158)
+         (d1 299  86 368 158)
+         (e1 368  86 437 158)
+         (a2  93   6 162  78)
+         (b2 161   6 230  78)
+         (c2 230   6 299  78)
+         (d2 299   6 368  78)
+         (e2 368   6 437  78)
+     )
+     (links next
+         (a2 b2) (b2 c2) (c2 d2) (d2 e2)
+         (b1 a1) (c1 b1) (d1 c1) (e1 d1)
+         (a1 a2) (e2  S) (S  e1)
+     )
+     (links nn
+         (a2 b2) (b2 c2) (c2 d2) (d2 e2)
+         (b1 a1) (c1 b1) (d1 c1) (e1 d1)
+         (e2 e1) (a1  N) (N  a2)
+     )
+     (symmetry North (next nn))
+  )
+  (board-setup
+     (South (p07 a1 b1 c1 d1 e1))
+     (North (p07 a2 b2 c2 d2 e2))
+  )
+)
+
+(game
+  (title "Dakon (2x7)")
+  (default)
+
+  (option "animate captures"   false)
+  (option "pass turn"          false)
+  (option "pass partial"       false)
+  (option "prevent flipping"   true)
+  (option "smart moves"        false)
+
+  (move-sound    "Audio/Clack.wav")
+  (release-sound "Audio/Clack.wav")
+  (drop-sound    "")
+  (capture-sound "")
+  (change-sound  "")
+  (click-sound   "")
+  (draw-sound    "")
+
+  (players South North)
+  (turn-order South North)
+
+  (board 
+     (image "../images/Dakon/2x7.bmp")
+     (positions 
+         (N    38  43 102 117)
+         (S   577  43 641 117)
+         (a1  114  85 178 159)
+         (b1  178  85 243 159)
+         (c1  243  85 306 159)
+         (d1  306  85 370 159)
+         (e1  370  85 434 159)
+         (f1  434  85 498 159)
+         (g1  498  85 562 159)
+         (a2  114   6 178  78)
+         (b2  178   6 243  78)
+         (c2  243   6 306  78)
+         (d2  306   6 370  78)
+         (e2  370   6 434  78)
+         (f2  434   6 498  78)
+         (g2  498   6 562  78)
+     )
+     (links next
+         (a2 b2) (b2 c2) (c2 d2) (d2 e2) (e2 f2) (f2 g2)
+         (b1 a1) (c1 b1) (d1 c1) (e1 d1) (f1 e1) (g1 f1)
+         (a1 a2) (g2  S) (S  g1)
+     )
+     (links nn
+         (a2 b2) (b2 c2) (c2 d2) (d2 e2) (e2 f2) (f2 g2)
+         (b1 a1) (c1 b1) (d1 c1) (e1 d1) (f1 e1) (g1 f1)
+         (g2 g1) (a1  N) (N  a2)
+     )
+     (symmetry North (next nn))
+     (zone (name home) (players South)
+           (positions a1 b1 c1 d1 e1 f1 g1)
+     )
+     (zone (name home) (players North)
+           (positions a2 b2 c2 d2 e2 f2 g2)
+     )
+     (zone (name acc) (players South)
+           (positions S)
+     )
+     (zone (name acc) (players North)
+           (positions N)
+     )
+  )
+
+  (pq 01) (pq 02) (pq 03) (pq 04) (pq 05) (pq 06) (pq 07) (pq 08) (pq 09) (pq 10)
+  (pq 11) (pq 12) (pq 13) (pq 14) (pq 15) (pq 16) (pq 17) (pq 18) (pq 19) (pq 20)
+  (pq 21) (pq 22) (pq 23) (pq 24) (pq 25) (pq 26) (pq 27) (pq 28) (pq 29) (pq 30)
+  (pq 31) (pq 32) (pq 33) (pq 34) (pq 35) (pq 36) (pq 37) (pq 38) (pq 39) (pq 40)
+  (pq 41) (pq 42) (pq 43) (pq 44) (pq 45) (pq 46) (pq 47) (pq 48) (pq 49)
+  
+  (board-setup
+     (South (p07 a1 b1 c1 d1 e1 f1 g1))
+     (North (p07 a2 b2 c2 d2 e2 f2 g2))
+  )
+)
