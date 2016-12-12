@@ -247,10 +247,12 @@
   (set-flag $1-04 (or (piece? p04) (piece? p05) (piece? p06) (piece? p07) (piece? p12) (piece? p13) (piece? p14) (piece? p15) (piece? p20) (piece? p21) (piece? p22) (piece? p23) (piece? p28) (piece? p29)))
   (set-flag $1-08 (or (piece? p08) (piece? p09) (piece? p10) (piece? p11) (piece? p12) (piece? p13) (piece? p14) (piece? p15) (piece? p24) (piece? p25) (piece? p26) (piece? p27) (piece? p28) (piece? p29)))
   (set-flag $1-16 (or (piece? p16) (piece? p17) (piece? p18) (piece? p19) (piece? p20) (piece? p21) (piece? p22) (piece? p23) (piece? p24) (piece? p25) (piece? p26) (piece? p27) (piece? p28) (piece? p29)))
+  (set-flag $1-32 false)
 )
 
 (define not-0?
-  (or (flag? $1-16)
+  (or (flag? $1-32)
+      (flag? $1-16)
       (flag? $1-08)
       (flag? $1-04)
       (flag? $1-02)
@@ -269,6 +271,11 @@
                    (set-flag $1-08 false)
                    (if (flag? $1-16)
                        (set-flag $1-16 false)
+                       (if (flag? $1-32)
+                           (set-flag $1-32 false)
+                        else
+                           (set-flag $1-32 true)
+                       )
                     else
                        (set-flag $1-16 true)
                    )
@@ -297,6 +304,11 @@
                    (set-flag $1-08 true)
                    (if (not-flag? $1-16)
                        (set-flag $1-16 true)
+                       (if (not-flag? $1-32)
+                           (set-flag $1-32 true)
+                        else
+                           (set-flag $1-32 false)
+                       )
                     else
                        (set-flag $1-16 false)
                    )
