@@ -52,6 +52,7 @@
   (if (piece? p46)   (cp 47))
   (if (piece? p47)   (cp 48))
   (if (piece? p48)   (cp 49))
+  (if (piece? p49)   (cp 50))
 )
 
 (define add-2
@@ -103,6 +104,8 @@
   (if (piece? p45)   (cp 47))
   (if (piece? p46)   (cp 48))
   (if (piece? p47)   (cp 49))
+  (if (piece? p48)   (cp 50))
+  (if (piece? p49)   (cp 50))
 )
 
 (define stop-1
@@ -155,6 +158,7 @@
   (if (piece? p46)   (cp 47) add)
   (if (piece? p47)   (cp 48) add)
   (if (piece? p48)   (cp 49) add)
+  (if (piece? p49)   (cp 50) add)
 )
 
 (define stop-2
@@ -206,6 +210,8 @@
   (if (piece? p45)   (cp 47) add)
   (if (piece? p46)   (cp 48) add)
   (if (piece? p47)   (cp 49) add)
+  (if (piece? p48)   (cp 50) add)
+  (if (piece? p49)   (cp 50) add)
 )                        
 
 (define ce
@@ -242,12 +248,12 @@
 )
 
 (define set-bits
-  (set-flag $1-01 (or (piece? p01) (piece? p03) (piece? p05) (piece? p07) (piece? p09) (piece? p11) (piece? p13) (piece? p15) (piece? p17) (piece? p19) (piece? p21) (piece? p23) (piece? p25) (piece? p27) (piece? p29)))
-  (set-flag $1-02 (or (piece? p02) (piece? p03) (piece? p06) (piece? p07) (piece? p10) (piece? p11) (piece? p14) (piece? p15) (piece? p18) (piece? p19) (piece? p22) (piece? p23) (piece? p26) (piece? p27)))
-  (set-flag $1-04 (or (piece? p04) (piece? p05) (piece? p06) (piece? p07) (piece? p12) (piece? p13) (piece? p14) (piece? p15) (piece? p20) (piece? p21) (piece? p22) (piece? p23) (piece? p28) (piece? p29)))
-  (set-flag $1-08 (or (piece? p08) (piece? p09) (piece? p10) (piece? p11) (piece? p12) (piece? p13) (piece? p14) (piece? p15) (piece? p24) (piece? p25) (piece? p26) (piece? p27) (piece? p28) (piece? p29)))
-  (set-flag $1-16 (or (piece? p16) (piece? p17) (piece? p18) (piece? p19) (piece? p20) (piece? p21) (piece? p22) (piece? p23) (piece? p24) (piece? p25) (piece? p26) (piece? p27) (piece? p28) (piece? p29)))
-  (set-flag $1-32 false)
+  (set-flag $1-01 (or (piece? p01) (piece? p03) (piece? p05) (piece? p07) (piece? p09) (piece? p11) (piece? p13) (piece? p15) (piece? p17) (piece? p19) (piece? p21) (piece? p23) (piece? p25) (piece? p27) (piece? p29) (piece? p31) (piece? p33) (piece? p35) (piece? p37) (piece? p39) (piece? p41) (piece? p43) (piece? p45) (piece? p47) (piece? p49)))
+  (set-flag $1-02 (or (piece? p02) (piece? p03) (piece? p06) (piece? p07) (piece? p10) (piece? p11) (piece? p14) (piece? p15) (piece? p18) (piece? p19) (piece? p22) (piece? p23) (piece? p26) (piece? p27) (piece? p30) (piece? p31) (piece? p34) (piece? p35) (piece? p38) (piece? p39) (piece? p42) (piece? p43) (piece? p46) (piece? p47)))
+  (set-flag $1-04 (or (piece? p04) (piece? p05) (piece? p06) (piece? p07) (piece? p12) (piece? p13) (piece? p14) (piece? p15) (piece? p20) (piece? p21) (piece? p22) (piece? p23) (piece? p28) (piece? p29) (piece? p30) (piece? p31) (piece? p36) (piece? p37) (piece? p38) (piece? p39) (piece? p44) (piece? p45) (piece? p46) (piece? p47)))
+  (set-flag $1-08 (or (piece? p08) (piece? p09) (piece? p10) (piece? p11) (piece? p12) (piece? p13) (piece? p14) (piece? p15) (piece? p24) (piece? p25) (piece? p26) (piece? p27) (piece? p28) (piece? p29) (piece? p30) (piece? p31) (piece? p40) (piece? p41) (piece? p42) (piece? p43) (piece? p44) (piece? p45) (piece? p46) (piece? p47)))
+  (set-flag $1-16 (or (piece? p16) (piece? p17) (piece? p18) (piece? p19) (piece? p20) (piece? p21) (piece? p22) (piece? p23) (piece? p24) (piece? p25) (piece? p26) (piece? p27) (piece? p28) (piece? p29) (piece? p30) (piece? p31) (piece? p48) (piece? p49)))
+  (set-flag $1-32 (or (piece? p32) (piece? p33) (piece? p34) (piece? p35) (piece? p36) (piece? p37) (piece? p38) (piece? p39) (piece? p40) (piece? p41) (piece? p42) (piece? p43) (piece? p44) (piece? p45) (piece? p46) (piece? p47) (piece? p48) (piece? p49)))
 )
 
 (define not-0?
@@ -256,6 +262,16 @@
       (flag? $1-08)
       (flag? $1-04)
       (flag? $1-02)
+      (flag? $1-01)
+  )
+)
+
+(define not-50?
+  (or (not-flag? $1-32)
+      (not-flag? $1-16)
+      (flag? $1-08)
+      (flag? $1-04)
+      (not-flag? $1-02)
       (flag? $1-01)
   )
 )
@@ -328,20 +344,70 @@
 
 (define sum
    (while (not-0? $2)
-       (inc $1)
+       (if (not-50? $1)
+           (inc $1)
+       )
        (dec $2)
    )
 )
 
 (define add-bits
-  ; TODO: change-owner
-  (if empty? add)
-  ; TODO: other cases
+  (if (and (not-flag? a-32) (not-flag? a-16) (not-flag? a-08) (not-flag? a-04) (not-flag? a-02) (flag? a-01)) (ce 01))
+  (if (and (not-flag? a-32) (not-flag? a-16) (not-flag? a-08) (not-flag? a-04) (flag? a-02) (not-flag? a-01)) (ce 02))
+  (if (and (not-flag? a-32) (not-flag? a-16) (not-flag? a-08) (not-flag? a-04) (flag? a-02) (flag? a-01))     (ce 03))
+  (if (and (not-flag? a-32) (not-flag? a-16) (not-flag? a-08) (flag? a-04) (not-flag? a-02) (not-flag? a-01)) (ce 04))
+  (if (and (not-flag? a-32) (not-flag? a-16) (not-flag? a-08) (flag? a-04) (not-flag? a-02) (flag? a-01))     (ce 05))
+  (if (and (not-flag? a-32) (not-flag? a-16) (not-flag? a-08) (flag? a-04) (flag? a-02) (not-flag? a-01))     (ce 06))
+  (if (and (not-flag? a-32) (not-flag? a-16) (not-flag? a-08) (flag? a-04) (flag? a-02) (flag? a-01))         (ce 07))
+  (if (and (not-flag? a-32) (not-flag? a-16) (flag? a-08) (not-flag? a-04) (not-flag? a-02) (not-flag? a-01)) (ce 08))
+  (if (and (not-flag? a-32) (not-flag? a-16) (flag? a-08) (not-flag? a-04) (not-flag? a-02) (flag? a-01))     (ce 09))
+  (if (and (not-flag? a-32) (not-flag? a-16) (flag? a-08) (not-flag? a-04) (flag? a-02) (not-flag? a-01))     (ce 10))
+  (if (and (not-flag? a-32) (not-flag? a-16) (flag? a-08) (not-flag? a-04) (flag? a-02) (flag? a-01))         (ce 11))
+  (if (and (not-flag? a-32) (not-flag? a-16) (flag? a-08) (flag? a-04) (not-flag? a-02) (not-flag? a-01))     (ce 12))
+  (if (and (not-flag? a-32) (not-flag? a-16) (flag? a-08) (flag? a-04) (not-flag? a-02) (flag? a-01))         (ce 13))
+  (if (and (not-flag? a-32) (not-flag? a-16) (flag? a-08) (flag? a-04) (flag? a-02) (not-flag? a-01))         (ce 14))
+  (if (and (not-flag? a-32) (not-flag? a-16) (flag? a-08) (flag? a-04) (flag? a-02) (flag? a-01))             (ce 15))
+  (if (and (not-flag? a-32) (flag? a-16) (not-flag? a-08) (not-flag? a-04) (not-flag? a-02) (not-flag? a-01)) (ce 16))
+  (if (and (not-flag? a-32) (flag? a-16) (not-flag? a-08) (not-flag? a-04) (not-flag? a-02) (flag? a-01))     (ce 17))
+  (if (and (not-flag? a-32) (flag? a-16) (not-flag? a-08) (not-flag? a-04) (flag? a-02) (not-flag? a-01))     (ce 18))
+  (if (and (not-flag? a-32) (flag? a-16) (not-flag? a-08) (not-flag? a-04) (flag? a-02) (flag? a-01))         (ce 19))
+  (if (and (not-flag? a-32) (flag? a-16) (not-flag? a-08) (flag? a-04) (not-flag? a-02) (not-flag? a-01))     (ce 20))
+  (if (and (not-flag? a-32) (flag? a-16) (not-flag? a-08) (flag? a-04) (not-flag? a-02) (flag? a-01))         (ce 21))
+  (if (and (not-flag? a-32) (flag? a-16) (not-flag? a-08) (flag? a-04) (flag? a-02) (not-flag? a-01))         (ce 22))
+  (if (and (not-flag? a-32) (flag? a-16) (not-flag? a-08) (flag? a-04) (flag? a-02) (flag? a-01))             (ce 23))
+  (if (and (not-flag? a-32) (flag? a-16) (flag? a-08) (not-flag? a-04) (not-flag? a-02) (not-flag? a-01))     (ce 24))
+  (if (and (not-flag? a-32) (flag? a-16) (flag? a-08) (not-flag? a-04) (not-flag? a-02) (flag? a-01))         (ce 25))
+  (if (and (not-flag? a-32) (flag? a-16) (flag? a-08) (not-flag? a-04) (flag? a-02) (not-flag? a-01))         (ce 26))
+  (if (and (not-flag? a-32) (flag? a-16) (flag? a-08) (not-flag? a-04) (flag? a-02) (flag? a-01))             (ce 27))
+  (if (and (not-flag? a-32) (flag? a-16) (flag? a-08) (flag? a-04) (not-flag? a-02) (not-flag? a-01))         (ce 28))
+  (if (and (not-flag? a-32) (flag? a-16) (flag? a-08) (flag? a-04) (not-flag? a-02) (flag? a-01))             (ce 29))
+  (if (and (not-flag? a-32) (flag? a-16) (flag? a-08) (flag? a-04) (flag? a-02) (not-flag? a-01))             (ce 30))
+  (if (and (not-flag? a-32) (flag? a-16) (flag? a-08) (flag? a-04) (flag? a-02) (flag? a-01))                 (ce 31))
+  (if (and (flag? a-32) (not-flag? a-16) (not-flag? a-08) (not-flag? a-04) (not-flag? a-02) (not-flag? a-01)) (ce 32))
+  (if (and (flag? a-32) (not-flag? a-16) (not-flag? a-08) (not-flag? a-04) (not-flag? a-02) (flag? a-01))     (ce 33))
+  (if (and (flag? a-32) (not-flag? a-16) (not-flag? a-08) (not-flag? a-04) (flag? a-02) (not-flag? a-01))     (ce 34))
+  (if (and (flag? a-32) (not-flag? a-16) (not-flag? a-08) (not-flag? a-04) (flag? a-02) (flag? a-01))         (ce 35))
+  (if (and (flag? a-32) (not-flag? a-16) (not-flag? a-08) (flag? a-04) (not-flag? a-02) (not-flag? a-01))     (ce 36))
+  (if (and (flag? a-32) (not-flag? a-16) (not-flag? a-08) (flag? a-04) (not-flag? a-02) (flag? a-01))         (ce 37))
+  (if (and (flag? a-32) (not-flag? a-16) (not-flag? a-08) (flag? a-04) (flag? a-02) (not-flag? a-01))         (ce 38))
+  (if (and (flag? a-32) (not-flag? a-16) (not-flag? a-08) (flag? a-04) (flag? a-02) (flag? a-01))             (ce 39))
+  (if (and (flag? a-32) (not-flag? a-16) (flag? a-08) (not-flag? a-04) (not-flag? a-02) (not-flag? a-01))     (ce 40))
+  (if (and (flag? a-32) (not-flag? a-16) (flag? a-08) (not-flag? a-04) (not-flag? a-02) (flag? a-01))         (ce 41))
+  (if (and (flag? a-32) (not-flag? a-16) (flag? a-08) (not-flag? a-04) (flag? a-02) (not-flag? a-01))         (ce 42))
+  (if (and (flag? a-32) (not-flag? a-16) (flag? a-08) (not-flag? a-04) (flag? a-02) (flag? a-01))             (ce 43))
+  (if (and (flag? a-32) (not-flag? a-16) (flag? a-08) (flag? a-04) (not-flag? a-02) (not-flag? a-01))         (ce 44))
+  (if (and (flag? a-32) (not-flag? a-16) (flag? a-08) (flag? a-04) (not-flag? a-02) (flag? a-01))             (ce 45))
+  (if (and (flag? a-32) (not-flag? a-16) (flag? a-08) (flag? a-04) (flag? a-02) (not-flag? a-01))             (ce 46))
+  (if (and (flag? a-32) (not-flag? a-16) (flag? a-08) (flag? a-04) (flag? a-02) (flag? a-01))                 (ce 47))
+  (if (and (flag? a-32) (flag? a-16) (not-flag? a-08) (not-flag? a-04) (not-flag? a-02) (not-flag? a-01))     (ce 48))
+  (if (and (flag? a-32) (flag? a-16) (not-flag? a-08) (not-flag? a-04) (not-flag? a-02) (flag? a-01))         (ce 49))
+  (if (and (flag? a-32) (flag? a-16) (not-flag? a-08) (not-flag? a-04) (flag? a-02) (not-flag? a-01))         (ce 50))
+  add
 )
 
 (define to-acc (
   (verify is-captured?)
-  (set-bits a) a1 sa (set-bits b)
+  (set-bits b) a1 na (set-bits a)
   (sum a b)
   (add-bits)
 ))
@@ -1029,19 +1095,17 @@
      )
      (links sa (a1 S))
      (links na (a1 N))
-     (symmetry North (next nn))
-     (symmetry ?S (sa sa))
-     (symmetry ?N (sa na))
+     (symmetry North (next nn) (na sa))
      (zone (name home) (players South)
            (positions a1 b1 c1 d1 e1 S)
      )
      (zone (name home) (players North)
            (positions a2 b2 c2 d2 e2 N)
      )
-     (zone (name acc) (players South)
+     (zone (name acc) (players South ?S)
            (positions S)
      )
-     (zone (name acc) (players North)
+     (zone (name acc) (players North ?N)
            (positions N)
      )
   )
@@ -1462,9 +1526,7 @@
      )
      (links sa (a1 S))
      (links na (a1 N))
-     (symmetry North (next nn))
-     (symmetry ?S (sa sa))
-     (symmetry ?N (sa na))
+     (symmetry North (next nn) (na sa))
      (zone (name home) (players South)
            (positions a1 b1 c1 d1 e1 f1 g1 S)
      )
@@ -2266,11 +2328,17 @@
      (image South "../images/Dakon/p49.bmp"
             North "../images/Dakon/p49.bmp")
   )
+  (piece
+     (name p50)
+     (help " ")
+     (image South "../images/Dakon/p50.bmp"
+            North "../images/Dakon/p50.bmp")
+  )
   
   (board-setup
      (South (p07 a1 b1 c1 d1 e1 f1 g1))
      (North (p07 a2 b2 c2 d2 e2 f2 g2))
   )
 
-  (count-condition (South North) stalemated)
+  (win-condition (South North) (pieces-remaining 1 p50))
 )
