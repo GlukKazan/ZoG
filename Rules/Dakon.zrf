@@ -276,6 +276,45 @@
   )
 )
 
+(define not-26?
+  (or (flag? $1-32)
+      (not-flag? $1-16)
+      (not-flag? $1-08)
+      (flag? $1-04)
+      (not-flag? $1-02)
+      (flag? $1-01)
+  )
+)
+
+(define not-limit?
+  (or (and (in-zone? var a1) (not-26?))
+      (and (in-zone? var a2) (not-50?))
+  )
+)
+
+(define eq?
+  (and 
+      (or (and (flag? $1-32) (flag? $2-32))
+          (and (not-flag? $1-32) (not-flag? $2-32))
+      )
+      (or (and (flag? $1-16) (flag? $2-16))
+          (and (not-flag? $1-16) (not-flag? $2-16))
+      )
+      (or (and (flag? $1-08) (flag? $2-08))
+          (and (not-flag? $1-08) (not-flag? $2-08))
+      )
+      (or (and (flag? $1-04) (flag? $2-04))
+          (and (not-flag? $1-04) (not-flag? $2-04))
+      )
+      (or (and (flag? $1-02) (flag? $2-02))
+          (and (not-flag? $1-02) (not-flag? $2-02))
+      )
+      (or (and (flag? $1-01) (flag? $2-01))
+          (and (not-flag? $1-01) (not-flag? $2-01))
+      )
+  )
+)
+
 (define inc
    (if (flag? $1-01)
        (set-flag $1-01 false)
@@ -405,22 +444,54 @@
   add
 )
 
+(define check-captured
+  mark
+  (if (on-board? $1)
+      $1
+      (if (on-board? $1)
+          $1
+          (if is-captured?
+              (set-bits a)
+              (sum b a)
+              capture
+          )
+      )
+  )
+  back
+)
+
 (define to-acc (
   (verify is-captured?)
-  (set-bits b) a1 na (set-bits a)
+  (set-bits b)
+  (check-captured nx)
+  (check-captured pr)
+  a1 na (set-bits a)
   (sum a b)
   (add-bits)
 ))
 
 (define cap
-  (if (in-zone? home)
-      (if (not-empty? up)
-          mark up (set-attribute is-captured? true) back
-      )
+  (if (in-zone? acc)
       (add p01)
    else
-      (ce 01)
-      add
+      (if (in-zone? home)
+          (if (not-empty? up)
+              mark up (set-attribute is-captured? true) back
+          )
+          (add p01)
+       else
+          (if (and (on-board? nx) (on-board? pr))
+              mark pr (set-bits a) (inc a) nx nx (set-bits b)
+              (if (eq? a b)
+                  (set-attribute is-captured? true)
+                  pr pr
+                  (set-attribute is-captured? true)
+              )
+              back
+          )
+          (ce 01)
+          add
+      )
   )
 )
 
@@ -1093,6 +1164,14 @@
          (b1 a1) (c1 b1) (d1 c1) (e1 d1)
          (a1 a2) (e2  N) (N  e1)
      )
+     (links nx
+         (a2 b2) (b2 c2) (c2 d2) (d2 e2)
+         (b1 a1) (c1 b1) (d1 c1) (e1 d1)
+     )
+     (links pr
+         (b2 a2) (c2 b2) (d2 c2) (e2 d2)
+         (a1 b1) (b1 c1) (c1 d1) (d1 e1)
+     )
      (links sa (a1 S))
      (links na (a1 N))
      (symmetry North (next nn) (na sa))
@@ -1107,6 +1186,9 @@
      )
      (zone (name acc) (players North ?N)
            (positions N)
+     )
+     (zone (name var) (players South North ?S ?N)
+           (positions a1)
      )
   )
   (piece
@@ -1462,6 +1544,8 @@
      (South (p05 a1 b1 c1 d1 e1))
      (North (p05 a2 b2 c2 d2 e2))
   )
+  (win-condition (South North) (pieces-remaining 1 p26))
+  (win-condition (South North) (pieces-remaining 1 p27))
 )
 
 (game
@@ -1524,6 +1608,14 @@
          (b1 a1) (c1 b1) (d1 c1) (e1 d1) (f1 e1) (g1 f1)
          (a1 a2) (g2  N) (N  g1)
      )
+     (links nx
+         (a2 b2) (b2 c2) (c2 d2) (d2 e2) (e2 f2) (f2 g2)
+         (b1 a1) (c1 b1) (d1 c1) (e1 d1) (f1 e1) (g1 f1)
+     )
+     (links pr
+         (b2 a2) (c2 b2) (d2 c2) (e2 d2) (f2 e2) (g2 f2)
+         (a1 b1) (b1 c1) (c1 d1) (d1 e1) (e1 f1) (f1 g1)
+     )
      (links sa (a1 S))
      (links na (a1 N))
      (symmetry North (next nn) (na sa))
@@ -1538,6 +1630,9 @@
      )
      (zone (name acc) (players North)
            (positions N)
+     )
+     (zone (name var) (players South North ?S ?N)
+           (positions a2)
      )
   )
 
