@@ -1736,6 +1736,7 @@
   (piece
      (name Wyrd)
      (help "Wyrd")
+     (description "Wyrd: Empty rune.")
      (image Light "../images/Ragnarok/wyrd.bmp"
             Dark "../images/Ragnarok/wyrd.bmp")
      (moves
@@ -1752,6 +1753,7 @@
   (piece
      (name Ehwaz)
      (help "Ehwaz")
+     (description "Ehwaz: Can change friendly piece.")
      (image Light "../images/Ragnarok/ehwazl.bmp"
             Dark "../images/Ragnarok/ehwazd.bmp")
      (moves
@@ -1766,6 +1768,7 @@
   (piece
      (name Berkana)
      (help "Berkana")
+     (description "Berkana: Can promote friendly piece.")
      (image Light "../images/Ragnarok/berkanal.bmp"
             Dark "../images/Ragnarok/berkanad.bmp")
      (moves
@@ -1780,6 +1783,7 @@
   (piece
      (name Algiz)
      (help "Algiz")
+     (description "Algiz: Protect a friendly piece.")
      (image Light "../images/Ragnarok/algizl.bmp"
             Dark "../images/Ragnarok/algizd.bmp")
      (moves
@@ -1794,6 +1798,7 @@
   (piece
      (name Fehu)
      (help "Fehu")
+     (description "Fehu: Can transform into any piece.")
      (image Light "../images/Ragnarok/fehul.bmp"
             Dark "../images/Ragnarok/fehud.bmp")
      (moves
@@ -1808,6 +1813,7 @@
   (piece
      (name Thurisaz)
      (help "Thurisaz")
+     (description "Thurisaz: Can exchange with any piece.")
      (image Light "../images/Ragnarok/thurisazl.bmp"
             Dark "../images/Ragnarok/thurisazd.bmp")
      (moves
@@ -1822,6 +1828,7 @@
   (piece
      (name Ansuz)
      (help "Ansuz")
+     (description "Ansuz: The Opponent loses his turn.")
      (image Light "../images/Ragnarok/ansuzl.bmp"
             Dark "../images/Ragnarok/ansuzd.bmp")
      (moves
@@ -1836,6 +1843,7 @@
   (piece
      (name Nauthiz)
      (help "Nauthiz")
+     (description "Nauthiz: It will be lost if not used.")
      (image Light "../images/Ragnarok/nauthiz.bmp"
             Dark "../images/Ragnarok/nauthiz.bmp")
      (moves
@@ -1850,6 +1858,7 @@
   (piece
      (name Mannaz)
      (help "Mannaz")
+     (description "Mannaz: Can transform into Warrior.")
      (image Light "../images/Ragnarok/mannazl.bmp"
             Dark "../images/Ragnarok/mannazd.bmp")
      (moves
@@ -1864,6 +1873,7 @@
   (piece
      (name Othila)
      (help "Othila")
+     (description "Othila: Can lure enemy pieces.")
      (image Light "../images/Ragnarok/othilal.bmp"
             Dark "../images/Ragnarok/othilad.bmp")
      (moves
@@ -1878,6 +1888,7 @@
   (piece
      (name Isa)
      (help "Isa")
+     (description "Isa: Freezes all around.")
      (image Light "../images/Ragnarok/isa.bmp"
             Dark "../images/Ragnarok/isa.bmp")
      (moves
@@ -1892,6 +1903,7 @@
   (piece
      (name Hagalaz)
      (help "Hagalaz")
+     (description "Hagalaz: Can destroy any pieces.")
      (image Light "../images/Ragnarok/hagalaz.bmp"
             Dark "../images/Ragnarok/hagalaz.bmp")
      (moves
@@ -1906,6 +1918,7 @@
   (piece
      (name Eihwaz)
      (help "Eihwaz")
+     (description "Eihwaz: Can transform into a mount.")
      (image Light "../images/Ragnarok/eihwaz.bmp"
             Dark "../images/Ragnarok/eihwaz.bmp")
      (moves
@@ -1920,6 +1933,7 @@
   (piece
      (name Sowelu)
      (help "Sowelu")
+     (description "Sowelu: Warms pieces.")
      (image Light "../images/Ragnarok/sowelu.bmp"
             Dark "../images/Ragnarok/sowelu.bmp")
      (moves
@@ -1934,6 +1948,8 @@
   (piece
      (name OdinA)
      (help "Odin")
+     (description "Odin: Throws runes.\
+                   May give orders to all friendly pieces.")
      (image Light "../images/Ragnarok/oda.bmp")
      (moves
         (move-type normal-type)
@@ -1954,6 +1970,8 @@
   (piece
      (name OdinR)
      (help "Odin")
+     (description "Odin: Throws runes.\
+                   May give orders to all friendly pieces.")
      (image Light "../images/Ragnarok/odr.bmp")
      (moves
         (move-type normal-type)
@@ -1968,6 +1986,8 @@
   (piece
      (name SleipnirOA)
      (help "Odin")
+     (description "Odin: Throws runes.\
+                   May give orders to all friendly pieces.")
      (image Light "../images/Ragnarok/osa.bmp")
      (moves
         (move-type normal-type)
@@ -1986,6 +2006,8 @@
   (piece
      (name SleipnirOR)
      (help "Odin")
+     (description "Odin: Throws runes.\
+                   May give orders to all friendly pieces.")
      (image Light "../images/Ragnarok/osr.bmp")
      (moves
         (move-type normal-type)
@@ -2000,6 +2022,8 @@
   (piece
      (name ThorA)
      (help "Thor")
+     (description "Thor: Strikes at the square 3x3 (there should be no friendly pieces).\
+                   Can summon the lower pieces and command them.")
      (image Light "../images/Ragnarok/tha.bmp")
      (moves
         (move-type normal-type)
@@ -2020,6 +2044,8 @@
   (piece
      (name ThorR)
      (help "Thor")
+     (description "Thor: Strikes at the square 3x3 (there should be no friendly pieces).\
+                   Can summon the lower pieces and command them.")
      (image Light "../images/Ragnarok/thr.bmp")
      (moves
         (move-type normal-type)
@@ -2036,6 +2062,7 @@
   (piece
      (name TyrA)
      (help "Tyr")
+     (description "Tyr: Can summon the lower pieces and command them.")
      (image Light "../images/Ragnarok/tya.bmp")
      (moves
         (move-type normal-type)
@@ -2055,6 +2082,7 @@
   (piece
      (name TyrR)
      (help "Tyr")
+     (description "Tyr: Can summon the lower pieces and command them.")
      (image Light "../images/Ragnarok/tyr.bmp")
      (moves
         (move-type normal-type)
@@ -2070,6 +2098,9 @@
   (piece
      (name LokiA)
      (help "Loki")
+     (description "Loki: Can summon monsters.\
+                   Can use reversible runes.\
+                   Can move the friendly pieces.")
      (image Dark "../images/Ragnarok/lka.bmp")
      (moves
         (move-type normal-type)
@@ -2092,6 +2123,9 @@
   (piece
      (name LokiR)
      (help "Loki")
+     (description "Loki: Can summon monsters.\
+                   Can use reversible runes.\
+                   Can move the friendly pieces.")
      (image Dark "../images/Ragnarok/lkr.bmp")
      (moves
         (move-type normal-type)
@@ -2110,6 +2144,9 @@
   (piece
      (name SleipnirLA)
      (help "Loki")
+     (description "Loki: Can summon monsters.\
+                   Can use reversible runes.\
+                   Can move the friendly pieces.")
      (image Dark "../images/Ragnarok/sla.bmp")
      (moves
         (move-type normal-type)
@@ -2126,6 +2163,9 @@
   (piece
      (name SleipnirLR)
      (help "Loki")
+     (description "Loki: Can summon monsters.\
+                   Can use reversible runes.\
+                   Can move the friendly pieces.")
      (image Dark "../images/Ragnarok/slr.bmp")
      (moves
         (move-type normal-type)
@@ -2142,6 +2182,9 @@
   (piece
      (name HelA)
      (help "Hel")
+     (description "Hel: Can summon Garmr. Can use frozen pieces.\
+                   Calls the Jotunns on the frozen positions.\
+                   Can give orders to the Garmr and the Jotunns.")
      (image Dark "../images/Ragnarok/hla.bmp")
      (moves
         (move-type normal-type)
@@ -2159,6 +2202,9 @@
   (piece
      (name HelR)
      (help "Hel")
+     (description "Hel: Can summon Garmr. Can use frozen pieces.\
+                   Calls the Jotunns on the frozen positions.\
+                   Can give orders to the Garmr and the Jotunns.")
      (image Dark "../images/Ragnarok/hlr.bmp")
      (moves
         (move-type normal-type)
@@ -2171,6 +2217,7 @@
   (piece
      (name GarmrA)
      (help "Garmr")
+     (description "Garmr: Can freeze the pieces.")
      (image Dark "../images/Ragnarok/gra.bmp")
      (moves
         (move-type normal-type)
@@ -2188,6 +2235,7 @@
   (piece
      (name GarmrR)
      (help "Garmr")
+     (description "Garmr: Can freeze the pieces.")
      (image Dark "../images/Ragnarok/grr.bmp")
      (moves
         (move-type normal-type)
@@ -2741,9 +2789,8 @@
        (LokiA e9)
        (JotunnA c7 g7 e7)
        (JotunnR a7 i7)
-       (WarriorA e8)
-       (WarriorR a8 i8)
-       (ZwergA b8 c8 d8 f8 g8 h8 a9 c9 g9 i9)
+       (WarriorR b7 d7 f7 h7)
+       (ZwergA b8 d8 f8 h8 a9 c9 g9 i9)
        (SleipnirA off 1)
        (JormungandrA off 1)
        (FenrirA off 1)
@@ -2779,7 +2826,7 @@
        (SleipnirOA c1)
        (TyrA g1)
        (WarriorA c3 e3 g3 a4 i4 e4 off 2)
-       (WarriorR c4 g4)
+       (WarriorR c4 g4 a2 e2 i2)
        (AlfrA b3 d3 f3 h3 off 2)
        (ValkyrieA a3 i3 off 2)
        (Man off 4)
@@ -2802,6 +2849,7 @@
        (HelA e9)
        (GarmrA off 1)
        (JotunnA c8 g8 off 2)
+       (JotunnR a8 i8)
        (WarriorA a6 e6 i6)
        (ZwergA a7 e7 i7 d7 f7 b7 h7)
        (ZwergR c7 g7)
@@ -2822,10 +2870,10 @@
        (Mount b4 b6 e5 h4 h6)
        (ThorA c1)
        (TyrA g1)
-       (WarriorA b3 d3 f3 h3 e4 off 2)
-       (WarriorR d4 f4)
+       (WarriorA e4 off 2)
+       (WarriorR d4 f4 a4 i4)
        (AlfrA a3 c3 g3 i3 off 2)
-       (AlfrR e3)
+       (AlfrR e3 b3 d3 f3 h3)
        (ValkyrieA b2 h2 off 2)
        (ValkyrieR a2 c2 g2 i2)
        (Man off 4)
@@ -2835,8 +2883,8 @@
        (EldthursarA off 2)
        (WarriorA b7 d7 f7 h7)
        (WarriorR a7 c7 e7 g7 i7)
-       (ZwergA a8 b8 c8 d6 e6 f6 g8 h8 i8)
+       (ZwergA a8 b8 c8 d6 f6 g8 h8 i8)
+       (ZwergR e6)
      )
   )
 )
-
