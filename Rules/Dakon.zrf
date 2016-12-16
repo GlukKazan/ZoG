@@ -453,7 +453,9 @@
           (if is-captured?
               (set-bits a)
               (sum b a)
+              (inc b)
               capture
+              back $1 capture
           )
       )
   )
