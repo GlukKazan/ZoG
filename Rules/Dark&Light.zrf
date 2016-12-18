@@ -1,0 +1,85 @@
+(define flip-lamp
+  mark
+  (while (on-board? $1)
+     $1
+     (if not-empty? flip)
+  )
+  back
+)
+
+(define drop-neighbor (
+  (verify empty?)
+  (verify (or (and (on-board? n) (friend? n)) 
+              (and (on-board? s) (friend? s)) 
+              (and (on-board? w) (friend? w)) 
+              (and (on-board? e) (friend? e)) 
+              (and (on-board? nw) (friend? nw)) 
+              (and (on-board? ne) (friend? ne)) 
+              (and (on-board? sw) (friend? sw)) 
+              (and (on-board? se) (friend? se)) 
+          )
+  )
+  (flip-lamp n) (flip-lamp s)
+  (flip-lamp w) (flip-lamp e)
+  add
+))
+
+(define drop-normal (
+  (verify empty?)
+  (flip-lamp n) (flip-lamp s)
+  (flip-lamp w) (flip-lamp e)
+  add
+))
+
+(game
+  (title "Dark & Light")
+
+  (option "animate captures"   false)
+  (option "animate drops"      false)
+
+  (players Light Dark)
+  (turn-order Light Dark)
+  (move-priorities priority-type normal-type)
+
+  (move-sound    "")
+  (release-sound "")
+  (drop-sound    "")
+  (capture-sound "")
+  (change-sound  "")
+  (click-sound   "")
+  (draw-sound    "")
+
+  (board
+     (image "images/Royal/8x8.bmp")
+     (grid
+         (start-rectangle 0 0 50 50)
+         (dimensions 
+             ("a/b/c/d/e/f/g/h" (50 0))
+             ("8/7/6/5/4/3/2/1" (0 50))
+         )
+         (directions (n 0 -1) (s 0 1) (e 1 0) (w -1 0)
+                     (ne 1 -1) (nw -1 -1) (se 1 1) (sw -1 1)
+         )
+     )
+  )
+
+  (piece
+     (name Lamp)
+     (help " ")
+     (image Light "images/TurnOff/Bright.bmp"
+            Dark  "images/TurnOff/Dark.bmp")
+     (drops
+        (move-type priority-type)
+        (drop-neighbor)
+        (move-type normal-type)
+        (drop-normal)
+     )
+  )
+
+  (count-condition (Light Dark) stalemated)
+
+  (board-setup
+     (Light (Lamp off 32))
+     (Dark (Lamp off 32))
+  )
+)
