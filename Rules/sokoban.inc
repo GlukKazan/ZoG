@@ -63,6 +63,7 @@
    (release-sound "Audio/Pickup.wav")
    (capture-sound "")
 
+   (option "progressive levels" true)
    (option "prevent flipping" true)
    (option "animate captures" false)
 
@@ -71,23 +72,23 @@
 
    (piece
       (name W)
-      (image You "images/sokoban/w.bmp")
+      (image You "../images/sokoban/w.bmp")
    )
    (piece
       (name B)
-      (image You "images/sokoban/b.bmp")
+      (image You "../images/sokoban/b.bmp")
    )
    (piece
       (name b)
-      (image You "images/sokoban/b.bmp")
+      (image You "../images/sokoban/b.bmp")
    )
    (piece
       (name T)
-      (image You "images/sokoban/t.bmp")
+      (image You "../images/sokoban/t.bmp")
    )
    (piece
       (name Y)
-      (image You "images/sokoban/y.bmp")
+      (image You "../images/sokoban/y.bmp")
       (moves
          (slide-Y n) (push-Y n)
          (slide-Y s) (push-Y s)
@@ -97,7 +98,7 @@
    )
    (piece
       (name y)
-      (image You "images/sokoban/y.bmp")
+      (image You "../images/sokoban/g.bmp")
       (moves
          (slide-y n) (push-y n)
          (slide-y s) (push-y s)

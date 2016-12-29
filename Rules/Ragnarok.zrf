@@ -1696,6 +1696,7 @@
   (option "include off-pieces" false)
   (option "recycle captures"   false)
   (option "smart moves"        false)
+  (option "silent ? moves"     true)
 
   (move-sound    "Audio/Clack.wav")
   (release-sound "Audio/Clack.wav")

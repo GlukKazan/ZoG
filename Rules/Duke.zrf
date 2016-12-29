@@ -530,6 +530,7 @@
   (option "prevent flipping" true)
   (option "recycle captures" false)    ; true for drop-pass
   (option "smart moves"      false)
+  (option "silent ? moves"   true)
 
   (move-sound    "Audio/Clack.wav")
   (release-sound "Audio/Clack.wav")

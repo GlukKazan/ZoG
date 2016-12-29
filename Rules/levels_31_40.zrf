@@ -4,7 +4,7 @@
    (title "Sokoban (Level 31)")
    (common-level)
    (board
-      (image "images/sokoban/black-15x12.bmp")
+      (image "../images/sokoban/black-15x12.bmp")
       (grid
          (common-grid)
          (dimensions
@@ -26,7 +26,7 @@
 (variant
    (title "Sokoban (Level 32)")
    (board
-      (image "images/sokoban/black-18x16.bmp")
+      (image "../images/sokoban/black-18x16.bmp")
       (grid
          (common-grid)
          (dimensions
@@ -48,7 +48,7 @@
 (variant
    (title "Sokoban (Level 33)")
    (board
-      (image "images/sokoban/black-13x15.bmp")
+      (image "../images/sokoban/black-13x15.bmp")
       (grid
          (common-grid)
          (dimensions
@@ -70,7 +70,7 @@
 (variant
    (title "Sokoban (Level 34)")
    (board
-      (image "images/sokoban/black-12x15.bmp")
+      (image "../images/sokoban/black-12x15.bmp")
       (grid
          (common-grid)
          (dimensions
@@ -92,7 +92,7 @@
 (variant
    (title "Sokoban (Level 35)")
    (board
-      (image "images/sokoban/black-20x16.bmp")
+      (image "../images/sokoban/black-20x16.bmp")
       (grid
          (common-grid)
          (dimensions
@@ -114,7 +114,7 @@
 (variant
    (title "Sokoban (Level 36)")
    (board
-      (image "images/sokoban/black-18x19.bmp")
+      (image "../images/sokoban/black-18x19.bmp")
       (grid
          (common-grid)
          (dimensions
@@ -136,7 +136,7 @@
 (variant
    (title "Sokoban (Level 37)")
    (board
-      (image "images/sokoban/black-21x15.bmp")
+      (image "../images/sokoban/black-21x15.bmp")
       (grid
          (common-grid)
          (dimensions
@@ -158,7 +158,7 @@
 (variant
    (title "Sokoban (Level 38)")
    (board
-      (image "images/sokoban/black-14x15.bmp")
+      (image "../images/sokoban/black-14x15.bmp")
       (grid
          (common-grid)
          (dimensions
@@ -180,7 +180,7 @@
 (variant
    (title "Sokoban (Level 39)")
    (board
-      (image "images/sokoban/black-23x18.bmp")
+      (image "../images/sokoban/black-23x18.bmp")
       (grid
          (common-grid)
          (dimensions
@@ -202,7 +202,7 @@
 (variant
    (title "Sokoban (Level 40)")
    (board
-      (image "images/sokoban/black-11x11.bmp")
+      (image "../images/sokoban/black-11x11.bmp")
       (grid
          (common-grid)
          (dimensions
