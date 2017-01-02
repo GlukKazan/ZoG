@@ -54,7 +54,7 @@
 )
 
 (define check-huff
-  (if (and (on-board? $1) (my-friend? $1))
+  (if (and (on-board? $1) (my-friend? $1) (not (is-huff? $1)))
       $1
       (if (and (on-board? $1) (my-empty? $1))
           (set-flag is-huffing? true)
@@ -106,9 +106,9 @@
   (while (on-board? next) 
      next
      (if enemy?
-         (if is-huff?
-             (set-attribute is-huff? false)
-         )
+;        (if is-huff?
+;            (set-attribute is-huff? false)
+;        )
          (check-huff-1 sw ne) (check-huff-1 se nw)
          (if (piece? King)
              (check-huff-1 ne sw) (check-huff-1 nw se)
@@ -373,9 +373,9 @@
   (while (on-board? next) 
      next
      (if enemy?
-         (if is-huff?
-             (set-attribute is-huff? false)
-         )
+;        (if is-huff?
+;            (set-attribute is-huff? false)
+;        )
          (check-huff-1 sw ne) (check-huff-1 se nw) 
          (check-huff-1 ne sw) (check-huff-1 nw se)
          (if (piece? King)

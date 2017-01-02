@@ -778,78 +778,6 @@
   )
 )
 
-(define harzdame-king-jump (
-  (verify (not captured?))    
-  (while (or (empty? $1) captured?)
-      $1
-      (verify not-last-from?)
-  )
-  (verify (enemy? $1))
-  $1
-  (verify (not captured?))    
-  (verify (empty? $1))
-  $1
-  (while empty?
-      (set-flag more-captures false)
-      (king-captured-find $1)
-      (king-captured-find $2)
-      (king-captured-find $3)
-      mark
-      (while empty? 
-          (opposite $1)
-      ) 
-      (if (flag? more-captures)
-          (markit)
-      )
-      back
-      (if (flag? more-captures)
-          (add-partial jumptype)
-       else
-          mark
-          (opposite $1)
-          (while empty?
-             (opposite $1)
-          )
-          (if enemy?
-              capture
-          )
-          back
-          (capture-all)
-          (add-partial notype)
-      )
-      $1
-  )
-))
-
-(define hzdm-king-jump (
-  (while (empty? $1)
-      $1
-      (verify not-last-from?)
-  )
-  (verify (enemy? $1))
-  $1
-  (verify (empty? $1))
-  $1
-  (while empty?
-      (set-flag more-captures false)
-      (king-captured-find $1)
-      (king-captured-find $2)
-      (king-captured-find $3)
-      mark
-      (while empty? 
-          (opposite $1)
-      ) 
-      capture
-      back
-      (if (flag? more-captures)
-          (add-partial jumptype)
-       else
-          (add-partial notype)
-      )
-      $1
-  )
-))
-
 (variant
   (title "Harzdame")
   (description "")
@@ -911,6 +839,12 @@
            (long-king-jump e n s)
            (long-king-jump w n s)
            (long-king-jump s e w)
+
+        (move-type continuetype)
+           (long-king-continue n e w)
+           (long-king-continue e n s)
+           (long-king-continue w n s)
+           (long-king-continue s e w)
 
         (move-type normaltype)
            (king-shift n)
@@ -1045,6 +979,46 @@
 ))
 
 (define long-king-jump (
+  (while (or (empty? $1) captured?)
+      $1
+  )
+  (verify (enemy? $1))
+  $1
+  (verify (empty? $1))
+  $1
+  (while empty?
+      (set-flag more-captures false)
+      (king-captured-find $1)
+      (king-captured-find $2)
+      (king-captured-find $3)
+      mark
+      (while empty? 
+          (opposite $1)
+      ) 
+      (if (flag? more-captures)
+          (markit)
+      )
+      back
+      (if (flag? more-captures)
+          (add-partial continuetype)
+       else
+          mark
+          (opposite $1)
+          (while empty?
+             (opposite $1)
+          )
+          (if enemy?
+              capture
+          )
+          back
+          (capture-all)
+          (add-partial notype)
+      )
+      $1
+  )
+))
+
+(define long-king-continue (
   (verify (not captured?))    
   (while (or (empty? $1) captured?)
       $1
@@ -1069,7 +1043,7 @@
       )
       back
       (if (flag? more-captures)
-          (add-partial jumptype)
+          (add-partial continuetype)
        else
           mark
           (opposite $1)
@@ -1336,6 +1310,12 @@
            (long-king-jump e n s)
            (long-king-jump w n s)
            (long-king-jump s w e)
+
+        (move-type continuetype)
+           (long-king-continue n w e)
+           (long-king-continue e n s)
+           (long-king-continue w n s)
+           (long-king-continue s w e)
 
         (move-type normaltype)
            (king-shift n)
@@ -2408,6 +2388,12 @@
            (long-king-jump sw se nw)
            (long-king-jump se ne sw)
 
+        (move-type continuetype)
+           (long-king-continue nw sw ne)
+           (long-king-continue ne se nw)
+           (long-king-continue sw se nw)
+           (long-king-continue se ne sw)
+
         (move-type normaltype)
            (king-shift ne)
            (king-shift nw)
@@ -2462,6 +2448,12 @@
            (long-king-jump ne se nw)
            (long-king-jump sw se nw)
            (long-king-jump se ne sw)
+
+        (move-type continuetype)
+           (long-king-continue nw sw ne)
+           (long-king-continue ne se nw)
+           (long-king-continue sw se nw)
+           (long-king-continue se ne sw)
 
         (move-type normaltype)
            (king-shift ne)
@@ -2518,6 +2510,12 @@
            (long-king-jump sw se nw)
            (long-king-jump se ne sw)
 
+        (move-type continuetype)
+           (long-king-continue nw sw ne)
+           (long-king-continue ne se nw)
+           (long-king-continue sw se nw)
+           (long-king-continue se ne sw)
+
         (move-type normaltype)
            (king-shift ne)
            (king-shift nw)
@@ -2572,6 +2570,12 @@
            (long-king-jump ne se nw)
            (long-king-jump sw se nw)
            (long-king-jump se ne sw)
+
+        (move-type continuetype)
+           (long-king-continue nw sw ne)
+           (long-king-continue ne se nw)
+           (long-king-continue sw se nw)
+           (long-king-continue se ne sw)
 
         (move-type normaltype)
            (king-shift ne)
@@ -2651,6 +2655,12 @@
            (long-king-jump sw se nw)
            (long-king-jump se ne sw)
 
+        (move-type continuetype)
+           (long-king-continue nw sw ne)
+           (long-king-continue ne se nw)
+           (long-king-continue sw se nw)
+           (long-king-continue se ne sw)
+
         (move-type normaltype)
            (king-shift ne)
            (king-shift nw)
@@ -2721,7 +2731,7 @@
 )
 
 (define check-huff
-  (if (and (on-board? $1) (my-friend? $1))
+  (if (and (on-board? $1) (my-friend? $1) (not (is-huff? $1)))
       $1
       (if (and (on-board? $1) (my-empty? $1))
           (set-flag is-huffing? true)
@@ -2843,9 +2853,9 @@
   (while (on-board? next) 
      next
      (if enemy?
-         (if is-huff?
-             (set-attribute is-huff? false)
-         )
+;        (if is-huff?
+;            (set-attribute is-huff? false)
+;        )
          (check-huff-1 sw ne) (check-huff-1 se nw) 
          (check-huff-1 ne sw) (check-huff-1 nw se)
          (if (piece? King)
@@ -3574,6 +3584,12 @@
            (long-king-jump sw se nw)
            (long-king-jump se ne sw)
 
+        (move-type continuetype)
+           (long-king-continue nw sw ne)
+           (long-king-continue ne se nw)
+           (long-king-continue sw se nw)
+           (long-king-continue se ne sw)
+
         (move-type normaltype)
            (king-shift ne)
            (king-shift nw)
@@ -3770,11 +3786,11 @@
           (opposite $1)
       ) 
       (if (flag? more-captures)
-          (markit)
+         (markit)
       )
       back
       (if (flag? more-captures)
-          (add-partial jumptype)
+          (add-partial continuetype)
        else
           mark
           (opposite $1)
@@ -3813,11 +3829,23 @@
       (while empty? 
           (opposite $1)
       ) 
-      capture
+      (if (flag? more-captures)
+         (markit)
+      )
       back
       (if (flag? more-captures)
-          (add-partial jumptype)
+          (add-partial continuetype)
        else
+          mark
+          (opposite $1)
+          (while empty?
+             (opposite $1)
+          )
+          (if enemy?
+              capture
+          )
+          back
+          (capture-all)
           (add-partial notype)
       )
       $1
@@ -3886,6 +3914,16 @@
      (attribute captured? false)
      (moves
         (move-type jumptype)
+           (fris-king-jump nw sw ne n s w e)  
+           (fris-king-jump ne se nw n s w e)  
+           (fris-king-jump sw se nw n s w e)  
+           (fris-king-jump se ne sw n s w e)  
+           (fris-king-jump n w e nw sw ne se)  
+           (fris-king-jump s w e nw sw ne se)  
+           (fris-king-jump w n s nw sw ne se)  
+           (fris-king-jump e n s nw sw ne se)  
+
+        (move-type continuetype)
            (frisian-king-jump nw sw ne n s w e)  
            (frisian-king-jump ne se nw n s w e)  
            (frisian-king-jump sw se nw n s w e)  
