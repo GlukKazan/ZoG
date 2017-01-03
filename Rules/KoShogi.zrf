@@ -2594,8 +2594,8 @@ Credit for its invention has been given to Confucian scholar Ogyu Sorai.")
      (name G)
      (notation "General")
      (description "General (sho): can step one intersection in any direction, orthogonal or diagonal. (K)")
-     (image White "../images/KoShogi/wg.bmp"
-            Black "../images/KoShogi/bg.bmp")
+     (image White "../images/KoShogi/kwg.bmp" "../images/KoShogi/wg.bmp"
+            Black "../images/KoShogi/kbg.bmp" "../images/KoShogi/bg.bmp")
      (attribute igui? true)
      (moves
         (move-type first-type)
@@ -2607,8 +2607,8 @@ Credit for its invention has been given to Confucian scholar Ogyu Sorai.")
      (name GO)
      (notation "Governor")
      (description "Governor (sochi): can step one intersection in any direction, orthogonal or diagonal. (K)")
-     (image White "../images/KoShogi/wgo.bmp"
-            Black "../images/KoShogi/bgo.bmp")
+     (image White "../images/KoShogi/kwgo.bmp" "../images/KoShogi/wgo.bmp"
+            Black "../images/KoShogi/kbgo.bmp" "../images/KoShogi/bgo.bmp")
      (attribute igui? true)
      (moves
         (move-type first-type)
@@ -2648,8 +2648,8 @@ If the drum is killed, the pawns may no longer move forward.")
      (name HV)
      (notation "Heaven's vengeance")
      (description "Heaven's vengeance (temmo): can move any number of free intersections along either of the forward diagonals, or directly to either side or step one intersection directly backward. (rlRfBbW)")
-     (image White "../images/KoShogi/whv.bmp"
-            Black "../images/KoShogi/bhv.bmp")
+     (image White "../images/KoShogi/kwhv.bmp" "../images/KoShogi/whv.bmp"
+            Black "../images/KoShogi/kbhv.bmp" "../images/KoShogi/bhv.bmp")
      (attribute igui? true)
      (moves
         (move-type first-type)
@@ -2676,8 +2676,8 @@ This piece promotes if its clerk promotes.")
      (notation "Immaculate light")
      (description "Immaculate light (seito): can move twice per turn, including the option of shooting one adjacent piece after each move, and are still restricted from capturing by displacement. (t[d[DA]xK])\
 If a twelve-mile fog and immaculate light ever find themselves within 5 intersections of each other, the fog immediately reverts to a Taoist priest.")
-     (image White "../images/KoShogi/wil.bmp"
-            Black "../images/KoShogi/bil.bmp")
+     (image White "../images/KoShogi/kwil.bmp" "../images/KoShogi/wil.bmp"
+            Black "../images/KoShogi/kbil.bmp" "../images/KoShogi/bil.bmp")
      (attribute enemy-pass? false)
      (moves
         (move-type first-type)
@@ -2700,8 +2700,8 @@ If a twelve-mile fog and immaculate light ever find themselves within 5 intersec
      (notation "Spiritual Monk")
      (description "Spiritual Monk (shinzo): can jump to the second intersection in any direction, orthogonal or diagonal. They can shoot any one enemy piece on any intersection adjacent to their arrival point. (t[[DA]xK])\
 However, they can only capture an enemy priest or monk with such a jump.")
-     (image White "../images/KoShogi/wsm.bmp"
-            Black "../images/KoShogi/bsm.bmp")
+     (image White "../images/KoShogi/kwsm.bmp" "../images/KoShogi/wsm.bmp"
+            Black "../images/KoShogi/kbsm.bmp" "../images/KoShogi/bsm.bmp")
      (attribute enemy-pass? false)
      (attribute step-mover? false)
      (moves
@@ -2721,8 +2721,8 @@ However, they can only capture an enemy priest or monk with such a jump.")
       (description "Twelve-mile fog (gorimu): can move twice per turn, including the option of shooting one adjacent piece after each move, and are still restricted from capturing by displacement. (t[d[DA]xK])\
 If a twelve-mile fog and immaculate light ever find themselves within 5 intersections of each other, the fog immediately reverts to a Taoist priest.\
 The fog cannot be shot from within a distance of five intersections. It can only be shot (by the European cannon) from a distance of six intersections or more.")
-     (image White "../images/KoShogi/wtf.bmp"
-            Black "../images/KoShogi/btf.bmp")
+     (image White "../images/KoShogi/kwtf.bmp" "../images/KoShogi/wtf.bmp"
+            Black "../images/KoShogi/kbtf.bmp" "../images/KoShogi/btf.bmp")
      (attribute enemy-pass? false)
      (moves
         (move-type first-type)
@@ -2745,8 +2745,8 @@ The fog cannot be shot from within a distance of five intersections. It can only
      (notation "Taoist Priest")
      (description "Taoist Priest (takamichi): can jump to the second intersection in any direction, orthogonal or diagonal. They can shoot any one enemy piece on any intersection adjacent to their arrival point. (t[[DA]xK])\
 However, they can only capture an enemy priest or monk with such a jump.")
-     (image White "../images/KoShogi/wtp.bmp"
-            Black "../images/KoShogi/btp.bmp")
+     (image White "../images/KoShogi/kwtp.bmp" "../images/KoShogi/wtp.bmp"
+            Black "../images/KoShogi/kbtp.bmp" "../images/KoShogi/btp.bmp")
      (attribute enemy-pass? false)
      (attribute step-mover? false)
      (moves
@@ -2765,8 +2765,8 @@ However, they can only capture an enemy priest or monk with such a jump.")
      (notation "Poison flame")
      (description "Poison flame (dokka): can step one intersection directly forward or backward, or one intersection diagonally forward, giving it four possibilities. (fFfbW)\
 Wherever it lands, all adjacent enemy pieces are 'burned' and removed from the board.")
-     (image White "../images/KoShogi/wpf.bmp"
-            Black "../images/KoShogi/bpf.bmp")
+     (image White "../images/KoShogi/kwpf.bmp" "../images/KoShogi/wpf.bmp"
+            Black "../images/KoShogi/kbpf.bmp" "../images/KoShogi/bpf.bmp")
      (moves
         (move-type first-type)
         (pf-step nw) (pf-step ne)
@@ -2778,8 +2778,8 @@ Wherever it lands, all adjacent enemy pieces are 'burned' and removed from the b
      (notation "Engineer")
      (description "Engineer (gunsho): can step one intersection directly forward or backward, or one intersection diagonally forward, giving it four possibilities. (fFfbW)\
 his is the move of the copper general in other shogi variants.")
-     (image White "../images/KoShogi/wen.bmp"
-            Black "../images/KoShogi/ben.bmp")
+     (image White "../images/KoShogi/kwen.bmp" "../images/KoShogi/wen.bmp"
+            Black "../images/KoShogi/kben.bmp" "../images/KoShogi/ben.bmp")
      (attribute step-mover? true)
      (moves
         (move-type first-type)
@@ -2792,8 +2792,8 @@ his is the move of the copper general in other shogi variants.")
      (notation "Vice commander")
      (description "Vice commander (fukushi): can move any number of free intersections along one of the four diagonal directions, or directly forward. (BfR)\
 This is the move of the free silver in other shogi variants.")
-     (image White "../images/KoShogi/wvc.bmp"
-            Black "../images/KoShogi/bvc.bmp")
+     (image White "../images/KoShogi/kwvc.bmp" "../images/KoShogi/wvc.bmp"
+            Black "../images/KoShogi/kbvc.bmp" "../images/KoShogi/bvc.bmp")
      (moves
         (move-type first-type)
         (g-slide nw) (g-slide sw) (g-slide ne) (g-slide se)
@@ -2805,8 +2805,8 @@ This is the move of the free silver in other shogi variants.")
      (notation "Chief of Staff")
      (description "Chief of Staff (gunri): can move one intersection in the four diagonal directions or one intersection orthogonally forward or backward. (FfbW)\
 This is the move of the ferocious leopard in other shogi variants.")
-     (image White "../images/KoShogi/wcs.bmp"
-            Black "../images/KoShogi/bcs.bmp")
+     (image White "../images/KoShogi/kwcs.bmp" "../images/KoShogi/wcs.bmp"
+            Black "../images/KoShogi/kbcs.bmp" "../images/KoShogi/bcs.bmp")
      (attribute step-mover? true)
      (moves
         (move-type first-type)
@@ -2818,8 +2818,8 @@ This is the move of the ferocious leopard in other shogi variants.")
      (name VB)
      (notation "Village brigade")
      (description "Village brigade (hyakko): can move any number of free intersections directly to either side or step one intersection in any direction. (rlRK)")
-     (image White "../images/KoShogi/wvb.bmp"
-            Black "../images/KoShogi/bvb.bmp")
+     (image White "../images/KoShogi/kwvb.bmp" "../images/KoShogi/wvb.bmp"
+            Black "../images/KoShogi/kbvb.bmp" "../images/KoShogi/bvb.bmp")
      (attribute igui? true)
      (moves
         (move-type first-type)
@@ -2834,8 +2834,8 @@ This is the move of the ferocious leopard in other shogi variants.")
      (notation "Staff")
      (description "Staff (shayo): can step one intersection in one of the four diagonal directions or one intersection straight forward, giving it five possibilities. (FfW)\
 This is the move of the silver general in other shogi variants.")
-     (image White "../images/KoShogi/ws.bmp"
-            Black "../images/KoShogi/bs.bmp")
+     (image White "../images/KoShogi/kws.bmp" "../images/KoShogi/ws.bmp"
+            Black "../images/KoShogi/kbs.bmp" "../images/KoShogi/bs.bmp")
      (attribute step-mover? true)
      (moves
         (move-type first-type)
@@ -2848,8 +2848,8 @@ This is the move of the silver general in other shogi variants.")
      (notation "Town brigade")
      (description "Town brigade (senko): can move any number of free intersections directly forward or backward or step one intersection in any direction. (fbRK)\
 This is the move of the flying stag in chu shogi.")
-     (image White "../images/KoShogi/wtb.bmp"
-            Black "../images/KoShogi/btb.bmp")
+     (image White "../images/KoShogi/kwtb.bmp" "../images/KoShogi/wtb.bmp"
+            Black "../images/KoShogi/kbtb.bmp" "../images/KoShogi/btb.bmp")
      (attribute igui? true)
      (moves
         (move-type first-type)
@@ -2878,8 +2878,8 @@ This is the move of the gold general in other shogi variants.")
      (notation "Sumo wrestler")
      (description "Sumo wrestler (rikishi): can move in one turn as a general does in two. A similar move without capturing leaves the board unchanged, which is a way to pass a turn. (KdK)\
 The sumo wrestler cannot jump over an intervening friendly piece as a ''lion'' can in other shogi variants.")
-     (image White "../images/KoShogi/wwr.bmp"
-            Black "../images/KoShogi/bwr.bmp")
+     (image White "../images/KoShogi/kwwr.bmp" "../images/KoShogi/wwr.bmp"
+            Black "../images/KoShogi/kbwr.bmp" "../images/KoShogi/bwr.bmp")
      (attribute igui? true)
      (moves
         (move-type first-type)
@@ -2897,8 +2897,8 @@ The sumo wrestler cannot jump over an intervening friendly piece as a ''lion'' c
      (notation "Quartermaster")
      (description "Description (waso): can move any number of free intersections along any of the four orthogonal directions or one intersection in any diagonal direction. (FR)\
 This is the move of the dragon king in other shogi variants.")
-     (image White "../images/KoShogi/wq.bmp"
-            Black "../images/KoShogi/bq.bmp")
+     (image White "../images/KoShogi/kwaa.bmp" "../images/KoShogi/wq.bmp"
+            Black "../images/KoShogi/kbaa.bmp" "../images/KoShogi/bq.bmp")
      (attribute igui? true)
      (moves
         (move-type first-type)
@@ -2926,8 +2926,8 @@ However, it does not promote to a prince.")
      (notation "Master at arms")
      (description "Master at arms (gunshi): Upon promotion, the clerk gains the power to move twice per turn. (FDd[FD])\
 This is like a double kirin move in chu shogi and other shogi variants.")
-     (image White "../images/KoShogi/wma.bmp"
-            Black "../images/KoShogi/bma.bmp")
+     (image White "../images/KoShogi/kwma.bmp" "../images/KoShogi/wma.bmp"
+            Black "../images/KoShogi/kbma.bmp" "../images/KoShogi/bma.bmp")
      (attribute igui? false)
      (moves
         (move-type first-type)
@@ -2945,8 +2945,8 @@ This is like a double kirin move in chu shogi and other shogi variants.")
      (notation "Clerk")
      (description "Clerk (kishitsu): can step one intersection in one of the four diagonal directions and jump to the second intersection orthogonally. (FD)\
 This is the move of the kirin in other shogi variants.")
-     (image White "../images/KoShogi/wcl.bmp"
-            Black "../images/KoShogi/bcl.bmp")
+     (image White "../images/KoShogi/kwcl.bmp" "../images/KoShogi/wcl.bmp"
+            Black "../images/KoShogi/kbcl.bmp" "../images/KoShogi/bcl.bmp")
      (attribute step-mover? false)
      (moves
         (move-type first-type)
@@ -2959,8 +2959,8 @@ This is the move of the kirin in other shogi variants.")
      (notation "Banner and drums")
      (description "Banner and drums (kiko): Upon promotion, the staff officer gains the power to move twice per turn. (WAd[WA])\
 This is like a double phoenix move in other shogi variants.")
-     (image White "../images/KoShogi/wbd.bmp"
-            Black "../images/KoShogi/bbd.bmp")
+     (image White "../images/KoShogi/kwbd.bmp" "../images/KoShogi/wbd.bmp"
+            Black "../images/KoShogi/kbbd.bmp" "../images/KoShogi/bbd.bmp")
      (attribute igui? false)
      (moves
         (move-type first-type)
@@ -2978,8 +2978,8 @@ This is like a double phoenix move in other shogi variants.")
      (notation "Staff Officer")
      (description "Staff Officer (sambo): can step one intersection in one of the four orthogonal directions or jump to the second intersection diagonally. (WA)\
 This is the move of the phoenix in other shogi variants.")
-     (image White "../images/KoShogi/wso.bmp"
-            Black "../images/KoShogi/bso.bmp")
+     (image White "../images/KoShogi/kwso.bmp" "../images/KoShogi/wso.bmp"
+            Black "../images/KoShogi/kbso.bmp" "../images/KoShogi/bso.bmp")
      (attribute step-mover? false)
      (moves
         (move-type first-type)
@@ -3066,8 +3066,8 @@ This is the move of the dragon horse in other shogi variants.")
      (notation "Quartermaster")
      (description "Description (waso): can move any number of free intersections along any of the four orthogonal directions or one intersection in any diagonal direction. (FR)\
 This is the move of the dragon king in other shogi variants.")
-     (image White "../images/KoShogi/wq.bmp"
-            Black "../images/KoShogi/bq.bmp")
+     (image White "../images/KoShogi/kwq.bmp" "../images/KoShogi/wq.bmp"
+            Black "../images/KoShogi/kbq.bmp" "../images/KoShogi/bq.bmp")
      (attribute step-mover? false)
      (moves
         (move-type first-type)
@@ -3241,8 +3241,8 @@ If the allied priest is killed, the roaming assault reverts to a banner.")
      (name MT)
      (notation "Middle Troop")
      (description "Middle Troop (chogun): can step one intersection in any direction, orthogonal or diagonal. (K)")
-     (image White "../images/KoShogi/wmt.bmp"
-            Black "../images/KoShogi/bmt.bmp")
+     (image White "../images/KoShogi/kwmt.bmp" "../images/KoShogi/wmt.bmp"
+            Black "../images/KoShogi/kbmt.bmp" "../images/KoShogi/bmt.bmp")
      (attribute step-mover? true)
      (moves
         (move-type first-type)
@@ -3925,8 +3925,8 @@ This piece promotes if its clerk promotes.")
      (notation "Engineer")
      (description "Engineer (gunsho): can step one intersection directly forward or backward, or one intersection diagonally forward, giving it four possibilities. (fFfbW)\
 his is the move of the copper general in other shogi variants.")
-     (image White "../images/KoShogi/wen.bmp"
-            Black "../images/KoShogi/ben.bmp")
+     (image White "../images/KoShogi/kwen.bmp" "../images/KoShogi/wen.bmp"
+            Black "../images/KoShogi/kben.bmp" "../images/KoShogi/ben.bmp")
      (attribute step-mover? true)
      (moves
         (move-type first-type)
