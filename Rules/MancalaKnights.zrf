@@ -1,0 +1,259 @@
+(define init
+  (set-flag $1-01 (or (piece? P1) (piece? P3) (piece? P5) (piece? B1) (piece? B3) (piece? B5) (piece? B7) (piece? B9) (piece? R1) (piece? R3) (piece? R5) (piece? R7) (piece? R9)))
+  (set-flag $1-02 (or (piece? P2) (piece? P3) (piece? B2) (piece? B3) (piece? B6) (piece? B7) (piece? R2) (piece? R3) (piece? R6) (piece? R7)))
+  (set-flag $1-04 (or (piece? P4) (piece? P5) (piece? B4) (piece? B5) (piece? B6) (piece? B7) (piece? R4) (piece? R5) (piece? R6) (piece? R7)))
+  (set-flag $1-08 (or (piece? B8) (piece? B9) (piece? R8) (piece? R9)))
+)
+
+(define not-0?
+  (or (flag? $1-08)
+      (flag? $1-04)
+      (flag? $1-02)
+      (flag? $1-01)
+  )
+)
+
+(define inc
+   (if (flag? $1-01)
+       (set-flag $1-01 false)
+       (if (flag? $1-02)
+           (set-flag $1-02 false)
+           (if (flag? $1-04)
+               (set-flag $1-04 false)
+               (if (flag? $1-08)
+                   (set-flag $1-08 false)
+                else
+                   (set-flag $1-08 true)
+               )
+            else
+               (set-flag $1-04 true)
+           )
+        else
+           (set-flag $1-02 true)
+       )
+    else
+       (set-flag $1-01 true)
+   )
+)
+
+(define dec
+   (if (not-flag? $1-01)
+       (set-flag $1-01 true)
+       (if (not-flag? $1-02)
+           (set-flag $1-02 true)
+           (if (not-flag? $1-04)
+               (set-flag $1-04 true)
+               (if (not-flag? $1-08)
+                   (set-flag $1-08 true)
+                else
+                   (set-flag $1-08 false)
+               )
+            else
+               (set-flag $1-04 false)
+           )
+        else
+           (set-flag $1-02 false)
+       )
+    else
+       (set-flag $1-01 false)
+   )
+)
+
+(define sum
+   (while (not-0? $2)
+       (inc $1)
+       (dec $2)
+   )
+)
+
+(define compare
+   (set-flag is-l? false)
+   (set-flag is-g? false)
+   (while (and (not-flag? is-l?) (not-flag? is-g?))
+      (if (not-0? $1) (dec $1) else (set-flag is-l? true))
+      (if (not-0? $2) (dec $2) else (set-flag is-g? true))
+   )
+)
+
+(define put
+   (if (and (not-flag? $1-08) (not-flag? $1-04) (not-flag? $1-02) (flag? $1-01)) (add P1))
+   (if (and (not-flag? $1-08) (not-flag? $1-04) (flag? $1-02) (not-flag? $1-01)) (add P2))
+   (if (and (not-flag? $1-08) (not-flag? $1-04) (flag? $1-02) (flag? $1-01))     (add P3))
+   (if (and (not-flag? $1-08) (flag? $1-04) (not-flag? $1-02) (not-flag? $1-01)) (add P4))
+   (if (and (not-flag? $1-08) (flag? $1-04) (not-flag? $1-02) (flag? $1-01))     (add P5))
+)
+
+(define step
+  (verify not-enemy?)
+  (verify (not-piece? P5))
+  (if empty? (create P1))
+  (if (piece? P1) (create P2))
+  (if (piece? P2) (create P3))
+  (if (piece? P3) (create P4))
+  (if (piece? P4) (create P5))
+)
+
+(define stop
+  (verify not-enemy?)
+  (if empty? (add P1))
+  (if (piece? P1) (add P2))
+  (if (piece? P2) (add P3))
+  (if (piece? P3) (add P4))
+  (if (piece? P4) (add P5))
+)
+
+(define join (
+  (init a) $1 (verify friend?) (init b)
+  (sum a b) (put a)
+))
+
+(define sow-1 (
+  (create P1) 
+  $1 (stop)
+))
+
+(define sow-2 (
+  (create P1) 
+  $1 (step)
+  $1 (stop)
+))
+
+(define sow-3 (
+  (create P1) 
+  $1 (step)
+  $1 (step)
+  $1 (stop)
+))
+
+(define sow-4 (
+  (create P1) 
+  $1 (step)
+  $1 (step)
+  $1 (step)
+  $1 (stop)
+))
+
+(define p
+   (piece
+      (name $1)
+      (description "$2")
+      (image White "../images/MancalaKnights/W$1.bmp"
+             Black "../images/MancalaKnights/B$1.bmp")
+   )
+)
+
+(game
+   (title "Mancala's Knights")
+
+   (option "animate captures"   false)
+   (option "animate drops"      false)
+   (option "pass turn"          false)
+   (option "pass partial"       true)
+
+   (move-sound "Audio/Pickup.wav")
+   (release-sound "Audio/Pickup.wav")
+   (drop-sound "Audio/Pickup.wav")
+   (capture-sound "")
+   (change-sound  "")
+   (click-sound   "")
+   (draw-sound    "")
+
+   (players White Black)
+   (turn-order White Black)
+
+   (board
+      (image "../images/MancalaKnights/board.bmp")
+      (grid
+        (start-rectangle 2 2 70 70)
+        (dimensions
+          ("a/b/c/d/e/f/g/h" (68 0)) ; files
+          ("8/7/6/5/4/3/2/1" (0 68)) ; ranks
+        )
+        (directions (n 0 -1) (s 0 1) (e 1 0) (w -1 0)
+                    (ne 1 -1) (nw -1 -1) (se 1 1) (sw -1 1)
+        ) 
+      )
+   )
+
+   (piece
+      (name P1)
+      (description "Peons")
+      (image White "../images/MancalaKnights/WP1.bmp"
+             Black "../images/MancalaKnights/BP1.bmp")
+      (moves
+         (join n)  (join s)  (join w)  (join e)
+         (join nw) (join sw) (join ne) (join se)
+      )
+   )
+   (piece
+      (name P2)
+      (description "Peons")
+      (image White "../images/MancalaKnights/WP2.bmp"
+             Black "../images/MancalaKnights/BP2.bmp")
+      (moves
+         (join n)   (join s)   (join w)   (join e)
+         (join nw)  (join sw)  (join ne)  (join se)
+         (sow-1 n)  (sow-1 s)  (sow-1 w)  (sow-1 e)
+         (sow-1 nw) (sow-1 sw) (sow-1 ne) (sow-1 se)
+      )
+   )
+   (piece
+      (name P3)
+      (description "Peons")
+      (image White "../images/MancalaKnights/WP3.bmp"
+             Black "../images/MancalaKnights/BP3.bmp")
+      (moves
+         (join n)   (join s)   (join w)   (join e)
+         (join nw)  (join sw)  (join ne)  (join se)
+         (sow-2 n)  (sow-2 s)  (sow-2 w)  (sow-2 e)
+         (sow-2 nw) (sow-2 sw) (sow-2 ne) (sow-2 se)
+      )
+   )
+   (piece
+      (name P4)
+      (description "Peons")
+      (image White "../images/MancalaKnights/WP4.bmp"
+             Black "../images/MancalaKnights/BP4.bmp")
+      (moves
+         (join n)   (join s)   (join w)   (join e)
+         (join nw)  (join sw)  (join ne)  (join se)
+         (sow-3 n)  (sow-3 s)  (sow-3 w)  (sow-3 e)
+         (sow-3 nw) (sow-3 sw) (sow-3 ne) (sow-3 se)
+      )
+   )
+   (piece
+      (name P5)
+      (description "Peons")
+      (image White "../images/MancalaKnights/WP5.bmp"
+             Black "../images/MancalaKnights/BP5.bmp")
+      (moves
+         (sow-4 n)  (sow-4 s)  (sow-4 w)  (sow-4 e)
+         (sow-4 nw) (sow-4 sw) (sow-4 ne) (sow-4 se)
+      )
+   )
+
+   (p R1 Rook)   (p R2 Rook)   (p R3 Rook)   (p R4 Rook)   (p R5 Rook)   (p R6 Rook)   (p R7 Rook)   (p R8 Rook)   (p R9 Rook)
+   (p B1 Bishop) (p B2 Bishop) (p B3 Bishop) (p B4 Bishop) (p B5 Bishop) (p B6 Bishop) (p B7 Bishop) (p B8 Bishop) (p B9 Bishop)
+
+   (board-setup
+      (White
+         (R5 c1) (B5 f1) (P4 b1 b2 c2 d2 e2 f2 g2 g1 d1 e1)
+      )
+      (Black
+         (R5 f8) (B5 c8) (P4 b8 b7 c7 d7 e7 f7 g7 g8 d8 e8)
+      )
+   )
+
+   (loss-condition (White Black) 
+      (and (pieces-remaining 0 R1) (pieces-remaining 0 R2)
+           (pieces-remaining 0 R3) (pieces-remaining 0 R4)
+           (pieces-remaining 0 R5) (pieces-remaining 0 R6)
+           (pieces-remaining 0 R7) (pieces-remaining 0 R8)
+           (pieces-remaining 0 R9) (pieces-remaining 0 B1)
+           (pieces-remaining 0 B2) (pieces-remaining 0 B3) 
+           (pieces-remaining 0 B4) (pieces-remaining 0 B5) 
+           (pieces-remaining 0 B6) (pieces-remaining 0 B7) 
+           (pieces-remaining 0 B8) (pieces-remaining 0 B9)
+      )
+   )
+)
