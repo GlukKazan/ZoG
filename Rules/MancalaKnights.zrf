@@ -1,4 +1,6 @@
 (define init
+  (set-flag $1-B  (or (piece? B1) (piece? B2) (piece? B3) (piece? B4) (piece? B5) (piece? B6) (piece? B7) (piece? B8) (piece? B9)))
+  (set-flag $1-R  (or (piece? R1) (piece? R2) (piece? R3) (piece? R4) (piece? R5) (piece? R6) (piece? R7) (piece? R8) (piece? R9)))
   (set-flag $1-01 (or (piece? P1) (piece? P3) (piece? P5) (piece? B1) (piece? B3) (piece? B5) (piece? B7) (piece? B9) (piece? R1) (piece? R3) (piece? R5) (piece? R7) (piece? R9)))
   (set-flag $1-02 (or (piece? P2) (piece? P3) (piece? B2) (piece? B3) (piece? B6) (piece? B7) (piece? R2) (piece? R3) (piece? R6) (piece? R7)))
   (set-flag $1-04 (or (piece? P4) (piece? P5) (piece? B4) (piece? B5) (piece? B6) (piece? B7) (piece? R4) (piece? R5) (piece? R6) (piece? R7)))
@@ -60,6 +62,8 @@
 )
 
 (define sum
+   (set-flag $1-B (flag? $2-B))
+   (set-flag $1-R (flag? $2-R))
    (while (not-0? $2)
        (inc $1)
        (dec $2)
@@ -76,30 +80,112 @@
 )
 
 (define put
-   (if (and (not-flag? $1-08) (not-flag? $1-04) (not-flag? $1-02) (flag? $1-01)) (add P1))
-   (if (and (not-flag? $1-08) (not-flag? $1-04) (flag? $1-02) (not-flag? $1-01)) (add P2))
-   (if (and (not-flag? $1-08) (not-flag? $1-04) (flag? $1-02) (flag? $1-01))     (add P3))
-   (if (and (not-flag? $1-08) (flag? $1-04) (not-flag? $1-02) (not-flag? $1-01)) (add P4))
-   (if (and (not-flag? $1-08) (flag? $1-04) (not-flag? $1-02) (flag? $1-01))     (add P5))
+   (if (flag? $1-B)
+       (if (and (not-flag? $1-08) (not-flag? $1-04) (not-flag? $1-02) (flag? $1-01)) (add B1))
+       (if (and (not-flag? $1-08) (not-flag? $1-04) (flag? $1-02) (not-flag? $1-01)) (add B2))
+       (if (and (not-flag? $1-08) (not-flag? $1-04) (flag? $1-02) (flag? $1-01))     (add B3))
+       (if (and (not-flag? $1-08) (flag? $1-04) (not-flag? $1-02) (not-flag? $1-01)) (add B4))
+       (if (and (not-flag? $1-08) (flag? $1-04) (not-flag? $1-02) (flag? $1-01))     (add B5))
+       (if (and (not-flag? $1-08) (flag? $1-04) (flag? $1-02) (not-flag? $1-01))     (add B6))
+       (if (and (not-flag? $1-08) (flag? $1-04) (flag? $1-02) (flag? $1-01))         (add B7))
+       (if (and (flag? $1-08) (not-flag? $1-04) (not-flag? $1-02) (not-flag? $1-01)) (add B8))
+       (if (and (flag? $1-08) (not-flag? $1-04) (not-flag? $1-02) (flag? $1-01))     (add B9))
+    else
+       (if (flag? $1-R)
+           (if (and (not-flag? $1-08) (not-flag? $1-04) (not-flag? $1-02) (flag? $1-01)) (add R1))
+           (if (and (not-flag? $1-08) (not-flag? $1-04) (flag? $1-02) (not-flag? $1-01)) (add R2))
+           (if (and (not-flag? $1-08) (not-flag? $1-04) (flag? $1-02) (flag? $1-01))     (add R3))
+           (if (and (not-flag? $1-08) (flag? $1-04) (not-flag? $1-02) (not-flag? $1-01)) (add R4))
+           (if (and (not-flag? $1-08) (flag? $1-04) (not-flag? $1-02) (flag? $1-01))     (add R5))
+           (if (and (not-flag? $1-08) (flag? $1-04) (flag? $1-02) (not-flag? $1-01))     (add R6))
+           (if (and (not-flag? $1-08) (flag? $1-04) (flag? $1-02) (flag? $1-01))         (add R7))
+           (if (and (flag? $1-08) (not-flag? $1-04) (not-flag? $1-02) (not-flag? $1-01)) (add R8))
+           (if (and (flag? $1-08) (not-flag? $1-04) (not-flag? $1-02) (flag? $1-01))     (add R9))
+        else
+           (if (and (not-flag? $1-08) (not-flag? $1-04) (not-flag? $1-02) (flag? $1-01)) (add P1))
+           (if (and (not-flag? $1-08) (not-flag? $1-04) (flag? $1-02) (not-flag? $1-01)) (add P2))
+           (if (and (not-flag? $1-08) (not-flag? $1-04) (flag? $1-02) (flag? $1-01))     (add P3))
+           (if (and (not-flag? $1-08) (flag? $1-04) (not-flag? $1-02) (not-flag? $1-01)) (add P4))
+           (if (and (not-flag? $1-08) (flag? $1-04) (not-flag? $1-02) (flag? $1-01))     (add P5))
+       )
+   )
 )
 
 (define step
   (verify not-enemy?)
   (verify (not-piece? P5))
+  (verify (not-piece? R9))
+  (verify (not-piece? B9))
   (if empty? (create P1))
   (if (piece? P1) (create P2))
   (if (piece? P2) (create P3))
   (if (piece? P3) (create P4))
   (if (piece? P4) (create P5))
+  (if (piece? R1) (create R2))
+  (if (piece? R2) (create R3))
+  (if (piece? R3) (create R4))
+  (if (piece? R4) (create R5))
+  (if (piece? R5) (create R6))
+  (if (piece? R6) (create R7))
+  (if (piece? R7) (create R8))
+  (if (piece? R8) (create R9))
+  (if (piece? B1) (create B2))
+  (if (piece? B2) (create B3))
+  (if (piece? B3) (create B4))
+  (if (piece? B4) (create B5))
+  (if (piece? B5) (create B6))
+  (if (piece? B6) (create B7))
+  (if (piece? B7) (create B8))
+  (if (piece? B8) (create B9))
+)
+
+(define rstop
+  (verify not-enemy?)
+  (verify (or empty? (piece? P1) (piece? P2) (piece? P3) (piece? P4) (piece? P5)))
+  (if empty? (add R1))
+  (if (piece? P1) (add R2))
+  (if (piece? P2) (add R3))
+  (if (piece? P3) (add R4))
+  (if (piece? P4) (add R5))
+  (if (piece? P5) (add R6))
+)
+
+(define bstop
+  (verify not-enemy?)
+  (verify (or empty? (piece? P1) (piece? P2) (piece? P3) (piece? P4) (piece? P5)))
+  (if empty? (add B1))
+  (if (piece? P1) (add B2))
+  (if (piece? P2) (add B3))
+  (if (piece? P3) (add B4))
+  (if (piece? P4) (add B5))
+  (if (piece? P5) (add B6))
 )
 
 (define stop
   (verify not-enemy?)
+  (verify (not-piece? R9))
+  (verify (not-piece? B9))
   (if empty? (add P1))
   (if (piece? P1) (add P2))
   (if (piece? P2) (add P3))
   (if (piece? P3) (add P4))
   (if (piece? P4) (add P5))
+  (if (piece? R1) (add R2))
+  (if (piece? R2) (add R3))
+  (if (piece? R3) (add R4))
+  (if (piece? R4) (add R5))
+  (if (piece? R5) (add R6))
+  (if (piece? R6) (add R7))
+  (if (piece? R7) (add R8))
+  (if (piece? R8) (add R9))
+  (if (piece? B1) (add B2))
+  (if (piece? B2) (add B3))
+  (if (piece? B3) (add B4))
+  (if (piece? B4) (add B5))
+  (if (piece? B5) (add B6))
+  (if (piece? B6) (add B7))
+  (if (piece? B7) (add B8))
+  (if (piece? B8) (add B9))
 )
 
 (define join (
@@ -107,40 +193,286 @@
   (sum a b) (put a)
 ))
 
+(define end-1
+  (if enemy?
+      (verify (piece? P1))
+      (add P1)
+   else
+      (stop)
+  )
+)
+
+(define end-2
+  (if enemy?
+     (verify (or (piece? P1) (piece? P2)))
+     (add P2)
+   else
+     (step) $1 
+     (end-1)
+  )
+)
+
+(define end-3
+  (if enemy?
+     (verify (or (piece? P1) (piece? P2) (piece? P3)))
+     (add P3)
+   else
+     (step) $1 
+     (end-2)
+  )
+)
+
+(define end-4
+  (if enemy?
+     (verify (or (piece? P1) (piece? P2) (piece? P3) (piece? P4)))
+     (add P4)
+   else
+     (step) $1 
+     (end-3)
+  )
+)
+
 (define sow-1 (
-  (create P1) 
-  $1 (stop)
+  (create P1) $1 
+  (end-1)
 ))
 
 (define sow-2 (
-  (create P1) 
-  $1 (step)
-  $1 (stop)
+  (create P1) $1 
+  (end-2)
 ))
 
 (define sow-3 (
-  (create P1) 
-  $1 (step)
-  $1 (step)
-  $1 (stop)
+  (create P1) $1 
+  (end-3)
 ))
 
 (define sow-4 (
-  (create P1) 
-  $1 (step)
-  $1 (step)
-  $1 (step)
-  $1 (stop)
+  (create P1) $1
+  (end-4)
 ))
 
-(define p
-   (piece
-      (name $1)
-      (description "$2")
-      (image White "../images/MancalaKnights/W$1.bmp"
-             Black "../images/MancalaKnights/B$1.bmp")
-   )
+(define rend-1
+  (if enemy?
+      (add R1)
+   else
+      (rstop)
+  )
 )
+
+(define rend-2
+  (if enemy?
+      (add R2)
+   else
+      (step) $1 
+      (rend-1)
+  )
+)
+
+(define rend-3
+  (if enemy?
+      (add R3)
+   else
+      (step) $1 
+      (rend-2)
+  )
+)
+
+(define rend-4
+  (if enemy?
+      (add R4)
+   else
+      (step) $1 
+      (rend-3)
+  )
+)
+
+(define rend-5
+  (if enemy?
+      (add R5)
+   else
+      (step) $1 
+      (rend-4)
+  )
+)
+
+(define rend-6
+  (if enemy?
+      (add R6)
+   else
+      (step) $1 
+      (rend-5)
+  )
+)
+
+(define rend-7
+  (if enemy?
+      (add R7)
+   else
+      (step) $1 
+      (rend-6)
+  )
+)
+
+(define rend-8
+  (if enemy?
+      (add R8)
+   else
+      (step) $1 
+      (rend-7)
+  )
+)
+
+(define rsow-1 (
+  (create P1) $1 
+  (rend-1)
+))
+
+(define rsow-2 (
+  (create P1) $1 
+  (rend-2)
+))
+
+(define rsow-3 (
+  (create P1) $1 
+  (rend-3)
+))
+
+(define rsow-4 (
+  (create P1) $1 
+  (rend-4)
+))
+
+(define rsow-5 (
+  (create P1) $1 
+  (rend-5)
+))
+
+(define rsow-6 (
+  (create P1) $1 
+  (rend-6)
+))
+
+(define rsow-7 (
+  (create P1) $1 
+  (rend-7)
+))
+
+(define rsow-8 (
+  (create P1) $1 
+  (rend-8)
+))
+
+(define bend-1
+  (if enemy?
+      (add B1)
+   else
+      (bstop)
+  )
+)
+
+(define bend-2
+  (if enemy?
+      (add B2)
+   else
+      (step) $1 
+      (bend-1)
+  )
+)
+
+(define bend-3
+  (if enemy?
+      (add B3)
+   else
+      (step) $1 
+      (bend-2)
+  )
+)
+
+(define bend-4
+  (if enemy?
+      (add B4)
+   else
+      (step) $1 
+      (bend-3)
+  )
+)
+
+(define bend-5
+  (if enemy?
+      (add B5)
+   else
+      (step) $1 
+      (bend-4)
+  )
+)
+
+(define bend-6
+  (if enemy?
+      (add B6)
+   else
+      (step) $1 
+      (bend-5)
+  )
+)
+
+(define bend-7
+  (if enemy?
+      (add B7)
+   else
+      (step) $1 
+      (bend-6)
+  )
+)
+
+(define bend-8
+  (if enemy?
+      (add B8)
+   else
+      (step) $1 
+      (bend-7)
+  )
+)
+
+(define bsow-1 (
+  (create P1) $1 
+  (bend-1)
+))
+
+(define bsow-2 (
+  (create P1) $1 
+  (bend-2)
+))
+
+(define bsow-3 (
+  (create P1) $1 
+  (bend-3)
+))
+
+(define bsow-4 (
+  (create P1) $1 
+  (bend-4)
+))
+
+(define bsow-5 (
+  (create P1) $1 
+  (bend-5)
+))
+
+(define bsow-6 (
+  (create P1) $1 
+  (bend-6)
+))
+
+(define bsow-7 (
+  (create P1) $1 
+  (bend-7)
+))
+
+(define bsow-8 (
+  (create P1) $1 
+  (bend-8)
+))
 
 (game
    (title "Mancala's Knights")
@@ -232,8 +564,181 @@
       )
    )
 
-   (p R1 Rook)   (p R2 Rook)   (p R3 Rook)   (p R4 Rook)   (p R5 Rook)   (p R6 Rook)   (p R7 Rook)   (p R8 Rook)   (p R9 Rook)
-   (p B1 Bishop) (p B2 Bishop) (p B3 Bishop) (p B4 Bishop) (p B5 Bishop) (p B6 Bishop) (p B7 Bishop) (p B8 Bishop) (p B9 Bishop)
+   (piece
+      (name R1)
+      (description "Rook")
+      (image White "../images/MancalaKnights/WR1.bmp"
+             Black "../images/MancalaKnights/BR1.bmp")
+   )
+   (piece
+      (name R2)
+      (description "Rook")
+      (image White "../images/MancalaKnights/WR2.bmp"
+             Black "../images/MancalaKnights/BR2.bmp")
+      (moves
+         (rsow-1 n)  (rsow-1 s)  (rsow-1 w)  (rsow-1 e)
+      )
+   )
+   (piece
+      (name R3)
+      (description "Rook")
+      (image White "../images/MancalaKnights/WR3.bmp"
+             Black "../images/MancalaKnights/BR3.bmp")
+      (moves
+         (rsow-2 n)  (rsow-2 s)  (rsow-2 w)  (rsow-2 e)
+      )
+   )
+   (piece
+      (name R4)
+      (description "Rook")
+      (image White "../images/MancalaKnights/WR4.bmp"
+             Black "../images/MancalaKnights/BR4.bmp")
+      (moves
+         (rsow-3 n)  (rsow-3 s)  (rsow-3 w)  (rsow-3 e)
+      )
+   )
+   (piece
+      (name R5)
+      (description "Rook")
+      (image White "../images/MancalaKnights/WR5.bmp"
+             Black "../images/MancalaKnights/BR5.bmp")
+      (moves
+         (rsow-4 n)  (rsow-4 s)  (rsow-4 w)  (rsow-4 e)
+      )
+   )
+   (piece
+      (name R6)
+      (description "Rook")
+      (image White "../images/MancalaKnights/WR6.bmp"
+             Black "../images/MancalaKnights/BR6.bmp")
+      (moves
+         (rsow-5 n)  (rsow-5 s)  (rsow-5 w)  (rsow-5 e)
+      )
+   )
+   (piece
+      (name R7)
+      (description "Rook")
+      (image White "../images/MancalaKnights/WR7.bmp"
+             Black "../images/MancalaKnights/BR7.bmp")
+      (moves
+         (rsow-6 n)  (rsow-6 s)  (rsow-6 w)  (rsow-6 e)
+      )
+   )
+   (piece
+      (name R8)
+      (description "Rook")
+      (image White "../images/MancalaKnights/WR8.bmp"
+             Black "../images/MancalaKnights/BR8.bmp")
+      (moves
+         (rsow-7 n)  (rsow-7 s)  (rsow-7 w)  (rsow-7 e)
+      )
+   )
+   (piece
+      (name R9)
+      (description "Rook")
+      (image White "../images/MancalaKnights/WR9.bmp"
+             Black "../images/MancalaKnights/BR9.bmp")
+      (moves
+         (rsow-8 n)  (rsow-8 s)  (rsow-8 w)  (rsow-8 e)
+      )
+   )
+
+   (piece
+      (name B1)
+      (description "Bishop")
+      (image White "../images/MancalaKnights/WB1.bmp"
+             Black "../images/MancalaKnights/BB1.bmp")
+   )
+   (piece
+      (name B2)
+      (description "Bishop")
+      (image White "../images/MancalaKnights/WB2.bmp"
+             Black "../images/MancalaKnights/BB2.bmp")
+      (moves
+         (bsow-1 nw) (bsow-1 sw) (bsow-1 ne) (bsow-1 se)
+      )
+   )
+   (piece
+      (name B3)
+      (description "Bishop")
+      (image White "../images/MancalaKnights/WB3.bmp"
+             Black "../images/MancalaKnights/BB3.bmp")
+      (moves
+         (bsow-2 nw) (bsow-2 sw) (bsow-2 ne) (bsow-2 se)
+      )
+   )
+   (piece
+      (name B4)
+      (description "Bishop")
+      (image White "../images/MancalaKnights/WB3.bmp"
+             Black "../images/MancalaKnights/BB3.bmp")
+      (moves
+         (bsow-3 nw) (bsow-3 sw) (bsow-3 ne) (bsow-3 se)
+      )
+   )
+   (piece
+      (name B5)
+      (description "Bishop")
+      (image White "../images/MancalaKnights/WB5.bmp"
+             Black "../images/MancalaKnights/BB5.bmp")
+      (moves
+         (bsow-4 nw) (bsow-4 sw) (bsow-4 ne) (bsow-4 se)
+      )
+   )
+   (piece
+      (name B5)
+      (description "Bishop")
+      (image White "../images/MancalaKnights/WB5.bmp"
+             Black "../images/MancalaKnights/BB5.bmp")
+      (moves
+         (bsow-4 nw) (bsow-4 sw) (bsow-4 ne) (bsow-4 se)
+      )
+   )
+   (piece
+      (name B6)
+      (description "Bishop")
+      (image White "../images/MancalaKnights/WB6.bmp"
+             Black "../images/MancalaKnights/BB6.bmp")
+      (moves
+         (bsow-5 nw) (bsow-5 sw) (bsow-5 ne) (bsow-5 se)
+      )
+   )
+   (piece
+      (name B6)
+      (description "Bishop")
+      (image White "../images/MancalaKnights/WB6.bmp"
+             Black "../images/MancalaKnights/BB6.bmp")
+      (moves
+         (bsow-5 nw) (bsow-5 sw) (bsow-5 ne) (bsow-5 se)
+      )
+   )
+   (piece
+      (name B7)
+      (description "Bishop")
+      (image White "../images/MancalaKnights/WB7.bmp"
+             Black "../images/MancalaKnights/BB7.bmp")
+      (moves
+         (bsow-6 nw) (bsow-6 sw) (bsow-6 ne) (bsow-6 se)
+      )
+   )
+   (piece
+      (name B8)
+      (description "Bishop")
+      (image White "../images/MancalaKnights/WB8.bmp"
+             Black "../images/MancalaKnights/BB8.bmp")
+      (moves
+         (bsow-7 nw) (bsow-7 sw) (bsow-7 ne) (bsow-7 se)
+      )
+   )
+   (piece
+      (name B9)
+      (description "Bishop")
+      (image White "../images/MancalaKnights/WB9.bmp"
+             Black "../images/MancalaKnights/BB9.bmp")
+      (moves
+         (bsow-8 nw) (bsow-8 sw) (bsow-8 ne) (bsow-8 se)
+      )
+   )
 
    (board-setup
       (White
