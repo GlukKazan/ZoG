@@ -1,0 +1,407 @@
+(define common-end
+  (verify not-friend?)
+  (set-flag is-pawn? (piece? PawnP))
+  (set-flag is-silver? (piece? SilverP))
+  (set-flag is-bishop? (piece? BishopP))
+  (set-flag is-rook? (piece? RookP))
+  (if empty?
+      add
+   else
+      cascade START to-hand
+      (while (and (on-board? in-hand) not-empty?)
+         in-hand
+      )
+      (verify empty?)
+      (if (flag? is-pawn?) (change-type Pawn))
+      (if (flag? is-silver?) (change-type Silver))
+      (if (flag? is-bishop?) (change-type Bishop))
+      (if (flag? is-rook?) (change-type Rook))
+      flip add
+  )
+)
+
+(define pawn-leap (
+  (verify (in-zone? board-zone))
+  n (common-end)
+))
+
+(define leap (
+  (verify (in-zone? board-zone))
+  $1 (common-end)
+))
+
+(define slide (
+  (verify (in-zone? board-zone))
+  $1 (while (and empty? (in-zone? board-zone)) add $1)
+  (verify (in-zone? board-zone))
+  (common-end)
+))
+
+(game
+  (title "REN Shogi")
+
+  (players South North)
+  (turn-order South North)
+
+  (option "animate captures" false)
+  (option "animate drops" false)
+
+  (move-sound "Audio/Pickup.wav")
+  (release-sound "Audio/Pickup.wav")
+  (capture-sound "")
+
+  (board
+        (image "../images/YoninShogi/REN.bmp")
+        (grid
+               (start-rectangle 14 12 54 57)
+               (dimensions ("m/n/o/a/b/c/x/y/z" (41 0))
+                           ("7/6/5/4/3/2/1" (0 41))
+               )
+               (directions (n 0 -1) (e 1 0) (s 0 1) (w -1 0)
+                           (ne 1 -1) (nw -1 -1) (se 1 1) (sw -1 1)
+                           (next 0 -1)
+               )
+        )
+        (symmetry North (n s) (s n) (e w) (w e)
+                        (ne sw) (sw ne) (nw se) (se nw)
+                        (to-hand n-hand)
+        )
+        (dummy START END)
+        (zone (name board-zone) (players South North)
+              (positions 
+                    a1 a2 a3 a4 a5 a6 a7
+                    b1 b2 b3 b4 b5 b6 b7
+                    c1 c2 c3 c4 c5 c6 c7
+              )
+        )
+	(links next
+               (START a1) (a7 b1) (b7 c1)
+        )
+        (zone (name hand-zone) (players South North)
+              (positions 
+                    m1 m2 m3 m4 m5 m6 m7
+                    n1 n2 n3 n4 n5 n6 n7
+                    y1 y2 y3 y4 y5 y6 y7
+                    z1 z2 z3 z4 z5 z6 z7
+              )
+        )
+        (zone (name promotion-zone) (players South)
+              (positions 
+                    a5 a6 a7
+                    b5 b6 b7
+                    c5 c6 c7
+              )
+        )
+        (zone (name promotion-zone) (players North)
+              (positions 
+                    a1 a2 a3
+                    b1 b2 b3
+                    c1 c2 c3
+              )
+        )
+        (links in-hand
+              (y1 z1) (z1 y2) (y2 z2) (z2 y3) (y3 z3) (z3 y4) (y4 z4) 
+              (z4 y5) (y5 z5) (z5 y6) (y6 z6) (z6 y7) (y7 z7) (z7 x1)
+              (n7 m7) (m7 n6) (n6 m6) (m6 n5) (n5 m5) (m5 n4) (n4 m4)
+              (m4 n3) (n3 m3) (m3 n2) (n2 m2) (m2 n1) (n1 m1) (m1 x1)
+        )
+        (links to-hand (START y1))
+        (links n-hand (START n7))
+  )
+
+  (piece
+        (name  Pawn)
+        (description "Fuhyô (Fuhei, Soldier or Pawn)\
+                            moves and captures one space straight forward.\
+                      Fuhyô cannot back up or change files.\
+                      When Fuhyô moves or captures into or within\
+                            the last three rows of the battlefield,\
+                            it may choose to promote, becoming like a Kinshô.\
+                      When Fuhyô reaches the last row, it must promote.\
+                      You may not drop Fuhyô into the last row.\
+                      Two unpromoted Fuhyô must not occupy the same file."
+        )
+        (image South "../images/YoninShogi/Kanji/SPawn.bmp"
+                     "../images/YoninShogi/Old/SPawn.bmp"
+                     "../images/YoninShogi/Chess/SPawn.bmp"
+                     "../images/YoninShogi/Alpha/SPawn.bmp"
+                     "../images/YoninShogi/Draw/SPawn.bmp"
+               North "../images/YoninShogi/Kanji/NPawn.bmp"
+                     "../images/YoninShogi/Old/NPawn.bmp"
+                     "../images/YoninShogi/Chess/NPawn.bmp"
+                     "../images/YoninShogi/Alpha/NPawn.bmp"
+                     "../images/YoninShogi/Draw/NPawn.bmp"
+        )
+        (moves (pawn-leap)
+;              (pawn-drop)
+        )
+  )
+  (piece
+        (name  PawnP)
+        (description "Tokin (promoted Fuhyô, Fuhei, Soldier or Pawn)\
+                            moves and captures one space orthogonally (four directions)\
+                            or diagonally forward (six directions total).\
+                      Reverts to Fuhyô when captured."
+        )
+        (image South "../images/YoninShogi/Kanji/SPawn+.bmp"
+                     "../images/YoninShogi/Old/SPawn+.bmp"
+                     "../images/YoninShogi/Chess/SPawn+.bmp"
+                     "../images/YoninShogi/Alpha/SPawn+.bmp"
+                     "../images/YoninShogi/Draw/SPawn+.bmp"
+               North "../images/YoninShogi/Kanji/NPawn+.bmp"
+                     "../images/YoninShogi/Old/NPawn+.bmp"
+                     "../images/YoninShogi/Chess/NPawn+.bmp"
+                     "../images/YoninShogi/Alpha/NPawn+.bmp"
+                     "../images/YoninShogi/Draw/NPawn+.bmp"
+        )
+        (moves (leap n)
+               (leap s)
+               (leap w)
+               (leap e)
+               (leap nw)
+               (leap ne)
+        )
+  )
+  (piece
+        (name  Silver)
+        (description "Ginshô (Silver General)\
+                            moves and captures one space diagonally (four directions)\
+                            or straight forward (five directions total).\
+                      When Ginshô moves or captures into, within, or out of\
+                            the last three rows of the battlefield,\
+                            it may choose to promote, giving up its ordinary powers and becoming like a Kinshô."
+        )
+        (image South "../images/YoninShogi/Kanji/SSilver.bmp"
+                     "../images/YoninShogi/Old/SSilver.bmp"
+                     "../images/YoninShogi/Chess/SSilver.bmp"
+                     "../images/YoninShogi/Alpha/SSilver.bmp"
+                     "../images/YoninShogi/Draw/SSilver.bmp"
+               North "../images/YoninShogi/Kanji/NSilver.bmp"
+                     "../images/YoninShogi/Old/NSilver.bmp"
+                     "../images/YoninShogi/Chess/NSilver.bmp"
+                     "../images/YoninShogi/Alpha/NSilver.bmp"
+                     "../images/YoninShogi/Draw/NSilver.bmp"
+        )
+        (moves (leap n)
+               (leap nw)
+               (leap ne)
+               (leap sw)
+               (leap se)
+;              (piece-drop)
+        )
+  )
+  (piece
+        (name  SilverP)
+        (description "Narigin (promoted Silver General)\
+                            moves and captures one space orthogonally (four directions)\
+                            or diagonally forward (six directions total).\
+                      Reverts to Ginshô when captured."
+        )
+        (image South "../images/YoninShogi/Kanji/SSilver+.bmp"
+                     "../images/YoninShogi/Old/SSilver+.bmp"
+                     "../images/YoninShogi/Chess/SSilver+.bmp"
+                     "../images/YoninShogi/Alpha/SSilver+.bmp"
+                     "../images/YoninShogi/Draw/SSilver+.bmp"
+               North "../images/YoninShogi/Kanji/NSilver+.bmp"
+                     "../images/YoninShogi/Old/NSilver+.bmp"
+                     "../images/YoninShogi/Chess/NSilver+.bmp"
+                     "../images/YoninShogi/Alpha/NSilver+.bmp"
+                     "../images/YoninShogi/Draw/NSilver+.bmp"
+        )
+        (moves (leap n)
+               (leap s)
+               (leap w)
+               (leap e)
+               (leap nw)
+               (leap ne)
+        )
+  )
+  (piece
+        (name  Gold)
+        (description "Kinshô (Gold General)\
+                            moves and captures one space orthogonally (four directions)\
+                            or diagonally forward (six directions total).\
+                      Kinshô does not promote."
+        )
+        (image South "../images/YoninShogi/Kanji/SGold.bmp"
+                     "../images/YoninShogi/Old/SGold.bmp"
+                     "../images/YoninShogi/Chess/SGold.bmp"
+                     "../images/YoninShogi/Alpha/SGold.bmp"
+                     "../images/YoninShogi/Draw/SGold.bmp"
+               North "../images/YoninShogi/Kanji/NGold.bmp"
+                     "../images/YoninShogi/Old/NGold.bmp"
+                     "../images/YoninShogi/Chess/NGold.bmp"
+                     "../images/YoninShogi/Alpha/NGold.bmp"
+                     "../images/YoninShogi/Draw/NGold.bmp"
+        )
+        (moves (leap n)
+               (leap s)
+               (leap w)
+               (leap e)
+               (leap nw)
+               (leap ne)
+;              (piece-drop)
+        )
+  )
+  (piece
+        (name  Bishop)
+        (description "Kakygyô (Kaku or Angle Mover or Bishop)\
+                            moves and captures diagonally as chess Bishop.\
+                      When Kakugyô moves or captures into, within, or out of\
+                            the last three rows of the battlefield,\
+                            it may promote, adding the power of a King."
+        )
+        (image South "../images/YoninShogi/Kanji/SBishop.bmp"
+                     "../images/YoninShogi/Old/SBishop.bmp"
+                     "../images/YoninShogi/Chess/SBishop.bmp"
+                     "../images/YoninShogi/Alpha/SBishop.bmp"
+                     "../images/YoninShogi/Draw/SBishop.bmp"
+               North "../images/YoninShogi/Kanji/NBishop.bmp"
+                     "../images/YoninShogi/Old/NBishop.bmp"
+                     "../images/YoninShogi/Chess/NBishop.bmp"
+                     "../images/YoninShogi/Alpha/NBishop.bmp"
+                     "../images/YoninShogi/Draw/NBishop.bmp"
+        )
+        (moves (slide nw)
+               (slide sw)
+               (slide ne)
+               (slide se)
+;              (piece-drop)
+        )
+  )
+  (piece
+        (name  BishopP)
+        (description "Ryûma (Ryûme or Dragon Horse or promoted Bishop)\
+                            moves and captures diagonally as chess Bishop\
+                            or one space any direction as chess King.\
+                      Reverts to Kakugyô when captured."
+        )
+        (image South "../images/YoninShogi/Kanji/SBishop+.bmp"
+                     "../images/YoninShogi/Old/SBishop+.bmp"
+                     "../images/YoninShogi/Chess/SBishop+.bmp"
+                     "../images/YoninShogi/Alpha/SBishop+.bmp"
+                     "../images/YoninShogi/Draw/SBishop+.bmp"
+               North "../images/YoninShogi/Kanji/NBishop+.bmp"
+                     "../images/YoninShogi/Old/NBishop+.bmp"
+                     "../images/YoninShogi/Chess/NBishop+.bmp"
+                     "../images/YoninShogi/Alpha/NBishop+.bmp"
+                     "../images/YoninShogi/Draw/NBishop+.bmp"
+        )
+        (moves (slide nw)
+               (slide sw)
+               (slide ne)
+               (slide se)
+               (leap n)
+               (leap e)
+               (leap w)
+               (leap s)
+        )
+  )
+  (piece
+        (name  Rook)
+        (description "Hisha (Flying Chariot or Rook)\
+                            moves and captures orthogonally as chess Rook.\
+                      When Hisha moves or captures into, within, or out of\
+                            the last three rows of the battlefield,\
+                            it may promote, adding the power of a King."
+        )
+        (image South "../images/YoninShogi/Kanji/SRook.bmp"
+                     "../images/YoninShogi/Old/SRook.bmp"
+                     "../images/YoninShogi/Chess/SRook.bmp"
+                     "../images/YoninShogi/Alpha/SRook.bmp"
+                     "../images/YoninShogi/Draw/SRook.bmp"
+               North "../images/YoninShogi/Kanji/NRook.bmp"
+                     "../images/YoninShogi/Old/NRook.bmp"
+                     "../images/YoninShogi/Chess/NRook.bmp"
+                     "../images/YoninShogi/Alpha/NRook.bmp"
+                     "../images/YoninShogi/Draw/NRook.bmp"
+        )
+        (moves (slide n)
+               (slide s)
+               (slide w)
+               (slide e)
+;              (piece-drop)
+        )
+  )
+  (piece
+        (name  RookP)
+        (description "Ryûô (Dragon King or promoted Rook)\
+                            moves and captures diagonally as chess Rook\
+                            or one space any direction as chess King.\
+                      Reverts to Hisha when captured."
+        )
+        (image South "../images/YoninShogi/Kanji/SRook+.bmp"
+                     "../images/YoninShogi/Old/SRook+.bmp"
+                     "../images/YoninShogi/Chess/SRook+.bmp"
+                     "../images/YoninShogi/Alpha/SRook+.bmp"
+                     "../images/YoninShogi/Draw/SRook+.bmp"
+               North "../images/YoninShogi/Kanji/NRook+.bmp"
+                     "../images/YoninShogi/Old/NRook+.bmp"
+                     "../images/YoninShogi/Chess/NRook+.bmp"
+                     "../images/YoninShogi/Alpha/NRook+.bmp"
+                     "../images/YoninShogi/Draw/NRook+.bmp"
+        )
+        (moves (slide n)
+               (slide s)
+               (slide w)
+               (slide e)
+               (leap nw)
+               (leap ne)
+               (leap sw)
+               (leap se)
+        )
+  )
+  (piece
+        (name  King)
+        (description "Ôshô or Gyokushô (King General or Jewel General or King)\
+                            moves and captures one space (eight directions)\
+                            as chess King.\
+                      Ôshô must be on battlefield for any piece to capture enemies.\
+                      Ôshô only in reserve allows only drops and moves to open spaces.\
+                      If your last Ôshô is captured, you cannot play any further.\
+                      When you capture a player's last and only Ôshô,
+                      you inherit all pieces in that player's reserve."
+        )
+        (image South "../images/YoninShogi/Kanji/SKing.bmp"
+                     "../images/YoninShogi/Old/SKing.bmp"
+                     "../images/YoninShogi/Chess/SKing.bmp"
+                     "../images/YoninShogi/Alpha/SKing.bmp"
+                     "../images/YoninShogi/Draw/SKing.bmp"
+               North "../images/YoninShogi/Kanji/NKing.bmp"
+                     "../images/YoninShogi/Old/NKing.bmp"
+                     "../images/YoninShogi/Chess/NKing.bmp"
+                     "../images/YoninShogi/Alpha/NKing.bmp"
+                     "../images/YoninShogi/Draw/NKing.bmp"
+        )
+        (moves (leap n)
+               (leap s)
+               (leap w)
+               (leap e)
+               (leap nw)
+               (leap ne)
+               (leap sw)
+               (leap se)
+        )
+  )
+
+  (board-setup
+        ( South 
+           (King b1)
+           (Gold a1)
+           (Silver c1)
+           (Bishop a2)
+           (Rook c2)
+           (Pawn a3 b3 c3)
+        )
+        ( North 
+           (King b7)
+           (Silver c7)
+           (Silver a7)
+           (Bishop c6)
+           (Rook a6)
+           (Pawn a5 b5 c5)
+        )
+  )
+
+  (loss-condition (South North) (checkmated King))
+)
