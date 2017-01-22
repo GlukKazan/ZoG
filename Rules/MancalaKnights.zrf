@@ -193,47 +193,65 @@
   (sum a b) (put a)
 ))
 
+(define end
+  (if not-friend?
+      (add $1)
+   else
+      (init d)
+      (set-flag s-B  $2)
+      (set-flag s-R  $3)
+      (set-flag s-08 $4)
+      (set-flag s-04 $5)
+      (set-flag s-02 $6)
+      (set-flag s-01 $7)
+      (sum d s)
+      (put d)
+  )
+)
+
 (define end-1
-  (if enemy?
-      (verify (piece? P1))
-      (add P1)
+  (if (or enemy? (not-on-board? $1))
+      (verify (or not-enemy? (piece? P1)))
+      (end P1 false false false false false true)
    else
       (stop)
   )
 )
 
 (define end-2
-  (if enemy?
-     (verify (or (piece? P1) (piece? P2)))
-     (add P2)
+  (if (or enemy? (not-on-board? $1))
+      (verify (or not-enemy? (piece? P1) (piece? P2)))
+      (end P2 false false false false true false)
    else
-     (step) $1 
-     (end-1)
+      (step) $1 
+      (end-1)
   )
 )
 
 (define end-3
-  (if enemy?
-     (verify (or (piece? P1) (piece? P2) (piece? P3)))
-     (add P3)
+  (if (or enemy? (not-on-board? $1))
+      (verify (or not-enemy? (piece? P1) (piece? P2) (piece? P3)))
+      (end P3 false false false false true true)
    else
-     (step) $1 
-     (end-2)
+      (step) $1 
+      (end-2)
   )
 )
 
 (define end-4
-  (if enemy?
-     (verify (or (piece? P1) (piece? P2) (piece? P3) (piece? P4)))
-     (add P4)
+  (if (or enemy? (not-on-board? $1))
+      (verify (or not-enemy? (piece? P1) (piece? P2) (piece? P3) (piece? P4)))
+      (end P4 false false false true false false)
    else
-     (step) $1 
-     (end-3)
+      (step) $1 
+      (end-3)
   )
 )
 
 (define sow-1 (
   (create P1) $1 
+  (verify (and (not-piece? R1) (not-piece? R2) (not-piece? R3) (not-piece? R4) (not-piece? R5) (not-piece? R6) (not-piece? R7) (not-piece? R8)))
+  (verify (and (not-piece? B1) (not-piece? B2) (not-piece? B3) (not-piece? B4) (not-piece? B5) (not-piece? B6) (not-piece? B7) (not-piece? B8)))
   (end-1)
 ))
 
@@ -253,16 +271,16 @@
 ))
 
 (define rend-1
-  (if enemy?
-      (add R1)
+  (if (or enemy? (not-on-board? $1))
+      (end R1 false true false false false true)
    else
       (rstop)
   )
 )
 
 (define rend-2
-  (if enemy?
-      (add R2)
+  (if (or enemy? (not-on-board? $1))
+      (end R2 false true false false true false)
    else
       (step) $1 
       (rend-1)
@@ -270,8 +288,8 @@
 )
 
 (define rend-3
-  (if enemy?
-      (add R3)
+  (if (or enemy? (not-on-board? $1))
+      (end R3 false true false false true true)
    else
       (step) $1 
       (rend-2)
@@ -279,8 +297,8 @@
 )
 
 (define rend-4
-  (if enemy?
-      (add R4)
+  (if (or enemy? (not-on-board? $1))
+      (end R4 false true false true false false)
    else
       (step) $1 
       (rend-3)
@@ -288,8 +306,8 @@
 )
 
 (define rend-5
-  (if enemy?
-      (add R5)
+  (if (or enemy? (not-on-board? $1))
+      (end R5 false true false true false true)
    else
       (step) $1 
       (rend-4)
@@ -297,8 +315,8 @@
 )
 
 (define rend-6
-  (if enemy?
-      (add R6)
+  (if (or enemy? (not-on-board? $1))
+      (end R6 false true false true true false)
    else
       (step) $1 
       (rend-5)
@@ -306,8 +324,8 @@
 )
 
 (define rend-7
-  (if enemy?
-      (add R7)
+  (if (or enemy? (not-on-board? $1))
+      (end R7 false true false true true true)
    else
       (step) $1 
       (rend-6)
@@ -315,8 +333,8 @@
 )
 
 (define rend-8
-  (if enemy?
-      (add R8)
+  (if (or enemy? (not-on-board? $1))
+      (end R8 false true true false false false)
    else
       (step) $1 
       (rend-7)
@@ -364,16 +382,16 @@
 ))
 
 (define bend-1
-  (if enemy?
-      (add B1)
+  (if (or enemy? (not-on-board? $1))
+      (end B1 true false false false false true)
    else
       (bstop)
   )
 )
 
 (define bend-2
-  (if enemy?
-      (add B2)
+  (if (or enemy? (not-on-board? $1))
+      (end B2 true false false false true false)
    else
       (step) $1 
       (bend-1)
@@ -381,8 +399,8 @@
 )
 
 (define bend-3
-  (if enemy?
-      (add B3)
+  (if (or enemy? (not-on-board? $1))
+      (end B3 true false false false true true)
    else
       (step) $1 
       (bend-2)
@@ -390,8 +408,8 @@
 )
 
 (define bend-4
-  (if enemy?
-      (add B4)
+  (if (or enemy? (not-on-board? $1))
+      (end B4 true false false true false false)
    else
       (step) $1 
       (bend-3)
@@ -399,8 +417,8 @@
 )
 
 (define bend-5
-  (if enemy?
-      (add B5)
+  (if (or enemy? (not-on-board? $1))
+      (end B5 true false false true false true)
    else
       (step) $1 
       (bend-4)
@@ -408,8 +426,8 @@
 )
 
 (define bend-6
-  (if enemy?
-      (add B6)
+  (if (or enemy? (not-on-board? $1))
+      (end B6 true false false true true false)
    else
       (step) $1 
       (bend-5)
@@ -417,8 +435,8 @@
 )
 
 (define bend-7
-  (if enemy?
-      (add B7)
+  (if (or enemy? (not-on-board? $1))
+      (end B7 true false false true true true)
    else
       (step) $1 
       (bend-6)
@@ -426,8 +444,8 @@
 )
 
 (define bend-8
-  (if enemy?
-      (add B8)
+  (if (or enemy? (not-on-board? $1))
+      (end B8 true false true false false false)
    else
       (step) $1 
       (bend-7)
@@ -559,6 +577,8 @@
       (image White "../images/MancalaKnights/WP5.bmp"
              Black "../images/MancalaKnights/BP5.bmp")
       (moves
+         (join n)   (join s)   (join w)   (join e)
+         (join nw)  (join sw)  (join ne)  (join se)
          (sow-4 n)  (sow-4 s)  (sow-4 w)  (sow-4 e)
          (sow-4 nw) (sow-4 sw) (sow-4 ne) (sow-4 se)
       )
