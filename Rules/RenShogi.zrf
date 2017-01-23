@@ -1,3 +1,43 @@
+(define safe 
+   (and (on-board? $1) 
+        (not-defended? $1) 
+        (not-enemy? $1)
+   )
+)
+
+(define no-mate 
+   (or (not-piece? King n) 
+       (not-enemy? n) 
+       not-defended? 
+       (attacked? no-king) 
+       (safe e) 
+       (safe w) 
+       (safe ne) 
+       (safe nw) 
+       (safe nn) 
+   )
+)
+
+(define pawn-drop (
+  (verify (in-zone? hand-zone))
+  (set-flag not-paired? true)
+  START line-$1
+  (while (on-board? line-$1)
+     (if (and friend? (piece? Pawn))
+         (set-flag not-paired? false)
+     )
+     line-$1
+  )
+  (verify (flag? not-paired?))
+  START line-$1
+  (while (on-board? line-$1)
+     (if (and empty? (on-board? n))
+         (if (no-mate) add)
+     )
+     line-$1
+  )
+))
+
 (define piece-drop (
   (verify (in-zone? hand-zone))
   START next
@@ -122,11 +162,15 @@
                            ("7/6/5/4/3/2/1" (0 41))
                )
                (directions (n 0 -1) (e 1 0) (s 0 1) (w -1 0)
-                           (ne 1 -1) (nw -1 -1) (se 1 1) (sw -1 1)
+                           (nn 0 -2) (ss 0 2) (ne 1 -1) (nw -1 -1) (se 1 1) (sw -1 1)
                            (next 0 -1)
                )
         )
-        (symmetry North (n s) (s n) (e w) (w e)
+        (kill-positions
+               x1 x2 x3 x4 x5 x6 x7
+               o1 o2 o3 o4 o5 o6 o7
+        )
+        (symmetry North (n s) (s n) (nn ss) (ss nn)
                         (ne sw) (sw ne) (nw se) (se nw)
                         (to-hand n-hand)
         )
@@ -205,8 +249,9 @@
                      "../images/YoninShogi/Alpha/NPawn.bmp"
                      "../images/YoninShogi/Draw/NPawn.bmp"
         )
-        (moves (pawn-leap) (piece-leap n PawnP)
-;              (pawn-drop)
+        (moves (move-type no-king)
+               (pawn-leap) (piece-leap n PawnP)
+               (pawn-drop a) (pawn-drop b) (pawn-drop c)
         )
   )
   (piece
@@ -227,7 +272,8 @@
                      "../images/YoninShogi/Alpha/NPawn+.bmp"
                      "../images/YoninShogi/Draw/NPawn+.bmp"
         )
-        (moves (leap n)
+        (moves (move-type no-king)
+               (leap n)
                (leap s)
                (leap w)
                (leap e)
@@ -255,7 +301,8 @@
                      "../images/YoninShogi/Alpha/NSilver.bmp"
                      "../images/YoninShogi/Draw/NSilver.bmp"
         )
-        (moves (leap n)  (piece-leap n  SilverP)
+        (moves (move-type no-king)
+               (leap n)  (piece-leap n  SilverP)
                (leap nw) (piece-leap nw SilverP)
                (leap ne) (piece-leap ne SilverP)
                (leap sw) (piece-leap sw SilverP)
@@ -281,7 +328,8 @@
                      "../images/YoninShogi/Alpha/NSilver+.bmp"
                      "../images/YoninShogi/Draw/NSilver+.bmp"
         )
-        (moves (leap n)
+        (moves (move-type no-king)
+               (leap n)
                (leap s)
                (leap w)
                (leap e)
@@ -307,7 +355,8 @@
                      "../images/YoninShogi/Alpha/NGold.bmp"
                      "../images/YoninShogi/Draw/NGold.bmp"
         )
-        (moves (leap n)
+        (moves (move-type no-king)
+               (leap n)
                (leap s)
                (leap w)
                (leap e)
@@ -335,7 +384,8 @@
                      "../images/YoninShogi/Alpha/NBishop.bmp"
                      "../images/YoninShogi/Draw/NBishop.bmp"
         )
-        (moves (slide nw) (piece-slide nw BishopP)
+        (moves (move-type no-king)
+               (slide nw) (piece-slide nw BishopP)
                (slide sw) (piece-slide sw BishopP)
                (slide ne) (piece-slide ne BishopP)
                (slide se) (piece-slide se BishopP)
@@ -360,7 +410,8 @@
                      "../images/YoninShogi/Alpha/NBishop+.bmp"
                      "../images/YoninShogi/Draw/NBishop+.bmp"
         )
-        (moves (slide nw)
+        (moves (move-type no-king)
+               (slide nw)
                (slide sw)
                (slide ne)
                (slide se)
@@ -389,7 +440,8 @@
                      "../images/YoninShogi/Alpha/NRook.bmp"
                      "../images/YoninShogi/Draw/NRook.bmp"
         )
-        (moves (slide n) (piece-slide n RookP)
+        (moves (move-type no-king)
+               (slide n) (piece-slide n RookP)
                (slide s) (piece-slide s RookP)
                (slide w) (piece-slide w RookP)
                (slide e) (piece-slide e RookP)
@@ -414,7 +466,8 @@
                      "../images/YoninShogi/Alpha/NRook+.bmp"
                      "../images/YoninShogi/Draw/NRook+.bmp"
         )
-        (moves (slide n)
+        (moves (move-type no-king)
+               (slide n)
                (slide s)
                (slide w)
                (slide e)
@@ -446,7 +499,8 @@
                      "../images/YoninShogi/Alpha/NKing.bmp"
                      "../images/YoninShogi/Draw/NKing.bmp"
         )
-        (moves (leap n)
+        (moves (move-type with-king)
+               (leap n)
                (leap s)
                (leap w)
                (leap e)
@@ -478,4 +532,5 @@
 
   (loss-condition (South North) (checkmated King))
   (loss-condition (South North) (pieces-remaining 0 King))
+  (loss-condition (South North) repetition)
 )
