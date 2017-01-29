@@ -5,6 +5,14 @@
   add
 ))
 
+(define spush (
+  $1 (while empty? add $1)
+  (verify friend?)
+  (verify (piece? Bomb))
+  cascade $1 (verify empty?)
+  add
+))
+
 (define cap
   (if (not-empty? $1)
       (capture $1)
@@ -44,8 +52,7 @@
 ))
 
 (define slide (
-  $1
-  (while empty? add $1) 
+  $1 (while empty? add $1) 
   (common-check)
   add
 ))
@@ -111,7 +118,7 @@
              Black "../images/CubicChess/BB.bmp")
       (moves
         (slide nw) (slide ne) (slide sw) (slide se)
-        (push  nw) (push  ne) (push  sw) (push  se)
+        (spush nw) (spush ne) (spush sw) (spush se)
         (promote Pawn) (promote Knight) (promote Rook)
       )
    )
@@ -133,7 +140,7 @@
              Black "../images/CubicChess/BR.bmp")
       (moves
         (slide n) (slide s) (slide w) (slide e)
-        (push  n) (push  s) (push  w) (push  e)
+        (spush n) (spush s) (spush w) (spush e)
         (promote Bishop) (promote Knight) (promote Pawn)
       )
    )
@@ -189,7 +196,7 @@
              Black "../images/CubicChess/BB.bmp")
       (moves
         (slide nw) (slide ne) (slide sw) (slide se)
-        (push  nw) (push  ne) (push  sw) (push  se)
+        (spush nw) (spush ne) (spush sw) (spush se)
         (promote Pawn) (promote Knight) (promote Rook) (promote Wall) (promote Bomb)
       )
    )
@@ -211,7 +218,7 @@
              Black "../images/CubicChess/BR.bmp")
       (moves
         (slide n) (slide s) (slide w) (slide e)
-        (push  n) (push  s) (push  w) (push  e)
+        (spush n) (spush s) (spush w) (spush e)
         (promote Bishop) (promote Knight) (promote Pawn) (promote Wall) (promote Bomb)
       )
    )
