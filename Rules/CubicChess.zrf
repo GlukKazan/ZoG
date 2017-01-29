@@ -1,3 +1,10 @@
+(define push (
+  $1 (verify friend?)
+  (verify (piece? Bomb))
+  cascade $1 (verify empty?)
+  add
+))
+
 (define cap
   (if (not-empty? $1)
       (capture $1)
@@ -19,11 +26,10 @@
 ))
 
 (define common-check
+  (verify not-friend?)
   (verify (not-piece? Wall))
   (if (piece? Bomb)
       (bomb-cap)
-   else
-      (verify not-friend?)
   )
 )
 
@@ -82,7 +88,9 @@
              Black "../images/CubicChess/BK.bmp")
       (moves
         (step n) (step s) (step nw) (step sw)
-        (step e) (step w) (step ne) (step se)
+        (step e) (step w) (step ne) (step se)      
+        (push n) (push s) (push nw) (push sw)
+        (push e) (push w) (push ne) (push se)      
       )
    )
    (piece
@@ -92,6 +100,7 @@
              Black "../images/CubicChess/BP.bmp")
       (moves
         (step n) (step nw) (step ne)
+        (push n) (push nw) (push ne)
         (promote Bishop) (promote Knight) (promote Rook)
       )
    )
@@ -102,6 +111,7 @@
              Black "../images/CubicChess/BB.bmp")
       (moves
         (slide nw) (slide ne) (slide sw) (slide se)
+        (push  nw) (push  ne) (push  sw) (push  se)
         (promote Pawn) (promote Knight) (promote Rook)
       )
    )
@@ -123,6 +133,7 @@
              Black "../images/CubicChess/BR.bmp")
       (moves
         (slide n) (slide s) (slide w) (slide e)
+        (push  n) (push  s) (push  w) (push  e)
         (promote Bishop) (promote Knight) (promote Pawn)
       )
    )
@@ -167,6 +178,7 @@
              Black "../images/CubicChess/BP.bmp")
       (moves
         (step n) (step nw) (step ne)
+        (push n) (push nw) (push ne)
         (promote Bishop) (promote Knight) (promote Rook) (promote Wall) (promote Bomb)
       )
    )
@@ -177,6 +189,7 @@
              Black "../images/CubicChess/BB.bmp")
       (moves
         (slide nw) (slide ne) (slide sw) (slide se)
+        (push  nw) (push  ne) (push  sw) (push  se)
         (promote Pawn) (promote Knight) (promote Rook) (promote Wall) (promote Bomb)
       )
    )
@@ -198,6 +211,7 @@
              Black "../images/CubicChess/BR.bmp")
       (moves
         (slide n) (slide s) (slide w) (slide e)
+        (push  n) (push  s) (push  w) (push  e)
         (promote Bishop) (promote Knight) (promote Pawn) (promote Wall) (promote Bomb)
       )
    )
