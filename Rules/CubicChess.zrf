@@ -1,17 +1,46 @@
+(define cap
+  (if (not-empty? $1)
+      (capture $1)
+  )
+)
+
+(define bomb-cap
+  capture
+  (cap n) (cap s) (cap nw) (cap ne)
+  (cap w) (cap e) (cap sw) (cap se)
+)
+
+(define boom (
+  (bomb-cap) add
+))
+
+(define promote (
+  (add $1)
+))
+
+(define common-check
+  (verify (not-piece? Wall))
+  (if (piece? Bomb)
+      (bomb-cap)
+   else
+      (verify not-friend?)
+  )
+)
+
 (define step (
-  $1 (verify not-friend?)
+  $1 (common-check)
   add
 ))
 
 (define leap (
-  $1 $2 (verify not-friend?)
+  $1 $2 (common-check)
   add
 ))
 
 (define slide (
   $1
   (while empty? add $1) 
-  (verify not-friend?) 
+  (common-check)
   add
 ))
 
@@ -23,9 +52,8 @@
 
    (move-sound "Audio/Pickup.wav")
    (release-sound "Audio/Pickup.wav")
-   (drop-sound "Audio/Pickup.wav")
-   (capture-sound "")
-   (change-sound  "")
+   (change-sound "Audio/Pickup.wav")
+   (capture-sound "Audio/Pickup.wav")
    (click-sound   "")
    (draw-sound    "")
 
@@ -64,6 +92,7 @@
              Black "../images/CubicChess/BP.bmp")
       (moves
         (step n) (step nw) (step ne)
+        (promote Bishop) (promote Knight) (promote Rook)
       )
    )
    (piece
@@ -73,6 +102,7 @@
              Black "../images/CubicChess/BB.bmp")
       (moves
         (slide nw) (slide ne) (slide sw) (slide se)
+        (promote Pawn) (promote Knight) (promote Rook)
       )
    )
    (piece
@@ -83,6 +113,7 @@
       (moves
         (leap n nw) (leap n ne) (leap s sw) (leap s se)
         (leap w nw) (leap w sw) (leap e ne) (leap e se)
+        (promote Bishop) (promote Pawn) (promote Rook)
       )
    )
    (piece
@@ -92,6 +123,22 @@
              Black "../images/CubicChess/BR.bmp")
       (moves
         (slide n) (slide s) (slide w) (slide e)
+        (promote Bishop) (promote Knight) (promote Pawn)
+      )
+   )
+   (piece
+      (name Wall)
+      (description " ")
+      (image White "../images/CubicChess/WW.bmp"
+             Black "../images/CubicChess/BW.bmp")
+   )
+   (piece
+      (name Bomb)
+      (description "Bomb")
+      (image White "../images/CubicChess/WM.bmp"
+             Black "../images/CubicChess/BM.bmp")
+      (moves
+        (boom)
       )
    )
 
@@ -107,4 +154,51 @@
    )
 
    (loss-condition (White Black) (checkmated King) )
+   (loss-condition (White Black) (pieces-remaining 0 King) )
+)
+
+(variant
+   (title "Cubic Chess (Advanced)")
+   (default)
+   (piece
+      (name Pawn)
+      (description "Pawn")
+      (image White "../images/CubicChess/WP.bmp"
+             Black "../images/CubicChess/BP.bmp")
+      (moves
+        (step n) (step nw) (step ne)
+        (promote Bishop) (promote Knight) (promote Rook) (promote Wall) (promote Bomb)
+      )
+   )
+   (piece
+      (name Bishop)
+      (description "Bishop")
+      (image White "../images/CubicChess/WB.bmp"
+             Black "../images/CubicChess/BB.bmp")
+      (moves
+        (slide nw) (slide ne) (slide sw) (slide se)
+        (promote Pawn) (promote Knight) (promote Rook) (promote Wall) (promote Bomb)
+      )
+   )
+   (piece
+      (name Knight)
+      (description "Knight")
+      (image White "../images/CubicChess/WN.bmp"
+             Black "../images/CubicChess/BN.bmp")
+      (moves
+        (leap n nw) (leap n ne) (leap s sw) (leap s se)
+        (leap w nw) (leap w sw) (leap e ne) (leap e se)
+        (promote Bishop) (promote Pawn) (promote Rook) (promote Wall) (promote Bomb)
+      )
+   )
+   (piece
+      (name Rook)
+      (description "Rook")
+      (image White "../images/CubicChess/WR.bmp"
+             Black "../images/CubicChess/BR.bmp")
+      (moves
+        (slide n) (slide s) (slide w) (slide e)
+        (promote Bishop) (promote Knight) (promote Pawn) (promote Wall) (promote Bomb)
+      )
+   )
 )
