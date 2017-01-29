@@ -211,6 +211,8 @@
 
 (define end-1
   (if (or enemy? (not-on-board? $1))
+      (verify (and (not-piece? B1) (not-piece? B2) (not-piece? B3) (not-piece? B4) (not-piece? B5) (not-piece? B6) (not-piece? B7) (not-piece? B8) (not-piece? B9)))
+      (verify (and (not-piece? R1) (not-piece? R2) (not-piece? R3) (not-piece? R4) (not-piece? R5) (not-piece? R6) (not-piece? R7) (not-piece? R8) (not-piece? R9)))
       (verify (or not-enemy? (piece? P1)))
       (end P1 false false false false false true)
    else
@@ -220,6 +222,8 @@
 
 (define end-2
   (if (or enemy? (not-on-board? $1))
+      (verify (and (not-piece? B1) (not-piece? B2) (not-piece? B3) (not-piece? B4) (not-piece? B5) (not-piece? B6) (not-piece? B7) (not-piece? B8) (not-piece? B9)))
+      (verify (and (not-piece? R1) (not-piece? R2) (not-piece? R3) (not-piece? R4) (not-piece? R5) (not-piece? R6) (not-piece? R7) (not-piece? R8) (not-piece? R9)))
       (verify (or not-enemy? (piece? P1) (piece? P2)))
       (end P2 false false false false true false)
    else
@@ -230,6 +234,8 @@
 
 (define end-3
   (if (or enemy? (not-on-board? $1))
+      (verify (and (not-piece? B1) (not-piece? B2) (not-piece? B3) (not-piece? B4) (not-piece? B5) (not-piece? B6) (not-piece? B7) (not-piece? B8) (not-piece? B9)))
+      (verify (and (not-piece? R1) (not-piece? R2) (not-piece? R3) (not-piece? R4) (not-piece? R5) (not-piece? R6) (not-piece? R7) (not-piece? R8) (not-piece? R9)))
       (verify (or not-enemy? (piece? P1) (piece? P2) (piece? P3)))
       (end P3 false false false false true true)
    else
@@ -240,6 +246,8 @@
 
 (define end-4
   (if (or enemy? (not-on-board? $1))
+      (verify (and (not-piece? B1) (not-piece? B2) (not-piece? B3) (not-piece? B4) (not-piece? B5) (not-piece? B6) (not-piece? B7) (not-piece? B8) (not-piece? B9)))
+      (verify (and (not-piece? R1) (not-piece? R2) (not-piece? R3) (not-piece? R4) (not-piece? R5) (not-piece? R6) (not-piece? R7) (not-piece? R8) (not-piece? R9)))
       (verify (or not-enemy? (piece? P1) (piece? P2) (piece? P3) (piece? P4)))
       (end P4 false false false true false false)
    else
@@ -272,41 +280,77 @@
 
 (define rend-1
   (if (or enemy? (not-on-board? $1))
+      (if friend?
+          (verify (and (not-piece? B1) (not-piece? B2) (not-piece? B3) (not-piece? B4) (not-piece? B5) (not-piece? B6) (not-piece? B7) (not-piece? B8) (not-piece? B9)))
+          (verify (and (not-piece? R1) (not-piece? R2) (not-piece? R3) (not-piece? R4) (not-piece? R5) (not-piece? R6) (not-piece? R7) (not-piece? R8) (not-piece? R9)))
+      )
       (end R1 false true false false false true)
    else
-      (rstop)
+      (if (and (piece? P5) friend?)
+          (add R6)
+       else
+          (rstop)
+      )
   )
 )
 
 (define rend-2
   (if (or enemy? (not-on-board? $1))
+      (if friend?
+          (verify (and (not-piece? B1) (not-piece? B2) (not-piece? B3) (not-piece? B4) (not-piece? B5) (not-piece? B6) (not-piece? B7) (not-piece? B8) (not-piece? B9)))
+          (verify (and (not-piece? R1) (not-piece? R2) (not-piece? R3) (not-piece? R4) (not-piece? R5) (not-piece? R6) (not-piece? R7) (not-piece? R8) (not-piece? R9)))
+      )
       (end R2 false true false false true false)
    else
-      (step) $1 
-      (rend-1)
+      (if (and (piece? P5) friend?)
+          (add R7)
+       else
+          (step) $1 
+          (rend-1)
+       )
   )
 )
 
 (define rend-3
   (if (or enemy? (not-on-board? $1))
+      (if friend?
+          (verify (and (not-piece? B1) (not-piece? B2) (not-piece? B3) (not-piece? B4) (not-piece? B5) (not-piece? B6) (not-piece? B7) (not-piece? B8) (not-piece? B9)))
+          (verify (and (not-piece? R1) (not-piece? R2) (not-piece? R3) (not-piece? R4) (not-piece? R5) (not-piece? R6) (not-piece? R7) (not-piece? R8) (not-piece? R9)))
+      )
       (end R3 false true false false true true)
    else
-      (step) $1 
-      (rend-2)
+      (if (and (piece? P5) friend?)
+          (add R8)
+       else
+          (step) $1 
+          (rend-2)
+      )
   )
 )
 
 (define rend-4
   (if (or enemy? (not-on-board? $1))
+      (if friend?
+          (verify (and (not-piece? B1) (not-piece? B2) (not-piece? B3) (not-piece? B4) (not-piece? B5) (not-piece? B6) (not-piece? B7) (not-piece? B8) (not-piece? B9)))
+          (verify (and (not-piece? R1) (not-piece? R2) (not-piece? R3) (not-piece? R4) (not-piece? R5) (not-piece? R6) (not-piece? R7) (not-piece? R8) (not-piece? R9)))
+      )
       (end R4 false true false true false false)
    else
-      (step) $1 
-      (rend-3)
+      (if (and (piece? P5) friend?)
+          (add R9)
+       else
+          (step) $1 
+          (rend-3)
+      )
   )
 )
 
 (define rend-5
   (if (or enemy? (not-on-board? $1))
+      (if friend?
+          (verify (and (not-piece? B1) (not-piece? B2) (not-piece? B3) (not-piece? B4) (not-piece? B5) (not-piece? B6) (not-piece? B7) (not-piece? B8) (not-piece? B9)))
+          (verify (and (not-piece? R1) (not-piece? R2) (not-piece? R3) (not-piece? R4) (not-piece? R5) (not-piece? R6) (not-piece? R7) (not-piece? R8) (not-piece? R9)))
+      )
       (end R5 false true false true false true)
    else
       (step) $1 
@@ -316,6 +360,10 @@
 
 (define rend-6
   (if (or enemy? (not-on-board? $1))
+      (if friend?
+          (verify (and (not-piece? B1) (not-piece? B2) (not-piece? B3) (not-piece? B4) (not-piece? B5) (not-piece? B6) (not-piece? B7) (not-piece? B8) (not-piece? B9)))
+          (verify (and (not-piece? R1) (not-piece? R2) (not-piece? R3) (not-piece? R4) (not-piece? R5) (not-piece? R6) (not-piece? R7) (not-piece? R8) (not-piece? R9)))
+      )
       (end R6 false true false true true false)
    else
       (step) $1 
@@ -325,6 +373,10 @@
 
 (define rend-7
   (if (or enemy? (not-on-board? $1))
+      (if friend?
+          (verify (and (not-piece? B1) (not-piece? B2) (not-piece? B3) (not-piece? B4) (not-piece? B5) (not-piece? B6) (not-piece? B7) (not-piece? B8) (not-piece? B9)))
+          (verify (and (not-piece? R1) (not-piece? R2) (not-piece? R3) (not-piece? R4) (not-piece? R5) (not-piece? R6) (not-piece? R7) (not-piece? R8) (not-piece? R9)))
+      )
       (end R7 false true false true true true)
    else
       (step) $1 
@@ -334,6 +386,10 @@
 
 (define rend-8
   (if (or enemy? (not-on-board? $1))
+      (if friend?
+          (verify (and (not-piece? B1) (not-piece? B2) (not-piece? B3) (not-piece? B4) (not-piece? B5) (not-piece? B6) (not-piece? B7) (not-piece? B8) (not-piece? B9)))
+          (verify (and (not-piece? R1) (not-piece? R2) (not-piece? R3) (not-piece? R4) (not-piece? R5) (not-piece? R6) (not-piece? R7) (not-piece? R8) (not-piece? R9)))
+      )
       (end R8 false true true false false false)
    else
       (step) $1 
@@ -383,41 +439,77 @@
 
 (define bend-1
   (if (or enemy? (not-on-board? $1))
+      (if friend?
+          (verify (and (not-piece? B1) (not-piece? B2) (not-piece? B3) (not-piece? B4) (not-piece? B5) (not-piece? B6) (not-piece? B7) (not-piece? B8) (not-piece? B9)))
+          (verify (and (not-piece? R1) (not-piece? R2) (not-piece? R3) (not-piece? R4) (not-piece? R5) (not-piece? R6) (not-piece? R7) (not-piece? R8) (not-piece? R9)))
+      )
       (end B1 true false false false false true)
    else
-      (bstop)
+      (if (and (piece? P5) friend?)
+          (add B6)
+       else
+          (bstop)
+      )
   )
 )
 
 (define bend-2
   (if (or enemy? (not-on-board? $1))
+      (if friend?
+          (verify (and (not-piece? B1) (not-piece? B2) (not-piece? B3) (not-piece? B4) (not-piece? B5) (not-piece? B6) (not-piece? B7) (not-piece? B8) (not-piece? B9)))
+          (verify (and (not-piece? R1) (not-piece? R2) (not-piece? R3) (not-piece? R4) (not-piece? R5) (not-piece? R6) (not-piece? R7) (not-piece? R8) (not-piece? R9)))
+      )
       (end B2 true false false false true false)
    else
-      (step) $1 
-      (bend-1)
+      (if (and (piece? P5) friend?)
+          (add B7)
+       else
+          (step) $1 
+          (bend-1)
+      )
   )
 )
 
 (define bend-3
   (if (or enemy? (not-on-board? $1))
+      (if friend?
+          (verify (and (not-piece? B1) (not-piece? B2) (not-piece? B3) (not-piece? B4) (not-piece? B5) (not-piece? B6) (not-piece? B7) (not-piece? B8) (not-piece? B9)))
+          (verify (and (not-piece? R1) (not-piece? R2) (not-piece? R3) (not-piece? R4) (not-piece? R5) (not-piece? R6) (not-piece? R7) (not-piece? R8) (not-piece? R9)))
+      )
       (end B3 true false false false true true)
    else
-      (step) $1 
-      (bend-2)
+      (if (and (piece? P5) friend?)
+          (add B8)
+       else
+          (step) $1 
+          (bend-2)
+      )
   )
 )
 
 (define bend-4
   (if (or enemy? (not-on-board? $1))
+      (if friend?
+          (verify (and (not-piece? B1) (not-piece? B2) (not-piece? B3) (not-piece? B4) (not-piece? B5) (not-piece? B6) (not-piece? B7) (not-piece? B8) (not-piece? B9)))
+          (verify (and (not-piece? R1) (not-piece? R2) (not-piece? R3) (not-piece? R4) (not-piece? R5) (not-piece? R6) (not-piece? R7) (not-piece? R8) (not-piece? R9)))
+      )
       (end B4 true false false true false false)
    else
-      (step) $1 
-      (bend-3)
+      (if (and (piece? P5) friend?)
+          (add B9)
+       else
+          (step) $1 
+          (bend-3)
+      )
   )
 )
 
 (define bend-5
   (if (or enemy? (not-on-board? $1))
+      (if friend?
+          (verify (and (not-piece? B1) (not-piece? B2) (not-piece? B3) (not-piece? B4) (not-piece? B5) (not-piece? B6) (not-piece? B7) (not-piece? B8) (not-piece? B9)))
+          (verify (and (not-piece? R1) (not-piece? R2) (not-piece? R3) (not-piece? R4) (not-piece? R5) (not-piece? R6) (not-piece? R7) (not-piece? R8) (not-piece? R9)))
+      )
       (end B5 true false false true false true)
    else
       (step) $1 
@@ -427,6 +519,10 @@
 
 (define bend-6
   (if (or enemy? (not-on-board? $1))
+      (if friend?
+          (verify (and (not-piece? B1) (not-piece? B2) (not-piece? B3) (not-piece? B4) (not-piece? B5) (not-piece? B6) (not-piece? B7) (not-piece? B8) (not-piece? B9)))
+          (verify (and (not-piece? R1) (not-piece? R2) (not-piece? R3) (not-piece? R4) (not-piece? R5) (not-piece? R6) (not-piece? R7) (not-piece? R8) (not-piece? R9)))
+      )
       (end B6 true false false true true false)
    else
       (step) $1 
@@ -436,6 +532,10 @@
 
 (define bend-7
   (if (or enemy? (not-on-board? $1))
+      (if friend?
+          (verify (and (not-piece? B1) (not-piece? B2) (not-piece? B3) (not-piece? B4) (not-piece? B5) (not-piece? B6) (not-piece? B7) (not-piece? B8) (not-piece? B9)))
+          (verify (and (not-piece? R1) (not-piece? R2) (not-piece? R3) (not-piece? R4) (not-piece? R5) (not-piece? R6) (not-piece? R7) (not-piece? R8) (not-piece? R9)))
+      )
       (end B7 true false false true true true)
    else
       (step) $1 
@@ -445,6 +545,10 @@
 
 (define bend-8
   (if (or enemy? (not-on-board? $1))
+      (if friend?
+          (verify (and (not-piece? B1) (not-piece? B2) (not-piece? B3) (not-piece? B4) (not-piece? B5) (not-piece? B6) (not-piece? B7) (not-piece? B8) (not-piece? B9)))
+          (verify (and (not-piece? R1) (not-piece? R2) (not-piece? R3) (not-piece? R4) (not-piece? R5) (not-piece? R6) (not-piece? R7) (not-piece? R8) (not-piece? R9)))
+      )
       (end B8 true false true false false false)
    else
       (step) $1 
@@ -496,13 +600,10 @@
    (title "Mancala's Knights")
 
    (option "animate captures"   false)
-   (option "animate drops"      false)
    (option "pass turn"          false)
-   (option "pass partial"       true)
 
    (move-sound "Audio/Pickup.wav")
    (release-sound "Audio/Pickup.wav")
-   (drop-sound "Audio/Pickup.wav")
    (capture-sound "")
    (change-sound  "")
    (click-sound   "")
@@ -779,6 +880,18 @@
            (pieces-remaining 0 B4) (pieces-remaining 0 B5) 
            (pieces-remaining 0 B6) (pieces-remaining 0 B7) 
            (pieces-remaining 0 B8) (pieces-remaining 0 B9)
+      )
+   )
+)
+
+(variant
+   (title "Mancala's Knights (variant)")
+   (board-setup
+      (White
+         (R5 d1 e1) (B5 c1 f1) (P4 b1 b2 c2 d2 e2 f2 g2 g1)
+      )
+      (Black
+         (R5 d8 e8) (B5 c8 f8) (P4 b8 b7 c7 d7 e7 f7 g7 g8)
       )
    )
 )

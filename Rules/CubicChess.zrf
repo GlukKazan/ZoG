@@ -1,0 +1,110 @@
+(define step (
+  $1 (verify not-friend?)
+  add
+))
+
+(define leap (
+  $1 $2 (verify not-friend?)
+  add
+))
+
+(define slide (
+  $1
+  (while empty? add $1) 
+  (verify not-friend?) 
+  add
+))
+
+(game
+   (title "Cubic Chess")
+
+   (option "animate captures"   false)
+   (option "pass turn"          false)
+
+   (move-sound "Audio/Pickup.wav")
+   (release-sound "Audio/Pickup.wav")
+   (drop-sound "Audio/Pickup.wav")
+   (capture-sound "")
+   (change-sound  "")
+   (click-sound   "")
+   (draw-sound    "")
+
+   (players White Black)
+   (turn-order White Black)
+
+   (board
+      (image "../images/CubicChess/board.bmp")
+      (grid
+        (start-rectangle 2 2 70 70)
+        (dimensions
+          ("a/b/c/d/e/f/g" (68 0)) ; files
+          ("7/6/5/4/3/2/1" (0 68)) ; ranks
+        )
+        (directions (n 0 -1) (s 0 1) (e 1 0) (w -1 0)
+                    (ne 1 -1) (nw -1 -1) (se 1 1) (sw -1 1)
+        ) 
+      )
+      (symmetry Black (n s) (s n) (nw sw) (sw nw) (ne se) (se ne))
+   )
+
+   (piece
+      (name King)
+      (description "King")
+      (image White "../images/CubicChess/WK.bmp"
+             Black "../images/CubicChess/BK.bmp")
+      (moves
+        (step n) (step s) (step nw) (step sw)
+        (step e) (step w) (step ne) (step se)
+      )
+   )
+   (piece
+      (name Pawn)
+      (description "Pawn")
+      (image White "../images/CubicChess/WP.bmp"
+             Black "../images/CubicChess/BP.bmp")
+      (moves
+        (step n) (step nw) (step ne)
+      )
+   )
+   (piece
+      (name Bishop)
+      (description "Bishop")
+      (image White "../images/CubicChess/WB.bmp"
+             Black "../images/CubicChess/BB.bmp")
+      (moves
+        (slide nw) (slide ne) (slide sw) (slide se)
+      )
+   )
+   (piece
+      (name Knight)
+      (description "Knight")
+      (image White "../images/CubicChess/WN.bmp"
+             Black "../images/CubicChess/BN.bmp")
+      (moves
+        (leap n nw) (leap n ne) (leap s sw) (leap s se)
+        (leap w nw) (leap w sw) (leap e ne) (leap e se)
+      )
+   )
+   (piece
+      (name Rook)
+      (description "Rook")
+      (image White "../images/CubicChess/WR.bmp"
+             Black "../images/CubicChess/BR.bmp")
+      (moves
+        (slide n) (slide s) (slide w) (slide e)
+      )
+   )
+
+   (board-setup
+      (White  
+        (King d1)
+        (Pawn b1 f1 a2 b2 c2 d2 e2 f2 g2)
+      )
+      (Black  
+        (King d7)
+        (Pawn b7 f7 a6 b6 c6 d6 e6 f6 g6)
+      )
+   )
+
+   (loss-condition (White Black) (checkmated King) )
+)

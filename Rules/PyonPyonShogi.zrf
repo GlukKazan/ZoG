@@ -49,6 +49,33 @@
   (win-condition (North) (absolute-config Pawn (a1 a2 a3 b1 b2 b3 c1 c2 c3)))
 )
 
+(define check-home
+  mark a9
+  (while (on-board? home)
+      home
+      (verify not-friend?)
+  )
+  back
+)
+
+(define ext-step (
+  $1 (verify empty?) 
+  (if (in-zone? goal)
+      (check-home)
+  )
+  add
+))
+
+(define ext-jump (
+  $1 (verify not-empty?)
+  (while not-empty? $1)
+  (verify empty?) 
+  (if (in-zone? goal)
+      (check-home)
+  )
+  (add-partial continue-type)
+))
+
 (game
   (title "Pyon Pyon Shogi (extended)")
 
@@ -62,7 +89,7 @@
   (release-sound "Audio/Pickup.wav")
   (capture-sound "")
 
-  (move-priorities normal-type low-type)
+; (move-priorities normal-type low-type)
 
   (board
         (image "../images/YoninShogi/Pyon.bmp")
@@ -73,7 +100,15 @@
                )
                (directions (n 0 -1) (e 1 0) (s 0 1) (w -1 0))
         )
-        (symmetry North (n s) (s n) (e w) (w e))
+        (links home (a9 a1) (a1 a2) (a2 a3) (a3 b1) (b1 b2) (b2 b3) (b3 c1) (c1 c2) (c2 c3))
+        (links north-home (a9 g7) (g7 g8) (g8 g9) (g9 h7) (h7 h8) (h8 h9) (h9 i7) (i7 i8) (i8 i9))
+        (symmetry North (n s) (s n) (e w) (w e) (home north-home))
+        (zone (name goal) (players South)
+              (positions g7 g8 g9 h7 h8 h9 i7 i8 i9)
+        )
+        (zone (name goal) (players North)
+              (positions a1 a2 a3 b1 b2 b3 c1 c2 c3)
+        )
   )
 
   (piece
@@ -83,12 +118,12 @@
         )
         (moves 
            (move-type normal-type)
-           (step n) (step e)
-           (jump n) (jump e)
+           (ext-step n) (ext-step e)
+           (ext-jump n) (ext-jump e)
            (move-type continue-type)
-           (jump n) (jump e)
-           (move-type low-type)
-           (step s) (step w)
+           (ext-jump n) (ext-jump e)
+;          (move-type low-type)
+;          (ext-step s) (ext-step w)
         )
   )
 
