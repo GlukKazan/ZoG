@@ -1,3 +1,78 @@
+(define init
+  (set-flag $1-01 (or (piece? Bishop) (piece? Knight)))
+  (set-flag $1-02 (piece? Rook))
+  (set-flag $1-04 false)
+  (set-flag $1-08 false)
+)
+
+(define not-0?
+  (or (flag? $1-08)
+      (flag? $1-04)
+      (flag? $1-02)
+      (flag? $1-01)
+  )
+)
+
+(define inc
+   (if (flag? $1-01)
+       (set-flag $1-01 false)
+       (if (flag? $1-02)
+           (set-flag $1-02 false)
+           (if (flag? $1-04)
+               (set-flag $1-04 false)
+               (if (flag? $1-08)
+                   (set-flag $1-08 false)
+                else
+                   (set-flag $1-08 true)
+               )
+            else
+               (set-flag $1-04 true)
+           )
+        else
+           (set-flag $1-02 true)
+       )
+    else
+       (set-flag $1-01 true)
+   )
+)
+
+(define dec
+   (if (not-flag? $1-01)
+       (set-flag $1-01 true)
+       (if (not-flag? $1-02)
+           (set-flag $1-02 true)
+           (if (not-flag? $1-04)
+               (set-flag $1-04 true)
+               (if (not-flag? $1-08)
+                   (set-flag $1-08 true)
+                else
+                   (set-flag $1-08 false)
+               )
+            else
+               (set-flag $1-04 false)
+           )
+        else
+           (set-flag $1-02 false)
+       )
+    else
+       (set-flag $1-01 false)
+   )
+)
+
+(define sum
+   (while (not-0? $2)
+       (inc $1)
+       (dec $2)
+   )
+)
+
+(define sub
+   (while (not-0? $2)
+       (dec $1)
+       (dec $2)
+   )
+)
+
 (define push (
   $1 (verify friend?)
   (verify (piece? Bomb))
@@ -29,7 +104,35 @@
   (bomb-cap) add
 ))
 
-(define promote (
+(define common-promote
+  (init b)
+  mark a1 (init a)
+  (while (on-board? next)
+      next
+      (if friend?
+          (init c) (sum a c)
+      )
+  )
+  (if (flag? a-02)
+      (sub a b)
+  )
+  back
+)
+
+(define promote-0 (
+  (add $1)
+))
+
+(define promote-1 (
+  (common-promote)
+  (verify (not-flag? a-08))
+  (add $1)
+))
+
+(define promote-2 (
+  (common-promote)
+  (inc a)
+  (verify (not-flag? a-08))
   (add $1)
 ))
 
@@ -83,8 +186,10 @@
         )
         (directions (n 0 -1) (s 0 1) (e 1 0) (w -1 0)
                     (ne 1 -1) (nw -1 -1) (se 1 1) (sw -1 1)
+                    (next 0 -1)
         ) 
       )
+      (links next (a7 b1) (b7 c1) (c7 d1) (d7 e1) (e7 f1) (f7 g1))
       (symmetry Black (n s) (s n) (nw sw) (sw nw) (ne se) (se ne))
    )
 
@@ -108,7 +213,7 @@
       (moves
         (step n) (step nw) (step ne)
         (push n) (push nw) (push ne)
-        (promote Bishop) (promote Knight) (promote Rook)
+        (promote-1 Bishop) (promote-1 Knight) (promote-2 Rook)
       )
    )
    (piece
@@ -119,7 +224,7 @@
       (moves
         (slide nw) (slide ne) (slide sw) (slide se)
         (spush nw) (spush ne) (spush sw) (spush se)
-        (promote Pawn) (promote Knight) (promote Rook)
+        (promote-0 Pawn) (promote-1 Knight) (promote-2 Rook)
       )
    )
    (piece
@@ -130,7 +235,7 @@
       (moves
         (leap n nw) (leap n ne) (leap s sw) (leap s se)
         (leap w nw) (leap w sw) (leap e ne) (leap e se)
-        (promote Bishop) (promote Pawn) (promote Rook)
+        (promote-1 Bishop) (promote-0 Pawn) (promote-2 Rook)
       )
    )
    (piece
@@ -141,7 +246,7 @@
       (moves
         (slide n) (slide s) (slide w) (slide e)
         (spush n) (spush s) (spush w) (spush e)
-        (promote Bishop) (promote Knight) (promote Pawn)
+        (promote-1 Bishop) (promote-1 Knight) (promote-0 Pawn)
       )
    )
    (piece
@@ -177,7 +282,6 @@
 
 (variant
    (title "Cubic Chess (Advanced)")
-   (default)
    (piece
       (name Pawn)
       (description "Pawn")
@@ -186,7 +290,7 @@
       (moves
         (step n) (step nw) (step ne)
         (push n) (push nw) (push ne)
-        (promote Bishop) (promote Knight) (promote Rook) (promote Wall) (promote Bomb)
+        (promote-1 Bishop) (promote-1 Knight) (promote-2 Rook) (promote-0 Wall) (promote-0 Bomb)
       )
    )
    (piece
@@ -197,7 +301,7 @@
       (moves
         (slide nw) (slide ne) (slide sw) (slide se)
         (spush nw) (spush ne) (spush sw) (spush se)
-        (promote Pawn) (promote Knight) (promote Rook) (promote Wall) (promote Bomb)
+        (promote-0 Pawn) (promote-1 Knight) (promote-2 Rook) (promote-0 Wall) (promote-0 Bomb)
       )
    )
    (piece
@@ -208,7 +312,7 @@
       (moves
         (leap n nw) (leap n ne) (leap s sw) (leap s se)
         (leap w nw) (leap w sw) (leap e ne) (leap e se)
-        (promote Bishop) (promote Pawn) (promote Rook) (promote Wall) (promote Bomb)
+        (promote-1 Bishop) (promote-0 Pawn) (promote-2 Rook) (promote-0 Wall) (promote-0 Bomb)
       )
    )
    (piece
@@ -219,7 +323,7 @@
       (moves
         (slide n) (slide s) (slide w) (slide e)
         (spush n) (spush s) (spush w) (spush e)
-        (promote Bishop) (promote Knight) (promote Pawn) (promote Wall) (promote Bomb)
+        (promote-1 Bishop) (promote-1 Knight) (promote-0 Pawn) (promote-0 Wall) (promote-0 Bomb)
       )
    )
 )
