@@ -67,7 +67,7 @@
 )
 
 (define sub
-   (while (not-0? $2)
+   (while (and (not-0? $1) (not-0? $2))
        (dec $1)
        (dec $2)
    )
@@ -113,9 +113,7 @@
           (init c) (sum a c)
       )
   )
-  (if (flag? a-02)
-      (sub a b)
-  )
+  (sub a b)
   back
 )
 
