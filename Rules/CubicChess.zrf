@@ -166,10 +166,11 @@
    (option "animate captures"   false)
    (option "pass turn"          false)
 
-   (move-sound "Audio/Pickup.wav")
+   (move-sound    "Audio/Pickup.wav")
    (release-sound "Audio/Pickup.wav")
-   (change-sound "Audio/Pickup.wav")
+   (change-sound  "Audio/Pickup.wav")
    (capture-sound "Audio/Pickup.wav")
+   (drop-sound    "")
    (click-sound   "")
    (draw-sound    "")
 
@@ -199,6 +200,7 @@
       (image White "../images/CubicChess/WK.bmp" "../images/CubicChess/WK2.bmp"
              Black "../images/CubicChess/BK.bmp" "../images/CubicChess/BK2.bmp")
       (moves
+        (move-type normal-type)
         (step n) (step s) (step nw) (step sw)
         (step e) (step w) (step ne) (step se)      
         (push n) (push s) (push nw) (push sw)
@@ -393,10 +395,6 @@
         (push n) (push nw) (push ne)
         (promote)
       )
-      (drops
-        (move-type random-type)
-        (drop-piece Pawn)
-      )
    )
    (piece
       (name Bishop)
@@ -408,7 +406,6 @@
         (move-type normal-type)
         (slide nw) (slide ne) (slide sw) (slide se)
         (spush nw) (spush ne) (spush sw) (spush se)
-        (promote)
       )
       (drops
         (move-type random-type)
@@ -425,7 +422,6 @@
         (move-type normal-type)
         (leap n nw) (leap n ne) (leap s sw) (leap s se)
         (leap w nw) (leap w sw) (leap e ne) (leap e se)
-        (promote)
       )
       (drops
         (move-type random-type)
@@ -442,7 +438,6 @@
         (move-type normal-type)
         (slide n) (slide s) (slide w) (slide e)
         (spush n) (spush s) (spush w) (spush e)
-        (promote)
       )
       (drops
         (move-type random-type)
@@ -467,6 +462,7 @@
              Black "../images/CubicChess/BM.bmp" "../images/CubicChess/BM2.bmp"
              ?R "../images/CubicChess/i.bmp")
       (moves
+        (move-type normal-type)
         (boom)
       )
       (drops
@@ -479,6 +475,11 @@
       (description " ")
       (image White "../images/CubicChess/WW.bmp" "../images/CubicChess/WW2.bmp"
              Black "../images/CubicChess/BW.bmp" "../images/CubicChess/BW2.bmp")
+      (moves
+        (move-type normal-type)
+        (slide  n) (slide  s) (slide  w) (slide  e)
+        (slide nw) (slide ne) (slide sw) (slide se)
+      )
    )
 
    (board-setup
@@ -491,7 +492,6 @@
         (Pawn b7 f7 a6 b6 c6 d6 e6 f6 g6)
       )
       (?R
-        (Pawn   off 200)
         (Bishop off 200)
         (Knight off 200)
         (Rook   off 200)
@@ -499,4 +499,5 @@
         (Wall   off 200)
       )
    )
+   (loss-condition (White Black) (pieces-remaining 0 King) )
 )
