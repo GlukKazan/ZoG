@@ -67,7 +67,7 @@
 )
 
 (define sub
-   (while (and (not-0? $1) (not-0? $2))
+   (while (not-0? $2)
        (dec $1)
        (dec $2)
    )
@@ -113,7 +113,9 @@
           (init c) (sum a c)
       )
   )
-  (sub a b)
+  (if (flag? a-02)
+      (sub a b)
+  )
   back
 )
 
@@ -175,7 +177,7 @@
    (turn-order White Black)
 
    (board
-      (image "../images/CubicChess/board.bmp")
+      (image "../images/CubicChess/b1.bmp" "../images/CubicChess/b2.bmp")
       (grid
         (start-rectangle 2 2 70 70)
         (dimensions
@@ -194,8 +196,8 @@
    (piece
       (name King)
       (description "King")
-      (image White "../images/CubicChess/WK.bmp"
-             Black "../images/CubicChess/BK.bmp")
+      (image White "../images/CubicChess/WK.bmp" "../images/CubicChess/WK2.bmp"
+             Black "../images/CubicChess/BK.bmp" "../images/CubicChess/BK2.bmp")
       (moves
         (step n) (step s) (step nw) (step sw)
         (step e) (step w) (step ne) (step se)      
@@ -206,8 +208,8 @@
    (piece
       (name Pawn)
       (description "Pawn")
-      (image White "../images/CubicChess/WP.bmp"
-             Black "../images/CubicChess/BP.bmp")
+      (image White "../images/CubicChess/WP.bmp" "../images/CubicChess/WP2.bmp"
+             Black "../images/CubicChess/BP.bmp" "../images/CubicChess/BP2.bmp")
       (moves
         (step n) (step nw) (step ne)
         (push n) (push nw) (push ne)
@@ -217,8 +219,8 @@
    (piece
       (name Bishop)
       (description "Bishop")
-      (image White "../images/CubicChess/WB.bmp"
-             Black "../images/CubicChess/BB.bmp")
+      (image White "../images/CubicChess/WB.bmp" "../images/CubicChess/WB2.bmp"
+             Black "../images/CubicChess/BB.bmp" "../images/CubicChess/BB2.bmp")
       (moves
         (slide nw) (slide ne) (slide sw) (slide se)
         (spush nw) (spush ne) (spush sw) (spush se)
@@ -228,8 +230,8 @@
    (piece
       (name Knight)
       (description "Knight")
-      (image White "../images/CubicChess/WN.bmp"
-             Black "../images/CubicChess/BN.bmp")
+      (image White "../images/CubicChess/WN.bmp" "../images/CubicChess/WN2.bmp"
+             Black "../images/CubicChess/BN.bmp" "../images/CubicChess/BN2.bmp")
       (moves
         (leap n nw) (leap n ne) (leap s sw) (leap s se)
         (leap w nw) (leap w sw) (leap e ne) (leap e se)
@@ -239,8 +241,8 @@
    (piece
       (name Rook)
       (description "Rook")
-      (image White "../images/CubicChess/WR.bmp"
-             Black "../images/CubicChess/BR.bmp")
+      (image White "../images/CubicChess/WR.bmp" "../images/CubicChess/WR2.bmp"
+             Black "../images/CubicChess/BR.bmp" "../images/CubicChess/BR2.bmp")
       (moves
         (slide n) (slide s) (slide w) (slide e)
         (spush n) (spush s) (spush w) (spush e)
@@ -250,14 +252,14 @@
    (piece
       (name Wall)
       (description " ")
-      (image White "../images/CubicChess/WW.bmp"
-             Black "../images/CubicChess/BW.bmp")
+      (image White "../images/CubicChess/WW.bmp" "../images/CubicChess/WW2.bmp"
+             Black "../images/CubicChess/BW.bmp" "../images/CubicChess/BW2.bmp")
    )
    (piece
       (name Bomb)
       (description "Bomb")
-      (image White "../images/CubicChess/WM.bmp"
-             Black "../images/CubicChess/BM.bmp")
+      (image White "../images/CubicChess/WM.bmp" "../images/CubicChess/WM2.bmp"
+             Black "../images/CubicChess/BM.bmp" "../images/CubicChess/BM2.bmp")
       (moves
         (boom)
       )
@@ -279,12 +281,16 @@
 )
 
 (variant
+   (title "-")
+)
+
+(variant
    (title "Cubic Chess (Advanced)")
    (piece
       (name Pawn)
       (description "Pawn")
-      (image White "../images/CubicChess/WP.bmp"
-             Black "../images/CubicChess/BP.bmp")
+      (image White "../images/CubicChess/WP.bmp" "../images/CubicChess/WP2.bmp"
+             Black "../images/CubicChess/BP.bmp" "../images/CubicChess/BP2.bmp")
       (moves
         (step n) (step nw) (step ne)
         (push n) (push nw) (push ne)
@@ -294,8 +300,8 @@
    (piece
       (name Bishop)
       (description "Bishop")
-      (image White "../images/CubicChess/WB.bmp"
-             Black "../images/CubicChess/BB.bmp")
+      (image White "../images/CubicChess/WB.bmp" "../images/CubicChess/WB2.bmp"
+             Black "../images/CubicChess/BB.bmp" "../images/CubicChess/BB2.bmp")
       (moves
         (slide nw) (slide ne) (slide sw) (slide se)
         (spush nw) (spush ne) (spush sw) (spush se)
@@ -305,8 +311,8 @@
    (piece
       (name Knight)
       (description "Knight")
-      (image White "../images/CubicChess/WN.bmp"
-             Black "../images/CubicChess/BN.bmp")
+      (image White "../images/CubicChess/WN.bmp" "../images/CubicChess/WN2.bmp"
+             Black "../images/CubicChess/BN.bmp" "../images/CubicChess/BN2.bmp")
       (moves
         (leap n nw) (leap n ne) (leap s sw) (leap s se)
         (leap w nw) (leap w sw) (leap e ne) (leap e se)
@@ -316,12 +322,181 @@
    (piece
       (name Rook)
       (description "Rook")
-      (image White "../images/CubicChess/WR.bmp"
-             Black "../images/CubicChess/BR.bmp")
+      (image White "../images/CubicChess/WR.bmp" "../images/CubicChess/WR2.bmp"
+             Black "../images/CubicChess/BR.bmp" "../images/CubicChess/BR2.bmp")
       (moves
         (slide n) (slide s) (slide w) (slide e)
         (spush n) (spush s) (spush w) (spush e)
         (promote-1 Bishop) (promote-1 Knight) (promote-0 Pawn) (promote-0 Wall) (promote-0 Bomb)
+      )
+   )
+)
+
+(define promote (
+  (add Blank)
+))
+
+(define drop-piece (
+  (verify (in-zone? r-zone))
+  mark
+  (while (on-board? next)
+      next
+      (if (piece? Blank)
+          (change-type $1)
+      )
+  )
+  back
+  add
+))
+
+(variant
+   (title "Cubic Chess (Randomized)")
+
+   (option "recycle captures"   false)
+
+   (players White Black ?R)
+   (turn-order 
+      (White normal-type) 
+      (?R random-type) 
+      (Black normal-type)
+      (?R random-type) 
+   )
+
+   (board
+      (image "../images/CubicChess/b1.bmp" "../images/CubicChess/b2.bmp")
+      (grid
+        (start-rectangle 2 2 70 70)
+        (dimensions
+          ("a/b/c/d/e/f/g" (68 0)) ; files
+          ("7/6/5/4/3/2/1" (0 68)) ; ranks
+        )
+        (directions (n 0 -1) (s 0 1) (e 1 0) (w -1 0)
+                    (ne 1 -1) (nw -1 -1) (se 1 1) (sw -1 1)
+                    (next 0 -1)
+        ) 
+      )
+      (positions (r -10 -10 -5 -5))
+      (zone (name r-zone) (players White Black ?R) (positions r))
+      (links next (r a1) (a7 b1) (b7 c1) (c7 d1) (d7 e1) (e7 f1) (f7 g1))
+      (symmetry Black (n s) (s n) (nw sw) (sw nw) (ne se) (se ne))
+   )
+
+   (piece
+      (name Pawn)
+      (description "Pawn")
+      (image White "../images/CubicChess/WP.bmp" "../images/CubicChess/WP2.bmp"
+             Black "../images/CubicChess/BP.bmp" "../images/CubicChess/BP2.bmp"
+             ?R "../images/CubicChess/i.bmp")
+      (moves
+        (move-type normal-type)
+        (step n) (step nw) (step ne)
+        (push n) (push nw) (push ne)
+        (promote)
+      )
+      (drops
+        (move-type random-type)
+        (drop-piece Pawn)
+      )
+   )
+   (piece
+      (name Bishop)
+      (description "Bishop")
+      (image White "../images/CubicChess/WB.bmp" "../images/CubicChess/WB2.bmp"
+             Black "../images/CubicChess/BB.bmp" "../images/CubicChess/BB2.bmp"
+             ?R "../images/CubicChess/i.bmp")
+      (moves
+        (move-type normal-type)
+        (slide nw) (slide ne) (slide sw) (slide se)
+        (spush nw) (spush ne) (spush sw) (spush se)
+        (promote)
+      )
+      (drops
+        (move-type random-type)
+        (drop-piece Bishop)
+      )
+   )
+   (piece
+      (name Knight)
+      (description "Knight")
+      (image White "../images/CubicChess/WN.bmp" "../images/CubicChess/WN2.bmp"
+             Black "../images/CubicChess/BN.bmp" "../images/CubicChess/BN2.bmp"
+             ?R "../images/CubicChess/i.bmp")
+      (moves
+        (move-type normal-type)
+        (leap n nw) (leap n ne) (leap s sw) (leap s se)
+        (leap w nw) (leap w sw) (leap e ne) (leap e se)
+        (promote)
+      )
+      (drops
+        (move-type random-type)
+        (drop-piece Knight)
+      )
+   )
+   (piece
+      (name Rook)
+      (description "Rook")
+      (image White "../images/CubicChess/WR.bmp" "../images/CubicChess/WR2.bmp"
+             Black "../images/CubicChess/BR.bmp" "../images/CubicChess/BR2.bmp"
+             ?R "../images/CubicChess/i.bmp")
+      (moves
+        (move-type normal-type)
+        (slide n) (slide s) (slide w) (slide e)
+        (spush n) (spush s) (spush w) (spush e)
+        (promote)
+      )
+      (drops
+        (move-type random-type)
+        (drop-piece Rook)
+      )
+   )
+   (piece
+      (name Wall)
+      (description " ")
+      (image White "../images/CubicChess/WW.bmp" "../images/CubicChess/WW2.bmp"
+             Black "../images/CubicChess/BW.bmp" "../images/CubicChess/BW2.bmp"
+             ?R "../images/CubicChess/i.bmp")
+      (drops
+        (move-type random-type)
+        (drop-piece Wall)
+      )
+   )
+   (piece
+      (name Bomb)
+      (description "Bomb")
+      (image White "../images/CubicChess/WM.bmp" "../images/CubicChess/WM2.bmp"
+             Black "../images/CubicChess/BM.bmp" "../images/CubicChess/BM2.bmp"
+             ?R "../images/CubicChess/i.bmp")
+      (moves
+        (boom)
+      )
+      (drops
+        (move-type random-type)
+        (drop-piece Bomb)
+      )
+   )
+   (piece
+      (name Blank)
+      (description " ")
+      (image White "../images/CubicChess/WW.bmp" "../images/CubicChess/WW2.bmp"
+             Black "../images/CubicChess/BW.bmp" "../images/CubicChess/BW2.bmp")
+   )
+
+   (board-setup
+      (White  
+        (King d1)
+        (Pawn b1 f1 a2 b2 c2 d2 e2 f2 g2)
+      )
+      (Black  
+        (King d7)
+        (Pawn b7 f7 a6 b6 c6 d6 e6 f6 g6)
+      )
+      (?R
+        (Pawn   off 200)
+        (Bishop off 200)
+        (Knight off 200)
+        (Rook   off 200)
+        (Bomb   off 200)
+        (Wall   off 200)
       )
    )
 )
