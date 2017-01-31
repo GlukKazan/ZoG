@@ -162,6 +162,17 @@
 
 (game
    (title "Cubic Chess")
+   (description "Object: Checkmate the opponent's King by attacking it so it cannot escape.\\
+                 Kings excepted, all pieces have values:\\
+                 Pawn   - 0 \
+                 Knight - 1 \
+                 Bishop - 1 \
+                 Rook   - 2 \\
+                 The total value of a player's pieces must not exceed eight.")
+   (history "The first version of Cubic Chess (then known as Gemini) was published in\
+             the Czechoslovakian magazine KVIZ in 1977. This game has recieved publicity\
+             in the media and a patent has been taken out for it. A prototype set is \
+             available from the inventor: Dr V.Pribylinec.")
 
    (option "animate captures"   false)
    (option "pass turn"          false)
@@ -196,7 +207,9 @@
 
    (piece
       (name King)
-      (description "King")
+      (help "King: steps 1 square in any direction to a safe square")
+      (description "A King can move to any adjacent square, but never to a \
+	      square where it can be captured.")
       (image White "../images/CubicChess/WK.bmp" "../images/CubicChess/WK2.bmp"
              Black "../images/CubicChess/BK.bmp" "../images/CubicChess/BK2.bmp")
       (moves
@@ -209,7 +222,9 @@
    )
    (piece
       (name Pawn)
-      (description "Pawn")
+      (help "Pawn: moves forward or diagonally")
+      (description "A Pawn can move to one square forward or diagonally. \
+                    It can promote to Knight, Bishop or Rook.")
       (image White "../images/CubicChess/WP.bmp" "../images/CubicChess/WP2.bmp"
              Black "../images/CubicChess/BP.bmp" "../images/CubicChess/BP2.bmp")
       (moves
@@ -220,7 +235,10 @@
    )
    (piece
       (name Bishop)
-      (description "Bishop")
+      (help "Bishop: slides diagonally any number of squares")
+      (description "A Bishop moves any number of squares on a diagonal. \
+                    It may not leap over other pieces. A Bishop can promote \
+                    to Pawn, Knight or Rook.")
       (image White "../images/CubicChess/WB.bmp" "../images/CubicChess/WB2.bmp"
              Black "../images/CubicChess/BB.bmp" "../images/CubicChess/BB2.bmp")
       (moves
@@ -231,7 +249,11 @@
    )
    (piece
       (name Knight)
-      (description "Knight")
+      (help "Knight: moves like an `L`, 2 squares one way and one the other")
+      (description "A Knight moves like an `L`, two squares vertically plus one \
+          horizontally, or two squares horizontally plus one vertically.  \
+          It hops over any pieces on the way. A Knight can promote to \
+          Pawn, Bishop or Rook.")
       (image White "../images/CubicChess/WN.bmp" "../images/CubicChess/WN2.bmp"
              Black "../images/CubicChess/BN.bmp" "../images/CubicChess/BN2.bmp")
       (moves
@@ -242,7 +264,10 @@
    )
    (piece
       (name Rook)
-      (description "Rook")
+      (help "Rook: slides any number of squares along the row or column.")
+      (description "A Rook moves any number of squares orthogonally \
+                    on a rank or a file.  It may not leap over other pieces.\
+                    A Rook can promote to Pawn, Knight or Bishop.")
       (image White "../images/CubicChess/WR.bmp" "../images/CubicChess/WR2.bmp"
              Black "../images/CubicChess/BR.bmp" "../images/CubicChess/BR2.bmp")
       (moves
@@ -332,172 +357,4 @@
         (promote-1 Bishop) (promote-1 Knight) (promote-0 Pawn) (promote-0 Wall) (promote-0 Bomb)
       )
    )
-)
-
-(define promote (
-  (add Blank)
-))
-
-(define drop-piece (
-  (verify (in-zone? r-zone))
-  mark
-  (while (on-board? next)
-      next
-      (if (piece? Blank)
-          (change-type $1)
-      )
-  )
-  back
-  add
-))
-
-(variant
-   (title "Cubic Chess (Randomized)")
-
-   (option "recycle captures"   false)
-
-   (players White Black ?R)
-   (turn-order 
-      (White normal-type) 
-      (?R random-type) 
-      (Black normal-type)
-      (?R random-type) 
-   )
-
-   (board
-      (image "../images/CubicChess/b1.bmp" "../images/CubicChess/b2.bmp")
-      (grid
-        (start-rectangle 2 2 70 70)
-        (dimensions
-          ("a/b/c/d/e/f/g" (68 0)) ; files
-          ("7/6/5/4/3/2/1" (0 68)) ; ranks
-        )
-        (directions (n 0 -1) (s 0 1) (e 1 0) (w -1 0)
-                    (ne 1 -1) (nw -1 -1) (se 1 1) (sw -1 1)
-                    (next 0 -1)
-        ) 
-      )
-      (positions (r -10 -10 -5 -5))
-      (zone (name r-zone) (players White Black ?R) (positions r))
-      (links next (r a1) (a7 b1) (b7 c1) (c7 d1) (d7 e1) (e7 f1) (f7 g1))
-      (symmetry Black (n s) (s n) (nw sw) (sw nw) (ne se) (se ne))
-   )
-
-   (piece
-      (name Pawn)
-      (description "Pawn")
-      (image White "../images/CubicChess/WP.bmp" "../images/CubicChess/WP2.bmp"
-             Black "../images/CubicChess/BP.bmp" "../images/CubicChess/BP2.bmp"
-             ?R "../images/CubicChess/i.bmp")
-      (moves
-        (move-type normal-type)
-        (step n) (step nw) (step ne)
-        (push n) (push nw) (push ne)
-        (promote)
-      )
-   )
-   (piece
-      (name Bishop)
-      (description "Bishop")
-      (image White "../images/CubicChess/WB.bmp" "../images/CubicChess/WB2.bmp"
-             Black "../images/CubicChess/BB.bmp" "../images/CubicChess/BB2.bmp"
-             ?R "../images/CubicChess/i.bmp")
-      (moves
-        (move-type normal-type)
-        (slide nw) (slide ne) (slide sw) (slide se)
-        (spush nw) (spush ne) (spush sw) (spush se)
-      )
-      (drops
-        (move-type random-type)
-        (drop-piece Bishop)
-      )
-   )
-   (piece
-      (name Knight)
-      (description "Knight")
-      (image White "../images/CubicChess/WN.bmp" "../images/CubicChess/WN2.bmp"
-             Black "../images/CubicChess/BN.bmp" "../images/CubicChess/BN2.bmp"
-             ?R "../images/CubicChess/i.bmp")
-      (moves
-        (move-type normal-type)
-        (leap n nw) (leap n ne) (leap s sw) (leap s se)
-        (leap w nw) (leap w sw) (leap e ne) (leap e se)
-      )
-      (drops
-        (move-type random-type)
-        (drop-piece Knight)
-      )
-   )
-   (piece
-      (name Rook)
-      (description "Rook")
-      (image White "../images/CubicChess/WR.bmp" "../images/CubicChess/WR2.bmp"
-             Black "../images/CubicChess/BR.bmp" "../images/CubicChess/BR2.bmp"
-             ?R "../images/CubicChess/i.bmp")
-      (moves
-        (move-type normal-type)
-        (slide n) (slide s) (slide w) (slide e)
-        (spush n) (spush s) (spush w) (spush e)
-      )
-      (drops
-        (move-type random-type)
-        (drop-piece Rook)
-      )
-   )
-   (piece
-      (name Wall)
-      (description " ")
-      (image White "../images/CubicChess/WW.bmp" "../images/CubicChess/WW2.bmp"
-             Black "../images/CubicChess/BW.bmp" "../images/CubicChess/BW2.bmp"
-             ?R "../images/CubicChess/i.bmp")
-      (drops
-        (move-type random-type)
-        (drop-piece Wall)
-      )
-   )
-   (piece
-      (name Bomb)
-      (description "Bomb")
-      (image White "../images/CubicChess/WM.bmp" "../images/CubicChess/WM2.bmp"
-             Black "../images/CubicChess/BM.bmp" "../images/CubicChess/BM2.bmp"
-             ?R "../images/CubicChess/i.bmp")
-      (moves
-        (move-type normal-type)
-        (boom)
-      )
-      (drops
-        (move-type random-type)
-        (drop-piece Bomb)
-      )
-   )
-   (piece
-      (name Blank)
-      (description " ")
-      (image White "../images/CubicChess/WW.bmp" "../images/CubicChess/WW2.bmp"
-             Black "../images/CubicChess/BW.bmp" "../images/CubicChess/BW2.bmp")
-      (moves
-        (move-type normal-type)
-        (slide  n) (slide  s) (slide  w) (slide  e)
-        (slide nw) (slide ne) (slide sw) (slide se)
-      )
-   )
-
-   (board-setup
-      (White  
-        (King d1)
-        (Pawn b1 f1 a2 b2 c2 d2 e2 f2 g2)
-      )
-      (Black  
-        (King d7)
-        (Pawn b7 f7 a6 b6 c6 d6 e6 f6 g6)
-      )
-      (?R
-        (Bishop off 200)
-        (Knight off 200)
-        (Rook   off 200)
-        (Bomb   off 200)
-        (Wall   off 200)
-      )
-   )
-   (loss-condition (White Black) (pieces-remaining 0 King) )
 )
