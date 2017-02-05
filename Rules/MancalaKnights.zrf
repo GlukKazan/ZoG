@@ -79,34 +79,42 @@
    )
 )
 
+(define add-def
+   (if (in-zone? var a1)
+       (add $1)
+    else
+       (add-partial $1 continue-type)
+   )
+)
+
 (define put
    (if (flag? $1-B)
        (if (and (not-flag? $1-08) (not-flag? $1-04) (not-flag? $1-02) (flag? $1-01)) (add B1))
        (if (and (not-flag? $1-08) (not-flag? $1-04) (flag? $1-02) (not-flag? $1-01)) (add B2))
-       (if (and (not-flag? $1-08) (not-flag? $1-04) (flag? $1-02) (flag? $1-01))     (add B3))
+       (if (and (not-flag? $1-08) (not-flag? $1-04) (flag? $1-02) (flag? $1-01))     (add-def B3))
        (if (and (not-flag? $1-08) (flag? $1-04) (not-flag? $1-02) (not-flag? $1-01)) (add B4))
-       (if (and (not-flag? $1-08) (flag? $1-04) (not-flag? $1-02) (flag? $1-01))     (add B5))
+       (if (and (not-flag? $1-08) (flag? $1-04) (not-flag? $1-02) (flag? $1-01))     (add-def B5))
        (if (and (not-flag? $1-08) (flag? $1-04) (flag? $1-02) (not-flag? $1-01))     (add B6))
-       (if (and (not-flag? $1-08) (flag? $1-04) (flag? $1-02) (flag? $1-01))         (add B7))
+       (if (and (not-flag? $1-08) (flag? $1-04) (flag? $1-02) (flag? $1-01))         (add-def B7))
        (if (and (flag? $1-08) (not-flag? $1-04) (not-flag? $1-02) (not-flag? $1-01)) (add B8))
-       (if (and (flag? $1-08) (not-flag? $1-04) (not-flag? $1-02) (flag? $1-01))     (add B9))
+       (if (and (flag? $1-08) (not-flag? $1-04) (not-flag? $1-02) (flag? $1-01))     (add-def B9))
     else
        (if (flag? $1-R)
            (if (and (not-flag? $1-08) (not-flag? $1-04) (not-flag? $1-02) (flag? $1-01)) (add R1))
            (if (and (not-flag? $1-08) (not-flag? $1-04) (flag? $1-02) (not-flag? $1-01)) (add R2))
-           (if (and (not-flag? $1-08) (not-flag? $1-04) (flag? $1-02) (flag? $1-01))     (add R3))
+           (if (and (not-flag? $1-08) (not-flag? $1-04) (flag? $1-02) (flag? $1-01))     (add-def R3))
            (if (and (not-flag? $1-08) (flag? $1-04) (not-flag? $1-02) (not-flag? $1-01)) (add R4))
-           (if (and (not-flag? $1-08) (flag? $1-04) (not-flag? $1-02) (flag? $1-01))     (add R5))
+           (if (and (not-flag? $1-08) (flag? $1-04) (not-flag? $1-02) (flag? $1-01))     (add-def R5))
            (if (and (not-flag? $1-08) (flag? $1-04) (flag? $1-02) (not-flag? $1-01))     (add R6))
-           (if (and (not-flag? $1-08) (flag? $1-04) (flag? $1-02) (flag? $1-01))         (add R7))
+           (if (and (not-flag? $1-08) (flag? $1-04) (flag? $1-02) (flag? $1-01))         (add-def R7))
            (if (and (flag? $1-08) (not-flag? $1-04) (not-flag? $1-02) (not-flag? $1-01)) (add R8))
-           (if (and (flag? $1-08) (not-flag? $1-04) (not-flag? $1-02) (flag? $1-01))     (add R9))
+           (if (and (flag? $1-08) (not-flag? $1-04) (not-flag? $1-02) (flag? $1-01))     (add-def R9))
         else
            (if (and (not-flag? $1-08) (not-flag? $1-04) (not-flag? $1-02) (flag? $1-01)) (add P1))
            (if (and (not-flag? $1-08) (not-flag? $1-04) (flag? $1-02) (not-flag? $1-01)) (add P2))
-           (if (and (not-flag? $1-08) (not-flag? $1-04) (flag? $1-02) (flag? $1-01))     (add P3))
+           (if (and (not-flag? $1-08) (not-flag? $1-04) (flag? $1-02) (flag? $1-01))     (add-def P3))
            (if (and (not-flag? $1-08) (flag? $1-04) (not-flag? $1-02) (not-flag? $1-01)) (add P4))
-           (if (and (not-flag? $1-08) (flag? $1-04) (not-flag? $1-02) (flag? $1-01))     (add P5))
+           (if (and (not-flag? $1-08) (flag? $1-04) (not-flag? $1-02) (flag? $1-01))     (add-def P5))
        )
    )
 )
@@ -144,9 +152,9 @@
   (verify (or empty? (piece? P1) (piece? P2) (piece? P3) (piece? P4) (piece? P5)))
   (if empty? (add R1))
   (if (piece? P1) (add R2))
-  (if (piece? P2) (add R3))
+  (if (piece? P2) (add-def R3))
   (if (piece? P3) (add R4))
-  (if (piece? P4) (add R5))
+  (if (piece? P4) (add-def R5))
   (if (piece? P5) (add R6))
 )
 
@@ -155,9 +163,9 @@
   (verify (or empty? (piece? P1) (piece? P2) (piece? P3) (piece? P4) (piece? P5)))
   (if empty? (add B1))
   (if (piece? P1) (add B2))
-  (if (piece? P2) (add B3))
+  (if (piece? P2) (add-def B3))
   (if (piece? P3) (add B4))
-  (if (piece? P4) (add B5))
+  (if (piece? P4) (add-def B5))
   (if (piece? P5) (add B6))
 )
 
@@ -167,25 +175,25 @@
   (verify (not-piece? B9))
   (if empty? (add P1))
   (if (piece? P1) (add P2))
-  (if (piece? P2) (add P3))
+  (if (piece? P2) (add-def P3))
   (if (piece? P3) (add P4))
-  (if (piece? P4) (add P5))
+  (if (piece? P4) (add-def P5))
   (if (piece? R1) (add R2))
-  (if (piece? R2) (add R3))
+  (if (piece? R2) (add-def R3))
   (if (piece? R3) (add R4))
-  (if (piece? R4) (add R5))
+  (if (piece? R4) (add-def R5))
   (if (piece? R5) (add R6))
-  (if (piece? R6) (add R7))
+  (if (piece? R6) (add-def R7))
   (if (piece? R7) (add R8))
-  (if (piece? R8) (add R9))
+  (if (piece? R8) (add-def R9))
   (if (piece? B1) (add B2))
-  (if (piece? B2) (add B3))
+  (if (piece? B2) (add-def B3))
   (if (piece? B3) (add B4))
-  (if (piece? B4) (add B5))
+  (if (piece? B4) (add-def B5))
   (if (piece? B5) (add B6))
-  (if (piece? B6) (add B7))
+  (if (piece? B6) (add-def B7))
   (if (piece? B7) (add B8))
-  (if (piece? B8) (add B9))
+  (if (piece? B8) (add-def B9))
 )
 
 (define join (
@@ -198,8 +206,8 @@
       (add $1)
    else
       (init d)
-      (set-flag s-B  $2)
-      (set-flag s-R  $3)
+      (set-flag s-B  (or (flag? d-B) $2))
+      (set-flag s-R  (or (flag? d-R) $3))
       (set-flag s-08 $4)
       (set-flag s-04 $5)
       (set-flag s-02 $6)
@@ -209,10 +217,22 @@
   )
 )
 
+(define friend-knight?
+  (and friend? 
+       (or (piece? R1) (piece? R2) (piece? R3) (piece? R4)
+           (piece? R5) (piece? R6) (piece? R7) (piece? R8)
+           (piece? B1) (piece? B2) (piece? B3) (piece? B4)
+           (piece? B5) (piece? B6) (piece? B7) (piece? B8)
+       )
+  )
+)
+
 (define end-1
-  (if (or enemy? (not-on-board? $1))
+  (if enemy?
       (verify (and (not-piece? B1) (not-piece? B2) (not-piece? B3) (not-piece? B4) (not-piece? B5) (not-piece? B6) (not-piece? B7) (not-piece? B8) (not-piece? B9)))
       (verify (and (not-piece? R1) (not-piece? R2) (not-piece? R3) (not-piece? R4) (not-piece? R5) (not-piece? R6) (not-piece? R7) (not-piece? R8) (not-piece? R9)))
+  )
+  (if (or enemy? (not-on-board? $1) (friend-knight?))
       (verify (or not-enemy? (piece? P1)))
       (end P1 false false false false false true)
    else
@@ -221,9 +241,11 @@
 )
 
 (define end-2
-  (if (or enemy? (not-on-board? $1))
+  (if enemy?
       (verify (and (not-piece? B1) (not-piece? B2) (not-piece? B3) (not-piece? B4) (not-piece? B5) (not-piece? B6) (not-piece? B7) (not-piece? B8) (not-piece? B9)))
       (verify (and (not-piece? R1) (not-piece? R2) (not-piece? R3) (not-piece? R4) (not-piece? R5) (not-piece? R6) (not-piece? R7) (not-piece? R8) (not-piece? R9)))
+  )
+  (if (or enemy? (not-on-board? $1) (friend-knight?))
       (verify (or not-enemy? (piece? P1) (piece? P2)))
       (end P2 false false false false true false)
    else
@@ -233,9 +255,11 @@
 )
 
 (define end-3
-  (if (or enemy? (not-on-board? $1))
+  (if enemy?
       (verify (and (not-piece? B1) (not-piece? B2) (not-piece? B3) (not-piece? B4) (not-piece? B5) (not-piece? B6) (not-piece? B7) (not-piece? B8) (not-piece? B9)))
       (verify (and (not-piece? R1) (not-piece? R2) (not-piece? R3) (not-piece? R4) (not-piece? R5) (not-piece? R6) (not-piece? R7) (not-piece? R8) (not-piece? R9)))
+  )
+  (if (or enemy? (not-on-board? $1) (friend-knight?))
       (verify (or not-enemy? (piece? P1) (piece? P2) (piece? P3)))
       (end P3 false false false false true true)
    else
@@ -245,9 +269,11 @@
 )
 
 (define end-4
-  (if (or enemy? (not-on-board? $1))
+  (if enemy?
       (verify (and (not-piece? B1) (not-piece? B2) (not-piece? B3) (not-piece? B4) (not-piece? B5) (not-piece? B6) (not-piece? B7) (not-piece? B8) (not-piece? B9)))
       (verify (and (not-piece? R1) (not-piece? R2) (not-piece? R3) (not-piece? R4) (not-piece? R5) (not-piece? R6) (not-piece? R7) (not-piece? R8) (not-piece? R9)))
+  )
+  (if (or enemy? (not-on-board? $1) (friend-knight?))
       (verify (or not-enemy? (piece? P1) (piece? P2) (piece? P3) (piece? P4)))
       (end P4 false false false true false false)
    else
@@ -256,6 +282,23 @@
   )
 )
 
+(define check-dir
+  mark
+  (while (on-board? $1)
+      $1
+      (verify not-last-from?)
+  )
+  back
+)
+
+(define cont-sow-1 (
+  (check-dir $1)
+  (create P1) $1 
+  (verify (and (not-piece? R1) (not-piece? R2) (not-piece? R3) (not-piece? R4) (not-piece? R5) (not-piece? R6) (not-piece? R7) (not-piece? R8)))
+  (verify (and (not-piece? B1) (not-piece? B2) (not-piece? B3) (not-piece? B4) (not-piece? B5) (not-piece? B6) (not-piece? B7) (not-piece? B8)))
+  (end-1)
+))
+
 (define sow-1 (
   (create P1) $1 
   (verify (and (not-piece? R1) (not-piece? R2) (not-piece? R3) (not-piece? R4) (not-piece? R5) (not-piece? R6) (not-piece? R7) (not-piece? R8)))
@@ -263,14 +306,32 @@
   (end-1)
 ))
 
+(define cont-sow-2 (
+  (check-dir $1)
+  (create P1) $1 
+  (end-2)
+))
+
 (define sow-2 (
   (create P1) $1 
   (end-2)
 ))
 
+(define cont-sow-3 (
+  (check-dir $1)
+  (create P1) $1 
+  (end-3)
+))
+
 (define sow-3 (
   (create P1) $1 
   (end-3)
+))
+
+(define cont-sow-4 (
+  (check-dir $1)
+  (create P1) $1
+  (end-4)
 ))
 
 (define sow-4 (
@@ -303,7 +364,7 @@
       (end R2 false true false false true false)
    else
       (if (and (piece? P5) friend?)
-          (add R7)
+          (add-def R7)
        else
           (step) $1 
           (rend-1)
@@ -337,7 +398,7 @@
       (end R4 false true false true false false)
    else
       (if (and (piece? P5) friend?)
-          (add R9)
+          (add-def R9)
        else
           (step) $1 
           (rend-3)
@@ -397,9 +458,21 @@
   )
 )
 
+(define cont-rsow-1 (
+  (check-dir $1)
+  (create P1) $1 
+  (rend-1)
+))
+
 (define rsow-1 (
   (create P1) $1 
   (rend-1)
+))
+
+(define cont-rsow-2 (
+  (check-dir $1)
+  (create P1) $1 
+  (rend-2)
 ))
 
 (define rsow-2 (
@@ -407,9 +480,21 @@
   (rend-2)
 ))
 
+(define cont-rsow-3 (
+  (check-dir $1)
+  (create P1) $1 
+  (rend-3)
+))
+
 (define rsow-3 (
   (create P1) $1 
   (rend-3)
+))
+
+(define cont-rsow-4 (
+  (check-dir $1)
+  (create P1) $1 
+  (rend-4)
 ))
 
 (define rsow-4 (
@@ -417,9 +502,21 @@
   (rend-4)
 ))
 
+(define cont-rsow-5 (
+  (check-dir $1)
+  (create P1) $1 
+  (rend-5)
+))
+
 (define rsow-5 (
   (create P1) $1 
   (rend-5)
+))
+
+(define cont-rsow-6 (
+  (check-dir $1)
+  (create P1) $1 
+  (rend-6)
 ))
 
 (define rsow-6 (
@@ -427,9 +524,21 @@
   (rend-6)
 ))
 
+(define cont-rsow-7 (
+  (check-dir $1)
+  (create P1) $1 
+  (rend-7)
+))
+
 (define rsow-7 (
   (create P1) $1 
   (rend-7)
+))
+
+(define cont-rsow-8 (
+  (check-dir $1)
+  (create P1) $1 
+  (rend-8)
 ))
 
 (define rsow-8 (
@@ -462,7 +571,7 @@
       (end B2 true false false false true false)
    else
       (if (and (piece? P5) friend?)
-          (add B7)
+          (add-def B7)
        else
           (step) $1 
           (bend-1)
@@ -496,7 +605,7 @@
       (end B4 true false false true false false)
    else
       (if (and (piece? P5) friend?)
-          (add B9)
+          (add-def B9)
        else
           (step) $1 
           (bend-3)
@@ -556,9 +665,21 @@
   )
 )
 
+(define cont-bsow-1 (
+  (check-dir $1)
+  (create P1) $1 
+  (bend-1)
+))
+
 (define bsow-1 (
   (create P1) $1 
   (bend-1)
+))
+
+(define cont-bsow-2 (
+  (check-dir $1)
+  (create P1) $1 
+  (bend-2)
 ))
 
 (define bsow-2 (
@@ -566,9 +687,21 @@
   (bend-2)
 ))
 
+(define cont-bsow-3 (
+  (check-dir $1)
+  (create P1) $1 
+  (bend-3)
+))
+
 (define bsow-3 (
   (create P1) $1 
   (bend-3)
+))
+
+(define cont-bsow-4 (
+  (check-dir $1)
+  (create P1) $1 
+  (bend-4)
 ))
 
 (define bsow-4 (
@@ -576,9 +709,21 @@
   (bend-4)
 ))
 
+(define cont-bsow-5 (
+  (check-dir $1)
+  (create P1) $1 
+  (bend-5)
+))
+
 (define bsow-5 (
   (create P1) $1 
   (bend-5)
+))
+
+(define cont-bsow-6 (
+  (check-dir $1)
+  (create P1) $1 
+  (bend-6)
 ))
 
 (define bsow-6 (
@@ -586,9 +731,21 @@
   (bend-6)
 ))
 
+(define cont-bsow-7 (
+  (check-dir $1)
+  (create P1) $1 
+  (bend-7)
+))
+
 (define bsow-7 (
   (create P1) $1 
   (bend-7)
+))
+
+(define cont-bsow-8 (
+  (check-dir $1)
+  (create P1) $1 
+  (bend-8)
 ))
 
 (define bsow-8 (
@@ -596,22 +753,7 @@
   (bend-8)
 ))
 
-(game
-   (title "Mancala's Knights")
-
-   (option "animate captures"   false)
-   (option "pass turn"          false)
-
-   (move-sound "Audio/Pickup.wav")
-   (release-sound "Audio/Pickup.wav")
-   (capture-sound "")
-   (change-sound  "")
-   (click-sound   "")
-   (draw-sound    "")
-
-   (players White Black)
-   (turn-order White Black)
-
+(define board-def
    (board
       (image "../images/MancalaKnights/board.bmp")
       (grid
@@ -624,7 +766,32 @@
                     (ne 1 -1) (nw -1 -1) (se 1 1) (sw -1 1)
         ) 
       )
+      (zone (name var) (players White Black)
+            (positions $1)
+      )
    )
+)
+
+(game
+   (title "Simple Mancala's Knights")
+
+   (option "animate captures"   false)
+   (option "pass turn"          false)
+   (option "pass partial"       true)
+
+   (move-sound "Audio/Pickup.wav")
+   (release-sound "Audio/Pickup.wav")
+   (capture-sound "")
+   (change-sound  "")
+   (click-sound   "")
+   (draw-sound    "")
+
+   (players White Black)
+   (turn-order 
+       (White normal-type)
+       (Black normal-type)
+   )
+   (board-def a1)
 
    (piece
       (name P1)
@@ -632,6 +799,7 @@
       (image White "../images/MancalaKnights/WP1.bmp"
              Black "../images/MancalaKnights/BP1.bmp")
       (moves
+         (move-type normal-type)
          (join n)  (join s)  (join w)  (join e)
          (join nw) (join sw) (join ne) (join se)
       )
@@ -642,10 +810,14 @@
       (image White "../images/MancalaKnights/WP2.bmp"
              Black "../images/MancalaKnights/BP2.bmp")
       (moves
+         (move-type normal-type)
          (join n)   (join s)   (join w)   (join e)
          (join nw)  (join sw)  (join ne)  (join se)
          (sow-1 n)  (sow-1 s)  (sow-1 w)  (sow-1 e)
          (sow-1 nw) (sow-1 sw) (sow-1 ne) (sow-1 se)
+         (move-type continue-type)
+         (cont-sow-1 n)  (cont-sow-1 s)  (cont-sow-1 w)  (cont-sow-1 e)
+         (cont-sow-1 nw) (cont-sow-1 sw) (cont-sow-1 ne) (cont-sow-1 se)
       )
    )
    (piece
@@ -654,10 +826,14 @@
       (image White "../images/MancalaKnights/WP3.bmp"
              Black "../images/MancalaKnights/BP3.bmp")
       (moves
+         (move-type normal-type)
          (join n)   (join s)   (join w)   (join e)
          (join nw)  (join sw)  (join ne)  (join se)
          (sow-2 n)  (sow-2 s)  (sow-2 w)  (sow-2 e)
          (sow-2 nw) (sow-2 sw) (sow-2 ne) (sow-2 se)
+         (move-type continue-type)
+         (cont-sow-2 n)  (cont-sow-2 s)  (cont-sow-2 w)  (cont-sow-2 e)
+         (cont-sow-2 nw) (cont-sow-2 sw) (cont-sow-2 ne) (cont-sow-2 se)
       )
    )
    (piece
@@ -666,10 +842,14 @@
       (image White "../images/MancalaKnights/WP4.bmp"
              Black "../images/MancalaKnights/BP4.bmp")
       (moves
+         (move-type normal-type)
          (join n)   (join s)   (join w)   (join e)
          (join nw)  (join sw)  (join ne)  (join se)
          (sow-3 n)  (sow-3 s)  (sow-3 w)  (sow-3 e)
          (sow-3 nw) (sow-3 sw) (sow-3 ne) (sow-3 se)
+         (move-type continue-type)
+         (cont-sow-3 n)  (cont-sow-3 s)  (cont-sow-3 w)  (cont-sow-3 e)
+         (cont-sow-3 nw) (cont-sow-3 sw) (cont-sow-3 ne) (cont-sow-3 se)
       )
    )
    (piece
@@ -678,10 +858,14 @@
       (image White "../images/MancalaKnights/WP5.bmp"
              Black "../images/MancalaKnights/BP5.bmp")
       (moves
+         (move-type normal-type)
          (join n)   (join s)   (join w)   (join e)
          (join nw)  (join sw)  (join ne)  (join se)
          (sow-4 n)  (sow-4 s)  (sow-4 w)  (sow-4 e)
          (sow-4 nw) (sow-4 sw) (sow-4 ne) (sow-4 se)
+         (move-type continue-type)
+         (cont-sow-4 n)  (cont-sow-4 s)  (cont-sow-4 w)  (cont-sow-4 e)
+         (cont-sow-4 nw) (cont-sow-4 sw) (cont-sow-4 ne) (cont-sow-4 se)
       )
    )
 
@@ -697,7 +881,10 @@
       (image White "../images/MancalaKnights/WR2.bmp"
              Black "../images/MancalaKnights/BR2.bmp")
       (moves
-         (rsow-1 n)  (rsow-1 s)  (rsow-1 w)  (rsow-1 e)
+         (move-type normal-type)
+         (rsow-1 n) (rsow-1 s) (rsow-1 w) (rsow-1 e)
+         (move-type continue-type)
+         (cont-rsow-1 n) (cont-rsow-1 s) (cont-rsow-1 w) (cont-rsow-1 e)
       )
    )
    (piece
@@ -706,7 +893,10 @@
       (image White "../images/MancalaKnights/WR3.bmp"
              Black "../images/MancalaKnights/BR3.bmp")
       (moves
-         (rsow-2 n)  (rsow-2 s)  (rsow-2 w)  (rsow-2 e)
+         (move-type normal-type)
+         (rsow-2 n) (rsow-2 s)  (rsow-2 w)  (rsow-2 e)
+         (move-type continue-type)
+         (cont-rsow-2 n) (cont-rsow-2 s) (cont-rsow-2 w) (cont-rsow-2 e)
       )
    )
    (piece
@@ -715,7 +905,10 @@
       (image White "../images/MancalaKnights/WR4.bmp"
              Black "../images/MancalaKnights/BR4.bmp")
       (moves
-         (rsow-3 n)  (rsow-3 s)  (rsow-3 w)  (rsow-3 e)
+         (move-type normal-type)
+         (rsow-3 n) (rsow-3 s) (rsow-3 w) (rsow-3 e)
+         (move-type continue-type)
+         (cont-rsow-3 n) (cont-rsow-3 s) (cont-rsow-3 w) (cont-rsow-3 e)
       )
    )
    (piece
@@ -724,7 +917,10 @@
       (image White "../images/MancalaKnights/WR5.bmp"
              Black "../images/MancalaKnights/BR5.bmp")
       (moves
-         (rsow-4 n)  (rsow-4 s)  (rsow-4 w)  (rsow-4 e)
+         (move-type normal-type)
+         (rsow-4 n) (rsow-4 s) (rsow-4 w) (rsow-4 e)
+         (move-type continue-type)
+         (cont-rsow-4 n) (cont-rsow-4 s) (cont-rsow-4 w) (cont-rsow-4 e)
       )
    )
    (piece
@@ -733,7 +929,10 @@
       (image White "../images/MancalaKnights/WR6.bmp"
              Black "../images/MancalaKnights/BR6.bmp")
       (moves
-         (rsow-5 n)  (rsow-5 s)  (rsow-5 w)  (rsow-5 e)
+         (move-type normal-type)
+         (rsow-5 n) (rsow-5 s) (rsow-5 w) (rsow-5 e)
+         (move-type continue-type)
+         (cont-rsow-5 n) (cont-rsow-5 s) (cont-rsow-5 w) (cont-rsow-5 e)
       )
    )
    (piece
@@ -742,7 +941,10 @@
       (image White "../images/MancalaKnights/WR7.bmp"
              Black "../images/MancalaKnights/BR7.bmp")
       (moves
-         (rsow-6 n)  (rsow-6 s)  (rsow-6 w)  (rsow-6 e)
+         (move-type normal-type)
+         (rsow-6 n) (rsow-6 s) (rsow-6 w) (rsow-6 e)
+         (move-type continue-type)
+         (cont-rsow-6 n) (cont-rsow-6 s) (cont-rsow-6 w) (cont-rsow-6 e)
       )
    )
    (piece
@@ -751,7 +953,10 @@
       (image White "../images/MancalaKnights/WR8.bmp"
              Black "../images/MancalaKnights/BR8.bmp")
       (moves
-         (rsow-7 n)  (rsow-7 s)  (rsow-7 w)  (rsow-7 e)
+         (move-type normal-type)
+         (rsow-7 n) (rsow-7 s) (rsow-7 w) (rsow-7 e)
+         (move-type continue-type)
+         (cont-rsow-7 n) (cont-rsow-7 s) (cont-rsow-7 w) (cont-rsow-7 e)
       )
    )
    (piece
@@ -760,7 +965,10 @@
       (image White "../images/MancalaKnights/WR9.bmp"
              Black "../images/MancalaKnights/BR9.bmp")
       (moves
-         (rsow-8 n)  (rsow-8 s)  (rsow-8 w)  (rsow-8 e)
+         (move-type normal-type)
+         (rsow-8 n) (rsow-8 s) (rsow-8 w) (rsow-8 e)
+         (move-type continue-type)
+         (cont-rsow-8 n) (cont-rsow-8 s) (cont-rsow-8 w) (cont-rsow-8 e)
       )
    )
 
@@ -776,7 +984,10 @@
       (image White "../images/MancalaKnights/WB2.bmp"
              Black "../images/MancalaKnights/BB2.bmp")
       (moves
+         (move-type normal-type)
          (bsow-1 nw) (bsow-1 sw) (bsow-1 ne) (bsow-1 se)
+         (move-type continue-type)
+         (cont-bsow-1 nw) (cont-bsow-1 sw) (cont-bsow-1 ne) (cont-bsow-1 se)
       )
    )
    (piece
@@ -785,16 +996,22 @@
       (image White "../images/MancalaKnights/WB3.bmp"
              Black "../images/MancalaKnights/BB3.bmp")
       (moves
+         (move-type normal-type)
          (bsow-2 nw) (bsow-2 sw) (bsow-2 ne) (bsow-2 se)
+         (move-type continue-type)
+         (cont-bsow-2 nw) (cont-bsow-2 sw) (cont-bsow-2 ne) (cont-bsow-2 se)
       )
    )
    (piece
       (name B4)
       (description "Bishop")
-      (image White "../images/MancalaKnights/WB3.bmp"
-             Black "../images/MancalaKnights/BB3.bmp")
+      (image White "../images/MancalaKnights/WB4.bmp"
+             Black "../images/MancalaKnights/BB4.bmp")
       (moves
+         (move-type normal-type)
          (bsow-3 nw) (bsow-3 sw) (bsow-3 ne) (bsow-3 se)
+         (move-type continue-type)
+         (cont-bsow-3 nw) (cont-bsow-3 sw) (cont-bsow-3 ne) (cont-bsow-3 se)
       )
    )
    (piece
@@ -803,16 +1020,10 @@
       (image White "../images/MancalaKnights/WB5.bmp"
              Black "../images/MancalaKnights/BB5.bmp")
       (moves
+         (move-type normal-type)
          (bsow-4 nw) (bsow-4 sw) (bsow-4 ne) (bsow-4 se)
-      )
-   )
-   (piece
-      (name B5)
-      (description "Bishop")
-      (image White "../images/MancalaKnights/WB5.bmp"
-             Black "../images/MancalaKnights/BB5.bmp")
-      (moves
-         (bsow-4 nw) (bsow-4 sw) (bsow-4 ne) (bsow-4 se)
+         (move-type continue-type)
+         (cont-bsow-4 nw) (cont-bsow-4 sw) (cont-bsow-4 ne) (cont-bsow-4 se)
       )
    )
    (piece
@@ -821,16 +1032,10 @@
       (image White "../images/MancalaKnights/WB6.bmp"
              Black "../images/MancalaKnights/BB6.bmp")
       (moves
+         (move-type normal-type)
          (bsow-5 nw) (bsow-5 sw) (bsow-5 ne) (bsow-5 se)
-      )
-   )
-   (piece
-      (name B6)
-      (description "Bishop")
-      (image White "../images/MancalaKnights/WB6.bmp"
-             Black "../images/MancalaKnights/BB6.bmp")
-      (moves
-         (bsow-5 nw) (bsow-5 sw) (bsow-5 ne) (bsow-5 se)
+         (move-type continue-type)
+         (cont-bsow-5 nw) (cont-bsow-5 sw) (cont-bsow-5 ne) (cont-bsow-5 se)
       )
    )
    (piece
@@ -839,7 +1044,10 @@
       (image White "../images/MancalaKnights/WB7.bmp"
              Black "../images/MancalaKnights/BB7.bmp")
       (moves
+         (move-type normal-type)
          (bsow-6 nw) (bsow-6 sw) (bsow-6 ne) (bsow-6 se)
+         (move-type continue-type)
+         (cont-bsow-6 nw) (cont-bsow-6 sw) (cont-bsow-6 ne) (cont-bsow-6 se)
       )
    )
    (piece
@@ -848,7 +1056,10 @@
       (image White "../images/MancalaKnights/WB8.bmp"
              Black "../images/MancalaKnights/BB8.bmp")
       (moves
+         (move-type normal-type)
          (bsow-7 nw) (bsow-7 sw) (bsow-7 ne) (bsow-7 se)
+         (move-type continue-type)
+         (cont-bsow-7 nw) (cont-bsow-7 sw) (cont-bsow-7 ne) (cont-bsow-7 se)
       )
    )
    (piece
@@ -857,7 +1068,10 @@
       (image White "../images/MancalaKnights/WB9.bmp"
              Black "../images/MancalaKnights/BB9.bmp")
       (moves
+         (move-type normal-type)
          (bsow-8 nw) (bsow-8 sw) (bsow-8 ne) (bsow-8 se)
+         (move-type continue-type)
+         (cont-bsow-8 nw) (cont-bsow-8 sw) (cont-bsow-8 ne) (cont-bsow-8 se)
       )
    )
 
@@ -870,6 +1084,7 @@
       )
    )
 
+   (loss-condition (White Black) stalemated)
    (loss-condition (White Black) 
       (and (pieces-remaining 0 R1) (pieces-remaining 0 R2)
            (pieces-remaining 0 R3) (pieces-remaining 0 R4)
@@ -885,7 +1100,30 @@
 )
 
 (variant
+   (title "Simple Mancala's Knights (variant)")
+   (board-setup
+      (White
+         (R5 d1 e1) (B5 c1 f1) (P4 b1 b2 c2 d2 e2 f2 g2 g1)
+      )
+      (Black
+         (R5 d8 e8) (B5 c8 f8) (P4 b8 b7 c7 d7 e7 f7 g7 g8)
+      )
+   )
+)
+
+(variant
+   (title "-")
+)
+
+(variant
+   (title "Mancala's Knights")
+   (default)
+   (board-def a2)
+)
+
+(variant
    (title "Mancala's Knights (variant)")
+   (board-def a2)
    (board-setup
       (White
          (R5 d1 e1) (B5 c1 f1) (P4 b1 b2 c2 d2 e2 f2 g2 g1)
