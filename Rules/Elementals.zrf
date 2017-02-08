@@ -63,4 +63,7 @@
         (SW0 a10 b10 c10 d10 e10 f10 g10 h10 i10 j10)
      )
   )
+
+  (win-condition (Light Dark) (absolute-config WF45 SW0 (e5 f6 e6 f6)) )
+  (loss-condition (Light Dark) (pieces-remaining 3) )
 )
