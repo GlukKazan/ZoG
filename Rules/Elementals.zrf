@@ -1,0 +1,66 @@
+(define step (
+  $1 (verify empty?) add
+))
+
+(game 
+  (title "Simple Escalation")
+
+  (option "animate captures"   false)
+  (option "prevent flipping"   true)
+  (option "smart moves"        false)
+
+  (move-sound    "Audio/Clack.wav")
+  (release-sound "Audio/Clack.wav")
+  (drop-sound    "")
+  (capture-sound "")
+  (change-sound  "")
+  (click-sound   "")
+  (draw-sound    "")
+
+  (players Light Dark)
+  (turn-order Light Dark)
+
+  (board
+    (image "../images/Elementals/board.bmp")
+    (grid
+      (start-rectangle 2 2 72 72)
+      (dimensions
+        ("a/b/c/d/e/f/g/h/i/j" (70 0)) ; files
+        ("10/9/8/7/6/5/4/3/2/1" (0 70)) ; ranks
+      )
+      (directions (n 0 -1) (s 0 1) (e 1 0) (w -1 0)
+          (nw -1 -1) (sw -1 1) (ne 1 -1) (se 1 1)
+      )
+    )
+  )
+
+  (piece
+     (name WF45)
+     (help "Water + Fire")
+     (image Light "../images/Elementals/lwf45.bmp"
+            Dark "../images/Elementals/dwf45.bmp")
+     (moves
+        (step n) (step s) (step w) (step e)
+     )
+  )
+  (piece
+     (name SW0)
+     (help "Stone + Wind")
+     (image Light "../images/Elementals/lsw0.bmp"
+            Dark "../images/Elementals/dsw0.bmp")
+     (moves
+        (step n) (step s) (step w) (step e)
+     )
+  )
+
+  (board-setup
+     (Light
+        (WF45 a2 b2 c2 d2 e2 f2 g2 h2 i2 j2)
+        (SW0 a1 b1 c1 d1 e1 f1 g1 h1 i1 j1)
+     )
+     (Dark
+        (WF45 a9 b9 c9 d9 e9 f9 g9 h9 i9 j9)
+        (SW0 a10 b10 c10 d10 e10 f10 g10 h10 i10 j10)
+     )
+  )
+)
