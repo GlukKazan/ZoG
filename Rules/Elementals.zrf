@@ -1,9 +1,14 @@
-(define step (
+(define stone-step (
   $1 (verify empty?) add
 ))
 
+(define stone-rotate (
+  $1 (verify empty?) 
+  (add $2)
+))
+
 (game 
-  (title "Simple Escalation")
+  (title "Elementals")
 
   (option "animate captures"   false)
   (option "prevent flipping"   true)
@@ -35,35 +40,269 @@
   )
 
   (piece
-     (name WF45)
-     (help "Water + Fire")
-     (image Light "../images/Elementals/lwf45.bmp"
-            Dark "../images/Elementals/dwf45.bmp")
+     (name GA)
+     (help "Stone")
+     (image Light "../images/Elementals/lga.bmp"
+            Dark "../images/Elementals/dga.bmp")
      (moves
-        (step n) (step s) (step w) (step e)
+        (stone-step n) (stone-step s)
+        (stone-rotate nw GB) (stone-rotate ne GD)
+        (stone-rotate se GB) (stone-rotate sw GD)
      )
   )
   (piece
-     (name SW0)
-     (help "Stone + Wind")
-     (image Light "../images/Elementals/lsw0.bmp"
-            Dark "../images/Elementals/dsw0.bmp")
+     (name GB)
+     (help "Stone")
+     (image Light "../images/Elementals/lgb.bmp"
+            Dark "../images/Elementals/dgb.bmp")
      (moves
-        (step n) (step s) (step w) (step e)
+        (stone-step nw) (stone-step se)
+        (stone-rotate w GC) (stone-rotate n GA)
+        (stone-rotate e GC) (stone-rotate s GA)
      )
+  )
+  (piece
+     (name GC)
+     (help "Stone")
+     (image Light "../images/Elementals/lgc.bmp"
+            Dark "../images/Elementals/dgc.bmp")
+     (moves
+        (stone-step w) (stone-step e)
+        (stone-rotate sw GD) (stone-rotate nw GB)
+        (stone-rotate ne GD) (stone-rotate se GB)
+     )
+  )
+  (piece
+     (name GD)
+     (help "Stone")
+     (image Light "../images/Elementals/lgd.bmp"
+            Dark "../images/Elementals/dgd.bmp")
+     (moves
+        (stone-step sw) (stone-step ne)
+        (stone-rotate s GA) (stone-rotate w GC)
+        (stone-rotate n GA) (stone-rotate e GC)
+     )
+  )
+  (piece
+     (name BYA)
+     (help "Water + Wind")
+     (image Light "../images/Elementals/lbya.bmp")
+  )
+  (piece
+     (name BYB)
+     (help "Water + Wind")
+     (image Light "../images/Elementals/lbyb.bmp")
+  )
+  (piece
+     (name BYC)
+     (help "Water + Wind")
+     (image Light "../images/Elementals/lbyc.bmp")
+  )
+  (piece
+     (name BYD)
+     (help "Water + Wind")
+     (image Light "../images/Elementals/lbyd.bmp")
+  )
+  (piece
+     (name YBA)
+     (help "Water + Wind")
+     (image Light "../images/Elementals/lyba.bmp")
+  )
+  (piece
+     (name YBB)
+     (help "Water + Wind")
+     (image Light "../images/Elementals/lybb.bmp")
+  )
+  (piece
+     (name YBC)
+     (help "Water + Wind")
+     (image Light "../images/Elementals/lybc.bmp")
+  )
+  (piece
+     (name YBD)
+     (help "Water + Wind")
+     (image Light "../images/Elementals/lybd.bmp")
+  )
+  (piece
+     (name GBA)
+     (help "Stone + Water")
+     (image Light "../images/Elementals/lgba.bmp"
+            Dark "../images/Elementals/dgba.bmp")
+  )
+  (piece
+     (name GBB)
+     (help "Stone + Water")
+     (image Light "../images/Elementals/lgbb.bmp"
+            Dark "../images/Elementals/dgbb.bmp")
+  )
+  (piece
+     (name GBC)
+     (help "Stone + Water")
+     (image Light "../images/Elementals/lgbc.bmp"
+            Dark "../images/Elementals/dgbc.bmp")
+  )
+  (piece
+     (name GBD)
+     (help "Stone + Water")
+     (image Light "../images/Elementals/lgbd.bmp"
+            Dark "../images/Elementals/dgbd.bmp")
+  )
+  (piece
+     (name BGA)
+     (help "Stone + Water")
+     (image Light "../images/Elementals/lbga.bmp"
+            Dark "../images/Elementals/dbga.bmp")
+  )
+  (piece
+     (name BGB)
+     (help "Stone + Water")
+     (image Light "../images/Elementals/lbgb.bmp"
+            Dark "../images/Elementals/dbgb.bmp")
+  )
+  (piece
+     (name BGC)
+     (help "Stone + Water")
+     (image Light "../images/Elementals/lbgc.bmp"
+            Dark "../images/Elementals/dbgc.bmp")
+  )
+  (piece
+     (name BGD)
+     (help "Stone + Water")
+     (image Light "../images/Elementals/lbgd.bmp"
+            Dark "../images/Elementals/dbgd.bmp")
+  )
+  (piece
+     (name YGA)
+     (help "Stone + Wind")
+     (image Light "../images/Elementals/lyga.bmp")
+  )
+  (piece
+     (name YGB)
+     (help "Stone + Wind")
+     (image Light "../images/Elementals/lygb.bmp")
+  )
+  (piece
+     (name YGC)
+     (help "Stone + Wind")
+     (image Light "../images/Elementals/lygc.bmp")
+  )
+  (piece
+     (name YGD)
+     (help "Stone + Wind")
+     (image Light "../images/Elementals/lygd.bmp")
+  )
+  (piece
+     (name GYA)
+     (help "Stone + Wind")
+     (image Light "../images/Elementals/lgya.bmp")
+  )
+  (piece
+     (name GYB)
+     (help "Stone + Wind")
+     (image Light "../images/Elementals/lgyb.bmp")
+  )
+  (piece
+     (name GYC)
+     (help "Stone + Wind")
+     (image Light "../images/Elementals/lgyc.bmp")
+  )
+  (piece
+     (name GYD)
+     (help "Stone + Wind")
+     (image Light "../images/Elementals/lgyd.bmp")
+  )
+  (piece
+     (name RA)
+     (help "Fire")
+     (image Dark "../images/Elementals/dra.bmp")
+  )
+  (piece
+     (name RB)
+     (help "Fire")
+     (image Dark "../images/Elementals/drb.bmp")
+  )
+  (piece
+     (name RC)
+     (help "Fire")
+     (image Dark "../images/Elementals/drc.bmp")
+  )
+  (piece
+     (name RD)
+     (help "Fire")
+     (image Dark "../images/Elementals/drd.bmp")
+  )
+  (piece
+     (name GRA)
+     (help "Stone + Fire")
+     (image Dark "../images/Elementals/dgra.bmp")
+  )
+  (piece
+     (name GRB)
+     (help "Stone + Fire")
+     (image Dark "../images/Elementals/dgrb.bmp")
+  )
+  (piece
+     (name GRC)
+     (help "Stone + Fire")
+     (image Dark "../images/Elementals/dgrc.bmp")
+  )
+  (piece
+     (name GRD)
+     (help "Stone + Fire")
+     (image Dark "../images/Elementals/dgrd.bmp")
+  )
+  (piece
+     (name RGA)
+     (help "Stone + Fire")
+     (image Dark "../images/Elementals/drga.bmp")
+  )
+  (piece
+     (name RGB)
+     (help "Stone + Fire")
+     (image Dark "../images/Elementals/drgb.bmp")
+  )
+  (piece
+     (name RGC)
+     (help "Stone + Fire")
+     (image Dark "../images/Elementals/drgc.bmp")
+  )
+  (piece
+     (name RGD)
+     (help "Stone + Fire")
+     (image Dark "../images/Elementals/drgd.bmp")
   )
 
   (board-setup
      (Light
-        (WF45 a2 b2 c2 d2 e2 f2 g2 h2 i2 j2)
-        (SW0 a1 b1 c1 d1 e1 f1 g1 h1 i1 j1)
+        (GA c2 d2 e2 f2 g2 h2)
+        (GC b1 i1)
+        (GB b2)
+        (GD i2)
+        (BYA e1 f1)
+        (GBB d1)
+        (BGD g1)
+        (GYB c1)
+        (YGD h1)
      )
      (Dark
-        (WF45 a9 b9 c9 d9 e9 f9 g9 h9 i9 j9)
-        (SW0 a10 b10 c10 d10 e10 f10 g10 h10 i10 j10)
+        (GA c9 d9 e9 f9 g9 h9)
+        (GC b10 i10)
+        (GB i9)
+        (GD b9)
+        (RA e10 f10)
+        (GRD d10)
+        (RGB g10)
+        (GBD c10)
+        (BGB h10)
      )
   )
 
-  (win-condition (Light Dark) (absolute-config WF45 SW0 (e5 f6 e6 f6)) )
+  (win-condition (Light Dark) (absolute-config 
+     GA GB GC GD BYA BYB BYC BYD YBA YBB YBC YBD 
+     GBA GBB GBC GBD BGA BGB BGC BGD YGA YGB YGC
+     YGD GYA GYB GYC GYD RA RB RC RD GRA GRB GRC
+     GRD RGA RGB RGC RGD
+     (e5 f6 e6 f6)) 
+  )
   (loss-condition (Light Dark) (pieces-remaining 3) )
 )
