@@ -1,0 +1,129 @@
+(define drop-pawn (
+   (while (on-board? next)
+        (if empty?
+            add
+        )
+        next
+   )
+))
+
+(define neighbor
+   (and (on-board? $1)
+        (friend? $1)
+        (piece? Pawn $1)
+   )
+)
+
+(define rook (
+   (verify (or (neighbor n)
+               (neighbor s)
+               (neighbor w)
+               (neighbor e)
+           )
+   )
+   $1 (while empty? add $1)
+   (verify enemy?)
+   add
+))
+
+(define bishop (
+   (verify (or (neighbor nw)
+               (neighbor sw)
+               (neighbor ne)
+               (neighbor se)
+           )
+   )
+   $1 (while empty? add $1)
+   (verify enemy?)
+   add
+))
+
+(define knight (
+   (verify (or (neighbor nne)
+               (neighbor nnw)
+               (neighbor sse)
+               (neighbor ssw)
+               (neighbor een)
+               (neighbor ees)
+               (neighbor wwn)
+               (neighbor wws)
+           )
+   )
+   $1 (verify not-friend?)
+   add
+))
+
+(game
+   (title "Chessence")
+
+   (option "animate captures" false)
+   (option "prevent flipping" true)
+
+   (move-sound    "Audio/Clack.wav")
+   (release-sound "Audio/Clack.wav")
+   (drop-sound    "") 
+   (capture-sound "")
+   (change-sound  "")
+   (click-sound   "")
+   (draw-sound    "")
+
+   (players White Black)
+   (turn-order White Black)
+
+   (board
+      (image "../images/Chessence/board.bmp")
+      (grid
+         (start-rectangle 0 0 49 49)
+         (dimensions
+             ("x/a/b/c/d/e/f/y" (49 0)) ; files
+             ("9/8/7/6/5/4/3/2/1" (0 49)) ; ranks
+         )
+         (directions (n 0 -1) (e 1 0) (s 0 1) (w -1 0)
+                     (ne 1 -1) (nw -1 -1) (se 1 1) (sw -1 1)
+                     (nne 1 -2) (nnw -1 -2) (sse 1 2) (ssw -1 2)
+                     (een 2 -1) (ees 2 1) (wwn -2 -1) (wws -2 1)
+         )
+      )
+      (kill-positions a2 b3 b5 c6 d4 e5 e7 f8)
+      (unlink x1 x2 x3 x4 x5 x6 x7 x8 x9 y1 y2 y3 y4 y5 y6 y7 y8 y9)
+      (links next 
+         (x7 a8) (x8 a8) (x9 a8) (a8 b7) (b7 b8) (b8 b9) (b9 c7) (c7 c8)
+         (y1 d2) (y2 d2) (y3 d2) (d2 d3) (d3 e1) (e1 e2) (e2 e3) (e3 f2)
+      )
+   )
+
+   (piece
+      (name King)
+      (help "King")
+      (description "King")
+      (image White "images\Chess\SHaag\wking.bmp"
+             Black "images\Chess\SHaag\bking.bmp")
+   )
+   (piece
+      (name Pawn)
+      (help "Pawn")
+      (description "Pawn")
+      (image White "images\Chess\SHaag\wpawn.bmp"
+             Black "images\Chess\SHaag\bpawn.bmp")
+      (moves
+         (rook n)     (rook s)     (rook w)     (rook e)
+         (bishop nw)  (bishop sw)  (bishop ne)  (bishop se)
+         (knight nne) (knight nnw) (knight sse) (knight ssw)
+         (knight een) (knight ees) (knight wwn) (knight wws)
+         (drop-pawn)
+      )
+   )
+
+   (board-setup
+      (White
+         (Pawn f2 e1 e2 e3 d2 d3 y1 y2 y3)
+         (King f1)
+      )
+      (Black
+         (Pawn a8 b9 b8 b7 c8 c7 x9 x8 x7)
+         (King a9)
+      )
+   )
+
+   (loss-condition (White Black) (checkmated King) )
+)
