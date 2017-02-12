@@ -126,4 +126,5 @@
    )
 
    (loss-condition (White Black) (checkmated King) )
+   (loss-condition (White Black) stalemated )
 )
