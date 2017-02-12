@@ -1,3 +1,55 @@
+(define fire-slide (
+  $1 (while empty? add $1)
+))
+
+(define fire-rotate (
+  $1 (verify empty?) 
+  (add $2)
+))
+
+(define water-slide (
+  $1 (while empty? add $1)
+))
+
+(define water-rotate (
+  $1 (verify empty?) 
+  (add $2)
+))
+
+(define wind-slide (
+  (while (empty? $1)
+     $1
+     add
+  )
+  (while (on-board? $1)
+     $1
+     (if (and enemy?
+              (not-piece? RA) (not-piece? RB) (not-piece? RC) (not-piece? RD)
+              (not-piece? $2) (not-piece? $3) (not-piece? $4)
+              (not-piece? $5) (not-piece? $6) (not-piece? $7)
+         )
+         (add-partial continue-type)
+     )
+  )
+))
+
+(define wind-rotate (
+  $1 (while empty? (add $2) $1)
+))
+
+(define wind-strike (
+  (while (on-board? $1)
+     $1
+     (if (and enemy?
+              (not-piece? RA) (not-piece? RB) (not-piece? RC) (not-piece? RD)
+              (not-piece? $3) (not-piece? $4) (not-piece? $5)
+              (not-piece? $6) (not-piece? $7) (not-piece? $8)
+         )
+         (add $2)
+     )
+  )
+))
+
 (define stone-step (
   $1 (verify empty?) add
 ))
@@ -13,6 +65,7 @@
   (option "animate captures"   false)
   (option "prevent flipping"   true)
   (option "smart moves"        false)
+  (option "pass partial"       true)
 
   (move-sound    "Audio/Clack.wav")
   (release-sound "Audio/Clack.wav")
@@ -87,189 +140,417 @@
      (name BYA)
      (help "Water + Wind")
      (image Light "../images/Elementals/lbya.bmp")
+     (moves
+        (water-slide n) (wind-slide s RGA RGB GRD BGA BGB GBD)
+        (water-rotate nw BYB) (water-rotate ne YBD)
+        (wind-rotate se BYB) (wind-rotate sw YBD)
+        (move-type continue-type)
+        (wind-strike se BYB RGA RGB RGC BGA BGB BGC) 
+        (wind-strike sw YBD GRC GRD RGA GBC GBD BGA)
+     )
   )
   (piece
      (name BYB)
      (help "Water + Wind")
      (image Light "../images/Elementals/lbyb.bmp")
+     (moves
+        (water-slide nw) (wind-slide se RGA RGB RGC BGA BGB BGC) 
+        (water-rotate w BYC) (water-rotate n BYA)
+        (wind-rotate e BYC) (wind-rotate s BYA)
+        (move-type continue-type)
+        (wind-strike e BYC RGB RGC RGD BGB BGC BGD) 
+        (wind-strike s BYA RGA RGB GRD BGA BGB GBD)
+     )
   )
   (piece
      (name BYC)
      (help "Water + Wind")
      (image Light "../images/Elementals/lbyc.bmp")
+     (moves
+        (water-slide w) (wind-slide e RGB RGC RGD BGB BGC BGD)
+        (water-rotate sw BYD) (water-rotate nw BYB)
+        (wind-rotate ne BYD) (wind-rotate se BYB)
+        (move-type continue-type)
+        (wind-strike ne BYD RGC RGD GRA BGC BGD GBA) 
+        (wind-strike se BYB RGA RGB RGC BGA BGB BGC)
+     )
   )
   (piece
      (name BYD)
      (help "Water + Wind")
      (image Light "../images/Elementals/lbyd.bmp")
+     (moves
+        (water-slide sw) (wind-slide ne RGC RGD GRA BGC BGD GBA)
+        (water-rotate s YBA) (water-rotate w BYC)
+        (wind-rotate n YBA) (wind-rotate e BYC)
+        (move-type continue-type)
+        (wind-strike n YBA RGD GRA GRB BGD GBA GBB) 
+        (wind-strike e BYC RGB RGC RGD BGB BGC BGD)
+     )
   )
   (piece
      (name YBA)
      (help "Water + Wind")
      (image Light "../images/Elementals/lyba.bmp")
+     (moves
+        (wind-slide n RGD GRA GRB BGD GBA GBB) (water-slide s) 
+        (water-rotate se YBB) (water-rotate sw BYD)
+        (wind-rotate nw YBB) (wind-rotate ne BYD)
+        (move-type continue-type)
+        (wind-strike nw YBB GRA GRB GRC GBA GBB GBC) 
+        (wind-strike ne BYD RGC RGD GRA BGC BGD GBA)
+     )
   )
   (piece
      (name YBB)
      (help "Water + Wind")
      (image Light "../images/Elementals/lybb.bmp")
+     (moves
+        (wind-slide nw GRA GRB GRC GBA GBB GBC) (water-slide se) 
+        (water-rotate e YBC) (water-rotate s YBA)
+        (wind-rotate w YBC) (wind-rotate n YBA)
+        (move-type continue-type)
+        (wind-strike w YBC GRB GRC GRD GBB GBC GBD) 
+        (wind-strike n YBA RGD GRA GRB BGD GBA GBB)
+     )
   )
   (piece
      (name YBC)
      (help "Water + Wind")
      (image Light "../images/Elementals/lybc.bmp")
+     (moves
+        (wind-slide w GRB GRC GRD GBB GBC GBD) (water-slide e) 
+        (water-rotate ne YBD) (water-rotate se YBB)
+        (wind-rotate sw YBD) (wind-rotate nw YBB)
+        (move-type continue-type)
+        (wind-strike sw YBD GRC GRD RGA GBC GBD BGA) 
+        (wind-strike nw YBB GRA GRB GRC GBA GBB GBC)
+     )
   )
   (piece
      (name YBD)
      (help "Water + Wind")
      (image Light "../images/Elementals/lybd.bmp")
+     (moves
+        (wind-slide sw GRC GRD RGA GBC GBD BGA) (water-slide ne) 
+        (water-rotate n BYA) (water-rotate e YBC)
+        (wind-rotate s BYA) (wind-rotate w YBC)
+        (move-type continue-type)
+        (wind-strike s BYA RGA RGB GRD BGA BGB GBD) 
+        (wind-strike w YBC GRB GRC GRD GBB GBC GBD)
+     )
   )
   (piece
      (name GBA)
      (help "Stone + Water")
      (image Light "../images/Elementals/lgba.bmp"
             Dark "../images/Elementals/dgba.bmp")
+     (moves
+        (stone-step n) (water-slide s)
+        (stone-rotate nw GBB) (stone-rotate ne BGD)
+        (water-rotate se GBB) (water-rotate sw BGD)
+     )
   )
   (piece
      (name GBB)
      (help "Stone + Water")
      (image Light "../images/Elementals/lgbb.bmp"
             Dark "../images/Elementals/dgbb.bmp")
+     (moves
+        (stone-step nw) (water-slide se)
+        (stone-rotate w GBC) (stone-rotate n GBA)
+        (water-rotate e GBC) (water-rotate s GBA)
+     )
   )
   (piece
      (name GBC)
      (help "Stone + Water")
      (image Light "../images/Elementals/lgbc.bmp"
             Dark "../images/Elementals/dgbc.bmp")
+     (moves
+        (stone-step w) (water-slide e)
+        (stone-rotate sw GBD) (stone-rotate nw GBB)
+        (water-rotate ne GBD) (water-rotate se GBB)
+     )
   )
   (piece
      (name GBD)
      (help "Stone + Water")
      (image Light "../images/Elementals/lgbd.bmp"
             Dark "../images/Elementals/dgbd.bmp")
+     (moves
+        (stone-step sw) (water-slide ne)
+        (stone-rotate s BGA) (stone-rotate w GBC)
+        (water-rotate n BGA) (water-rotate e GBC)
+     )
   )
   (piece
      (name BGA)
      (help "Stone + Water")
      (image Light "../images/Elementals/lbga.bmp"
             Dark "../images/Elementals/dbga.bmp")
+     (moves
+        (water-slide n) (stone-step s)
+        (water-rotate nw BGB) (water-rotate ne GBD)
+        (stone-rotate se BGB) (stone-rotate sw GBD)
+     )
   )
   (piece
      (name BGB)
      (help "Stone + Water")
      (image Light "../images/Elementals/lbgb.bmp"
             Dark "../images/Elementals/dbgb.bmp")
+     (moves
+        (water-slide nw) (stone-step se)
+        (water-rotate w BGC) (water-rotate n BGA)
+        (stone-rotate e BGC) (stone-rotate s BGA)
+     )
   )
   (piece
      (name BGC)
      (help "Stone + Water")
      (image Light "../images/Elementals/lbgc.bmp"
             Dark "../images/Elementals/dbgc.bmp")
+     (moves
+        (water-slide w) (stone-step e)
+        (water-rotate sw BGD) (water-rotate nw BGB)
+        (stone-rotate ne BGD) (stone-rotate se BGB)
+     )
   )
   (piece
      (name BGD)
      (help "Stone + Water")
      (image Light "../images/Elementals/lbgd.bmp"
             Dark "../images/Elementals/dbgd.bmp")
+     (moves
+        (water-slide sw) (stone-step ne)
+        (water-rotate s GBA) (water-rotate w BGC)
+        (stone-rotate n GBA) (stone-rotate e BGC)
+     )
   )
   (piece
      (name YGA)
      (help "Stone + Wind")
      (image Light "../images/Elementals/lyga.bmp")
+     (moves
+        (wind-slide n RGD GRA GRB BGD GBA GBB) (stone-step s)
+        (stone-rotate se YGB) (stone-rotate sw GYD)
+        (wind-rotate nw YGB) (wind-rotate ne GYD)
+        (move-type continue-type)
+        (wind-strike nw YGB GRA GRB GRC GBA GBB GBC) 
+        (wind-strike ne GYD RGC RGD GRA BGC BGD GBA)
+     )
   )
   (piece
      (name YGB)
      (help "Stone + Wind")
      (image Light "../images/Elementals/lygb.bmp")
+     (moves
+        (wind-slide nw GRA GRB GRC GBA GBB GBC) (stone-step se)
+        (stone-rotate e YGC) (stone-rotate s YGA)
+        (wind-rotate w YGC) (wind-rotate n YGA)
+        (move-type continue-type)
+        (wind-strike w YGC GRB GRC GRD GBB GBC GBD) 
+        (wind-strike n YGA RGD GRA GRB BGD GBA GBB)
+     )
   )
   (piece
      (name YGC)
      (help "Stone + Wind")
      (image Light "../images/Elementals/lygc.bmp")
+     (moves
+        (wind-slide w GRB GRC GRD GBB GBC GBD) (stone-step e)
+        (stone-rotate ne YGD) (stone-rotate se YGB)
+        (wind-rotate sw YGD) (wind-rotate nw YGB)
+        (move-type continue-type)
+        (wind-strike sw YGD GRC GRD RGA GBC GBD BGA) 
+        (wind-strike nw YGB GRA GRB GRC GBA GBB GBC)
+     )
   )
   (piece
      (name YGD)
      (help "Stone + Wind")
      (image Light "../images/Elementals/lygd.bmp")
+     (moves
+        (wind-slide sw GRC GRD RGA GBC GBD BGA) (stone-step ne)
+        (stone-rotate n GYA) (stone-rotate e YGC)
+        (wind-rotate s GYA) (wind-rotate w YGC)
+        (move-type continue-type)
+        (wind-strike s GYA RGA RGB GRD BGA BGB GBD) 
+        (wind-strike w YGC GRB GRC GRD GBB GBC GBD)
+     )
   )
   (piece
      (name GYA)
      (help "Stone + Wind")
      (image Light "../images/Elementals/lgya.bmp")
+     (moves
+        (stone-step n) (wind-slide s RGA RGB GRD BGA BGB GBD)
+        (stone-rotate nw GYB) (stone-rotate ne YGD)
+        (wind-rotate se GYB) (wind-rotate sw YGD)
+        (move-type continue-type)
+        (wind-strike se GYB RGA RGB RGC BGA BGB BGC) 
+        (wind-strike sw YGD GRC GRD RGA GBC GBD BGA)
+     )
   )
   (piece
      (name GYB)
      (help "Stone + Wind")
      (image Light "../images/Elementals/lgyb.bmp")
+     (moves
+        (stone-step nw) (wind-slide se RGA RGB RGC BGA BGB BGC)
+        (stone-rotate w GYC) (stone-rotate n GYA)
+        (wind-rotate e GYC) (wind-rotate s GYA)
+        (move-type continue-type)
+        (wind-strike e GYC RGB RGC RGD BGB BGC BGD) 
+        (wind-strike s GYA RGA RGB GRD BGA BGB GBD)
+     )
   )
   (piece
      (name GYC)
      (help "Stone + Wind")
      (image Light "../images/Elementals/lgyc.bmp")
+     (moves
+        (stone-step w) (wind-slide e RGB RGC RGD BGB BGC BGD)
+        (stone-rotate sw GYD) (stone-rotate nw GYB)
+        (wind-rotate ne GYD) (wind-rotate se GYB)
+        (move-type continue-type)
+        (wind-strike ne GYD RGC RGD GRA BGC BGD GBA) 
+        (wind-strike se GYB RGA RGB RGC BGA BGB BGC)
+     )
   )
   (piece
      (name GYD)
      (help "Stone + Wind")
      (image Light "../images/Elementals/lgyd.bmp")
+     (moves
+        (stone-step sw) (wind-slide ne RGC RGD GRA BGC BGD GBA)
+        (stone-rotate s YGA) (stone-rotate w GYC)
+        (wind-rotate n YGA) (wind-rotate e GYC)
+        (move-type continue-type)
+        (wind-strike n YGA RGD GRA GRB BGD GBA GBB) 
+        (wind-strike e GYC RGB RGC RGD BGB BGC BGD)
+     )
   )
   (piece
      (name RA)
      (help "Fire")
      (image Dark "../images/Elementals/dra.bmp")
+     (moves
+        (fire-slide n) (fire-slide s)
+        (fire-rotate nw RB) (fire-rotate ne RD)
+        (fire-rotate se RB) (fire-rotate sw RD)
+     )
   )
   (piece
      (name RB)
      (help "Fire")
      (image Dark "../images/Elementals/drb.bmp")
+     (moves
+        (fire-slide nw) (fire-slide se)
+        (fire-rotate w RC) (fire-rotate n RA)
+        (fire-rotate e RC) (fire-rotate s RA)
+     )
   )
   (piece
      (name RC)
      (help "Fire")
      (image Dark "../images/Elementals/drc.bmp")
+     (moves
+        (fire-slide w) (fire-slide e)
+        (fire-rotate sw RD) (fire-rotate nw RB)
+        (fire-rotate ne RD) (fire-rotate se RB)
+     )
   )
   (piece
      (name RD)
      (help "Fire")
      (image Dark "../images/Elementals/drd.bmp")
+     (moves
+        (fire-slide sw) (fire-slide ne)
+        (fire-rotate s RA) (fire-rotate w RC)
+        (fire-rotate n RA) (fire-rotate e RC)
+     )
   )
   (piece
      (name GRA)
      (help "Stone + Fire")
      (image Dark "../images/Elementals/dgra.bmp")
+     (moves
+        (stone-step n) (fire-slide s)
+        (stone-rotate nw GRB) (stone-rotate ne RGD)
+        (fire-rotate se GRB) (fire-rotate sw RGD)
+     )
   )
   (piece
      (name GRB)
      (help "Stone + Fire")
      (image Dark "../images/Elementals/dgrb.bmp")
+     (moves
+        (stone-step nw) (fire-slide se)
+        (stone-rotate w GRC) (stone-rotate n GRA)
+        (fire-rotate e GRC) (fire-rotate s GRA)
+     )
   )
   (piece
      (name GRC)
      (help "Stone + Fire")
      (image Dark "../images/Elementals/dgrc.bmp")
+     (moves
+        (stone-step w) (fire-slide e)
+        (stone-rotate sw GRD) (stone-rotate nw GRB)
+        (fire-rotate ne GRD) (fire-rotate se GRB)
+     )
   )
   (piece
      (name GRD)
      (help "Stone + Fire")
      (image Dark "../images/Elementals/dgrd.bmp")
+     (moves
+        (stone-step sw) (fire-slide ne)
+        (stone-rotate s RGA) (stone-rotate w GRC)
+        (fire-rotate n RGA) (fire-rotate e GRC)
+     )
   )
   (piece
      (name RGA)
      (help "Stone + Fire")
      (image Dark "../images/Elementals/drga.bmp")
+     (moves
+        (fire-slide n) (stone-step s)
+        (fire-rotate nw RGB) (fire-rotate ne GRD)
+        (stone-rotate se RGB) (stone-rotate sw GRD)
+     )
   )
   (piece
      (name RGB)
      (help "Stone + Fire")
      (image Dark "../images/Elementals/drgb.bmp")
+     (moves
+        (fire-slide nw) (stone-step se)
+        (fire-rotate w RGC) (fire-rotate n RGA)
+        (stone-rotate e RGC) (stone-rotate s RGA)
+     )
   )
   (piece
      (name RGC)
      (help "Stone + Fire")
      (image Dark "../images/Elementals/drgc.bmp")
+     (moves
+        (fire-slide w) (stone-step e)
+        (fire-rotate sw RGD) (fire-rotate nw RGB)
+        (stone-rotate ne RGD) (stone-rotate se RGB)
+     )
   )
   (piece
      (name RGD)
      (help "Stone + Fire")
      (image Dark "../images/Elementals/drgd.bmp")
+     (moves
+        (fire-slide sw) (stone-step ne)
+        (fire-rotate s GRA) (fire-rotate w RGC)
+        (stone-rotate n GRA) (stone-rotate e RGC)
+     )
   )
 
   (board-setup
@@ -305,4 +586,35 @@
      (e5 f6 e6 f6)) 
   )
   (loss-condition (Light Dark) (pieces-remaining 3) )
+)
+
+(variant
+  (title "Elementals (setup)")
+  (default)
+  (board-setup
+     (Light
+        (GA c2 d2 e2 f2 g2 h2)
+        (GC b1 i1)
+        (GB b2)
+        (GD i2)
+        (YBD e1)
+        (BYB f1)
+        (GYB d1)
+        (YGD g1)
+        (BGB c1)
+        (GBD h1)
+     )
+     (Dark
+        (GA c9 d9 e9 f9 g9 h9)
+        (GC b10 i10)
+        (GB i9)
+        (GD b9)
+        (RD e10)
+        (RB f10)
+        (GRB d10)
+        (RGD g10)
+        (BGD c10)
+        (GBB h10)
+     )
+  )
 )
