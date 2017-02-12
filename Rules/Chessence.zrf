@@ -1,4 +1,5 @@
 (define drop-pawn (
+   (verify (in-zone? reserve))
    (while (on-board? next)
         (if empty?
             add
@@ -90,6 +91,9 @@
          (x7 a8) (x8 a8) (x9 a8) (a8 b7) (b7 b8) (b8 b9) (b9 c7) (c7 c8)
          (y1 d2) (y2 d2) (y3 d2) (d2 d3) (d3 e1) (e1 e2) (e2 e3) (e3 f2)
       )
+      (zone (name reserve) (players White Black)
+            (positions x7 x8 x9 y1 y2 y3)
+      )
    )
 
    (piece
@@ -106,7 +110,7 @@
       (image White "images\Chess\SHaag\wpawn.bmp"
              Black "images\Chess\SHaag\bpawn.bmp")
       (moves
-         (rook n)     (rook s)     (rook w)     (rook e)
+         (rook   n)   (rook   s)   (rook   w)   (rook   e)
          (bishop nw)  (bishop sw)  (bishop ne)  (bishop se)
          (knight nne) (knight nnw) (knight sse) (knight ssw)
          (knight een) (knight ees) (knight wwn) (knight wws)
