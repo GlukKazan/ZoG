@@ -6,6 +6,8 @@
         )
         next
    )
+   (verify empty?)
+   add
 ))
 
 (define neighbor
