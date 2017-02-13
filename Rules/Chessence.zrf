@@ -11,7 +11,18 @@
 (define neighbor
    (and (on-board? $1)
         (friend? $1)
-        (piece? Pawn $1)
+        (or (piece? Pawn $1) (in-zone? var x2))
+   )
+)
+
+(define common-capture
+   (if (and (in-zone? var x2)
+            enemy? (not-piece? King)
+       )
+       cascade
+       a1 to-reserve
+       (while not-empty? to-reserve)
+       change-owner
    )
 )
 
@@ -24,6 +35,7 @@
    )
    $1 (while empty? add $1)
    (verify enemy?)
+   (common-capture)
    add
 ))
 
@@ -36,6 +48,7 @@
    )
    $1 (while empty? add $1)
    (verify enemy?)
+   (common-capture)
    add
 ))
 
@@ -51,27 +64,11 @@
            )
    )
    $1 (verify not-friend?)
+   (common-capture)
    add
 ))
 
-(game
-   (title "Chessence")
-
-   (option "animate captures" false)
-   (option "prevent flipping" true)
-
-   (move-sound    "Audio/Clack.wav")
-   (release-sound "Audio/Clack.wav")
-   (drop-sound    "") 
-   (capture-sound "")
-   (change-sound  "")
-   (click-sound   "")
-   (draw-sound    "")
-
-   (players White Black)
-   (turn-order White Black)
-
-   (board
+(define common-board
       (image "../images/Chessence/board.bmp")
       (grid
          (start-rectangle 0 0 49 49)
@@ -87,12 +84,44 @@
       )
       (kill-positions a2 b3 b5 c6 d4 e5 e7 f8)
       (unlink x1 x2 x3 x4 x5 x6 x7 x8 x9 y1 y2 y3 y4 y5 y6 y7 y8 y9)
+      (zone (name reserve) (players White Black)
+            (positions x1 x2 x3 x4 x5 x6 x7 x8 x9 y1 y2 y3 y4 y5 y6 y7 y8 y9)
+      )
+      (links to-reserve
+            (a1 y1) (y1 y2) (y2 y3) (y3 y4) (y4 y5) (y5 y6) (y6 y7) (y7 y8) (y8 y9)
+      )
+      (links black-reserve
+            (a1 x9) (x9 x8) (x8 x7) (x7 x6) (x6 x5) (x5 x4) (x4 x3) (x3 x2) (x2 x1)
+      )
+      (symmetry Black (to-reserve black-reserve))
+)
+
+(game
+   (title "Chessence")
+
+   (option "animate captures" false)
+   (option "prevent flipping" true)
+   (option "pass turn"        forced)
+
+   (move-sound    "Audio/Clack.wav")
+   (release-sound "Audio/Clack.wav")
+   (drop-sound    "") 
+   (capture-sound "")
+   (change-sound  "")
+   (click-sound   "")
+   (draw-sound    "")
+
+   (players White Black)
+   (turn-order White Black)
+
+   (board
+      (common-board)
       (links next 
          (x7 a8) (x8 a8) (x9 a8) (a8 b7) (b7 b8) (b8 b9) (b9 c7) (c7 c8)
          (y1 d2) (y2 d2) (y3 d2) (d2 d3) (d3 e1) (e1 e2) (e2 e3) (e3 f2)
       )
-      (zone (name reserve) (players White Black)
-            (positions x7 x8 x9 y1 y2 y3)
+      (zone (name var) (players White Black)
+            (positions x1)
       )
    )
 
@@ -130,5 +159,47 @@
    )
 
    (loss-condition (White Black) (checkmated King) )
-   (loss-condition (White Black) stalemated )
+)
+
+(variant
+   (title "Free Chessence")
+   (default)
+   (board
+      (common-board)
+      (links next 
+            (x1 a1) (x2 a1) (x3 a1) (x4 a1) (x5 a1) (x6 a1) (x7 a1) (x8 a1) (x9 a1)
+            (y1 a1) (y2 a1) (y3 a1) (y4 a1) (y5 a1) (y6 a1) (y7 a1) (y8 a1) (y9 a1)
+            (a1 a3) (a3 a4) (a4 a5) (a5 a6) (a6 a7) (a7 a8) (a8 a9) (a9 b1) (b1 b2)
+            (b2 b4) (b4 b6) (b6 b7) (b7 b8) (b8 b9) (b9 c1) (c1 c2) (c2 c3) (c3 c4)
+            (c4 c5) (c5 c7) (c7 c8) (c8 c9) (c9 d1) (d1 d2) (d2 d3) (d3 d5) (d5 d6)
+            (d6 d7) (d7 d8) (d8 d9) (d9 e1) (e1 e2) (e2 e3) (e3 e4) (e4 e6) (e6 e8)
+            (e8 e9) (e9 f1) (f1 f2) (f2 f3) (f3 f4) (f4 f5) (f5 f6) (f6 f7) (f7 f9)
+      )
+      (zone (name var) (players White Black)
+            (positions x2)
+      )
+   )
+   (piece
+      (name King)
+      (help "King")
+      (description "King")
+      (image White "images\Chess\SHaag\wking.bmp"
+             Black "images\Chess\SHaag\bking.bmp")
+      (moves
+         (rook   n)   (rook   s)   (rook   w)   (rook   e)
+         (bishop nw)  (bishop sw)  (bishop ne)  (bishop se)
+         (knight nne) (knight nnw) (knight sse) (knight ssw)
+         (knight een) (knight ees) (knight wwn) (knight wws)
+      )
+   )
+   (board-setup
+      (White
+         (Pawn f2 e1 e2 e3 d2 d3)
+         (King f1)
+      )
+      (Black
+         (Pawn a8 b9 b8 b7 c8 c7)
+         (King a9)
+      )
+   )
 )
