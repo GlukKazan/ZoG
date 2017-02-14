@@ -100,10 +100,25 @@
 
 (game
    (title "Chessence")
+   (description "Each player has a king and nine men with initial setup as shown, including three men \
+                 initially not yet in play at the side of the board. For a turn, a player may move \
+                 a man on the board, or alternatively, he may put one of his reserve men in play by placing \
+                 it on any of his six initial starting squares that is currently open.\\
+                 Kings do not move and must remain fixed on their starting squares the entire game.\
+                 A man has capability to move based on its relative position to other friendly men \
+                 on the board, as follows:\\
+                 - If a man is orthogonally adjacent to a friendly man, then both have the ability to \
+                   move as a rook in chess.\\
+                 - If a man is diagonally adjacent to a friendly man, then both have the ability to move \
+                   as a chess bishop.\\
+                 - If a man is a knight's move away from a friendly man, then both have the ability \
+                   to move as a knight.\\
+                 To win, a player must checkmate or stalemate the opponent.")
+   (history "Invented by Jim Winslow in 1989.")
 
    (option "animate captures" false)
    (option "prevent flipping" true)
-   (option "pass turn"        forced)
+   (option "pass turn"        false)
 
    (move-sound    "Audio/Clack.wav")
    (release-sound "Audio/Clack.wav")
@@ -161,10 +176,15 @@
    )
 
    (loss-condition (White Black) (checkmated King) )
+   (loss-condition (White Black) stalemated )
 )
 
 (variant
    (title "Free Chessence")
+   (description "This variant has the following differences:\\
+                 - Royal piece is moved by the same rules as the pawns.\\
+                 - A pawn may be dropped from the reserve on any free \
+                   square of the board.")
    (default)
    (board
       (common-board)
