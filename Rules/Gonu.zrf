@@ -1,0 +1,107 @@
+(define my-enemy?
+  (and (on-board? $1)
+       (not-position-flag? from-pos $1)
+       (enemy? $1)
+  )
+)
+
+(define my-friend?
+  (and (on-board? $1)
+       (not-position-flag? from-pos $1)
+       (or (position-flag? to-pos $1)
+           (friend? $1)
+       )
+  )
+)
+
+(define my-empty?
+  (and (on-board? $1)
+       (or (position-flag? from-pos $1)
+           (empty? $1)
+       )
+  )
+)
+
+(define check-head
+  (if (and (my-enemy?  $1)
+           (my-friend? $2)
+           (or (and (on-board? $3) (my-empty? $3))
+               (and (on-board? $4) (my-empty? $4))
+           )
+      )
+      (capture $1)
+  )
+)
+
+(define check-tail
+  (if (my-friend? $1)
+      mark $1
+      (check-head $1 $2 $3 $4)
+      back
+  )
+)
+
+(define shift (
+  (set-position-flag from-pos true)
+  $1 (verify empty?)
+  (set-position-flag to-pos true)
+  (check-head n s nn ss) (check-head w e ww ee)
+  (check-head s n ss nn) (check-head e w ee ww)
+  (check-tail n s nn ss) (check-tail w e ww ee)
+  (check-tail s n ss nn) (check-tail e w ee ww)
+  add
+))
+
+(game
+   (title "Gonu")
+
+   (move-sound    "Audio/Pickup.wav")
+   (release-sound "Audio/Pickup.wav")
+   (change-sound  "Audio/Pickup.wav")
+   (capture-sound "Audio/Pickup.wav")
+   (click-sound   "")
+   (draw-sound    "")
+
+   (option "prevent flipping" 2)
+   (option "smart moves"      true)
+   (option "animate captures" false)
+
+   (players Red Blue)
+   (turn-order Red Blue)
+
+   (board
+      (image "images\Kono\konobd.bmp" "images\Kono\konobd2.bmp")
+      (grid
+            (start-rectangle 9 9 59 59) 
+            (dimensions ;4x4
+                ("a/b/c/d" (47 0)) 
+                ("4/3/2/1" (0 47))
+            )
+            (directions 
+                (n 0 -1) (e 1 0) (s 0 1) (w -1 0)
+                (nn 0 -2) (ee 2 0) (ss 0 2) (ww -2 0)
+            )
+      ) 
+   )
+
+   (piece
+      (image Blue "images\Kono\blueball.bmp"
+             Red "images\Kono\redball.bmp")
+      (name Ball)
+      (help "Ball")
+      (moves
+            (shift n)
+            (shift e)
+            (shift s)
+            (shift w)
+      )
+   )
+
+   (board-setup
+        (Blue (Ball a3 d3 a4 b4 c4 d4))
+        (Red  (Ball a1 b1 c1 d1 a2 d2))
+   )
+
+   (loss-condition (Red Blue) stalemated)
+   (loss-condition (Red Blue) repetition)
+)
