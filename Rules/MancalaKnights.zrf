@@ -92,28 +92,28 @@
        (if (and (not-flag? $1-08) (not-flag? $1-04) (not-flag? $1-02) (flag? $1-01)) (add B1))
        (if (and (not-flag? $1-08) (not-flag? $1-04) (flag? $1-02) (not-flag? $1-01)) (add B2))
        (if (and (not-flag? $1-08) (not-flag? $1-04) (flag? $1-02) (flag? $1-01))     (add-def B3))
-       (if (and (not-flag? $1-08) (flag? $1-04) (not-flag? $1-02) (not-flag? $1-01)) (add B4))
+       (if (and (not-flag? $1-08) (flag? $1-04) (not-flag? $1-02) (not-flag? $1-01)) (add-def B4))
        (if (and (not-flag? $1-08) (flag? $1-04) (not-flag? $1-02) (flag? $1-01))     (add-def B5))
-       (if (and (not-flag? $1-08) (flag? $1-04) (flag? $1-02) (not-flag? $1-01))     (add B6))
+       (if (and (not-flag? $1-08) (flag? $1-04) (flag? $1-02) (not-flag? $1-01))     (add-def B6))
        (if (and (not-flag? $1-08) (flag? $1-04) (flag? $1-02) (flag? $1-01))         (add-def B7))
-       (if (and (flag? $1-08) (not-flag? $1-04) (not-flag? $1-02) (not-flag? $1-01)) (add B8))
+       (if (and (flag? $1-08) (not-flag? $1-04) (not-flag? $1-02) (not-flag? $1-01)) (add-def B8))
        (if (and (flag? $1-08) (not-flag? $1-04) (not-flag? $1-02) (flag? $1-01))     (add-def B9))
     else
        (if (flag? $1-R)
            (if (and (not-flag? $1-08) (not-flag? $1-04) (not-flag? $1-02) (flag? $1-01)) (add R1))
            (if (and (not-flag? $1-08) (not-flag? $1-04) (flag? $1-02) (not-flag? $1-01)) (add R2))
            (if (and (not-flag? $1-08) (not-flag? $1-04) (flag? $1-02) (flag? $1-01))     (add-def R3))
-           (if (and (not-flag? $1-08) (flag? $1-04) (not-flag? $1-02) (not-flag? $1-01)) (add R4))
+           (if (and (not-flag? $1-08) (flag? $1-04) (not-flag? $1-02) (not-flag? $1-01)) (add-def R4))
            (if (and (not-flag? $1-08) (flag? $1-04) (not-flag? $1-02) (flag? $1-01))     (add-def R5))
-           (if (and (not-flag? $1-08) (flag? $1-04) (flag? $1-02) (not-flag? $1-01))     (add R6))
+           (if (and (not-flag? $1-08) (flag? $1-04) (flag? $1-02) (not-flag? $1-01))     (add-def R6))
            (if (and (not-flag? $1-08) (flag? $1-04) (flag? $1-02) (flag? $1-01))         (add-def R7))
-           (if (and (flag? $1-08) (not-flag? $1-04) (not-flag? $1-02) (not-flag? $1-01)) (add R8))
+           (if (and (flag? $1-08) (not-flag? $1-04) (not-flag? $1-02) (not-flag? $1-01)) (add-def R8))
            (if (and (flag? $1-08) (not-flag? $1-04) (not-flag? $1-02) (flag? $1-01))     (add-def R9))
         else
            (if (and (not-flag? $1-08) (not-flag? $1-04) (not-flag? $1-02) (flag? $1-01)) (add P1))
            (if (and (not-flag? $1-08) (not-flag? $1-04) (flag? $1-02) (not-flag? $1-01)) (add P2))
            (if (and (not-flag? $1-08) (not-flag? $1-04) (flag? $1-02) (flag? $1-01))     (add-def P3))
-           (if (and (not-flag? $1-08) (flag? $1-04) (not-flag? $1-02) (not-flag? $1-01)) (add P4))
+           (if (and (not-flag? $1-08) (flag? $1-04) (not-flag? $1-02) (not-flag? $1-01)) (add-def P4))
            (if (and (not-flag? $1-08) (flag? $1-04) (not-flag? $1-02) (flag? $1-01))     (add-def P5))
        )
    )
@@ -153,9 +153,9 @@
   (if empty? (add R1))
   (if (piece? P1) (add R2))
   (if (piece? P2) (add-def R3))
-  (if (piece? P3) (add R4))
+  (if (piece? P3) (add-def R4))
   (if (piece? P4) (add-def R5))
-  (if (piece? P5) (add R6))
+  (if (piece? P5) (add-def R6))
 )
 
 (define bstop
@@ -164,9 +164,9 @@
   (if empty? (add B1))
   (if (piece? P1) (add B2))
   (if (piece? P2) (add-def B3))
-  (if (piece? P3) (add B4))
+  (if (piece? P3) (add-def B4))
   (if (piece? P4) (add-def B5))
-  (if (piece? P5) (add B6))
+  (if (piece? P5) (add-def B6))
 )
 
 (define stop
@@ -176,23 +176,23 @@
   (if empty? (add P1))
   (if (piece? P1) (add P2))
   (if (piece? P2) (add-def P3))
-  (if (piece? P3) (add P4))
+  (if (piece? P3) (add-def P4))
   (if (piece? P4) (add-def P5))
   (if (piece? R1) (add R2))
   (if (piece? R2) (add-def R3))
-  (if (piece? R3) (add R4))
+  (if (piece? R3) (add-def R4))
   (if (piece? R4) (add-def R5))
-  (if (piece? R5) (add R6))
+  (if (piece? R5) (add-def R6))
   (if (piece? R6) (add-def R7))
-  (if (piece? R7) (add R8))
+  (if (piece? R7) (add-def R8))
   (if (piece? R8) (add-def R9))
   (if (piece? B1) (add B2))
   (if (piece? B2) (add-def B3))
-  (if (piece? B3) (add B4))
+  (if (piece? B3) (add-def B4))
   (if (piece? B4) (add-def B5))
-  (if (piece? B5) (add B6))
+  (if (piece? B5) (add-def B6))
   (if (piece? B6) (add-def B7))
-  (if (piece? B7) (add B8))
+  (if (piece? B7) (add-def B8))
   (if (piece? B8) (add-def B9))
 )
 
@@ -348,7 +348,7 @@
       (end R1 false true false false false true)
    else
       (if (and (piece? P5) friend?)
-          (add R6)
+          (add-def R6)
        else
           (rstop)
       )
@@ -381,7 +381,7 @@
       (end R3 false true false false true true)
    else
       (if (and (piece? P5) friend?)
-          (add R8)
+          (add-def R8)
        else
           (step) $1 
           (rend-2)
@@ -555,7 +555,7 @@
       (end B1 true false false false false true)
    else
       (if (and (piece? P5) friend?)
-          (add B6)
+          (add-def B6)
        else
           (bstop)
       )
@@ -588,7 +588,7 @@
       (end B3 true false false false true true)
    else
       (if (and (piece? P5) friend?)
-          (add B8)
+          (add-def B8)
        else
           (step) $1 
           (bend-2)
@@ -1504,10 +1504,10 @@
 
    (board-setup
       (White
-         (R5 c1) (B5 f1) (P4 b1 b2 c2 d2 e2 f2 g2 g1 d1 e1)
+         (R5 c1) (B5 f1) (P4 b1 g1 d1 e1) (P5 b2 c2 d2 e2 f2 g2)
       )
       (Black
-         (R5 f8) (B5 c8) (P4 b8 b7 c7 d7 e7 f7 g7 g8 d8 e8)
+         (R5 f8) (B5 c8) (P4 b8 g8 d8 e8) (P5 b7 c7 d7 e7 f7 g7)
       )
    )
 
@@ -1530,10 +1530,10 @@
    (title "Simple Mancala's Knights (variant)")
    (board-setup
       (White
-         (R5 d1 e1) (B5 c1 f1) (P4 b1 b2 c2 d2 e2 f2 g2 g1)
+         (R5 d1 e1) (B5 c1 f1) (P4 b1 g1) (P5 b2 c2 d2 e2 f2 g2)
       )
       (Black
-         (R5 d8 e8) (B5 c8 f8) (P4 b8 b7 c7 d7 e7 f7 g7 g8)
+         (R5 d8 e8) (B5 c8 f8) (P4 b8 g8) (P5 b7 c7 d7 e7 f7 g7)
       )
    )
 )
@@ -1553,10 +1553,10 @@
    (board-def a2)
    (board-setup
       (White
-         (R5 d1 e1) (B5 c1 f1) (P4 b1 b2 c2 d2 e2 f2 g2 g1)
+         (R5 d1 e1) (B5 c1 f1) (P4 b1 g1) (P5 b2 c2 d2 e2 f2 g2)
       )
       (Black
-         (R5 d8 e8) (B5 c8 f8) (P4 b8 b7 c7 d7 e7 f7 g7 g8)
+         (R5 d8 e8) (B5 c8 f8) (P4 b8 g8) (P5 b7 c7 d7 e7 f7 g7)
       )
    )
 )
