@@ -774,6 +774,16 @@
 
 (game
    (title "Simple Mancala's Knights")
+   (description "This is experimental Chess-like Mancala game.\\
+                 - Each turn performs as Mancala sowing, starting with the current square.\
+                 - The singleton can't be moving.\
+                 - Sowing ends on a Knight, a group of enemies or at the edge of a board.\
+                 - The group of men can be join to the Knight standing on the adjasment square.\
+                 - The large group wins to smaller.\
+                 - The Knights can't be attacking by a men.\
+                 - The Knight wins any group.\\
+                 For win, kill all the enemy Knights or stalemate the opponent.")
+   (history "Invented by Valentin Chelnokov, 2017")
 
    (option "animate captures"   false)
    (option "pass turn"          false)
@@ -1544,12 +1554,32 @@
 
 (variant
    (title "Mancala's Knights")
+   (description "This is experimental Chess-like Mancala game.\\
+                 - Each turn performs as Mancala sowing, starting with the current square.\
+                 - Sowing can continue until people are more than 2.\
+                 - The singleton can't be moving.\
+                 - Sowing ends on a Knight, a group of enemies or at the edge of a board.\
+                 - The group of men can be join to the Knight standing on the adjasment square.\
+                 - The large group wins to smaller.\
+                 - The Knights can't be attacking by a men.\
+                 - The Knight wins any group.\\
+                 For win, kill all the enemy Knights or stalemate the opponent.")
    (default)
    (board-def a2)
 )
 
 (variant
    (title "Mancala's Knights (variant)")
+   (description "This is experimental Chess-like Mancala game.\\
+                 - Each turn performs as Mancala sowing, starting with the current square.\
+                 - Sowing can continue until people are more than 2.\
+                 - The singleton can't be moving.\
+                 - Sowing ends on a Knight, a group of enemies or at the edge of a board.\
+                 - The group of men can be join to the Knight standing on the adjasment square.\
+                 - The large group wins to smaller.\
+                 - The Knights can't be attacking by a men.\
+                 - The Knight wins any group.\\
+                 For win, kill all the enemy Knights or stalemate the opponent.")
    (board-def a2)
    (board-setup
       (White
