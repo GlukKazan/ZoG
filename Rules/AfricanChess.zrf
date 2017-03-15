@@ -1,0 +1,200 @@
+(define stop-1
+  (if (or empty?
+          (piece? P1$2)
+          (piece? K1$2)
+          (piece? K2$2)
+          (piece? K3$2)
+      )
+      add
+  )
+  (if (piece? P1$1) (add P2$1))
+  (if (piece? P2$1) (add P3$1))
+  (if (piece? P3$1) (add P4$1))
+  (if (piece? K1$1) (add K2$1))
+  (if (piece? K2$1) (add K3$1))
+  (if (piece? K3$1) (add K4$1))
+  (if (piece? P2$2) (add P3$1$2))
+  (if (piece? P3$2) (add P4$1$2))
+  (if (piece? P3$1$2) (add P2$1))
+  (if (piece? P3$2$1) (add WB4))
+)
+
+(define step-1 (
+  $3 
+  (stop-1 $1 $2)
+))
+
+(game
+   (title "African Chess")
+
+   (option "animate captures"   false)
+   (option "pass turn"          false)
+   (option "pass partial"       true)
+
+   (move-sound "Audio/Pickup.wav")
+   (release-sound "Audio/Pickup.wav")
+   (capture-sound "")
+   (change-sound  "")
+   (click-sound   "")
+   (draw-sound    "")
+
+   (players White Black N)
+   (turn-order (White N white-turn) (Black N black-turn))
+
+   (board
+      (image "../images/AfricanChess/board.bmp")
+      (grid
+        (start-rectangle 2 2 70 70)
+        (dimensions
+          ("a/b/c/d/e/f/g/h" (68 0)) ; files
+          ("8/7/6/5/4/3/2/1" (0 68)) ; ranks
+        )
+        (directions (n 0 -1) (s 0 1) (e 1 0) (w -1 0)
+                    (ne 1 -1) (nw -1 -1) (se 1 1) (sw -1 1)
+        ) 
+      )
+      (zone (name ami) (players White)
+            (positions a1)
+      )
+      (zone (name ami) (players Black)
+            (positions h8)
+      )
+   )
+
+   (piece
+      (name P1W)
+      (description "Peons")
+      (image N "../images/AfricanChess/W1.bmp")
+      (moves
+         (move-type white-turn)
+         (step-1 W B n)  (step-1 W B s)  (step-1 W B w)  (step-1 W B e)
+         (step-1 W B nw) (step-1 W B sw) (step-1 W B ne) (step-1 W B se)
+      )
+   )
+   (piece
+      (name P1B)
+      (description "Peons")
+      (image N "../images/AfricanChess/B1.bmp")
+      (moves
+         (move-type black-turn)
+         (step-1 B W n)  (step-1 B W s)  (step-1 B W w)  (step-1 B W e)
+         (step-1 B W nw) (step-1 B W sw) (step-1 B W ne) (step-1 B W se)
+      )
+   )
+   (piece
+      (name P2W)
+      (description "Peons")
+      (image N "../images/AfricanChess/W2.bmp")
+   )
+   (piece
+      (name P2B)
+      (description "Peons")
+      (image N "../images/AfricanChess/B2.bmp")
+   )
+   (piece
+      (name P3W)
+      (description "Peons")
+      (image N "../images/AfricanChess/W3.bmp")
+   )
+   (piece
+      (name P3B)
+      (description "Peons")
+      (image N "../images/AfricanChess/B3.bmp")
+   )
+   (piece
+      (name P4W)
+      (description "Peons")
+      (image N "../images/AfricanChess/W4.bmp")
+   )
+   (piece
+      (name P4B)
+      (description "Peons")
+      (image N "../images/AfricanChess/B4.bmp")
+   )
+
+   (piece
+      (name P3WB)
+      (description "Peons")
+      (image N "../images/AfricanChess/W1B2.bmp")
+   )
+   (piece
+      (name P3BW)
+      (description "Peons")
+      (image N "../images/AfricanChess/W2B1.bmp")
+   )
+   (piece
+      (name P4WB)
+      (description "Peons")
+      (image N "../images/AfricanChess/W2B3.bmp")
+   )
+   (piece
+      (name P4BW)
+      (description "Peons")
+      (image N "../images/AfricanChess/W3B2.bmp")
+   )
+
+   (piece
+      (name WB2)
+      (description "Peons")
+      (image N "../images/AfricanChess/W1B1.bmp")
+   )
+   (piece
+      (name WB4)
+      (description "Peons")
+      (image N "../images/AfricanChess/W2B2.bmp")
+   )
+
+   (piece
+      (name K1W)
+      (description "King")
+      (image N "../images/AfricanChess/WK1.bmp")
+   )
+   (piece
+      (name K1B)
+      (description "King")
+      (image N "../images/AfricanChess/BK1.bmp")
+   )
+   (piece
+      (name K2W)
+      (description "King")
+      (image N "../images/AfricanChess/WK2.bmp")
+   )
+   (piece
+      (name K2B)
+      (description "King")
+      (image N "../images/AfricanChess/BK2.bmp")
+   )
+   (piece
+      (name K3W)
+      (description "King")
+      (image N "../images/AfricanChess/WK3.bmp")
+   )
+   (piece
+      (name K3B)
+      (description "King")
+      (image N "../images/AfricanChess/BK3.bmp")
+   )
+   (piece
+      (name K4W)
+      (description "King")
+      (image N "../images/AfricanChess/WK4.bmp")
+   )
+   (piece
+      (name K4B)
+      (description "King")
+      (image N "../images/AfricanChess/BK4.bmp")
+   )
+
+   (board-setup
+      (N
+         (P1W a1 b1 c1 d1 f1 g1 h1 a2 b2 c2 d2 e2 f2 g2 h2)
+         (K1W e1)
+         (P1B a8 b8 c8 d8 f8 g8 h8 a7 b7 c7 d7 e7 f7 g7 h7)
+         (K1B e8)
+      )
+   )
+
+   (loss-condition (White) (checkmated K1W K2W K2W K3W K4W) )
+   (loss-condition (Black) (checkmated K1B K2B K2B K3B K4B) )
+   (loss-condition (White Black) stalemated )
+)
