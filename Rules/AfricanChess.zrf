@@ -1,11 +1,133 @@
-(define stop-1
+(define not-0?
+  (or (flag? $1-01) (flag? $1-02))
+)
+
+(define dec
+   (verify (not-0? $1))
+   (if (not-flag? $1-01)
+       (set-flag $1-01 true)
+       (if (not-flag? $1-02)
+           (set-flag $1-02 true)
+        else
+           (set-flag $1-02 false)
+       )
+    else
+       (set-flag $1-01 false)
+   )
+)
+
+(define let
+  (set-flag $1-01 (or (piece? K2W) (piece? K2B) (piece? K4W) (piece? K4B)))
+  (set-flag $1-02 (or (piece? K3W) (piece? K3B) (piece? K4W) (piece? K4B)))
+)
+
+(define pawn-all
+  (if (and (flag? $3-01) (flag? $3-02))
+      (if (or empty?
+              (piece? K1$2)
+              (piece? K2$2)
+              (piece? K3$2)
+              (piece? K4$2)
+          )
+          (create P3$1)
+      )
+      (if (piece? P1$1) (create P4$1))
+      (if (piece? K1$1) (create K4$1))
+      (if (piece? P1$2) (create P4$1$2))
+  )
+  (if (and (not-flag? $3-01) (flag? $3-02))
+      (if (or empty?
+              (piece? K1$2)
+              (piece? K2$2)
+              (piece? K3$2)
+              (piece? K4$2)
+          )
+          (create P2$1)
+      )
+      (if (piece? P1$1) (create P3$1))
+      (if (piece? P2$1) (create P4$1))
+      (if (piece? P2$2) (create WB4))
+      (if (piece? K1$1) (create K3$1))
+      (if (piece? K2$1) (create K4$1))
+      (if (piece? P1$2) (create P3$1$2))
+      (if (piece? WB2)  (create P4$1$2))
+  )
+  (if (and (flag? $3-01) (not-flag? $3-02))
+      (if (or empty?
+              (piece? K1$2)
+              (piece? K2$2)
+              (piece? K3$2)
+              (piece? K4$2)
+          )
+          (create P1$1)
+      )
+      (if (piece? P1$1) (create P2$1))
+      (if (piece? P1$2) (create WB2))
+      (if (piece? P2$1) (create P3$1))
+      (if (piece? P3$1) (create P4$1))
+      (if (piece? K1$1) (create K2$1))
+      (if (piece? K2$1) (create K3$1))
+      (if (piece? K3$1) (create K4$1))
+      (if (piece? P2$2) (create P3$2$1))
+      (if (piece? P3$2) (create P4$2$1))
+      (if (piece? P3$1$2) (create P4$1$2))
+      (if (piece? P3$2$1) (create P2$1))
+      (if (piece? WB2) (create P3$1$2))
+  )
+)
+
+(define pawn-4
+  (if (or empty?
+          (piece? K1$2)
+          (piece? K2$2)
+          (piece? K3$2)
+          (piece? K4$2)
+      )
+      (add P4$1)
+  )
+)
+
+(define pawn-3
+  (if (or empty?
+          (piece? K1$2)
+          (piece? K2$2)
+          (piece? K3$2)
+          (piece? K4$2)
+      )
+      (add P3$1)
+  )
+  (if (piece? P1$1) (add P4$1))
+  (if (piece? K1$1) (add K4$1))
+  (if (piece? P1$2) (add P4$1$2))
+)
+
+(define pawn-2
+  (if (or empty?
+          (piece? P2$2)
+          (piece? K1$2)
+          (piece? K2$2)
+          (piece? K3$2)
+          (piece? K4$2)
+      )
+      (add P2$1)
+  )
+  (if (piece? P1$1) (add P3$1))
+  (if (piece? P2$1) (add P4$1))
+  (if (piece? K1$1) (add K3$1))
+  (if (piece? K2$1) (add K4$1))
+  (if (piece? P1$2) (add P3$1$2))
+  (if (piece? WB2)  (add P4$1$2))
+)
+
+(define pawn-1
   (if (or empty?
           (piece? P1$2)
           (piece? K1$2)
           (piece? K2$2)
           (piece? K3$2)
+          (piece? K4$2)
       )
-      add
+      (add P1$1)
   )
   (if (piece? P1$1) (add P2$1))
   (if (piece? P2$1) (add P3$1))
@@ -13,15 +135,199 @@
   (if (piece? K1$1) (add K2$1))
   (if (piece? K2$1) (add K3$1))
   (if (piece? K3$1) (add K4$1))
-  (if (piece? P2$2) (add P3$1$2))
-  (if (piece? P3$2) (add P4$1$2))
-  (if (piece? P3$1$2) (add P2$1))
-  (if (piece? P3$2$1) (add WB4))
+  (if (piece? P2$2) (add P3$2$1))
+  (if (piece? P3$2) (add P4$2$1))
+  (if (piece? P3$1$2) (add P4$1$2))
+  (if (piece? P3$2$1) (add P2$1))
+  (if (piece? WB2) (add P3$1$2))
 )
 
-(define step-1 (
-  $3 
-  (stop-1 $1 $2)
+(define step
+  (verify (and  
+      (not-piece? P4$1)
+      (not-piece? P4$2)
+      (not-piece? K4$1)
+      (not-piece? P4$1$2)
+      (not-piece? P4$2$1)
+      (not-piece? WB4)
+  ))
+  (if (or empty?
+          (piece? K1$2)
+          (piece? K2$2)
+          (piece? K3$2)
+          (piece? K4$2)
+      )
+      (create P1$1)
+  )
+  (if (piece? P1$1) (create P2$1))
+  (if (piece? P2$1) (create P3$1))
+  (if (piece? P3$1) (create P4$1))
+  (if (piece? P1$2) (create WB2))
+  (if (piece? P2$2) (create P3$2$1))
+  (if (piece? P3$2) (create P4$2$1))
+  (if (piece? K1$1) (create K2$1))
+  (if (piece? K2$1) (create K3$1))
+  (if (piece? K3$1) (create K4$1))
+  (if (piece? P3$1$2) (create P4$1$2))
+  (if (piece? P3$2$1) (create WB4))
+  (if (piece? WB2) (create P3$1$2))
+)
+
+(define king
+  (if (or empty?
+          (piece? P1$2) (piece? K1$2)
+          (piece? P2$2) (piece? K2$2)
+          (piece? P3$2) (piece? K3$2)
+          (piece? P4$2) (piece? K4$2)
+      )
+      (add K1$1)
+  )
+  (if (piece? P1$1) (add K2$1))
+  (if (piece? P2$1) (add K3$1))
+  (if (piece? P3$1) (add K4$1))
+  (if (piece? P3$1$2) (add K3$1))
+  (if (piece? P3$2$1) (add K2$1))
+  (if (piece? P4$1$2) (add K4$1))
+  (if (piece? P4$2$1) (add K2$1))
+  (if (piece? WB2) (add K2$1))
+  (if (piece? WB4) (add K3$1))
+)
+
+(define can-step?
+  (and (on-board? $3)
+       (not-piece? P4$1 $3)
+       (not-piece? P4$2 $3)
+       (not-piece? K4$1 $3)
+       (not-piece? P4$1$2 $3)
+       (not-piece? P4$2$1 $3)
+       (not-piece? WB4 $3)
+  )
+)
+
+(define end-1
+  $3 (pawn-1 $1 $2)
+)
+
+(define end-2
+  $3 (if (can-step? $1 $2 $3)
+      (step $1 $2)
+      (end-1 $1 $2 $3)
+   else
+      (pawn-2 $1 $2)
+  )
+)
+
+(define end-3
+  $3 (if (can-step? $1 $2 $3)
+      (step $1 $2)
+      (end-2 $1 $2 $3)
+   else
+      (pawn-3 $1 $2)
+  )
+)
+
+(define end-4
+  $3 (if (can-step? $1 $2 $3)
+      (step $1 $2)
+      (end-3 $1 $2 $3)
+   else
+      (pawn-4 $1 $2)
+  )
+)
+
+(define seed-1 (
+  (end-1 $1 $2 $3)
+))
+
+(define seed-2 (
+  (end-2 $1 $2 $3)
+))
+
+(define seed-3 (
+  (end-3 $1 $2 $3)
+))
+
+(define seed-4 (
+  (end-4 $1 $2 $3)
+))
+
+(define shift (
+  $3 (king $1 $2)
+))
+
+(define jump-1 (
+  (let c)
+  $3 mark
+  (verify (can-step? $1 $2 $3))
+  (while (and (can-step? $1 $2 $3) (not-0? c))
+     $3 (if (can-step? $1 $2 $3)
+        (dec c) (step $1 $2)
+      else
+        (pawn-all $1 $2 c)
+     )
+  )
+  back 
+  (king $1 $2)
+))
+
+(define jump-2 (
+  (let c)
+  $3 (dec c) (step $1 $2)
+  $3 mark
+  (verify (can-step? $1 $2 $3))
+  (while (and (can-step? $1 $2 $3) (not-0? c))
+     $3 (if (can-step? $1 $2 $3)
+        (dec c) (step $1 $2)
+      else
+        (pawn-all $1 $2 c)
+     )
+  )
+  back 
+  (king $1 $2)
+))
+
+(define jump-3 (
+  (let c)
+  $3 (dec c) (step $1 $2)
+  $3 (dec c) (step $1 $2)
+  $3 mark
+  (while (and (can-step? $1 $2 $3) (not-0? c))
+     $3 (if (can-step? $1 $2 $3)
+        (dec c) (step $1 $2)
+      else
+        (pawn-all $1 $2 c)
+     )
+  )
+  back 
+  (king $1 $2)
+))
+
+(define jump-4 (
+  (let c)
+  $3 (dec c) (step $1 $2)
+  $3 (dec c) (step $1 $2)
+  $3 (dec c) (step $1 $2)
+  $3 (king $1 $2)
+))
+
+(define split-1 (
+  (create $3)
+  (end-1 $1 $2 $4)
+))
+
+(define split-2 (
+  (create $3)
+  (end-2 $1 $2 $4)
+))
+
+(define split-3 (
+  (create $3)
+  (end-3 $1 $2 $4)
+))
+
+(define split-k (
+  (create $3)
+  $4 (king $1 $2)
 ))
 
 (game
@@ -63,126 +369,280 @@
 
    (piece
       (name P1W)
-      (description "Peons")
+      (description "Pawns")
       (image N "../images/AfricanChess/W1.bmp")
       (moves
          (move-type white-turn)
-         (step-1 W B n)  (step-1 W B s)  (step-1 W B w)  (step-1 W B e)
-         (step-1 W B nw) (step-1 W B sw) (step-1 W B ne) (step-1 W B se)
+         (seed-1 W B n)  (seed-1 W B s)  (seed-1 W B w)  (seed-1 W B e)
+         (seed-1 W B nw) (seed-1 W B sw) (seed-1 W B ne) (seed-1 W B se)
       )
    )
    (piece
       (name P1B)
-      (description "Peons")
+      (description "Pawns")
       (image N "../images/AfricanChess/B1.bmp")
       (moves
          (move-type black-turn)
-         (step-1 B W n)  (step-1 B W s)  (step-1 B W w)  (step-1 B W e)
-         (step-1 B W nw) (step-1 B W sw) (step-1 B W ne) (step-1 B W se)
+         (seed-1 B W n)  (seed-1 B W s)  (seed-1 B W w)  (seed-1 B W e)
+         (seed-1 B W nw) (seed-1 B W sw) (seed-1 B W ne) (seed-1 B W se)
       )
    )
    (piece
       (name P2W)
-      (description "Peons")
+      (description "Pawns")
       (image N "../images/AfricanChess/W2.bmp")
+      (moves
+         (move-type white-turn)
+         (seed-2 W B n)  (seed-2 W B s)  (seed-2 W B w)  (seed-2 W B e)
+         (seed-2 W B nw) (seed-2 W B sw) (seed-2 W B ne) (seed-2 W B se)
+      )
    )
    (piece
       (name P2B)
-      (description "Peons")
+      (description "Pawns")
       (image N "../images/AfricanChess/B2.bmp")
+      (moves
+         (move-type black-turn)
+         (seed-2 B W n)  (seed-2 B W s)  (seed-2 B W w)  (seed-2 B W e)
+         (seed-2 B W nw) (seed-2 B W sw) (seed-2 B W ne) (seed-2 B W se)
+      )
    )
    (piece
       (name P3W)
-      (description "Peons")
+      (description "Pawns")
       (image N "../images/AfricanChess/W3.bmp")
+      (moves
+         (move-type white-turn)
+         (seed-3 W B n)  (seed-3 W B s)  (seed-3 W B w)  (seed-3 W B e)
+         (seed-3 W B nw) (seed-3 W B sw) (seed-3 W B ne) (seed-3 W B se)
+      )
    )
    (piece
       (name P3B)
-      (description "Peons")
+      (description "Pawns")
       (image N "../images/AfricanChess/B3.bmp")
+      (moves
+         (move-type black-turn)
+         (seed-3 B W n)  (seed-3 B W s)  (seed-3 B W w)  (seed-3 B W e)
+         (seed-3 B W nw) (seed-3 B W sw) (seed-3 B W ne) (seed-3 B W se)
+      )
    )
    (piece
       (name P4W)
-      (description "Peons")
+      (description "Pawns")
       (image N "../images/AfricanChess/W4.bmp")
+      (moves
+         (move-type white-turn)
+         (seed-4 W B n)  (seed-4 W B s)  (seed-4 W B w)  (seed-4 W B e)
+         (seed-4 W B nw) (seed-4 W B sw) (seed-4 W B ne) (seed-4 W B se)
+      )
    )
    (piece
       (name P4B)
-      (description "Peons")
+      (description "Pawns")
       (image N "../images/AfricanChess/B4.bmp")
+      (moves
+         (move-type black-turn)
+         (seed-4 B W n)  (seed-4 B W s)  (seed-4 B W w)  (seed-4 B W e)
+         (seed-4 B W nw) (seed-4 B W sw) (seed-4 B W ne) (seed-4 B W se)
+      )
    )
 
    (piece
-      (name P3WB)
-      (description "Peons")
-      (image N "../images/AfricanChess/W1B2.bmp")
-   )
-   (piece
       (name P3BW)
-      (description "Peons")
-      (image N "../images/AfricanChess/W2B1.bmp")
+      (description "Pawns")
+      (image N "../images/AfricanChess/W1B2.bmp")
+      (moves
+         (move-type white-turn)
+         (split-1 W B P2B n)  (split-1 W B P2B s)  (split-1 W B P2B w)  (split-1 W B P2B e)
+         (split-1 W B P2B nw) (split-1 W B P2B sw) (split-1 W B P2B ne) (split-1 W B P2B se)
+         (move-type black-turn)
+         (split-2 B W P1W n)  (split-2 B W P1W s)  (split-2 B W P1W w)  (split-2 B W P1W e)
+         (split-2 B W P1W nw) (split-2 B W P1W sw) (split-2 B W P1W ne) (split-2 B W P1W se)
+      )
    )
    (piece
-      (name P4WB)
-      (description "Peons")
-      (image N "../images/AfricanChess/W2B3.bmp")
+      (name P3WB)
+      (description "Pawns")
+      (image N "../images/AfricanChess/W2B1.bmp")
+      (moves
+         (move-type white-turn)
+         (split-2 W B P1B n)  (split-2 W B P1B s)  (split-2 W B P1B w)  (split-2 W B P1B e)
+         (split-2 W B P1B nw) (split-2 W B P1B sw) (split-2 W B P1B ne) (split-2 W B P1B se)
+         (move-type black-turn)
+         (split-1 B W P2W n)  (split-1 B W P2W s)  (split-1 B W P2W w)  (split-1 B W P2W e)
+         (split-1 B W P2W nw) (split-1 B W P2W sw) (split-1 B W P2W ne) (split-1 B W P2W se)
+      )
    )
    (piece
       (name P4BW)
-      (description "Peons")
+      (description "Pawns")
+      (image N "../images/AfricanChess/W2B3.bmp")
+      (moves
+         (move-type white-turn)
+         (split-1 W B P3B n)  (split-1 W B P3B s)  (split-1 W B P3B w)  (split-1 W B P3B e)
+         (split-1 W B P3B nw) (split-1 W B P3B sw) (split-1 W B P3B ne) (split-1 W B P3B se)
+         (move-type black-turn)
+         (split-3 B W P1W n)  (split-3 B W P1W s)  (split-3 B W P1W w)  (split-3 B W P1W e)
+         (split-3 B W P1W nw) (split-3 B W P1W sw) (split-3 B W P1W ne) (split-3 B W P1W se)
+      )
+   )
+   (piece
+      (name P4WB)
+      (description "Pawns")
       (image N "../images/AfricanChess/W3B2.bmp")
+      (moves
+         (move-type black-turn)
+         (split-1 B W P3W n)  (split-1 B W P3W s)  (split-1 B W P3W w)  (split-1 B W P3W e)
+         (split-1 B W P3W nw) (split-1 B W P3W sw) (split-1 B W P3W ne) (split-1 B W P3W se)
+         (move-type white-turn)
+         (split-3 W B P1B n)  (split-3 W B P1B s)  (split-3 W B P1B w)  (split-3 W B P1B e)
+         (split-3 W B P1B nw) (split-3 W B P1B sw) (split-3 W B P1B ne) (split-3 W B P1B se)
+      )
    )
 
    (piece
       (name WB2)
-      (description "Peons")
+      (description "Pawns")
       (image N "../images/AfricanChess/W1B1.bmp")
+      (moves
+         (move-type white-turn)
+         (split-1 W B P1B n)  (split-1 W B P1B s)  (split-1 W B P1B w)  (split-1 W B P1B e)
+         (split-1 W B P1B nw) (split-1 W B P1B sw) (split-1 W B P1B ne) (split-1 W B P1B se)
+         (move-type black-turn)
+         (split-1 B W P1W n)  (split-1 B W P1W s)  (split-1 B W P1W w)  (split-1 B W P1W e)
+         (split-1 B W P1W nw) (split-1 B W P1W sw) (split-1 B W P1W ne) (split-1 B W P1W se)
+      )
    )
    (piece
       (name WB4)
-      (description "Peons")
+      (description "Pawns")
       (image N "../images/AfricanChess/W2B2.bmp")
+      (moves
+         (move-type white-turn)
+         (split-2 W B P2B n)  (split-2 W B P2B s)  (split-2 W B P2B w)  (split-2 W B P2B e)
+         (split-2 W B P2B nw) (split-2 W B P2B sw) (split-2 W B P2B ne) (split-2 W B P2B se)
+         (move-type black-turn)
+         (split-2 B W P2W n)  (split-2 B W P2W s)  (split-2 B W P2W w)  (split-2 B W P2W e)
+         (split-2 B W P2W nw) (split-2 B W P2W sw) (split-2 B W P2W ne) (split-2 B W P2W se)
+      )
    )
 
    (piece
       (name K1W)
       (description "King")
       (image N "../images/AfricanChess/WK1.bmp")
+      (moves
+         (move-type white-turn)
+         (shift W B n)  (shift W B s)  (shift W B w)  (shift W B e)
+         (shift W B nw) (shift W B sw) (shift W B ne) (shift W B se)
+      )
    )
    (piece
       (name K1B)
       (description "King")
       (image N "../images/AfricanChess/BK1.bmp")
+      (moves
+         (move-type black-turn)
+         (shift B W n)  (shift B W s)  (shift B W w)  (shift B W e)
+         (shift B W nw) (shift B W sw) (shift B W ne) (shift B W se)
+      )
    )
    (piece
       (name K2W)
       (description "King")
       (image N "../images/AfricanChess/WK2.bmp")
+      (moves
+         (move-type white-turn)
+         (split-k W B P1W n)  (split-k W B P1W s)  (split-k W B P1W w)  (split-k W B P1W e)
+         (split-k W B P1W nw) (split-k W B P1W sw) (split-k W B P1W ne) (split-k W B P1W se)
+         (jump-1 W B n)  (jump-1 W B s)  (jump-1 W B w)  (jump-1 W B e)
+         (jump-1 W B nw) (jump-1 W B sw) (jump-1 W B ne) (jump-1 W B se)
+         (jump-2 W B n)  (jump-2 W B s)  (jump-2 W B w)  (jump-2 W B e)
+         (jump-2 W B nw) (jump-2 W B sw) (jump-2 W B ne) (jump-2 W B se)
+      )
    )
    (piece
       (name K2B)
       (description "King")
       (image N "../images/AfricanChess/BK2.bmp")
+      (moves
+         (move-type black-turn)
+         (split-k B W P1B n)  (split-k B W P1B s)  (split-k B W P1B w)  (split-k B W P1B e)
+         (split-k B W P1B nw) (split-k B W P1B sw) (split-k B W P1B ne) (split-k B W P1B se)
+         (jump-1 B W n)  (jump-1 B W s)  (jump-1 B W w)  (jump-1 B W e)
+         (jump-1 B W nw) (jump-1 B W sw) (jump-1 B W ne) (jump-1 B W se)
+         (jump-2 B W n)  (jump-2 B W s)  (jump-2 B W w)  (jump-2 B W e)
+         (jump-2 B W nw) (jump-2 B W sw) (jump-2 B W ne) (jump-2 B W se)
+      )
    )
    (piece
       (name K3W)
       (description "King")
       (image N "../images/AfricanChess/WK3.bmp")
+      (moves
+         (move-type white-turn)
+         (split-k W B P2W n)  (split-k W B P2W s)  (split-k W B P2W w)  (split-k W B P2W e)
+         (split-k W B P2W nw) (split-k W B P2W sw) (split-k W B P2W ne) (split-k W B P2W se)
+         (jump-1 W B n)  (jump-1 W B s)  (jump-1 W B w)  (jump-1 W B e)
+         (jump-1 W B nw) (jump-1 W B sw) (jump-1 W B ne) (jump-1 W B se)
+         (jump-2 W B n)  (jump-2 W B s)  (jump-2 W B w)  (jump-2 W B e)
+         (jump-2 W B nw) (jump-2 W B sw) (jump-2 W B ne) (jump-2 W B se)
+         (jump-3 W B n)  (jump-3 W B s)  (jump-3 W B w)  (jump-3 W B e)
+         (jump-3 W B nw) (jump-3 W B sw) (jump-3 W B ne) (jump-3 W B se)
+      )
    )
    (piece
       (name K3B)
       (description "King")
       (image N "../images/AfricanChess/BK3.bmp")
+      (moves
+         (move-type black-turn)
+         (split-k B W P2B n)  (split-k B W P2B s)  (split-k B W P2B w)  (split-k B W P2B e)
+         (split-k B W P2B nw) (split-k B W P2B sw) (split-k B W P2B ne) (split-k B W P2B se)
+         (jump-1 B W n)  (jump-1 B W s)  (jump-1 B W w)  (jump-1 B W e)
+         (jump-1 B W nw) (jump-1 B W sw) (jump-1 B W ne) (jump-1 B W se)
+         (jump-2 B W n)  (jump-2 B W s)  (jump-2 B W w)  (jump-2 B W e)
+         (jump-2 B W nw) (jump-2 B W sw) (jump-2 B W ne) (jump-2 B W se)
+         (jump-3 B W n)  (jump-3 B W s)  (jump-3 B W w)  (jump-3 B W e)
+         (jump-3 B W nw) (jump-3 B W sw) (jump-3 B W ne) (jump-3 B W se)
+      )
    )
    (piece
       (name K4W)
       (description "King")
       (image N "../images/AfricanChess/WK4.bmp")
+      (moves
+         (move-type white-turn)
+         (split-k W B P3W n)  (split-k W B P3W s)  (split-k W B P3W w)  (split-k W B P3W e)
+         (split-k W B P3W nw) (split-k W B P3W sw) (split-k W B P3W ne) (split-k W B P3W se)
+         (jump-1 W B n)  (jump-1 W B s)  (jump-1 W B w)  (jump-1 W B e)
+         (jump-1 W B nw) (jump-1 W B sw) (jump-1 W B ne) (jump-1 W B se)
+         (jump-2 W B n)  (jump-2 W B s)  (jump-2 W B w)  (jump-2 W B e)
+         (jump-2 W B nw) (jump-2 W B sw) (jump-2 W B ne) (jump-2 W B se)
+         (jump-3 W B n)  (jump-3 W B s)  (jump-3 W B w)  (jump-3 W B e)
+         (jump-3 W B nw) (jump-3 W B sw) (jump-3 W B ne) (jump-3 W B se)
+         (jump-4 W B n)  (jump-4 W B s)  (jump-4 W B w)  (jump-4 W B e)
+         (jump-4 W B nw) (jump-4 W B sw) (jump-4 W B ne) (jump-4 W B se)
+      )
    )
    (piece
       (name K4B)
       (description "King")
       (image N "../images/AfricanChess/BK4.bmp")
+      (moves
+         (move-type black-turn)
+         (split-k B W P3B n)  (split-k B W P3B s)  (split-k B W P3B w)  (split-k B W P3B e)
+         (split-k B W P3B nw) (split-k B W P3B sw) (split-k B W P3B ne) (split-k B W P3B se)
+         (jump-1 B W n)  (jump-1 B W s)  (jump-1 B W w)  (jump-1 B W e)
+         (jump-1 B W nw) (jump-1 B W sw) (jump-1 B W ne) (jump-1 B W se)
+         (jump-2 B W n)  (jump-2 B W s)  (jump-2 B W w)  (jump-2 B W e)
+         (jump-2 B W nw) (jump-2 B W sw) (jump-2 B W ne) (jump-2 B W se)
+         (jump-3 B W n)  (jump-3 B W s)  (jump-3 B W w)  (jump-3 B W e)
+         (jump-3 B W nw) (jump-3 B W sw) (jump-3 B W ne) (jump-3 B W se)
+         (jump-4 B W n)  (jump-4 B W s)  (jump-4 B W w)  (jump-4 B W e)
+         (jump-4 B W nw) (jump-4 B W sw) (jump-4 B W ne) (jump-4 B W se)
+      )
    )
 
    (board-setup
@@ -194,7 +654,17 @@
       )
    )
 
-   (loss-condition (White) (checkmated K1W K2W K2W K3W K4W) )
-   (loss-condition (Black) (checkmated K1B K2B K2B K3B K4B) )
    (loss-condition (White Black) stalemated )
+   (loss-condition (White) 
+      (and (total-piece-count 0 K1W) (total-piece-count 0 K2W)
+           (total-piece-count 0 K3W) (total-piece-count 0 K4W)
+      )
+   )
+   (loss-condition (Black) 
+      (and (total-piece-count 0 K1B) (total-piece-count 0 K2B)
+           (total-piece-count 0 K3B) (total-piece-count 0 K4B)
+      )
+   )
+;  (loss-condition (White) (checkmated K1W K2W K2W K3W K4W) )
+;  (loss-condition (Black) (checkmated K1B K2B K2B K3B K4B) )
 )
