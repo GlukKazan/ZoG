@@ -193,6 +193,51 @@
   (if (piece? WB4) (add K3$1))
 )
 
+(define king-all
+  (if (and (flag? $3-01) (flag? $3-02))
+      (if (or empty?
+              (piece? P1$2) (piece? K1$2)
+              (piece? P2$2) (piece? K2$2)
+              (piece? P3$2) (piece? K3$2)
+              (piece? P4$2) (piece? K4$2)
+          )
+          (add K4$1)
+      )
+  )
+  (if (and (not-flag? $3-01) (flag? $3-02))
+      (if (or empty?
+              (piece? P1$2) (piece? K1$2)
+              (piece? P2$2) (piece? K2$2)
+              (piece? P3$2) (piece? K3$2)
+              (piece? P4$2) (piece? K4$2)
+          )
+          (add K3$1)
+      )
+      (if (piece? P1$1) (add K4$1))
+      (if (piece? P3$2$1) (add K4$1))
+      (if (piece? P4$2$1) (add K4$1))
+      (if (piece? WB2) (add K4$1))
+  )
+  (if (and (flag? $3-01) (not-flag? $3-02))
+      (if (or empty?
+              (piece? P1$2) (piece? K1$2)
+              (piece? P2$2) (piece? K2$2)
+              (piece? P3$2) (piece? K3$2)
+              (piece? P4$2) (piece? K4$2)
+          )
+          (add K2$1)
+      )
+      (if (piece? P1$1) (add K3$1))
+      (if (piece? P2$1) (add K4$1))
+      (if (piece? P3$1$2) (add K4$1))
+      (if (piece? P3$2$1) (add K3$1))
+      (if (piece? P4$2$1) (add K3$1))
+      (if (piece? WB2) (add K3$1))
+      (if (piece? WB4) (add K4$1))
+  )
+  (if (and (not-flag? $3-01) (not-flag? $3-02)) (king $1 $2))
+)
+
 (define can-step?
   (and (on-board? $3)
        (not-piece? P4$1 $3)
@@ -258,7 +303,6 @@
 (define jump-1 (
   (let c)
   $3 mark
-  (verify (can-step? $1 $2 $3))
   (while (and (can-step? $1 $2 $3) (not-0? c))
      $3 (if (can-step? $1 $2 $3)
         (dec c) (step $1 $2)
@@ -267,14 +311,13 @@
      )
   )
   back 
-  (king $1 $2)
+  (king-all $1 $2 c)
 ))
 
 (define jump-2 (
   (let c)
   $3 (dec c) (step $1 $2)
   $3 mark
-  (verify (can-step? $1 $2 $3))
   (while (and (can-step? $1 $2 $3) (not-0? c))
      $3 (if (can-step? $1 $2 $3)
         (dec c) (step $1 $2)
@@ -283,7 +326,7 @@
      )
   )
   back 
-  (king $1 $2)
+  (king-all $1 $2 c)
 ))
 
 (define jump-3 (
@@ -299,7 +342,7 @@
      )
   )
   back 
-  (king $1 $2)
+  (king-all $1 $2 c)
 ))
 
 (define jump-4 (
