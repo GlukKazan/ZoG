@@ -33,6 +33,14 @@
    (add-partial $2 $3)
 ))
 
+(define g
+  (piece
+     (name  G$1)
+     (image Red   "../images/Duel/r$2.bmp"
+            White "../images/Duel/w$2.bmp")
+  )
+)
+
 (game
   (title "Duel")
 
@@ -67,11 +75,17 @@
       )
       (directions (n 0 -1) (s 0 1) (e 1 0) (w -1 0) (next 0 -1))
     )
+    (positions (glyph 361 15 480 173))
     (dummy a0)
     (links next (a0 a1) (a8 b1) (b8 c1) (c8 d1) (d8 e1) (e8 f1) (f8 g1) (g8 h1) (h8 i1))
     (zone (name goal) (players Red) (positions e8))
     (zone (name goal) (players White) (positions e1))
   )
+
+  (g 12 12) (g 13 13) (g 14 14) (g 15 15) (g 21 21) (g 23 23) (g 24 24) (g 26 26)
+  (g 31 31) (g 32 32) (g 35 35) (g 36 36) (g 41 41) (g 42 42) (g 45 45) (g 46 46)
+  (g 51 51) (g 53 53) (g 54 54) (g 56 56) (g 62 62) (g 63 63) (g 64 64) (g 65 65)
+  (g K 11) 
 
   (piece
      (name  King)
