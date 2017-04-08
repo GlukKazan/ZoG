@@ -1,0 +1,62 @@
+(game
+  (title "Sahkku")
+
+  (option "animate captures" false)
+  (option "prevent flipping" true)
+  (option "smart moves"      true)
+  (option "pass turn"        forced)
+
+  (move-sound    "Audio/Clack.wav")
+  (release-sound "Audio/Clack.wav")
+  (drop-sound    "Audio/Dice_cup.wav")
+  (capture-sound "")
+  (change-sound  "")
+  (click-sound   "")
+  (draw-sound    "")
+
+  (players Black White ?N)
+  (turn-order Black White)
+
+  (board
+    (image "../images/Sahkku/board.bmp")
+    (grid
+      (start-rectangle 11 103 53 145)
+      (dimensions
+        ("a/b/c/d/e/f/g/h/i/j/k/l/m/n/o" (47 0)) ; files
+        ("III/II/I" (0 42)) ; ranks
+      )
+    )
+    (grid
+      (start-rectangle 12 20 52 36)
+      (dimensions
+        ("a/b/c/d/e/f/g/h/i/j/k/l/m/n/o" (47 0)) ; files
+        ("8/7/6/5" (0 17)) ; ranks
+      )
+    )
+    (grid
+      (start-rectangle 12 244 52 260)
+      (dimensions
+        ("a/b/c/d/e/f/g/h/i/j/k/l/m/n/o" (47 0)) ; files
+        ("4/3/2/1" (0 17)) ; ranks
+      )
+    )
+  )
+
+  (piece
+     (name  King)
+     (image White "../images/Sahkku/WKing.bmp"
+            Black "../images/Sahkku/BKing.bmp"
+            ?N    "../images/Sahkku/King.bmp")
+  )
+  (piece
+     (name  Man)
+     (image White "../images/Sahkku/White.bmp"
+            Black "../images/Sahkku/Black.bmp")
+  )
+
+  (board-setup
+     (White (Man a8 b8 c8 d8 e8 f8 g8 h8 i8 j8 k8 l8 m8 n8 o8))
+     (Black (Man a1 b1 c1 d1 e1 f1 g1 h1 i1 j1 k1 l1 m1 n1 o1))
+     (?N (King hII))
+  )
+)
