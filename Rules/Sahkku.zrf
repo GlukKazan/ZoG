@@ -1,3 +1,53 @@
+(define kill-enemies
+  mark
+  (while (on-board? up)
+      up
+      (if (piece? King)
+           change-owner
+       else
+           (if enemy? capture)
+      )
+  )
+  back
+)
+
+(define man-common
+  (while (and friend? (on-board? up)) up)
+  (kill-enemies)
+  (if (flag? is-ok) add else (add $1))
+)
+
+(define king-common
+  mark
+  (while (on-board? dn)
+      dn
+      (if enemy? capture)
+  )
+  back add
+)
+
+(define king-done (
+  $1 (verify not-last-from?)
+  (king-common)
+))
+
+(define king-step (
+  $1 (verify not-last-from?)
+  (add-partial $2)
+))
+
+(define king-step-1 (
+  $1 (king-common)
+))
+
+(define king-step-2 (
+  $1 (add-partial $2)
+))
+
+(define king-step-3 (
+  $1 (add-partial $2)
+))
+
 (define activate (
   (verify (and (not-on-board? na) (not-on-board? nb)))
   up (verify empty?)
@@ -8,8 +58,27 @@
   (set-flag is-ok (on-board? $1))
   (verify (or (not-on-board? up) (empty? up)))
   (if (flag? is-ok) $1 else $2)
-  (while (and not-empty? (on-board? up)) up)
-  (if (flag? is-ok) add else (add $3))
+  (man-common $3)
+))
+
+(define step-2 (
+  (set-flag is-ok (on-board? $1))
+  (verify (or (not-on-board? up) (empty? up)))
+  (if (flag? is-ok) $1 else $2)
+  (set-flag is-ok (on-board? $1))
+  (if (flag? is-ok) $1 else $2)
+  (man-common $3)
+))
+
+(define step-3 (
+  (set-flag is-ok (on-board? $1))
+  (verify (or (not-on-board? up) (empty? up)))
+  (if (flag? is-ok) $1 else $2)
+  (set-flag is-ok (on-board? $1))
+  (if (flag? is-ok) $1 else $2)
+  (set-flag is-ok (on-board? $1))
+  (if (flag? is-ok) $1 else $2)
+  (man-common $3)
 ))
 
 (game
@@ -29,7 +98,7 @@
   (draw-sound    "")
 
   (players Black White ?N)
-  (turn-order Black White)
+  (turn-order (Black normal) (White normal))
 
   (board
     (image "../images/Sahkku/board.bmp")
@@ -64,32 +133,27 @@
       )
       (directions (up 0 -1) (wup 0 -1) (dn 0 1))
     )
-    (links top
-      (a7 aII) (a11 aII) (b7 bII) (b11 bII) (c7 cII) (c11 cII)
-      (d7 dII) (d11 dII) (e7 eII) (e11 eII) (f7 fII) (f11 fII)
-      (g7 gII) (g11 gII) (h7 hII) (h11 hII) (i7 iII) (i11 iII)
-      (j7 jII) (j11 jII) (k7 kII) (k11 kII) (l7 lII) (l11 lII)
-      (m7 mII) (m11 mII) (n7 nII) (n11 nII) (o7 oII) (o11 oII)
-      (a2 aI) (a3 aI) (b2 bI) (b3 bI) (c2 cI) (c3 cI)
-      (d2 dI) (d3 dI) (e2 eI) (e3 eI) (f2 fI) (f3 fI)
-      (g2 gI) (g3 gI) (h2 hI) (h3 hI) (i2 iI) (i3 iI) 
-      (j2 jI) (j3 jI) (k2 kI) (k3 kI) (l2 lI) (l3 lI)
-      (m2 mI) (m3 mI) (n2 nI) (n3 nI) (o2 oI) (o3 oI)
-      (a16 aIII) (a15 aIII) (b16 bIII) (b15 bIII) (c16 cIII) (c15 cIII)
-      (d16 dIII) (d15 dIII) (e16 eIII) (e15 eIII) (f16 fIII) (f15 fIII)
-      (g16 gIII) (g15 gIII) (h16 hIII) (h15 hIII) (i16 iIII) (i15 iIII)
-      (j16 jIII) (j15 jIII) (k16 kIII) (k15 kIII) (l16 lIII) (l15 lIII)
-      (m16 mIII) (m15 mIII) (n16 nIII) (n15 nIII) (o16 oIII) (o15 oIII)
-    )
     (links up
       (a7 a11) (b7 b11) (c7 c11) (d7 d11) (e7 e11) (f7 f11) (g7 g11)
       (h7 h11) (i7 i11) (j7 j11) (k7 k11) (l7 l11) (m7 m11) (n7 n11)
-      (o7 o11)
+      (o7 o11) (a3 aI) (b3 bI) (c3 cI) (d3 dI) (e3 eI) (f3 fI) (g3 gI)
+      (h3 hI) (i3 iI) (j3 jI) (k3 kI) (l3 lI) (m3 mI) (n3 nI) (o3 oI)
+      (a15 aIII) (b15 bIII) (c15 cIII) (d15 dIII) (e15 eIII) (f15 fIII)
+      (g15 gIII) (h15 hIII) (i15 iIII) (j15 jIII) (k15 kIII) (l15 lIII)
+      (m15 mIII) (n15 nIII) (o15 oIII) (a11 aII) (b11 bII) (c11 cII) 
+      (e11 eII) (f11 fII) (g11 gII) (h11 hII) (i11 iII) (j11 jII) 
+      (l11 lII) (m11 mII) (n11 nII) (o11 oII) (d11 dII) (k11 kII)
     )
     (links wup
       (a11 a7) (b11 b7) (c11 c7) (d11 d7) (e11 e7) (f11 f7) (g11 g7)
       (h11 h7) (i11 i7) (j11 j7) (k11 k7) (l11 l7) (m11 m7) (n11 n7)
-      (o11 o7)
+      (o11 o7) (a3 aI) (b3 bI) (c3 cI) (d3 dI) (e3 eI) (f3 fI) (g3 gI)
+      (h3 hI) (i3 iI) (j3 jI) (k3 kI) (l3 lI) (m3 mI) (n3 nI)
+      (o3 oI) (m15 mIII) (n15 nIII) (o15 oIII)
+      (a15 aIII) (b15 bIII) (c15 cIII) (d15 dIII) (e15 eIII) (f15 fIII)
+      (g15 gIII) (h15 hIII) (i15 iIII) (j15 jIII) (k15 kIII) (l15 lIII)
+      (a7 aII) (b7 bII) (c7 cII) (d7 dII) (e7 eII) (f7 fII) (g7 gII)
+      (h7 hII) (i7 iII) (j7 jII) (k7 kII) (l7 lII) (m7 mII) (n7 nII) (o7 oII)
     )
     (links dn
       (aI a3) (bI b3) (cI c3) (dI d3) (eI e3) (fI f3) (gI g3) (hI h3) (iI i3) (jI j3) (kI k3) (lI l3) (mI m3) (nI n3) (oI o3)
@@ -181,6 +245,23 @@
      (image White "../images/Sahkku/WKing.bmp"
             Black "../images/Sahkku/BKing.bmp"
             ?N    "../images/Sahkku/King.bmp")
+     (moves
+         (move-type normal)
+         (king-step-1 n) (king-step-2 n left-1) (king-step-3 n left-2)
+         (king-step-1 s) (king-step-2 s left-1) (king-step-3 s left-2)
+         (king-step-1 w) (king-step-2 w left-1) (king-step-3 w left-2)
+         (king-step-1 e) (king-step-2 e left-1) (king-step-3 e left-2)
+         (move-type left-2)
+         (king-step n left-1)
+         (king-step s left-1)
+         (king-step w left-1)
+         (king-step e left-1)
+         (move-type left-1)
+         (king-done n)
+         (king-done s)
+         (king-done w)
+         (king-done e)
+     )
   )
   (piece
      (name  ManA)
@@ -188,8 +269,11 @@
      (image White "../images/Sahkku/White.bmp"
             Black "../images/Sahkku/Black.bmp")
      (moves
+         (move-type normal)
          (activate)
          (step-1 na nb ManB)
+         (step-2 na nb ManB)
+         (step-3 na nb ManB)
      )
   )
   (piece
@@ -198,8 +282,11 @@
      (image White "../images/Sahkku/White.bmp"
             Black "../images/Sahkku/Black.bmp")
      (moves
+         (move-type normal)
          (activate)
          (step-1 nb na ManA)
+         (step-2 nb na ManA)
+         (step-3 nb na ManA)
      )
   )
 
