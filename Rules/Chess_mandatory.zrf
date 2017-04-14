@@ -1,0 +1,406 @@
+; *** Chess
+; *** Copyright 1998-2002 Zillions Development
+; v.2.0
+
+; You need to purchase Zillions of Games to load this rules file
+; Visit the Zillions web site at http://www.zillions-of-games.com
+
+(version "2.0")
+
+(define leap1        ($1    (verify empty?) add) )
+(define leap2        ($1 $2 (verify empty?) add) )
+(define king-shift   ($1    (verify not-friend?) (set-attribute never-moved? false) add) )
+(define slide        ($1    (while empty? add $1)))
+(define rook-slide (
+  $1
+  (while empty? (set-attribute never-moved? false) add $1)))
+
+(define leap1c        ($1    (verify enemy?) add) )
+(define leap2c        ($1 $2 (verify enemy?) add) )
+(define slidec        ($1 (while empty? $1) (verify enemy?) add))
+(define king-shiftc   ((verify attacked?) $1    (verify not-friend?) (set-attribute never-moved? false) add) )
+(define rook-slidec (
+  $1
+  (while empty? $1)
+  (verify enemy?)
+  (set-attribute never-moved? false)
+  add
+))
+
+(define O-O
+	 ( (verify never-moved?)
+	   e ; KB1
+	   (verify empty?)
+	   e ; KN1
+	   (verify empty?)
+	   cascade
+	   e ; KR1
+	   (verify (and friend? (piece? Rook) never-moved?) )
+	   from
+	   back ; K1
+		 ; Save expensive not-attacked?s for last
+	   (verify not-attacked?)
+	   e ; KB1
+	   (verify not-attacked?)
+	   to
+	   (set-attribute never-moved? false)
+		 ; We could check if KN1 is attacked too, but this isn't
+		 ; really necessary since Zillions doesn't allow any moves
+		 ; into check
+	   e ; KN1
+	   (set-attribute never-moved? false)
+	   add
+	 )
+)
+
+(define O-O-O
+     ( (verify never-moved?)
+       w ; Q1
+       (verify empty?)
+       w ; QB1
+       (verify empty?)
+       cascade
+       w ; QN1
+       (verify empty?)
+       w ; QR1
+       (verify (and friend? (piece? Rook) never-moved?) )
+       from
+       back ; K1
+         ; Save expensive not-attacked?s for last
+       (verify not-attacked?)
+       w ; Q1
+       (verify not-attacked?)
+       to
+       (set-attribute never-moved? false)
+         ; We could check if KN1 is attacked too, but this isn't
+         ; really necessary since Zillions doesn't allow any moves
+         ; into check
+       w ; QB1
+       (set-attribute never-moved? false)
+       add
+     )
+)
+(define Pawn-add
+   (if (in-zone? promotion-zone) (add Knight Bishop Rook Queen) else add)
+)
+(define Pawn-move
+   (
+      n
+      (verify empty?)
+      (Pawn-add)
+      (verify (in-zone? third-rank))
+      n
+      (verify empty?)
+      add
+   )
+)
+(define Pawn-capture
+   (
+      $1
+      (verify enemy?)
+      (Pawn-add)
+   )
+)
+(define En-Passant
+   (
+      $1
+      (verify enemy?)
+      (verify last-to?)
+      (verify (piece? Pawn))
+      capture
+      n
+      to
+      n
+      (verify last-from?)
+      add
+   )
+)
+
+(define Board-Definitions
+  (image "images\Chess\SHaag\Chess8x8.bmp" "images\Chess\Chess8x8.bmp")
+  (grid
+     (start-rectangle 5 5 53 53)
+     (dimensions
+         ("a/b/c/d/e/f/g/h" (49 0)) ; files
+         ("8/7/6/5/4/3/2/1" (0 49)) ; ranks
+     )
+     (directions (n 0 -1) (e 1 0) (s 0 1) (w -1 0)
+			     (ne 1 -1) (nw -1 -1) (se 1 1) (sw -1 1)
+     )
+  )
+  (symmetry Black (n s)(s n) (nw sw)(sw nw) (ne se)(se ne))
+  (zone
+     (name promotion-zone)
+     (players White)
+     (positions a8 b8 c8 d8 e8 f8 g8 h8)
+  )
+  (zone
+     (name promotion-zone)
+     (players Black)
+     (positions a1 b1 c1 d1 e1 f1 g1 h1)
+  )
+  (zone
+     (name third-rank)
+     (players White)
+     (positions a3 b3 c3 d3 e3 f3 g3 h3)
+  )
+  (zone
+     (name third-rank)
+     (players Black)
+     (positions a6 b6 c6 d6 e6 f6 g6 h6)
+  )
+)
+
+(game
+   (title "Chess")
+   (description "Object: Checkmate the opponent's King by attacking
+	   it so it cannot escape.  To see a description of how a piece moves
+	   right-click on it to bring up its properties dialog.\\
+         Try playing one of the many exciting variants.")
+   (history "Chess is a modern version of an ancient Indian game called Shatranj.  The
+       earliest record of Shatranj is found in a Persian work called
+       Karnamak-i-Artakhshatr-i-Papakan written in about A.D. 600.   The present-day
+       form of chess is a little over 100 years old: according to Hooper and Whyld's
+       `The Oxford Companion to Chess`, en passant capture was universally adopted in
+       1880, although the initial double step for pawns dates from about the 13th
+       century.   The most important changes from Shatranj to Chess, expanded moves for
+       the queen and bishop, date from about 1475.    Castling began sometime in the
+       16th century, but there were many variants of king and rook placement until
+       the modern standard was established.")
+   (strategy "In the opening, try to develop your pieces more than your pawns.  Always
+       protect your King.  Look for ways to exchange lower valued pieces for larger valued
+       ones.  Generally, if a Pawn is worth 1 point, then a Bishop or Knight is worth 3,
+       a Rook is worth 5 and a Queen worth 9 points.")
+   (option "prevent flipping" 2)
+   (win-sound "Audio\Orchestra_CF.wav")
+   (loss-sound "Audio\Orchestra_FC.wav")
+   (click-sound "Audio\Pickup.wav")
+   (release-sound "Audio\WoodThunk.wav")
+   (players White Black)
+   (turn-order White Black)
+   (board (Board-Definitions))
+
+   (move-priorities capture-type normal-type)
+
+   (board-setup
+      (White
+         (Pawn a2 b2 c2 d2 e2 f2 g2 h2)
+         (Knight b1 g1)
+         (Bishop c1 f1)
+         (Rook a1 h1)
+         (Queen d1)
+         (King e1)
+      )
+      (Black
+         (Pawn a7 b7 c7 d7 e7 f7 g7 h7)
+         (Knight b8 g8)
+         (Bishop c8 f8)
+         (Rook a8 h8)
+         (Queen d8)
+         (King e8)
+      )
+   )
+
+   (piece
+      (name Pawn)
+      (help "Pawn: moves forward, captures diagonally, can promote on 8th row")
+      (description "Pawn\A Pawn can move straight ahead one square, or two squares from
+           its starting position.  A Pawn captures by moving one square ahead and
+           diagonally.  If a Pawn reaches the far rank it promotes, changing into
+           a Knight, Bishop, Rook, or Queen.  On rare occasions Pawns can also execute
+           a move called `En Passant`, or `in passing`.  This allows a Pawn to take
+           an enemy Pawn that has just moved two squares.")
+      (image White "images\Chess\SHaag\wpawn.bmp" "images\Chess\wpawn.bmp"
+             Black "images\Chess\SHaag\bpawn.bmp" "images\Chess\bpawn.bmp")
+      (moves
+         (move-type normal-type)
+         (Pawn-move)
+         (move-type capture-type)
+         (Pawn-capture nw)
+         (Pawn-capture ne)
+         (En-Passant e)
+         (En-Passant w)
+      )
+   )
+
+   (piece
+      (name Knight)
+	  (help "Knight: moves like an `L`, 2 squares one way and one the other")
+      (description "Knight\A Knight moves like an `L`, two squares vertically plus one
+          horizontally, or two squares horizontally plus one vertically.  It
+          hops over any pieces on the way.")
+      (image White "images\Chess\SHaag\wknight.bmp" "images\Chess\wknight.bmp"
+             Black "images\Chess\SHaag\bknight.bmp" "images\Chess\bknight.bmp")
+      (moves
+         (move-type normal-type)
+	     (leap2 n ne)
+	     (leap2 n nw)
+	     (leap2 s se)
+	     (leap2 s sw)
+	     (leap2 e ne)
+	     (leap2 e se)
+	     (leap2 w nw)
+	     (leap2 w sw)
+         (move-type capture-type)
+	     (leap2c n ne)
+	     (leap2c n nw)
+	     (leap2c s se)
+	     (leap2c s sw)
+	     (leap2c e ne)
+	     (leap2c e se)
+	     (leap2c w nw)
+	     (leap2c w sw)
+      )
+   )
+
+   (piece
+      (name Bishop)
+	  (help "Bishop: slides diagonally any number of squares")
+      (description "Bishop\A Bishop moves any number of squares on a diagonal.  It may
+           not leap over other pieces.")
+      (image White "images\Chess\SHaag\wbishop.bmp" "images\Chess\wbishop.bmp"
+             Black "images\Chess\SHaag\bbishop.bmp" "images\Chess\bbishop.bmp")
+      (moves
+         (move-type normal-type)
+         (slide ne)
+         (slide nw)
+         (slide se)
+         (slide sw)
+         (move-type capture-type)
+         (slidec ne)
+         (slidec nw)
+         (slidec se)
+         (slidec sw)
+      )
+   )
+
+   (piece
+      (name Rook)
+	  (help "Rook: slides any number of squares along the row or column.")
+      (description "Rook\A Rook moves any number of squares orthogonally on a rank
+           or a file.  It may not leap over other pieces.")
+      (image White "images\Chess\SHaag\wrook.bmp" "images\Chess\wrook.bmp"
+             Black "images\Chess\SHaag\brook.bmp" "images\Chess\brook.bmp")
+      (attribute never-moved? true)
+      (moves
+         (move-type normal-type)
+         (rook-slide n)
+         (rook-slide e)
+         (rook-slide s)
+         (rook-slide w)
+         (move-type capture-type)
+         (rook-slidec n)
+         (rook-slidec e)
+         (rook-slidec s)
+         (rook-slidec w)
+      )
+   )
+
+   (piece
+      (name Queen)
+	  (help "Queen: can slide any number of squares in any direction")
+      (description "Queen\A Queen moves any number of squares in a straight line.
+          It may not leap over other pieces.")
+      (image White "images\Chess\SHaag\wqueen.bmp" "images\Chess\wqueen.bmp"
+             Black "images\Chess\SHaag\bqueen.bmp" "images\Chess\bqueen.bmp")
+      (moves
+         (move-type normal-type)
+         (slide n)
+         (slide e)
+         (slide s)
+         (slide w)
+         (slide ne)
+         (slide nw)
+         (slide se)
+         (slide sw)
+         (move-type capture-type)
+         (slidec n)
+         (slidec e)
+         (slidec s)
+         (slidec w)
+         (slidec ne)
+         (slidec nw)
+         (slidec se)
+         (slidec sw)
+      )
+   )
+
+   (piece
+      (name King)
+	  (help "King: steps 1 square in any direction to a safe square")
+      (description "King\A King can move to any adjacent square, but never to a 
+	      square where it can be captured.  It may also `castle`
+          with the Rook if neither the Rook nor King has moved yet and there is
+          nothing in between them.  In castling the King moves two squares nearer
+          the Rook and the Rook leaps to the far side of the King.  You may not
+          castle out of or through check, or if the King or Rook involved has 
+		  previously moved.")
+      (image White "images\Chess\SHaag\wking.bmp" "images\Chess\wking.bmp"
+             Black "images\Chess\SHaag\bking.bmp" "images\Chess\bking.bmp")
+      (attribute never-moved? true)
+      (moves
+         (move-type normal-type)
+         (king-shift n)
+         (king-shift e)
+         (king-shift s)
+         (king-shift w)
+         (king-shift ne)
+         (king-shift nw)
+         (king-shift se)
+         (king-shift sw)
+         (O-O)
+         (O-O-O)
+         (move-type capture-type)
+         (king-shiftc n)
+         (king-shiftc e)
+         (king-shiftc s)
+         (king-shiftc w)
+         (king-shiftc ne)
+         (king-shiftc nw)
+         (king-shiftc se)
+         (king-shiftc sw)
+      )
+   )
+
+   (loss-condition (White Black) (checkmated King) )
+)
+
+(variant
+   (title "Chess (variant)")
+   (piece
+      (name King)
+	  (help "King: steps 1 square in any direction to a safe square")
+      (description "King\A King can move to any adjacent square, but never to a 
+	      square where it can be captured.  It may also `castle`
+          with the Rook if neither the Rook nor King has moved yet and there is
+          nothing in between them.  In castling the King moves two squares nearer
+          the Rook and the Rook leaps to the far side of the King.  You may not
+          castle out of or through check, or if the King or Rook involved has 
+		  previously moved.")
+      (image White "images\Chess\SHaag\wking.bmp" "images\Chess\wking.bmp"
+             Black "images\Chess\SHaag\bking.bmp" "images\Chess\bking.bmp")
+      (attribute never-moved? true)
+      (moves
+         (move-type normal-type)
+         (king-shift n)
+         (king-shift e)
+         (king-shift s)
+         (king-shift w)
+         (king-shift ne)
+         (king-shift nw)
+         (king-shift se)
+         (king-shift sw)
+         (O-O)
+         (O-O-O)
+         (move-type capture-type)
+         (king-shiftc n)
+         (king-shiftc e)
+         (king-shiftc s)
+         (king-shiftc w)
+         (king-shiftc ne)
+         (king-shiftc nw)
+         (king-shiftc se)
+         (king-shiftc sw)
+      )
+   )
+)
