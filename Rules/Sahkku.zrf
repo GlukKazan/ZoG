@@ -48,22 +48,32 @@
   $1 (add-partial $2)
 ))
 
+(define check-up
+  mark
+  (while (on-board? up)
+     up
+     (verify empty?)
+  )
+  back
+)
+
 (define activate (
   (verify (and (not-on-board? na) (not-on-board? nb)))
   up (verify empty?)
+  (check-up)
   add
 ))
 
 (define step-1 (
   (set-flag is-ok (on-board? $1))
-  (verify (or (not-on-board? up) (empty? up)))
+  (check-up)
   (if (flag? is-ok) $1 else $2)
   (man-common $3)
 ))
 
 (define step-2 (
   (set-flag is-ok (on-board? $1))
-  (verify (or (not-on-board? up) (empty? up)))
+  (check-up)
   (if (flag? is-ok) $1 else $2)
   (set-flag is-ok (on-board? $1))
   (if (flag? is-ok) $1 else $2)
@@ -72,7 +82,7 @@
 
 (define step-3 (
   (set-flag is-ok (on-board? $1))
-  (verify (or (not-on-board? up) (empty? up)))
+  (check-up)
   (if (flag? is-ok) $1 else $2)
   (set-flag is-ok (on-board? $1))
   (if (flag? is-ok) $1 else $2)
@@ -85,9 +95,11 @@
   (title "Sahkku")
 
   (option "animate captures" false)
+  (option "animate drops"    false)
   (option "prevent flipping" true)
   (option "smart moves"      true)
   (option "pass turn"        forced)
+  (option "recycle captures" true)
 
   (move-sound    "Audio/Clack.wav")
   (release-sound "Audio/Clack.wav")
@@ -102,6 +114,12 @@
 
   (board
     (image "../images/Sahkku/board.bmp")
+    (grid
+      (start-rectangle 751 107 843 128)
+      (dimensions
+        ("X/Y/Z" (0 48))
+      )
+    )
     (grid
       (start-rectangle 11 78 53 121)
       (dimensions
@@ -290,9 +308,34 @@
      )
   )
 
+  (piece
+     (name D0)
+     (help " ")
+     (image White "../images/Sahkku/D0.bmp"
+            Black "../images/Sahkku/D0.bmp")
+  )
+  (piece
+     (name D1)
+     (help " ")
+     (image White "../images/Sahkku/D1.bmp"
+            Black "../images/Sahkku/D1.bmp")
+  )
+  (piece
+     (name D2)
+     (help " ")
+     (image White "../images/Sahkku/D2.bmp"
+            Black "../images/Sahkku/D2.bmp")
+  )
+  (piece
+     (name D3)
+     (help " ")
+     (image White "../images/Sahkku/D3.bmp"
+            Black "../images/Sahkku/D3.bmp")
+  )
+
   (board-setup
-     (White (ManA a17 b17 c17 d17 e17 f17 g17 h17 i17 j17 k17 l17 m17 n17 o17))
-     (Black (ManA a1 b1 c1 d1 e1 f1 g1 h1 i1 j1 k1 l1 m1 n1 o1))
+     (White (D0 off 3) (D1 off 3) (D2 off 3) (D3 off 3) (ManA a17 b17 c17 d17 e17 f17 g17 h17 i17 j17 k17 l17 m17 n17 o17))
+     (Black (D0 off 3) (D1 off 3) (D2 off 3) (D3 off 3) (ManA a1 b1 c1 d1 e1 f1 g1 h1 i1 j1 k1 l1 m1 n1 o1))
      (?N (King hII))
   )
 
