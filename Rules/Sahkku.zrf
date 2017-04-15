@@ -63,17 +63,20 @@
 
 (define king-step-1 (
   (check-dice D1)
-  $1 (king-common)
+  $1 (verify not-last-from?)
+  (king-common)
 ))
 
 (define king-step-2 (
   (check-dice D2)
-  $1 (add-partial $2)
+  $1 (verify not-last-from?)
+  (add-partial $2)
 ))
 
 (define king-step-3 (
   (check-dice D3)
-  $1 (add-partial $2)
+  $1 (verify not-last-from?)
+  (add-partial $2)
 ))
 
 (define check-up
