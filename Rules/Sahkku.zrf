@@ -1,3 +1,27 @@
+(define check-dice-pos
+  $2 
+  (if (and (piece? $1) (not-flag? found))
+      (set-flag found true)
+      capture
+  )
+)
+
+(define check-dice
+  (set-flag found false)
+  mark
+  (check-dice-pos $1 X)
+  (check-dice-pos $1 Y)
+  (check-dice-pos $1 Z)
+  back
+  (verify (flag? found))
+)
+
+(define drop-dice (
+  (verify (in-zone? dices))
+  (verify not-friend?)
+  add
+))
+
 (define kill-enemies
   mark
   (while (on-board? up)
@@ -13,6 +37,7 @@
 
 (define man-common
   (while (and friend? (on-board? up)) up)
+  (verify (not-in-zone? restricted))
   (kill-enemies)
   (if (flag? is-ok) add else (add $1))
 )
@@ -37,14 +62,17 @@
 ))
 
 (define king-step-1 (
+  (check-dice D1)
   $1 (king-common)
 ))
 
 (define king-step-2 (
+  (check-dice D2)
   $1 (add-partial $2)
 ))
 
 (define king-step-3 (
+  (check-dice D3)
   $1 (add-partial $2)
 ))
 
@@ -58,6 +86,7 @@
 )
 
 (define activate (
+  (check-dice D1)
   (verify (and (not-on-board? na) (not-on-board? nb)))
   up (verify empty?)
   (check-up)
@@ -65,6 +94,7 @@
 ))
 
 (define step-1 (
+  (check-dice D1)
   (set-flag is-ok (on-board? $1))
   (check-up)
   (if (flag? is-ok) $1 else $2)
@@ -72,6 +102,7 @@
 ))
 
 (define step-2 (
+  (check-dice D2)
   (set-flag is-ok (on-board? $1))
   (check-up)
   (if (flag? is-ok) $1 else $2)
@@ -81,6 +112,7 @@
 ))
 
 (define step-3 (
+  (check-dice D3)
   (set-flag is-ok (on-board? $1))
   (check-up)
   (if (flag? is-ok) $1 else $2)
@@ -110,7 +142,20 @@
   (draw-sound    "")
 
   (players Black White ?N)
-  (turn-order (Black normal) (White normal))
+  (turn-order 
+    (?N Black drop)
+    (?N Black drop)
+    (?N Black drop)
+    (Black normal) 
+    (Black normal) 
+    (Black normal) 
+    (?N White drop)
+    (?N White drop)
+    (?N White drop)
+    (White normal)
+    (White normal)
+    (White normal)
+  )
 
   (board
     (image "../images/Sahkku/board.bmp")
@@ -151,6 +196,14 @@
       )
       (directions (up 0 -1) (wup 0 -1) (dn 0 1))
     )
+    (zone (name restricted) (players Black White)
+      (positions
+         aI bI cI dI eI fI gI hI iI jI kI lI mI nI oI
+         aII bII cII dII eII fII gII hII iII jII kII lII mII nII oII
+         aIII bIII cIII dIII eIII fIII gIII hIII iIII jIII kIII lIII mIII nIII oIII
+      )
+    )
+    (zone (name dices) (players Black White) (positions X Y Z))
     (links up
       (a7 a11) (b7 b11) (c7 c11) (d7 d11) (e7 e11) (f7 f11) (g7 g11)
       (h7 h11) (i7 i11) (j7 j11) (k7 k11) (l7 l11) (m7 m11) (n7 n11)
@@ -313,24 +366,40 @@
      (help " ")
      (image White "../images/Sahkku/D0.bmp"
             Black "../images/Sahkku/D0.bmp")
+     (drops
+         (move-type drop)
+         (drop-dice)
+     )
   )
   (piece
      (name D1)
      (help " ")
      (image White "../images/Sahkku/D1.bmp"
             Black "../images/Sahkku/D1.bmp")
+     (drops
+         (move-type drop)
+         (drop-dice)
+     )
   )
   (piece
      (name D2)
      (help " ")
      (image White "../images/Sahkku/D2.bmp"
             Black "../images/Sahkku/D2.bmp")
+     (drops
+         (move-type drop)
+         (drop-dice)
+     )
   )
   (piece
      (name D3)
      (help " ")
      (image White "../images/Sahkku/D3.bmp"
             Black "../images/Sahkku/D3.bmp")
+     (drops
+         (move-type drop)
+         (drop-dice)
+     )
   )
 
   (board-setup
