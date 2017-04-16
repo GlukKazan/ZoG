@@ -81,7 +81,7 @@
 
 (define check-up
   mark
-  (while (on-board? up)
+  (while (and (on-board? up) (not-in-zone? restricted up))
      up
      (verify empty?)
   )
