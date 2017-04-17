@@ -126,6 +126,27 @@
   (man-common $3)
 ))
 
+(define king-jump-1 (
+  (check-dice D1)
+  $1 (verify not-last-from?)
+  (king-common)
+))
+
+(define king-jump-2 (
+  (check-dice D2)
+  $1 (verify not-last-from?)
+  $1 (verify not-last-from?)
+  (king-common)
+))
+
+(define king-jump-3 (
+  (check-dice D3)
+  $1 (verify not-last-from?)
+  $1 (verify not-last-from?)
+  $1 (verify not-last-from?)
+  (king-common)
+))
+
 (game
   (title "Sahkku")
   (description "When the game begins, the soldiers are inactive — that is, unable to move. \
@@ -438,4 +459,22 @@
   )
 
   (loss-condition (Black White) (and (pieces-remaining 0 ManA) (pieces-remaining 0 ManB)))
+)
+
+(variant
+  (title "Sahkku (variant)")
+  (piece
+     (name  King)
+     (help "King")
+     (image White "../images/Sahkku/WKing.bmp"
+            Black "../images/Sahkku/BKing.bmp"
+            ?N    "../images/Sahkku/King.bmp")
+     (moves
+         (move-type normal)
+         (king-jump-1 n) (king-jump-2 n) (king-jump-3 n)
+         (king-jump-1 s) (king-jump-2 s) (king-jump-3 s)
+         (king-jump-1 w) (king-jump-2 w) (king-jump-3 w)
+         (king-jump-1 e) (king-jump-2 e) (king-jump-3 e)
+     )
+  )
 )
