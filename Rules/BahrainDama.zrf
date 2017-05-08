@@ -1,5 +1,3 @@
-(version "2.0")
-
 (define check-attacked-man
   (if (and (on-board? $1) (on-board? $2) (enemy? $1) (empty? $2))
       (set-flag is-attacked? true)
@@ -19,10 +17,11 @@
 )
 
 (define check-attacked
+  (set-position-flag is-from true)
   (set-flag is-attacked? false)
   mark a0
   (while (on-board? next)
-     (if friend?
+     (if (and friend? (not-position-flag? is-from))
          (check-attacked-man  n s)
          (check-attacked-man  w e)
          (check-attacked-man  e w)
@@ -216,16 +215,59 @@
 
 (game
   (title "Bahrain Dama")
-  (description "")
-  (history  "Traditional game.")
-
+  (description "The object of Bahrain Dama is to capture all your opponent's checkers.\\
+                Capture is by jumping over and is obligatory in this game.\
+                You are required to make a maximal number of captures on each turn.\\
+                Each player begins with sixteen Checkers,\
+                When no capture is available, Checkers move one open space directly forward\
+                or one open space to either side.\
+                Checkers capture adjacent enemy forward or sideways\
+                when the adjacent space on the opposite side of the enemy is open,\
+                jumping over the enemy and landing on that open space.\
+                If, upon so landing, the Checker finds himself adjacent to another enemy,\
+                either ahead or sideways,\
+                with the adjacent space on that enemy's opposite side also open,\
+                the Checker must continue capturing.\\
+                When a Checker reaches the far edge of the board (initially empty),\
+                the Checker is promoted to a King.\
+                If this arrival is by a jump in a capture sequence,\
+                the capture sequence must end with the promotion.\
+                If there is a way to capture more enemy\
+                before reaching or without reaching the far edge,\
+                the Checker must maximize his capture,\
+                possibly forgoing his promotion.\\
+                When no capture is available, Kings move like Chess Rooks\
+                (or like XiangQi Ju or like XiangQi Pao),\
+                in any orthogonal direction, through any number of open spaces.\
+                Kings also capture by jumping over one enemy at a time,\
+                but this enemy may lie any number of open spaces away\
+                in any orthogonal direction,\
+                so long as the adjacent space on the far side of the enemy be open.\
+                When making each capture, a King may land any number of open spaces\
+                away from the open space on the far side of the captured enemy,\
+                and from there, the King must continue capturing, if possible.\
+                The King is required to make a maximal number of captures\
+                unless more captures can be made using a different piece.\\
+                A very confusing rule for this game is that when any of your pieces is threatened,\
+                you may not make any move which would threaten any enemy piece."
+  )
+  (history     "Traditional game played in Bahrain.")
+  (strategy    "Watch out for forced capture combinations.\
+                Try to use these forced capture combinations to your advantage.\
+                You need three men in a line so you can trigger a forced combination.\\
+                A King in a corner is invulnerable to capture where he sits,\
+                but can easily be drawn out by a forced capture combination.\
+                Two adjacent pieces on an edge are invulnerable to capture.\
+                Four adjacent pieces in a square are invulnerable anywhere on the board.\
+                These solid invulnerable formations help defend against combination jumps."
+  ) 
   (move-sound "Audio/Pickup.wav")
   (release-sound "Audio/Pickup.wav")
   (capture-sound "")
 
-  (option "maximal captures" true)
-  (option "prevent flipping" 2)
-  (option "animate captures" false)
+  (maximal-captures  true)
+  (allow-flipping    true)
+  (animate-captures false)
 
   (players    White Black)
   (turn-order White Black)
@@ -257,6 +299,28 @@
 
   (piece
      (name Checker)
+     (help        "Move one space forward or sideways.  Capture jumping over adjacent enemy to empty adjacent space.")
+     (description "When no capture is available,\
+                   Checker moves one open space directly forward\
+                   or one open space to either side.\\
+                   Checker captures adjacent enemy forward or sideways\
+                   when the adjacent space on the opposite side of the enemy is open,\
+                   jumping over the enemy and landing on that open space.\
+                   If, upon so landing,\
+                   the Checker finds himself adjacent to another enemy,\
+                   either ahead or sideways,\
+                   with the adjacent space on that enemy's opposite side also open,\
+                   the Checker must continue capturing.\
+                   The Checker must maximize the number of captures.\\
+                   When a Checker reaches the far edge of the board,\
+                   the Checker is promoted to a King.\
+                   If this arrival is by a jump in a capture sequence,\
+                   the capture sequence must end with the promotion.\
+                   If there is a way to capture more enemy\
+                   before reaching or without reaching the far edge,\
+                   the Checker must maximize his capture,\
+                   possibly forgoing his promotion."
+     )
      (image White "../images/wiedem/CheckerWhite.bmp"
             Black "../images/wiedem/CheckerBlack.bmp")
      (attribute captured? false)
@@ -277,6 +341,22 @@
 
   (piece
      (name King)
+     (help        "Move orthogonally any number of open spaces.  Capture jumping over one enemy at any distance.")
+     (description "When no capture is available, Kings move like Chess Rooks\
+                   (or like XiangQi Ju or like XiangQi Pao),\
+                   in any orthogonal direction, through any number of open spaces.\\
+                   Kings capture by jumping over one enemy at a time,\
+                   in a sequence of leaps that maximizes the number of captures.\
+                   Each enemy may lie any number of open spaces away\
+                   in any orthogonal direction,\
+                   so long as the adjacent space on the far side of the enemy be open.\
+                   When making each capture,\
+                   a King may land any number of open spaces\
+                   away from the open space on the far side of the captured enemy,\
+                   and from there, the King must continue capturing, if possible.\
+                   The King is required to make a maximal number of captures\
+                   unless more captures can be made using a different piece."
+     )
      (image White "../images/wiedem/CheckerKingWhite.bmp"
             Black "../images/wiedem/CheckerKingBlack.bmp")
      (attribute captured? false)

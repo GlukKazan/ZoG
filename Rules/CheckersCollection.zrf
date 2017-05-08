@@ -222,10 +222,11 @@
 )
 
 (define check-attacked
+  (set-position-flag is-from true)
   (set-flag is-attacked? false)
   mark a0
   (while (on-board? next)
-     (if friend?
+     (if (and friend? (not-position-flag? is-from))
          (check-attacked-man  n s)
          (check-attacked-man  w e)
          (check-attacked-man  e w)
