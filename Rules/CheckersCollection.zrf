@@ -47,12 +47,12 @@
   (if (in-zone? promotion)
       (if (or (and (enemy? e) (empty? ee))
               (and (enemy? w) (empty? ww)))
-          (add-partial jumptype)
+          (add-partial continuetype)
        else
           (add-partial King notype)
       )
    else
-      (add-partial jumptype)
+      (add-partial continuetype)
   )
 ))
 
@@ -263,6 +263,60 @@
   )
 )
 
+(define kish-king
+  (if (and (on-board? $2)
+           (empty? $2)
+      )
+      mark
+      (while (and (on-board? $1) (empty? $1)) $1)
+      (if (and (on-board? $1)
+               (enemy? $1)
+               (piece? King $1)
+          )
+          (set-flag kish true)
+      )
+      back
+  )
+)
+
+(define kish-checker
+  (if (and (on-board? $1)
+           (on-board? $2)
+           (enemy? $1)
+           (empty? $2)
+      )
+      (set-flag kish true)
+  )
+)
+
+(define check-kish
+  (set-flag kish false)
+  (kish-checker n s)
+  (kish-checker w e)
+  (kish-checker e w)
+  (kish-king n s)
+  (kish-king s n)
+  (kish-king w e)
+  (kish-king e w)
+  (verify (flag? kish))
+)
+
+(define checker-kish (
+  (check-kish)
+  $1 (verify empty?)
+  (if (in-zone? promotion)
+      (add King)
+   else
+      add
+  )
+))
+
+(define king-kish (
+  (check-kish)
+  $1
+  (while empty? add $1)
+))
+
 (define bahrain-checker-shift (
   (check-attacked)
   $1
@@ -362,6 +416,8 @@
 (variant
   (title "Bahrain Dama")
 
+  (move-priorities jumptype normaltype)
+
   (piece
      (name Checker)
      (image White "../images/wiedem/CheckerWhite.bmp"
@@ -369,6 +425,14 @@
 ;    (attribute captured? false)
      (moves
         (move-type jumptype)
+           (checker-kish n)
+           (checker-kish e)
+           (checker-kish w)
+           (dama-checker-jump n)
+           (dama-checker-jump e)
+           (dama-checker-jump w)
+
+        (move-type continuetype)
            (dama-checker-jump n)
            (dama-checker-jump e)
            (dama-checker-jump w)
@@ -389,6 +453,10 @@
 ;    (attribute captured? false)
      (moves
         (move-type jumptype)
+           (king-kish n)
+           (king-kish s)
+           (king-kish e)
+           (king-kish w)
            (king-jump n)
            (king-jump e)
            (king-jump w)
