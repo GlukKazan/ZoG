@@ -934,7 +934,7 @@
   )
   (if (in-zone? promotion)
       (if (flag? more-captures)
-          (add-partial King jumptype)
+          (add-partial King continuetype)
        else
           (add-partial King notype)
       )
