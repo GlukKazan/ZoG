@@ -4056,10 +4056,10 @@
            (long-king-jump se ne sw)
 
         (move-type continuetype)
-           (long-king-jump nw sw ne)
-           (long-king-jump ne se nw)
-           (long-king-jump sw se nw)
-           (long-king-jump se ne sw)
+           (long-king-continue nw sw ne)
+           (long-king-continue ne se nw)
+           (long-king-continue sw se nw)
+           (long-king-continue se ne sw)
 
         (move-type normaltype)
            (king-shift nw)
