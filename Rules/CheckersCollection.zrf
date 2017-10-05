@@ -263,60 +263,6 @@
   )
 )
 
-(define kish-king
-  (if (and (on-board? $2)
-           (empty? $2)
-      )
-      mark
-      (while (and (on-board? $1) (empty? $1)) $1)
-      (if (and (on-board? $1)
-               (enemy? $1)
-               (piece? King $1)
-          )
-          (set-flag kish true)
-      )
-      back
-  )
-)
-
-(define kish-checker
-  (if (and (on-board? $1)
-           (on-board? $2)
-           (enemy? $1)
-           (empty? $2)
-      )
-      (set-flag kish true)
-  )
-)
-
-(define check-kish
-  (set-flag kish false)
-  (kish-checker n s)
-  (kish-checker w e)
-  (kish-checker e w)
-  (kish-king n s)
-  (kish-king s n)
-  (kish-king w e)
-  (kish-king e w)
-  (verify (flag? kish))
-)
-
-(define checker-kish (
-  (check-kish)
-  $1 (verify empty?)
-  (if (in-zone? promotion)
-      (add King)
-   else
-      add
-  )
-))
-
-(define king-kish (
-  (check-kish)
-  $1
-  (while empty? add $1)
-))
-
 (define bahrain-checker-shift (
   (check-attacked)
   $1
@@ -416,8 +362,6 @@
 (variant
   (title "Bahrain Dama")
 
-  (move-priorities jumptype normaltype)
-
   (piece
      (name Checker)
      (image White "../images/wiedem/CheckerWhite.bmp"
@@ -425,14 +369,6 @@
 ;    (attribute captured? false)
      (moves
         (move-type jumptype)
-           (checker-kish n)
-           (checker-kish e)
-           (checker-kish w)
-           (dama-checker-jump n)
-           (dama-checker-jump e)
-           (dama-checker-jump w)
-
-        (move-type continuetype)
            (dama-checker-jump n)
            (dama-checker-jump e)
            (dama-checker-jump w)
@@ -453,10 +389,6 @@
 ;    (attribute captured? false)
      (moves
         (move-type jumptype)
-           (king-kish n)
-           (king-kish s)
-           (king-kish e)
-           (king-kish w)
            (king-jump n)
            (king-jump e)
            (king-jump w)
@@ -1860,7 +1792,11 @@
       $1
   )
   (verify empty?)
-  add
+  (if (in-zone? promotion)
+      (add King)
+   else
+      add
+  )
 ))
 
 (variant
@@ -1881,12 +1817,36 @@
            (checker-jump s)
 
         (move-type normaltype)
-           (checker-shift n)
-           (checker-shift ne)
-           (checker-shift nw)
            (dameo-shift n)
            (dameo-shift ne)
            (dameo-shift nw)
+
+        (move-type notype)
+     )
+  )
+  (piece
+     (name King)
+     (image White "../images/wiedem/CheckerKingWhite.bmp"
+            Black "../images/wiedem/CheckerKingBlack.bmp")
+     (attribute captured? false)
+     (moves
+        (move-type jumptype)
+           (king-jump n)
+           (king-jump e)
+           (king-jump w)
+           (king-jump s)
+
+        (move-type continuetype)
+           (dama-king-continue n)
+           (dama-king-continue e)
+           (dama-king-continue w)
+           (dama-king-continue s)
+
+        (move-type normaltype)
+           (king-shift n) (king-shift nw)
+           (king-shift e) (king-shift ne)
+           (king-shift w) (king-shift sw)
+           (king-shift s) (king-shift se)
 
         (move-type notype)
      )
