@@ -1,0 +1,214 @@
+(define step (
+  $1 (verify empty?)
+  add
+))
+
+(define capture-man
+  mark $1
+  (if (and enemy? (on-board? $1) (friend? $1))
+       capture
+  )
+  back
+)
+
+(define capturex-man
+  mark $1
+  (if (and enemy? (not-on-board? $1) (on-board? $2) (not-position-flag? here $2) (friend? $2))
+       capture
+  )
+  back
+)
+
+(define capture-all
+  (capture-man nw)
+  (capture-man sw)
+  (capture-man se)
+  (capture-man ne)
+)
+
+(define capturex-all
+  (capture-all)
+  (capturex-man nw sw)
+  (capturex-man ne se)
+  (capturex-man sw nw)
+  (capturex-man se ne)
+  (capturex-man nw ne)
+  (capturex-man ne nw)
+  (capturex-man sw se)
+  (capturex-man se sw)
+)
+
+(define slide-1 (
+  $1 (verify empty?)
+  (capture-all)
+  add
+))
+
+(define slide-2 (
+  $1 (verify empty?)
+  $1 (verify empty?)
+  (capture-all)
+  add
+))
+
+(define slide-3 (
+  $1 (verify empty?)
+  $1 (verify empty?)
+  $1 (verify empty?)
+  (capture-all)
+  add
+))
+
+(define slide-4 (
+  $1 (verify empty?)
+  $1 (verify empty?)
+  $1 (verify empty?)
+  $1 (verify empty?)
+  (capture-all)
+  add
+))
+
+(define slide-5 (
+  $1 (verify empty?)
+  $1 (verify empty?)
+  $1 (verify empty?)
+  $1 (verify empty?)
+  $1 (verify empty?)
+  (capture-all)
+  add
+))
+
+(define slidex-1 (
+  (set-position-flag here true)
+  $1 (verify empty?)
+  (capturex-all)
+  add
+))
+
+(define slidex-2 (
+  $1 (verify empty?)
+  $1 (verify empty?)
+  (capturex-all)
+  add
+))
+
+(define slidex-3 (
+  $1 (verify empty?)
+  $1 (verify empty?)
+  $1 (verify empty?)
+  (capturex-all)
+  add
+))
+
+(define slidex-4 (
+  $1 (verify empty?)
+  $1 (verify empty?)
+  $1 (verify empty?)
+  $1 (verify empty?)
+  (capturex-all)
+  add
+))
+
+(define slidex-5 (
+  $1 (verify empty?)
+  $1 (verify empty?)
+  $1 (verify empty?)
+  $1 (verify empty?)
+  $1 (verify empty?)
+  (capturex-all)
+  add
+))
+
+(game
+  (title "HiQue (R)")
+  (description "https://sites.google.com/site/boardandpieces/list-of-games/hique")
+
+  (option "animate captures"  false)
+  (option "smart moves"       false)
+
+  (move-sound "Audio\Pickup.wav")
+  (release-sound "Audio\Pickup.wav")
+  (capture-sound "")
+  (drop-sound "")
+
+  (players White Black)
+  (turn-order White Black)
+
+  (board
+     (image "../images/hi-que/board.bmp")
+     (grid
+         (start-rectangle 76 76 117 117)
+         (dimensions
+             ("a/b/c/d/e/f/g/h/i/j/k/l/m" (41 0)) ; files
+             ("13/12/11/10/9/8/7/6/5/4/3/2/1" (0 41)) ; ranks
+         )
+         (directions 
+             (n 0 -2) (s 0 2) (e 2 0) (w -2 0)
+             (nw -1 -1) (se 1 1) (sw -1 1) (ne 1 -1)
+         )
+     )
+     (symmetry Black (n s) (s n) (w w) (e e))
+     (zone (name goal-zone) (players White)
+           (positions a13 c13 e13 g13 i13 k13 m13)
+     )
+     (zone (name goal-zone) (players Black)
+           (positions a1 c1 e1 g1 i1 k1 m1)
+     )
+     (kill-positions 
+           a2 a4 a6 a8 a10 a12 b1 b3 b5 b7 b9 b11 b13
+           c2 c4 c6 c8 c10 c12 d1 d3 d5 d7 d9 d11 d13
+           e2 e4 e6 e8 e10 e12 f1 f3 f5 f7 f9 f11 f13
+           g2 g4 g6 g8 g10 g12 h1 h3 h5 h7 h9 h11 h13
+           i2 i4 i6 i8 i10 i12 j1 j3 j5 j7 j9 j11 j13
+           k2 k4 k6 k8 k10 k12 l1 l3 l5 l7 l9 l11 l13
+           m2 m4 m6 m8 m10 m12 
+     )
+  )
+
+  (piece
+     (name  Runner)
+     (image White "../images/hi-que/wpawn.bmp"
+            Black "../images/hi-que/bpawn.bmp")
+     (moves
+        (step n) (step w) (step e)
+     )
+  )
+  (piece
+     (name  Guard)
+     (image White "../images/hi-que/wangel.bmp"
+            Black "../images/hi-que/bangel.bmp")
+     (moves
+        (slide-1 n) (slide-1 s) (slide-1 w) (slide-1 e)
+        (slide-2 n) (slide-2 s) (slide-2 w) (slide-2 e)
+        (slide-3 n) (slide-3 s) (slide-3 w) (slide-3 e)
+        (slide-4 n) (slide-4 s) (slide-4 w) (slide-4 e)
+        (slide-5 n) (slide-5 s) (slide-5 w) (slide-5 e)
+     )
+  )
+
+  (board-setup
+       (White (Runner c1 e1 g1 i1 k1) (Guard d2 f2 h2 j2))
+       (Black (Runner c13 e13 g13 i13 k13) (Guard d12 f12 h12 j12))
+  )
+
+  (loss-condition (White Black) repetition)
+  (loss-condition (White Black) (pieces-remaining 0 Runner))
+  (win-condition  (White Black) (absolute-config Runner (goal-zone)))
+)
+
+(variant
+  (title "HiQue (variant)")
+  (default)
+  (piece
+     (name  Guard)
+     (image White "../images/hi-que/wangel.bmp"
+            Black "../images/hi-que/bangel.bmp")
+     (moves
+        (slidex-1 n) (slidex-1 s) (slidex-1 w) (slidex-1 e)
+        (slidex-2 n) (slidex-2 s) (slidex-2 w) (slidex-2 e)
+        (slidex-3 n) (slidex-3 s) (slidex-3 w) (slidex-3 e)
+        (slidex-4 n) (slidex-4 s) (slidex-4 w) (slidex-4 e)
+        (slidex-5 n) (slidex-5 s) (slidex-5 w) (slidex-5 e)
+     )
+  )
+)
