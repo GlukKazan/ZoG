@@ -6,7 +6,19 @@
   (set-flag $1-10 (or (piece? P16) (piece? P17) (piece? P18)))
 )
 
-(define set
+(define crt
+  (if (in-zone? home)
+      (create $1)
+   else
+      (if (in-zone? ami a1)
+          (create North $1)
+       else
+          (create South $1)
+      )
+  )
+)
+
+(define seta
   (if (flag? $1-10)
       (if (flag? $1-02)
           (add P18)
@@ -72,6 +84,78 @@
                   )
                else
                   (add P01)
+              )
+          )
+      )
+  )
+)
+
+(define setc
+  (if (flag? $1-10)
+      (if (flag? $1-02)
+          (crt P18)
+       else
+          (if (flag? $1-01)
+              (crt P17)
+           else
+              (crt P16)
+          )
+      )
+   else
+      (if (flag? $1-08)
+          (if (flag? $1-04)
+              (if (flag? $1-02)
+                  (if (flag? $1-01)
+                      (crt P15)
+                   else
+                      (crt P14)
+                  )
+               else
+                  (if (flag? $1-01)
+                      (crt P13)
+                   else
+                      (crt P12)
+                  )
+              )
+           else
+              (if (flag? $1-02)
+                  (if (flag? $1-01)
+                      (crt P11)
+                   else
+                      (crt P10)
+                  )
+               else
+                  (if (flag? $1-01)
+                      (crt P09)
+                   else
+                      (crt P08)
+                  )
+              )
+          )
+       else
+          (if (flag? $1-04)
+              (if (flag? $1-02)
+                  (if (flag? $1-01)
+                      (crt P07)
+                   else
+                      (crt P06)
+                  )
+               else
+                  (if (flag? $1-01)
+                      (crt P05)
+                   else
+                      (crt P04)
+                  )
+              )
+           else
+              (if (flag? $1-02)
+                  (if (flag? $1-01)
+                      (crt P03)
+                   else
+                      (crt P02)
+                  )
+               else
+                  (crt P01)
               )
           )
       )
@@ -156,14 +240,22 @@
    )
 )
 
+(define not-one?
+   (or (not-flag? $1-01)
+       (flag? $1-02)
+       (flag? $1-04)
+       (flag? $1-08)
+       (flag? $1-10)
+   )
+)
+
 (define to-reserve
-  mark a1 sr 
+  a1 sr 
   (while not-empty? sr)
-  (while (not-zero? t)
+  (while (not-zero? $1)
      (create S) sr
-     (dec t)
+     (dec $1)
   )
-  back capture add
 )
 
 (define step (
@@ -171,14 +263,52 @@
   (verify (valid? t))
   (if (not-in-zone? home) 
       (if (even? t)
-          (to-reserve)
+          mark (to-reserve t) back
+          capture add
        else
           flip
-          (set t)
+          (seta t)
       )
    else
-      (set t)
+      (seta t)
   )
+))
+
+(define sow (
+   (init s) (dec s) (create P01)
+   nx (init t) (inc t) (dec s) 
+   (verify (valid? t))
+   (if (not-zero? s)
+       mark
+       (while (not-one? s)
+           nx (init x) (inc x)
+           (verify (valid? x))
+           (setc x) (dec s)
+       )
+       nx (init x) (inc x)
+       (verify (valid? x))
+       (if (and (not-in-zone? home) (even? x))
+           capture
+           (to-reserve x)
+        else
+           (setc x)
+       )
+       back 
+       (if (not-in-zone? home) flip)
+       (seta t)
+    else
+       (if (not-in-zone? home) 
+           (if (even? t)
+               mark (to-reserve t) back
+               capture add
+            else
+               flip
+               (seta t)
+           )
+        else
+           (seta t)
+       )
+   )
 ))
 
 (define p
@@ -186,6 +316,7 @@
      (name P$1)
      (image South "../images/ToguzKumalak/p$1.bmp"
             North "../images/ToguzKumalak/p$1.bmp")
+     (moves (sow))
   )
 )
 
@@ -208,14 +339,14 @@
      (grid
          (start-rectangle 4 9 74 279)
          (dimensions
-           ("a/b/c/d/e/f/g/h/i" (70 0)) ; files
+           ("a/b/c/d/e/f/g/h/i" (71 0)) ; files
            ("2/1" (0 534)) ; ranks
          )
      )
      (grid
          (start-rectangle 8 273 38 333)
          (dimensions
-           ("a/b/c/d/e/f/g/h/i/j/k/l/m/n/o/p/q/r/s/t" (30 0)) ; files
+           ("a/b/c/d/e/f/g/h/i/j/k/l/m/n/o/p/q/r/s/t/u" (30 0)) ; files
            ("10/9/8/7" (0 30)) ; ranks
          )
          (directions (nr 1 0))
@@ -223,23 +354,30 @@
      (grid
          (start-rectangle 8 401 38 461)
          (dimensions
-           ("a/b/c/d/e/f/g/h/i/j/k/l/m/n/o/p/q/r/s/t" (30 0)) ; files
+           ("a/b/c/d/e/f/g/h/i/j/k/l/m/n/o/p/q/r/s/t/u" (30 0)) ; files
            ("6/5/4/3" (0 30)) ; ranks
          )
          (directions (sr 1 0))
      )
-     (links sr (a1 a3) (t3 a4) (t4 a5) (t5 a6))
-     (links nr (a1 a7) (t7 a8) (t8 a9) (t9 a10))
+     (links sm (a2 i1) (i1 a2) (b2 h1) (h1 b2) (c2 g1) (g1 c2) (d2 f1) (f1 d2) (e2 e1) (e1 e2) (f2 d1) (d1 f2) (g2 c1) (c1 g2) (h2 b1) (b1 h2) (i2 a1) (a1 i2))
+     (links sr (a1 a3) (u3 a4) (u4 a5) (u5 a6))
+     (links nr (a1 a7) (u7 a8) (u8 a9) (u9 a10))
      (links nx 
          (a1 b1) (b1 c1) (c1 d1) (d1 e1) (e1 f1) (f1 g1) (g1 h1) (h1 i1) (i1 i2)
          (i2 h2) (h2 g2) (g2 f2) (f2 e2) (e2 d2) (d2 c2) (c2 b2) (b2 a2) (a2 a1)
      )
-     (symmetry North (sr nr) (nr sr) (nx nx))
+     (symmetry North (sr nr) (nr sr) (nx nx) (sm sm))
      (zone (name home) (players North)
            (positions a2 b2 c2 d2 e2 f2 g2 h2 i2)
      )
      (zone (name home) (players South)
            (positions a1 b1 c1 d1 e1 f1 g1 h1 i1)
+     )
+     (zone (name ami) (players South)
+           (positions a1)
+     )
+     (zone (name ami) (players North)
+           (positions a2)
      )
   )
 
@@ -267,5 +405,8 @@
     (North (P09 a2 b2 c2 d2 e2 f2 g2 h2 i2))
   )
 
+  (loss-condition (South North) (total-piece-count 82 S))
+  (loss-condition (South North) (total-piece-count 83 S))
+  (loss-condition (South North) (total-piece-count 84 S))
   (count-condition (South North) stalemated)
 )
