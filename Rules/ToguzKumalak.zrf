@@ -6,6 +6,14 @@
   (set-flag $1-10 (or (piece? P16) (piece? P17) (piece? P18)))
 )
 
+(define init-1
+  (set-flag $1-01 true)
+  (set-flag $1-02 false)
+  (set-flag $1-04 false)
+  (set-flag $1-08 false)
+  (set-flag $1-10 false)
+)
+
 (define crt
   (if (in-zone? home)
       (create $1)
@@ -249,8 +257,8 @@
    )
 )
 
-(define to-reserve
-  a1 sr 
+(define friend-reserve
+  a1 sr
   (while not-empty? sr)
   (while (not-zero? $1)
      (create S) sr
@@ -258,19 +266,43 @@
   )
 )
 
+(define enemy-reserve
+  a1 nr
+  (while not-empty? nr)
+  (while (not-zero? $1)
+     (if (in-zone? ami a1)
+         (create North S) 
+      else
+         (create South S) 
+     )
+     nr (dec $1)
+  )
+)
+
 (define step (
-  nx (init t) (inc t) 
-  (verify (valid? t))
-  (if (not-in-zone? home) 
-      (if (even? t)
-          mark (to-reserve t) back
-          capture add
-       else
-          flip
-          (seta t)
-      )
+  nx (if (piece? T)
+     (init-1 t) mark
+     (if enemy?
+         flip
+         (enemy-reserve t)
+      else
+         (friend-reserve t)
+     )
+     back (add T)
    else
-      (seta t)
+     (init t) (inc t) 
+     (verify (valid? t))
+     (if (not-in-zone? home) 
+         (if (even? t)
+             mark (friend-reserve t) back
+             capture add
+          else
+             flip
+             (seta t)
+         )
+      else
+         (seta t)
+     )
   )
 ))
 
@@ -289,7 +321,7 @@
        (verify (valid? x))
        (if (and (not-in-zone? home) (even? x))
            capture
-           (to-reserve x)
+           (friend-reserve x)
         else
            (setc x)
        )
@@ -299,7 +331,7 @@
     else
        (if (not-in-zone? home) 
            (if (even? t)
-               mark (to-reserve t) back
+               mark (friend-reserve t) back
                capture add
             else
                flip
@@ -405,8 +437,8 @@
     (North (P09 a2 b2 c2 d2 e2 f2 g2 h2 i2))
   )
 
-  (loss-condition (South North) (total-piece-count 82 S))
-  (loss-condition (South North) (total-piece-count 83 S))
-  (loss-condition (South North) (total-piece-count 84 S))
+  (loss-condition  (South North) (total-piece-count 82 S))
+  (loss-condition  (South North) (total-piece-count 83 S))
+  (loss-condition  (South North) (total-piece-count 84 S))
   (count-condition (South North) stalemated)
 )
