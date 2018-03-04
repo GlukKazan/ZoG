@@ -1,9 +1,9 @@
 (define init
-  (set-flag $1-01 (or (piece? P01) (piece? P03) (piece? P05) (piece? P07) (piece? P09) (piece? P11) (piece? P13) (piece? P15) (piece? P17)))
-  (set-flag $1-02 (or (piece? P02) (piece? P03) (piece? P06) (piece? P07) (piece? P10) (piece? P11) (piece? P14) (piece? P15) (piece? P18)))
-  (set-flag $1-04 (or (piece? P04) (piece? P05) (piece? P06) (piece? P07) (piece? P12) (piece? P13) (piece? P14) (piece? P15)))
-  (set-flag $1-08 (or (piece? P08) (piece? P09) (piece? P10) (piece? P11) (piece? P12) (piece? P13) (piece? P14) (piece? P15)))
-  (set-flag $1-10 (or (piece? P16) (piece? P17) (piece? P18)))
+  (set-flag $1-01 (or (piece? P01) (piece? P03) (piece? P05) (piece? P07) (piece? P09) (piece? P11) (piece? P13) (piece? P15) (piece? P17) (piece? P19) (piece? P21) (piece? P23) (piece? P25) (piece? P27) (piece? P29)))
+  (set-flag $1-02 (or (piece? P02) (piece? P03) (piece? P06) (piece? P07) (piece? P10) (piece? P11) (piece? P14) (piece? P15) (piece? P18) (piece? P19) (piece? P22) (piece? P23) (piece? P26) (piece? P27) (piece? P30)))
+  (set-flag $1-04 (or (piece? P04) (piece? P05) (piece? P06) (piece? P07) (piece? P12) (piece? P13) (piece? P14) (piece? P15) (piece? P20) (piece? P21) (piece? P22) (piece? P23) (piece? P28) (piece? P29) (piece? P30)))
+  (set-flag $1-08 (or (piece? P08) (piece? P09) (piece? P10) (piece? P11) (piece? P12) (piece? P13) (piece? P14) (piece? P15) (piece? P24) (piece? P25) (piece? P26) (piece? P27) (piece? P28) (piece? P29) (piece? P30)))
+  (set-flag $1-10 (or (piece? P16) (piece? P17) (piece? P18) (piece? P19) (piece? P20) (piece? P21) (piece? P22) (piece? P23) (piece? P24) (piece? P25) (piece? P26) (piece? P27) (piece? P28) (piece? P29) (piece? P30)))
 )
 
 (define init-1
@@ -28,13 +28,61 @@
 
 (define seta
   (if (flag? $1-10)
-      (if (flag? $1-02)
-          (add P18)
-       else
-          (if (flag? $1-01)
-              (add P17)
+      (if (flag? $1-08)
+          (if (flag? $1-04)
+              (if (flag? $1-02)
+                  (add P30)
+               else
+                  (if (flag? $1-01)
+                      (add P29)
+                   else
+                      (add P28)
+                  )
+              )
            else
-              (add P16)
+              (if (flag? $1-02)
+                  (if (flag? $1-01)
+                      (add P27)
+                   else
+                      (add P26)
+                  )
+               else
+                  (if (flag? $1-01)
+                      (add P25)
+                   else
+                      (add P24)
+                  )
+              )
+          )
+       else
+          (if (flag? $1-04)
+              (if (flag? $1-02)
+                  (if (flag? $1-01)
+                      (add P23)
+                   else
+                      (add P22)
+                  )
+               else
+                  (if (flag? $1-01)
+                      (add P21)
+                   else
+                      (add P20)
+                  )
+              )
+           else
+              (if (flag? $1-02)
+                  (if (flag? $1-01)
+                      (add P19)
+                   else
+                      (add P18)
+                  )
+               else
+                  (if (flag? $1-01)
+                      (add P17)
+                   else
+                      (add P16)
+                  )
+              )
           )
       )
    else
@@ -100,13 +148,61 @@
 
 (define setc
   (if (flag? $1-10)
-      (if (flag? $1-02)
-          (crt P18)
-       else
-          (if (flag? $1-01)
-              (crt P17)
+      (if (flag? $1-08)
+          (if (flag? $1-04)
+              (if (flag? $1-02)
+                  (crt P30)
+               else
+                  (if (flag? $1-01)
+                      (crt P29)
+                   else
+                      (crt P28)
+                  )
+              )
            else
-              (crt P16)
+              (if (flag? $1-02)
+                  (if (flag? $1-01)
+                      (crt P27)
+                   else
+                      (crt P26)
+                  )
+               else
+                  (if (flag? $1-01)
+                      (crt P25)
+                   else
+                      (crt P24)
+                  )
+              )
+          )
+       else
+          (if (flag? $1-04)
+              (if (flag? $1-02)
+                  (if (flag? $1-01)
+                      (crt P23)
+                   else
+                      (crt P22)
+                  )
+               else
+                  (if (flag? $1-01)
+                      (crt P21)
+                   else
+                      (crt P20)
+                  )
+              )
+           else
+              (if (flag? $1-02)
+                  (if (flag? $1-01)
+                      (crt P19)
+                   else
+                      (crt P18)
+                  )
+               else
+                  (if (flag? $1-01)
+                      (crt P17)
+                   else
+                      (crt P16)
+                  )
+              )
           )
       )
    else
@@ -229,8 +325,8 @@
 (define valid?
    (or (not-flag? $1-01)
        (not-flag? $1-02)
-       (flag? $1-04)
-       (flag? $1-08)
+       (not-flag? $1-04)
+       (not-flag? $1-08)
        (not-flag? $1-10)
    )
 )
@@ -260,35 +356,38 @@
 (define friend-reserve
   a1 sr
   (while not-empty? sr)
-  (while (not-zero? $1)
+  (while (and (not-zero? $1) (on-board? sr))
      (create S) sr
      (dec $1)
   )
+  (if (not-zero? $1) (create S))
 )
 
 (define enemy-reserve
   a1 nr
   (while not-empty? nr)
-  (while (not-zero? $1)
-     (if (in-zone? ami a1)
-         (create North S) 
-      else
-         (create South S) 
-     )
-     nr (dec $1)
+  (if (in-zone? ami a1)
+      (create North S) 
+   else
+      (create South S) 
   )
+)
+
+(define update-t
+  mark
+  (if enemy?
+      flip
+      (enemy-reserve)
+   else
+      (init-1 t)
+      (friend-reserve t)
+  )
+  back (add T)
 )
 
 (define step (
   nx (if (piece? T)
-     (init-1 t) mark
-     (if enemy?
-         flip
-         (enemy-reserve t)
-      else
-         (friend-reserve t)
-     )
-     back (add T)
+     (update-t)
    else
      (init t) (inc t) 
      (verify (valid? t))
@@ -307,38 +406,83 @@
 ))
 
 (define sow (
+   (set-flag fr false)
+   (set-flag er false)
    (init s) (dec s) (create P01)
-   nx (init t) (inc t) (dec s) 
+   nx (dec s)
+   (if (piece? T)
+       (if friend?
+           (set-flag fr true)
+        else
+           (set-flag er true)
+       )
+    else
+       (init t) (inc t) 
+   )
    (verify (valid? t))
    (if (not-zero? s)
        mark
        (while (not-one? s)
-           nx (init x) (inc x)
-           (verify (valid? x))
-           (setc x) (dec s)
-       )
-       nx (init x) (inc x)
-       (verify (valid? x))
-       (if (and (not-in-zone? home) (even? x))
-           capture
-           (friend-reserve x)
-        else
-           (setc x)
-       )
-       back 
-       (if (not-in-zone? home) flip)
-       (seta t)
-    else
-       (if (not-in-zone? home) 
-           (if (even? t)
-               mark (friend-reserve t) back
-               capture add
+           nx (dec s)
+           (if (piece? T)
+               (if friend?
+                   (set-flag fr true)
+                else
+                   (set-flag er true)
+               )
             else
-               flip
-               (seta t)
+               (init x) (inc x)
+               (verify (valid? x))
+               (setc x) 
+           )
+       )
+       nx
+       (if (piece? T)
+           (if friend?
+               (init-1 x)
+               (friend-reserve x)
+            else
+               (set-flag er true)
            )
         else
+           (init x) (inc x)
+           (verify (valid? x))
+           (if (and (not-in-zone? home) (even? x))
+               capture
+               (if (flag? fr) (inc x))
+               (friend-reserve x)
+            else
+               (setc x)
+               (if (flag? fr)
+                   (init-1 x)
+                   (friend-reserve x)
+               )
+           )
+       )
+       (if (flag? er) (enemy-reserve))
+       back
+       (if (piece? T)
+           (if enemy? flip)
+           (add T)
+        else
+           (if (not-in-zone? home) flip)
            (seta t)
+       )
+    else
+       (if (piece? T)
+           (update-t)
+        else
+           (if (not-in-zone? home) 
+               (if (even? t)
+                   mark (friend-reserve t) back
+                   capture add
+                else
+                   flip
+                   (seta t)
+               )
+            else
+               (seta t)
+           )
        )
    )
 ))
@@ -346,8 +490,8 @@
 (define p
   (piece
      (name P$1)
-     (image South "../images/ToguzKumalak/p$1.bmp"
-            North "../images/ToguzKumalak/p$1.bmp")
+     (image South "../images/ToguzKumalak/p$2.bmp"
+            North "../images/ToguzKumalak/p$2.bmp")
      (moves (sow))
   )
 )
@@ -419,8 +563,11 @@
             North "../images/ToguzKumalak/p01.bmp")
      (moves (step))
   )
-  (p 02) (p 03) (p 04) (p 05) (p 06) (p 07) (p 08) (p 09) (p 10) 
-  (p 11) (p 12) (p 13) (p 14) (p 15) (p 16) (p 17) (p 18)
+  (p 02 02) (p 03 03) (p 04 04) (p 05 05) (p 06 06) (p 07 07) 
+  (p 08 08) (p 09 09) (p 10 10) (p 11 11) (p 12 12) (p 13 13) 
+  (p 14 14) (p 15 15) (p 16 16) (p 17 17) (p 18 18) (p 19 19) 
+  (p 20 20) (p 21 21) (p 22 22) (p 23 23) (p 24 24) (p 25 25) 
+  (p 26 26) (p 27 25) (p 28 26) (p 29 25) (p 30 26)
   (piece
      (name S)
      (image South "../images/ToguzKumalak/seed.bmp"
@@ -437,8 +584,8 @@
     (North (P09 a2 b2 c2 d2 e2 f2 g2 h2 i2))
   )
 
-  (loss-condition  (South North) (total-piece-count 82 S))
-  (loss-condition  (South North) (total-piece-count 83 S))
-  (loss-condition  (South North) (total-piece-count 84 S))
+  (win-condition (South North) (pieces-remaining 82 S))
+  (win-condition (South North) (pieces-remaining 83 S))
+  (win-condition (South North) (pieces-remaining 84 S))
   (count-condition (South North) stalemated)
 )
