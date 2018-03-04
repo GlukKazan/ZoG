@@ -6,12 +6,36 @@
   (set-flag $1-10 (or (piece? P16) (piece? P17) (piece? P18) (piece? P19) (piece? P20) (piece? P21) (piece? P22) (piece? P23) (piece? P24) (piece? P25) (piece? P26) (piece? P27) (piece? P28) (piece? P29) (piece? P30)))
 )
 
-(define init-1
+(define overflow
+  (set-flag $1-01 (or (piece? P19) (piece? P21) (piece? P23) (piece? P25) (piece? P27) (piece? P29)))
+  (set-flag $1-02 (or (piece? P20) (piece? P21) (piece? P24) (piece? P25) (piece? P28) (piece? P29)))
+  (set-flag $1-04 (or (piece? P22) (piece? P23) (piece? P24) (piece? P25) (piece? P30)))
+  (set-flag $1-08 (or (piece? P26) (piece? P27) (piece? P28) (piece? P29) (piece? P30)))
+  (set-flag $1-10 false)
+)
+
+(define set-0
+  (set-flag $1-01 false)
+  (set-flag $1-02 false)
+  (set-flag $1-04 false)
+  (set-flag $1-08 false)
+  (set-flag $1-10 false)
+)
+
+(define set-1
   (set-flag $1-01 true)
   (set-flag $1-02 false)
   (set-flag $1-04 false)
   (set-flag $1-08 false)
   (set-flag $1-10 false)
+)
+
+(define set-18
+  (set-flag $1-01 false)
+  (set-flag $1-02 true)
+  (set-flag $1-04 false)
+  (set-flag $1-08 false)
+  (set-flag $1-10 true)
 )
 
 (define crt
@@ -366,28 +390,38 @@
 (define enemy-reserve
   a1 nr
   (while not-empty? nr)
-  (if (in-zone? ami a1)
-      (create North S) 
-   else
-      (create South S) 
-  )
+  (while (and (not-zero? $1) (on-board? nr))
+      (if (in-zone? ami a1)
+          (create North S) 
+       else
+          (create South S) 
+      )
+      nr (dec $1)
+   )
+   (if (not-zero? $1) 
+       (if (in-zone? ami a1)
+           (create North S) 
+        else
+           (create South S) 
+       )
+   )
 )
 
 (define update-t
   mark
   (if enemy?
       flip
-      (enemy-reserve)
+      (enemy-reserve $1)
    else
-      (init-1 t)
-      (friend-reserve t)
+      (friend-reserve $2)
   )
   back (add T)
 )
 
 (define step (
   nx (if (piece? T)
-     (update-t)
+     (set-1 t)
+     (update-t t t)
    else
      (init t) (inc t) 
      (verify (valid? t))
@@ -406,18 +440,29 @@
 ))
 
 (define sow (
-   (set-flag fr false)
-   (set-flag er false)
-   (init s) (dec s) (create P01)
-   nx (dec s)
+   (set-0 f) (set-0 e)
+   (overflow o)
+   (if (not-zero? o)
+       (set-18 s)
+       (dec o)
+       (create P02)
+    else
+       (init s)
+       (create P01)
+   )
+   (dec s) nx (dec s)
    (if (piece? T)
        (if friend?
-           (set-flag fr true)
+           (inc f)
+           (if (not-zero? o) (inc f) (dec o))
         else
-           (set-flag er true)
+           (inc e)
+           (if (not-zero? o) (inc e) (dec o))
        )
     else
        (init t) (inc t) 
+       (if (not-zero? o) (inc t) (dec o))
+       (verify (valid? t))
    )
    (verify (valid? t))
    (if (not-zero? s)
@@ -426,12 +471,15 @@
            nx (dec s)
            (if (piece? T)
                (if friend?
-                   (set-flag fr true)
+                   (inc f)
+                   (if (not-zero? o) (inc f) (dec o))
                 else
-                   (set-flag er true)
+                   (inc e)
+                   (if (not-zero? o) (inc e) (dec o))
                )
             else
                (init x) (inc x)
+               (if (not-zero? o) (inc x) (dec o))
                (verify (valid? x))
                (setc x) 
            )
@@ -439,27 +487,29 @@
        nx
        (if (piece? T)
            (if friend?
-               (init-1 x)
+               (set-1 x)
+               (if (not-zero? o) (inc x) (dec o))
                (friend-reserve x)
             else
-               (set-flag er true)
+               (inc e)
+               (if (not-zero? o) (inc e) (dec o))
            )
         else
            (init x) (inc x)
+           (if (not-zero? o) (inc x) (dec o))
            (verify (valid? x))
            (if (and (not-in-zone? home) (even? x))
                capture
-               (if (flag? fr) (inc x))
+               (while (not-zero? f) (inc x) (dec f))
                (friend-reserve x)
             else
                (setc x)
-               (if (flag? fr)
-                   (init-1 x)
-                   (friend-reserve x)
+               (if (not-zero? f)
+                   (friend-reserve f)
                )
            )
        )
-       (if (flag? er) (enemy-reserve))
+       (if (not-zero? e) (enemy-reserve e))
        back
        (if (piece? T)
            (if enemy? flip)
@@ -470,7 +520,7 @@
        )
     else
        (if (piece? T)
-           (update-t)
+           (update-t e f)
         else
            (if (not-in-zone? home) 
                (if (even? t)
