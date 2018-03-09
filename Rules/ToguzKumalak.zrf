@@ -472,7 +472,7 @@
        (not-flag? $1-08)
        (not-flag? $1-10)
        (not-piece? T sm)
-       (empty? fl)
+       (empty? tz)
   )
 )
 
@@ -483,16 +483,22 @@
    else
      (init t) (inc t) 
      (verify (valid? t))
-     (if (not-in-zone? home) 
-         (if (even? t)
-             mark (friend-reserve t) back
-             capture add
+     (if (is-tuzdyk? t)
+         mark (friend-reserve t) back
+         (create T tz)
+         (add T)
+      else
+         (if (not-in-zone? home) 
+             (if (even? t)
+                 mark (friend-reserve t) back
+                 capture add
+              else
+                 flip
+                 (seta t)
+             )
           else
-             flip
              (seta t)
          )
-      else
-         (seta t)
      )
   )
 ))
@@ -545,7 +551,7 @@
                 else
                    (inc x) (dec-o o) (verify (valid? x))
                    (if (is-tuzdyk? x)
-                       (create T fl)
+                       (create T tz)
                        (create T)
                        (let o x)
                     else
@@ -575,7 +581,7 @@
            (if (not-zero-o? o) (inc x) (dec-o o))
            (verify (valid? x))
            (if (is-tuzdyk? x)
-               (create T fl)
+               (create T tz)
                (create T)
                (friend-reserve x)
             else
@@ -608,16 +614,22 @@
        (if (piece? T)
            (update-t e f)
         else
-           (if (not-in-zone? home) 
-               (if (even? t)
-                   mark (friend-reserve t) back
-                   capture add
+           (if (is-tuzdyk? t)
+               mark (friend-reserve t) back
+               (create T tz)
+               (add T)
+            else
+               (if (not-in-zone? home) 
+                   (if (even? t)
+                       mark (friend-reserve t) back
+                       capture add
+                    else
+                       flip
+                       (seta t)
+                   )
                 else
-                   flip
                    (seta t)
                )
-            else
-               (seta t)
            )
        )
    )
@@ -675,7 +687,7 @@
          (x1 -10 0 -2  8)
          (x2 -10 8 -2 16)
      )
-     (links fl (a1 x1) (b1 x1) (c1 x1) (d1 x1) (e1 x1) (f1 x1) (g1 x1) (h1 x1) (i1 x1) (a2 x2) (b2 x2) (c2 x2) (d2 x2) (e2 x2) (f2 x2) (g2 x2) (h2 x2) (i2 x2))
+     (links tz (a1 x1) (b1 x1) (c1 x1) (d1 x1) (e1 x1) (f1 x1) (g1 x1) (h1 x1) (i1 x1) (a2 x2) (b2 x2) (c2 x2) (d2 x2) (e2 x2) (f2 x2) (g2 x2) (h2 x2) (i2 x2))
      (links sm (a2 i1) (i1 a2) (b2 h1) (h1 b2) (c2 g1) (g1 c2) (d2 f1) (f1 d2) (e2 e1) (e1 e2) (f2 d1) (d1 f2) (g2 c1) (c1 g2) (h2 b1) (b1 h2) (i2 a1) (a1 i2))
      (links sr (a1 a3) (u3 a4) (u4 a5) (u5 a6))
      (links nr (a1 a7) (u7 a8) (u8 a9) (u9 a10))
@@ -685,7 +697,7 @@
      )
      (symmetry North (sr nr) (nr sr) (nx nx) (sm sm))
      (zone (name forbidden) (players South North)
-           (positions a1 i2)
+           (positions a2 i1)
      )
      (zone (name home) (players North)
            (positions a2 b2 c2 d2 e2 f2 g2 h2 i2)
