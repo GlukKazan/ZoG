@@ -11,6 +11,14 @@
   (set-flag $1-02 (or (piece? P20) (piece? P21) (piece? P24) (piece? P25) (piece? P28) (piece? P29)))
   (set-flag $1-04 (or (piece? P22) (piece? P23) (piece? P24) (piece? P25) (piece? P30)))
   (set-flag $1-08 (or (piece? P26) (piece? P27) (piece? P28) (piece? P29) (piece? P30)))
+  (set-flag $1-10 (or (flag? $1-01) (flag? $1-02) (flag? $1-04) (flag? $1-08)))
+)
+
+(define let
+  (set-flag $1-01 (flag? $2-01))
+  (set-flag $1-02 (flag? $2-02))
+  (set-flag $1-04 (flag? $2-04))
+  (set-flag $1-08 (flag? $2-08))
   (set-flag $1-10 false)
 )
 
@@ -346,6 +354,30 @@
    )
 )
 
+(define dec-o
+   (if (not-flag? $1-01)
+       (set-flag $1-01 true)
+       (if (not-flag? $1-02)
+           (set-flag $1-02 true)
+           (if (not-flag? $1-04)
+               (set-flag $1-04 true)
+               (if (not-flag? $1-08)
+                   (set-flag $1-08 true)
+                else
+                   (set-flag $1-08 false)
+               )
+            else
+               (set-flag $1-04 false)
+           )
+        else
+           (set-flag $1-02 false)
+       )
+    else
+       (set-flag $1-01 false)
+   )
+   (set-flag $1-10 (or (flag? $1-01) (flag? $1-02) (flag? $1-04) (flag? $1-08)))
+)
+
 (define valid?
    (or (not-flag? $1-01)
        (not-flag? $1-02)
@@ -368,12 +400,25 @@
    )
 )
 
+(define not-zero-o?
+   (flag? $1-10)
+)
+
 (define not-one?
    (or (not-flag? $1-01)
        (flag? $1-02)
        (flag? $1-04)
        (flag? $1-08)
        (flag? $1-10)
+   )
+)
+
+(define not-one-o?
+   (or (not-flag? $1-01)
+       (flag? $1-02)
+       (flag? $1-04)
+       (flag? $1-08)
+       (not-flag? $1-10)
    )
 )
 
@@ -454,10 +499,11 @@
 
 (define sow (
    (set-0 f) (set-0 e)
+   (set-flag carry false)
    (overflow o)
-   (if (not-zero? o)
+   (if (not-zero-o? o)
        (set-18 s)
-       (dec o)
+       (dec-o o)
        (create P02)
     else
        (init s)
@@ -467,14 +513,14 @@
    (if (piece? T)
        (if friend?
            (inc f)
-           (if (not-zero? o) (inc f) (dec o))
+           (if (not-zero-o? o) (inc f) (dec-o o))
         else
            (inc e)
-           (if (not-zero? o) (inc e) (dec o))
+           (if (not-zero-o? o) (inc e) (dec-o o))
        )
     else
        (init t) (inc t) 
-       (if (not-zero? o) (inc t) (dec o))
+       (if (not-zero-o? o) (inc t) (dec-o o))
        (verify (valid? t))
    )
    (verify (valid? t))
@@ -485,31 +531,48 @@
            (if (piece? T)
                (if friend?
                    (inc f)
-                   (if (not-zero? o) (inc f) (dec o))
+                   (if (not-zero-o? o) (inc f) (dec-o o))
                 else
                    (inc e)
-                   (if (not-zero? o) (inc e) (dec o))
+                   (if (not-zero-o? o) (inc e) (dec-o o))
                )
             else
                (init x) (inc x)
-               (if (not-zero? o) (inc x) (dec o))
-               (verify (valid? x))
-               (setc x) 
+               (if (not-one-o? o)
+                   (if (not-zero-o? o) (inc x) (dec-o o))
+                   (verify (valid? x))
+                   (setc x) 
+                else
+                   (inc x) (dec-o o) (verify (valid? x))
+                   (if (is-tuzdyk? x)
+                       (create T fl)
+                       (create T)
+                       (let o x)
+                    else
+                       (if (and (not-in-zone? home) (even? x))
+                           (set-flag carry (flag? x-10))
+                           (let o x)
+                           capture
+                        else
+                           (setc x) 
+                       )
+                   )
+              )
            )
        )
        nx
        (if (piece? T)
            (if friend?
                (set-1 x)
-               (if (not-zero? o) (inc x) (dec o))
+               (if (not-zero-o? o) (inc x) (dec-o o))
                (friend-reserve x)
             else
                (inc e)
-               (if (not-zero? o) (inc e) (dec o))
+               (if (not-zero-o? o) (inc e) (dec-o o))
            )
         else
            (init x) (inc x)
-           (if (not-zero? o) (inc x) (dec o))
+           (if (not-zero-o? o) (inc x) (dec-o o))
            (verify (valid? x))
            (if (is-tuzdyk? x)
                (create T fl)
@@ -529,6 +592,10 @@
            )
        )
        (if (not-zero? e) (enemy-reserve e))
+       (if (or (and (not-zero? o) (not-flag? o-10)) (flag? carry))
+           (set-flag o-10 (flag? carry))
+           (friend-reserve o)
+       )
        back
        (if (piece? T)
            (if enemy? flip)
