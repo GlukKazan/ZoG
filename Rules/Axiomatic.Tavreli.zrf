@@ -17,7 +17,7 @@
      (grid
         (start-rectangle 9 9 49 49)
         (dimensions 
-            ("A/B/C/D/E/F/G/H" (59 0)) 
+            ("a/b/c/d/e/f/g/h" (59 0)) 
             ("8/7/6/5/4/3/2/1" (0 59)) 
         )
      )
@@ -1559,25 +1559,25 @@
 
   (board-setup
      (Blue
-        (RookI      A8 H8) 
-        (Knight     B8 G8) 
-        (Bishop     C8 F8) 
-        (Queen      D8)
-        (KingI      E8)
-        (PawnI      A7 H7 B7 G7 C7 F7 D7 E7)
+        (RookI      a8 h8) 
+        (Knight     b8 g8) 
+        (Bishop     c8 f8) 
+        (Queen      d8)
+        (KingI      e8)
+        (PawnI      a7 h7 b7 g7 c7 f7 d7 e7)
      )
      (Red
-        (RookI      A1 H1) 
-        (Knight     B1 G1) 
-        (Bishop     C1 F1) 
-        (Queen      D1)
-        (KingI      E1)
-        (PawnI      A2 H2 B2 G2 C2 F2 D2 E2)
+        (RookI      a1 h1) 
+        (Knight     b1 g1) 
+        (Bishop     c1 f1) 
+        (Queen      d1)
+        (KingI      e1)
+        (PawnI      a2 h2 b2 g2 c2 f2 d2 e2)
      )
   )
 
-   ; The following dummy piece is required in order to placate the Zillions engine.
-   ; It appears as though Zillions must find at least one "moves" keyword somewhere
-   ; in the zrf in order for it to be happy and thus allow "moves" to work correctly.
-   (piece (name Dummy) (dummy) (moves (from)))
+  ; The following dummy piece is required in order to placate the Zillions engine.
+  ; It appears as though Zillions must find at least one "moves" keyword somewhere
+  ; in the zrf in order for it to be happy and thus allow "moves" to work correctly.
+  (piece (name Dummy) (dummy) (moves (from)))
 )
