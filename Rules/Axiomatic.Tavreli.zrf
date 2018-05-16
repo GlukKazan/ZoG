@@ -3,6 +3,9 @@
   (engine "Axiom/Tavreli/axiom.dll")
 
   (option "prevent flipping" true)
+  (option "animate drops"    false)
+  (option "animate captures" false)
+  (option "smart moves"      false)
 
   (move-sound "Audio\Pickup.wav")
   (release-sound "Audio\Pickup.wav")
@@ -1551,10 +1554,10 @@
               Blue "../images/Tavreli/HelgiB.bmp")
   )
   (piece
-     (name         HelgiP)
-     (notation    "Helgi (promoted)")
-     (image   Red  "../images/Tavreli/HelgiR.bmp"
-              Blue "../images/Tavreli/HelgiB.bmp")
+     (name         Mark)
+     (notation    " ")
+     (image   Red  "../images/Tavreli/I.bmp"
+              Blue "../images/Tavreli/I.bmp")
   )
 
   (board-setup
