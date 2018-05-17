@@ -112,20 +112,20 @@ moves}
 	{piece}		KingI		{moves} king-i-moves	1000	{value}
 	{piece}		King		{moves} king-moves	1000	{value}
 	{piece}		KingE
-	{piece}		RookI		{moves} rook-i-moves	5	{value}
-	{piece}		Rook		{moves} rook-moves	5	{value}
-	{piece}		RookP		{moves} rook-moves	5	{value}
+	{piece}		RookI		{moves} rook-i-moves	10	{value}
+	{piece}		Rook		{moves} rook-moves	10	{value}
+	{piece}		RookP		{moves} rook-moves	10	{value}
 	{piece}		RookE
-	{piece}		Knight		{moves} knight-moves	3	{value}
-	{piece}		KnightP		{moves} knight-moves	3	{value}
+	{piece}		Knight		{moves} knight-moves	5	{value}
+	{piece}		KnightP		{moves} knight-moves	5	{value}
 	{piece}		KnightE
-	{piece}		Bishop		{moves} bishop-moves	3	{value}
-	{piece}		BishopP		{moves} bishop-moves	3	{value}
+	{piece}		Bishop		{moves} bishop-moves	4	{value}
+	{piece}		BishopP		{moves} bishop-moves	4	{value}
 	{piece}		BishopE
-	{piece}		Queen		{moves} queen-moves	9	{value}
-	{piece}		QueenP		{moves} queen-moves	9	{value}
+	{piece}		Queen		{moves} queen-moves	20	{value}
+	{piece}		QueenP		{moves} queen-moves	20	{value}
 	{piece}		QueenE
-	{piece}		Helgi		{moves} helgi-moves	12	{value}
+	{piece}		Helgi		{moves} helgi-moves	25	{value}
 	{piece}		Mark
 pieces}
 
@@ -179,3 +179,12 @@ board-setup}
 ' Queen		IS QUEEN
 ' Helgi		IS HELGI
 ' Mark		IS MARK
+' PawnRookE	IS PRE
+' PawnKnightE	IS PKE
+' PawnBishopE	IS PBE
+' PawnQueenE	IS PQE
+' PawnHelgiE	IS PHE
+' RookE		IS RE
+' KnightE	IS KE
+' BishopE	IS BE
+' QueenE	IS QE

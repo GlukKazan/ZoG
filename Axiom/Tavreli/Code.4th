@@ -14,14 +14,52 @@ DEFER	QUEEN
 DEFER	HELGI
 DEFER	MARK
 
-VARIABLE from-pos
+DEFER	PRE
+DEFER	PKE
+DEFER	PBE
+DEFER	PQE
+DEFER	PHE
+DEFER	RE
+DEFER	KE
+DEFER	BE
+DEFER	QE
+
+: is-enemy-piece? ( -- ? )
+	empty? IF
+		FALSE
+	ELSE
+		piece-type PRE = 
+		piece-type PKE = OR
+		piece-type PBE = OR
+		piece-type PQE = OR
+		piece-type PHE = OR
+		piece-type RE  = OR
+		piece-type KE  = OR
+		piece-type BE  = OR
+		piece-type QE  = OR
+	ENDIF
+;
+
+: calc-enemies ( -- n )
+	here 0
+	BEGIN
+		['] down EXECUTE is-enemy-piece? AND IF
+			1+
+			FALSE
+		ELSE
+			TRUE
+		ENDIF
+	UNTIL SWAP to
+;
+
+VARIABLE temp-pos
 
 : clear-mark ( -- )
 	SZ DUP *
 	BEGIN
 		DUP 0> IF
 			1- DUP piece-type-at MARK = IF
-				DUP capture-at
+				 DUP capture-at
 			ENDIF
 			FALSE
 		ELSE
@@ -46,14 +84,18 @@ VARIABLE from-pos
 	ENDIF
 ;
 
-: pawn-promote ( -- )
-	here promotion-zone? IF
-		from piece-type-at PR = IF ROOK   change-type ENDIF
-		from piece-type-at PK = IF KNIGHT change-type ENDIF
-		from piece-type-at PB = IF BISHOP change-type ENDIF
-		from piece-type-at PQ = IF QUEEN  change-type ENDIF
-		from piece-type-at PH = IF HELGI  change-type ENDIF
-	ENDIF
+: pawn-promote-at ( pos -- )
+	here promotion-zone? DUP piece-type-at KI < AND IF
+		DUP piece-type-at PR = IF ROOK   change-type ENDIF
+		DUP piece-type-at PK = IF KNIGHT change-type ENDIF
+		DUP piece-type-at PB = IF BISHOP change-type ENDIF
+		DUP piece-type-at PQ = IF QUEEN  change-type ENDIF
+		DUP piece-type-at PH = IF HELGI  change-type ENDIF
+	ENDIF DROP
+;
+
+: pawn-i-promote ( -- )
+	from pawn-promote-at
 	from piece-type-at PI = IF
 		from SZ MOD
 		DUP DUP 0 = SWAP 7 = OR IF
@@ -73,30 +115,124 @@ VARIABLE from-pos
 	ENDIF
 ;
 
+VARIABLE stack-size
+VARIABLE from-pos
+VARIABLE to-pos
+VARIABLE top-pos
+VARIABLE target-pos
+
+: to-down-at ( pos -- pos )
+	here SWAP to
+	['] down EXECUTE DROP 
+        here SWAP to
+;
+
+: move-stack ( -- )
+	from from-pos !
+	here top-pos  !
+	here to-pos   !
+	stack-size    @
+	BEGIN
+		DUP 0> IF
+			from-pos @ to-down-at DUP from-pos !
+			to-pos   @ to-down-at DUP to-pos   !
+			move
+			1- FALSE
+		ELSE
+			TRUE
+		ENDIF
+	UNTIL DROP
+	to-pos @ target-pos !
+	from to-pos !
+	BEGIN
+		from-pos @ to-down-at from-pos !
+		from-pos @ empty-at? IF
+			TRUE
+		ELSE
+			from-pos @ to-pos @ move
+			here to-pos @ to
+			from-pos @ pawn-promote-at to
+			to-pos @ to-down-at to-pos !
+			FALSE
+		ENDIF
+	UNTIL
+;
+
+: capture-pawn ( -- )
+	target-pos @ to-down-at target-pos !
+	here target-pos @ move
+	( TODO: promote )
+
+;
+
+: push-stack ( -- )
+	top-pos @ to-pos !
+	BEGIN
+		top-pos @ empty-at? IF
+			TRUE
+		ELSE
+			target-pos @ to-down-at target-pos !
+			top-pos    @ target-pos @ move
+			top-pos    @ to-down-at top-pos    !
+			( TODO: promote )
+
+			FALSE
+		ENDIF
+	UNTIL
+	to-pos @ empty-at? NOT IF
+		from piece-type-at to-pos @ create-piece-type-at
+		( TODO: Use promoted piece-type )
+
+	ENDIF
+;
+
+: empty-or-friend? ( -- )
+	friend? IF
+		piece-type KI =
+		piece-type KI 1+ = OR NOT
+	ELSE
+		empty?
+	ENDIF
+;
+
+: not-friend-king? ( -- )
+	friend? IF
+		piece-type KI =
+		piece-type KI 1+ = OR NOT
+	ELSE
+		TRUE
+	ENDIF
+;
+
 : pawn-shift ( -- )
-	n empty? verify
+	calc-enemies stack-size !
+	n empty-or-friend? verify
 	from here move
-	pawn-promote
+	pawn-i-promote
+	move-stack
+	push-stack
 	clear-mark
 	add-move
 ;
 
 : pawn-jump ( -- )
 	n empty? verify
-	here from-pos !
-	n empty? verify
+	here temp-pos !
+	n empty-or-friend? verify
 	from here move
-	pawn-promote
+	pawn-i-promote
 	clear-mark
-	MARK from-pos @ create-piece-type-at
+	MARK temp-pos @ create-piece-type-at
 	add-move
 ;
 
 : pawn-step ( 'dir -- )
+	calc-enemies stack-size !
 	EXECUTE verify
 	enemy? verify
 	from here move
-	pawn-promote
+	pawn-i-promote
+	move-stack
 	piece-type MARK = IF
 		s capture
 	ELSE
@@ -109,11 +245,15 @@ VARIABLE from-pos
 : pawn-ne-step ( -- ) ['] ne pawn-step ;
 
 : king-step ( 'dir -- )
+	calc-enemies stack-size !
 	EXECUTE verify
-	friend? NOT verify
+	not-friend-king? verify
 	from here move
 	KI 1+ change-type
-	clear-mark
+	move-stack
+	piece-type MARK = NOT IF
+		clear-mark
+	ENDIF
 	add-move
 ;
 
@@ -132,8 +272,8 @@ VARIABLE from-pos
 	from here move
 	from piece-type-at 1+ change-type
 	e friend? piece-type RI = AND verify
-	here from-pos !
-	w w from-pos @ here move
+	here temp-pos !
+	w w temp-pos @ here move
 	RI 1+ change-type
 	clear-mark
 	add-move
@@ -146,18 +286,22 @@ VARIABLE from-pos
 	from piece-type-at 1+ change-type
 	w empty? verify
 	w friend? piece-type RI = AND verify
-	here from-pos !
-	e e e from-pos @ here move
+	here temp-pos !
+	e e e temp-pos @ here move
 	RI 1+ change-type
 	clear-mark
 	add-move
 ;
 
 : step ( 'dir -- )
+	calc-enemies stack-size !
 	EXECUTE verify
-	friend? NOT verify
+	not-friend-king? verify
 	from here move
-	clear-mark
+	move-stack
+	piece-type MARK = NOT IF
+		clear-mark
+	ENDIF
 	add-move
 ;
 
@@ -171,11 +315,15 @@ VARIABLE from-pos
 : se-step ( -- ) ['] se step ;
 
 : leap ( 'dir 'dir -- )
+	calc-enemies stack-size !
 	EXECUTE verify
 	EXECUTE verify
-	friend? NOT verify
+	not-friend-king? verify
 	from here move
-	clear-mark
+	move-stack
+	piece-type MARK = NOT IF
+		clear-mark
+	ENDIF
 	add-move
 ;
 
@@ -200,7 +348,7 @@ VARIABLE from-pos
 			TRUE
 		ENDIF
 	UNTIL DROP
-	friend? NOT verify
+	not-friend-king? verify
 	from here move
 	RI 1+ change-type
 	clear-mark
@@ -217,18 +365,21 @@ VARIABLE from-pos
 : rook-ne-slide ( -- ) ['] ne rook-slide ;
 
 : slide ( 'dir -- )
+	calc-enemies stack-size !
 	BEGIN
 		DUP EXECUTE my-empty? AND IF
 			from here move
-			add-move
+			move-stack
 			empty? IF clear-mark ENDIF
+			add-move
 			FALSE
 		ELSE
 			TRUE
 		ENDIF
 	UNTIL DROP
-	friend? NOT verify
+	not-friend-king? verify
 	from here move
+	move-stack
 	clear-mark
 	add-move
 ;
