@@ -1,28 +1,32 @@
-DEFER	PI
-DEFER	RI
-DEFER	KI
-DEFER	PR
-DEFER	PK
-DEFER	PB
-DEFER	PQ
-DEFER	PH
-
-DEFER	ROOK
-DEFER	KNIGHT
-DEFER	BISHOP
-DEFER	QUEEN
-DEFER	HELGI
-DEFER	MARK
-
-DEFER	PRE
-DEFER	PKE
-DEFER	PBE
-DEFER	PQE
-DEFER	PHE
-DEFER	RE
-DEFER	KE
-DEFER	BE
-DEFER	QE
+DEFER	 PI
+DEFER	 PR
+DEFER	 PRE
+DEFER	 PK
+DEFER	 PKE
+DEFER	 PB
+DEFER	 PBE
+DEFER	 PQ
+DEFER	 PQE
+DEFER	 PH
+DEFER	 PHE
+DEFER	 KI
+DEFER	 KING
+DEFER	 HE
+DEFER	 RI
+DEFER	 ROOK
+DEFER	 RP
+DEFER	 RE
+DEFER	 KNIGHT
+DEFER	 KP
+DEFER	 KE
+DEFER	 BISHOP
+DEFER	 BP
+DEFER	 BE
+DEFER	 QUEEN
+DEFER	 QP
+DEFER	 QE
+DEFER	 HELGI
+DEFER	 MARK
 
 : is-enemy-piece? ( -- ? )
 	empty? IF
@@ -84,18 +88,35 @@ VARIABLE temp-pos
 	ENDIF
 ;
 
+: get-pawn-promote-type-at ( pos -- type )
+	piece-type-at
+	DUP KI < here promotion-zone? AND IF
+		DUP PR = IF
+			DROP ROOK
+		ELSE
+			DUP PK = IF
+				DROP KNIGHT
+			ELSE
+				DUP PB = IF
+					DROP BISHOP
+				ELSE
+					PQ = IF QUEEN ELSE HELGI ENDIF
+				ENDIF
+			ENDIF
+		ENDIF
+	ENDIF
+;
+
 : pawn-promote-at ( pos -- )
-	here promotion-zone? DUP piece-type-at KI < AND IF
-		DUP piece-type-at PR = IF ROOK   change-type ENDIF
-		DUP piece-type-at PK = IF KNIGHT change-type ENDIF
-		DUP piece-type-at PB = IF BISHOP change-type ENDIF
-		DUP piece-type-at PQ = IF QUEEN  change-type ENDIF
-		DUP piece-type-at PH = IF HELGI  change-type ENDIF
-	ENDIF DROP
+	get-pawn-promote-type-at
+	DUP KI >= IF
+		change-type
+	ELSE
+		DROP
+	ENDIF
 ;
 
 : pawn-i-promote ( -- )
-	from pawn-promote-at
 	from piece-type-at PI = IF
 		from SZ MOD
 		DUP DUP 0 = SWAP 7 = OR IF
@@ -112,7 +133,56 @@ VARIABLE temp-pos
 			ENDIF
 		ENDIF
 		change-type
+	ELSE
+		from pawn-promote-at
 	ENDIF
+;
+
+: unpromote-at ( pos -- )
+	DUP enemy-at? IF
+		( TODO: PI )
+
+		DUP piece-type-at KI     = HE     change-type
+		DUP piece-type-at KING   = HE     change-type
+		DUP piece-type-at ROOK   = RE     change-type
+		DUP piece-type-at RI     = RE     change-type
+		DUP piece-type-at KNIGHT = KE     change-type
+		DUP piece-type-at BISHOP = BE     change-type
+		DUP piece-type-at QUEEN  = QE     change-type
+
+		DUP piece-type-at RE     = ROOK   change-type
+		DUP piece-type-at KE     = KNIGHT change-type
+		DUP piece-type-at BE     = BISHOP change-type
+		DUP piece-type-at QE     = QUEEN  change-type
+
+		DUP piece-type-at RP     = PRE    change-type
+		DUP piece-type-at KP     = PKE    change-type
+		DUP piece-type-at BP     = PBE    change-type
+		DUP piece-type-at QP     = PQE    change-type
+		DUP piece-type-at HELGI  = PHE    change-type
+
+		DUP piece-type-at PR     = PRE    change-type
+		DUP piece-type-at PK     = PKE    change-type
+		DUP piece-type-at PB     = PBE    change-type
+		DUP piece-type-at PQ     = PQE    change-type
+		DUP piece-type-at PH     = PHE    change-type
+
+		DUP piece-type-at PRE    = PR     change-type
+		DUP piece-type-at PKE    = PK     change-type
+		DUP piece-type-at PBE    = PB     change-type
+		DUP piece-type-at PQE    = PQ     change-type
+		DUP piece-type-at PHE    = PH     change-type
+
+		current-player change-owner
+	ENDIF
+		( TODO: PI )
+
+		DUP piece-type-at RP     = PR     change-type
+		DUP piece-type-at KP     = PK     change-type
+		DUP piece-type-at BP     = PB     change-type
+		DUP piece-type-at QP     = PQ     change-type
+		DUP piece-type-at HELGI  = PH     change-type
+	DROP
 ;
 
 VARIABLE stack-size
@@ -161,8 +231,7 @@ VARIABLE target-pos
 : capture-pawn ( -- )
 	target-pos @ to-down-at target-pos !
 	here target-pos @ move
-	( TODO: promote )
-
+	here unpromote-at
 ;
 
 : push-stack ( -- )
@@ -173,16 +242,14 @@ VARIABLE target-pos
 		ELSE
 			target-pos @ to-down-at target-pos !
 			top-pos    @ target-pos @ move
+			top-pos    @ unpromote-at
 			top-pos    @ to-down-at top-pos    !
-			( TODO: promote )
-
 			FALSE
 		ENDIF
 	UNTIL
 	to-pos @ empty-at? NOT IF
-		from piece-type-at to-pos @ create-piece-type-at
-		( TODO: Use promoted piece-type )
-
+		from get-pawn-promote-type-at
+		to-pos @ create-piece-type-at
 	ENDIF
 ;
 
@@ -210,8 +277,8 @@ VARIABLE target-pos
 	from here move
 	pawn-i-promote
 	move-stack
-	push-stack
 	clear-mark
+	( push-stack )
 	add-move
 ;
 
@@ -223,6 +290,7 @@ VARIABLE target-pos
 	pawn-i-promote
 	clear-mark
 	MARK temp-pos @ create-piece-type-at
+	( push-stack )
 	add-move
 ;
 
@@ -233,11 +301,13 @@ VARIABLE target-pos
 	from here move
 	pawn-i-promote
 	move-stack
+	capture-pawn
 	piece-type MARK = IF
 		s capture
 	ELSE
 		clear-mark
 	ENDIF
+	( push-stack )
 	add-move
 ;
 
@@ -254,6 +324,7 @@ VARIABLE target-pos
 	piece-type MARK = NOT IF
 		clear-mark
 	ENDIF
+	( push-stack )
 	add-move
 ;
 
@@ -302,6 +373,7 @@ VARIABLE target-pos
 	piece-type MARK = NOT IF
 		clear-mark
 	ENDIF
+	( push-stack )
 	add-move
 ;
 
@@ -324,6 +396,7 @@ VARIABLE target-pos
 	piece-type MARK = NOT IF
 		clear-mark
 	ENDIF
+	( push-stack )
 	add-move
 ;
 
@@ -342,6 +415,7 @@ VARIABLE target-pos
 			from here move
 			RI 1+ change-type
 			empty? IF clear-mark ENDIF
+			( push-stack )
 			add-move
 			FALSE
 		ELSE
@@ -352,6 +426,7 @@ VARIABLE target-pos
 	from here move
 	RI 1+ change-type
 	clear-mark
+	( push-stack )
 	add-move
 ;
 
@@ -365,12 +440,13 @@ VARIABLE target-pos
 : rook-ne-slide ( -- ) ['] ne rook-slide ;
 
 : slide ( 'dir -- )
-	calc-enemies stack-size !
+(	calc-enemies stack-size ! )
 	BEGIN
 		DUP EXECUTE my-empty? AND IF
 			from here move
 			move-stack
 			empty? IF clear-mark ENDIF
+			( push-stack )
 			add-move
 			FALSE
 		ELSE
@@ -379,8 +455,9 @@ VARIABLE target-pos
 	UNTIL DROP
 	not-friend-king? verify
 	from here move
-	move-stack
-	clear-mark
+(	move-stack
+	clear-mark )
+(	push-stack )
 	add-move
 ;
 
