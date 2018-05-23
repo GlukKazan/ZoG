@@ -423,6 +423,7 @@ VARIABLE target-pos
 		ENDIF
 	UNTIL DROP
 	not-friend-king? verify
+	from here <> verify
 	from here move
 	RI 1+ change-type
 	clear-mark
@@ -454,6 +455,7 @@ VARIABLE target-pos
 		ENDIF
 	UNTIL DROP
 	not-friend-king? verify
+	from here <> verify
 	from here move
 (	move-stack
 	clear-mark )
