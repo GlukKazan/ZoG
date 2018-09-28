@@ -1,0 +1,650 @@
+(define drop (
+  (verify empty?)
+  (verify (in-zone? home))
+  add
+))
+
+(define die
+  (if (piece? General-5)    (if (in-zone? ami a1) (create Black General-5)    else (create White General-5)))
+  (if (piece? General-4)    (if (in-zone? ami a1) (create Black General-4)    else (create White General-4)))
+  (if (piece? General-3)    (if (in-zone? ami a1) (create Black General-3)    else (create White General-3)))
+  (if (piece? General-2)    (if (in-zone? ami a1) (create Black General-2)    else (create White General-2)))
+  (if (piece? General-1)    (if (in-zone? ami a1) (create Black General-1)    else (create White General-1)))
+  (if (piece? Colonel-1)    (if (in-zone? ami a1) (create Black Colonel-1)    else (create White Colonel-1)))
+  (if (piece? Colonel-2)    (if (in-zone? ami a1) (create Black Colonel-2)    else (create White Colonel-2)))
+  (if (piece? Major)        (if (in-zone? ami a1) (create Black Major)        else (create White Major)))
+  (if (piece? Captain)      (if (in-zone? ami a1) (create Black Captain)      else (create White Captain)))
+  (if (piece? Lieutenant-1) (if (in-zone? ami a1) (create Black Lieutenant-1) else (create White Lieutenant-1)))
+  (if (piece? Lieutenant-2) (if (in-zone? ami a1) (create Black Lieutenant-2) else (create White Lieutenant-2)))
+  (if (piece? Sergeant)     (if (in-zone? ami a1) (create Black Sergeant)     else (create White Sergeant)))
+  (if (piece? Private)      (if (in-zone? ami a1) (create Black Private)      else (create White Private)))
+  (if (piece? Spy)          (if (in-zone? ami a1) (create Black Spy)          else (create White Spy)))
+)
+
+(define step-g5 (
+  $1 (verify not-friend?)
+  (if (or empty? 
+          (piece? General-4)
+          (piece? General-3)
+          (piece? General-2)
+          (piece? General-1)
+          (piece? Colonel-1)
+          (piece? Colonel-2)
+          (piece? Major)
+          (piece? Captain)
+          (piece? Lieutenant-1)
+          (piece? Lieutenant-2)
+          (piece? Sergeant)
+          (piece? Private)
+          (piece? Flag)
+      )
+      add
+   else
+      (if (piece? General-5)
+           capture
+       else
+           (die)
+      )
+      add
+  )
+))
+
+(define step-g4 (
+  $1 (verify not-friend?)
+  (if (or empty? 
+          (piece? General-3)
+          (piece? General-2)
+          (piece? General-1)
+          (piece? Colonel-1)
+          (piece? Colonel-2)
+          (piece? Major)
+          (piece? Captain)
+          (piece? Lieutenant-1)
+          (piece? Lieutenant-2)
+          (piece? Sergeant)
+          (piece? Private)
+          (piece? Flag)
+      )
+      add
+   else
+      (if (piece? General-4)
+           capture
+       else
+           (die)
+      )
+      add
+  )
+))
+
+(define step-g3 (
+  $1 (verify not-friend?)
+  (if (or empty? 
+          (piece? General-2)
+          (piece? General-1)
+          (piece? Colonel-1)
+          (piece? Colonel-2)
+          (piece? Major)
+          (piece? Captain)
+          (piece? Lieutenant-1)
+          (piece? Lieutenant-2)
+          (piece? Sergeant)
+          (piece? Private)
+          (piece? Flag)
+      )
+      add
+   else
+      (if (piece? General-3)
+           capture
+       else
+           (die)
+      )
+      add
+  )
+))
+
+(define step-g2 (
+  $1 (verify not-friend?)
+  (if (or empty? 
+          (piece? General-1)
+          (piece? Colonel-1)
+          (piece? Colonel-2)
+          (piece? Major)
+          (piece? Captain)
+          (piece? Lieutenant-1)
+          (piece? Lieutenant-2)
+          (piece? Sergeant)
+          (piece? Private)
+          (piece? Flag)
+      )
+      add
+   else
+      (if (piece? General-2)
+           capture
+       else
+           (die)
+      )
+      add
+  )
+))
+
+(define step-g1 (
+  $1 (verify not-friend?)
+  (if (or empty? 
+          (piece? Colonel-1)
+          (piece? Colonel-2)
+          (piece? Major)
+          (piece? Captain)
+          (piece? Lieutenant-1)
+          (piece? Lieutenant-2)
+          (piece? Sergeant)
+          (piece? Private)
+          (piece? Flag)
+      )
+      add
+   else
+      (if (piece? General-1)
+           capture
+       else
+           (die)
+      )
+      add
+  )
+))
+
+(define step-c1 (
+  $1 (verify not-friend?)
+  (if (or empty? 
+          (piece? Colonel-2)
+          (piece? Major)
+          (piece? Captain)
+          (piece? Lieutenant-1)
+          (piece? Lieutenant-2)
+          (piece? Sergeant)
+          (piece? Private)
+          (piece? Flag)
+      )
+      add
+   else
+      (if (piece? Colonel-1)
+           capture
+       else
+           (die)
+      )
+      add
+  )
+))
+
+(define step-c2 (
+  $1 (verify not-friend?)
+  (if (or empty? 
+          (piece? Major)
+          (piece? Captain)
+          (piece? Lieutenant-1)
+          (piece? Lieutenant-2)
+          (piece? Sergeant)
+          (piece? Private)
+          (piece? Flag)
+      )
+      add
+   else
+      (if (piece? Colonel-2)
+           capture
+       else
+           (die)
+      )
+      add
+  )
+))
+
+(define step-m1 (
+  $1 (verify not-friend?)
+  (if (or empty? 
+          (piece? Captain)
+          (piece? Lieutenant-1)
+          (piece? Lieutenant-2)
+          (piece? Sergeant)
+          (piece? Private)
+          (piece? Flag)
+      )
+      add
+   else
+      (if (piece? Major)
+           capture
+       else
+           (die)
+      )
+      add
+  )
+))
+
+(define step-c3 (
+  $1 (verify not-friend?)
+  (if (or empty? 
+          (piece? Lieutenant-1)
+          (piece? Lieutenant-2)
+          (piece? Sergeant)
+          (piece? Private)
+          (piece? Flag)
+      )
+      add
+   else
+      (if (piece? Captain)
+           capture
+       else
+           (die)
+      )
+      add
+  )
+))
+
+(define step-l1 (
+  $1 (verify not-friend?)
+  (if (or empty? 
+          (piece? Lieutenant-2)
+          (piece? Sergeant)
+          (piece? Private)
+          (piece? Flag)
+      )
+      add
+   else
+      (if (piece? Lieutenant-1)
+           capture
+       else
+           (die)
+      )
+      add
+  )
+))
+
+(define step-l2 (
+  $1 (verify not-friend?)
+  (if (or empty? 
+          (piece? Sergeant)
+          (piece? Private)
+          (piece? Flag)
+      )
+      add
+   else
+      (if (piece? Lieutenant-2)
+           capture
+       else
+           (die)
+      )
+      add
+  )
+))
+
+(define step-s1 (
+  $1 (verify not-friend?)
+  (if (or empty? 
+          (piece? Private)
+          (piece? Flag)
+      )
+      add
+   else
+      (if (piece? Sergeant)
+           capture
+       else
+           (die)
+      )
+      add
+  )
+))
+
+(define step-p1 (
+  $1 (verify not-friend?)
+  (if (or empty? 
+          (piece? Spy)
+          (piece? Flag)
+      )
+      add
+   else
+      (if (piece? Private)
+           capture
+       else
+           (die)
+      )
+      add
+  )
+))
+
+(define step-s2 (
+  $1 (verify not-friend?)
+  (if (or empty? 
+          (piece? General-5)
+          (piece? General-4)
+          (piece? General-3)
+          (piece? General-2)
+          (piece? General-1)
+          (piece? Colonel-1)
+          (piece? Colonel-2)
+          (piece? Major)
+          (piece? Captain)
+          (piece? Lieutenant-1)
+          (piece? Lieutenant-2)
+          (piece? Sergeant)
+          (piece? Flag)
+      )
+      add
+   else
+      (if (piece? Spy)
+           capture
+       else
+           (die)
+      )
+      add
+  )
+))
+
+(define step-f1 (
+  $1 (verify not-friend?)
+  (if (or empty? 
+          (piece? Flag)
+      )
+      add
+   else
+      (die)
+      add
+  )
+))
+
+(game
+  (title "Game of Generals")
+
+  (option "animate drops"     false)
+  (option "animate captures"  false)
+  (option "smart moves"       false)
+
+  (players White Black)
+  (turn-order 
+        Black Black Black Black Black Black Black Black Black Black
+        Black Black Black Black Black Black Black Black Black Black Black
+        White White White White White White White White White White
+        White White White White White White White White White White White
+        repeat White Black)
+  (move-priorities priority-type drop-type normal-type)
+
+  (move-sound "Audio\Pickup.wav")
+  (release-sound "Audio\Pickup.wav")
+  (capture-sound "")
+  (drop-sound "")
+
+  (board
+     (image "../images/gog/board.bmp")
+     (grid
+         (start-rectangle 3 3 83 63)
+         (dimensions
+           ("a/b/c/d/e/f/g/h/i" (81 0)) ; files
+           ("8/7/6/5/4/3/2/1" (0 61)) ; ranks
+         )
+         (directions 
+              (n 0 -1) (s 0 1) (e 1 0) (w -1 0)
+         )
+     )
+     (zone (name home) (players White)
+           (positions b1 e1 h1 a2 b2 c2 d2 e2 f2 g2 h2 i2 a3 b3 c3 d3 e3 f3 g3 h3 i3)
+     )
+     (zone (name home) (players Black)
+           (positions b8 e8 h8 a7 b7 c7 d7 e7 f7 g7 h7 i7 a6 b6 c6 d6 e6 f6 g6 h6 i6)
+     )
+     (zone (name goal) (players White)
+           (positions a8 b8 c8 d8 e8 f8 g8 h8 i8)
+     )
+     (zone (name goal) (players Black)
+           (positions a1 b1 c1 d1 e1 f1 g1 h1 i1)
+     )
+     (zone (name ami) (players White) (positions a1))
+     (zone (name ami) (players Black) (positions a2))
+  )
+
+  (piece
+     (name General-5)
+     (image White "../images/gog/gen5.bmp"
+            Black "../images/gog/enemy.bmp")
+     (help " ")
+     (drops
+        (move-type drop-type)
+        (drop)
+     )
+     (moves
+        (move-type normal-type)
+        (step-g5 n) (step-g5 e) (step-g5 w) (step-g5 s)
+     )
+  )
+  (piece
+     (name General-4)
+     (image White "../images/gog/gen4.bmp"
+            Black "../images/gog/enemy.bmp")
+     (help " ")
+     (drops
+        (move-type drop-type)
+        (drop)
+     )
+     (moves
+        (move-type normal-type)
+        (step-g4 n) (step-g4 e) (step-g4 w) (step-g4 s)
+     )
+  )
+  (piece
+     (name General-3)
+     (image White "../images/gog/gen3.bmp"
+            Black "../images/gog/enemy.bmp")
+     (help " ")
+     (drops
+        (move-type drop-type)
+        (drop)
+     )
+     (moves
+        (move-type normal-type)
+        (step-g3 n) (step-g3 e) (step-g3 w) (step-g3 s)
+     )
+  )
+  (piece
+     (name General-2)
+     (image White "../images/gog/gen2.bmp"
+            Black "../images/gog/enemy.bmp")
+     (help " ")
+     (drops
+        (move-type drop-type)
+        (drop)
+     )
+     (moves
+        (move-type normal-type)
+        (step-g2 n) (step-g2 e) (step-g2 w) (step-g2 s)
+     )
+  )
+  (piece
+     (name General-1)
+     (image White "../images/gog/gen1.bmp"
+            Black "../images/gog/enemy.bmp")
+     (help " ")
+     (drops
+        (move-type drop-type)
+        (drop)
+     )
+     (moves
+        (move-type normal-type)
+        (step-g1 n) (step-g1 e) (step-g1 w) (step-g1 s)
+     )
+  )
+  (piece
+     (name Colonel-1)
+     (image White "../images/gog/col1.bmp"
+            Black "../images/gog/enemy.bmp")
+     (help " ")
+     (drops
+        (move-type drop-type)
+        (drop)
+     )
+     (moves
+        (move-type normal-type)
+        (step-c1 n) (step-c1 e) (step-c1 w) (step-c1 s)
+     )
+  )
+  (piece
+     (name Colonel-2)
+     (image White "../images/gog/col2.bmp"
+            Black "../images/gog/enemy.bmp")
+     (help " ")
+     (drops
+        (move-type drop-type)
+        (drop)
+     )
+     (moves
+        (move-type normal-type)
+        (step-c2 n) (step-c2 e) (step-c2 w) (step-c2 s)
+     )
+  )
+  (piece
+     (name Major)
+     (image White "../images/gog/maj.bmp"
+            Black "../images/gog/enemy.bmp")
+     (help " ")
+     (drops
+        (move-type drop-type)
+        (drop)
+     )
+     (moves
+        (move-type normal-type)
+        (step-m1 n) (step-m1 e) (step-m1 w) (step-m1 s)
+     )
+  )
+  (piece
+     (name Captain)
+     (image White "../images/gog/cpt.bmp"
+            Black "../images/gog/enemy.bmp")
+     (help " ")
+     (drops
+        (move-type drop-type)
+        (drop)
+     )
+     (moves
+        (move-type normal-type)
+        (step-c3 n) (step-c3 e) (step-c3 w) (step-c3 s)
+     )
+  )
+  (piece
+     (name Lieutenant-1)
+     (image White "../images/gog/lt1.bmp"
+            Black "../images/gog/enemy.bmp")
+     (help " ")
+     (drops
+        (move-type drop-type)
+        (drop)
+     )
+     (moves
+        (move-type normal-type)
+        (step-l1 n) (step-l1 e) (step-l1 w) (step-l1 s)
+     )
+  )
+  (piece
+     (name Lieutenant-2)
+     (image White "../images/gog/lt2.bmp"
+            Black "../images/gog/enemy.bmp")
+     (help " ")
+     (drops
+        (move-type drop-type)
+        (drop)
+     )
+     (moves
+        (move-type normal-type)
+        (step-l2 n) (step-l2 e) (step-l2 w) (step-l2 s)
+     )
+  )
+  (piece
+     (name Sergeant)
+     (image White "../images/gog/sgt.bmp"
+            Black "../images/gog/enemy.bmp")
+     (help " ")
+     (drops
+        (move-type drop-type)
+        (drop)
+     )
+     (moves
+        (move-type normal-type)
+        (step-s1 n) (step-s1 e) (step-s1 w) (step-s1 s)
+     )
+  )
+  (piece
+     (name Private)
+     (image White "../images/gog/pvt.bmp"
+            Black "../images/gog/enemy.bmp")
+     (help " ")
+     (drops
+        (move-type drop-type)
+        (drop)
+     )
+     (moves
+        (move-type normal-type)
+        (step-p1 n) (step-p1 e) (step-p1 w) (step-p1 s)
+     )
+  )
+  (piece
+     (name Spy)
+     (image White "../images/gog/spy.bmp"
+            Black "../images/gog/enemy.bmp")
+     (help " ")
+     (drops
+        (move-type drop-type)
+        (drop)
+     )
+     (moves
+        (move-type normal-type)
+        (step-s2 n) (step-s2 e) (step-s2 w) (step-s2 s)
+     )
+  )
+  (piece
+     (name Flag)
+     (image White "../images/gog/flg.bmp"
+            Black "../images/gog/enemy.bmp")
+     (help " ")
+     (drops
+        (move-type priority-type)
+        (drop)
+     )
+     (moves
+        (move-type normal-type)
+        (step-f1 n) (step-f1 e) (step-f1 w) (step-f1 s)
+     )
+  )
+
+  (board-setup
+    (White 
+       (Flag off 1)
+       (General-5 off 1)
+       (General-4 off 1)
+       (General-3 off 1)
+       (General-2 off 1)
+       (General-1 off 1)
+       (Colonel-1 off 1)
+       (Colonel-2 off 1)
+       (Major off 1)
+       (Captain off 1)
+       (Lieutenant-2 off 1)
+       (Lieutenant-1 off 1)
+       (Sergeant off 1)
+       (Private off 6)
+       (Spy off 2)
+    )
+    (Black
+       (Flag off 1)
+       (General-5 off 1)
+       (General-4 off 1)
+       (General-3 off 1)
+       (General-2 off 1)
+       (General-1 off 1)
+       (Colonel-1 off 1)
+       (Colonel-2 off 1)
+       (Major off 1)
+       (Captain off 1)
+       (Lieutenant-2 off 1)
+       (Lieutenant-1 off 1)
+       (Sergeant off 1)
+       (Private off 6)
+       (Spy off 2)
+    )
+  )
+
+  (win-condition (White Black) (absolute-config Flag (goal)))
+  (loss-condition (White Black) (captured Flag)) 
+)
