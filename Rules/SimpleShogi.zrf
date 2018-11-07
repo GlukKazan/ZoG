@@ -1,0 +1,392 @@
+(define safe 
+   (and (on-board? $1) 
+        (not-defended? $1) 
+        (not-enemy? $1)
+   )
+)
+
+(define no-mate 
+   (or (not-piece? King n) 
+       (not-enemy? n) 
+       not-defended? 
+       (attacked? no-king) 
+       (safe e) 
+       (safe w) 
+       (safe ne) 
+       (safe nw) 
+       (safe nn) 
+   )
+)
+
+(define pawn-drop (
+  (verify (in-zone? hand-zone))
+  (set-flag not-paired? true)
+  START line-$1
+  (while (on-board? line-$1)
+     (if (and friend? (piece? Pawn))
+         (set-flag not-paired? false)
+     )
+     line-$1
+  )
+  (verify (flag? not-paired?))
+  START line-$1
+  (while (on-board? line-$1)
+     (if (and empty? (on-board? n))
+         (if (no-mate) add)
+     )
+     line-$1
+  )
+))
+
+(define piece-drop (
+  (verify (in-zone? hand-zone))
+  START next
+  (while (on-board? next)
+     (if empty?
+         add
+     )
+     next
+  )
+  (verify empty?)
+  add
+))
+
+(define init
+  (verify not-friend?)
+  (set-flag is-silver? (piece? SilverP))
+  (set-flag is-pawn?   (piece? PawnP))
+)
+
+(define hand
+  cascade START to-hand
+  (while (and (on-board? in-hand) not-empty?)
+     in-hand
+  )
+  (verify empty?)
+  (if (flag? is-silver?) (change-type Silver))
+  (if (flag? is-pawn?)   (change-type Pawn))
+  flip add
+)
+
+(define common-end
+  (init)
+  (if empty?
+      add
+   else
+      (hand)
+  )
+)
+
+(define piece-end
+  (verify (flag? can-promote?))
+  (init)
+  (if empty?
+      (add $1)
+   else
+      (change-type $1)
+      (hand)
+  )
+)
+
+(define leap (
+  (verify (in-zone? board-zone)) $1 
+  (common-end)
+))
+
+(define piece-leap (
+  (set-flag can-promote? (in-zone? promotion-zone))
+  (verify (in-zone? board-zone)) $1 
+  (if (in-zone? promotion-zone)
+      (set-flag can-promote? true)
+  )
+  (piece-end $2)
+))
+
+(define pawn-leap (
+  (verify (in-zone? board-zone)) n 
+  (verify (on-board? n))
+  (common-end)
+))
+
+(game
+  (title "Simple Shogi")
+
+  (players South North)
+  (turn-order South North)
+
+  (option "animate captures" false)
+  (option "animate drops" false)
+
+  (move-sound "Audio/Pickup.wav")
+  (release-sound "Audio/Pickup.wav")
+  (capture-sound "")
+
+  (board
+        (image "../images/YoninShogi/3x5.bmp")
+        (grid
+               (start-rectangle 14 12 54 57)
+               (dimensions ("m/n/o/a/b/c/x/y/z" (41 0))
+                           ("5/4/3/2/1" (0 41))
+               )
+               (directions (n 0 -1) (e 1 0) (s 0 1) (w -1 0)
+                           (nn 0 -2) (ss 0 2) (ne 1 -1) (nw -1 -1) (se 1 1) (sw -1 1)
+                           (next 0 -1)
+               )
+        )
+        (kill-positions
+               x1 x2 x3 x4 x5
+               o1 o2 o3 o4 o5
+        )
+        (symmetry North (n s) (s n) (nn ss) (ss nn)
+                        (ne sw) (sw ne) (nw se) (se nw)
+                        (to-hand n-hand)
+        )
+        (dummy START END)
+        (zone (name board-zone) (players South North)
+              (positions 
+                    a1 a2 a3 a4 a5
+                    b1 b2 b3 b4 b5
+                    c1 c2 c3 c4 c5
+              )
+        )
+	(links next
+               (START a1) (a5 b1) (b5 c1)
+        )
+        (zone (name hand-zone) (players South North)
+              (positions 
+                    m1 m2 m3 m4 m5
+                    n1 n2 n3 n4 n5
+                    y1 y2 y3 y4 y5
+                    z1 z2 z3 z4 z5
+              )
+        )
+        (zone (name promotion-zone) (players South)
+              (positions 
+                    a4 a5
+                    b4 b5
+                    c4 c5
+              )
+        )
+        (zone (name promotion-zone) (players North)
+              (positions 
+                    a1 a2
+                    b1 b2
+                    c1 c2
+              )
+        )
+        (zone (name stop-zone) (players South)
+              (positions a5 b5 c5)
+        )
+        (zone (name stop-zone) (players North)
+              (positions a1 b1 c1)
+        )
+	(links line-a
+               (START a1) (a1 a2) (a2 a3) (a3 a4) (a4 a5)
+        )
+	(links line-b
+               (START b1) (b1 b2) (b2 b3) (b3 b4) (b4 b5)
+        )
+	(links line-c
+               (START c1) (c1 c2) (c2 c3) (c3 c4) (c4 c5)
+        )
+        (links in-hand
+              (y1 z1) (z1 y2) (y2 z2) (z2 y3) (y3 z3) (z3 y4) (y4 z4) 
+              (z4 y5) (y5 z5) (z5 x1) (n5 m5) (m5 n4) (n4 m4) (m4 n3) 
+              (n3 m3) (m3 n2) (n2 m2) (m2 n1) (n1 m1) (m1 x1)
+        )
+        (links to-hand (START y1))
+        (links n-hand (START n5))
+  )
+
+  (piece
+        (name  Pawn)
+        (description "Fuhyô (Fuhei, Soldier or Pawn)\
+                            moves and captures one space straight forward.\
+                      Fuhyô cannot back up or change files.\
+                      When Fuhyô moves or captures into or within\
+                            the last three rows of the battlefield,\
+                            it may choose to promote, becoming like a Kinshô.\
+                      When Fuhyô reaches the last row, it must promote.\
+                      You may not drop Fuhyô into the last row.\
+                      Two unpromoted Fuhyô must not occupy the same file."
+        )
+        (image South "../images/YoninShogi/Kanji/SPawn.bmp"
+                     "../images/YoninShogi/Old/SPawn.bmp"
+                     "../images/YoninShogi/Chess/SPawn.bmp"
+                     "../images/YoninShogi/Alpha/SPawn.bmp"
+                     "../images/YoninShogi/Draw/SPawn.bmp"
+               North "../images/YoninShogi/Kanji/NPawn.bmp"
+                     "../images/YoninShogi/Old/NPawn.bmp"
+                     "../images/YoninShogi/Chess/NPawn.bmp"
+                     "../images/YoninShogi/Alpha/NPawn.bmp"
+                     "../images/YoninShogi/Draw/NPawn.bmp"
+        )
+        (moves (move-type no-king)
+               (pawn-leap) (piece-leap n PawnP)
+               (pawn-drop a) (pawn-drop b) (pawn-drop c)
+        )
+  )
+  (piece
+        (name  PawnP)
+        (description "Tokin (promoted Fuhyô, Fuhei, Soldier or Pawn)\
+                            moves and captures one space orthogonally (four directions)\
+                            or diagonally forward (six directions total).\
+                      Reverts to Fuhyô when captured."
+        )
+        (image South "../images/YoninShogi/Kanji/SPawn+.bmp"
+                     "../images/YoninShogi/Old/SPawn+.bmp"
+                     "../images/YoninShogi/Chess/SPawn+.bmp"
+                     "../images/YoninShogi/Alpha/SPawn+.bmp"
+                     "../images/YoninShogi/Draw/SPawn+.bmp"
+               North "../images/YoninShogi/Kanji/NPawn+.bmp"
+                     "../images/YoninShogi/Old/NPawn+.bmp"
+                     "../images/YoninShogi/Chess/NPawn+.bmp"
+                     "../images/YoninShogi/Alpha/NPawn+.bmp"
+                     "../images/YoninShogi/Draw/NPawn+.bmp"
+        )
+        (moves (move-type no-king)
+               (leap n)
+               (leap s)
+               (leap w)
+               (leap e)
+               (leap nw)
+               (leap ne)
+        )
+  )
+  (piece
+        (name  Silver)
+        (description "Ginshô (Silver General)\
+                            moves and captures one space diagonally (four directions)\
+                            or straight forward (five directions total).\
+                      When Ginshô moves or captures into, within, or out of\
+                            the last three rows of the battlefield,\
+                            it may choose to promote, giving up its ordinary powers and becoming like a Kinshô."
+        )
+        (image South "../images/YoninShogi/Kanji/SSilver.bmp"
+                     "../images/YoninShogi/Old/SSilver.bmp"
+                     "../images/YoninShogi/Chess/SSilver.bmp"
+                     "../images/YoninShogi/Alpha/SSilver.bmp"
+                     "../images/YoninShogi/Draw/SSilver.bmp"
+               North "../images/YoninShogi/Kanji/NSilver.bmp"
+                     "../images/YoninShogi/Old/NSilver.bmp"
+                     "../images/YoninShogi/Chess/NSilver.bmp"
+                     "../images/YoninShogi/Alpha/NSilver.bmp"
+                     "../images/YoninShogi/Draw/NSilver.bmp"
+        )
+        (moves (move-type no-king)
+               (leap n)  (piece-leap n  SilverP)
+               (leap nw) (piece-leap nw SilverP)
+               (leap ne) (piece-leap ne SilverP)
+               (leap sw) (piece-leap sw SilverP)
+               (leap se) (piece-leap se SilverP)
+               (piece-drop)
+        )
+  )
+  (piece
+        (name  SilverP)
+        (description "Narigin (promoted Silver General)\
+                            moves and captures one space orthogonally (four directions)\
+                            or diagonally forward (six directions total).\
+                      Reverts to Ginshô when captured."
+        )
+        (image South "../images/YoninShogi/Kanji/SSilver+.bmp"
+                     "../images/YoninShogi/Old/SSilver+.bmp"
+                     "../images/YoninShogi/Chess/SSilver+.bmp"
+                     "../images/YoninShogi/Alpha/SSilver+.bmp"
+                     "../images/YoninShogi/Draw/SSilver+.bmp"
+               North "../images/YoninShogi/Kanji/NSilver+.bmp"
+                     "../images/YoninShogi/Old/NSilver+.bmp"
+                     "../images/YoninShogi/Chess/NSilver+.bmp"
+                     "../images/YoninShogi/Alpha/NSilver+.bmp"
+                     "../images/YoninShogi/Draw/NSilver+.bmp"
+        )
+        (moves (move-type no-king)
+               (leap n)
+               (leap s)
+               (leap w)
+               (leap e)
+               (leap nw)
+               (leap ne)
+        )
+  )
+  (piece
+        (name  Gold)
+        (description "Kinshô (Gold General)\
+                            moves and captures one space orthogonally (four directions)\
+                            or diagonally forward (six directions total).\
+                      Kinshô does not promote."
+        )
+        (image South "../images/YoninShogi/Kanji/SGold.bmp"
+                     "../images/YoninShogi/Old/SGold.bmp"
+                     "../images/YoninShogi/Chess/SGold.bmp"
+                     "../images/YoninShogi/Alpha/SGold.bmp"
+                     "../images/YoninShogi/Draw/SGold.bmp"
+               North "../images/YoninShogi/Kanji/NGold.bmp"
+                     "../images/YoninShogi/Old/NGold.bmp"
+                     "../images/YoninShogi/Chess/NGold.bmp"
+                     "../images/YoninShogi/Alpha/NGold.bmp"
+                     "../images/YoninShogi/Draw/NGold.bmp"
+        )
+        (moves (move-type no-king)
+               (leap n)
+               (leap s)
+               (leap w)
+               (leap e)
+               (leap nw)
+               (leap ne)
+               (piece-drop)
+        )
+  )
+  (piece
+        (name  King)
+        (description "Ôshô or Gyokushô (King General or Jewel General or King)\
+                            moves and captures one space (eight directions)\
+                            as chess King.\
+                      Ôshô must be on battlefield for any piece to capture enemies.\
+                      Ôshô only in reserve allows only drops and moves to open spaces.\
+                      If your last Ôshô is captured, you cannot play any further.\
+                      When you capture a player's last and only Ôshô,
+                      you inherit all pieces in that player's reserve."
+        )
+        (image South "../images/YoninShogi/Kanji/SKing.bmp"
+                     "../images/YoninShogi/Old/SKing.bmp"
+                     "../images/YoninShogi/Chess/SKing.bmp"
+                     "../images/YoninShogi/Alpha/SKing.bmp"
+                     "../images/YoninShogi/Draw/SKing.bmp"
+               North "../images/YoninShogi/Kanji/NKing.bmp"
+                     "../images/YoninShogi/Old/NKing.bmp"
+                     "../images/YoninShogi/Chess/NKing.bmp"
+                     "../images/YoninShogi/Alpha/NKing.bmp"
+                     "../images/YoninShogi/Draw/NKing.bmp"
+        )
+        (moves (move-type with-king)
+               (leap n)
+               (leap s)
+               (leap w)
+               (leap e)
+               (leap nw)
+               (leap ne)
+               (leap sw)
+               (leap se)
+        )
+  )
+
+  (board-setup
+        ( South 
+           (King   b1)
+           (Pawn   b2)
+           (Gold   y1)
+           (Silver z1)
+        )
+        ( North 
+           (King   b5)
+           (Pawn   b4)
+           (Gold   n5)
+           (Silver m5)
+        )
+  )
+
+  (loss-condition (South North) (checkmated King))
+  (loss-condition (South North) (pieces-remaining 0 King))
+  (loss-condition (South North) repetition)
+)
