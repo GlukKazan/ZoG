@@ -1,0 +1,280 @@
+(define step-bishop (
+  $1 (verify (piece? Ball))
+  (verify (not-in-zone? restricted-zone))
+  (add-partial $2)
+))
+
+(define step-pawn (
+  $1 (verify (piece? Ball))
+  (verify (not-in-zone? restricted-zone))
+  (verify (or
+     (and (on-board? $1) (empty? $1))
+     (and (on-board? $3) (empty? $3))
+     (and (on-board? $4) (empty? $4))
+  ))
+  (add-partial $2)
+))
+
+(define slide (
+   $1 (while empty?
+      (verify (not-in-zone? restricted-zone))
+       add $1
+   )
+))
+
+(define shoot-1 (
+   (create $2)
+   $1 (verify empty?)
+   (add Ball)
+))
+
+(define shoot-2 (
+   (create $2)
+   $1 (verify empty?)
+   $1 (verify empty?)
+   (add Ball)
+))
+
+(define shoot-3 (
+   (create $2)
+   $1 (verify empty?)
+   $1 (verify empty?)
+   $1 (verify empty?)
+   (add Ball)
+))
+
+(define shoot-4 (
+   (create $2)
+   $1 (verify empty?)
+   $1 (verify empty?)
+   $1 (verify empty?)
+   $1 (verify empty?)
+   (add Ball)
+))
+
+(define shoot-5 (
+   (create $2)
+   $1 (verify empty?)
+   $1 (verify empty?)
+   $1 (verify empty?)
+   $1 (verify empty?)
+   $1 (verify empty?)
+   (add Ball)
+))
+
+(define shoot-6 (
+   (create $2)
+   $1 (verify empty?)
+   $1 (verify empty?)
+   $1 (verify empty?)
+   $1 (verify empty?)
+   $1 (verify empty?)
+   $1 (verify empty?)
+   (add Ball)
+))
+
+(game
+  (title "Chessball")
+
+  (option "smart moves" false)
+  (option "animate captures" false)
+  (option "pass partial" false)
+
+  (players White Black)
+  (turn-order White Black)
+  (move-priorities priority-type normal-type)
+
+  (board
+     (image "../images/chessball/board.bmp")
+     (grid
+         (start-rectangle 2 2 52 52)
+         (dimensions
+           ("a/b/c/d/e" (50 0)) ; files
+           ("8/7/6/5/4/3/2/1" (0 50)) ; ranks
+         )
+         (directions 
+           (n 0 -1) (s 0 1) (e 1 0) (w -1 0)
+           (ne 1 -1) (nw -1 -1) (se 1 1) (sw -1 1)
+         )
+     )
+     (zone (name goal-zone) (players White)
+           (positions a8 b8 c8 d8 e8)
+     )
+     (zone (name goal-zone) (players Black)
+           (positions a1 b1 c1 d1 e1)
+     )
+     (zone (name restricted-zone) (players White Black)
+           (positions a1 b1 c1 d1 e1 a8 b8 c8 d8 e8)
+     )
+  )
+
+  (piece
+     (name Ball)
+     (image White "../images/chessball/ball.bmp"
+            Black "../images/chessball/ball.bmp")
+  )
+  (piece
+     (name King)
+     (image White "../images/chessball/wking.bmp"
+            Black "../images/chessball/bking.bmp")
+     (moves
+         (move-type normal-type)
+         (slide w) (slide e)
+     )
+  )
+  (piece
+     (name Bishop)
+     (image White "../images/chessball/wbishop.bmp"
+            Black "../images/chessball/bbishop.bmp")
+     (moves
+         (move-type normal-type)
+         (slide n) (slide nw) 
+         (slide e) (slide ne)
+         (slide w) (slide sw)
+         (slide s) (slide se)
+
+         (move-type priority-type)
+         (step-bishop n continue-o) (step-bishop nw continue-d) 
+         (step-bishop e continue-o) (step-bishop ne continue-d)
+         (step-bishop w continue-o) (step-bishop sw continue-d)
+         (step-bishop s continue-o) (step-bishop se continue-d)
+
+         (move-type continue-o)
+         (shoot-1 n Bishop) (shoot-1 e Bishop)
+         (shoot-1 w Bishop) (shoot-1 s Bishop)
+         (shoot-2 n Bishop) (shoot-2 e Bishop)
+         (shoot-2 w Bishop) (shoot-2 s Bishop)
+         (shoot-3 n Bishop) (shoot-3 e Bishop)
+         (shoot-3 w Bishop) (shoot-3 s Bishop)
+         (shoot-4 n Bishop) (shoot-4 e Bishop)
+         (shoot-4 w Bishop) (shoot-4 s Bishop)
+         (shoot-5 n Bishop) (shoot-5 e Bishop)
+         (shoot-5 w Bishop) (shoot-5 s Bishop)
+         (shoot-6 n Bishop) (shoot-6 e Bishop)
+         (shoot-6 w Bishop) (shoot-6 s Bishop)
+
+         (move-type continue-d)
+         (shoot-1 nw Bishop) (shoot-1 ne Bishop)
+         (shoot-1 sw Bishop) (shoot-1 se Bishop)
+         (shoot-2 nw Bishop) (shoot-2 ne Bishop)
+         (shoot-2 sw Bishop) (shoot-2 se Bishop)
+         (shoot-3 nw Bishop) (shoot-3 ne Bishop)
+         (shoot-3 sw Bishop) (shoot-3 se Bishop)
+         (shoot-4 nw Bishop) (shoot-4 ne Bishop)
+         (shoot-4 sw Bishop) (shoot-4 se Bishop)
+         (shoot-5 nw Bishop) (shoot-5 ne Bishop)
+         (shoot-5 sw Bishop) (shoot-5 se Bishop)
+         (shoot-6 nw Bishop) (shoot-6 ne Bishop)
+         (shoot-6 sw Bishop) (shoot-6 se Bishop)
+     )
+  )
+  (piece
+     (name Pawn)
+     (image White "../images/chessball/wpawn.bmp"
+            Black "../images/chessball/bpawn.bmp")
+     (moves
+         (move-type normal-type)
+         (slide n) (slide nw) 
+         (slide e) (slide ne)
+         (slide w) (slide sw)
+         (slide s) (slide se)
+
+         (move-type priority-type)
+         (step-pawn n continue-n nw ne) (step-pawn nw continue-nw n w) 
+         (step-pawn e continue-e ne se) (step-pawn ne continue-ne n e)
+         (step-pawn w continue-w nw sw) (step-pawn sw continue-sw s w)
+         (step-pawn s continue-s sw se) (step-pawn se continue-se s e)
+
+         (move-type continue-n)
+         (shoot-1 n Pawn) (shoot-1 nw Pawn) (shoot-1 ne Pawn)
+         (shoot-2 n Pawn) (shoot-2 nw Pawn) (shoot-2 ne Pawn)
+         (shoot-3 n Pawn) (shoot-3 nw Pawn) (shoot-3 ne Pawn)
+         (shoot-4 n Pawn) (shoot-4 nw Pawn) (shoot-4 ne Pawn)
+         (shoot-5 n Pawn) (shoot-5 nw Pawn) (shoot-5 ne Pawn)
+         (shoot-6 n Pawn) (shoot-6 nw Pawn) (shoot-6 ne Pawn)
+
+         (move-type continue-s)
+         (shoot-1 s Pawn) (shoot-1 sw Pawn) (shoot-1 se Pawn)
+         (shoot-2 s Pawn) (shoot-2 sw Pawn) (shoot-2 se Pawn)
+         (shoot-3 s Pawn) (shoot-3 sw Pawn) (shoot-3 se Pawn)
+         (shoot-4 s Pawn) (shoot-4 sw Pawn) (shoot-4 se Pawn)
+         (shoot-5 s Pawn) (shoot-5 sw Pawn) (shoot-5 se Pawn)
+         (shoot-6 s Pawn) (shoot-6 sw Pawn) (shoot-6 se Pawn)
+
+         (move-type continue-w)
+         (shoot-1 w Pawn) (shoot-1 sw Pawn) (shoot-1 nw Pawn)
+         (shoot-2 w Pawn) (shoot-2 sw Pawn) (shoot-2 nw Pawn)
+         (shoot-3 w Pawn) (shoot-3 sw Pawn) (shoot-3 nw Pawn)
+         (shoot-4 w Pawn) (shoot-4 sw Pawn) (shoot-4 nw Pawn)
+         (shoot-5 w Pawn) (shoot-5 sw Pawn) (shoot-5 nw Pawn)
+         (shoot-6 w Pawn) (shoot-6 sw Pawn) (shoot-6 nw Pawn)
+
+         (move-type continue-e)
+         (shoot-1 e Pawn) (shoot-1 se Pawn) (shoot-1 ne Pawn)
+         (shoot-2 e Pawn) (shoot-2 se Pawn) (shoot-2 ne Pawn)
+         (shoot-3 e Pawn) (shoot-3 se Pawn) (shoot-3 ne Pawn)
+         (shoot-4 e Pawn) (shoot-4 se Pawn) (shoot-4 ne Pawn)
+         (shoot-5 e Pawn) (shoot-5 se Pawn) (shoot-5 ne Pawn)
+         (shoot-6 e Pawn) (shoot-6 se Pawn) (shoot-6 ne Pawn)
+
+         (move-type continue-nw)
+         (shoot-1 nw Pawn) (shoot-1 n Pawn) (shoot-1 w Pawn)
+         (shoot-2 nw Pawn) (shoot-2 n Pawn) (shoot-2 w Pawn)
+         (shoot-3 nw Pawn) (shoot-3 n Pawn) (shoot-3 w Pawn)
+         (shoot-4 nw Pawn) (shoot-4 n Pawn) (shoot-4 w Pawn)
+         (shoot-5 nw Pawn) (shoot-5 n Pawn) (shoot-5 w Pawn)
+         (shoot-6 nw Pawn) (shoot-6 n Pawn) (shoot-6 w Pawn)
+
+         (move-type continue-ne)
+         (shoot-1 ne Pawn) (shoot-1 n Pawn) (shoot-1 e Pawn)
+         (shoot-2 ne Pawn) (shoot-2 n Pawn) (shoot-2 e Pawn)
+         (shoot-3 ne Pawn) (shoot-3 n Pawn) (shoot-3 e Pawn)
+         (shoot-4 ne Pawn) (shoot-4 n Pawn) (shoot-4 e Pawn)
+         (shoot-5 ne Pawn) (shoot-5 n Pawn) (shoot-5 e Pawn)
+         (shoot-6 ne Pawn) (shoot-6 n Pawn) (shoot-6 e Pawn)
+
+         (move-type continue-sw)
+         (shoot-1 sw Pawn) (shoot-1 s Pawn) (shoot-1 w Pawn)
+         (shoot-2 sw Pawn) (shoot-2 s Pawn) (shoot-2 w Pawn)
+         (shoot-3 sw Pawn) (shoot-3 s Pawn) (shoot-3 w Pawn)
+         (shoot-4 sw Pawn) (shoot-4 s Pawn) (shoot-4 w Pawn)
+         (shoot-5 sw Pawn) (shoot-5 s Pawn) (shoot-5 w Pawn)
+         (shoot-6 sw Pawn) (shoot-6 s Pawn) (shoot-6 w Pawn)
+
+         (move-type continue-se)
+         (shoot-1 se Pawn) (shoot-1 s Pawn) (shoot-1 e Pawn)
+         (shoot-2 se Pawn) (shoot-2 s Pawn) (shoot-2 e Pawn)
+         (shoot-3 se Pawn) (shoot-3 s Pawn) (shoot-3 e Pawn)
+         (shoot-4 se Pawn) (shoot-4 s Pawn) (shoot-4 e Pawn)
+         (shoot-5 se Pawn) (shoot-5 s Pawn) (shoot-5 e Pawn)
+         (shoot-6 se Pawn) (shoot-6 s Pawn) (shoot-6 e Pawn)
+     )
+  )
+
+  (board-setup
+     (White (Ball c4) (King c1) (Bishop b3 c3 d3) (Pawn b2 c2 d2))
+     (Black (King c8) (Bishop b6 c6 d6) (Pawn b7 c7 d7))
+  )
+  
+  (win-condition (White) (absolute-config Ball (a8)))
+  (win-condition (White) (absolute-config Ball (b8)))
+  (win-condition (White) (absolute-config Ball (c8)))
+  (win-condition (White) (absolute-config Ball (d8)))
+  (win-condition (White) (absolute-config Ball (e8)))
+  (loss-condition (White) (absolute-config Ball (a1)))
+  (loss-condition (White) (absolute-config Ball (b1)))
+  (loss-condition (White) (absolute-config Ball (c1)))
+  (loss-condition (White) (absolute-config Ball (d1)))
+  (loss-condition (White) (absolute-config Ball (e1)))
+
+  (win-condition (Black) (absolute-config Ball (a1)))
+  (win-condition (Black) (absolute-config Ball (b1)))
+  (win-condition (Black) (absolute-config Ball (c1)))
+  (win-condition (Black) (absolute-config Ball (d1)))
+  (win-condition (Black) (absolute-config Ball (e1)))
+  (loss-condition (Black) (absolute-config Ball (a8)))
+  (loss-condition (Black) (absolute-config Ball (b8)))
+  (loss-condition (Black) (absolute-config Ball (c8)))
+  (loss-condition (Black) (absolute-config Ball (d8)))
+  (loss-condition (Black) (absolute-config Ball (e8)))
+)
