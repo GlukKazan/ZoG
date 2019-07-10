@@ -15,6 +15,12 @@
   (add-partial $2)
 ))
 
+(define slide-king (
+   $1 (while empty?
+       add $1
+   )
+))
+
 (define slide (
    $1 (while empty?
       (verify (not-in-zone? restricted-zone))
@@ -119,7 +125,7 @@
             Black "../images/chessball/bking.bmp")
      (moves
          (move-type normal-type)
-         (slide w) (slide e)
+         (slide-king w) (slide-king e)
      )
   )
   (piece
